@@ -1,6 +1,7 @@
 <template>
     <div>
         <alert-with-retry :value="errorText" @retry="fetchData" />
+
         <div class="row">
             <div class="col-sm">
                 <h4 class="mb-4">{{ heading }}</h4>
@@ -54,140 +55,136 @@
             </div>
         </div>
 
+        <!-- Wallets -->
+        <div v-if="wallet" class="card shadow-sm mb-4" :key="`wallet-${wallet}`">
+            <div class="card-header">{{ $t("Total") }}</div>
+            <table class="table table-strsiped mb-0">
+                <tbody>
+                    <tr>
+                        <td>{{ $t("Income") }}</td>
+                        <td class="text-right">
+                            <u>{{ numberFormat(income) }}</u>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ $t("Spending") }}</td>
+                        <td class="text-right">
+                            <u>{{ numberFormat(spending) }}</u>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ $t("Transaction fees") }}</td>
+                        <td class="text-right">
+                            <u>{{ numberFormat(fees) }}</u>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ $t("Difference") }}</td>
+                        <td class="text-right">
+                            <u>{{ numberFormat(income - spending) }}</u>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>{{ $t("Wallet") }}</td>
+                        <td
+                            class="text-right"
+                            :class="
+                                wallet_amount < 0 ? 'text-danger' : ''
+                            "
+                        >
+                            <u>{{ numberFormat(wallet_amount) }}</u>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-else class="card shadow-sm mb-4 table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="card-header">
+                    <th>{{ $t("Wallet") }}</th>
+                    <th class="text-right">{{ $t("Income") }}</th>
+                    <th class="text-right">{{ $t("Spending") }}</th>
+                    <th class="text-right">{{ $t("Fees") }}</th>
+                    <th class="text-right">{{ $t("Difference") }}</th>
+                    <th class="text-right">{{ $t("Balance") }}</th>
+                </thead>
+                <tbody>
+                    <tr v-for="wallet in wallets" :key="wallet.id">
+                        <td>
+                            {{ wallet.name }}
+                        </td>
+                        <td class="text-right">
+                            {{ numberFormat(wallet.income) }}
+                        </td>
+                        <td class="text-right">
+                            {{ numberFormat(wallet.spending) }}
+                        </td>
+                        <td class="text-right">
+                            {{ numberFormat(wallet.fees) }}
+                        </td>
+                        <td
+                            class="text-right"
+                            :class="
+                                wallet.income > wallet.spending
+                                    ? 'text-success'
+                                    : 'text-danger'
+                            "
+                        >
+                            {{ numberFormat(wallet.income - wallet.spending) }}
+                        </td>
+                        <td
+                            class="text-right"
+                            :class="
+                                wallet.amount > 0
+                                    ? 'text-success'
+                                    : 'text-danger'
+                            "
+                        >
+                            {{ numberFormat(wallet.amount) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>{{ $t("Sum across all wallets") }}</b>
+                        </td>
+                        <td class="text-right">
+                            <b>{{ numberFormat(income) }}</b>
+                        </td>
+                        <td class="text-right">
+                            <b>{{ numberFormat(spending) }}</b>
+                        </td>
+                        <td class="text-right">
+                            <b>{{ numberFormat(fees) }}</b>
+                        </td>
+                        <td
+                            class="text-right"
+                            :class="
+                                income > spending
+                                    ? 'text-success'
+                                    : 'text-danger'
+                            "
+                        >
+                            <b>{{ numberFormat(income - spending) }}</b>
+                        </td>
+                        <td
+                            class="text-right"
+                            :class="
+                                wallet_amount > 0
+                                    ? 'text-success'
+                                    : 'text-danger'
+                            "
+                        >
+                            <b>{{ numberFormat(wallet_amount) }}</b>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="row">
 
-            <!-- Wallets -->
-            <div v-if="wallets.length > 0" class="col-md-12 col-xl-6">
-
-                <div v-if="wallet" class="card shadow-sm mb-4" :key="`wallet-${wallet}`">
-                    <div class="card-header">{{ $t("Total") }}</div>
-                    <table class="table table-strsiped mb-0">
-                        <tbody>
-                            <tr>
-                                <td>{{ $t("Income") }}</td>
-                                <td class="text-right">
-                                    <u>{{ numberFormat(income) }}</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("Spending") }}</td>
-                                <td class="text-right">
-                                    <u>{{ numberFormat(spending) }}</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("Transaction fees") }}</td>
-                                <td class="text-right">
-                                    <u>{{ numberFormat(fees) }}</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("Difference") }}</td>
-                                <td class="text-right">
-                                    <u>{{ numberFormat(income - spending) }}</u>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>{{ $t("Wallet") }}</td>
-                                <td
-                                    class="text-right"
-                                    :class="
-                                        wallet_amount < 0 ? 'text-danger' : ''
-                                    "
-                                >
-                                    <u>{{ numberFormat(wallet_amount) }}</u>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div v-else class="card shadow-sm mb-4 table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead class="card-header">
-                            <th></th>
-                            <th class="text-right">{{ $t("Income") }}</th>
-                            <th class="text-right">{{ $t("Spending") }}</th>
-                            <th class="text-right">{{ $t("Fees") }}</th>
-                            <th class="text-right">{{ $t("Difference") }}</th>
-                            <th class="text-right">{{ $t("Wallet") }}</th>
-                        </thead>
-                        <tbody>
-                            <tr v-for="wallet in wallets" :key="wallet.id">
-                                <td>
-                                    {{ wallet.name }}
-                                </td>
-                                <td class="text-right">
-                                    {{ numberFormat(wallet.income) }}
-                                </td>
-                                <td class="text-right">
-                                    {{ numberFormat(wallet.spending) }}
-                                </td>
-                                <td class="text-right">
-                                    {{ numberFormat(wallet.fees) }}
-                                </td>
-                                <td
-                                    class="text-right"
-                                    :class="
-                                        wallet.income > wallet.spending
-                                            ? 'text-success'
-                                            : 'text-danger'
-                                    "
-                                >
-                                    {{ numberFormat(wallet.income - wallet.spending) }}
-                                </td>
-                                <td
-                                    class="text-right"
-                                    :class="
-                                        wallet.amount > 0
-                                            ? 'text-success'
-                                            : 'text-danger'
-                                    "
-                                >
-                                    {{ numberFormat(wallet.amount) }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b>{{ $t("Sum across all wallets") }}</b>
-                                </td>
-                                <td class="text-right">
-                                    <b>{{ numberFormat(income) }}</b>
-                                </td>
-                                <td class="text-right">
-                                    <b>{{ numberFormat(spending) }}</b>
-                                </td>
-                                <td class="text-right">
-                                    <b>{{ numberFormat(fees) }}</b>
-                                </td>
-                                <td
-                                    class="text-right"
-                                    :class="
-                                        income > spending
-                                            ? 'text-success'
-                                            : 'text-danger'
-                                    "
-                                >
-                                    <b>{{ numberFormat(income - spending) }}</b>
-                                </td>
-                                <td
-                                    class="text-right"
-                                    :class="
-                                        wallet_amount > 0
-                                            ? 'text-success'
-                                            : 'text-danger'
-                                    "
-                                >
-                                    <b>{{ numberFormat(wallet_amount) }}</b>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
             <!-- Revenue by categories -->
-            <div class="col-sm-6 col-md">
+            <div class="col-md">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header">{{ $t("Categories") }}</div>
                     <table class="table table-strsiped mb-0">
@@ -244,7 +241,7 @@
             </div>
 
             <!-- Revenue by secondary category -->
-            <div v-if="revenueBySecondaryCategory" class="col-sm-6 col-md">
+            <div v-if="revenueBySecondaryCategory" class="col-md">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header">
                         {{ $t("Secondary Categories") }}
@@ -313,7 +310,7 @@
             </div>
 
             <!-- Revenue by project -->
-            <div class="col-sm-6 col-md">
+            <div class="col-md">
                 <div class="card shadow-sm mb-4">
                     <div class="card-header">{{ $t("Projects") }}</div>
                     <table class="table table-strsiped mb-0">
@@ -408,8 +405,6 @@ export default {
             revenueByCategory: [],
             revenueBySecondaryCategory: [],
             revenueByProject: [],
-            filterDateStart: null,
-            filterDateEnd: null,
 
             isBusy: false,
             errorText: false
@@ -511,6 +506,30 @@ export default {
                 }))
             );
             return arr;
+        },
+        filterDateStart() {
+            if (this.year != null && this.month != null) {
+                return moment(`${this.year}-${this.month + 1}`, "YYYY-M")
+                    .startOf("month")
+                    .format(moment.HTML5_FMT.DATE)
+            } else if (this.year != null) {
+                return moment(`${this.year}`, "YYYY")
+                    .startOf("year")
+                    .format(moment.HTML5_FMT.DATE)
+            }
+            return null;
+        },
+        filterDateEnd() {
+            if (this.year != null && this.month != null) {
+                return moment(`${this.year}-${this.month + 1}`, "YYYY-M")
+                    .endOf("month")
+                    .format(moment.HTML5_FMT.DATE)
+            } else if (this.year != null) {
+                return moment(`${this.year}`, "YYYY")
+                    .endOf("year")
+                    .format(moment.HTML5_FMT.DATE)
+            }
+            return null;
         }
     },
     watch: {
@@ -561,9 +580,6 @@ export default {
                 this.revenueBySecondaryCategory =
                     data.revenueBySecondaryCategory;
                 this.revenueByProject = data.revenueByProject;
-
-                this.filterDateStart = data.filterDateStart;
-                this.filterDateEnd = data.filterDateEnd;
 
                 this.isBusy = false;
             } catch (err) {

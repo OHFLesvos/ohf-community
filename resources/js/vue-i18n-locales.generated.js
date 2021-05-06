@@ -741,6 +741,7 @@ export default {
         "Really delete this project?": "Projekt wirklich löschen?",
         "Project deleted.": "Projekt gelöscht.",
         "Used in {num} transactions.": "Wird in {num} Transaktionen verwendet.",
+        "Balance": "Bilanz",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

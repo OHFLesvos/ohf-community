@@ -138,8 +138,6 @@ class SummaryController extends Controller
             'spending' => $spending,
             'income' => $income,
             'fees' => $fees,
-            'filterDateStart' => optional($dateFrom)->toDateString(),
-            'filterDateEnd' => optional($dateTo)->toDateString(),
             'wallets' => $wallets,
         ];
     }
