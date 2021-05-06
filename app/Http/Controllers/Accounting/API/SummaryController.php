@@ -108,7 +108,8 @@ class SummaryController extends Controller
             ->unique()
             ->toArray();
 
-        $wallets = Wallet::all()
+        $wallets =Wallet::orderBy('name')
+            ->get()
             ->filter(fn ($wallet) => request()->user()->can('view', $wallet))
             ->map(fn ($wallet) => [
                 'id' => $wallet->id,
