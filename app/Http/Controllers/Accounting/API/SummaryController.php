@@ -79,36 +79,14 @@ class SummaryController extends Controller
 
         $wallet = Wallet::find($request->wallet);
 
-        $revenueByCategory = self::revenueByRelationField('category_id', 'category', $wallet, $dateFrom, $dateTo, $request->user(), $filters);
-        $revenueByProject = self::revenueByRelationField('project_id', 'project', $wallet, $dateFrom, $dateTo, $request->user(), $filters);
-        if (self::useSecondaryCategories()) {
-            $revenueBySecondaryCategory = self::revenueByField('secondary_category', $wallet, $dateFrom, $dateTo, $request->user(), $filters);
-        } else {
-            $revenueBySecondaryCategory = null;
-        }
-
-        $spendingByWallet = self::totalByType('spending', $wallet, $dateFrom, $dateTo, $request->user(), $filters)
-            ->pluck('sum', 'wallet_id');
         $incomeByWallet = self::totalByType('income', $wallet, $dateFrom, $dateTo, $request->user(), $filters)
+            ->pluck('sum', 'wallet_id');
+        $spendingByWallet = self::totalByType('spending', $wallet, $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
         $feesByWallet = self::totalFees($wallet, $dateFrom, $dateTo, $request->user(), $filters)
             ->pluck('sum', 'wallet_id');
 
-        $spending = $spendingByWallet->sum();
-        $income = $incomeByWallet->sum();
-        $fees = $feesByWallet->sum();
-
-        $years = MoneyTransaction::query()
-            ->selectRaw('YEAR(date) as year')
-            ->when($wallet != null, fn ($q) => $q->forWallet($wallet))
-            ->groupByRaw('YEAR(date)')
-            ->orderBy('year', 'desc')
-            ->get()
-            ->pluck('year')
-            ->unique()
-            ->toArray();
-
-        $wallets =Wallet::orderBy('name')
+        $wallets = Wallet::orderBy('name')
             ->get()
             ->filter(fn ($wallet) => request()->user()->can('view', $wallet))
             ->map(fn ($wallet) => [
@@ -119,27 +97,32 @@ class SummaryController extends Controller
                 'fees' => isset($feesByWallet[$wallet->id]) ? $feesByWallet[$wallet->id] : 0,
                 'amount' => $wallet->calculatedSum($dateTo),
             ]);
-        if ($wallet == null) {
-            $wallet_amount = $wallets->sum('amount');
-        } else {
-            $wallet_amount = $wallet->calculatedSum($dateTo);
-        }
 
+        $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
+        $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
         return [
-            'years' => $years,
-            'projects' => collect($taxonomies->getNestedProjects())->map(fn ($label, $id) =>  [
-                "id" => $id,
-                "label" => $label,
-            ])->values(),
-            'locations' => self::useLocations() ? self::getLocations(true) : [],
-            'revenueByCategory' => $revenueByCategory,
-            'revenueByProject' => $revenueByProject,
-            'revenueBySecondaryCategory' => $revenueBySecondaryCategory,
-            'wallet_amount' => $wallet_amount,
-            'spending' => $spending,
-            'income' => $income,
-            'fees' => $fees,
+            'years' => MoneyTransaction::years(),
+            'projects' => collect($taxonomies->getNestedProjects())
+                ->map(fn ($label, $id) =>  [
+                    "id" => $id,
+                    "label" => $label,
+                ])
+                ->values(),
+            'locations' => $useLocations
+                ? MoneyTransaction::locations()
+                : [],
             'wallets' => $wallets,
+            'totals' => [
+                'income' => $incomeByWallet->sum(),
+                'spending' => $spendingByWallet->sum(),
+                'fees' => $feesByWallet->sum(),
+                'amount' => $wallets->sum('amount'),
+            ],
+            'revenueByCategory' => self::revenueByRelationField('category_id', 'category', $wallet, $dateFrom, $dateTo, $request->user(), $filters),
+            'revenueByProject' => self::revenueByRelationField('project_id', 'project', $wallet, $dateFrom, $dateTo, $request->user(), $filters),
+            'revenueBySecondaryCategory' => $useSecondaryCategories
+                ? self::revenueByField('secondary_category', $wallet, $dateFrom, $dateTo, $request->user(), $filters)
+                : null,
         ];
     }
 
@@ -228,25 +211,5 @@ class SummaryController extends Controller
                     fn ($e) => $user->can('view', Wallet::find($e['wallet_id']))
                 )
             );
-    }
-
-    private static function useSecondaryCategories(): bool
-    {
-        return Setting::get('accounting.transactions.use_secondary_categories') ?? false;
-    }
-
-    private static function useLocations(): bool
-    {
-        return Setting::get('accounting.transactions.use_locations') ?? false;
-    }
-
-    private static function getLocations(?bool $onlyExisting = false): array
-    {
-        if (!$onlyExisting && Setting::has('accounting.transactions.locations')) {
-            return collect(Setting::get('accounting.transactions.locations'))
-                ->sort()
-                ->toArray();
-        }
-        return MoneyTransaction::locations();
     }
 }

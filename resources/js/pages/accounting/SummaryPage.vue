@@ -8,35 +8,35 @@
             </div>
             <div class="col-xl-auto col-md">
                 <div class="form-row">
-                    <div class="col-xl col-sm-6">
+                    <div class="col-auto">
                         <b-select
                             v-model="month"
                             :options="monthOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div class="col-xl col-sm-6">
+                    <div class="col-auto">
                         <b-select
                             v-model="year"
                             :options="yearOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div class="col-xl col-sm-6">
+                    <div class="col-auto">
                         <b-select
                             v-model="wallet"
                             :options="walletOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div v-if="projects.length > 0" class="col-xl col-sm-6">
+                    <div v-if="projects.length > 0" class="col-auto">
                         <b-select
                             v-model="project"
                             :options="projectOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div v-if="locations.length > 0" class="col-xl col-sm-6">
+                    <div v-if="locations.length > 0" class="col-auto">
                         <b-select
                             v-model="location"
                             :options="locationOptions"
@@ -46,9 +46,9 @@
                 </div>
             </div>
         </div>
-#{{ wallet }}
+
         <!-- Wallets -->
-        <div class="card shadow-sm mb-4 table-responsive">
+        <div v-if="!isBusy" class="card shadow-sm mb-4 table-responsive">
             <table class="table table-hover mb-0">
                 <thead class="card-header">
                     <th>{{ $t("Wallet") }}</th>
@@ -59,103 +59,78 @@
                     <th class="text-right">{{ $t("Balance") }}</th>
                 </thead>
                 <tbody>
-                    <tr v-if="wallet">
-                        <td></td>
-                        <td class="text-right">
-                            <u>{{ numberFormat(income) }}</u>
+                    <tr v-for="wallet in wallet ? wallets.filter(w => w.id == wallet) : wallets" :key="wallet.id">
+                        <td>
+                            {{ wallet.name }}
                         </td>
                         <td class="text-right">
-                            <u>{{ numberFormat(spending) }}</u>
+                            {{ numberFormat(wallet.income) }}
                         </td>
                         <td class="text-right">
-                            <u>{{ numberFormat(fees) }}</u>
+                            {{ numberFormat(wallet.spending) }}
                         </td>
                         <td class="text-right">
-                            <u>{{ numberFormat(income - spending) }}</u>
+                            {{ numberFormat(wallet.fees) }}
                         </td>
                         <td
                             class="text-right"
-                            :class="wallet_amount < 0 ? 'text-danger' : ''"
+                            :class="
+                                wallet.income > wallet.spending
+                                    ? 'text-success'
+                                    : 'text-danger'
+                            "
                         >
-                            <u>{{ numberFormat(wallet_amount) }}</u>
+                            {{
+                                numberFormat(
+                                    wallet.income - wallet.spending
+                                )
+                            }}
+                        </td>
+                        <td
+                            class="text-right"
+                            :class="
+                                wallet.amount > 0
+                                    ? 'text-success'
+                                    : 'text-danger'
+                            "
+                        >
+                            {{ numberFormat(wallet.amount) }}
                         </td>
                     </tr>
-                    <template v-else>
-                        <tr v-for="wallet in wallets" :key="wallet.id">
-                            <td>
-                                {{ wallet.name }}
-
-                                #{{ wallet.id }}
-                            </td>
-                            <td class="text-right">
-                                {{ numberFormat(wallet.income) }}
-                            </td>
-                            <td class="text-right">
-                                {{ numberFormat(wallet.spending) }}
-                            </td>
-                            <td class="text-right">
-                                {{ numberFormat(wallet.fees) }}
-                            </td>
-                            <td
-                                class="text-right"
-                                :class="
-                                    wallet.income > wallet.spending
-                                        ? 'text-success'
-                                        : 'text-danger'
-                                "
-                            >
-                                {{
-                                    numberFormat(
-                                        wallet.income - wallet.spending
-                                    )
-                                }}
-                            </td>
-                            <td
-                                class="text-right"
-                                :class="
-                                    wallet.amount > 0
-                                        ? 'text-success'
-                                        : 'text-danger'
-                                "
-                            >
-                                {{ numberFormat(wallet.amount) }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <b>{{ $t("Sum across all wallets") }}</b>
-                            </td>
-                            <td class="text-right">
-                                <b>{{ numberFormat(income) }}</b>
-                            </td>
-                            <td class="text-right">
-                                <b>{{ numberFormat(spending) }}</b>
-                            </td>
-                            <td class="text-right">
-                                <b>{{ numberFormat(fees) }}</b>
-                            </td>
-                            <td
-                                class="text-right"
-                                :class="
-                                    income > spending
-                                        ? 'text-success'
-                                        : 'text-danger'
-                                "
-                            >
-                                <b>{{ numberFormat(income - spending) }}</b>
-                            </td>
-                            <td
-                                class="text-right"
-                                :class="
-                                    wallet_amount > 0
-                                        ? 'text-success'
-                                        : 'text-danger'
-                                "
-                            >
-                                <b>{{ numberFormat(wallet_amount) }}</b>
-                            </td>
-                        </tr>
-                    </template>
+                    <tr v-if="!wallet">
+                        <td>
+                            <b>{{ $t("Sum across all wallets") }}</b>
+                        </td>
+                        <td class="text-right">
+                            <b>{{ numberFormat(totals.income) }}</b>
+                        </td>
+                        <td class="text-right">
+                            <b>{{ numberFormat(totals.spending) }}</b>
+                        </td>
+                        <td class="text-right">
+                            <b>{{ numberFormat(totals.fees) }}</b>
+                        </td>
+                        <td
+                            class="text-right"
+                            :class="
+                                totals.income > totals.spending
+                                    ? 'text-success'
+                                    : 'text-danger'
+                            "
+                        >
+                            <b>{{ numberFormat(totals.income - totals.spending) }}</b>
+                        </td>
+                        <td
+                            class="text-right"
+                            :class="
+                                totals.amount > 0
+                                    ? 'text-success'
+                                    : 'text-danger'
+                            "
+                        >
+                            <b>{{ numberFormat(totals.amount) }}</b>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -365,6 +340,7 @@ export default {
         return {
             years: [now.year()],
             wallets: [],
+            totals: {},
             projects: [],
             locations: [],
 
@@ -374,17 +350,12 @@ export default {
             project: null,
             location: null,
 
-            income: 0,
-            spending: 0,
-            fees: 0,
-
-            wallet_amount: 0,
             revenueByCategory: [],
             revenueBySecondaryCategory: [],
             revenueByProject: [],
 
             isBusy: false,
-            errorText: false
+            errorText: null
         };
     },
     computed: {
@@ -400,12 +371,6 @@ export default {
                 str += this.year;
             } else {
                 str += this.$t("All time");
-            }
-            str += " - ";
-            if (this.wallet != null) {
-                str += this.wallets[this.wallet]?.name;
-            } else {
-                str += this.$t("All wallets");
             }
             return str;
         },
@@ -464,7 +429,7 @@ export default {
             arr.push(
                 ...this.projects.map(e => ({
                     value: e.id,
-                    text: e.label
+                    text: e.label.replaceAll('&nbsp;', '-')
                 }))
             );
             return arr;
@@ -545,13 +510,9 @@ export default {
 
                 this.years = data.years;
                 this.wallets = data.wallets;
+                this.totals = data.totals;
                 this.projects = data.projects;
                 this.locations = data.locations;
-
-                this.income = data.income;
-                this.spending = data.spending;
-                this.fees = data.fees;
-                this.wallet_amount = data.wallet_amount;
 
                 this.revenueByCategory = data.revenueByCategory;
                 this.revenueBySecondaryCategory =

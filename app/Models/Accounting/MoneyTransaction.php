@@ -300,4 +300,17 @@ class MoneyTransaction extends Model implements Auditable
             ->pluck('cost_center')
             ->toArray();
     }
+
+
+    public static function years(): array
+    {
+        return self::query()
+            ->selectRaw('YEAR(date) as year')
+            ->groupByRaw('YEAR(date)')
+            ->orderBy('year', 'desc')
+            ->get()
+            ->pluck('year')
+            ->unique()
+            ->toArray();
+    }
 }
