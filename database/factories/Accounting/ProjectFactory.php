@@ -24,6 +24,7 @@ class ProjectFactory extends Factory
         return [
             'name' => $this->faker->catchPhrase,
             'description' => $this->faker->optional(0.7)->sentence,
+            'enabled' => $this->faker->boolean(90),
         ];
     }
 }

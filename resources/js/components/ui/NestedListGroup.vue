@@ -6,10 +6,12 @@
                 :key="item.id"
                 :style="{ 'padding-left': 20 + level * itemPaddingLeft + 'px' }"
                 @click="handleClick(item)"
-                >{{ item.name }}
-                <small v-if="item.description" class="text-muted d-block">{{
-                    item.description
-                }}</small>
+            >
+                <del v-if="!item.enabled">{{ item.name }}</del>
+                <template v-else>{{ item.name }}</template>
+                <small v-if="item.description" class="text-muted d-block">
+                    {{ item.description }}</small
+                >
             </b-list-group-item>
             <nested-list-group
                 :key="`${item.id}-children`"

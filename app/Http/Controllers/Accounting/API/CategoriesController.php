@@ -113,7 +113,7 @@ class CategoriesController extends Controller
     private function queryByParent(?int $parent = null, ?int $exclude = null)
     {
         return Category::query()
-            ->select('id', 'name', 'description')
+            ->select('id', 'name', 'description', 'enabled')
             ->orderBy('name', 'asc')
             ->when($exclude !== null, fn ($q) => $q->where('id', '!=', $exclude))
             ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())

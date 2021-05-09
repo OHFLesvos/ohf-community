@@ -20,6 +20,7 @@ class CreateAccountingProjectsTable extends Migration
             $table->foreignId('parent_id')->nullable();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->boolean('enabled')->default(true);
             $table->foreign('parent_id')->references('id')->on('accounting_projects')->cascadeOnDelete();
             $table->timestamps();
         });

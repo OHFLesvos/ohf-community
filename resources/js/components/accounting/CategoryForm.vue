@@ -73,6 +73,12 @@
                 </b-col>
             </b-form-row>
 
+            <p>
+                <b-form-checkbox v-model="form.enabled">
+                    {{ $t("Enabled") }}
+                </b-form-checkbox>
+            </p>
+
             <p class="d-flex justify-content-between align-items-start">
                 <span>
                     <!-- Submit -->
@@ -126,12 +132,14 @@ export default {
                 ? {
                       name: this.category.name,
                       parent_id: this.category.parent_id,
-                      description: this.category.description
+                      description: this.category.description,
+                      enabled: this.category.enabled
                   }
                 : {
                       name: null,
                       parent_id: null,
-                      description: null
+                      description: null,
+                      enabled: true
                   },
             tree: [],
             loaded: false
@@ -154,7 +162,7 @@ export default {
             }
         },
         async fetchTree() {
-            let data = await categoriesApi.tree({exclude: this.category?.id});
+            let data = await categoriesApi.tree({ exclude: this.category?.id });
             this.tree = [
                 {
                     text: " ",
@@ -162,11 +170,11 @@ export default {
                 }
             ];
             for (let elem of data) {
-                this.fillTree(this.tree, elem)
+                this.fillTree(this.tree, elem);
             }
         },
         fillTree(tree, elem, level = 0) {
-            let text = '';
+            let text = "";
             if (level > 0) {
                 text += "&nbsp;".repeat(level * 5);
             }
@@ -176,7 +184,7 @@ export default {
                 value: elem.id
             });
             for (let child of elem.children) {
-                this.fillTree(tree, child, level + 1)
+                this.fillTree(tree, child, level + 1);
             }
         }
     }

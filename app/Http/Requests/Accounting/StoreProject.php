@@ -33,6 +33,7 @@ class StoreProject extends FormRequest
             'description' => [
                 'nullable',
             ],
+            'enabled' => 'boolean',
             'parent_id' => [
                 'nullable',
                 Rule::exists('accounting_projects', 'id'),

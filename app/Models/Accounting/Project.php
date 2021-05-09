@@ -18,10 +18,15 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
+        'enabled',
     ];
 
     protected $nullable = [
         'description',
+    ];
+
+    protected $casts = [
+        'enabled' => 'boolean',
     ];
 
     public function transactions()
