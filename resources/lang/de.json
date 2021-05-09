@@ -522,7 +522,7 @@
     "Add new wallet": "Neue Kasse hinzufügen",
     "Change wallet": "Kasse wechseln",
     "Wallet changed": "Kasse gewechselt.",
-    "Create wallet": "Neue erstellen",
+    "Create wallet": "Neue Kasse erstellen",
     "Edit wallet": "Kasse bearbeiten",
     "No wallets found.": "Keine Kassen gefunden.",
     "Wallet added.": "Kasse hinzugefügt.",
@@ -717,7 +717,7 @@
     "Select article...": "Artikel wählen...",
     "This article is publicly available.": "Dieser Artikel ist öffentlich verfügbar.",
     "Featured article": "Ausgewählter Artikel",
-    "Featured articles": "Ausgewähle Artikel",
+    "Featured articles": "Ausgewählte Artikel",
     "Please <a href=\":url\">login<\/a> to see more articles.": "Bitte <a href=\":url\">melde dich an<\/a>, um mehr Artikel zu sehen.",
     "You do not have sufficient permissions to view all articles.": "Du hast hast nicht die nötigen Berechtigungen um alle Artikel zu sehen.",
     "Fundraising": "Spender & Spenden",
@@ -739,5 +739,6 @@
     "Really delete this project?": "Projekt wirklich löschen?",
     "Project deleted.": "Projekt gelöscht.",
     "Used in :num transactions.": "Wird in :num Transaktionen verwendet.",
-    "Balance": "Bilanz"
+    "Balance": "Bilanz",
+    "No entries registered.": "Keine Einträge registriert."
 }

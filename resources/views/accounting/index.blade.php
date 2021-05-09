@@ -21,9 +21,9 @@
                     <div class="list-group-item">{{ $wallet->name }}</div>
                 @endcan
             @empty
-                <a class="list-group-item">
+                <div class="list-group-item">
                     @lang('No wallets found.')
-                </a>
+                </div>
             @endforelse
         </div>
     </div>
