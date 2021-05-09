@@ -26,6 +26,7 @@ class MoneyTransactionFactory extends Factory
             'date' => $this->faker->dateTimeBetween('-5 years', 'now'),
             'type' => $this->faker->randomElement(['income', 'spending']),
             'amount' => $this->faker->randomFloat(2, 1, 2000),
+            'fees' => $this->faker->optional(0.05)->numberBetween(1,3),
             'attendee' => $this->faker->name,
             'description' => $this->faker->sentence,
             'booked' => false,
