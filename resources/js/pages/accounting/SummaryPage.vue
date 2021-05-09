@@ -49,23 +49,23 @@
 
         <!-- Wallets -->
         <div v-if="!isBusy" class="card shadow-sm mb-4 table-responsive">
-            <table class="table table-hover mb-0">
-                <thead class="card-header">
-                    <th>{{ $t("Wallet") }}</th>
-                    <th class="text-right">{{ $t("Income") }}</th>
-                    <th class="text-right">{{ $t("Spending") }}</th>
-                    <th class="text-right">{{ $t("Fees") }}</th>
-                    <th class="text-right">{{ $t("Difference") }}</th>
-                    <th class="text-right">{{ $t("Balance") }}</th>
-                </thead>
-                <tbody>
-                    <tr
+            <b-table-simple hover class="mb-0">
+                <b-thead class="card-header">
+                    <b-th>{{ $t("Wallet") }}</b-th>
+                    <b-th class="text-right">{{ $t("Income") }}</b-th>
+                    <b-th class="text-right">{{ $t("Spending") }}</b-th>
+                    <b-th class="text-right">{{ $t("Fees") }}</b-th>
+                    <b-th class="text-right">{{ $t("Difference") }}</b-th>
+                    <b-th class="text-right">{{ $t("Balance") }}</b-th>
+                </b-thead>
+                <b-tbody>
+                    <b-tr
                         v-for="wallet in wallet
                             ? wallets.filter(w => w.id == wallet)
                             : wallets"
                         :key="wallet.id"
                     >
-                        <td>
+                        <b-td>
                             <a
                                 v-if="can('can-view-transactions')"
                                 :href="
@@ -76,59 +76,59 @@
                             >
                                 {{ wallet.name }}
                             </a>
-                        </td>
-                        <td class="text-right">
+                        </b-td>
+                        <b-td class="text-right">
                             {{ numberFormat(wallet.income) }}
-                        </td>
-                        <td class="text-right">
+                        </b-td>
+                        <b-td class="text-right">
                             {{ numberFormat(wallet.spending) }}
-                        </td>
-                        <td class="text-right">
+                        </b-td>
+                        <b-td class="text-right">
                             {{ numberFormat(wallet.fees) }}
-                        </td>
-                        <td
+                        </b-td>
+                        <b-td
                             class="text-right"
                             :class="colorClass(wallet.income > wallet.spending)"
                         >
                             {{ numberFormat(wallet.income - wallet.spending) }}
-                        </td>
-                        <td
+                        </b-td>
+                        <b-td
                             class="text-right"
                             :class="colorClass(wallet.amount > 0)"
                         >
                             {{ numberFormat(wallet.amount) }}
-                        </td>
-                    </tr>
-                    <tr v-if="!wallet">
-                        <td>
+                        </b-td>
+                    </b-tr>
+                    <b-tr v-if="!wallet">
+                        <b-td>
                             <strong>{{ $t("Sum across all wallets") }}</strong>
-                        </td>
-                        <td class="text-right">
+                        </b-td>
+                        <b-td class="text-right">
                             <strong>{{ numberFormat(totals.income) }}</strong>
-                        </td>
-                        <td class="text-right">
+                        </b-td>
+                        <b-td class="text-right">
                             <strong>{{ numberFormat(totals.spending) }}</strong>
-                        </td>
-                        <td class="text-right">
+                        </b-td>
+                        <b-td class="text-right">
                             <strong>{{ numberFormat(totals.fees) }}</strong>
-                        </td>
-                        <td
+                        </b-td>
+                        <b-td
                             class="text-right"
                             :class="colorClass(totals.income > totals.spending)"
                         >
                             <strong>{{
                                 numberFormat(totals.income - totals.spending)
                             }}</strong>
-                        </td>
-                        <td
+                        </b-td>
+                        <b-td
                             class="text-right"
                             :class="colorClass(totals.amount > 0)"
                         >
                             <strong>{{ numberFormat(totals.amount) }}</strong>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </b-td>
+                    </b-tr>
+                </b-tbody>
+            </b-table-simple>
         </div>
 
         <b-row v-if="!isBusy">

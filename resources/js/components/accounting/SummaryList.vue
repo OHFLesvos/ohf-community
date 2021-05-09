@@ -1,11 +1,10 @@
 <template>
-    <div class="card shadow-sm mb-4">
-        <div class="card-header">{{ title }}</div>
-        <table class="table table-strsiped mb-0">
-            <tbody>
+    <b-card class="shadow-sm mb-4" :header="title" no-body>
+        <b-table-simple hover class="mb-0">
+            <b-tbody>
                 <template v-if="items.length > 0">
-                    <tr v-for="v in items" :key="v.id">
-                        <td>
+                    <b-tr v-for="v in items" :key="v.id">
+                        <b-td>
                             <template v-if="v.name">
                                 <a
                                     v-if="
@@ -27,25 +26,25 @@
                                 </template>
                             </template>
                             <em v-else>{{ noNameLabel }}</em>
-                        </td>
-                        <td
+                        </b-td>
+                        <b-td
                             class="text-right"
                             :class="colorClass(v.amount > 0)"
                         >
                             {{ numberFormat(v.amount) }}
-                        </td>
-                    </tr>
+                        </b-td>
+                    </b-tr>
                 </template>
-                <tr v-else>
-                    <td>
+                <b-tr v-else>
+                    <b-td>
                         <em>{{
                             $t("No data available in the selected time range.")
                         }}</em>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                    </b-td>
+                </b-tr>
+            </b-tbody>
+        </b-table-simple>
+    </b-card>
 </template>
 
 <script>
