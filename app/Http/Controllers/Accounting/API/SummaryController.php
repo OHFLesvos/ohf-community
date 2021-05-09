@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounting\Category;
 use App\Models\Accounting\Project;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
@@ -65,6 +66,12 @@ class SummaryController extends Controller
         $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
         return [
             'years' => Transaction::years(),
+            'categories' => collect(Category::getNested())
+                ->map(fn ($label, $id) =>  [
+                    "id" => $id,
+                    "label" => $label,
+                ])
+                ->values(),
             'projects' => collect(Project::getNested())
                 ->map(fn ($label, $id) =>  [
                     "id" => $id,
