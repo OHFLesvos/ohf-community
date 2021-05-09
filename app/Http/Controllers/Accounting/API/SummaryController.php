@@ -134,7 +134,7 @@ class SummaryController extends Controller
                 'id' => $e->$idField,
                 'name' => optional($e->$relationField)->name,
                 'amount' => $e->sum,
-                'wallet_id' => $e->wallet_id,
+                'wallet_id' =>  $request->wallet != null ? $e->wallet_id : null,
             ])
             ->sortBy('name')
             ->values();
@@ -153,7 +153,7 @@ class SummaryController extends Controller
             ->map(fn ($e) => [
                 'name' => $e->$field,
                 'amount' => $e->sum,
-                'wallet_id' => $e->wallet_id,
+                'wallet_id' => $request->wallet != null ? $e->wallet_id : null,
             ])
             ->values();
     }
