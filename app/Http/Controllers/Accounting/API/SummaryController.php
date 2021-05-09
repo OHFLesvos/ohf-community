@@ -18,6 +18,8 @@ class SummaryController extends Controller
     {
         $this->authorize('view-accounting-summary');
 
+        $years = MoneyTransaction::years();
+
         $request->validate([
             'month' => [
                 'nullable',
@@ -28,7 +30,7 @@ class SummaryController extends Controller
             'year' => [
                 'nullable',
                 'integer',
-                'min:2000',
+                'min:' . min($years),
                 'max:' . today()->year,
             ],
             'wallet' => [
@@ -101,7 +103,7 @@ class SummaryController extends Controller
         $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
         $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
         return [
-            'years' => MoneyTransaction::years(),
+            'years' => $years,
             'projects' => collect($taxonomies->getNestedProjects())
                 ->map(fn ($label, $id) =>  [
                     "id" => $id,

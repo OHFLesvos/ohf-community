@@ -59,9 +59,23 @@
                     <th class="text-right">{{ $t("Balance") }}</th>
                 </thead>
                 <tbody>
-                    <tr v-for="wallet in (wallet ? wallets.filter(w => w.id == wallet) : wallets)" :key="wallet.id">
+                    <tr
+                        v-for="wallet in wallet
+                            ? wallets.filter(w => w.id == wallet)
+                            : wallets"
+                        :key="wallet.id"
+                    >
                         <td>
-                            {{ wallet.name }}
+                            <a
+                                v-if="can('can-view-transactions')"
+                                :href="
+                                    route('accounting.transactions.index', {
+                                        wallet
+                                    })
+                                "
+                            >
+                                {{ wallet.name }}
+                            </a>
                         </td>
                         <td class="text-right">
                             {{ numberFormat(wallet.income) }}
@@ -80,11 +94,7 @@
                                     : 'text-danger'
                             "
                         >
-                            {{
-                                numberFormat(
-                                    wallet.income - wallet.spending
-                                )
-                            }}
+                            {{ numberFormat(wallet.income - wallet.spending) }}
                         </td>
                         <td
                             class="text-right"
@@ -118,7 +128,9 @@
                                     : 'text-danger'
                             "
                         >
-                            <b>{{ numberFormat(totals.income - totals.spending) }}</b>
+                            <b>{{
+                                numberFormat(totals.income - totals.spending)
+                            }}</b>
                         </td>
                         <td
                             class="text-right"
@@ -145,9 +157,11 @@
                             <template v-if="revenueByCategory.length > 0">
                                 <tr v-for="v in revenueByCategory" :key="v.id">
                                     <td>
-                                        <!-- @if(Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class)) -->
                                         <a
-                                            v-if="wallet"
+                                            v-if="
+                                                wallet &&
+                                                    can('can-view-transactions')
+                                            "
                                             :href="
                                                 route(
                                                     'accounting.transactions.index',
@@ -210,9 +224,13 @@
                                 >
                                     <td>
                                         <template v-if="v.name">
-                                            <!-- @if(Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class)) -->
                                             <a
-                                                v-if="wallet"
+                                                v-if="
+                                                    wallet &&
+                                                        can(
+                                                            'can-view-transactions'
+                                                        )
+                                                "
                                                 :href="
                                                     route(
                                                         'accounting.transactions.index',
@@ -272,9 +290,13 @@
                                 <tr v-for="v in revenueByProject" :key="v.id">
                                     <td>
                                         <template v-if="v.name">
-                                            <!-- @if(Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class)) -->
                                             <a
-                                                v-if="wallet"
+                                                v-if="
+                                                    wallet &&
+                                                        can(
+                                                            'can-view-transactions'
+                                                        )
+                                                "
                                                 :href="
                                                     route(
                                                         'accounting.transactions.index',
@@ -331,6 +353,7 @@ import moment from "moment";
 import summaryApi from "@/api/accounting/summary";
 import numeral from "numeral";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
+import { can } from "@/plugins/laravel";
 export default {
     components: {
         AlertWithRetry
@@ -345,7 +368,9 @@ export default {
             locations: [],
 
             year: this.$route.query.year ?? now.year(),
-            month: this.$route.query.month ? this.$route.query.month - 1 : now.month(),
+            month: this.$route.query.month
+                ? this.$route.query.month - 1
+                : now.month(),
             wallet: this.$route.query.wallet ?? null,
             project: this.$route.query.project ?? null,
             location: this.$route.query.location ?? null,
@@ -429,7 +454,7 @@ export default {
             arr.push(
                 ...this.projects.map(e => ({
                     value: e.id,
-                    text: e.label.replaceAll('&nbsp;', '-')
+                    text: e.label.replaceAll("&nbsp;", "-")
                 }))
             );
             return arr;
@@ -479,8 +504,8 @@ export default {
             this.$router.push({
                 query: {
                     ...this.$route.query,
-                    month: val !== null ? val + 1 : undefined,
-                },
+                    month: val !== null ? val + 1 : undefined
+                }
             });
             this.fetchData();
         },
@@ -488,8 +513,8 @@ export default {
             this.$router.push({
                 query: {
                     ...this.$route.query,
-                    year: val || undefined,
-                },
+                    year: val || undefined
+                }
             });
             this.fetchData();
         },
@@ -497,8 +522,8 @@ export default {
             this.$router.push({
                 query: {
                     ...this.$route.query,
-                    wallet: val || undefined,
-                },
+                    wallet: val || undefined
+                }
             });
             this.fetchData();
         },
@@ -506,8 +531,8 @@ export default {
             this.$router.push({
                 query: {
                     ...this.$route.query,
-                    project: val || undefined,
-                },
+                    project: val || undefined
+                }
             });
             this.fetchData();
         },
@@ -515,8 +540,8 @@ export default {
             this.$router.push({
                 query: {
                     ...this.$route.query,
-                    location: val || undefined,
-                },
+                    location: val || undefined
+                }
             });
             this.fetchData();
         }
@@ -525,6 +550,7 @@ export default {
         this.fetchData();
     },
     methods: {
+        can,
         async fetchData() {
             this.errorText = null;
             this.isBusy = true;
