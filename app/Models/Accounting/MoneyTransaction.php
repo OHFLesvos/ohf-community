@@ -21,6 +21,8 @@ class MoneyTransaction extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
 
+    protected $table = "accounting_transactions";
+
     private const RECEIPT_PICTURE_PATH = 'public/accounting/receipts';
 
     public static function boot()

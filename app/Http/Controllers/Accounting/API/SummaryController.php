@@ -41,7 +41,7 @@ class SummaryController extends Controller
             ],
             'location' => [
                 'nullable',
-                'exists:money_transactions,location'
+                'exists:accounting_transactions,location'
             ],
         ]);
 
