@@ -23,6 +23,16 @@ class RenameMoneyTransactionsToAccountingTransactionsTable extends Migration
      */
     public function down()
     {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
+            $table->dropIndex(['category']);
+            $table->dropIndex(['project']);
+        });
+
         Schema::rename('accounting_transactions', 'money_transactions');
+
+        Schema::table('money_transactions', function (Blueprint $table) {
+            $table->index(['category']);
+            $table->index(['project']);
+        });
     }
 }
