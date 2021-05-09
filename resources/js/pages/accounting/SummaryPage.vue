@@ -131,192 +131,43 @@
             </table>
         </div>
 
-        <div v-if="!isBusy" class="row">
+        <b-row v-if="!isBusy">
+
             <!-- Revenue by categories -->
-            <div class="col-md">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header">{{ $t("Categories") }}</div>
-                    <table class="table table-strsiped mb-0">
-                        <tbody>
-                            <template v-if="revenueByCategory.length > 0">
-                                <tr v-for="v in revenueByCategory" :key="v.id">
-                                    <td>
-                                        <a
-                                            v-if="
-                                                wallet &&
-                                                    can('can-view-transactions')
-                                            "
-                                            :href="
-                                                route(
-                                                    'accounting.transactions.index',
-                                                    {
-                                                        wallet,
-                                                        'filter[category_id]':
-                                                            v.id,
-                                                        'filter[date_start]': filterDateStart,
-                                                        'filter[date_end]': filterDateEnd
-                                                    }
-                                                )
-                                            "
-                                        >
-                                            {{ v.name }}
-                                        </a>
-                                        <template v-else>
-                                            {{ v.name }}
-                                        </template>
-                                    </td>
-                                    <td
-                                        class="text-right"
-                                        :class="colorClass(v.amount > 0)"
-                                    >
-                                        {{ numberFormat(v.amount) }}
-                                    </td>
-                                </tr>
-                            </template>
-                            <tr v-else>
-                                <td>
-                                    <em>{{
-                                        $t(
-                                            "No data available in the selected time range."
-                                        )
-                                    }}</em>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <b-col md>
+                <SummaryList
+                    :items="revenueByCategory"
+                    :title="$t('Categories')"
+                    paramName="category_id"
+                    :wallet="wallet"
+                    :filterDateStart="filterDateStart"
+                    :filterDateEnd="filterDateEnd" />
+            </b-col>
 
             <!-- Revenue by secondary category -->
-            <div v-if="revenueBySecondaryCategory" class="col-md">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header">
-                        {{ $t("Secondary Categories") }}
-                    </div>
-                    <table class="table mb-0">
-                        <tbody>
-                            <template
-                                v-if="revenueBySecondaryCategory.length > 0"
-                            >
-                                <tr
-                                    v-for="v in revenueBySecondaryCategory"
-                                    :key="v.name"
-                                >
-                                    <td>
-                                        <template v-if="v.name">
-                                            <a
-                                                v-if="
-                                                    wallet &&
-                                                        can(
-                                                            'can-view-transactions'
-                                                        )
-                                                "
-                                                :href="
-                                                    route(
-                                                        'accounting.transactions.index',
-                                                        {
-                                                            wallet,
-                                                            'filter[secondary_category]':
-                                                                v.name,
-                                                            'filter[date_start]': filterDateStart,
-                                                            'filter[date_end]': filterDateEnd
-                                                        }
-                                                    )
-                                                "
-                                            >
-                                                {{ v.name }}
-                                            </a>
-                                            <template v-else>
-                                                {{ v.name }}
-                                            </template>
-                                        </template>
-                                        <em v-else>{{
-                                            $t("No Secondary Category")
-                                        }}</em>
-                                    </td>
-                                    <td
-                                        class="text-right"
-                                        :class="colorClass(v.amount > 0)"
-                                    >
-                                        {{ numberFormat(v.amount) }}
-                                    </td>
-                                </tr>
-                            </template>
-                            <tr v-else>
-                                <td>
-                                    <em>{{
-                                        $t(
-                                            "No data available in the selected time range."
-                                        )
-                                    }}</em>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <b-col v-if="revenueBySecondaryCategory" md>
+                <SummaryList
+                    :items="revenueBySecondaryCategory"
+                    :title="$t('Secondary Categories')"
+                    paramName="secondary_category"
+                    :noNameLabel="$t('No Secondary Category')"
+                    :wallet="wallet"
+                    :filterDateStart="filterDateStart"
+                    :filterDateEnd="filterDateEnd" />
+            </b-col>
 
             <!-- Revenue by project -->
-            <div class="col-md">
-                <div class="card shadow-sm mb-4">
-                    <div class="card-header">{{ $t("Projects") }}</div>
-                    <table class="table table-strsiped mb-0">
-                        <tbody>
-                            <template v-if="revenueByProject.length > 0">
-                                <tr v-for="v in revenueByProject" :key="v.id">
-                                    <td>
-                                        <template v-if="v.name">
-                                            <a
-                                                v-if="
-                                                    wallet &&
-                                                        can(
-                                                            'can-view-transactions'
-                                                        )
-                                                "
-                                                :href="
-                                                    route(
-                                                        'accounting.transactions.index',
-                                                        {
-                                                            wallet,
-                                                            'filter[project_id]':
-                                                                v.id,
-                                                            'filter[date_start]': filterDateStart,
-                                                            'filter[date_end]': filterDateEnd
-                                                        }
-                                                    )
-                                                "
-                                            >
-                                                {{ v.name }}
-                                            </a>
-                                            <template v-else>
-                                                {{ v.name }}
-                                            </template>
-                                        </template>
-
-                                        <em v-else>{{ $t("No project") }}</em>
-                                    </td>
-                                    <td
-                                        class="text-right"
-                                        :class="colorClass(v.amount > 0)"
-                                    >
-                                        {{ numberFormat(v.amount) }}
-                                    </td>
-                                </tr>
-                            </template>
-                            <tr v-else>
-                                <td>
-                                    <em>{{
-                                        $t(
-                                            "No data available in the selected time range."
-                                        )
-                                    }}</em>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+            <b-col md>
+                <SummaryList
+                    :items="revenueByProject"
+                    :title="$t('Projects')"
+                    paramName="project_id"
+                    :noNameLabel="$t('No project')"
+                    :wallet="wallet"
+                    :filterDateStart="filterDateStart"
+                    :filterDateEnd="filterDateEnd" />
+            </b-col>
+        </b-row>
     </div>
 </template>
 
@@ -325,10 +176,12 @@ import moment from "moment";
 import summaryApi from "@/api/accounting/summary";
 import numeral from "numeral";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
+import SummaryList from "@/components/accounting/SummaryList";
 import { can } from "@/plugins/laravel";
 export default {
     components: {
-        AlertWithRetry
+        AlertWithRetry,
+        SummaryList
     },
     data() {
         const now = moment();
