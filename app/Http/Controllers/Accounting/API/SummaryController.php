@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\TaxonomyRepository;
 use Carbon\Carbon;
@@ -64,14 +64,14 @@ class SummaryController extends Controller
         $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
         $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
         return [
-            'years' => MoneyTransaction::years(),
+            'years' => Transaction::years(),
             'projects' => collect($taxonomies->getNestedProjects())
                 ->map(fn ($label, $id) =>  [
                     "id" => $id,
                     "label" => $label,
                 ])
                 ->values(),
-            'locations' => $useLocations ? MoneyTransaction::locations() : [],
+            'locations' => $useLocations ? Transaction::locations() : [],
             'wallets' => $wallets,
             'totals' => [
                 'income' => $totals->sum('income'),
@@ -122,7 +122,7 @@ class SummaryController extends Controller
 
     private function revenueByRelationField(string $idField, $relationField, Request $request): Collection
     {
-        return MoneyTransaction::query()
+        return Transaction::query()
             ->select($idField, 'wallet_id')
             ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as sum')
             ->where(fn($q) => $this->filterQuery($request, $q))
@@ -142,7 +142,7 @@ class SummaryController extends Controller
 
     private function revenueByField(string $field, Request $request): Collection
     {
-        return MoneyTransaction::query()
+        return Transaction::query()
             ->select($field, 'wallet_id')
             ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as sum')
             ->where(fn($q) => $this->filterQuery($request, $q))
@@ -160,7 +160,7 @@ class SummaryController extends Controller
 
     private function totals(Request $request): Collection
     {
-        return MoneyTransaction::query()
+        return Transaction::query()
             ->select('wallet_id')
             ->selectRaw('SUM(IF(type = \'income\', amount, 0)) as income_sum')
             ->selectRaw('SUM(IF(type = \'spending\', amount, 0)) as spending_sum')

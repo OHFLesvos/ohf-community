@@ -2,7 +2,7 @@
 
 namespace App\Navigation\ContextButtons\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -24,7 +24,7 @@ class TransactionEditContextButtons implements ContextButtons
                 'url' => route('accounting.transactions.index', $transaction->wallet),
                 'caption' => __('Cancel'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
+                'authorized' => Auth::user()->can('viewAny', Transaction::class),
             ],
         ];
     }

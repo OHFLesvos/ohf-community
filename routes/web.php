@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\Accounting\MoneyTransactionsController;
-use App\Http\Controllers\Accounting\SummaryController;
+use App\Http\Controllers\Accounting\TransactionsController;
 use App\Http\Controllers\Accounting\WalletController;
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
@@ -175,27 +174,27 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.summary');
 
         // Transactions
-        Route::get('wallets/{wallet}/transactions/export', [MoneyTransactionsController::class, 'export'])
+        Route::get('wallets/{wallet}/transactions/export', [TransactionsController::class, 'export'])
             ->name('transactions.export');
-        Route::post('wallets/{wallet}/transactions/doExport', [MoneyTransactionsController::class, 'doExport'])
+        Route::post('wallets/{wallet}/transactions/doExport', [TransactionsController::class, 'doExport'])
             ->name('transactions.doExport');
-        Route::get('transactions/{transaction}/snippet', [MoneyTransactionsController::class, 'snippet'])
+        Route::get('transactions/{transaction}/snippet', [TransactionsController::class, 'snippet'])
             ->name('transactions.snippet');
-        Route::put('transactions/{transaction}/undoBooking', [MoneyTransactionsController::class, 'undoBooking'])
+        Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
             ->name('transactions.undoBooking');
-        Route::get('wallets/{wallet}/transactions', [MoneyTransactionsController::class, 'index'])
+        Route::get('wallets/{wallet}/transactions', [TransactionsController::class, 'index'])
             ->name('transactions.index');
-        Route::get('wallets/{wallet}/transactions/create', [MoneyTransactionsController::class, 'create'])
+        Route::get('wallets/{wallet}/transactions/create', [TransactionsController::class, 'create'])
             ->name('transactions.create');
-        Route::post('wallets/{wallet}/transactions', [MoneyTransactionsController::class, 'store'])
+        Route::post('wallets/{wallet}/transactions', [TransactionsController::class, 'store'])
             ->name('transactions.store');
-        Route::get('transactions/{transaction}', [MoneyTransactionsController::class, 'show'])
+        Route::get('transactions/{transaction}', [TransactionsController::class, 'show'])
             ->name('transactions.show');
-        Route::get('transactions/{transaction}/edit', [MoneyTransactionsController::class, 'edit'])
+        Route::get('transactions/{transaction}/edit', [TransactionsController::class, 'edit'])
             ->name('transactions.edit');
-        Route::put('transactions/{transaction}', [MoneyTransactionsController::class, 'update'])
+        Route::put('transactions/{transaction}', [TransactionsController::class, 'update'])
             ->name('transactions.update');
-        Route::delete('transactions/{transaction}', [MoneyTransactionsController::class, 'destroy'])
+        Route::delete('transactions/{transaction}', [TransactionsController::class, 'destroy'])
             ->name('transactions.destroy');
 
         // Webling

@@ -26,7 +26,7 @@ class Project extends Model
 
     public function transactions()
     {
-        return $this->hasMany(MoneyTransaction::class);
+        return $this->hasMany(Transaction::class);
     }
 
     public function parent()

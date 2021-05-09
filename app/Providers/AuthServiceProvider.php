@@ -20,7 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         \App\Models\Comment::class                        => \App\Policies\CommentPolicy::class,
         \App\Models\Fundraising\Donor::class              => \App\Policies\Fundraising\DonorPolicy::class,
         \App\Models\Fundraising\Donation::class           => \App\Policies\Fundraising\DonationPolicy::class,
-        \App\Models\Accounting\MoneyTransaction::class    => \App\Policies\Accounting\MoneyTransactionPolicy::class,
+        \App\Models\Accounting\Transaction::class         => \App\Policies\Accounting\TransactionPolicy::class,
         \App\Models\Accounting\Wallet::class              => \App\Policies\Accounting\WalletPolicy::class,
         \App\Models\Accounting\Category::class            => \App\Policies\Accounting\CategoryPolicy::class,
         \App\Models\Accounting\Project::class             => \App\Policies\Accounting\ProjectPolicy::class,

@@ -12,7 +12,7 @@
     @php
     $permissions = [
         'view-accounting-summary' => Gate::allows('view-accounting-summary'),
-        'can-view-transactions' => Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class),
+        'can-view-transactions' => Auth::user()->can('viewAny', App\Models\Accounting\Transaction::class),
     ];
     @endphp
     <script>

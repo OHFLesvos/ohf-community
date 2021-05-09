@@ -12,7 +12,7 @@
         </div>
         <div class="list-group list-group-flush">
             @forelse($wallets as $wallet)
-                @can('viewAny', App\Models\Accounting\MoneyTransaction::class)
+                @can('viewAny', App\Models\Accounting\Transaction::class)
                     <a href="{{ route('accounting.transactions.index', $wallet) }}" class="list-group-item list-group-item-action">
                         {{ $wallet->name }}
                         <span class="float-right">{{ number_format($wallet->amount, 2) }}</span>

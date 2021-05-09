@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use Illuminate\Http\Request;
 
-class MoneyTransactionsController extends Controller
+class TransactionsController extends Controller
 {
-    public function updateReceipt(Request $request, MoneyTransaction $transaction)
+    public function updateReceipt(Request $request, Transaction $transaction)
     {
         $this->authorize('update', $transaction);
 

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Accounting\API\CategoriesController;
 use App\Http\Controllers\Accounting\API\ControllingController;
-use App\Http\Controllers\Accounting\API\MoneyTransactionsController;
+use App\Http\Controllers\Accounting\API\TransactionsController;
 use App\Http\Controllers\Accounting\API\ProjectsController;
 use App\Http\Controllers\Accounting\API\SummaryController;
 use App\Http\Controllers\Accounting\API\SuppliersController;
@@ -211,7 +211,7 @@ Route::middleware(['language', 'auth'])
         Route::get('transactions/summary', [SummaryController::class, 'index'])
             ->name('transactions.summary');
 
-        Route::post('transactions/{transaction}/receipt', [MoneyTransactionsController::class, 'updateReceipt'])
+        Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
 
         Route::get('transactions/{transaction}/controlled', [ControllingController::class, 'controlled'])

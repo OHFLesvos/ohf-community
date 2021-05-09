@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 
 class WalletController extends Controller
@@ -15,7 +15,7 @@ class WalletController extends Controller
      */
     public function index()
     {
-        $this->authorize('viewAny', MoneyTransaction::class);
+        $this->authorize('viewAny', Transaction::class);
 
         return view('accounting.index', [
             'wallets' => Wallet::orderBy('name')

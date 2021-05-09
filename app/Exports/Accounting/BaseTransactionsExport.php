@@ -3,7 +3,7 @@
 namespace App\Exports\Accounting;
 
 use App\Exports\BaseExport;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -13,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Setting;
 
-abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
+abstract class BaseTransactionsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
     public function headings(): array
     {
@@ -49,7 +49,7 @@ abstract class BaseMoneyTransactionsExport extends BaseExport implements FromQue
     }
 
     /**
-     * @param MoneyTransaction $transaction
+     * @param Transaction $transaction
      */
     public function map($transaction): array
     {

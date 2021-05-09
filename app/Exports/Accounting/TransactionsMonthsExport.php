@@ -2,10 +2,10 @@
 
 namespace App\Exports\Accounting;
 
-use App\Exports\Accounting\Sheets\MoneyTransactionsMonthSheet;
-use App\Exports\Accounting\Sheets\MoneyTransactionsSummarySheet;
+use App\Exports\Accounting\Sheets\TransactionsMonthSheet;
+use App\Exports\Accounting\Sheets\TransactionsSummarySheet;
 use App\Exports\DefaultFormatting;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\BeforeWriting;
 
-class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
+class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
 {
     use Exportable, DefaultFormatting;
 
@@ -38,7 +38,7 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
 
     public function sheets(): array
     {
-        $months = MoneyTransaction::query()
+        $months = Transaction::query()
             ->forWallet($this->wallet)
             ->forFilter($this->filter, true)
             ->selectRaw('MONTH(date) as month')
@@ -55,13 +55,13 @@ class MoneyTransactionsMonthsExport implements WithMultipleSheets, WithEvents
 
         // Transactions by month
         foreach ($months as $month) {
-            $sheet = new MoneyTransactionsMonthSheet($this->wallet, $month, $this->filter);
+            $sheet = new TransactionsMonthSheet($this->wallet, $month, $this->filter);
             $sheet->orientation = 'landscape';
             $sheets[] = $sheet;
         }
 
         // Summary
-        $sheets[] = new MoneyTransactionsSummarySheet($months);
+        $sheets[] = new TransactionsSummarySheet($months);
 
         return $sheets;
     }

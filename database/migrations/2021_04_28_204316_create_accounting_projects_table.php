@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -34,14 +34,14 @@ class CreateAccountingProjectsTable extends Migration
             Setting::forget('accounting.transactions.projects');
         }
 
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->foreignId('project_id')->nullable()->after('secondary_category');
             $table->foreign('project_id')->references('id')->on('accounting_projects')->nullOnDelete();
         });
 
-        $hasTransactions = MoneyTransaction::exists();
+        $hasTransactions = Transaction::exists();
         if ($hasTransactions) {
-            MoneyTransaction::whereNotNull('project')
+            Transaction::whereNotNull('project')
                 ->get()
                 ->each(function ($transaction) {
                     $project = Project::firstOrCreate(
@@ -53,7 +53,7 @@ class CreateAccountingProjectsTable extends Migration
                 });
         }
 
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->dropColumn('project');
         });
     }
@@ -65,22 +65,22 @@ class CreateAccountingProjectsTable extends Migration
      */
     public function down()
     {
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->string('project_temp')->after('secondary_category')->nullable();
         });
 
-        MoneyTransaction::whereNotNull('project_id')
+        Transaction::whereNotNull('project_id')
             ->get()
             ->each(function ($transaction) {
                 $transaction->project_temp = $transaction->project->name;
                 $transaction->save();
             });
 
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->renameColumn('project_temp', 'project');
         });
 
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->index(['project']);
             $table->dropForeign(['project_id']);
             $table->dropColumn('project_id');

@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Accounting\Category;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -34,14 +34,14 @@ class CreateAccountingCategoriesTable extends Migration
             Setting::forget('accounting.transactions.categories');
         }
 
-        $hasTransactions = MoneyTransaction::exists();
+        $hasTransactions = Transaction::exists();
         if ($hasTransactions) {
-            Schema::table('money_transactions', function (Blueprint $table) {
+            Schema::table('accounting_transactions', function (Blueprint $table) {
                 $table->foreignId('category_id')->nullable()->after('attendee');
                 $table->foreign('category_id')->references('id')->on('accounting_categories')->restrictOnDelete();
             });
 
-            MoneyTransaction::all()->each(function ($transaction) {
+            Transaction::all()->each(function ($transaction) {
                 $category = Category::firstOrCreate(
                     ['name' => $transaction->category],
                     ['name' => $transaction->category]
@@ -50,17 +50,17 @@ class CreateAccountingCategoriesTable extends Migration
                 $transaction->save();
             });
 
-            Schema::table('money_transactions', function (Blueprint $table) {
+            Schema::table('accounting_transactions', function (Blueprint $table) {
                 $table->foreignId('category_id')->nullable(false)->change();
             });
         } else {
-            Schema::table('money_transactions', function (Blueprint $table) {
+            Schema::table('accounting_transactions', function (Blueprint $table) {
                 $table->foreignId('category_id')->after('wallet_id');
                 $table->foreign('category_id')->references('id')->on('accounting_categories')->restrictOnDelete();
             });
         }
 
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->dropColumn('category');
         });
     }
@@ -72,24 +72,24 @@ class CreateAccountingCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->string('category_temp')->after('attendee')->nullable();
         });
 
-        MoneyTransaction::all()->each(function ($transaction) {
+        Transaction::all()->each(function ($transaction) {
             $transaction->category_temp = $transaction->category->name;
             $transaction->save();
         });
 
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->renameColumn('category_temp', 'category');
         });
 
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->string('category')->nullable(false)->change();
         });
 
-        Schema::table('money_transactions', function (Blueprint $table) {
+        Schema::table('accounting_transactions', function (Blueprint $table) {
             $table->index(['category']);
             $table->dropForeign(['category_id']);
             $table->dropColumn('category_id');

@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 use Org_Heigl\Ghostscript\Ghostscript;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class MoneyTransaction extends Model implements Auditable
+class Transaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;

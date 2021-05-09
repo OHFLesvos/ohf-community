@@ -2,10 +2,10 @@
 
 namespace App\Exports\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 
-class MoneyTransactionsExport extends BaseMoneyTransactionsExport
+class TransactionsExport extends BaseTransactionsExport
 {
     /**
      * Filter conditions
@@ -25,7 +25,7 @@ class MoneyTransactionsExport extends BaseMoneyTransactionsExport
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return MoneyTransaction::query()
+        return Transaction::query()
             ->forWallet($this->wallet)
             ->forFilter($this->filter)
             ->orderBy('date', 'ASC')

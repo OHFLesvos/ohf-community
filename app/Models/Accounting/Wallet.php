@@ -52,7 +52,7 @@ class Wallet extends Model
      */
     public function transactions()
     {
-        return $this->hasMany(MoneyTransaction::class);
+        return $this->hasMany(Transaction::class);
     }
 
     /**
@@ -62,7 +62,7 @@ class Wallet extends Model
      */
     public function calculatedSum(?Carbon $date = null): ?float
     {
-        $result = MoneyTransaction::query()
+        $result = Transaction::query()
             ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as amount_sum')
             ->selectRaw('SUM(fees) as fees_sum')
             ->forDateRange(null, $date)
@@ -91,7 +91,7 @@ class Wallet extends Model
 
     public function getNextFreeReceiptNumberAttribute(): int
     {
-        return optional(MoneyTransaction::selectRaw('MAX(receipt_no) as val')
+        return optional(Transaction::selectRaw('MAX(receipt_no) as val')
             ->forWallet($this)
             ->first())
             ->val + 1;

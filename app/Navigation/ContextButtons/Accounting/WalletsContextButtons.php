@@ -2,7 +2,7 @@
 
 namespace App\Navigation\ContextButtons\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -17,7 +17,7 @@ class WalletsContextButtons implements ContextButtons
                 'url' => route('accounting.index'),
                 'caption' => __('Overview'),
                 'icon' => 'money-bill-alt',
-                'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class) || Gate::allows('view-accounting-summary'),
+                'authorized' => Auth::user()->can('viewAny', Transaction::class) || Gate::allows('view-accounting-summary'),
             ],
         ];
     }

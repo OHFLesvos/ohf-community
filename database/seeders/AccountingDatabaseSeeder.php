@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Accounting\Category;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Project;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
@@ -35,7 +35,7 @@ class AccountingDatabaseSeeder extends Seeder
             ->create()
             ->each(function (Wallet $wallet) use($categories, $projects) {
                 $wallet->transactions()->createMany(
-                    MoneyTransaction::factory()
+                    Transaction::factory()
                         ->count(mt_rand(50, 250))
                         ->make()
                         ->map(function ($e) use($categories, $projects)  {
