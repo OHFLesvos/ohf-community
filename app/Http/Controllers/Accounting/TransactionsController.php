@@ -148,10 +148,10 @@ class TransactionsController extends Controller
 
         return view('accounting.transactions.create', [
             'attendees' => Transaction::attendees(),
-            'categories' => $taxonomies->getNestedCategories(),
+            'categories' => $taxonomies->getNestedCategories(null, 0, true),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => $taxonomies->getNestedProjects(),
+            'projects' => $taxonomies->getNestedProjects(null, 0, true),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
