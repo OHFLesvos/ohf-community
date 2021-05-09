@@ -6,37 +6,37 @@
             <div class="col-sm">
                 <h4 class="mb-4">{{ heading }}</h4>
             </div>
-            <div class="col-xl-auto col-md">
+            <div class="col-sm-8 col-md-9 col-lg-10 col-xl-auto">
                 <div class="form-row">
-                    <div class="col-auto">
+                    <div class="col-auto mb-2">
                         <b-select
                             v-model="month"
                             :options="monthOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto mb-2">
                         <b-select
                             v-model="year"
                             :options="yearOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto mb-2">
                         <b-select
                             v-model="wallet"
                             :options="walletOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div v-if="projects.length > 0" class="col-auto">
+                    <div v-if="projects.length > 0" class="col-auto mb-2">
                         <b-select
                             v-model="project"
                             :options="projectOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div v-if="locations.length > 0" class="col-auto">
+                    <div v-if="locations.length > 0" class="col-auto mb-2">
                         <b-select
                             v-model="location"
                             :options="locationOptions"
@@ -59,7 +59,7 @@
                     <th class="text-right">{{ $t("Balance") }}</th>
                 </thead>
                 <tbody>
-                    <tr v-for="wallet in wallet ? wallets.filter(w => w.id == wallet) : wallets" :key="wallet.id">
+                    <tr v-for="wallet in (wallet ? wallets.filter(w => w.id == wallet) : wallets)" :key="wallet.id">
                         <td>
                             {{ wallet.name }}
                         </td>
@@ -147,7 +147,7 @@
                                     <td>
                                         <!-- @if(Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class)) -->
                                         <a
-                                            v-if="wallet != null"
+                                            v-if="wallet"
                                             :href="
                                                 route(
                                                     'accounting.transactions.index',
@@ -212,7 +212,7 @@
                                         <template v-if="v.name">
                                             <!-- @if(Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class)) -->
                                             <a
-                                                v-if="wallet != null"
+                                                v-if="wallet"
                                                 :href="
                                                     route(
                                                         'accounting.transactions.index',
@@ -274,7 +274,7 @@
                                         <template v-if="v.name">
                                             <!-- @if(Auth::user()->can('viewAny', App\Models\Accounting\MoneyTransaction::class)) -->
                                             <a
-                                                v-if="wallet != null"
+                                                v-if="wallet"
                                                 :href="
                                                     route(
                                                         'accounting.transactions.index',
@@ -344,11 +344,11 @@ export default {
             projects: [],
             locations: [],
 
-            year: now.year(),
-            month: now.month(),
-            wallet: null,
-            project: null,
-            location: null,
+            year: this.$route.query.year ?? now.year(),
+            month: this.$route.query.month ? this.$route.query.month - 1 : now.month(),
+            wallet: this.$route.query.wallet ?? null,
+            project: this.$route.query.project ?? null,
+            location: this.$route.query.location ?? null,
 
             revenueByCategory: [],
             revenueBySecondaryCategory: [],
@@ -476,23 +476,52 @@ export default {
     },
     watch: {
         month(val) {
+            this.$router.push({
+                query: {
+                    ...this.$route.query,
+                    month: val !== null ? val + 1 : undefined,
+                },
+            });
             this.fetchData();
         },
         year(val) {
+            this.$router.push({
+                query: {
+                    ...this.$route.query,
+                    year: val || undefined,
+                },
+            });
             this.fetchData();
         },
         wallet(val) {
+            this.$router.push({
+                query: {
+                    ...this.$route.query,
+                    wallet: val || undefined,
+                },
+            });
             this.fetchData();
         },
         project(val) {
+            this.$router.push({
+                query: {
+                    ...this.$route.query,
+                    project: val || undefined,
+                },
+            });
             this.fetchData();
         },
         location(val) {
+            this.$router.push({
+                query: {
+                    ...this.$route.query,
+                    location: val || undefined,
+                },
+            });
             this.fetchData();
         }
     },
-    mounted() {
-        // console.log(this.$route.query.wallet);
+    created() {
         this.fetchData();
     },
     methods: {
@@ -502,7 +531,7 @@ export default {
             try {
                 let data = await summaryApi.list({
                     year: this.year,
-                    month: this.month + 1,
+                    month: this.month !== null ? this.month + 1 : undefined,
                     wallet: this.wallet,
                     project: this.project,
                     location: this.location
