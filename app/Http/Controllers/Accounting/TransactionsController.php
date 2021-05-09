@@ -8,10 +8,11 @@ use App\Exports\Accounting\WeblingTransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
+use App\Models\Accounting\Category;
+use App\Models\Accounting\Project;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
-use App\Support\Accounting\TaxonomyRepository;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class TransactionsController extends Controller
 {
     use ExportableActions;
 
-    public function index(Wallet $wallet, Request $request, TaxonomyRepository $taxonomies)
+    public function index(Wallet $wallet, Request $request)
     {
         $this->authorize('viewAny', Transaction::class);
         $this->authorize('view', $wallet);
@@ -113,10 +114,10 @@ class TransactionsController extends Controller
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
             'attendees' => Transaction::attendees(),
-            'categories' => $taxonomies->getNestedCategories(),
+            'categories' => Category::getNested(),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => $taxonomies->getNestedProjects(),
+            'projects' => Project::getNested(),
             'locations' => self::useLocations() ? self::getLocations(true) : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters(true) : null,
@@ -142,16 +143,16 @@ class TransactionsController extends Controller
             ->orderBy('created_at', 'DESC');
     }
 
-    public function create(Wallet $wallet, TaxonomyRepository $taxonomies)
+    public function create(Wallet $wallet)
     {
         $this->authorize('create', Transaction::class);
 
         return view('accounting.transactions.create', [
             'attendees' => Transaction::attendees(),
-            'categories' => $taxonomies->getNestedCategories(null, 0, true),
+            'categories' => Category::getNested(null, 0, true),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => $taxonomies->getNestedProjects(null, 0, true),
+            'projects' => Project::getNested(null, 0, true),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
@@ -286,17 +287,17 @@ class TransactionsController extends Controller
         ]);
     }
 
-    public function edit(Transaction $transaction, TaxonomyRepository $taxonomies)
+    public function edit(Transaction $transaction)
     {
         $this->authorize('update', $transaction);
 
         return view('accounting.transactions.edit', [
             'transaction' => $transaction,
             'attendees' => Transaction::attendees(),
-            'categories' => $taxonomies->getNestedCategories(),
+            'categories' => Category::getNested(),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => $taxonomies->getNestedProjects(),
+            'projects' => Project::getNested(),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,

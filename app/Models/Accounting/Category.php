@@ -80,4 +80,23 @@ class Category extends Model
         }
         return $elements;
     }
+
+    public static function getNested(?int $parent = null, int $level = 0, bool $enabledOnly = false): array
+    {
+        $results = [];
+        $items = self::query()
+            ->select('id', 'name')
+            ->when($enabledOnly, fn($q) => $q->where('enabled', true))
+            ->orderBy('name', 'asc')
+            ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
+            ->get();
+        foreach($items as $item) {
+            $results[$item['id']] = str_repeat("&nbsp;", 4 * $level) . $item['name'];
+            $children = self::getNested($item['id'], $level + 1, $enabledOnly);
+            foreach ($children as $k => $v) {
+                $results[$k] = $v;
+            }
+        }
+        return $results;
+    }
 }

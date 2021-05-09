@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Accounting\Project;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
-use App\Support\Accounting\TaxonomyRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Setting;
 
 class SummaryController extends Controller
 {
-    public function index(Request $request, TaxonomyRepository $taxonomies)
+    public function index(Request $request)
     {
         $this->authorize('view-accounting-summary');
 
@@ -65,7 +65,7 @@ class SummaryController extends Controller
         $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
         return [
             'years' => Transaction::years(),
-            'projects' => collect($taxonomies->getNestedProjects())
+            'projects' => collect(Project::getNested())
                 ->map(fn ($label, $id) =>  [
                     "id" => $id,
                     "label" => $label,
