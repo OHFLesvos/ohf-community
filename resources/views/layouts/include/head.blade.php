@@ -12,6 +12,8 @@
         {{-- Favicon --}}
         @isset($favicon_32_url)
             <link rel="icon" href="{{ $favicon_32_url }}" sizes="32x32" />
+        @else
+            <link rel="icon" href="{{ asset('favicon.ico') }}" />
         @endisset
         @isset($favicon_192_url)
             <link rel="icon" href="{{ $favicon_192_url }}" sizes="192x192" />
