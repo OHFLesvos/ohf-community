@@ -9,6 +9,12 @@
             <div class="col-sm-8 col-md-9 col-lg-10 col-xl-auto">
                 <div class="form-row">
                     <div class="col-auto mb-2">
+                    <b-button
+                        variant="secondary"
+                        @click="setToCurrentMonth()"
+                        ><font-awesome-icon icon="calendar-alt" /></b-button>
+                    </div>
+                    <div class="col-auto mb-2">
                         <b-select
                             v-model="month"
                             :options="monthOptions"
@@ -132,7 +138,6 @@
         </div>
 
         <b-row v-if="!isBusy">
-
             <!-- Revenue by categories -->
             <b-col md>
                 <SummaryList
@@ -141,7 +146,8 @@
                     paramName="category_id"
                     :wallet="wallet"
                     :filterDateStart="filterDateStart"
-                    :filterDateEnd="filterDateEnd" />
+                    :filterDateEnd="filterDateEnd"
+                />
             </b-col>
 
             <!-- Revenue by secondary category -->
@@ -153,7 +159,8 @@
                     :noNameLabel="$t('No Secondary Category')"
                     :wallet="wallet"
                     :filterDateStart="filterDateStart"
-                    :filterDateEnd="filterDateEnd" />
+                    :filterDateEnd="filterDateEnd"
+                />
             </b-col>
 
             <!-- Revenue by project -->
@@ -165,7 +172,8 @@
                     :noNameLabel="$t('No project')"
                     :wallet="wallet"
                     :filterDateStart="filterDateStart"
-                    :filterDateEnd="filterDateEnd" />
+                    :filterDateEnd="filterDateEnd"
+                />
             </b-col>
         </b-row>
     </div>
@@ -184,18 +192,15 @@ export default {
         SummaryList
     },
     data() {
-        const now = moment();
         return {
-            years: [now.year()],
+            years: [moment().year()],
             wallets: [],
             totals: {},
             projects: [],
             locations: [],
 
-            year: this.$route.query.year ?? now.year(),
-            month: this.$route.query.month
-                ? this.$route.query.month - 1
-                : now.month(),
+            year: this.$route.query.year ?? null,
+            month: this.$route.query.month ? this.$route.query.month - 1 : null,
             wallet: this.$route.query.wallet ?? null,
             project: this.$route.query.project ?? null,
             location: this.$route.query.location ?? null,
@@ -326,48 +331,18 @@ export default {
     },
     watch: {
         month(val) {
-            this.$router.push({
-                query: {
-                    ...this.$route.query,
-                    month: val !== null ? val + 1 : undefined
-                }
-            });
             this.fetchData();
         },
         year(val) {
-            this.$router.push({
-                query: {
-                    ...this.$route.query,
-                    year: val || undefined
-                }
-            });
             this.fetchData();
         },
         wallet(val) {
-            this.$router.push({
-                query: {
-                    ...this.$route.query,
-                    wallet: val || undefined
-                }
-            });
             this.fetchData();
         },
         project(val) {
-            this.$router.push({
-                query: {
-                    ...this.$route.query,
-                    project: val || undefined
-                }
-            });
             this.fetchData();
         },
         location(val) {
-            this.$router.push({
-                query: {
-                    ...this.$route.query,
-                    location: val || undefined
-                }
-            });
             this.fetchData();
         }
     },
@@ -375,11 +350,30 @@ export default {
         this.fetchData();
     },
     methods: {
+        setToCurrentMonth() {
+            const now = moment();
+            this.year = now.year();
+            this.month = now.month();
+        },
         colorClass(value) {
             return value > 0 ? "text-success" : "text-danger";
         },
         can,
         async fetchData() {
+            this.$router.push(
+                {
+                    query: {
+                        ...this.$route.query,
+                        month: this.month !== null ? this.month + 1 : undefined,
+                        year: this.year || undefined,
+                        wallet: this.wallet || undefined,
+                        project: this.project || undefined,
+                        location: this.location || undefined
+                    }
+                },
+                () => {}
+            );
+
             this.errorText = null;
             this.isBusy = true;
             try {
