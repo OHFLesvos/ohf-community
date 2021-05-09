@@ -109,16 +109,16 @@
                     </tr>
                     <tr v-if="!wallet">
                         <td>
-                            <b>{{ $t("Sum across all wallets") }}</b>
+                            <strong>{{ $t("Sum across all wallets") }}</strong>
                         </td>
                         <td class="text-right">
-                            <b>{{ numberFormat(totals.income) }}</b>
+                            <strong>{{ numberFormat(totals.income) }}</strong>
                         </td>
                         <td class="text-right">
-                            <b>{{ numberFormat(totals.spending) }}</b>
+                            <strong>{{ numberFormat(totals.spending) }}</strong>
                         </td>
                         <td class="text-right">
-                            <b>{{ numberFormat(totals.fees) }}</b>
+                            <strong>{{ numberFormat(totals.fees) }}</strong>
                         </td>
                         <td
                             class="text-right"
@@ -128,9 +128,9 @@
                                     : 'text-danger'
                             "
                         >
-                            <b>{{
+                            <strong>{{
                                 numberFormat(totals.income - totals.spending)
-                            }}</b>
+                            }}</strong>
                         </td>
                         <td
                             class="text-right"
@@ -140,7 +140,7 @@
                                     : 'text-danger'
                             "
                         >
-                            <b>{{ numberFormat(totals.amount) }}</b>
+                            <strong>{{ numberFormat(totals.amount) }}</strong>
                         </td>
                     </tr>
                 </tbody>
