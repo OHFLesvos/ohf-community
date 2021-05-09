@@ -88,21 +88,13 @@
                         </td>
                         <td
                             class="text-right"
-                            :class="
-                                wallet.income > wallet.spending
-                                    ? 'text-success'
-                                    : 'text-danger'
-                            "
+                            :class="colorClass(wallet.income > wallet.spending)"
                         >
                             {{ numberFormat(wallet.income - wallet.spending) }}
                         </td>
                         <td
                             class="text-right"
-                            :class="
-                                wallet.amount > 0
-                                    ? 'text-success'
-                                    : 'text-danger'
-                            "
+                            :class="colorClass(wallet.amount > 0)"
                         >
                             {{ numberFormat(wallet.amount) }}
                         </td>
@@ -122,11 +114,7 @@
                         </td>
                         <td
                             class="text-right"
-                            :class="
-                                totals.income > totals.spending
-                                    ? 'text-success'
-                                    : 'text-danger'
-                            "
+                            :class="colorClass(totals.income > totals.spending)"
                         >
                             <strong>{{
                                 numberFormat(totals.income - totals.spending)
@@ -134,11 +122,7 @@
                         </td>
                         <td
                             class="text-right"
-                            :class="
-                                totals.amount > 0
-                                    ? 'text-success'
-                                    : 'text-danger'
-                            "
+                            :class="colorClass(totals.amount > 0)"
                         >
                             <strong>{{ numberFormat(totals.amount) }}</strong>
                         </td>
@@ -183,11 +167,7 @@
                                     </td>
                                     <td
                                         class="text-right"
-                                        :class="
-                                            v.amount > 0
-                                                ? 'text-success'
-                                                : 'text-danger'
-                                        "
+                                        :class="colorClass(v.amount > 0)"
                                     >
                                         {{ numberFormat(v.amount) }}
                                     </td>
@@ -256,11 +236,7 @@
                                     </td>
                                     <td
                                         class="text-right"
-                                        :class="
-                                            v.amount > 0
-                                                ? 'text-success'
-                                                : 'text-danger'
-                                        "
+                                        :class="colorClass(v.amount > 0)"
                                     >
                                         {{ numberFormat(v.amount) }}
                                     </td>
@@ -321,11 +297,7 @@
                                     </td>
                                     <td
                                         class="text-right"
-                                        :class="
-                                            v.amount > 0
-                                                ? 'text-success'
-                                                : 'text-danger'
-                                        "
+                                        :class="colorClass(v.amount > 0)"
                                     >
                                         {{ numberFormat(v.amount) }}
                                     </td>
@@ -550,6 +522,9 @@ export default {
         this.fetchData();
     },
     methods: {
+        colorClass(value) {
+            return value > 0 ? "text-success" : "text-danger";
+        },
         can,
         async fetchData() {
             this.errorText = null;
