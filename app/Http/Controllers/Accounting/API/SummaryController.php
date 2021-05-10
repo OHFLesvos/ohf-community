@@ -71,6 +71,8 @@ class SummaryController extends Controller
         $categories = Category::queryByParent();
         $projects = Project::queryByParent();
 
+        $categories = $this->fillInRevenue($categories, $revenueByCategory);
+
         // $abc = collect($categories)
         //     ->map(function ($data, $id) use ($revenueByCategory) {
         //         $data['id'] = $id;
@@ -113,6 +115,17 @@ class SummaryController extends Controller
                 ? $this->revenueByField('secondary_category', $request)
                 : null,
         ];
+    }
+
+    private function fillInRevenue($items, $revenues)
+    {
+        // return collect($items)
+        //     ->map(function ($item) use ($revenues) {
+        //         $item['revenue'] = $revenues->firstWhere('id', $item['id'])['amount'] ?? 0;
+        //         $item['children'] = $this->fillInRevenue($item['children'], $revenues);
+        //         return $item;
+        //     })
+        //     ->toArray();
     }
 
     private function dateRange(Request $request)
