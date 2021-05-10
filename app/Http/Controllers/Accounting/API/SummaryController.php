@@ -64,16 +64,47 @@ class SummaryController extends Controller
 
         $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
         $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
+
+        $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
+        $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
+
+        $categories = Category::getNested();
+        $projects = Project::getNested();
+
+        $abc = collect($categories)
+            ->map(function ($data, $id) use ($revenueByCategory) {
+                $data['id'] = $id;
+                $data['revenue'] = $revenueByCategory->firstWhere('id', $id)['amount'] ?? 0;
+                return $data;
+            })
+            ->values()
+            ->toArray();
+        for ($x = 0; $x < count($abc); $x++) {
+            if ($abc[$x]['indentation'] > 0) {
+                $y = $x;
+                $i = $abc[$x]['indentation'];
+                while (--$y >= 0) {
+                    if ($abc[$y]['indentation'] == $i - 1) {
+                        $abc[$y]['revenue'] += $abc[$x]['revenue'];
+                        $i--;
+                    }
+                    if ($i == 0) {
+                        break;
+                    }
+                }
+            }
+        }
+
         return [
             'years' => Transaction::years(),
-            'categories' => collect(Category::getNested())
+            'categories' => collect($categories)
                 ->map(fn ($e, $id) =>  [
                     "id" => $id,
                     "name" => $e['name'],
                     "indentation" => $e['indentation'],
                 ])
                 ->values(),
-            'projects' => collect(Project::getNested())
+            'projects' => collect($projects)
                 ->map(fn ($e, $id) =>  [
                     "id" => $id,
                     "name" => $e['name'],
@@ -88,11 +119,12 @@ class SummaryController extends Controller
                 'fees' => $totals->sum('fees'),
                 'amount' => $wallets->sum('amount'),
             ],
-            'revenueByCategory' => $this->revenueByRelationField('category_id', 'category', $request),
-            'revenueByProject' => $this->revenueByRelationField('project_id', 'project', $request),
+            'revenueByCategory' => $revenueByCategory,
+            'revenueByProject' => $revenueByProject,
             'revenueBySecondaryCategory' => $useSecondaryCategories
                 ? $this->revenueByField('secondary_category', $request)
                 : null,
+            'abc' => $abc,
         ];
     }
 
@@ -134,7 +166,7 @@ class SummaryController extends Controller
         return Transaction::query()
             ->select($idField, 'wallet_id')
             ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as sum')
-            ->where(fn($q) => $this->filterQuery($request, $q))
+            ->where(fn ($q) => $this->filterQuery($request, $q))
             ->groupBy($idField)
             ->orderBy($idField)
             ->get()
@@ -154,7 +186,7 @@ class SummaryController extends Controller
         return Transaction::query()
             ->select($field, 'wallet_id')
             ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as sum')
-            ->where(fn($q) => $this->filterQuery($request, $q))
+            ->where(fn ($q) => $this->filterQuery($request, $q))
             ->groupBy($field)
             ->orderBy($field)
             ->get()
@@ -174,11 +206,11 @@ class SummaryController extends Controller
             ->selectRaw('SUM(IF(type = \'income\', amount, 0)) as income_sum')
             ->selectRaw('SUM(IF(type = \'spending\', amount, 0)) as spending_sum')
             ->selectRaw('SUM(fees) as fees_sum')
-            ->where(fn($q) => $this->filterQuery($request, $q))
+            ->where(fn ($q) => $this->filterQuery($request, $q))
             ->groupBy('wallet_id')
             ->get()
             ->when($request->user() != null, fn ($q) => $q->filter(fn ($e) => $request->user()->can('view', $e->wallet)))
-            ->mapWithKeys(fn($e) => [$e->wallet_id => [
+            ->mapWithKeys(fn ($e) => [$e->wallet_id => [
                 'income' => $e->income_sum,
                 'spending' => $e->spending_sum,
                 'fees' => $e->fees_sum,
