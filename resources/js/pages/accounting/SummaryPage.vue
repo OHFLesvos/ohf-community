@@ -9,10 +9,11 @@
             <div class="col-sm-8 col-md-9 col-lg-10 col-xl-auto">
                 <div class="form-row">
                     <div class="col-auto mb-2">
-                    <b-button
-                        variant="secondary"
-                        @click="setToCurrentMonth()"
-                        ><font-awesome-icon icon="calendar-alt" /></b-button>
+                        <b-button
+                            variant="secondary"
+                            @click="setToCurrentMonth()"
+                            ><font-awesome-icon icon="calendar-alt"
+                        /></b-button>
                     </div>
                     <div class="col-auto mb-2">
                         <b-select
@@ -284,7 +285,7 @@ export default {
             arr.push(
                 ...this.projects.map(e => ({
                     value: e.id,
-                    text: e.label.replaceAll("&nbsp;", "-")
+                    text: "-".repeat(2 * e.indentation) + ' ' + e.name
                 }))
             );
             return arr;

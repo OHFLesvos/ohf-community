@@ -114,10 +114,10 @@ class TransactionsController extends Controller
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
             'attendees' => Transaction::attendees(),
-            'categories' => Category::getNested(),
+            'categories' => self::addLevelIndentation(Category::getNested()),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => Project::getNested(),
+            'projects' => self::addLevelIndentation(Project::getNested()),
             'locations' => self::useLocations() ? self::getLocations(true) : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters(true) : null,
@@ -132,6 +132,13 @@ class TransactionsController extends Controller
                 ->orderBy('name')
                 ->get() : [],
         ]);
+    }
+
+    private static function addLevelIndentation(array $items): array
+    {
+        return collect($items)
+            ->map(fn($e) => str_repeat("&nbsp;", 4 * $e['indentation']) . $e['name'])
+            ->toArray();
     }
 
     private static function createIndexQuery(Wallet $wallet, array $filter, string $sortColumn, string $sortOrder)
@@ -149,10 +156,10 @@ class TransactionsController extends Controller
 
         return view('accounting.transactions.create', [
             'attendees' => Transaction::attendees(),
-            'categories' => Category::getNested(null, 0, true),
+            'categories' => self::addLevelIndentation(Category::getNested(null, 0, true)),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => Project::getNested(null, 0, true),
+            'projects' => self::addLevelIndentation(Project::getNested(null, 0, true)),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
@@ -294,10 +301,10 @@ class TransactionsController extends Controller
         return view('accounting.transactions.edit', [
             'transaction' => $transaction,
             'attendees' => Transaction::attendees(),
-            'categories' => Category::getNested(),
+            'categories' => self::addLevelIndentation(Category::getNested()),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => Project::getNested(),
+            'projects' => self::addLevelIndentation(Project::getNested()),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,

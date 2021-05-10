@@ -67,15 +67,17 @@ class SummaryController extends Controller
         return [
             'years' => Transaction::years(),
             'categories' => collect(Category::getNested())
-                ->map(fn ($label, $id) =>  [
+                ->map(fn ($e, $id) =>  [
                     "id" => $id,
-                    "label" => $label,
+                    "name" => $e['name'],
+                    "indentation" => $e['indentation'],
                 ])
                 ->values(),
             'projects' => collect(Project::getNested())
-                ->map(fn ($label, $id) =>  [
+                ->map(fn ($e, $id) =>  [
                     "id" => $id,
-                    "label" => $label,
+                    "name" => $e['name'],
+                    "indentation" => $e['indentation'],
                 ])
                 ->values(),
             'locations' => $useLocations ? Transaction::locations() : [],

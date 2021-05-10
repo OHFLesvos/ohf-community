@@ -91,7 +91,10 @@ class Project extends Model
             ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
             ->get();
         foreach($items as $item) {
-            $results[$item['id']] = str_repeat("&nbsp;", 4 * $level) . $item['name'];
+            $results[$item['id']] = [
+                'name' => $item['name'],
+                'indentation' => $level,
+            ];
             $children = self::getNested($item['id'], $level + 1, $enabledOnly);
             foreach ($children as $k => $v) {
                 $results[$k] = $v;
