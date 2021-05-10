@@ -107,21 +107,15 @@ class CategoriesController extends Controller
             ],
         ]);
 
-        return $this->queryByParent(null, $request->input('exclude'));
+        return $this->addCanUpdate(Category::queryByParent(null, $request->input('exclude')));
     }
 
-    private function queryByParent(?int $parent = null, ?int $exclude = null)
+    private function addCanUpdate($items)
     {
-        return Category::query()
-            ->select('id', 'name', 'description', 'enabled')
-            ->orderBy('name', 'asc')
-            ->when($exclude !== null, fn ($q) => $q->where('id', '!=', $exclude))
-            ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
-            ->get()
-            ->map(function ($e) use ($exclude) {
-                $e['children'] = $this->queryByParent($e['id'], $exclude);
-                $e['can_update'] = request()->user()->can('update', $e);
-                return $e;
-            });
+        return $items->map(function ($e) {
+            $e['can_update'] = request()->user()->can('update', $e);
+            $e['children'] = $this->addCanUpdate($e['children']);
+            return $e;
+        });
     }
 }

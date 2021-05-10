@@ -102,4 +102,18 @@ class Project extends Model
         }
         return $results;
     }
+
+    public static function queryByParent(?int $parent = null, ?int $exclude = null)
+    {
+        return self::query()
+            ->select('id', 'name', 'description', 'enabled')
+            ->orderBy('name', 'asc')
+            ->when($exclude !== null, fn ($q) => $q->where('id', '!=', $exclude))
+            ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
+            ->get()
+            ->map(function ($e) use ($exclude) {
+                $e['children'] = self::queryByParent($e['id'], $exclude);
+                return $e;
+            });
+    }
 }
