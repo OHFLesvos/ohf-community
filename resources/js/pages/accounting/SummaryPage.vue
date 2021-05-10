@@ -282,12 +282,9 @@ export default {
                     text: `- ${this.$t("All projects")} -`
                 }
             ];
-            arr.push(
-                ...this.projects.map(e => ({
-                    value: e.id,
-                    text: "-".repeat(2 * e.indentation) + ' ' + e.name
-                }))
-            );
+            for (let elem of this.projects) {
+                this.fillTree(arr, elem);
+            }
             return arr;
         },
         locationOptions() {
@@ -351,6 +348,20 @@ export default {
         this.fetchData();
     },
     methods: {
+        fillTree(tree, elem, level = 0) {
+            let text = "";
+            if (level > 0) {
+                text += "&nbsp;".repeat(level * 5);
+            }
+            text += elem.name;
+            tree.push({
+                html: text,
+                value: elem.id
+            });
+            for (let child of elem.children) {
+                this.fillTree(tree, child, level + 1);
+            }
+        },
         setToCurrentMonth() {
             const now = moment();
             this.year = now.year();

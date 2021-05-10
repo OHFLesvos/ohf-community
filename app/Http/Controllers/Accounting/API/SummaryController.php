@@ -68,49 +68,37 @@ class SummaryController extends Controller
         $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
         $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
 
-        $categories = Category::getNested();
-        $projects = Project::getNested();
+        $categories = Category::queryByParent();
+        $projects = Project::queryByParent();
 
-        $abc = collect($categories)
-            ->map(function ($data, $id) use ($revenueByCategory) {
-                $data['id'] = $id;
-                $data['revenue'] = $revenueByCategory->firstWhere('id', $id)['amount'] ?? 0;
-                return $data;
-            })
-            ->values()
-            ->toArray();
-        for ($x = 0; $x < count($abc); $x++) {
-            if ($abc[$x]['indentation'] > 0) {
-                $y = $x;
-                $i = $abc[$x]['indentation'];
-                while (--$y >= 0) {
-                    if ($abc[$y]['indentation'] == $i - 1) {
-                        $abc[$y]['revenue'] += $abc[$x]['revenue'];
-                        $i--;
-                    }
-                    if ($i == 0) {
-                        break;
-                    }
-                }
-            }
-        }
+        // $abc = collect($categories)
+        //     ->map(function ($data, $id) use ($revenueByCategory) {
+        //         $data['id'] = $id;
+        //         $data['revenue'] = $revenueByCategory->firstWhere('id', $id)['amount'] ?? 0;
+        //         return $data;
+        //     })
+        //     ->values()
+        //     ->toArray();
+        // for ($x = 0; $x < count($abc); $x++) {
+        //     if ($abc[$x]['indentation'] > 0) {
+        //         $y = $x;
+        //         $i = $abc[$x]['indentation'];
+        //         while (--$y >= 0) {
+        //             if ($abc[$y]['indentation'] == $i - 1) {
+        //                 $abc[$y]['revenue'] += $abc[$x]['revenue'];
+        //                 $i--;
+        //             }
+        //             if ($i == 0) {
+        //                 break;
+        //             }
+        //         }
+        //     }
+        // }
 
         return [
             'years' => Transaction::years(),
-            'categories' => collect($categories)
-                ->map(fn ($e, $id) =>  [
-                    "id" => $id,
-                    "name" => $e['name'],
-                    "indentation" => $e['indentation'],
-                ])
-                ->values(),
-            'projects' => collect($projects)
-                ->map(fn ($e, $id) =>  [
-                    "id" => $id,
-                    "name" => $e['name'],
-                    "indentation" => $e['indentation'],
-                ])
-                ->values(),
+            'categories' => $categories,
+            'projects' => $projects,
             'locations' => $useLocations ? Transaction::locations() : [],
             'wallets' => $wallets,
             'totals' => [
@@ -124,7 +112,6 @@ class SummaryController extends Controller
             'revenueBySecondaryCategory' => $useSecondaryCategories
                 ? $this->revenueByField('secondary_category', $request)
                 : null,
-            'abc' => $abc,
         ];
     }
 

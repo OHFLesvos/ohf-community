@@ -81,7 +81,7 @@ class Category extends Model
         return $elements;
     }
 
-    public static function getNested(?int $parent = null, int $level = 0, bool $enabledOnly = false): array
+    public static function getNested(?int $parent = null, int $indentation = 0, bool $enabledOnly = false): array
     {
         $results = [];
         $items = self::query()
@@ -93,9 +93,9 @@ class Category extends Model
         foreach($items as $item) {
             $results[$item['id']] = [
                 'name' => $item['name'],
-                'indentation' => $level,
+                'indentation' => $indentation,
             ];
-            $children = self::getNested($item['id'], $level + 1, $enabledOnly);
+            $children = self::getNested($item['id'], $indentation + 1, $enabledOnly);
             foreach ($children as $k => $v) {
                 $results[$k] = $v;
             }
