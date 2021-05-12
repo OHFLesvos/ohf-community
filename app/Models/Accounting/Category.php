@@ -103,7 +103,7 @@ class Category extends Model
         return $results;
     }
 
-    public static function queryByParent(?int $parent = null, ?int $exclude = null)
+    public static function queryByParent(?int $parent = null, ?int $exclude = null): Collection
     {
         return self::query()
             ->select('id', 'name', 'description', 'enabled')

@@ -401,12 +401,14 @@ export default {
                 this.wallets = data.wallets;
                 this.totals = data.totals;
                 this.projects = data.projects;
+                this.categories = data.categories;
                 this.locations = data.locations;
 
-                this.revenueByCategory = data.revenueByCategory;
+                // this.revenueByCategory = data.revenueByCategory;
+
                 this.revenueBySecondaryCategory =
                     data.revenueBySecondaryCategory;
-                this.revenueByProject = data.revenueByProject;
+                // this.revenueByProject = data.revenueByProject;
 
                 this.isBusy = false;
             } catch (err) {

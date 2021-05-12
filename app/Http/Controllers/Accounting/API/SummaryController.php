@@ -65,37 +65,14 @@ class SummaryController extends Controller
         $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
         $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
 
-        $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
-        $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
-
         $categories = Category::queryByParent();
         $projects = Project::queryByParent();
 
-        $categories = $this->fillInRevenue($categories, $revenueByCategory);
+        $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
+        $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
 
-        // $abc = collect($categories)
-        //     ->map(function ($data, $id) use ($revenueByCategory) {
-        //         $data['id'] = $id;
-        //         $data['revenue'] = $revenueByCategory->firstWhere('id', $id)['amount'] ?? 0;
-        //         return $data;
-        //     })
-        //     ->values()
-        //     ->toArray();
-        // for ($x = 0; $x < count($abc); $x++) {
-        //     if ($abc[$x]['indentation'] > 0) {
-        //         $y = $x;
-        //         $i = $abc[$x]['indentation'];
-        //         while (--$y >= 0) {
-        //             if ($abc[$y]['indentation'] == $i - 1) {
-        //                 $abc[$y]['revenue'] += $abc[$x]['revenue'];
-        //                 $i--;
-        //             }
-        //             if ($i == 0) {
-        //                 break;
-        //             }
-        //         }
-        //     }
-        // }
+        $this->fillInRevenue($categories, $revenueByCategory);
+        $this->fillInRevenue($projects, $revenueByProject);
 
         return [
             'years' => Transaction::years(),
@@ -117,15 +94,16 @@ class SummaryController extends Controller
         ];
     }
 
-    private function fillInRevenue($items, $revenues)
+    private function fillInRevenue(Collection $items, Collection $revenues): float
     {
-        // return collect($items)
-        //     ->map(function ($item) use ($revenues) {
-        //         $item['revenue'] = $revenues->firstWhere('id', $item['id'])['amount'] ?? 0;
-        //         $item['children'] = $this->fillInRevenue($item['children'], $revenues);
-        //         return $item;
-        //     })
-        //     ->toArray();
+        $total = 0;
+        foreach ($items as &$item) {
+            $childRevenue = $this->fillInRevenue($item['children'], $revenues);
+            $item['revenue'] = $revenues->get($item['id'], 0) + $childRevenue;
+            $item['total_revenue'] = $item['revenue'] + $childRevenue;
+            $total += $item['total_revenue'];
+        }
+        return $total;
     }
 
     private function dateRange(Request $request)
@@ -156,7 +134,9 @@ class SummaryController extends Controller
             $query->where('location', '=', $request->location);
         }
 
-        $query->when($request->wallet != null, fn ($q) => $q->where('wallet_id', $request->wallet));
+        if ($request->filled('wallet')) {
+            $query->where('wallet_id', $request->wallet);
+        }
 
         return $query;
     }
@@ -171,14 +151,7 @@ class SummaryController extends Controller
             ->orderBy($idField)
             ->get()
             ->when($request->user() != null, fn ($q) => $q->filter(fn ($e) => $request->user()->can('view', $e->wallet)))
-            ->map(fn ($e) => [
-                'id' => $e->$idField,
-                'name' => optional($e->$relationField)->name,
-                'amount' => $e->sum,
-                'wallet_id' =>  $request->wallet != null ? $e->wallet_id : null,
-            ])
-            ->sortBy('name')
-            ->values();
+            ->pluck('sum', $idField);
     }
 
     private function revenueByField(string $field, Request $request): Collection
