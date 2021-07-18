@@ -24,13 +24,13 @@
                             :disabled="isBusy"
                         />
                     </div>
-                    <!-- <div v-if="locations.length > 0" class="col-auto mb-2">
+                    <div v-if="useLocations && allLocations.length" class="col-auto mb-2">
                         <b-select
                             v-model="location"
                             :options="locationOptions"
                             :disabled="isBusy"
                         />
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="col-sm-8 col-md-9 col-lg-10 col-xl-auto">
@@ -176,6 +176,7 @@
 import moment from "moment";
 import summaryApi from "@/api/accounting/summary";
 import walletsApi from "@/api/accounting/wallets";
+import transactionsApi from "@/api/accounting/transactions";
 import projectsApi from "@/api/accounting/projects";
 import numeral from "numeral";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
@@ -203,7 +204,10 @@ export default {
             wallet: this.$route.query.wallet ?? null,
             allProjects: [],
             project: this.$route.query.project ?? null,
-            // location: this.$route.query.location ?? null,
+
+            useLocations: false,
+            allLocations: [],
+            location: this.$route.query.location ?? null,
 
             isLoaded: false,
             isBusy: false,
@@ -324,21 +328,21 @@ export default {
             }
             return arr;
         },
-        // locationOptions() {
-        //     let arr = [
-        //         {
-        //             value: null,
-        //             text: `- ${this.$t("All locations")} -`
-        //         }
-        //     ];
-        //     arr.push(
-        //         ...this.locations.map(e => ({
-        //             value: e,
-        //             text: e
-        //         }))
-        //     );
-        //     return arr;
-        // },
+        locationOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("All locations")} -`
+                }
+            ];
+            arr.push(
+                ...this.allLocations.map(e => ({
+                    value: e,
+                    text: e
+                }))
+            );
+            return arr;
+        },
         filterDateStart() {
             if (this.year != null && this.month != null) {
                 return moment(`${this.year}-${this.month + 1}`, "YYYY-M")
@@ -377,13 +381,14 @@ export default {
         project(val) {
             this.fetchData();
         },
-        // location(val) {
-        //     this.fetchData();
-        // }
+        location(val) {
+            this.fetchData();
+        }
     },
     async created() {
         this.allWallets = (await walletsApi.list()).data;
         this.allProjects = (await projectsApi.tree());
+        this.allLocations = (await transactionsApi.locations());
 
         await this.fetchData();
         this.isLoaded = true;
@@ -421,7 +426,7 @@ export default {
                         year: this.year || undefined,
                         wallet: this.wallet || undefined,
                         project: this.project || undefined,
-                        // location: this.location || undefined
+                        location: this.location || undefined
                     }
                 },
                 () => {}
@@ -435,7 +440,7 @@ export default {
                     month: this.month !== null ? this.month + 1 : undefined,
                     wallet: this.wallet,
                     project: this.project,
-                    // location: this.location
+                    location: this.location
                 });
 
                 this.years = data.years;
@@ -448,6 +453,8 @@ export default {
 
                 this.secondCategories = data.second_categories;
                 this.locations = data.locations;
+
+                this.useLocations = data.use_locations;
 
                 this.isBusy = false;
             } catch (err) {

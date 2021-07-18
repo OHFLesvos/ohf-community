@@ -30,4 +30,9 @@ class TransactionsController extends Controller
 
         return response(null, 204);
     }
+
+    public function locations()
+    {
+        return Transaction::locations();
+    }
 }

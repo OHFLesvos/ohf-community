@@ -100,6 +100,7 @@ class SummaryController extends Controller
             'second_categories' => $useSecondaryCategories
                 ? $this->revenueByField('secondary_category', $request)
                 : null,
+            'use_locations' => $useLocations
         ];
     }
 

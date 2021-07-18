@@ -215,6 +215,8 @@ Route::middleware(['language', 'auth'])
 
         Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
+        Route::get('transactions/locations', [TransactionsController::class, 'locations'])
+            ->name('transactions.locations');
 
         Route::get('transactions/{transaction}/controlled', [ControllingController::class, 'controlled'])
             ->name('transactions.controlled');
