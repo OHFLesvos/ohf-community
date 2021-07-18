@@ -26,7 +26,8 @@ export default [
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
                     }
-                ]
+                ],
+                container: true,
             }
         }
     },
