@@ -40,7 +40,7 @@ class ImportExportController extends BaseController
     {
         // File extension => Label
         return [
-            'xlsx' => __('Excel (.xsls)'),
+            'xlsx' => __('Excel (.xlsx)'),
             'csv' => __('Comma-separated values (.csv)'),
             'pdf' => __('PDF (.pdf)'),
         ];

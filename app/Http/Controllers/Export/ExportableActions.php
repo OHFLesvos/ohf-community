@@ -17,7 +17,7 @@ trait ExportableActions
     private static function getFormats()
     {
         return [
-            'xlsx' => __('Excel (.xsls)'),
+            'xlsx' => __('Excel (.xlsx)'),
             'csv' => __('Comma-separated values (.csv)'),
             'tsv' => __('Tab-separated values (.tsv)'),
             'pdf' => __('PDF (.pdf)'),

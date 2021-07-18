@@ -15,5 +15,13 @@
     "namespaceResolver.sortAlphabetically": true,
     "files.watcherExclude": {
         "**/vendor/**": true
-    }
+    },
+    "cSpell.words": [
+        "iban",
+        "laravel",
+        "mbstring",
+        "symlink",
+        "webling",
+        "xampp"
+    ]
 }
