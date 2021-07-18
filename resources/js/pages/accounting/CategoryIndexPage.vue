@@ -7,9 +7,12 @@
             class="mb-4"
             @itemClick="navigateToEdit"
         />
-        <b-alert v-else variant="info" show>{{
+        <b-alert v-else-if="loaded" variant="info" show>{{
             $t("No entries registered.")
         }}</b-alert>
+        <template v-else>
+            {{ $t('Loading...') }}
+        </template>
     </b-container>
 </template>
 
@@ -25,7 +28,8 @@ export default {
     data() {
         return {
             tree: [],
-            errorText: null
+            errorText: null,
+            loaded: false,
         };
     },
     mounted() {
@@ -36,6 +40,7 @@ export default {
             this.errorText = null;
             try {
                 this.tree = await categoriesApi.tree();
+                this.loaded = true;
             } catch (err) {
                 this.errorText = err;
             }
