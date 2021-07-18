@@ -9,11 +9,13 @@
             <div class="col-sm">
                 <div class="form-row">
                     <div class="col-auto mb-2">
-                        <b-select
-                            v-model="wallet"
-                            :options="walletOptions"
-                            :disabled="isBusy"
-                        />
+                        <b-input-group :prepend="$t('Wallet')">
+                            <b-select
+                                v-model="wallet"
+                                :options="walletOptions"
+                                :disabled="isBusy"
+                            />
+                        </b-input-group>
                     </div>
                     <!-- <div v-if="projects.length > 0" class="col-auto mb-2">
                         <b-select
@@ -72,7 +74,9 @@
                     v-if="can('can-view-transactions')"
                     :href="
                         route('accounting.transactions.index', {
-                            wallet: data.item.id
+                            wallet: data.item.id,
+                            'filter[date_start]': filterDateStart,
+                            'filter[date_end]': filterDateEnd
                         })
                     "
                 >
@@ -108,46 +112,62 @@
             </template>
         </b-table>
 
-        <b-row v-if="!isBusy && isLoaded">
-            <!-- Revenue by categories -->
-            <b-col md>
-                <SummaryList
-                    :items="categories"
-                    :title="$t('Categories')"
-                    paramName="category_id"
-                    :wallet="wallet"
-                    :filterDateStart="filterDateStart"
-                    :filterDateEnd="filterDateEnd"
-                    flatten-children
-                />
-            </b-col>
-            <!-- Revenue by project -->
-            <b-col md>
-                <SummaryList
-                    :items="projects"
-                    :title="$t('Projects')"
-                    paramName="project_id"
-                    :noNameLabel="$t('No project')"
-                    :wallet="wallet"
-                    :filterDateStart="filterDateStart"
-                    :filterDateEnd="filterDateEnd"
-                    flatten-children
-                />
-            </b-col>
-        </b-row>
+        <template v-if="!isBusy && isLoaded">
+            <b-row>
+                <!-- Revenue by categories -->
+                <b-col md>
+                    <SummaryList
+                        :items="categories"
+                        :title="$t('Categories')"
+                        paramName="category_id"
+                        :wallet="wallet"
+                        :filterDateStart="filterDateStart"
+                        :filterDateEnd="filterDateEnd"
+                        flatten-children
+                    />
+                </b-col>
+                <!-- Revenue by project -->
+                <b-col md>
+                    <SummaryList
+                        :items="projects"
+                        :title="$t('Projects')"
+                        paramName="project_id"
+                        :noNameLabel="$t('No project')"
+                        :wallet="wallet"
+                        :filterDateStart="filterDateStart"
+                        :filterDateEnd="filterDateEnd"
+                        flatten-children
+                    />
+                </b-col>
+            </b-row>
+            <b-row>
+                <!-- Revenue by secondary category -->
+                <b-col v-if="secondCategories" md>
+                    <SummaryList
+                        :items="secondCategories"
+                        :title="$t('Secondary Categories')"
+                        paramName="secondary_category"
+                        :noNameLabel="$t('No secondary sategory')"
+                        :wallet="wallet"
+                        :filterDateStart="filterDateStart"
+                        :filterDateEnd="filterDateEnd"
+                    />
+                </b-col>
+                <!-- Revenue by location -->
+                <b-col v-if="locations" md>
+                    <SummaryList
+                        :items="locations"
+                        :title="$t('Locations')"
+                        paramName="location"
+                        :noNameLabel="$t('No location')"
+                        :wallet="wallet"
+                        :filterDateStart="filterDateStart"
+                        :filterDateEnd="filterDateEnd"
+                    />
+                </b-col>
+            </b-row>
+        </template>
 
-            <!-- Revenue by secondary category -->
-            <!-- <b-col v-if="revenueBySecondaryCategory" md>
-                <SummaryList
-                    :items="revenueBySecondaryCategory"
-                    :title="$t('Secondary Categories')"
-                    paramName="secondary_category"
-                    :noNameLabel="$t('No Secondary Category')"
-                    :wallet="wallet"
-                    :filterDateStart="filterDateStart"
-                    :filterDateEnd="filterDateEnd"
-                />
-            </b-col> -->
 
     </div>
 </template>
@@ -175,7 +195,8 @@ export default {
             totals: {},
             categories: [],
             projects: [],
-            // locations: [],
+            secondCategories: [],
+            locations: [],
 
             allWallets: [],
             wallet: this.$route.query.wallet ?? null,
@@ -354,7 +375,7 @@ export default {
         },
         wallet(val) {
             this.fetchData();
-        },
+        }
         // project(val) {
         //     this.fetchData();
         // },
@@ -363,7 +384,7 @@ export default {
         // }
     },
     async created() {
-        this.allWallets = (await walletsApi.list()).data
+        this.allWallets = (await walletsApi.list()).data;
         await this.fetchData();
         this.isLoaded = true;
     },
@@ -398,7 +419,7 @@ export default {
                         ...this.$route.query,
                         month: this.month !== null ? this.month + 1 : undefined,
                         year: this.year || undefined,
-                        wallet: this.wallet || undefined,
+                        wallet: this.wallet || undefined
                         // project: this.project || undefined,
                         // location: this.location || undefined
                     }
@@ -412,7 +433,7 @@ export default {
                 let data = await summaryApi.list({
                     year: this.year,
                     month: this.month !== null ? this.month + 1 : undefined,
-                    wallet: this.wallet,
+                    wallet: this.wallet
                     // project: this.project,
                     // location: this.location
                 });
@@ -424,6 +445,9 @@ export default {
 
                 this.projects = data.projects;
                 this.categories = data.categories;
+
+                this.secondCategories = data.second_categories;
+                this.locations = data.locations;
 
                 this.isBusy = false;
             } catch (err) {

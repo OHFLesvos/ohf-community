@@ -44,6 +44,10 @@ class SummaryController extends Controller
                 'nullable',
                 'exists:accounting_projects,id'
             ],
+            'secondary_category' => [
+                'nullable',
+                'exists:accounting_transactions,secondary_category'
+            ],
             'location' => [
                 'nullable',
                 'exists:accounting_transactions,location'
@@ -76,8 +80,8 @@ class SummaryController extends Controller
         $this->fillInRevenue($projects, $revenueByProject);
         $projects = $this->removeZeroRevenueItems($projects);
 
-        // $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
-        // $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
+        $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
+        $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
 
         return [
             'years' => Transaction::years(),
@@ -90,10 +94,12 @@ class SummaryController extends Controller
                 'fees' => $totals->sum('fees'),
                 'amount' => $wallets->sum('amount'),
             ],
-            // 'locations' => $useLocations ? Transaction::locations() : [],
-            // 'revenueBySecondaryCategory' => $useSecondaryCategories
-            //     ? $this->revenueByField('secondary_category', $request)
-            //     : null,
+            'locations' => $useLocations
+                ? $this->revenueByField('location', $request)
+                : null,
+            'second_categories' => $useSecondaryCategories
+                ? $this->revenueByField('secondary_category', $request)
+                : null,
         ];
     }
 
@@ -173,6 +179,10 @@ class SummaryController extends Controller
 
         if ($request->filled('location')) {
             $query->where('location', '=', $request->location);
+        }
+
+        if ($request->filled('secondary_category')) {
+            $query->where('secondary_category', '=', $request->secondary_category);
         }
 
         return $query;

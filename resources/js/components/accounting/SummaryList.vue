@@ -14,7 +14,7 @@
                                     :href="
                                         route('accounting.transactions.index', {
                                             wallet,
-                                            [`filter[${paramName}]`]: v.id,
+                                            [`filter[${paramName}]`]: v.id ? v.id : v.name,
                                             'filter[date_start]': filterDateStart,
                                             'filter[date_end]': filterDateEnd
                                         })
