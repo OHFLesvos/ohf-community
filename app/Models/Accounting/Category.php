@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounting;
 
+use App\Models\Fundraising\Donation;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,11 @@ class Category extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
     }
 
     public function parent()

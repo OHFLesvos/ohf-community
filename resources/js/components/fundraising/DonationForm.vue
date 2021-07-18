@@ -1,12 +1,7 @@
 <template>
-    <validation-observer
-        ref="observer"
-        v-slot="{ handleSubmit, invalid }"
-        slim
-    >
+    <validation-observer ref="observer" v-slot="{ handleSubmit, invalid }" slim>
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
             <b-form-row>
-
                 <!-- Date -->
                 <b-col md>
                     <validation-provider
@@ -81,10 +76,7 @@
                 </b-col>
 
                 <!-- Exchange rate -->
-                <b-col
-                    v-if="form.currency != baseCurrency"
-                    md
-                >
+                <b-col v-if="form.currency != baseCurrency" md>
                     <validation-provider
                         :name="$t('Exchange rate')"
                         vid="exchange_rate"
@@ -93,7 +85,9 @@
                     >
                         <b-form-group
                             :label="$t('Exchange rate')"
-                            :description="$t('Leave empty for automatic calculation')"
+                            :description="
+                                $t('Leave empty for automatic calculation')
+                            "
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -108,10 +102,8 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-
             </b-form-row>
             <b-form-row>
-
                 <!-- Channel -->
                 <b-col md="4">
                     <validation-provider
@@ -145,7 +137,7 @@
                     <validation-provider
                         :name="$t('Purpose')"
                         vid="purpose"
-                        :rules="{ }"
+                        :rules="{}"
                         v-slot="validationContext"
                     >
                         <b-form-group
@@ -161,15 +153,35 @@
                     </validation-provider>
                 </b-col>
 
+                <!-- Accounting category -->
+                <b-col md>
+                    <validation-provider
+                        :name="$t('Accounting category')"
+                        vid="accounting_category_id"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Accounting category')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.accounting_category_id"
+                                :options="categoryTree"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
             </b-form-row>
             <b-form-row>
-
                 <!-- Reference -->
                 <b-col md="4">
                     <validation-provider
                         :name="$t('Reference')"
                         vid="reference"
-                        :rules="{ }"
+                        :rules="{}"
                         v-slot="validationContext"
                     >
                         <b-form-group
@@ -191,7 +203,7 @@
                     <validation-provider
                         :name="$t('In the name of')"
                         vid="in_name_of"
-                        :rules="{ }"
+                        :rules="{}"
                         v-slot="validationContext"
                     >
                         <b-form-group
@@ -207,14 +219,11 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-
             </b-form-row>
 
             <p>
-                <b-form-checkbox
-                    v-model="form.thanked"
-                >
-                    {{ $t('Donor has been thanked') }}
+                <b-form-checkbox v-model="form.thanked">
+                    {{ $t("Donor has been thanked") }}
                 </b-form-checkbox>
             </p>
 
@@ -227,7 +236,7 @@
                         :disabled="disabled || invalid"
                     >
                         <font-awesome-icon icon="check" />
-                        {{ donation ? $t('Update') : $t('Add') }}
+                        {{ donation ? $t("Update") : $t("Add") }}
                     </b-button>
 
                     <!-- Cancel -->
@@ -236,7 +245,7 @@
                         :disabled="disabled"
                         @click="$emit('cancel')"
                     >
-                        {{ $t('Cancel') }}
+                        {{ $t("Cancel") }}
                     </b-button>
                 </span>
 
@@ -248,16 +257,16 @@
                     class="text-danger"
                     @click="onDelete"
                 >
-                    {{ $t('Delete') }}
+                    {{ $t("Delete") }}
                 </b-button>
-
             </p>
         </b-form>
     </validation-observer>
 </template>
 
 <script>
-import moment from 'moment'
+import moment from "moment";
+import categoriesApi from "@/api/accounting/categories";
 export default {
     props: {
         donation: {
@@ -277,56 +286,93 @@ export default {
         },
         disabled: Boolean
     },
-    data () {
+    data() {
         return {
-            form: this.donation ? {
-                    date: this.donation.date,
-                    currency: this.donation.currency,
-                    amount: this.donation.amount,
-                    exchange_rate: this.donation.exchange_rate,
-                    channel: this.donation.channel,
-                    purpose: this.donation.purpose,
-                    reference: this.donation.reference,
-                    in_name_of: this.donation.in_name_of,
-                    thanked: this.donation.thanked != null
-                } : {
-                    date: moment().format(moment.HTML5_FMT.DATE),
-                    currency: this.baseCurrency,
-                    amount: null,
-                    exchange_rate: null,
-                    channel: null,
-                    purpose: null,
-                    reference: null,
-                    in_name_of: null,
-                    thanked: false
-            },
-        }
+            form: this.donation
+                ? {
+                      date: this.donation.date,
+                      currency: this.donation.currency,
+                      amount: this.donation.amount,
+                      exchange_rate: this.donation.exchange_rate,
+                      channel: this.donation.channel,
+                      purpose: this.donation.purpose,
+                      reference: this.donation.reference,
+                      in_name_of: this.donation.in_name_of,
+                      thanked: this.donation.thanked != null,
+                      accounting_category_id: this.donation
+                          .accounting_category_id
+                  }
+                : {
+                      date: moment().format(moment.HTML5_FMT.DATE),
+                      currency: this.baseCurrency,
+                      amount: null,
+                      exchange_rate: null,
+                      channel: null,
+                      purpose: null,
+                      reference: null,
+                      in_name_of: null,
+                      thanked: false,
+                      accounting_category_id: null
+                  },
+            categoryTree: []
+        };
     },
     computed: {
-        maxDate () {
-            return moment().format(moment.HTML5_FMT.DATE)
+        maxDate() {
+            return moment().format(moment.HTML5_FMT.DATE);
         },
-        currencyOptions () {
+        currencyOptions() {
             return Object.entries(this.currencies).map(function(e) {
                 return {
-                   value: e[0],
-                   text: e[1]
-                }
-            })
+                    value: e[0],
+                    text: e[1]
+                };
+            });
         }
     },
+    async created() {
+        await this.fetchTree();
+    },
     methods: {
-        getValidationState ({ dirty, validated, valid = null }) {
+        getValidationState({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
-        onSubmit () {
-            this.$emit('submit', this.form)
+        onSubmit() {
+            this.$emit("submit", this.form);
         },
-        onDelete () {
-            if (confirm(this.$t('Do you really want to delete this donation?'))) {
-                this.$emit('delete')
+        onDelete() {
+            if (
+                confirm(this.$t("Do you really want to delete this donation?"))
+            ) {
+                this.$emit("delete");
+            }
+        },
+        async fetchTree() {
+            let data = await categoriesApi.tree();
+            this.categoryTree = [
+                {
+                    text: " ",
+                    value: null
+                }
+            ];
+            for (let elem of data) {
+                this.fillTree(this.categoryTree, elem);
+            }
+        },
+        fillTree(tree, elem, level = 0) {
+            let text = "";
+            if (level > 0) {
+                text += "&nbsp;".repeat(level * 5);
+            }
+            text += elem.name;
+            tree.push({
+                html: text,
+                value: elem.id
+            });
+            for (let child of elem.children) {
+                this.fillTree(tree, child, level + 1);
             }
         }
     }
-}
+};
 </script>

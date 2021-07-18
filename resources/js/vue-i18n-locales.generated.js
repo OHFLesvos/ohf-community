@@ -738,6 +738,7 @@ export default {
         "Used in {num} transactions.": "Wird in {num} Transaktionen verwendet.",
         "Balance": "Bilanz",
         "No entries registered.": "Keine Einträge registriert.",
+        "Accounting category": "Buchhaltungskategorie",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
