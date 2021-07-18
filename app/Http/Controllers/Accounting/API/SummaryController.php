@@ -36,6 +36,10 @@ class SummaryController extends Controller
                 'nullable',
                 'exists:accounting_wallets,id'
             ],
+            'category' => [
+                'nullable',
+                'exists:accounting_categories,id'
+            ],
             'project' => [
                 'nullable',
                 'exists:accounting_projects,id'
@@ -49,36 +53,36 @@ class SummaryController extends Controller
         [$dateFrom, $dateTo] = $this->dateRange($request);
 
         $totals = $this->totals($request);
-
         $wallets = Wallet::orderBy('name')
             ->get()
             ->filter(fn ($wallet) => request()->user()->can('view', $wallet))
             ->map(fn ($wallet) => [
                 'id' => $wallet->id,
                 'name' => $wallet->name,
-                'income' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['income'] : 0,
-                'spending' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['spending'] : 0,
-                'fees' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['fees'] : 0,
+                'income' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['income'] ?? 0 : 0,
+                'spending' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['spending'] ?? 0 : 0,
+                'fees' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['fees'] ?? 0 : 0,
                 'amount' => $wallet->calculatedSum($dateTo),
             ]);
 
-        $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
-        $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
 
-        $categories = Category::queryByParent();
-        $projects = Project::queryByParent();
+        // $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
+        // $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
 
-        $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
-        $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
+        // $categories = Category::queryByParent();
+        // $projects = Project::queryByParent();
 
-        $this->fillInRevenue($categories, $revenueByCategory);
-        $this->fillInRevenue($projects, $revenueByProject);
+        // $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
+        // $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
+
+        // $this->fillInRevenue($categories, $revenueByCategory);
+        // $this->fillInRevenue($projects, $revenueByProject);
 
         return [
             'years' => Transaction::years(),
-            'categories' => $categories,
-            'projects' => $projects,
-            'locations' => $useLocations ? Transaction::locations() : [],
+            // 'categories' => $categories,
+            // 'projects' => $projects,
+            // 'locations' => $useLocations ? Transaction::locations() : [],
             'wallets' => $wallets,
             'totals' => [
                 'income' => $totals->sum('income'),
@@ -86,12 +90,30 @@ class SummaryController extends Controller
                 'fees' => $totals->sum('fees'),
                 'amount' => $wallets->sum('amount'),
             ],
-            'revenueByCategory' => $revenueByCategory,
-            'revenueByProject' => $revenueByProject,
-            'revenueBySecondaryCategory' => $useSecondaryCategories
-                ? $this->revenueByField('secondary_category', $request)
-                : null,
+            // 'revenueByCategory' => $revenueByCategory,
+            // 'revenueByProject' => $revenueByProject,
+            // 'revenueBySecondaryCategory' => $useSecondaryCategories
+            //     ? $this->revenueByField('secondary_category', $request)
+            //     : null,
         ];
+    }
+
+    private function totals(Request $request): Collection
+    {
+        return Transaction::query()
+            ->select('wallet_id')
+            ->selectRaw('SUM(IF(type = \'income\', amount, 0)) as income_sum')
+            ->selectRaw('SUM(IF(type = \'spending\', amount, 0)) as spending_sum')
+            ->selectRaw('SUM(fees) as fees_sum')
+            ->where(fn ($q) => $this->filterQuery($request, $q))
+            ->groupBy('wallet_id')
+            ->get()
+            ->when($request->user() != null, fn ($q) => $q->filter(fn ($e) => $request->user()->can('view', $e->wallet)))
+            ->mapWithKeys(fn ($e) => [$e->wallet_id => [
+                'income' => $e->income_sum,
+                'spending' => $e->spending_sum,
+                'fees' => $e->fees_sum,
+            ]]);
     }
 
     private function fillInRevenue(Collection $items, Collection $revenues): float
@@ -126,16 +148,20 @@ class SummaryController extends Controller
         [$dateFrom, $dateTo] = $this->dateRange($request);
         $query->forDateRange($dateFrom, $dateTo);
 
+        if ($request->filled('wallet')) {
+            $query->where('wallet_id', $request->wallet);
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category_id', '=', $request->project);
+        }
+
         if ($request->filled('project')) {
             $query->where('project_id', '=', $request->project);
         }
 
         if ($request->filled('location')) {
             $query->where('location', '=', $request->location);
-        }
-
-        if ($request->filled('wallet')) {
-            $query->where('wallet_id', $request->wallet);
         }
 
         return $query;
@@ -170,23 +196,5 @@ class SummaryController extends Controller
                 'wallet_id' => $request->wallet != null ? $e->wallet_id : null,
             ])
             ->values();
-    }
-
-    private function totals(Request $request): Collection
-    {
-        return Transaction::query()
-            ->select('wallet_id')
-            ->selectRaw('SUM(IF(type = \'income\', amount, 0)) as income_sum')
-            ->selectRaw('SUM(IF(type = \'spending\', amount, 0)) as spending_sum')
-            ->selectRaw('SUM(fees) as fees_sum')
-            ->where(fn ($q) => $this->filterQuery($request, $q))
-            ->groupBy('wallet_id')
-            ->get()
-            ->when($request->user() != null, fn ($q) => $q->filter(fn ($e) => $request->user()->can('view', $e->wallet)))
-            ->mapWithKeys(fn ($e) => [$e->wallet_id => [
-                'income' => $e->income_sum,
-                'spending' => $e->spending_sum,
-                'fees' => $e->fees_sum,
-            ]]);
     }
 }

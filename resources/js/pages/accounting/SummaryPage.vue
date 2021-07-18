@@ -1,10 +1,35 @@
 <template>
     <div>
+        <h1 class="display-4">
+            {{ $t("Summary") }}
+            <small class="ml-2">{{ heading }}</small>
+        </h1>
         <alert-with-retry :value="errorText" @retry="fetchData" />
-
         <div class="row">
             <div class="col-sm">
-                <h4 class="mb-4">{{ heading }}</h4>
+                <!-- <div class="form-row">
+                    <div class="col-auto mb-2">
+                        <b-select
+                            v-model="wallet"
+                            :options="walletOptions"
+                            :disabled="isBusy"
+                        />
+                    </div>
+                    <div v-if="projects.length > 0" class="col-auto mb-2">
+                        <b-select
+                            v-model="project"
+                            :options="projectOptions"
+                            :disabled="isBusy"
+                        />
+                    </div>
+                    <div v-if="locations.length > 0" class="col-auto mb-2">
+                        <b-select
+                            v-model="location"
+                            :options="locationOptions"
+                            :disabled="isBusy"
+                        />
+                    </div>
+                </div> -->
             </div>
             <div class="col-sm-8 col-md-9 col-lg-10 col-xl-auto">
                 <div class="form-row">
@@ -29,84 +54,60 @@
                             :disabled="isBusy"
                         />
                     </div>
-                    <div class="col-auto mb-2">
-                        <b-select
-                            v-model="wallet"
-                            :options="walletOptions"
-                            :disabled="isBusy"
-                        />
-                    </div>
-                    <div v-if="projects.length > 0" class="col-auto mb-2">
-                        <b-select
-                            v-model="project"
-                            :options="projectOptions"
-                            :disabled="isBusy"
-                        />
-                    </div>
-                    <div v-if="locations.length > 0" class="col-auto mb-2">
-                        <b-select
-                            v-model="location"
-                            :options="locationOptions"
-                            :disabled="isBusy"
-                        />
-                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Wallets -->
-        <div v-if="!isBusy" class="card shadow-sm mb-4 table-responsive">
-            <b-table-simple hover class="mb-0">
-                <b-thead class="card-header">
-                    <b-th>{{ $t("Wallet") }}</b-th>
-                    <b-th class="text-right">{{ $t("Income") }}</b-th>
-                    <b-th class="text-right">{{ $t("Spending") }}</b-th>
-                    <b-th class="text-right">{{ $t("Fees") }}</b-th>
-                    <b-th class="text-right">{{ $t("Difference") }}</b-th>
-                    <b-th class="text-right">{{ $t("Balance") }}</b-th>
-                </b-thead>
-                <b-tbody>
-                    <b-tr
-                        v-for="wallet in wallet
-                            ? wallets.filter(w => w.id == wallet)
-                            : wallets"
-                        :key="wallet.id"
-                    >
-                        <b-td>
-                            <a
-                                v-if="can('can-view-transactions')"
-                                :href="
-                                    route('accounting.transactions.index', {
-                                        wallet
-                                    })
-                                "
-                            >
-                                {{ wallet.name }}
-                            </a>
-                        </b-td>
-                        <b-td class="text-right">
-                            {{ numberFormat(wallet.income) }}
-                        </b-td>
-                        <b-td class="text-right">
-                            {{ numberFormat(wallet.spending) }}
-                        </b-td>
-                        <b-td class="text-right">
-                            {{ numberFormat(wallet.fees) }}
-                        </b-td>
-                        <b-td
-                            class="text-right"
-                            :class="colorClass(wallet.income > wallet.spending)"
-                        >
-                            {{ numberFormat(wallet.income - wallet.spending) }}
-                        </b-td>
-                        <b-td
-                            class="text-right"
-                            :class="colorClass(wallet.amount > 0)"
-                        >
-                            {{ numberFormat(wallet.amount) }}
-                        </b-td>
-                    </b-tr>
-                    <b-tr v-if="!wallet">
+        <b-table
+            hover
+            responsive
+            :items="wallets"
+            :fields="walletFields"
+            class="shadow-sm mb-4 bg-white"
+        >
+            <template #cell(name)="data">
+                <a
+                    v-if="can('can-view-transactions')"
+                    :href="
+                        route('accounting.transactions.index', {
+                            wallet: data.item.id
+                        })
+                    "
+                >
+                    {{ data.value }}
+                </a>
+                <template v-else>
+                    {{ data.value }}
+                </template>
+            </template>
+            <template #custom-foot>
+                <b-tr>
+                    <b-td>
+                        <strong>{{ $t("Sum across all wallets") }}</strong>
+                    </b-td>
+                    <b-td class="text-right">
+                        <strong>{{ numberFormat(totals.income) }}</strong>
+                    </b-td>
+                    <b-td class="text-right">
+                        <strong>{{ numberFormat(totals.spending) }}</strong>
+                    </b-td>
+                    <b-td class="text-right">
+                        <strong>{{
+                            numberFormat(totals.income - totals.spending)
+                        }}</strong>
+                    </b-td>
+                    <b-td class="text-right">
+                        <strong>{{ numberFormat(totals.fees) }}</strong>
+                    </b-td>
+                    <b-td class="text-right">
+                        <strong>{{ numberFormat(totals.amount) }}</strong>
+                    </b-td>
+                </b-tr>
+            </template>
+        </b-table>
+
+        <!-- <b-tr v-if="!wallet">
                         <b-td>
                             <strong>{{ $t("Sum across all wallets") }}</strong>
                         </b-td>
@@ -133,10 +134,7 @@
                         >
                             <strong>{{ numberFormat(totals.amount) }}</strong>
                         </b-td>
-                    </b-tr>
-                </b-tbody>
-            </b-table-simple>
-        </div>
+                    </b-tr> -->
 
         <b-row v-if="!isBusy">
             <!-- Revenue by categories -->
@@ -152,7 +150,7 @@
             </b-col>
 
             <!-- Revenue by secondary category -->
-            <b-col v-if="revenueBySecondaryCategory" md>
+            <!-- <b-col v-if="revenueBySecondaryCategory" md>
                 <SummaryList
                     :items="revenueBySecondaryCategory"
                     :title="$t('Secondary Categories')"
@@ -162,7 +160,7 @@
                     :filterDateStart="filterDateStart"
                     :filterDateEnd="filterDateEnd"
                 />
-            </b-col>
+            </b-col> -->
 
             <!-- Revenue by project -->
             <b-col md>
@@ -211,7 +209,48 @@ export default {
             revenueByProject: [],
 
             isBusy: false,
-            errorText: null
+            errorText: null,
+
+            walletFields: [
+                {
+                    key: "name",
+                    label: this.$t("Wallet")
+                },
+                {
+                    key: "income",
+                    label: this.$t("Income"),
+                    class: "text-right",
+                    formatter: (value, key, item) => this.numberFormat(value)
+                },
+                {
+                    key: "spending",
+                    label: this.$t("Spending"),
+                    class: "text-right",
+                    formatter: (value, key, item) => this.numberFormat(value)
+                },
+                {
+                    key: "difference",
+                    label: this.$t("Difference"),
+                    class: "text-right",
+                    formatter: (value, key, item) =>
+                        this.numberFormat(item.income - item.spending),
+                    tdClass: (value, key, item) =>
+                        this.colorClass(item.income - item.spending > 0)
+                },
+                {
+                    key: "fees",
+                    label: this.$t("Fees"),
+                    class: "text-right",
+                    formatter: (value, key, item) => this.numberFormat(value)
+                },
+                {
+                    key: "amount",
+                    label: this.$t("Balance"),
+                    class: "text-right",
+                    formatter: (value, key, item) => this.numberFormat(value),
+                    tdClass: (value, key, item) => this.colorClass(value > 0)
+                }
+            ]
         };
     },
     computed: {
@@ -400,14 +439,15 @@ export default {
                 this.years = data.years;
                 this.wallets = data.wallets;
                 this.totals = data.totals;
-                this.projects = data.projects;
-                this.categories = data.categories;
-                this.locations = data.locations;
+
+                // this.projects = data.projects;
+                // this.categories = data.categories;
+                // this.locations = data.locations;
 
                 // this.revenueByCategory = data.revenueByCategory;
 
-                this.revenueBySecondaryCategory =
-                    data.revenueBySecondaryCategory;
+                // this.revenueBySecondaryCategory =
+                //     data.revenueBySecondaryCategory;
                 // this.revenueByProject = data.revenueByProject;
 
                 this.isBusy = false;

@@ -327,12 +327,6 @@ export default [
                 import(
                     /* webpackChunkName: "accounting" */ "@/pages/accounting/SummaryPage"
                 ),
-            header: PageHeader
         },
-        props: {
-            header: {
-                title: i18n.t("Summary"),
-            }
-        }
     },
 ];
