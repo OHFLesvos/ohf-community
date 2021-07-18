@@ -911,6 +911,7 @@ export default {
     },
     "en": {
         "{num} results": "{num} results",
+        "Used in {num} transactions.": "Used in {num} transactions.",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
