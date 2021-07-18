@@ -5,7 +5,7 @@
             <small class="ml-2">{{ heading }}</small>
         </h1>
         <alert-with-retry :value="errorText" @retry="fetchData" />
-        <div class="row">
+        <div class="row mb-2">
             <div class="col-sm">
                 <div class="form-row">
                     <div class="col-auto mb-2">
@@ -124,6 +124,7 @@
                         :filterDateStart="filterDateStart"
                         :filterDateEnd="filterDateEnd"
                         flatten-children
+                        show-donations
                     />
                 </b-col>
                 <!-- Revenue by project -->

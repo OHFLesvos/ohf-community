@@ -74,6 +74,7 @@ class SummaryController extends Controller
         $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
         $this->fillInRevenue($categories, $revenueByCategory);
         $categories = $this->removeZeroRevenueItems($categories);
+        $this->addCategoryDonations($categories);
 
         $projects = Project::queryByParent();
         $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
@@ -134,7 +135,7 @@ class SummaryController extends Controller
         return $total;
     }
 
-    private function removeZeroRevenueItems(Collection $items): array
+    private function removeZeroRevenueItems(Collection $items): Collection
     {
         $filteredItems = [];
         foreach ($items as &$item) {
@@ -143,7 +144,16 @@ class SummaryController extends Controller
                 $filteredItems[] = $item;
             }
         }
-        return $filteredItems;
+        return collect($filteredItems);
+    }
+
+    private function addCategoryDonations(Collection $categories): void
+    {
+        foreach ($categories as &$item) {
+            $this->addCategoryDonations($item['children']);
+            $donationSum = $item->donations()->sum('exchange_amount');
+            $item['donations'] = $donationSum > 0 ? (number_format($donationSum, 2) . ' '. config('fundraising.base_currency')) : null;
+        }
     }
 
     private function dateRange(Request $request)

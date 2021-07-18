@@ -49,7 +49,8 @@ export default {
         wallet: {},
         filterDateStart: {},
         filterDateEnd: {},
-        flattenChildren: Boolean
+        flattenChildren: Boolean,
+        showDonations: Boolean
     },
     data() {
         return {
@@ -58,13 +59,37 @@ export default {
                     key: "name",
                     label: this.title
                 },
-                {
-                    key: "amount",
-                    label: this.$t("Amount"),
-                    class: "text-right",
-                    formatter: (value, key, item) => this.numberFormat(value),
-                    tdClass: (value, key, item) => this.colorClass(value > 0)
-                }
+                !this.flattenChildren
+                    ? {
+                          key: "amount",
+                          label: this.$t("Amount"),
+                          class: "text-right",
+                          formatter: (value, key, item) =>
+                              this.numberFormat(value),
+                          tdClass: (value, key, item) =>
+                              this.colorClass(value > 0)
+                      }
+                    : null,
+                this.flattenChildren
+                    ? {
+                          key: "total_amount",
+                          label: this.$t("Total Amount"),
+                          class: "text-right",
+                          formatter: (value, key, item) =>
+                              item.amount != value
+                                  ? "(" + this.numberFormat(value) + ")"
+                                  : this.numberFormat(value),
+                          tdClass: (value, key, item) =>
+                              this.colorClass(value > 0)
+                      }
+                    : null,
+                this.showDonations
+                    ? {
+                          key: "donations",
+                          label: this.$t("Donations"),
+                          class: "text-right"
+                      }
+                    : null
             ]
         };
     },
@@ -89,8 +114,10 @@ export default {
             tree.push({
                 id: elem.id,
                 name: elem.name,
+                donations: elem.donations,
                 prefix: level > 0 ? "&nbsp;".repeat(level * 5) : "",
-                amount: elem.total_amount
+                amount: elem.amount,
+                total_amount: elem.total_amount
             });
             for (let child of elem.children) {
                 this.fillTree(tree, child, level + 1);
