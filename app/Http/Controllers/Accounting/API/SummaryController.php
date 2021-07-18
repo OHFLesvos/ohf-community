@@ -54,6 +54,7 @@ class SummaryController extends Controller
 
         $totals = $this->totals($request);
         $wallets = Wallet::orderBy('name')
+            ->when($request->filled('wallet'), fn($qry) => $qry->where('id', $request->wallet))
             ->get()
             ->filter(fn ($wallet) => request()->user()->can('view', $wallet))
             ->map(fn ($wallet) => [
@@ -65,24 +66,23 @@ class SummaryController extends Controller
                 'amount' => $wallet->calculatedSum($dateTo),
             ]);
 
+        $categories = Category::queryByParent();
+        $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
+        $this->fillInRevenue($categories, $revenueByCategory);
+        $categories = $this->removeZeroRevenueItems($categories);
+
+        $projects = Project::queryByParent();
+        $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
+        $this->fillInRevenue($projects, $revenueByProject);
+        $projects = $this->removeZeroRevenueItems($projects);
 
         // $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
         // $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
 
-        // $categories = Category::queryByParent();
-        // $projects = Project::queryByParent();
-
-        // $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
-        // $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
-
-        // $this->fillInRevenue($categories, $revenueByCategory);
-        // $this->fillInRevenue($projects, $revenueByProject);
-
         return [
             'years' => Transaction::years(),
-            // 'categories' => $categories,
-            // 'projects' => $projects,
-            // 'locations' => $useLocations ? Transaction::locations() : [],
+            'categories' => $categories,
+            'projects' => $projects,
             'wallets' => $wallets,
             'totals' => [
                 'income' => $totals->sum('income'),
@@ -90,8 +90,7 @@ class SummaryController extends Controller
                 'fees' => $totals->sum('fees'),
                 'amount' => $wallets->sum('amount'),
             ],
-            // 'revenueByCategory' => $revenueByCategory,
-            // 'revenueByProject' => $revenueByProject,
+            // 'locations' => $useLocations ? Transaction::locations() : [],
             // 'revenueBySecondaryCategory' => $useSecondaryCategories
             //     ? $this->revenueByField('secondary_category', $request)
             //     : null,
@@ -121,11 +120,23 @@ class SummaryController extends Controller
         $total = 0;
         foreach ($items as &$item) {
             $childRevenue = $this->fillInRevenue($item['children'], $revenues);
-            $item['revenue'] = $revenues->get($item['id'], 0) + $childRevenue;
-            $item['total_revenue'] = $item['revenue'] + $childRevenue;
-            $total += $item['total_revenue'];
+            $item['amount'] = $revenues->get($item['id'], 0);
+            $item['total_amount'] = $item['amount'] + $childRevenue;
+            $total += $item['total_amount'];
         }
         return $total;
+    }
+
+    private function removeZeroRevenueItems(Collection $items): array
+    {
+        $filteredItems = [];
+        foreach ($items as &$item) {
+            if ($item['total_amount'] != 0) {
+                $item['children'] = $this->removeZeroRevenueItems($item['children']);
+                $filteredItems[] = $item;
+            }
+        }
+        return $filteredItems;
     }
 
     private function dateRange(Request $request)

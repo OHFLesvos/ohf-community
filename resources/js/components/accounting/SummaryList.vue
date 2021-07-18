@@ -3,8 +3,9 @@
         <b-table-simple hover class="mb-0">
             <b-tbody>
                 <template v-if="items.length > 0">
-                    <b-tr v-for="v in items" :key="v.id">
+                    <b-tr v-for="v in flattenChildren ? flattenedItems : items" :key="v.id">
                         <b-td>
+                            <span v-if="v.prefix" v-html="v.prefix"></span>
                             <template v-if="v.name">
                                 <a
                                     v-if="
@@ -18,12 +19,9 @@
                                             'filter[date_end]': filterDateEnd
                                         })
                                     "
+                                    >{{ v.name }}</a
                                 >
-                                    {{ v.name }}
-                                </a>
-                                <template v-else>
-                                    {{ v.name }}
-                                </template>
+                                <template v-else>{{ v.name }}</template>
                             </template>
                             <em v-else>{{ noNameLabel }}</em>
                         </b-td>
@@ -64,10 +62,20 @@ export default {
         paramName: {},
         wallet: {},
         filterDateStart: {},
-        filterDateEnd: {}
+        filterDateEnd: {},
+        flattenChildren: Boolean
     },
     data() {
         return {};
+    },
+    computed: {
+        flattenedItems() {
+            let arr = [];
+            for (let elem of this.items) {
+                this.fillTree(arr, elem);
+            }
+            return arr;
+        }
     },
     methods: {
         can,
@@ -76,6 +84,17 @@ export default {
         },
         numberFormat(val) {
             return numeral(val).format("0,0.00");
+        },
+        fillTree(tree, elem, level = 0) {
+            tree.push({
+                id: elem.id,
+                name: elem.name,
+                prefix: level > 0 ? "&nbsp;".repeat(level * 5) : "",
+                amount: elem.total_amount
+            });
+            for (let child of elem.children) {
+                this.fillTree(tree, child, level + 1);
+            }
         }
     }
 };

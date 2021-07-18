@@ -7,7 +7,7 @@
         <alert-with-retry :value="errorText" @retry="fetchData" />
         <div class="row">
             <div class="col-sm">
-                <!-- <div class="form-row">
+                <div class="form-row">
                     <div class="col-auto mb-2">
                         <b-select
                             v-model="wallet"
@@ -15,7 +15,7 @@
                             :disabled="isBusy"
                         />
                     </div>
-                    <div v-if="projects.length > 0" class="col-auto mb-2">
+                    <!-- <div v-if="projects.length > 0" class="col-auto mb-2">
                         <b-select
                             v-model="project"
                             :options="projectOptions"
@@ -28,8 +28,8 @@
                             :options="locationOptions"
                             :disabled="isBusy"
                         />
-                    </div>
-                </div> -->
+                    </div> -->
+                </div>
             </div>
             <div class="col-sm-8 col-md-9 col-lg-10 col-xl-auto">
                 <div class="form-row">
@@ -60,6 +60,7 @@
 
         <!-- Wallets -->
         <b-table
+            v-if="!isBusy && isLoaded"
             hover
             responsive
             :items="wallets"
@@ -107,47 +108,33 @@
             </template>
         </b-table>
 
-        <!-- <b-tr v-if="!wallet">
-                        <b-td>
-                            <strong>{{ $t("Sum across all wallets") }}</strong>
-                        </b-td>
-                        <b-td class="text-right">
-                            <strong>{{ numberFormat(totals.income) }}</strong>
-                        </b-td>
-                        <b-td class="text-right">
-                            <strong>{{ numberFormat(totals.spending) }}</strong>
-                        </b-td>
-                        <b-td class="text-right">
-                            <strong>{{ numberFormat(totals.fees) }}</strong>
-                        </b-td>
-                        <b-td
-                            class="text-right"
-                            :class="colorClass(totals.income > totals.spending)"
-                        >
-                            <strong>{{
-                                numberFormat(totals.income - totals.spending)
-                            }}</strong>
-                        </b-td>
-                        <b-td
-                            class="text-right"
-                            :class="colorClass(totals.amount > 0)"
-                        >
-                            <strong>{{ numberFormat(totals.amount) }}</strong>
-                        </b-td>
-                    </b-tr> -->
-
-        <b-row v-if="!isBusy">
+        <b-row v-if="!isBusy && isLoaded">
             <!-- Revenue by categories -->
             <b-col md>
                 <SummaryList
-                    :items="revenueByCategory"
+                    :items="categories"
                     :title="$t('Categories')"
                     paramName="category_id"
                     :wallet="wallet"
                     :filterDateStart="filterDateStart"
                     :filterDateEnd="filterDateEnd"
+                    flatten-children
                 />
             </b-col>
+            <!-- Revenue by project -->
+            <b-col md>
+                <SummaryList
+                    :items="projects"
+                    :title="$t('Projects')"
+                    paramName="project_id"
+                    :noNameLabel="$t('No project')"
+                    :wallet="wallet"
+                    :filterDateStart="filterDateStart"
+                    :filterDateEnd="filterDateEnd"
+                    flatten-children
+                />
+            </b-col>
+        </b-row>
 
             <!-- Revenue by secondary category -->
             <!-- <b-col v-if="revenueBySecondaryCategory" md>
@@ -162,25 +149,13 @@
                 />
             </b-col> -->
 
-            <!-- Revenue by project -->
-            <b-col md>
-                <SummaryList
-                    :items="revenueByProject"
-                    :title="$t('Projects')"
-                    paramName="project_id"
-                    :noNameLabel="$t('No project')"
-                    :wallet="wallet"
-                    :filterDateStart="filterDateStart"
-                    :filterDateEnd="filterDateEnd"
-                />
-            </b-col>
-        </b-row>
     </div>
 </template>
 
 <script>
 import moment from "moment";
 import summaryApi from "@/api/accounting/summary";
+import walletsApi from "@/api/accounting/wallets";
 import numeral from "numeral";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import SummaryList from "@/components/accounting/SummaryList";
@@ -192,22 +167,26 @@ export default {
     },
     data() {
         return {
-            years: [moment().year()],
-            wallets: [],
-            totals: {},
-            projects: [],
-            locations: [],
-
             year: this.$route.query.year ?? null,
             month: this.$route.query.month ? this.$route.query.month - 1 : null,
+            years: [moment().year()],
+
+            wallets: [],
+            totals: {},
+            categories: [],
+            projects: [],
+            // locations: [],
+
+            allWallets: [],
             wallet: this.$route.query.wallet ?? null,
-            project: this.$route.query.project ?? null,
-            location: this.$route.query.location ?? null,
+            // project: this.$route.query.project ?? null,
+            // location: this.$route.query.location ?? null,
 
-            revenueByCategory: [],
-            revenueBySecondaryCategory: [],
-            revenueByProject: [],
+            // revenueByCategory: [],
+            // revenueBySecondaryCategory: [],
+            // revenueByProject: [],
 
+            isLoaded: false,
             isBusy: false,
             errorText: null,
 
@@ -307,40 +286,40 @@ export default {
                 }
             ];
             arr.push(
-                ...this.wallets.map(e => ({
+                ...this.allWallets.map(e => ({
                     value: e.id,
                     text: e.name
                 }))
             );
             return arr;
         },
-        projectOptions() {
-            let arr = [
-                {
-                    value: null,
-                    text: `- ${this.$t("All projects")} -`
-                }
-            ];
-            for (let elem of this.projects) {
-                this.fillTree(arr, elem);
-            }
-            return arr;
-        },
-        locationOptions() {
-            let arr = [
-                {
-                    value: null,
-                    text: `- ${this.$t("All locations")} -`
-                }
-            ];
-            arr.push(
-                ...this.locations.map(e => ({
-                    value: e,
-                    text: e
-                }))
-            );
-            return arr;
-        },
+        // projectOptions() {
+        //     let arr = [
+        //         {
+        //             value: null,
+        //             text: `- ${this.$t("All projects")} -`
+        //         }
+        //     ];
+        //     for (let elem of this.projects) {
+        //         this.fillTree(arr, elem);
+        //     }
+        //     return arr;
+        // },
+        // locationOptions() {
+        //     let arr = [
+        //         {
+        //             value: null,
+        //             text: `- ${this.$t("All locations")} -`
+        //         }
+        //     ];
+        //     arr.push(
+        //         ...this.locations.map(e => ({
+        //             value: e,
+        //             text: e
+        //         }))
+        //     );
+        //     return arr;
+        // },
         filterDateStart() {
             if (this.year != null && this.month != null) {
                 return moment(`${this.year}-${this.month + 1}`, "YYYY-M")
@@ -376,31 +355,33 @@ export default {
         wallet(val) {
             this.fetchData();
         },
-        project(val) {
-            this.fetchData();
-        },
-        location(val) {
-            this.fetchData();
-        }
+        // project(val) {
+        //     this.fetchData();
+        // },
+        // location(val) {
+        //     this.fetchData();
+        // }
     },
-    created() {
-        this.fetchData();
+    async created() {
+        this.allWallets = (await walletsApi.list()).data
+        await this.fetchData();
+        this.isLoaded = true;
     },
     methods: {
-        fillTree(tree, elem, level = 0) {
-            let text = "";
-            if (level > 0) {
-                text += "&nbsp;".repeat(level * 5);
-            }
-            text += elem.name;
-            tree.push({
-                html: text,
-                value: elem.id
-            });
-            for (let child of elem.children) {
-                this.fillTree(tree, child, level + 1);
-            }
-        },
+        // fillTree(tree, elem, level = 0) {
+        //     let text = "";
+        //     if (level > 0) {
+        //         text += "&nbsp;".repeat(level * 5);
+        //     }
+        //     text += elem.name;
+        //     tree.push({
+        //         html: text,
+        //         value: elem.id
+        //     });
+        //     for (let child of elem.children) {
+        //         this.fillTree(tree, child, level + 1);
+        //     }
+        // },
         setToCurrentMonth() {
             const now = moment();
             this.year = now.year();
@@ -418,8 +399,8 @@ export default {
                         month: this.month !== null ? this.month + 1 : undefined,
                         year: this.year || undefined,
                         wallet: this.wallet || undefined,
-                        project: this.project || undefined,
-                        location: this.location || undefined
+                        // project: this.project || undefined,
+                        // location: this.location || undefined
                     }
                 },
                 () => {}
@@ -432,23 +413,17 @@ export default {
                     year: this.year,
                     month: this.month !== null ? this.month + 1 : undefined,
                     wallet: this.wallet,
-                    project: this.project,
-                    location: this.location
+                    // project: this.project,
+                    // location: this.location
                 });
 
                 this.years = data.years;
+
                 this.wallets = data.wallets;
                 this.totals = data.totals;
 
-                // this.projects = data.projects;
-                // this.categories = data.categories;
-                // this.locations = data.locations;
-
-                // this.revenueByCategory = data.revenueByCategory;
-
-                // this.revenueBySecondaryCategory =
-                //     data.revenueBySecondaryCategory;
-                // this.revenueByProject = data.revenueByProject;
+                this.projects = data.projects;
+                this.categories = data.categories;
 
                 this.isBusy = false;
             } catch (err) {
