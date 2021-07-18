@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Accounting;
 
 use App\Http\Controllers\Controller;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Entities\Period;
@@ -45,7 +45,7 @@ class WeblingApiController extends Controller
 
     private static function getMonthsForPeriod(Wallet $wallet, $from, $to): Collection
     {
-        $monthsWithTransactions = MoneyTransaction::query()
+        $monthsWithTransactions = Transaction::query()
             ->forWallet($wallet)
             ->forDateRange($from, $to)
             ->notBooked()
@@ -60,7 +60,7 @@ class WeblingApiController extends Controller
         return $monthsWithTransactions->map(function ($e) use ($wallet) {
             $date = Carbon::createFromDate($e->year, $e->month, 1);
             return (object) [
-                    'transactions' => MoneyTransaction::query()
+                    'transactions' => Transaction::query()
                         ->forWallet($wallet)
                         ->forDateRange($date, $date->clone()->endOfMonth())
                         ->notBooked()
@@ -82,7 +82,7 @@ class WeblingApiController extends Controller
 
         $period = Period::find($request->period);
 
-        $transactions = MoneyTransaction::query()
+        $transactions = Transaction::query()
             ->forWallet($wallet)
             ->forDateRange($request->from, $request->to)
             ->forDateRange($period->from, $period->to)
@@ -190,7 +190,7 @@ class WeblingApiController extends Controller
 
     private static function mapTransactionById(int $id, Request $request, Period $period)
     {
-        $transaction = MoneyTransaction::find($id);
+        $transaction = Transaction::find($id);
         if ($transaction != null) {
             return [
                 'transaction' => $transaction,
@@ -256,7 +256,7 @@ class WeblingApiController extends Controller
 
             foreach ($entryGroups as $entryGroup) {
                 foreach ($entryGroup->entries as $entry) {
-                    $transaction = MoneyTransaction::query()
+                    $transaction = Transaction::query()
                         ->whereDate('date', $entryGroup->date)
                         ->forWallet($wallet)
                         ->notBooked()

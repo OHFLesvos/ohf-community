@@ -87,6 +87,11 @@ export default {
                     sortable: false
                 },
                 {
+                    key: 'accounting_category',
+                    label: this.$t('Accounting category'),
+                    sortable: false
+                },
+                {
                     key: 'reference',
                     label: this.$t('Reference'),
                     class: 'd-none d-sm-table-cell',

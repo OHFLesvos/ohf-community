@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,12 +17,15 @@ class AddReceiptPicturesToMoneyTransactions extends Migration
         Schema::table('money_transactions', function (Blueprint $table) {
             $table->text('receipt_pictures')->nullable()->after('receipt_picture');
         });
-        MoneyTransaction::whereNotNull('receipt_picture')
+        DB::table('money_transactions')
+            ->whereNotNull('receipt_picture')
             ->get()
             ->each(function ($t) {
                 if (! empty($t->receipt_picture)) {
                     $t->receipt_pictures = [ $t->receipt_picture ];
-                    $t->save();
+                    DB::table('money_transactions')
+                        ->where('id', $t->id)
+                        ->update(['receipt_picture' => serialize([ $t->receipt_picture ]) ]);
                 }
             });
         Schema::table('money_transactions', function (Blueprint $table) {
@@ -40,13 +43,15 @@ class AddReceiptPicturesToMoneyTransactions extends Migration
         Schema::table('money_transactions', function (Blueprint $table) {
             $table->string('receipt_picture')->nullable()->after('receipt_no');
         });
-        MoneyTransaction::whereNotNull('receipt_pictures')
+        DB::table('money_transactions')
+            ->whereNotNull('receipt_pictures')
             ->get()
             ->each(function ($t) {
                 if (! empty($t->receipt_pictures)) {
                     // Warning: potential data loss
-                    $t->receipt_picture = $t->receipt_pictures[0];
-                    $t->save();
+                    DB::table('money_transactions')
+                        ->where('id', $t->id)
+                        ->update(['receipt_picture' => $t->receipt_pictures[0]]);
                 }
             });
         Schema::table('money_transactions', function (Blueprint $table) {

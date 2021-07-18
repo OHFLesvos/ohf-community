@@ -11,7 +11,7 @@ use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class MoneyTransactionsSummarySheet extends BaseExport implements FromView, WithColumnFormatting
+class TransactionsSummarySheet extends BaseExport implements FromView, WithColumnFormatting
 {
     /**
      * Months

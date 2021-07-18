@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreControlled;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 
 class ControllingController extends Controller
 {
-    public function controlled(MoneyTransaction $transaction)
+    public function controlled(Transaction $transaction)
     {
         $this->authorize('view', $transaction);
 
@@ -18,7 +18,7 @@ class ControllingController extends Controller
         ]);
     }
 
-    public function markControlled(StoreControlled $request, MoneyTransaction $transaction)
+    public function markControlled(StoreControlled $request, Transaction $transaction)
     {
         $this->authorize('update', $transaction);
 
@@ -29,7 +29,7 @@ class ControllingController extends Controller
         return response(null, 204);
     }
 
-    public function undoControlled(MoneyTransaction $transaction)
+    public function undoControlled(Transaction $transaction)
     {
         $this->authorize('undoControlling', $transaction);
 

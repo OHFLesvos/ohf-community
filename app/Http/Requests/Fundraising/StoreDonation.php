@@ -56,6 +56,10 @@ class StoreDonation extends FormRequest
                 'nullable',
                 'string',
             ],
+            'accounting_category_id' => [
+                'nullable',
+                'exists:accounting_categories,id',
+            ],
         ];
     }
 }

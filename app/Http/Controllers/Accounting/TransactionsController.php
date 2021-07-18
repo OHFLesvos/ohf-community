@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Accounting;
 
-use App\Exports\Accounting\MoneyTransactionsExport;
-use App\Exports\Accounting\MoneyTransactionsMonthsExport;
-use App\Exports\Accounting\WeblingMoneyTransactionsExport;
+use App\Exports\Accounting\TransactionsExport;
+use App\Exports\Accounting\TransactionsMonthsExport;
+use App\Exports\Accounting\WeblingTransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Http\Requests\Accounting\StoreTransaction;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Category;
+use App\Models\Accounting\Project;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
@@ -17,18 +19,13 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Setting;
 
-class MoneyTransactionsController extends Controller
+class TransactionsController extends Controller
 {
     use ExportableActions;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Wallet $wallet, Request $request)
     {
-        $this->authorize('viewAny', MoneyTransaction::class);
+        $this->authorize('viewAny', Transaction::class);
         $this->authorize('view', $wallet);
 
         $request->validate([
@@ -116,13 +113,11 @@ class MoneyTransactionsController extends Controller
             'sortColumns' => $sortColumns,
             'sortColumn' => $sortColumn,
             'sortOrder' => $sortOrder,
-            'attendees' => MoneyTransaction::attendees(),
-            'categories' => self::getCategories(true),
-            'fixed_categories' => Setting::has('accounting.transactions.categories'),
+            'attendees' => Transaction::attendees(),
+            'categories' => self::addLevelIndentation(Category::getNested()),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => self::getProjects(true),
-            'fixed_projects' => Setting::has('accounting.transactions.projects'),
+            'projects' => self::addLevelIndentation(Project::getNested()),
             'locations' => self::useLocations() ? self::getLocations(true) : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters(true) : null,
@@ -139,32 +134,32 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
+    private static function addLevelIndentation(array $items): array
+    {
+        return collect($items)
+            ->map(fn($e) => str_repeat("&nbsp;", 4 * $e['indentation']) . $e['name'])
+            ->toArray();
+    }
+
     private static function createIndexQuery(Wallet $wallet, array $filter, string $sortColumn, string $sortOrder)
     {
-        return MoneyTransaction::query()
+        return Transaction::query()
             ->forWallet($wallet)
             ->forFilter($filter)
             ->orderBy($sortColumn, $sortOrder)
             ->orderBy('created_at', 'DESC');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create(Wallet $wallet)
     {
-        $this->authorize('create', MoneyTransaction::class);
+        $this->authorize('create', Transaction::class);
 
         return view('accounting.transactions.create', [
-            'attendees' => MoneyTransaction::attendees(),
-            'categories' => self::getCategories(),
-            'fixed_categories' => Setting::has('accounting.transactions.categories'),
+            'attendees' => Transaction::attendees(),
+            'categories' => self::addLevelIndentation(Category::getNested(null, 0, true)),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => self::getProjects(),
-            'fixed_projects' => Setting::has('accounting.transactions.projects'),
+            'projects' => self::addLevelIndentation(Project::getNested(null, 0, true)),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
@@ -172,16 +167,6 @@ class MoneyTransactionsController extends Controller
             'suppliers' => Supplier::select('id', 'name', 'category')->orderBy('name')->get(),
             'wallet' => $wallet,
         ]);
-    }
-
-    private static function getCategories(?bool $onlyExisting = false): array
-    {
-        if (! $onlyExisting && Setting::has('accounting.transactions.categories')) {
-            return collect(Setting::get('accounting.transactions.categories'))
-                ->sort()
-                ->toArray();
-        }
-        return MoneyTransaction::categories();
     }
 
     private static function useSecondaryCategories(): bool
@@ -196,17 +181,7 @@ class MoneyTransactionsController extends Controller
                 ->sort()
                 ->toArray();
         }
-        return MoneyTransaction::secondaryCategories();
-    }
-
-    private static function getProjects(?bool $onlyExisting = false): array
-    {
-        if (! $onlyExisting && Setting::has('accounting.transactions.projects')) {
-            return collect(Setting::get('accounting.transactions.projects'))
-                ->sort()
-                ->toArray();
-        }
-        return MoneyTransaction::projects();
+        return Transaction::secondaryCategories();
     }
 
     private static function useLocations(): bool
@@ -221,7 +196,7 @@ class MoneyTransactionsController extends Controller
                 ->sort()
                 ->toArray();
         }
-        return MoneyTransaction::locations();
+        return Transaction::locations();
     }
 
     private static function useCostCenters(): bool
@@ -236,32 +211,26 @@ class MoneyTransactionsController extends Controller
                 ->sort()
                 ->toArray();
         }
-        return MoneyTransaction::costCenters();
+        return Transaction::costCenters();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\Accounting\StoreTransaction  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Wallet $wallet, StoreTransaction $request)
     {
-        $this->authorize('create', MoneyTransaction::class);
+        $this->authorize('create', Transaction::class);
         $this->authorize('view', $wallet);
 
-        $transaction = new MoneyTransaction();
+        $transaction = new Transaction();
         $transaction->date = $request->date;
         $transaction->receipt_no = $request->receipt_no;
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
         $transaction->fees = $request->fees;
         $transaction->attendee = $request->attendee;
-        $transaction->category = $request->category;
+        $transaction->category()->associate($request->category_id);
         if (self::useSecondaryCategories()) {
             $transaction->secondary_category = $request->secondary_category;
         }
-        $transaction->project = $request->project;
+        $transaction->project()->associate($request->project_id);
         if (self::useLocations()) {
             $transaction->location = $request->location;
         }
@@ -288,13 +257,7 @@ class MoneyTransactionsController extends Controller
             ->with('info', __('Transaction registered.'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\MoneyTransaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function show(MoneyTransaction $transaction)
+    public function show(Transaction $transaction)
     {
         $this->authorize('view', $transaction);
 
@@ -322,7 +285,7 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    public function snippet(MoneyTransaction $transaction)
+    public function snippet(Transaction $transaction)
     {
         $this->authorize('view', $transaction);
 
@@ -331,25 +294,17 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Accounting\MoneyTransaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(MoneyTransaction $transaction)
+    public function edit(Transaction $transaction)
     {
         $this->authorize('update', $transaction);
 
         return view('accounting.transactions.edit', [
             'transaction' => $transaction,
-            'attendees' => MoneyTransaction::attendees(),
-            'categories' => self::getCategories(),
-            'fixed_categories' => Setting::has('accounting.transactions.categories'),
+            'attendees' => Transaction::attendees(),
+            'categories' => self::addLevelIndentation(Category::getNested()),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
             'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => self::getProjects(),
-            'fixed_projects' => Setting::has('accounting.transactions.projects'),
+            'projects' => self::addLevelIndentation(Project::getNested()),
             'locations' => self::useLocations() ? self::getLocations() : null,
             'fixed_locations' => Setting::has('accounting.transactions.locations'),
             'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
@@ -358,14 +313,7 @@ class MoneyTransactionsController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Accounting\MoneyTransaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreTransaction $request, MoneyTransaction $transaction)
+    public function update(StoreTransaction $request, Transaction $transaction)
     {
         $this->authorize('update', $transaction);
 
@@ -375,11 +323,11 @@ class MoneyTransactionsController extends Controller
         $transaction->amount = $request->amount;
         $transaction->fees = $request->fees;
         $transaction->attendee = $request->attendee;
-        $transaction->category = $request->category;
+        $transaction->category()->associate($request->category_id);
         if (self::useSecondaryCategories()) {
             $transaction->secondary_category = $request->secondary_category;
         }
-        $transaction->project = $request->project;
+        $transaction->project()->associate($request->project_id);
         if (self::useLocations()) {
             $transaction->location = $request->location;
         }
@@ -408,13 +356,7 @@ class MoneyTransactionsController extends Controller
             ->with('info', __('Transaction updated.'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Accounting\MoneyTransaction  $transaction
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(MoneyTransaction $transaction)
+    public function destroy(Transaction $transaction)
     {
         $this->authorize('delete', $transaction);
 
@@ -429,7 +371,7 @@ class MoneyTransactionsController extends Controller
 
     protected function exportAuthorize()
     {
-        $this->authorize('viewAny', MoneyTransaction::class);
+        $this->authorize('viewAny', Transaction::class);
     }
 
     protected function exportView(): string
@@ -489,15 +431,15 @@ class MoneyTransactionsController extends Controller
         $wallet = Wallet::findOrFail($request->route('wallet'));
         $filter = $request->selection == 'filtered' ? session('accounting.filter', []) : [];
         if ($request->grouping == 'monthly') {
-            return new MoneyTransactionsMonthsExport($wallet, $filter);
+            return new TransactionsMonthsExport($wallet, $filter);
         }
         if ($request->columns == 'webling') {
-            return new WeblingMoneyTransactionsExport($wallet, $filter);
+            return new WeblingTransactionsExport($wallet, $filter);
         }
-        return new MoneyTransactionsExport($wallet, $filter);
+        return new TransactionsExport($wallet, $filter);
     }
 
-    public function undoBooking(MoneyTransaction $transaction)
+    public function undoBooking(Transaction $transaction)
     {
         $this->authorize('undoBooking', $transaction);
 
@@ -523,7 +465,7 @@ class MoneyTransactionsController extends Controller
 
     private static function getIntermediateBalances(Wallet $wallet): array
     {
-        $transactions = MoneyTransaction::query()
+        $transactions = Transaction::query()
             ->forWallet($wallet)
             ->orderBy('receipt_no', 'ASC')
             ->get();

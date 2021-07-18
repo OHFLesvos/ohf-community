@@ -2,12 +2,12 @@
 
 namespace App\Exports\Accounting\Sheets;
 
-use App\Exports\Accounting\BaseMoneyTransactionsExport;
-use App\Models\Accounting\MoneyTransaction;
+use App\Exports\Accounting\BaseTransactionsExport;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
 
-class MoneyTransactionsMonthSheet extends BaseMoneyTransactionsExport
+class TransactionsMonthSheet extends BaseTransactionsExport
 {
     /**
      * Month date
@@ -35,7 +35,7 @@ class MoneyTransactionsMonthSheet extends BaseMoneyTransactionsExport
         $dateFrom = $this->month;
         $dateTo = (clone $dateFrom)->endOfMonth();
 
-        return MoneyTransaction::query()
+        return Transaction::query()
             ->forWallet($this->wallet)
             ->forFilter($this->filter, true)
             ->orderBy('date', 'ASC')

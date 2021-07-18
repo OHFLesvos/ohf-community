@@ -2,7 +2,7 @@
 
 namespace App\Navigation\ContextButtons\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -19,10 +19,10 @@ class TransactionIndexContextButtons implements ContextButtons
                 'caption' => __('Add'),
                 'icon' => 'plus-circle',
                 'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', MoneyTransaction::class),
+                'authorized' => Auth::user()->can('create', Transaction::class),
             ],
             'summary' => [
-                'url' => route('accounting.transactions.summary', $wallet),
+                'url' => route('accounting.transactions.summary', ['wallet' => $wallet]),
                 'caption' => __('Summary'),
                 'icon' => 'calculator',
                 'authorized' => Gate::allows('view-accounting-summary'),
@@ -31,7 +31,7 @@ class TransactionIndexContextButtons implements ContextButtons
                 'url' => route('accounting.transactions.export', $wallet),
                 'caption' => __('Export'),
                 'icon' => 'download',
-                'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
+                'authorized' => Auth::user()->can('viewAny', Transaction::class),
             ],
             'webling' => [
                 'url' => route('accounting.webling.index', $wallet),

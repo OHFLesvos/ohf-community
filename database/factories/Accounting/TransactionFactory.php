@@ -2,17 +2,17 @@
 
 namespace Database\Factories\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class MoneyTransactionFactory extends Factory
+class TransactionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = MoneyTransaction::class;
+    protected $model = Transaction::class;
 
     /**
      * Define the model's default state.
@@ -26,9 +26,8 @@ class MoneyTransactionFactory extends Factory
             'date' => $this->faker->dateTimeBetween('-5 years', 'now'),
             'type' => $this->faker->randomElement(['income', 'spending']),
             'amount' => $this->faker->randomFloat(2, 1, 2000),
+            'fees' => $this->faker->optional(0.05)->numberBetween(1,3),
             'attendee' => $this->faker->name,
-            'category' => $this->faker->catchPhrase,
-            'project' => $this->faker->optional(0.7)->catchPhrase,
             'description' => $this->faker->sentence,
             'booked' => false,
         ];

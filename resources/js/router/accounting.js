@@ -26,7 +26,8 @@ export default [
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
                     }
-                ]
+                ],
+                container: true,
             }
         }
     },
@@ -42,7 +43,8 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Create wallet")
+                title: i18n.t("Create wallet"),
+                container: true,
             }
         }
     },
@@ -59,7 +61,148 @@ export default [
         props: {
             default: true,
             header: {
-                title: i18n.t("Edit wallet")
+                title: i18n.t("Edit wallet"),
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/categories",
+        name: "accounting.categories.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Categories"),
+                buttons: [
+                    {
+                        to: { name: "accounting.categories.create" },
+                        variant: "primary",
+                        icon: "plus-circle",
+                        text: i18n.t("Add"),
+                        show: can("configure-accounting")
+                    }
+                ],
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/categories/create",
+        name: "accounting.categories.create",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryCreatePage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Create category"),
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/categories/:id",
+        name: "accounting.categories.show",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryViewPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("View category"),
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/categories/:id/edit",
+        name: "accounting.categories.edit",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryEditPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Edit category"),
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/projects",
+        name: "accounting.projects.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Projects"),
+                buttons: [
+                    {
+                        to: { name: "accounting.projects.create" },
+                        variant: "primary",
+                        icon: "plus-circle",
+                        text: i18n.t("Add"),
+                        show: can("configure-accounting")
+                    }
+                ],
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/projects/create",
+        name: "accounting.projects.create",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectCreatePage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Create project"),
+                container: true,
+            }
+        }
+    },
+    {
+        path: "/accounting/projects/:id/edit",
+        name: "accounting.projects.edit",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectEditPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Edit project"),
+                container: true,
             }
         }
     },
@@ -175,5 +318,15 @@ export default [
                 title: i18n.t("Edit Supplier")
             }
         }
-    }
+    },
+    {
+        path: "/accounting/transactions/summary",
+        name: "accounting.transactions.summary",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/SummaryPage"
+                ),
+        },
+    },
 ];

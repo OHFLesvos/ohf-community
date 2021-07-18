@@ -28,11 +28,7 @@
         </div>
         <div class="form-row">
             <div class="col-sm">
-                @if($fixed_categories)
-                    {{ Form::bsSelect('category', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'required', 'placeholder' => '- ' . __('Category') . ' -', 'error' => ! in_array($transaction->category, $categories) ? __("Invalid category ':category'", ['category' => $transaction->category]) : null ], __('Category')) }}
-                @else
-                    {{ Form::bsText('category', null, [ 'required', 'list' => $categories ], __('Category')) }}
-                @endif
+                {{ Form::bsSelect('category_id', $categories, null, [ 'required', 'placeholder' => '- ' . __('Category') . ' -'], __('Category')) }}
             </div>
             @if($secondary_categories !== null)
                 <div class="col-sm">
@@ -44,11 +40,7 @@
                 </div>
             @endif
             <div class="col-sm">
-                @if($fixed_projects)
-                    {{ Form::bsSelect('project', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), null, [ 'placeholder' => '- ' . __('Project') . ' -', 'error' => $transaction->project != null && ! in_array($transaction->project, $projects) ? __("Invalid project ':project'", ['project' => $transaction->project]) : null ], __('Project')) }}
-                @else
-                    {{ Form::bsText('project', null, [ 'list' => $projects ], __('Project')) }}
-                @endif
+                {{ Form::bsSelect('project_id', $projects, null, [ 'placeholder' => '- ' . __('Project') . ' -'], __('Project')) }}
             </div>
         </div>
         <div class="form-row">

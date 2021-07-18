@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Setting;
 
 class StoreTransaction extends FormRequest
 {
@@ -33,7 +32,7 @@ class StoreTransaction extends FormRequest
                 'integer',
                 'min:1',
                 function ($attribute, $value, $fail) {
-                    $exists = MoneyTransaction::query()
+                    $exists = Transaction::query()
                         ->when(
                             $this->transaction,
                             fn ($qry) => $qry->forWallet($this->transaction->wallet)
@@ -70,13 +69,13 @@ class StoreTransaction extends FormRequest
             'attendee' => [
                 'nullable',
             ],
-            'category' => [
+            'category_id' => [
                 'required',
-                Setting::has('accounting.transactions.categories') ? Rule::in(Setting::get('accounting.transactions.categories')) : null,
+                'exists:accounting_categories,id',
             ],
-            'project' => [
+            'project_id' => [
                 'nullable',
-                Setting::has('accounting.transactions.projects') ? Rule::in(Setting::get('accounting.transactions.projects')) : null,
+                'exists:accounting_projects,id',
             ],
             'description' => [
                 'required',

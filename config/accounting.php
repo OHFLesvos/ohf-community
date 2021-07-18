@@ -3,9 +3,9 @@
 return [
     'filter_columns' => [
         'type',
-        'category',
+        'category_id',
         'secondary_category',
-        'project',
+        'project_id',
         'location',
         'cost_center',
         'attendee',

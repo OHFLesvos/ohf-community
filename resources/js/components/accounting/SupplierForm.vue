@@ -24,6 +24,7 @@
                             <b-form-input
                                 v-model="form.name"
                                 autocomplete="off"
+                                :autofocus="!supplier"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>

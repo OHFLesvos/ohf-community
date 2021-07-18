@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Accounting\MoneyTransaction;
 use App\Models\Accounting\Wallet;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -28,7 +27,7 @@ class CreateAccountingWalletsTable extends Migration
             $table->timestamps();
         });
 
-        $hasTransactions = MoneyTransaction::count() > 0;
+        $hasTransactions = DB::table('money_transactions')->count() > 0;
         if ($hasTransactions) {
             $wallet = Wallet::create([
                 'name' => 'Default Wallet',

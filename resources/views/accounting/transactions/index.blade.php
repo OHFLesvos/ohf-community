@@ -52,11 +52,11 @@
                         @if($intermediate_balances !== null)
                             <th class="fit text-right">@lang('Intermediate balance')</th>
                         @endif
-                        <th class="@isset($filter['category']) text-info @endisset">@lang('Category')</th>
+                        <th class="@isset($filter['category_id']) text-info @endisset">@lang('Category')</th>
                         @if($secondary_categories !== null)
                             <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('Secondary Category')</th>
                         @endif
-                        <th class="@isset($filter['project']) text-info @endisset">@lang('Project')</th>
+                        <th class="@isset($filter['project_id']) text-info @endisset">@lang('Project')</th>
                         @if($locations !== null)
                             <th class="@isset($filter['location']) text-info @endisset">@lang('Location')</th>
                         @endif
@@ -112,11 +112,11 @@
                             @if($intermediate_balances !== null)
                                 <td class="fit text-right">{{ number_format($intermediate_balances[$transaction->id], 2) }}</td>
                             @endif
-                            <td>{{ $transaction->category }}</td>
+                            <td>{{ $transaction->category->name }}</td>
                             @if($secondary_categories !== null)
                                 <td>{{ $transaction->secondary_category }}</td>
                             @endif
-                            <td>{{ $transaction->project }}</td>
+                            <td>{{ optional($transaction->project)->name }}</td>
                             @if($locations !== null)
                                 <td>{{ $transaction->location }}</td>
                             @endif
@@ -323,15 +323,11 @@
             </div>
             <div class="form-row">
                 <div class="col-sm">
-                    @if($fixed_categories)
-                        {{ Form::bsSelect('filter[category]', collect($categories)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['category'] ?? null, [ 'placeholder' => '- ' . __('Category') . ' -' ], __('Category')) }}
-                    @else
-                        {{ Form::bsText('filter[category]', $filter['category'] ?? null, [ 'list' => $categories ], __('Category')) }}
-                    @endif
+                    {{ Form::bsSelect('filter[category_id]', $categories, $filter['category_id'] ?? null, [ 'placeholder' => '- ' . __('Category') . ' -' ], __('Category')) }}
                 </div>
                 @if($secondary_categories !== null)
                     <div class="col-sm">
-                        @if($fixed_categories)
+                        @if($fixed_secondary_categories)
                             {{ Form::bsSelect('filter[secondary_category]', collect($secondary_categories)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['secondary_category'] ?? null, [ 'placeholder' => '- ' . __('Secondary Category') . ' -' ], __('Category')) }}
                         @else
                             {{ Form::bsText('filter[secondary_category]', $filter['secondary_category'] ?? null, [ 'list' => $secondary_categories ], __('Secondary Category')) }}
@@ -339,11 +335,7 @@
                     </div>
                 @endif
                 <div class="col-sm">
-                    @if($fixed_projects)
-                        {{ Form::bsSelect('filter[project]', collect($projects)->mapWithKeys(fn ($e) => [ $e => $e ]), $filter['project'] ?? null, [ 'placeholder' => '- ' . __('Project') . ' -' ], __('Project')) }}
-                    @else
-                        {{ Form::bsText('filter[project]', $filter['project'] ?? null, [ 'list' => $projects ], __('Project')) }}
-                    @endif
+                    {{ Form::bsSelect('filter[project_id]', $projects, $filter['project_id'] ?? null, [ 'placeholder' => '- ' . __('Project') . ' -' ], __('Project')) }}
                 </div>
             </div>
             <div class="form-row">

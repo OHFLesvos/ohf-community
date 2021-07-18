@@ -6,9 +6,9 @@ use App\Exports\Accounting\SuppliersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreSupplier;
 use App\Models\Accounting\Supplier;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Supplier as SupplierResource;
-use App\Http\Resources\Accounting\MoneyTransaction as MoneyTransactionResource;
+use App\Http\Resources\Accounting\Transaction as TransactionResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
@@ -20,11 +20,6 @@ class SuppliersController extends Controller
         $this->authorizeResource(Supplier::class);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $this->authorize('viewAny', Supplier::class);
@@ -70,12 +65,6 @@ class SuppliersController extends Controller
             ->paginate($pageSize));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreSupplier $request)
     {
         $supplier = new Supplier();
@@ -85,24 +74,11 @@ class SuppliersController extends Controller
         return new SupplierResource($supplier);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
     public function show(Supplier $supplier)
     {
         return new SupplierResource($supplier);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Accounting\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
     public function update(StoreSupplier $request, Supplier $supplier)
     {
         $supplier->fill($request->all());
@@ -111,12 +87,6 @@ class SuppliersController extends Controller
         return new SupplierResource($supplier);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Accounting\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Supplier $supplier)
     {
         $supplier->delete();
@@ -124,15 +94,9 @@ class SuppliersController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
     public function transactions(Supplier $supplier, Request $request)
     {
-        $this->authorize('viewAny', MoneyTransaction::class);
+        $this->authorize('viewAny', Transaction::class);
 
         $request->validate([
             'filter' => [
@@ -170,7 +134,7 @@ class SuppliersController extends Controller
         $pageSize = $request->input('pageSize', 25);
         $filter = trim($request->input('filter', ''));
 
-        return MoneyTransactionResource::collection($supplier->transactions()
+        return TransactionResource::collection($supplier->transactions()
             ->orderBy($sortBy, $sortDirection)
             ->forFilter(['description' => $filter])
             ->paginate($pageSize));

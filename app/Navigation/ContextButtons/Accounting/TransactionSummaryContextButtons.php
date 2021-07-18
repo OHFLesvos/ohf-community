@@ -2,7 +2,7 @@
 
 namespace App\Navigation\ContextButtons\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -12,20 +12,13 @@ class TransactionSummaryContextButtons implements ContextButtons
 {
     public function getItems(View $view): array
     {
-        $wallet = $view->getData()['wallet'];
         return [
-            'globalSummary' => [
-                'url' => route('accounting.transactions.globalSummary'),
-                'caption' => __('All wallets'),
-                'icon' => 'globe',
-                'authorized' => Gate::allows('view-accounting-summary'),
-            ],
-            'back' => [
-                'url' => route('accounting.transactions.index', $wallet),
+            'close' => [
+                'url' => route('accounting.index'),
                 'caption' => __('Close'),
                 'icon' => 'times-circle',
-                'authorized' => Auth::user()->can('viewAny', MoneyTransaction::class),
-            ],
+                'authorized' => Auth::user()->can('viewAny', Transaction::class) || Gate::allows('view-accounting-summary'),
+            ]
         ];
     }
 }

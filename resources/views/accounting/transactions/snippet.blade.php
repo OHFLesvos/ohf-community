@@ -42,7 +42,7 @@
             <div class="row">
                 <div class="col-sm-4"><strong>@lang('Category')</strong></div>
                 <div class="col-sm">
-                    {{ $transaction->category }}
+                    {{ $transaction->category->getPathElements()->pluck('name')->join(' » ')  }}
                 </div>
             </div>
         </li>
@@ -61,7 +61,7 @@
                 <div class="row">
                     <div class="col-sm-4"><strong>@lang('Project')</strong></div>
                     <div class="col-sm">
-                        {{ $transaction->project }}
+                        {{ $transaction->project->getPathElements()->pluck('name')->join(' » ')  }}
                     </div>
                 </div>
             </li>

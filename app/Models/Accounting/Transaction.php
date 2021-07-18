@@ -16,10 +16,12 @@ use Illuminate\Support\Str;
 use Org_Heigl\Ghostscript\Ghostscript;
 use OwenIt\Auditing\Contracts\Auditable;
 
-class MoneyTransaction extends Model implements Auditable
+class Transaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
+
+    protected $table = "accounting_transactions";
 
     private const RECEIPT_PICTURE_PATH = 'public/accounting/receipts';
 
@@ -52,6 +54,16 @@ class MoneyTransaction extends Model implements Auditable
     public function wallet()
     {
         return $this->belongsTo(Wallet::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
     /**
@@ -258,17 +270,6 @@ class MoneyTransaction extends Model implements Auditable
             ->toArray();
     }
 
-    public static function categories(): array
-    {
-        return self::select('category')
-            ->whereNotNull('category')
-            ->distinct()
-            ->orderBy('category')
-            ->get()
-            ->pluck('category')
-            ->toArray();
-    }
-
     public static function secondaryCategories(): array
     {
         return self::select('secondary_category')
@@ -277,17 +278,6 @@ class MoneyTransaction extends Model implements Auditable
             ->orderBy('secondary_category')
             ->get()
             ->pluck('secondary_category')
-            ->toArray();
-    }
-
-    public static function projects(): array
-    {
-        return self::select('project')
-            ->whereNotNull('project')
-            ->distinct()
-            ->orderBy('project')
-            ->get()
-            ->pluck('project')
             ->toArray();
     }
 
@@ -310,6 +300,19 @@ class MoneyTransaction extends Model implements Auditable
             ->orderBy('cost_center')
             ->get()
             ->pluck('cost_center')
+            ->toArray();
+    }
+
+
+    public static function years(): array
+    {
+        return self::query()
+            ->selectRaw('YEAR(date) as year')
+            ->groupByRaw('YEAR(date)')
+            ->orderBy('year', 'desc')
+            ->get()
+            ->pluck('year')
+            ->unique()
             ->toArray();
     }
 }

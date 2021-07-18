@@ -3,7 +3,7 @@
 namespace App\Exports\Accounting;
 
 use App\Exports\BaseExport;
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class WeblingMoneyTransactionsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
+class WeblingTransactionsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
     /**
      * Filter conditions
@@ -37,7 +37,7 @@ class WeblingMoneyTransactionsExport extends BaseExport implements FromQuery, Wi
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return MoneyTransaction::query()
+        return Transaction::query()
             ->forWallet($this->wallet)
             ->forFilter($this->filter)
             ->orderBy('date', 'ASC')
@@ -60,7 +60,7 @@ class WeblingMoneyTransactionsExport extends BaseExport implements FromQuery, Wi
     }
 
     /**
-     * @param MoneyTransaction $transaction
+     * @param Transaction $transaction
      */
     public function map($transaction): array
     {

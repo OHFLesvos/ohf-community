@@ -2,7 +2,7 @@
 
 namespace App\Navigation\Drawer\Accounting;
 
-use App\Models\Accounting\MoneyTransaction;
+use App\Models\Accounting\Supplier;
 use App\Navigation\Drawer\BaseNavigationItem;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
