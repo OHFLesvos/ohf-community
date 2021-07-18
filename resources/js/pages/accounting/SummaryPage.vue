@@ -17,14 +17,14 @@
                             />
                         </b-input-group>
                     </div>
-                    <!-- <div v-if="projects.length > 0" class="col-auto mb-2">
+                    <div v-if="allProjects.length > 0" class="col-auto mb-2">
                         <b-select
                             v-model="project"
                             :options="projectOptions"
                             :disabled="isBusy"
                         />
                     </div>
-                    <div v-if="locations.length > 0" class="col-auto mb-2">
+                    <!-- <div v-if="locations.length > 0" class="col-auto mb-2">
                         <b-select
                             v-model="location"
                             :options="locationOptions"
@@ -176,6 +176,7 @@
 import moment from "moment";
 import summaryApi from "@/api/accounting/summary";
 import walletsApi from "@/api/accounting/wallets";
+import projectsApi from "@/api/accounting/projects";
 import numeral from "numeral";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import SummaryList from "@/components/accounting/SummaryList";
@@ -200,12 +201,9 @@ export default {
 
             allWallets: [],
             wallet: this.$route.query.wallet ?? null,
-            // project: this.$route.query.project ?? null,
+            allProjects: [],
+            project: this.$route.query.project ?? null,
             // location: this.$route.query.location ?? null,
-
-            // revenueByCategory: [],
-            // revenueBySecondaryCategory: [],
-            // revenueByProject: [],
 
             isLoaded: false,
             isBusy: false,
@@ -314,18 +312,18 @@ export default {
             );
             return arr;
         },
-        // projectOptions() {
-        //     let arr = [
-        //         {
-        //             value: null,
-        //             text: `- ${this.$t("All projects")} -`
-        //         }
-        //     ];
-        //     for (let elem of this.projects) {
-        //         this.fillTree(arr, elem);
-        //     }
-        //     return arr;
-        // },
+        projectOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("All projects")} -`
+                }
+            ];
+            for (let elem of this.allProjects) {
+                this.fillTree(arr, elem);
+            }
+            return arr;
+        },
         // locationOptions() {
         //     let arr = [
         //         {
@@ -375,34 +373,36 @@ export default {
         },
         wallet(val) {
             this.fetchData();
-        }
-        // project(val) {
-        //     this.fetchData();
-        // },
+        },
+        project(val) {
+            this.fetchData();
+        },
         // location(val) {
         //     this.fetchData();
         // }
     },
     async created() {
         this.allWallets = (await walletsApi.list()).data;
+        this.allProjects = (await projectsApi.tree());
+
         await this.fetchData();
         this.isLoaded = true;
     },
     methods: {
-        // fillTree(tree, elem, level = 0) {
-        //     let text = "";
-        //     if (level > 0) {
-        //         text += "&nbsp;".repeat(level * 5);
-        //     }
-        //     text += elem.name;
-        //     tree.push({
-        //         html: text,
-        //         value: elem.id
-        //     });
-        //     for (let child of elem.children) {
-        //         this.fillTree(tree, child, level + 1);
-        //     }
-        // },
+        fillTree(tree, elem, level = 0) {
+            let text = "";
+            if (level > 0) {
+                text += "&nbsp;".repeat(level * 5);
+            }
+            text += elem.name;
+            tree.push({
+                html: text,
+                value: elem.id
+            });
+            for (let child of elem.children) {
+                this.fillTree(tree, child, level + 1);
+            }
+        },
         setToCurrentMonth() {
             const now = moment();
             this.year = now.year();
@@ -419,8 +419,8 @@ export default {
                         ...this.$route.query,
                         month: this.month !== null ? this.month + 1 : undefined,
                         year: this.year || undefined,
-                        wallet: this.wallet || undefined
-                        // project: this.project || undefined,
+                        wallet: this.wallet || undefined,
+                        project: this.project || undefined,
                         // location: this.location || undefined
                     }
                 },
@@ -433,8 +433,8 @@ export default {
                 let data = await summaryApi.list({
                     year: this.year,
                     month: this.month !== null ? this.month + 1 : undefined,
-                    wallet: this.wallet
-                    // project: this.project,
+                    wallet: this.wallet,
+                    project: this.project,
                     // location: this.location
                 });
 
