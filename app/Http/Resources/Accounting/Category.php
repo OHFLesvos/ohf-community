@@ -16,6 +16,8 @@ class Category extends JsonResource
     {
         $data = parent::toArray($request);
         $data['num_transactions'] = $this->transactions()->count();
+        $data['num_donations'] = $this->whenLoaded('donations', fn () => $this->donations()->count());
+        $data['sum_donations'] = $this->whenLoaded('donations', fn () => $this->donations()->sum('exchange_amount') . ' '. config('fundraising.base_currency'));
         $data['can_update'] = $request->user()->can('update', $this->resource);
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
         return $data;

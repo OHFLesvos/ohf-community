@@ -37,7 +37,7 @@ class Category extends Model
 
     public function donations()
     {
-        return $this->hasMany(Donation::class);
+        return $this->hasMany(Donation::class, 'accounting_category_id');
     }
 
     public function parent()

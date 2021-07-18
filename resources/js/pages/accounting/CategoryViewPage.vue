@@ -6,6 +6,15 @@
             tag="p"
             :text="category.description"
         />
+
+        <h6>{{ $t('Transactions') }}</h6>
+        <p v-if="category.num_transactions">Registered <strong>{{ category.num_transactions }}</strong> transactions in category.</p>
+        <p v-else>{{ $t('No transactions found.') }}</p>
+
+        <h6>{{ $t('Donations') }}</h6>
+        <p v-if="category.num_donations">Registered <strong>{{ category.num_donations }}</strong> donations in category with a total amount of <strong>{{ category.sum_donations }}</strong>.</p>
+        <p v-else>{{ $t('No donations found.') }}</p>
+
         <p>
             <router-link
                 v-if="category.can_update"

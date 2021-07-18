@@ -204,6 +204,8 @@ Route::middleware(['language', 'auth'])
         Route::get('categories/tree', [CategoriesController::class, 'tree'])
             ->name('categories.tree');
         Route::resource('categories', CategoriesController::class);
+        Route::get('categories/{category}/donations', [CategoriesController::class, 'donations'])
+            ->name('categories.donations');
         Route::get('projects/tree', [ProjectsController::class, 'tree'])
             ->name('projects.tree');
         Route::resource('projects', ProjectsController::class);
