@@ -891,6 +891,7 @@ export default {
         }
     },
     "en": {
+        "{num} results": "{num} results",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
