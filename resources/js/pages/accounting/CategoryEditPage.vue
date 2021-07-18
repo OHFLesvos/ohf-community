@@ -72,7 +72,7 @@ export default {
             try {
                 await categoriesApi.update(this.id, formData)
                 showSnackbar(this.$t('Category updated.'))
-                this.$router.push({ name: 'accounting.categories.index' })
+                this.$router.push({ name: 'accounting.categories.show', params: { id: this.id } })
             } catch (err) {
                 alert(err)
             }
@@ -90,7 +90,7 @@ export default {
             this.isBusy = false
         },
         handleCnacel () {
-            this.$router.push({ name: 'accounting.categories.index' })
+            this.$router.push({ name: 'accounting.categories.show', params: { id: this.id } })
         },
         dateFormat (value) {
             return moment(value).format('LLL')

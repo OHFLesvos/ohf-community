@@ -47,7 +47,7 @@ export default {
         },
         navigateToEdit(id) {
             this.$router.push({
-                name: "accounting.categories.edit",
+                name: "accounting.categories.show",
                 params: { id: id }
             });
         }

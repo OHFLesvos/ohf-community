@@ -109,6 +109,24 @@ export default [
         }
     },
     {
+        path: "/accounting/categories/:id",
+        name: "accounting.categories.show",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryViewPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("View category"),
+                container: true,
+            }
+        }
+    },
+    {
         path: "/accounting/categories/:id/edit",
         name: "accounting.categories.edit",
         components: {
