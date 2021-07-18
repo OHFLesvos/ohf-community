@@ -1,48 +1,34 @@
 <template>
-    <b-card class="shadow-sm mb-4" :header="title" no-body>
-        <b-table-simple hover class="mb-0">
-            <b-tbody>
-                <template v-if="items.length > 0">
-                    <b-tr v-for="v in flattenChildren ? flattenedItems : items" :key="v.id">
-                        <b-td>
-                            <span v-if="v.prefix" v-html="v.prefix"></span>
-                            <template v-if="v.name">
-                                <a
-                                    v-if="
-                                        wallet && can('can-view-transactions')
-                                    "
-                                    :href="
-                                        route('accounting.transactions.index', {
-                                            wallet,
-                                            [`filter[${paramName}]`]: v.id ? v.id : v.name,
-                                            'filter[date_start]': filterDateStart,
-                                            'filter[date_end]': filterDateEnd
-                                        })
-                                    "
-                                    >{{ v.name }}</a
-                                >
-                                <template v-else>{{ v.name }}</template>
-                            </template>
-                            <em v-else>{{ noNameLabel }}</em>
-                        </b-td>
-                        <b-td
-                            class="text-right"
-                            :class="colorClass(v.amount > 0)"
-                        >
-                            {{ numberFormat(v.amount) }}
-                        </b-td>
-                    </b-tr>
-                </template>
-                <b-tr v-else>
-                    <b-td>
-                        <em>{{
-                            $t("No data available in the selected time range.")
-                        }}</em>
-                    </b-td>
-                </b-tr>
-            </b-tbody>
-        </b-table-simple>
-    </b-card>
+    <b-table
+        hover
+        :items="flattenChildren ? flattenedItems : items"
+        :fields="fields"
+        :show-empty="true"
+        :empty-text="$t('No data available in the selected time range.')"
+        class="shadow-sm mb-4 bg-white"
+    >
+        <template #cell(name)="data">
+            <span v-if="data.item.prefix" v-html="data.item.prefix"></span>
+            <template v-if="data.value">
+                <a
+                    v-if="wallet && can('can-view-transactions')"
+                    :href="
+                        route('accounting.transactions.index', {
+                            wallet,
+                            [`filter[${paramName}]`]: data.item.id
+                                ? data.item.id
+                                : data.value,
+                            'filter[date_start]': filterDateStart,
+                            'filter[date_end]': filterDateEnd
+                        })
+                    "
+                    >{{ data.value }}</a
+                >
+                <template v-else>{{ data.value }}</template>
+            </template>
+            <em v-else>{{ noNameLabel }}</em>
+        </template>
+    </b-table>
 </template>
 
 <script>
@@ -66,7 +52,21 @@ export default {
         flattenChildren: Boolean
     },
     data() {
-        return {};
+        return {
+            fields: [
+                {
+                    key: "name",
+                    label: this.title
+                },
+                {
+                    key: "amount",
+                    label: this.$t("Amount"),
+                    class: "text-right",
+                    formatter: (value, key, item) => this.numberFormat(value),
+                    tdClass: (value, key, item) => this.colorClass(value > 0)
+                }
+            ]
+        };
     },
     computed: {
         flattenedItems() {

@@ -147,7 +147,7 @@
                         :items="secondCategories"
                         :title="$t('Secondary Categories')"
                         paramName="secondary_category"
-                        :noNameLabel="$t('No secondary sategory')"
+                        :noNameLabel="$t('No Secondary Category')"
                         :wallet="wallet"
                         :filterDateStart="filterDateStart"
                         :filterDateEnd="filterDateEnd"
