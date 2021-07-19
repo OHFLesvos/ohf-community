@@ -16,7 +16,7 @@
         </div>
     @else
         <x-alert type="info">
-            @lang('There is currently no content available for you here.')
+            {{ __('There is currently no content available for you here.')  }}
         </x-alert>
     @endif
 @endsection

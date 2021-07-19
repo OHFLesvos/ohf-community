@@ -75,7 +75,7 @@
         </div>
         <div class="form-row">
             <div class="col-sm">
-                <label>@lang('Receipt')</label>
+                <label>{{ __('Receipt') }}</label>
                 {{ Form::bsFile('receipt_picture[]', [ 'accept' => 'image/*,application/pdf', 'multiple' ], __('Choose picture of receipt')) }}
             </div>
             <div class="col-sm">

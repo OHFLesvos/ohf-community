@@ -6,7 +6,7 @@
 
     {{ Form::open(['route' => 'login']) }}
 
-        <p>@lang('Enter the code from your authenticator app into the field below.')</p>
+        <p>{{ __('Enter the code from your authenticator app into the field below.') }}</p>
         <div class="form-group">
             {{ Form::bsNumber('code', old('code'), [ 'required', 'autofocus' ], '') }}
         </div>
@@ -16,11 +16,11 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            @lang('Login')
+            {{ __('Login') }}
         </button>
 
         <div class="text-center mt-4">
-            <a href="{{ route('login') }}">@lang('Cancel')</a>
+            <a href="{{ route('login') }}">{{ __('Cancel') }}</a>
         </div>
 
     {{ Form::close() }}

@@ -69,10 +69,10 @@
         @elseif($selected_display == 'grid')
             @include('cmtyvol.include.grid')
         @endif
-        <p><small>@lang(':num results found', [ 'num' => $data->count() ])</small></p>
+        <p><small>{{ __(':num results found', [ 'num' => $data->count() ]) }}</small></p>
     @else
         <x-alert type="info">
-            @lang('No community volunteers found.')
+            {{ __('No community volunteers found.') }}
         </x-alert>
     @endif
 @endsection

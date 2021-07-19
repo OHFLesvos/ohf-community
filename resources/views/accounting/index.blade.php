@@ -5,9 +5,9 @@
 @section('content')
     <div class="card shadow-sm mb-4">
         <div class="card-header d-flex justify-content-between">
-            <span>@lang('Wallets')</span>
+            <span>{{ __('Wallets') }}</span>
             @can('configure-accounting')
-                <a href="{{ route('accounting.wallets') }}">@lang('Manage')</a>
+                <a href="{{ route('accounting.wallets') }}">{{ __('Manage') }}</a>
             @endcan
         </div>
         <div class="list-group list-group-flush">
@@ -22,7 +22,7 @@
                 @endcan
             @empty
                 <div class="list-group-item">
-                    @lang('No wallets found.')
+                    {{ __('No wallets found.') }}
                 </div>
             @endforelse
         </div>
@@ -30,10 +30,10 @@
 
     <p>
         @can('viewAny', App\Models\Accounting\Category::class)
-            <a href="{{ route('accounting.categories') }}" class="btn btn-secondary">@lang('Manage categories')</a>
+            <a href="{{ route('accounting.categories') }}" class="btn btn-secondary">{{ __('Manage categories') }}</a>
         @endcan
         @can('viewAny', App\Models\Accounting\Project::class)
-            <a href="{{ route('accounting.projects') }}" class="btn btn-secondary">@lang('Manage projects')</a>
+            <a href="{{ route('accounting.projects') }}" class="btn btn-secondary">{{ __('Manage projects') }}</a>
         @endcan
     </p>
 @endsection

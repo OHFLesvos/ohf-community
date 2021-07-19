@@ -3,7 +3,7 @@
 @section('title', __('Book to Webling'))
 
 @section('content')
-    <p>@lang('The following transactions from <strong>:from</strong> to <strong>:to</strong> can be booked in the period <strong>:period</strong>:', [ 'from' => $from->toDateString(), 'to' => $to->toDateString(), 'period' => $period->title ])</p>
+    <p>{{ __('The following transactions from <strong>:from</strong> to <strong>:to</strong> can be booked in the period <strong>:period</strong>:', [ 'from' => $from->toDateString(), 'to' => $to->toDateString(), 'period' => $period->title ]) }}</p>
     @unless($transactions->isEmpty())
         {!! Form::open(['route' => ['accounting.webling.store', $wallet ]]) !!}
             {{ Form::hidden('period', $period->id) }}
@@ -13,15 +13,15 @@
                 <table class="table table-hover bg-white" id="bookings_table">
                     <thead>
                         <tr>
-                            <th class="fit">@lang('Date')</th>
-                            <th class="fit text-right">@lang('Credit')</th>
-                            <th class="fit text-right">@lang('Debit')</th>
-                            <th>@lang('Posting text')</th>
-                            <th>@lang('Debit side')</th>
-                            <th>@lang(' Credit side')</th>
-                            <th class="fit">@lang('Receipt No.')</th>
-                            <th class="fit">@lang('Controlled')</th>
-                            <th class="fit">@lang('Action')</th>
+                            <th class="fit">{{ __('Date') }}</th>
+                            <th class="fit text-right">{{ __('Credit') }}</th>
+                            <th class="fit text-right">{{ __('Debit') }}</th>
+                            <th>{{ __('Posting text') }}</th>
+                            <th>{{ __('Debit side') }}</th>
+                            <th>{{ __(' Credit side') }}</th>
+                            <th class="fit">{{ __('Receipt No.') }}</th>
+                            <th class="fit">{{ __('Controlled') }}</th>
+                            <th class="fit">{{ __('Action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,7 +31,7 @@
                             @endphp
                             <tr data-id="{{ $transaction->id }}">
                                 <td class="fit">
-                                    <a href="{{ route('accounting.transactions.show', $transaction->id) }}" target="_blank" title="@lang('Open in new window/tab')">{{ $transaction->date }}</a>
+                                    <a href="{{ route('accounting.transactions.show', $transaction->id) }}" target="_blank" title="{{ __('Open in new window/tab') }}">{{ $transaction->date }}</a>
                                 </td>
                                 <td class="text-success text-right fit">
                                     @if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif
@@ -75,7 +75,7 @@
         {!! Form::close() !!}
     @else
         <x-alert type="info">
-            @lang('No transactions found.')
+            {{ __('No transactions found.') }}
         </x-alert>
     @endunless
 @endsection

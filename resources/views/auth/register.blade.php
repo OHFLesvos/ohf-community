@@ -5,7 +5,7 @@
 @section('content')
 
     <x-alert type="info">
-        @lang('By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.', [ 'url' => route('userPrivacyPolicy') ])
+        {{ __('By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.', [ 'url' => route('userPrivacyPolicy') ]) }}
     </x-alert>
 
     {{ Form::open(['route' => 'register']) }}
@@ -44,11 +44,11 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            @lang('Register')
+            {{ __('Register') }}
         </button>
 
         <div class="text-center mt-4">
-            <a href="{{ route('login') }}">@lang('Return to login')</a>
+            <a href="{{ route('login') }}">{{ __('Return to login') }}</a>
         </div>
 
     {{ Form::close() }}

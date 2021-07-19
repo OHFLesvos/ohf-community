@@ -8,11 +8,11 @@
             <table class="table table-sm table-bordered table- table-hover">
                 <thead>
                     <tr>
-                        <th>@lang('Name')</th>
-                        <th>@lang('Description')</th>
-                        <th class="text-center fit">@lang('Available')</th>
-                        <th class="text-right fit">@lang('Capacity')</th>
-                        <th class="fit">@lang('Assigned')</th>
+                        <th>{{ __('Name') }}</th>
+                        <th>{{ __('Description') }}</th>
+                        <th class="text-center fit">{{ __('Available') }}</th>
+                        <th class="text-right fit">{{ __('Capacity') }}</th>
+                        <th class="fit">{{ __('Assigned') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -70,7 +70,7 @@
         </div>
     @else
         <x-alert type="info">
-            @lang('No responsibilities defined.')
+            {{ __('No responsibilities defined.') }}
         </x-alert>
     @endif
 @endsection

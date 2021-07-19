@@ -5,7 +5,7 @@
 @section('content')
     {!! Form::open(['route' => [ 'badges.selection' ], 'method' => 'post', 'files' => true]) !!}
         <div class="card shadow-sm mb-4">
-            <div class="card-header">@lang('Data source')</div>
+            <div class="card-header">{{ __('Data source') }}</div>
             <div class="card-body pb-2">
                 <div class="mb-3">
                     {{ Form::bsRadioList('source', $sources, $source, __('Source')) }}

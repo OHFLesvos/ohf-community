@@ -12,7 +12,7 @@
                     {{ $sections[$section] }}
                     @if($section == 'occupation')
                     <a href="{{ route('cmtyvol.responsibilities', $cmtyvol) }}">
-                        @lang('Edit')
+                        {{ __('Edit') }}
                     </a>
                     @endif
                 </div>
@@ -20,13 +20,13 @@
                     @if($cmtyvol->firstWorkStartDate == null)
                         <div class="card-body p-0">
                             <x-alert type="warning" class="m-0">
-                                @lang('No starting date has been set.')
+                                {{ __('No starting date has been set.') }}
                             </x-alert>
                         </div>
                     @elseif($cmtyvol->firstWorkStartDate->gt(today()))
                         <div class="card-body p-0">
                             <x-alert type="warning" class="m-0">
-                                @lang('This community volunteer will start on :date.', ['date' => $cmtyvol->firstWorkStartDate->toDateString() ])
+                                {{ __('This community volunteer will start on :date.', ['date' => $cmtyvol->firstWorkStartDate->toDateString() ]) }}
                             </x-alert>
                         </div>
                     @else
@@ -34,9 +34,9 @@
                             <div class="card-body p-0">
                                 <x-alert type="info" class="m-0">
                                     @if($cmtyvol->lastWorkEndDate < today())
-                                        @lang('This community volunteer left on :date.', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ])
+                                        {{ __('This community volunteer left on :date.', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ]) }}
                                     @else
-                                        @lang('This community volunteer will leave on :date.', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ])
+                                        {{ __('This community volunteer will leave on :date.', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ]) }}
                                     @endif
                                 </x-alert>
                             </div>
@@ -62,7 +62,7 @@
                         @endforeach
                     @else
                         <li class="list-group-item">
-                            <em>@lang('No data registered.')</em>
+                            <em>{{ __('No data registered.') }}</em>
                         </li>
                     @endif
                 </ul>
@@ -71,7 +71,7 @@
         @can('viewAny', App\Model\Comment::class)
             @can('update', $cmtyvol)
                 <div class="column-break-avoid">
-                    <h4>@lang('Comments')</h4>
+                    <h4>{{ __('Comments') }}</h4>
                     <div id="app">
                         <x-spinner />
                     </div>

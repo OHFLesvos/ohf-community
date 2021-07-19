@@ -33,7 +33,7 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            @lang('Reset password')
+            {{ __('Reset password') }}
         </button>
 
     </form>

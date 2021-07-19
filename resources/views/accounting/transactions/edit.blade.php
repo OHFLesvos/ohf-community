@@ -75,7 +75,7 @@
         </div>
         <div class="form-row">
             <div class="col-sm">
-                <label>@lang('Receipt')</label>
+                <label>{{ __('Receipt') }}</label>
                 @if(! empty($transaction->receipt_pictures))
                     <div class="form-row">
                         @foreach($transaction->receipt_pictures as $picture)

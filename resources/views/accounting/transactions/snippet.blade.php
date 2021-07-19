@@ -2,7 +2,7 @@
         @isset($transaction->receipt_no)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Receipt') #</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Receipt') }} #</strong></div>
                     <div class="col-sm">
                         {{ $transaction->receipt_no }}
                     </div>
@@ -11,7 +11,7 @@
         @endisset
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('Date')</strong></div>
+                <div class="col-sm-4"><strong>{{ __('Date') }}</strong></div>
                 <div class="col-sm">
                     {{ $transaction->date }}
                 </div>
@@ -19,9 +19,9 @@
         </li>
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('Amount')
-                    @if($transaction->type == 'income') (@lang('Income')) @endif
-                    @if($transaction->type == 'spending') (@lang('Spending')) @endif
+                <div class="col-sm-4"><strong>{{ __('Amount') }}
+                    @if($transaction->type == 'income') ({{ __('Income') }}) @endif
+                    @if($transaction->type == 'spending') ({{ __('Spending') }}) @endif
                 </strong></div>
                 <div class="col-sm @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">
                     {{ number_format($transaction->amount, 2) }}
@@ -31,7 +31,7 @@
         @isset($transaction->fees)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Transaction fees')</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Transaction fees') }}</strong></div>
                     <div class="col-sm text-danger">
                         {{ number_format($transaction->fees, 2) }}
                     </div>
@@ -40,7 +40,7 @@
         @endisset
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('Category')</strong></div>
+                <div class="col-sm-4"><strong>{{ __('Category') }}</strong></div>
                 <div class="col-sm">
                     {{ $transaction->category->getPathElements()->pluck('name')->join(' » ')  }}
                 </div>
@@ -49,7 +49,7 @@
         @isset($transaction->secondary_category)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Secondary Category')</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Secondary Category') }}</strong></div>
                     <div class="col-sm">
                         {{ $transaction->secondary_category }}
                     </div>
@@ -59,7 +59,7 @@
         @isset($transaction->project)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Project')</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Project') }}</strong></div>
                     <div class="col-sm">
                         {{ $transaction->project->getPathElements()->pluck('name')->join(' » ')  }}
                     </div>
@@ -69,7 +69,7 @@
         @isset($transaction->location)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Location')</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Location') }}</strong></div>
                     <div class="col-sm">
                         {{ $transaction->location }}
                     </div>
@@ -79,7 +79,7 @@
         @isset($transaction->cost_center)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Cost Center')</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Cost Center') }}</strong></div>
                     <div class="col-sm">
                         {{ $transaction->cost_center }}
                     </div>
@@ -88,7 +88,7 @@
         @endisset
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('Description')</strong></div>
+                <div class="col-sm-4"><strong>{{ __('Description') }}</strong></div>
                 <div class="col-sm">
                     {{ $transaction->description }}
                 </div>
@@ -97,7 +97,7 @@
         @isset($transaction->supplier)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Supplier')</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Supplier') }}</strong></div>
                     <div class="col-sm">
                         @can('view', $transaction->supplier)
                             <a href="{{ route('accounting.suppliers.show', $transaction->supplier) }}">
@@ -115,7 +115,7 @@
         @endisset
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('Attendee')</strong></div>
+                <div class="col-sm-4"><strong>{{ __('Attendee') }}</strong></div>
                 <div class="col-sm">
                     {{ $transaction->attendee }}
                 </div>
@@ -124,7 +124,7 @@
         @isset($transaction->remarks)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Remarks')</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Remarks') }}</strong></div>
                     <div class="col-sm">
                         {{ $transaction->remarks }}
                     </div>
@@ -135,7 +135,7 @@
         {{-- Registered --}}
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('Registered')</strong></div>
+                <div class="col-sm-4"><strong>{{ __('Registered') }}</strong></div>
                 <div class="col-sm">
                     @php
                         $audit = $transaction->audits()->first();
@@ -148,7 +148,7 @@
         {{-- Controlled --}}
         <li class="list-group-item">
             <div class="row">
-                <div class="col-sm-4"><strong>@lang('Controlled')</strong></div>
+                <div class="col-sm-4"><strong>{{ __('Controlled') }}</strong></div>
                 <div class="col-sm">
                     @if($transaction->controlled_at)
                         {{ $transaction->controlled_at }}
@@ -158,7 +158,7 @@
                                 <button class="btn btn-secondary btn-sm undo-controlled"
                                     data-url="{{ route('api.accounting.transactions.undoControlled', $transaction) }}"
                                 >
-                                    @lang('Undo')
+                                    {{ __('Undo') }}
                                 </button>
                             @endcan
                         @endif
@@ -166,7 +166,7 @@
                         <button class="btn btn-primary btn-sm mark-controlled"
                             data-url="{{ route('api.accounting.transactions.markControlled', $transaction) }}"
                         >
-                            @lang('Mark as controlled')
+                            {{ __('Mark as controlled') }}
                         </button>
                     @endif
                 </div>
@@ -177,7 +177,7 @@
         @if($transaction->booked)
             <li class="list-group-item">
                 <div class="row">
-                    <div class="col-sm-4"><strong>@lang('Booked')</strong></div>
+                    <div class="col-sm-4"><strong>{{ __('Booked') }}</strong></div>
                     <div class="col-sm">
                         @can('book-accounting-transactions-externally')
                             @isset($transaction->external_id)
@@ -191,10 +191,10 @@
                                     {{ $transaction->external_id }}
                                 @endisset
                             @else
-                                @lang('Yes')
+                                {{ __('Yes') }}
                             @endif
                         @else
-                            @lang('Yes')
+                            {{ __('Yes') }}
                         @endcan
                         @can('undoBooking', $transaction)
                             {!! Form::model($transaction, ['route' => ['accounting.transactions.undoBooking', $transaction], 'method' => 'put']) !!}
@@ -202,10 +202,10 @@
                                     <button
                                         type="submit"
                                         class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('@lang('Really undo booking?')')"
+                                        onclick="return confirm('{{ __('Really undo booking?') }}')"
                                     >
                                         <x-icon icon="undo"/>
-                                        @lang('Undo booking')
+                                        {{ __('Undo booking') }}
                                     </button>
                                 </p>
                             {!! Form::close() !!}

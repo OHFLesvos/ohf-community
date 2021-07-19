@@ -4,16 +4,16 @@
 @section('site-title', __('Latest changes') . ' - ' . __('Knowledge Base'))
 
 @section('content')
-    <h1 class="display-4">@lang('Latest changes')</h1>
+    <h1 class="display-4">{{ __('Latest changes') }}</h1>
     @if(! $audits->isEmpty())
         <div class="table-responsive">
             <table class="table table-hover bg-white">
                 <thead>
                     <tr>
-                        <th>@lang('Date')</th>
-                        <th>@lang('Author')</th>
-                        <th>@lang('Action')</th>
-                        <th>@lang('Article')</th>
+                        <th>{{ __('Date') }}</th>
+                        <th>{{ __('Author') }}</th>
+                        <th>{{ __('Action') }}</th>
+                        <th>{{ __('Article') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +44,7 @@
                                 @elseif($title)
                                     {{ $title }}
                                 @else
-                                    <em>@lang('not available')</em>
+                                    <em>{{ __('not available') }}</em>
                                 @endisset
                             </td>
                         </tr>
@@ -55,7 +55,7 @@
         {{ $audits->links() }}
     @else
         <x-alert type="info">
-            @lang('No articles found.')
+            {{ __('No articles found.') }}
         </x-alert>
     @endif
 @endsection

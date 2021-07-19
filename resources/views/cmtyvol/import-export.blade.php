@@ -8,15 +8,15 @@
             <div class="col-md">
                 {!! Form::open(['route' => 'cmtyvol.doImport', 'files' => true]) !!}
                     <div class="card shadow-sm mb-4">
-                        <div class="card-header">@lang('Import')</div>
+                        <div class="card-header">{{ __('Import') }}</div>
                         <div class="card-body">
                             {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv', 'class' => 'import-form-file' ], __('Choose file...')) }}
                         </div>
                         <table class="import-form-header-mapping table d-none" data-query="{{ route('api.cmtyvol.getHeaderMappings') }}">
                             <thead>
-                                <th>@lang('Field to import')</th>
-                                <th>@lang('Field in database')</th>
-                                <th>@lang('Add to existing values')</th>
+                                <th>{{ __('Field to import') }}</th>
+                                <th>{{ __('Field in database') }}</th>
+                                <th>{{ __('Add to existing values') }}</th>
                             </thead>
                             <tbody></tbody>
                         </table>
@@ -31,7 +31,7 @@
             <div class="col-md">
                 {!! Form::open(['route' => 'cmtyvol.doExport']) !!}
                     <div class="card shadow-sm mb-4">
-                        <div class="card-header">@lang('Export')</div>
+                        <div class="card-header">{{ __('Export') }}</div>
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm">

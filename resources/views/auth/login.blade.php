@@ -20,14 +20,14 @@
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
             @endif
-            <small><a href="{{ route('password.request') }}">@lang('Forgot your password?')</a></small>
+            <small><a href="{{ route('password.request') }}">{{ __('Forgot your password?') }}</a></small>
         </div>
 
         {{ Form::bsCheckbox('remember', 1, false, __('Remember me')) }}
 
         <p class="mt-4">
             <button type="submit" class="btn btn-primary btn-block">
-                @lang('Login')
+                {{ __('Login') }}
             </button>
         </p>
 
@@ -37,7 +37,7 @@
                 ->isNotEmpty();
         @endphp
         @if($hasServices)
-            <p class="text-center">@lang('or')</p>
+            <p class="text-center">{{ __('or') }}</p>
             <p class="text-center">
             <div class="row">
                 @foreach(config('auth.socialite.drivers') as $driver)
@@ -56,8 +56,8 @@
         @endif
 
         <div class="text-center mt-4">
-            <span class="d-none d-sm-inline">@lang('Are you new here?') <a href="{{ route('register') }}">@lang('Create an account')</a></span>
-            <span class="d-inline d-sm-none">@lang('New here?') <a href="{{ route('register') }}">@lang('Create account')</a></span>
+            <span class="d-none d-sm-inline">{{ __('Are you new here?') }} <a href="{{ route('register') }}">{{ __('Create an account') }}</a></span>
+            <span class="d-inline d-sm-none">{{ __('New here?') }} <a href="{{ route('register') }}">{{ __('Create account') }}</a></span>
         </div>
 
     {{ Form::close() }}

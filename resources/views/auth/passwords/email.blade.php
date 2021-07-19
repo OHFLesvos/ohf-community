@@ -10,7 +10,7 @@
         </x-alert>
     @endif
 
-    <p>@lang('Please enter your e-mail address. We will send you a link which allows you to reset your password.')</p>
+    <p>{{ __('Please enter your e-mail address. We will send you a link which allows you to reset your password.') }}</p>
 
     {{ Form::open(['route' => 'password.email']) }}
 
@@ -24,11 +24,11 @@
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
-            @lang('Send password reset link')
+            {{ __('Send password reset link') }}
         </button>
 
         <div class="text-center mt-4">
-            <a href="{{ route('login') }}">@lang('Return to login')</a>
+            <a href="{{ route('login') }}">{{ __('Return to login') }}</a>
         </div>
 
     {{ Form::close() }}

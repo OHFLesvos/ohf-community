@@ -1,11 +1,11 @@
 <table>
     <thead>
         <tr>
-            <th>@lang('Month')</th>
-            <th class="text-right">@lang('Income')</th>
-            <th class="text-right">@lang('Spending')</th>
-            <th class="text-right">@lang('Difference')</th>
-            <th class="text-right">@lang('Wallet')</th>
+            <th>{{ __('Month') }}</th>
+            <th class="text-right">{{ __('Income') }}</th>
+            <th class="text-right">{{ __('Spending') }}</th>
+            <th class="text-right">{{ __('Difference') }}</th>
+            <th class="text-right">{{ __('Wallet') }}</th>
         </tr>
     </thead>
     <tbody>

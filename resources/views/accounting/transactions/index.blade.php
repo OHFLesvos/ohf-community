@@ -11,13 +11,13 @@
                 @if($has_multiple_wallets)
                     {{ $wallet->name }}:
                 @else
-                    @lang('Wallet'):
+                    {{ __('Wallet') }}:
                 @endif
             </span>
             <u>{{ number_format($wallet->amount, 2) }}</u>
             @if($has_multiple_wallets)
                 <a href="{{ route('accounting.index') }}" class="d-none d-sm-inline btn btn-sm btn-primary ml-2">
-                    @lang('Change')
+                    {{ __('Change') }}
                 </a>
                 <a href="{{ route('accounting.index') }}" class="d-inline d-sm-none btn btn-sm">
                     <x-icon icon="folder-open"/>
@@ -26,14 +26,14 @@
         </div>
         <div class="text-right">
             @if(count($filter) > 0)
-                <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3"><x-icon icon="eraser"/> @lang('Reset filter')</a>
+                <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3"><x-icon icon="eraser"/> {{ __('Reset filter') }}</a>
             @endif
             <button type="button" class="btn btn-sm btn-secondary mb-3" data-toggle="modal" data-target="#filterModal">
                 <x-icon icon="search"/>
                 @if(count($filter) > 0)
-                    @lang('Edit filter')
+                    {{ __('Edit filter') }}
                 @else
-                    @lang('Filter results')
+                    {{ __('Filter results') }}
                 @endif
             </button>
         </div>
@@ -44,31 +44,31 @@
             <table class="table table-hover bg-white">
                 <thead>
                     <tr>
-                        <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">@lang('Receipt') </span>#</th>
-                        <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">@lang('Date')</th>
-                        <th class="fit d-table-cell d-sm-none text-right">@lang('Amount')</th>
-                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">@lang('Income')</th>
-                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">@lang('Spending')</th>
+                        <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">{{ __('Receipt') }} </span>#</th>
+                        <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">{{ __('Date') }}</th>
+                        <th class="fit d-table-cell d-sm-none text-right">{{ __('Amount') }}</th>
+                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">{{ __('Income') }}</th>
+                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">{{ __('Spending') }}</th>
                         @if($intermediate_balances !== null)
-                            <th class="fit text-right">@lang('Intermediate balance')</th>
+                            <th class="fit text-right">{{ __('Intermediate balance') }}</th>
                         @endif
-                        <th class="@isset($filter['category_id']) text-info @endisset">@lang('Category')</th>
+                        <th class="@isset($filter['category_id']) text-info @endisset">{{ __('Category') }}</th>
                         @if($secondary_categories !== null)
-                            <th class="@isset($filter['secondary_category']) text-info @endisset">@lang('Secondary Category')</th>
+                            <th class="@isset($filter['secondary_category']) text-info @endisset">{{ __('Secondary Category') }}</th>
                         @endif
-                        <th class="@isset($filter['project_id']) text-info @endisset">@lang('Project')</th>
+                        <th class="@isset($filter['project_id']) text-info @endisset">{{ __('Project') }}</th>
                         @if($locations !== null)
-                            <th class="@isset($filter['location']) text-info @endisset">@lang('Location')</th>
+                            <th class="@isset($filter['location']) text-info @endisset">{{ __('Location') }}</th>
                         @endif
                         @if($cost_centers !== null)
-                            <th class="@isset($filter['cost_center']) text-info @endisset">@lang('Cost Center')</th>
+                            <th class="@isset($filter['cost_center']) text-info @endisset">{{ __('Cost Center') }}</th>
                         @endif
-                        <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">@lang('Description')</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">{{ __('Description') }}</th>
                         @if($has_suppliers)
-                            <th class="d-none d-sm-table-cell @isset($filter['supplier']) text-info @endisset">@lang('Supplier')</th>
+                            <th class="d-none d-sm-table-cell @isset($filter['supplier']) text-info @endisset">{{ __('Supplier') }}</th>
                         @endif
-                        <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">@lang('Attendee')</th>
-                        <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">@lang('Registered')</th>
+                        <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">{{ __('Attendee') }}</th>
+                        <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">{{ __('Registered') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -152,7 +152,7 @@
                     @endphp
                     @if($sum_income > 0 || $sum_spending > 0)
                         <tr>
-                            <td colspan="2" rowspan="2" class="align-middle">@lang('Total')</td>
+                            <td colspan="2" rowspan="2" class="align-middle">{{ __('Total') }}</td>
                             <td class="text-right d-none d-sm-table-cell">
                                 <u class="text-success">{{ number_format($sum_income, 2) }}</u>
                             </td>
@@ -183,7 +183,7 @@
         @endforeach
     @else
         <x-alert type="info">
-            @lang('No transactions found.')
+            {{ __('No transactions found.') }}
         </x-alert>
     @endif
 @endsection
@@ -392,7 +392,7 @@
 
             @slot('footer')
                 @if(count($filter) > 0)
-                    <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-secondary" tabindex="-1"><x-icon icon="eraser"/> @lang('Reset filter')</a>
+                    <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-secondary" tabindex="-1"><x-icon icon="eraser"/> {{ __('Reset filter') }}</a>
                 @endif
                 <x-form.bs-submit-button :label="__('Update')" icon="search"/>
             @endslot
