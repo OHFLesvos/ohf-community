@@ -24,5 +24,12 @@ export default {
             transaction
         );
         return await api.delete(url);
+    },
+    async undoBooking(transaction) {
+        const url = route(
+            "api.accounting.transactions.undoBooking",
+            transaction
+        );
+        return await api.put(url);
     }
 };

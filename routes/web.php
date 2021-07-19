@@ -180,8 +180,6 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.doExport');
         Route::get('transactions/{transaction}/snippet', [TransactionsController::class, 'snippet'])
             ->name('transactions.snippet');
-        Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
-            ->name('transactions.undoBooking');
         Route::get('wallets/{wallet}/transactions', [TransactionsController::class, 'index'])
             ->name('transactions.index');
         Route::get('wallets/{wallet}/transactions/create', [TransactionsController::class, 'create'])

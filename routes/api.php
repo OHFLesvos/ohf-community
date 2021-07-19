@@ -218,6 +218,8 @@ Route::middleware(['language', 'auth'])
         Route::get('transactions/locations', [TransactionsController::class, 'locations'])
             ->name('transactions.locations');
         Route::resource('transactions', TransactionsController::class)->only(['show']);
+        Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
+            ->name('transactions.undoBooking');
 
         Route::get('transactions/{transaction}/controlled', [ControllingController::class, 'controlled'])
             ->name('transactions.controlled');

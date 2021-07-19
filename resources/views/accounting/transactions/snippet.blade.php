@@ -1,48 +1,5 @@
     <ul class="list-group list-group-flush shadow-sm">
 
-        {{-- Booked --}}
-        @if($transaction->booked)
-            <li class="list-group-item">
-                <div class="row">
-                    <div class="col-sm-4"><strong>{{ __('Booked') }}</strong></div>
-                    <div class="col-sm">
-                        @can('book-accounting-transactions-externally')
-                            @isset($transaction->external_id)
-                                @php
-                                    $url = $transaction->externalUrl;
-                                @endphp
-                                Webling:
-                                @isset($url)
-                                    <a href="{{ $url }}" target="_blank">{{ $transaction->external_id }}</a>
-                                @else
-                                    {{ $transaction->external_id }}
-                                @endisset
-                            @else
-                                {{ __('Yes') }}
-                            @endif
-                        @else
-                            {{ __('Yes') }}
-                        @endcan
-                        @can('undoBooking', $transaction)
-                            {!! Form::model($transaction, ['route' => ['accounting.transactions.undoBooking', $transaction], 'method' => 'put']) !!}
-                                <p class="mb-0 mt-2">
-                                    <button
-                                        type="submit"
-                                        class="btn btn-sm btn-outline-danger"
-                                        onclick="return confirm('{{ __('Really undo booking?') }}')"
-                                    >
-                                        <x-icon icon="undo"/>
-                                        {{ __('Undo booking') }}
-                                    </button>
-                                </p>
-                            {!! Form::close() !!}
-                        @endcan
-                    </div>
-                </div>
-            </li>
-        @endif
-    </ul>
-
     {{-- Pictures --}}
     @unless(empty($transaction->receipt_pictures))
         <hr class="mt-0">

@@ -24,6 +24,9 @@ class Transaction extends JsonResource
         $data['creating_user'] = $this->when(isset($audit) && isset($audit->getMetadata()['user_name']), fn () => $audit->getMetadata()['user_name']);
         $data['controller_name'] = $this->when($this->controlled_by !== null, fn () => optional($this->controller)->name);
         $data['can_undo_controlling'] = $request->user()->can('undoControlling', $this->resource);
+        $data['can_book_externally'] = $request->user()->can('book-accounting-transactions-externally');
+        $data['can_undo_booking'] = $request->user()->can('undoBooking', $this->resource);
+        $data['external_url'] = $this->when($this->external_id !== null, fn () => $this->externalUrl);
 
         return $data;
     }

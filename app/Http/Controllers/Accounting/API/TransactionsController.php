@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Accounting\API;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
+use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class TransactionsController extends Controller
 {
@@ -36,7 +38,24 @@ class TransactionsController extends Controller
         }
         $transaction->save();
 
-        return response(null, 204);
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    public function undoBooking(Transaction $transaction)
+    {
+        $this->authorize('undoBooking', $transaction);
+
+        if ($transaction->external_id != null && Entrygroup::find($transaction->external_id) != null) {
+            return response()->json([
+                'message' => __('Transaction not updated; the external record still exists and has to be deleted beforehand.')
+            ], Response::HTTP_CONFLICT);
+        }
+
+        $transaction->booked = false;
+        $transaction->external_id = null;
+        $transaction->save();
+
+        return response(null, Response::HTTP_NO_CONTENT);
     }
 
     public function locations()

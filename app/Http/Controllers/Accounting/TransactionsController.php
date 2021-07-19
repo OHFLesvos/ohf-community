@@ -420,25 +420,6 @@ class TransactionsController extends Controller
         return new TransactionsExport($wallet, $filter);
     }
 
-    public function undoBooking(Transaction $transaction)
-    {
-        $this->authorize('undoBooking', $transaction);
-
-        if ($transaction->external_id != null && Entrygroup::find($transaction->external_id) != null) {
-            return redirect()
-                ->route('accounting.transactions.show', $transaction)
-                ->with('error', __('Transaction not updated; the external record still exists and has to be deleted beforehand.'));
-        }
-
-        $transaction->booked = false;
-        $transaction->external_id = null;
-        $transaction->save();
-
-        return redirect()
-            ->route('accounting.transactions.show', $transaction)
-            ->with('info', __('Transaction updated.'));
-    }
-
     private static function showIntermediateBalances(): bool
     {
         return Setting::get('accounting.transactions.show_intermediate_balances') ?? false;

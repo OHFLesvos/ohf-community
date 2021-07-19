@@ -147,6 +147,46 @@
                 >
                     {{ $t("Mark as controlled") }}
                 </button>
+                <template v-else>
+                    {{ $t("No") }}
+                </template>
+            </two-col-list-group-item>
+
+            <!-- Booked -->
+            <two-col-list-group-item
+                v-if="transaction.booked"
+                :title="$t('Booked')"
+            >
+                <template
+                    v-if="
+                        transaction.can_book_externally &&
+                            transaction.external_id
+                    "
+                >
+                    Webling:
+                    <template v-if="transaction.external_url">
+                        <a :href="transaction.external_url" target="_blank">{{
+                            transaction.external_id
+                        }}</a>
+                    </template>
+                    <template v-else>
+                        {{ transaction.external_id }}
+                    </template>
+                </template>
+                <template v-else>
+                    {{ $t("Yes") }}
+                </template>
+                <p v-if="transaction.can_undo_booking" class="mb-0 mt-2">
+                    <button
+                        type="submit"
+                        class="btn btn-sm btn-outline-danger"
+                        :disabled="isBusy"
+                        @click="undoBooking()"
+                    >
+                        <font-awesome-icon icon="undo" />
+                        {{ $t("Undo booking") }}
+                    </button>
+                </p>
             </two-col-list-group-item>
         </b-list-group>
     </b-container>
@@ -213,6 +253,20 @@ export default {
             this.isBusy = true;
             try {
                 await transactionsApi.undoControlled(this.transaction);
+                this.fetch();
+            } catch (err) {
+                alert(err);
+            }
+            this.isBusy = false;
+        },
+        async undoBooking() {
+            if (!confirm(this.$t('Really undo booking?'))) {
+                return;
+            }
+
+            this.isBusy = true;
+            try {
+                await transactionsApi.undoBooking(this.transaction);
                 this.fetch();
             } catch (err) {
                 alert(err);
