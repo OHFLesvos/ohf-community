@@ -96,15 +96,12 @@
                                 @endisset
                             </td>
                             <td class="fit text-right" >
-                                {{ $transaction->receipt_no }}
+                                <a href="{{ route('accounting.transactions.show', $transaction) }}">
+                                    {{ $transaction->receipt_no }}
+                                </a>
                             </td>
                             <td class="fit">
-                                <a href="{{ route('accounting.transactions.show', $transaction) }}"
-                                    data-url="{{ route('accounting.transactions.snippet', $transaction) }}"
-                                    @can('update', $transaction) data-edit-url="{{ route('accounting.transactions.edit', $transaction) }}"@endcan
-                                    class="details-link">
-                                    {{ $transaction->date }}
-                                </a>
+                                {{ $transaction->date }}
                             </td>
                             <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ number_format($transaction->amount, 2) }}</td>
                             <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif</td>
@@ -249,39 +246,6 @@
                 });
             });
 
-            $('.details-link').on('click', function (e) {
-                e.preventDefault();
-                var container = $('#detailsModal');
-                var edit_url =  $(this).data('edit-url');
-                container.modal('show');
-                container.find('.modal-header')
-                    .hide();
-                container.find('.modal-footer')
-                    .hide();
-                container.find('.modal-body')
-                    .removeClass('pb-0')
-                    .removeClass('p-0')
-                    .html('<div class="text-center p-4"><i class="fa fa-spin fa-spinner"></i> Loading...</div>');
-                $.get($(this).data('url'), function (result) {
-                    container.find('.modal-header')
-                        .show();
-                    container.find('.modal-body')
-                        .addClass('p-0')
-                        .html(result);
-                    var footer_html = '';
-                    if (edit_url) {
-                        footer_html += '<a href="' + edit_url +'" class="btn btn-secondary"><i class="fa fa-edit"></i> Edit</a>';
-                    }
-                    if (footer_html.length > 0) {
-                        container.find('.modal-footer')
-                            .html(footer_html)
-                            .show();
-                    }
-                    @include('accounting.transactions.controlled')
-                    refreshFsLightbox()
-                });
-            });
-
             $('.lightbox').each(function(){
                 var data = $(this).data('urls');
                 const lightbox = new FsLightbox();
@@ -398,9 +362,4 @@
             @endslot
         @endcomponent
     {!! Form::close() !!}
-
-    @component('components.modal', [ 'id' => 'detailsModal' ])
-        @slot('title', 'Transaction details')
-        @slot('footer')@endslot
-    @endcomponent
 @endpush
