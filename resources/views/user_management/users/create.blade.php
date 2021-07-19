@@ -10,7 +10,7 @@
         <input type="password" style="display:none">
 
         <div class="card shadow-sm mb-4">
-            <div class="card-header">@lang('User Profile')</div>
+            <div class="card-header">{{ __('User Profile') }}</div>
             <div class="card-body">
                 <div class="form-row">
                     <div class="col-md">
@@ -29,13 +29,13 @@
         </div>
 
         <div class="card shadow-sm mb-4">
-            <div class="card-header">@lang('Roles')</div>
+            <div class="card-header">{{ __('Roles') }}</div>
             <div class="card-body">
                 <div class="columns-2">
                     {{ Form::bsCheckboxList('roles[]', $roles->mapWithKeys(fn ($role) => [ $role->id => $role->name ]), null) }}
                 </div>
                 @empty($roles)
-                    <em>@lang('No roles defined.')</em>
+                    <em>{{ __('No roles defined.') }}</em>
                 @endempty
                 <hr>
                 {{ Form::bsCheckbox('is_super_admin', true, null, __('This user is an administrator')) }}

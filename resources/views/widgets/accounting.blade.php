@@ -13,7 +13,7 @@
             </a>
         @empty
             <a class="list-group-item">
-                @lang('No wallets found.')
+                {{ __('No wallets found.') }}
             </a>
         @endforelse
     </div>

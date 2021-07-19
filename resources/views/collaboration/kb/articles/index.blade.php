@@ -6,11 +6,11 @@
 @section('content')
     <h1 class="display-4">
         @if($order == 'popularity')
-            @lang('Articles sorted by popularity')
+            {{ __('Articles sorted by popularity') }}
         @elseif($order == 'recent')
-            @lang('Articles sorted by modification date')
+            {{ __('Articles sorted by modification date') }}
         @else
-            @lang('Articles')
+            {{ __('Articles') }}
         @endif
     </h1>
     @if(! $articles->isEmpty())
@@ -18,10 +18,10 @@
             @foreach ($articles as $article)
                 <a href="{{ route('kb.articles.show', $article) }}">{{ $article->title }}</a>
                 @if($article->public)
-                    <small class="text-muted" title="@lang('This article is publicly available.')"><x-icon icon="eye"/></small>
+                    <small class="text-muted" title="{{ __('This article is publicly available.') }}"><x-icon icon="eye"/></small>
                 @endif
                 @if($order == 'popularity')
-                    <small class="text-muted d-block d-sm-inline">@lang(':num views', ['num' => $article->viewCount ])</small>
+                    <small class="text-muted d-block d-sm-inline">{{ __(':num views', ['num' => $article->viewCount ]) }}</small>
                 @elseif($order == 'recent')
                     <small class="text-muted">{{ $article->updated_at->diffForHumans() }}</small>
                 @endif
@@ -42,7 +42,7 @@
         </div>
     @else
         <x-alert type="info">
-            @lang('No articles found.')
+            {{ __('No articles found.') }}
         </x-alert>
     @endif
 @endsection

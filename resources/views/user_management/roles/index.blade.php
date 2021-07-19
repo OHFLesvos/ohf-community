@@ -7,10 +7,10 @@
         <table class="table table-hover bg-white">
             <thead>
                 <tr>
-                    <th>@lang('Name')</th>
-                    <th class="text-right fit">@lang('Users')</th>
-                    <th class="text-right fit d-none d-sm-table-cell">@lang('Role Administrators')</th>
-                    <th class="text-right fit d-none d-sm-table-cell">@lang('Permissions')</th>
+                    <th>{{ __('Name') }}</th>
+                    <th class="text-right fit">{{ __('Users') }}</th>
+                    <th class="text-right fit d-none d-sm-table-cell">{{ __('Role Administrators') }}</th>
+                    <th class="text-right fit d-none d-sm-table-cell">{{ __('Permissions') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -19,7 +19,7 @@
                         <td>
                             <a href="{{ route('roles.show', $role) }}" title="View Role">{{ $role->name }}</a>
                             @if($role->administrators()->find(Auth::id()) != null)
-                                <strong>(@lang('you are administrator'))</strong>
+                                <strong>({{ __('you are administrator') }})</strong>
                             @endif
                         </td>
                         <td class="text-right fit">{{ $role->users->count() }}</td>
@@ -32,7 +32,7 @@
         {{ $roles->links() }}
     @else
         <x-alert type="info">
-            @lang('No roles found.')
+            {{ __('No roles found.') }}
         </x-alert>
     @endif
 @endsection

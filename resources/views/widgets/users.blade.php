@@ -12,10 +12,10 @@
         ],
     ])
     <div class="card-body p-3 border-top">
-        @lang('The newest user is <a href=":href">:name</a>, registered :registered.', [
+        {{ __('The newest user is <a href=":href">:name</a>, registered :registered.', [
             'href' => route('users.show', $latest_user),
             'name' => $latest_user->name,
             'registered' => $latest_user->created_at->diffForHumans(),
-        ])
+        ]) }}
     </div>
 @endsection

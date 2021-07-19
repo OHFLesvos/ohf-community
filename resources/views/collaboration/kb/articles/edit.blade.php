@@ -5,7 +5,7 @@
 @section('content')
     {!! Form::model($article, ['route' => ['kb.articles.update', $article], 'method' => 'put']) !!}
         <div class="card shadow-sm mb-4">
-            <div class="card-header">@lang('Edit article')</div>
+            <div class="card-header">{{ __('Edit article') }}</div>
             <div class="card-body">
                 <div class="form-row">
                     <div class="col-sm-8">{{ Form::bsText('title', null, [ 'placeholder' => __('Title') ], '') }}</div>

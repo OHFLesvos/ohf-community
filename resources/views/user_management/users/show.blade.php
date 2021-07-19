@@ -9,7 +9,7 @@
 
     @if ($user->id == Auth::id())
         <x-alert type="info">
-            @lang('This is your own user account.')
+            {{ __('This is your own user account.') }}
         </x-alert>
     @endif
 
@@ -20,11 +20,11 @@
 
         <div class="col-md">
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('User Profile')</div>
+                <div class="card-header">{{ __('User Profile') }}</div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('E-Mail Address')</strong></div>
+                            <div class="col-sm"><strong>{{ __('E-Mail Address') }}</strong></div>
                             <div class="col-sm">
                                 <x-links.email>{{ $user->email }}</x-links.email>
                             </div>
@@ -33,12 +33,12 @@
                     @isset($user->provider_name)
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-sm"><strong>@lang('OAuth provider')</strong></div>
+                                <div class="col-sm"><strong>{{ __('OAuth provider') }}</strong></div>
                                 <div class="col-sm">
                                     {!! Form::open(['route' => ['users.disableOAuth', $user], 'method' => 'put']) !!}
                                         <p>{{ $user->provider_name }}</p>
-                                        <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('@lang('Do you really want to disable OAuth for :name?', [ 'name' => $user->name ])');">
-                                            <x-icon icon="unlink"/> @lang('Remove')
+                                        <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('{{ __('Do you really want to disable OAuth for :name?', [ 'name' => $user->name ]) }}');">
+                                            <x-icon icon="unlink"/> {{ __('Remove') }}
                                         </button>
                                     {!! Form::close() !!}
                                 </div>
@@ -48,12 +48,12 @@
                     @isset($user->tfa_secret)
                         <li class="list-group-item">
                             <div class="row">
-                                <div class="col-sm"><strong>@lang('Two-Factor Authentication')</strong></div>
+                                <div class="col-sm"><strong>{{ __('Two-Factor Authentication') }}</strong></div>
                                 <div class="col-sm">
                                     {!! Form::open(['route' => ['users.disable2FA', $user], 'method' => 'put']) !!}
-                                    <p>@lang('Two-Factor Authentication is enabled').</p>
-                                    <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('@lang('Do you really want to disable Two-Factor Authentication for :name?', [ 'name' => $user->name ])');">
-                                        <x-icon icon="unlock"/> @lang('Disable')
+                                    <p>{{ __('Two-Factor Authentication is enabled') }}.</p>
+                                    <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('{{ __('Do you really want to disable Two-Factor Authentication for :name?', [ 'name' => $user->name ]) }}');">
+                                        <x-icon icon="unlock"/> {{ __('Disable') }}
                                     </button>
                                     {!! Form::close() !!}
                                 </div>
@@ -62,7 +62,7 @@
                     @endisset
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('Registered')</strong></div>
+                            <div class="col-sm"><strong>{{ __('Registered') }}</strong></div>
                             <div class="col-sm">
                                 {{ $user->created_at }}
                                 <small class="text-muted pl-2">{{ $user->created_at->diffForHumans() }}</small>
@@ -71,7 +71,7 @@
                     </li>
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('Last updated')</strong></div>
+                            <div class="col-sm"><strong>{{ __('Last updated') }}</strong></div>
                             <div class="col-sm">
                                 {{ $user->updated_at }}
                                 <small class="text-muted pl-2">{{ $user->updated_at->diffForHumans() }}</small>
@@ -84,7 +84,7 @@
             {{-- Roles --}}
             <div class="card shadow-sm mb-4">
                 <div class="card-header">
-                    @lang('Roles')
+                    {{ __('Roles') }}
                     <span class="badge badge-secondary">{{ $user->roles()->count() }}</span>
                 </div>
                 <div class="card-body p-0">
@@ -94,7 +94,7 @@
                                 <a href="{{ route('roles.show', $role) }}" class="list-group-item list-group-item-action">{{ $role->name }}</a>
                             @endforeach
                         @else
-                            <li class="list-group-item"><em>@lang('No roles assigned.')</em></li>
+                            <li class="list-group-item"><em>{{ __('No roles assigned.') }}</em></li>
                         @endif
                     </div>
                 </div>
@@ -104,7 +104,7 @@
             @if($user->administeredRoles->count() > 0)
                 <div class="card shadow-sm mb-4">
                     <div class="card-header">
-                        @lang('Role Administrator')
+                        {{ __('Role Administrator') }}
                         <span class="badge badge-secondary">{{ $user->administeredRoles()->count() }}</span>
                     </div>
                     <div class="card-body p-0">
@@ -122,14 +122,14 @@
             {{-- Permissions --}}
             <div class="card shadow-sm mb-4">
                 <div class="card-header">
-                    @lang('Permissions')
+                    {{ __('Permissions') }}
                     <span class="badge badge-secondary">{{ $user->permissions()->count() }}</span>
                 </div>
                 <div class="card-body p-0">
                     <ul class="list-group list-group-flush">
                         @if ($user->isSuperAdmin())
                             <li class="list-group-item list-group-item-warning">
-                                @lang('This user is an administrator and has therefore all permissions.')
+                                {{ __('This user is an administrator and has therefore all permissions.') }}
                             </li>
                         @endif
                         @if(count($permissions) > 0)
@@ -150,7 +150,7 @@
                                 </li>
                             @endforeach
                         @else
-                            <li class="list-group-item"><em>@lang('No permissions assigned.')</em></li>
+                            <li class="list-group-item"><em>{{ __('No permissions assigned.') }}</em></li>
                         @endif
                     </ul>
                 </div>

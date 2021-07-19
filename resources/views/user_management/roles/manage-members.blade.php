@@ -18,7 +18,7 @@
 
             {{-- Users --}}
             <div class="card shadow-sm">
-                <div class="card-header">@lang('Users')</div>
+                <div class="card-header">{{ __('Users') }}</div>
                 <div class="card-body columns-3">
                     {{ Form::bsCheckboxList('users[]', $users, $role->users()->orderBy('name')->get()->pluck('name', 'id')->keys()->toArray()) }}
                 </div>

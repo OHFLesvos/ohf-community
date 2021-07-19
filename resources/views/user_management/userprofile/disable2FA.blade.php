@@ -4,7 +4,7 @@
 
 @section('content')
     {!! Form::open(['route' => ['userprofile.disable2FA'], 'method' => 'delete']) !!}
-        <p>@lang('Enter the code from your authenticator app into the field below.')</p>
+        <p>{{ __('Enter the code from your authenticator app into the field below.') }}</p>
         {{  Form::bsNumber('code', null, [ 'required', 'autofocus' ], '') }}
         <p>
             <x-form.bs-submit-button :label="__('Disable')" icon="times"/>

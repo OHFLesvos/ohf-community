@@ -28,7 +28,7 @@
                                 @endif
                             <br>
                         @empty
-                            <em>@lang('No users assigned.')</em>
+                            <em>{{ __('No users assigned.') }}</em>
                         @endforelse
                     </div>
                 @endforeach

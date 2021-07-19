@@ -23,7 +23,7 @@
                 @if(Str::startsWith(mime_content_type(Storage::path($field['value'])), 'image/'))
                     <img src="{{ Storage::url($field['value']) }}" class="img-fluid img-thumbnail mb-2" style="max-height: 200px">
                 @else
-                    <p>@lang('View file')</p>
+                    <p>{{ __('View file') }}</p>
                 @endif
             </a>
             <div class="mb-3">{{ Form::bsCheckbox($field_key . '_delete', 1, null, __('Remove file')) }}</div>

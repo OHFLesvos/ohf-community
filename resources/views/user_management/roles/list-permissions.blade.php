@@ -19,7 +19,7 @@
                         @forelse($roles as $role)
                             <a href="{{ route('roles.show', $role) }}">{{ $role->name }}</a><br>
                         @empty
-                            <em>@lang('No roles assigned.')</em>
+                            <em>{{ __('No roles assigned.') }}</em>
                         @endforelse
                     </div>
                 @endforeach

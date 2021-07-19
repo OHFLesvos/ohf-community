@@ -9,7 +9,7 @@
 
     @if($role->administrators()->find(Auth::id()) != null)
         <x-alert type="info">
-            @lang('You are administrator of this role.')
+            {{ __('You are administrator of this role.') }}
         </x-alert>
     @endif
 
@@ -18,17 +18,17 @@
 
             {{-- Role Profile --}}
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('Role')</div>
+                <div class="card-header">{{ __('Role') }}</div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('Created')</strong></div>
+                            <div class="col-sm"><strong>{{ __('Created') }}</strong></div>
                             <div class="col-sm">{{ $role->created_at }} <small class="text-muted pl-2">{{ $role->created_at->diffForHumans() }}</small></div>
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-sm"><strong>@lang('Last updated')</strong></div>
+                            <div class="col-sm"><strong>{{ __('Last updated') }}</strong></div>
                             <div class="col-sm">{{ $role->updated_at }} <small class="text-muted pl-2">{{ $role->updated_at->diffForHumans() }}</small></div>
                         </div>
                     </li>
@@ -38,7 +38,7 @@
             {{-- Permissions --}}
             <div class="card shadow-sm mb-4">
                 <div class="card-header">
-                    @lang('Permissions')
+                    {{ __('Permissions') }}
                     <span class="badge badge-secondary">{{ $role->permissions->count() }}</span>
                 </div>
                 <ul class="list-group list-group-flush">
@@ -60,7 +60,7 @@
                             </li>
                         @endforeach
                     @else
-                        <li class="list-group-item"><em>@lang('No permissions assigned.')</em></li>
+                        <li class="list-group-item"><em>{{ __('No permissions assigned.') }}</em></li>
                     @endif
                 </ul>
             </div>
@@ -75,7 +75,7 @@
             @if($users->count() > 0)
                 <div class="card shadow-sm mb-4">
                     <div class="card-header">
-                        @lang('Role Administrators')
+                        {{ __('Role Administrators') }}
                         <span class="badge badge-secondary">{{ $role->administrators->count() }}</span>
                     </div>
                     <div class="card-body p-0">
@@ -85,14 +85,14 @@
                                     <a class="list-group-item list-group-item-action" href="{{ route('users.show', $user) }}">
                                         {{ $user->name }}
                                         @if($user->isSuperAdmin())
-                                            <strong>(@lang('Administrator'))</strong>
+                                            <strong>({{ __('Administrator') }})</strong>
                                         @endif
                                     </a>
                                 @endforeach
                             </div>
                         @else
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item"><em>@lang('No users assigned.')</em></li>
+                                <li class="list-group-item"><em>{{ __('No users assigned.') }}</em></li>
                             </ul>
                         @endif
                     </div>
@@ -106,7 +106,7 @@
             @endphp
             <div class="card shadow-sm mb-4">
                 <div class="card-header">
-                    @lang('Users')
+                    {{ __('Users') }}
                     <span class="badge badge-secondary">{{ $role->users->count() }}</span>
                 </div>
                 <div class="card-body p-0">
@@ -116,14 +116,14 @@
                                 <a class="list-group-item list-group-item-action" href="{{ route('users.show', $user) }}">
                                     {{ $user->name }}
                                     @if($user->isSuperAdmin())
-                                        <strong>(@lang('Administrator'))</strong>
+                                        <strong>({{ __('Administrator') }})</strong>
                                     @endif
                                 </a>
                             @endforeach
                         </div>
                     @else
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><em>@lang('No users assigned.')</em></li>
+                            <li class="list-group-item"><em>{{ __('No users assigned.') }}</em></li>
                         </ul>
                     @endif
                 </div>

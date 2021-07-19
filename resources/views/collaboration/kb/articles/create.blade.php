@@ -5,7 +5,7 @@
 @section('content')
     {!! Form::open(['route' => ['kb.articles.store']]) !!}
         <div class="card shadow-sm mb-4">
-            <div class="card-header">@lang('New article')</div>
+            <div class="card-header">{{ __('New article') }}</div>
             <div class="card-body">
                 {{ Form::bsText('title', $title, [ 'autofocus', 'placeholder' => __('Title') ], '') }}
                 {{ Form::bsTextarea('content', null, [ 'id' => 'editor', 'placeholder' => __('Content') ], '') }}

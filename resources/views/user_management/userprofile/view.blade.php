@@ -8,7 +8,7 @@
 
             {!! Form::open(['route' => ['userprofile.update']]) !!}
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('Profile')</div>
+                <div class="card-header">{{ __('Profile') }}</div>
                 <div class="card-body pb-2">
                     {{ Form::bsText('name', $user->name, [ 'required' ], __('Name')) }}
                     {{ Form::bsEmail('email', $user->email, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('E-Mail Address')) }}
@@ -22,7 +22,7 @@
             @if(empty($user->provider_name))
                 {!! Form::open(['route' => ['userprofile.updatePassword']]) !!}
                     <div class="card shadow-sm mb-4">
-                        <div class="card-header">@lang('Change Password')</div>
+                        <div class="card-header">{{ __('Change Password') }}</div>
                         <div class="card-body pb-2">
                             {{ Form::bsPassword('old_password', [ 'required' ], __('Old Password')) }}
                             {{ Form::bsPassword('password', [ 'required' ], __('New password')) }}
@@ -35,28 +35,28 @@
                 {!! Form::close() !!}
 
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header">@lang('Two-Factor Authentication')</div>
+                    <div class="card-header">{{ __('Two-Factor Authentication') }}</div>
                     @empty($user->tfa_secret)
                         <div class="card-body pb-1">
                             <x-alert type="info">
-                                @lang('Improve the security of your account by <a href=":url">enabling Two-Factor Authentication</a>.', [ 'url' => route('userprofile.view2FA') ])
+                                {{ __('Improve the security of your account by <a href=":url">enabling Two-Factor Authentication</a>.', [ 'url' => route('userprofile.view2FA') ]) }}
                             </x-alert>
                             <x-alert type="warning">
-                                @lang('Two-Factor Authentication is not enabled.')
+                                {{ __('Two-Factor Authentication is not enabled.') }}
                             </x-alert>
                         </div>
                         <div class="card-footer text-right">
                             <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
-                                <x-icon icon="check"/> @lang('Enable')
+                                <x-icon icon="check"/> {{ __('Enable') }}
                             </a>
                         </div>
                     @else
                         <div class="card-body pb-1">
-                            <p>@lang('Two-Factor Authentication is enabled')</p>
+                            <p>{{ __('Two-Factor Authentication is enabled') }}</p>
                         </div>
                         <div class="card-footer text-right">
                             <a href="{{ route('userprofile.view2FA') }}" class="btn btn-primary">
-                                <x-icon icon="times"/> @lang('Disable')
+                                <x-icon icon="times"/> {{ __('Disable') }}
                             </a>
                         </div>
                     @endempty
@@ -64,7 +64,7 @@
             @endunless
 
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('Language')</div>
+                <div class="card-header">{{ __('Language') }}</div>
                 <div class="list-group list-group-flush">
                     @foreach (language()->allowed() as $code => $name)
                         <a class="list-group-item list-group-item-action" href="{{ language()->back($code) }}">
@@ -80,16 +80,16 @@
             </div>
 
             <div class="card shadow-sm mb-4">
-                <div class="card-header">@lang('Account Information')</div>
+                <div class="card-header">{{ __('Account Information') }}</div>
                 <div class="card-body pb-2">
                     <p>
                         <x-user-avatar :user="Auth::user()" size="80"/>
                     </p>
-                    <p>@lang('Your account has been created on') <strong>{{ $user->created_at }}</strong>
-                        @lang('and last updated on') <strong>{{ $user->updated_at }}</strong>.
+                    <p>{{ __('Your account has been created on') }} <strong>{{ $user->created_at }}</strong>
+                        {{ __('and last updated on') }} <strong>{{ $user->updated_at }}</strong>.
                     </p>
                     @if (! $user->roles->isEmpty())
-                        <p>@lang('Your roles'):</p>
+                        <p>{{ __('Your roles') }}:</p>
                         <ul>
                             @foreach ($user->roles->sortBy('name') as $role)
                                 <li>{{ $role->name }}</li>
@@ -97,16 +97,16 @@
                         </ul>
                     @endif
                     @isset($user->provider_name)
-                        <p>@lang('OAuth provider'): {{ $user->provider_name }}</p>
+                        <p>{{ __('OAuth provider') }}: {{ $user->provider_name }}</p>
                     @endisset
                 </div>
             </div>
 
             {!! Form::open(['route' => ['userprofile.delete'], 'method' => 'delete']) !!}
                 <div class="card shadow-sm mb-4">
-                    <div class="card-header">@lang('Account Removal')</div>
+                    <div class="card-header">{{ __('Account Removal') }}</div>
                     <div class="card-body pb-1">
-                        <p>@lang('If you no longer plan to use this service, you can remove your account and delete all associated data.')</p>
+                        <p>{{ __('If you no longer plan to use this service, you can remove your account and delete all associated data.') }}</p>
                     </div>
                     <div class="card-footer text-right">
                         <x-form.bs-delete-button

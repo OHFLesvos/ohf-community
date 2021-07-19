@@ -15,7 +15,7 @@
 
             {{-- Users --}}
             <div class="card shadow-sm">
-                <div class="card-header">@lang('Users')</div>
+                <div class="card-header">{{ __('Users') }}</div>
                 <div class="card-body columns-2">
                     {{ Form::bsCheckboxList('users[]', $users, null) }}
                 </div>
@@ -23,7 +23,7 @@
 
             {{-- Role administrators --}}
             <div class="card shadow-sm">
-                <div class="card-header">@lang('Role Administrators')</div>
+                <div class="card-header">{{ __('Role Administrators') }}</div>
                 <div class="card-body columns-2">
                     {{ Form::bsCheckboxList('role_admins[]', $users, null) }}
                 </div>
@@ -31,7 +31,7 @@
 
             {{-- Permissions --}}
             <div class="card shadow-sm">
-                <div class="card-header">@lang('Permissions')</div>
+                <div class="card-header">{{ __('Permissions') }}</div>
                 <div class="card-body columns-2">
                     @forelse($permissions as $title => $elements)
                         <div class="column-break-avoid">
@@ -39,7 +39,7 @@
                             {{ Form::bsCheckboxList('permissions[]', $elements, null) }}
                         </div>
                     @empty
-                        <em>@lang('No permissions defined.')</em>
+                        <em>{{ __('No permissions defined.') }}</em>
                     @endforelse
                 </div>
             </div>

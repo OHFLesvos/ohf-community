@@ -66,7 +66,7 @@
                             {{-- Validation error --}}
                             @if (count($errors) > 0)
                                 <x-alert type="warning" dismissible>
-                                    @lang('Validation failed, you have entered invalid values!')
+                                    {{ __('Validation failed, you have entered invalid values!') }}
                                     <ul class="mb-0 pb-0">
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>

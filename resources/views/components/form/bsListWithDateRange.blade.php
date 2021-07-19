@@ -3,8 +3,8 @@
         @if ($label !== null || ! empty($label))
             <thead>
                 <th>{{ $label }}</th>
-                <th>@lang('From')</th>
-                <th>@lang('To')</th>
+                <th>{{ __('From') }}</th>
+                <th>{{ __('To') }}</th>
                 <th class="fit text-center"><x-icon icon="trash-alt"/></th>
             </thead>
         @endif
@@ -43,7 +43,7 @@
                     {{-- Put this inside a table row, as Firefox meight page-break after the table an render the button in the next column --}}
                     <button type="button" class="btn btn-success input-list-add-button" data-table="#{{ form_id_string($name) }}">
                         <x-icon icon="plus-circle"/>
-                        @lang('Add')
+                        {{ __('Add') }}
                     </button>
                 </td>
             </tr>
