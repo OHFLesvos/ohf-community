@@ -261,27 +261,8 @@ class TransactionsController extends Controller
     {
         $this->authorize('view', $transaction);
 
-        $sortColumn = session('accounting.sortColumn', 'created_at');
-        $sortOrder = session('accounting.sortOrder', 'desc');
-        $filter = session('accounting.filter', []);
-        $query = self::createIndexQuery($transaction->wallet, $filter, $sortColumn, $sortOrder);
-        // TODO: can this be optimized, e.g. with a cursor??
-        $res = $query->select('id')->get()->pluck('id')->toArray();
-        $prev_id = null;
-        $next_id = null;
-        $cnt = count($res);
-        for ($i = 0; $i < $cnt; $i++) {
-            $prev_id = $i > 0 ? $res[$i - 1] : null;
-            $next_id = $i < $cnt - 1 ? $res[$i + 1] : null;
-            if ($res[$i] == $transaction->id) {
-                break;
-            }
-        }
-
         return view('accounting.transactions.show', [
             'transaction' => $transaction,
-            'prev_id' => $prev_id,
-            'next_id' => $next_id,
         ]);
     }
 

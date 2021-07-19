@@ -217,6 +217,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.updateReceipt');
         Route::get('transactions/locations', [TransactionsController::class, 'locations'])
             ->name('transactions.locations');
+        Route::resource('transactions', TransactionsController::class)->only(['show']);
 
         Route::get('transactions/{transaction}/controlled', [ControllingController::class, 'controlled'])
             ->name('transactions.controlled');

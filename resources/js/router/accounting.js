@@ -329,4 +329,22 @@ export default [
                 ),
         },
     },
+    {
+        path: "/accounting/transactions/:id",
+        name: "accounting.transactions.show",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionViewPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Show transaction"),
+                container: true,
+            }
+        }
+    },
 ];

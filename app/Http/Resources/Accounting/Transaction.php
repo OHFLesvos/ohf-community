@@ -14,6 +14,17 @@ class Transaction extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $data = parent::toArray($request);
+        $data['category_full_name'] = $this->category->getPathElements()->pluck('name')->join(' » ');
+        $data['project_full_name'] = $this->when($this->project !== null, fn () => $this->project->getPathElements()->pluck('name')->join(' » '));
+        $data['supplier'] = $this->whenLoaded('supplier', fn () => new Supplier($this->supplier));
+        $data['can_update'] = $request->user()->can('update', $this->resource);
+        $data['can_delete'] = $request->user()->can('delete', $this->resource);
+        $audit = $this->audits()->first();
+        $data['creating_user'] = $this->when(isset($audit) && isset($audit->getMetadata()['user_name']), fn () => $audit->getMetadata()['user_name']);
+        $data['controller_name'] = $this->when($this->controlled_by !== null, fn () => optional($this->controller)->name);
+        $data['can_undo_controlling'] = $request->user()->can('undoControlling', $this->resource);
+
+        return $data;
     }
 }
