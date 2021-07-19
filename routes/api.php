@@ -213,6 +213,8 @@ Route::middleware(['language', 'auth'])
         Route::get('transactions/summary', [SummaryController::class, 'index'])
             ->name('transactions.summary');
 
+        Route::get('wallets/{wallet}/transactions', [TransactionsController::class, 'index'])
+            ->name('transactions.index');
         Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
         Route::get('transactions/locations', [TransactionsController::class, 'locations'])

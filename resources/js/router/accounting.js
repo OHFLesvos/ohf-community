@@ -330,6 +330,19 @@ export default [
         },
     },
     {
+        path: "/accounting/wallets/:wallet/transactions",
+        name: "accounting.transactions.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionsIndexPage"
+                ),
+        },
+        props: {
+            default: true,
+        }
+    },
+    {
         path: "/accounting/transactions/:id",
         name: "accounting.transactions.show",
         components: {

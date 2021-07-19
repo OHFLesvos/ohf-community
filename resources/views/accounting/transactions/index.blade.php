@@ -4,6 +4,10 @@
 
 @section('content')
 
+    <div id="app">
+        <x-spinner />
+    </div>
+
     <div class="d-flex justify-content-between align-items-center">
         <div class="mb-3">
             <x-icon icon="wallet"/>

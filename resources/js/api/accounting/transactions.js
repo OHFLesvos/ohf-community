@@ -1,5 +1,12 @@
 import { api, route } from "@/api/baseApi";
 export default {
+    async list(wallet, params) {
+        const url = route("api.accounting.transactions.index", {
+            wallet,
+            ...params
+        });
+        return await api.get(url);
+    },
     async find(id, params = {}) {
         let url = route("api.accounting.transactions.show", {
             transaction: id,
