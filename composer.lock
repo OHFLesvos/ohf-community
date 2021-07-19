@@ -4537,16 +4537,16 @@
         },
         {
             "name": "overtrue/pinyin",
-            "version": "4.0.7",
+            "version": "4.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/overtrue/pinyin.git",
-                "reference": "083de406907d42df2e0feaaeb83f1a3c2e0095eb"
+                "reference": "04bdb4d33d50e8fb1aa5a824064c5151c4b15dc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/overtrue/pinyin/zipball/083de406907d42df2e0feaaeb83f1a3c2e0095eb",
-                "reference": "083de406907d42df2e0feaaeb83f1a3c2e0095eb",
+                "url": "https://api.github.com/repos/overtrue/pinyin/zipball/04bdb4d33d50e8fb1aa5a824064c5151c4b15dc2",
+                "reference": "04bdb4d33d50e8fb1aa5a824064c5151c4b15dc2",
                 "shasum": ""
             },
             "require": {
@@ -4598,7 +4598,7 @@
             ],
             "support": {
                 "issues": "https://github.com/overtrue/pinyin/issues",
-                "source": "https://github.com/overtrue/pinyin/tree/4.0.7"
+                "source": "https://github.com/overtrue/pinyin/tree/4.0.8"
             },
             "funding": [
                 {
@@ -4606,7 +4606,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2021-04-16T11:13:48+00:00"
+            "time": "2021-07-19T03:43:32+00:00"
         },
         {
             "name": "owen-it/laravel-auditing",
