@@ -189,6 +189,43 @@
                 </p>
             </two-col-list-group-item>
         </b-list-group>
+
+        <!-- Pictures -->
+        <template v-if="transaction.receipt_pictures.length > 0">
+            <hr class="mt-0" />
+            <div class="form-row mx-3 mb-2">
+                <div
+                    v-for="picture in transaction.receipt_pictures"
+                    :key="picture.url"
+                    class="col-auto mb-2"
+                >
+                    <a
+                        :href="picture.url"
+                        :data-fslightbox="
+                            picture.type == 'image' ? 'gallery' : null
+                        "
+                        :target="picture.type == 'file' ? '_blank' : null"
+                        :title="picture.mime_type"
+                    >
+                        <ThumbnailImage
+                            v-if="picture.thumbnail_url"
+                            :url="picture.thumbnail_url"
+                            :size="picture.thumbnail_size"
+                        />
+                        <span
+                            v-else
+                            class="display-4"
+                            :title="picture.mime_type"
+                        >
+                            <font-awesome-icon icon="file" />
+                        </span>
+                    </a>
+                    <template v-if="!picture.thumbnail_url">
+                        {{ picture.mime_type }} ({{ picture.file_size }})
+                    </template>
+                </div>
+            </div>
+        </template>
     </b-container>
     <p v-else>
         {{ $t("Loading...") }}
@@ -196,13 +233,16 @@
 </template>
 
 <script>
+import "fslightbox";
 import transactionsApi from "@/api/accounting/transactions";
 import numeral from "numeral";
 import moment from "moment";
 import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
+import ThumbnailImage from "@/components/ThumbnailImage";
 export default {
     components: {
-        TwoColListGroupItem
+        TwoColListGroupItem,
+        ThumbnailImage
     },
     props: {
         id: {
@@ -228,6 +268,7 @@ export default {
             try {
                 let data = await transactionsApi.find(this.id);
                 this.transaction = data.data;
+                this.$nextTick(() => refreshFsLightbox());
             } catch (err) {
                 alert(err);
                 console.error(err);
@@ -260,7 +301,7 @@ export default {
             this.isBusy = false;
         },
         async undoBooking() {
-            if (!confirm(this.$t('Really undo booking?'))) {
+            if (!confirm(this.$t("Really undo booking?"))) {
                 return;
             }
 
