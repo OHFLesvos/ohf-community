@@ -20,6 +20,22 @@
                     {{ data.value }}
                 </b-link>
             </template>
+            <template v-slot:cell(description)="data">
+                {{ data.value }}
+                <small v-if="data.item.remarks" class="d-block text-muted">{{ data.item.remarks }}</small>
+            </template>
+            <template v-slot:cell(supplier)="data">
+                <b-link
+                    v-if="data.item.supplier"
+                    :to="{
+                        name: 'accounting.suppliers.show',
+                        params: { id: data.item.supplier.slug }
+                    }"
+                    :title="data.item.supplier.category"
+                >
+                    {{ data.item.supplier.name }}
+                </b-link>
+            </template>
         </base-table>
     </div>
 </template>
@@ -27,7 +43,7 @@
 <script>
 import moment from "moment";
 import numeral from "numeral";
-import walletsApi from "@/api/accounting/wallets";
+// import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
 import BaseTable from "@/components/table/BaseTable";
 export default {
@@ -45,13 +61,14 @@ export default {
                 {
                     key: "receipt_no",
                     label: this.$t("Receipt"),
-                    sortable: true,
+                    sortable: true
                 },
                 {
                     key: "date",
                     label: this.$t("Date"),
                     sortable: true,
-                    sortDirection: 'desc'
+                    sortDirection: "desc",
+                    formatter: this.dateFormat
                 },
                 {
                     key: "amount",
@@ -76,6 +93,10 @@ export default {
                     label: this.$t("Description")
                 },
                 {
+                    key: "supplier",
+                    label: this.$t("Supplier")
+                },
+                {
                     key: "attendee",
                     label: this.$t("Attendee")
                 },
@@ -84,7 +105,7 @@ export default {
                     label: this.$t("Registered"),
                     formatter: this.dateTimeFormat,
                     sortable: true,
-                    sortDirection: 'desc'
+                    sortDirection: "desc"
                 }
             ]
         };
@@ -101,7 +122,7 @@ export default {
         },
         numberFormat(val) {
             return numeral(val).format("0,0.00");
-        },
+        }
     }
 };
 </script>
