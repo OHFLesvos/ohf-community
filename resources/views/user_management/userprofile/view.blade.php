@@ -39,7 +39,7 @@
                     @empty($user->tfa_secret)
                         <div class="card-body pb-1">
                             <x-alert type="info">
-                                {{ __('Improve the security of your account by <a href=":url">enabling Two-Factor Authentication</a>.', [ 'url' => route('userprofile.view2FA') ]) }}
+                                {!! __('Improve the security of your account by <a href=":url">enabling Two-Factor Authentication</a>.', [ 'url' => route('userprofile.view2FA') ]) !!}
                             </x-alert>
                             <x-alert type="warning">
                                 {{ __('Two-Factor Authentication is not enabled.') }}

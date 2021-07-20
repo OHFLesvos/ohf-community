@@ -5,7 +5,7 @@
 @section('content')
 
     <x-alert type="info">
-        {{ __('By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.', [ 'url' => route('userPrivacyPolicy') ]) }}
+        {!! __('By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.', [ 'url' => route('userPrivacyPolicy') ]) !!}
     </x-alert>
 
     {{ Form::open(['route' => 'register']) }}
