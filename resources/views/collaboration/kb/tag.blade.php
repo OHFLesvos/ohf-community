@@ -23,7 +23,7 @@
         @if($has_more_articles)
             <x-alert type="info">
                 @guest
-                    {{ __('Please <a href=":url">login</a> to see more articles.', ['url' => route('login') ]) }}
+                    {!! __('Please <a href=":url">login</a> to see more articles.', ['url' => route('login') ]) !!}
                 @else
                     {{ __('You do not have sufficient permissions to view all articles.') }}
                 @endguest
