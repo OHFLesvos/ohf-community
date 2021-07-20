@@ -1,5 +1,7 @@
 {
     ":num results": ":num results",
     "Used in :num transactions.": "Used in :num transactions.",
-    "Type to search (:fields)...": "Type to search (:fields)..."
+    "Type to search (:fields)...": "Type to search (:fields)...",
+    ":x out of :y": ":x out of :y",
+    "Error: :err": "Error: :err"
 }

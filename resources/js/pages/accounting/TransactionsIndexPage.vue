@@ -22,7 +22,9 @@
             </template>
             <template v-slot:cell(description)="data">
                 {{ data.value }}
-                <small v-if="data.item.remarks" class="d-block text-muted">{{ data.item.remarks }}</small>
+                <small v-if="data.item.remarks" class="d-block text-muted">{{
+                    data.item.remarks
+                }}</small>
             </template>
             <template v-slot:cell(supplier)="data">
                 <b-link
@@ -85,8 +87,20 @@ export default {
                     label: this.$t("Category")
                 },
                 {
+                    key: "secondary_category",
+                    label: this.$t("Secondary Category")
+                },
+                {
                     key: "project_full_name",
                     label: this.$t("Project")
+                },
+                {
+                    key: "location",
+                    label: this.$t("Location")
+                },
+                {
+                    key: "cost_center",
+                    label: this.$t("Cost Center")
                 },
                 {
                     key: "description",
@@ -107,12 +121,19 @@ export default {
                     sortable: true,
                     sortDirection: "desc"
                 }
-            ]
+            ],
+            useLocations: false,
+            useSecondaryCategories: false,
+            thiuseCostCenters: false
         };
     },
     methods: {
         async fetchData(ctx) {
-            return transactionsApi.list(this.wallet, ctx);
+            let data = await transactionsApi.list(this.wallet, ctx);
+            this.useLocations = data.meta.use_locations;
+            this.useSecondaryCategories = data.meta.use_secondary_categories;
+            this.useCostCenters = data.meta.use_cost_centers;
+            return data;
         },
         dateFormat(value) {
             return value ? moment(value).format("LL") : null;

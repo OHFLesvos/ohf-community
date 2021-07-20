@@ -91,7 +91,7 @@ export default {
         "Reporting": "Berichte",
         "Tools": "Werkzeuge",
         "Total": "Total",
-        "{x} out of {y}": "{x} von {y}",
+        "{x} out of {y}": "{x} von insgesamt {y}",
         "Export": "Export",
         "Download": "Herunterladen",
         "An error happened": "Es ist ein Fehler aufgetreten",
@@ -914,6 +914,8 @@ export default {
         "{num} results": "{num} results",
         "Used in {num} transactions.": "Used in {num} transactions.",
         "Type to search ({fields})...": "Type to search ({fields})...",
+        "{x} out of {y}": "{x} out of {y}",
+        "Error: {err}": "Error: {err}",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",

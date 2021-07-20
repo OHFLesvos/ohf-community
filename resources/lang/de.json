@@ -90,7 +90,7 @@
     "Reporting": "Berichte",
     "Tools": "Werkzeuge",
     "Total": "Total",
-    ":x out of :y": ":x von :y",
+    ":x out of :y": ":x von insgesamt :y",
     "Export": "Export",
     "Download": "Herunterladen",
     "An error happened": "Es ist ein Fehler aufgetreten",

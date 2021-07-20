@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accounting\API;
 use App\Http\Controllers\Controller;
 use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
+use App\Http\Resources\Accounting\TransactionCollection;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
@@ -95,7 +96,7 @@ class TransactionsController extends Controller
         $query = self::createIndexQuery($wallet, $filter, $sortBy, $sortDirection);
         $transactions = $query->with('supplier')->paginate(25);
 
-        return TransactionResource::collection($transactions);
+        return new TransactionCollection($transactions);
     }
 
     private static function createIndexQuery(Wallet $wallet, array $filter, string $sortBy, string $sortDirection)
