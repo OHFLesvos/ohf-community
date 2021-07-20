@@ -41,45 +41,52 @@ export default {
     },
     data() {
         return {
-            // fields: [
-            //     {
-            //         key: "name",
-            //         label: this.$t("Name")
-            //     },
-            //     {
-            //         key: "amount",
-            //         label: this.$t("Amount"),
-            //         class: "fit text-right",
-            //         formatter: value => numeral(value).format("0,0.00")
-            //     },
-            //     {
-            //         key: "num_transactions",
-            //         label: this.$t("Transactions"),
-            //         class: "fit text-right"
-            //     },
-            //     {
-            //         key: "is_default",
-            //         label: this.$t("Default"),
-            //         class: "fit text-center"
-            //     },
-            //     {
-            //         key: "is_restricted",
-            //         label: this.$t("Restricted"),
-            //         class: "fit text-center"
-            //     },
-            //     {
-            //         key: "created_at",
-            //         label: this.$t("Created"),
-            //         class: "fit",
-            //         formatter: this.dateFormat
-            //     },
-            //     {
-            //         key: "latest_activity",
-            //         label: this.$t("Latest activity"),
-            //         class: "fit text-right",
-            //         formatter: this.dateTimeFormat
-            //     }
-            // ]
+            fields: [
+                {
+                    key: "receipt_no",
+                    label: this.$t("Receipt"),
+                    sortable: true,
+                },
+                {
+                    key: "date",
+                    label: this.$t("Date"),
+                    sortable: true,
+                    sortDirection: 'desc'
+                },
+                {
+                    key: "amount",
+                    label: this.$t("Amount"),
+                    class: "fit text-right",
+                    tdClass: (value, key, item) =>
+                        item.type == "income" ? "text-success" : "text-danger",
+                    formatter: (value, key, item) =>
+                        (item.type == "spending" ? "-" : "") +
+                        this.numberFormat(value)
+                },
+                {
+                    key: "category_full_name",
+                    label: this.$t("Category")
+                },
+                {
+                    key: "project_full_name",
+                    label: this.$t("Project")
+                },
+                {
+                    key: "description",
+                    label: this.$t("Description")
+                },
+                {
+                    key: "attendee",
+                    label: this.$t("Attendee")
+                },
+                {
+                    key: "created_at",
+                    label: this.$t("Registered"),
+                    formatter: this.dateTimeFormat,
+                    sortable: true,
+                    sortDirection: 'desc'
+                }
+            ]
         };
     },
     methods: {
@@ -91,7 +98,10 @@ export default {
         },
         dateTimeFormat(value) {
             return value ? moment(value).format("LLL") : null;
-        }
+        },
+        numberFormat(val) {
+            return numeral(val).format("0,0.00");
+        },
     }
 };
 </script>

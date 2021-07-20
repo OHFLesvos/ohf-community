@@ -34,52 +34,76 @@ class TransactionsController extends Controller
                 'nullable',
                 Rule::in(['income', 'spending']),
             ],
-            'month' => 'nullable|regex:/[0-1]?[1-9]/',
-            'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
-            'sortColumn' => 'nullable|in:date,created_at,category,secondary_category,project,location,cost_center,attendee,receipt_no',
-            'sortOrder' => 'nullable|in:asc,desc',
+            'month' => [
+                'nullable',
+                'regex:/[0-1]?[1-9]/'
+            ],
+            'year' => [
+                'nullable',
+                'integer',
+                'min:2017',
+                'max:' . Carbon::today()->year
+            ],
+            'sortBy' => [
+                'nullable',
+                Rule::in([
+                    'date',
+                    'created_at',
+                    'category',
+                    'secondary_category',
+                    'project',
+                    'location',
+                    'cost_center',
+                    'attendee',
+                    'receipt_no'
+                ])
+            ],
+            'sortDirection' => [
+                'nullable',
+                Rule::in(['asc', 'desc'])
+            ],
         ]);
 
-        $sortColumn = 'created_at';
-        $sortOrder = 'desc';
-        if (isset($request->sortColumn)) {
-            $sortColumn = $request->sortColumn;
+        $sortBy = 'created_at';
+        $sortDirection = 'desc';
+        if (isset($request->sortBy)) {
+            $sortBy = $request->sortBy;
         }
-        if (isset($request->sortOrder)) {
-            $sortOrder = $request->sortOrder;
+        if (isset($request->sortDirection)) {
+            $sortDirection = $request->sortDirection;
         }
 
         $filter = [];
         foreach (config('accounting.filter_columns') as $col) {
-            if (! empty($request->filter[$col])) {
+            if (!empty($request->filter[$col])) {
                 $filter[$col] = $request->filter[$col];
             } elseif (isset($request->filter)) {
                 unset($filter[$col]);
             }
         }
-        if (! empty($request->filter['date_start'])) {
+        if (!empty($request->filter['date_start'])) {
             $filter['date_start'] = $request->filter['date_start'];
         } elseif (isset($request->filter)) {
             unset($filter['date_start']);
         }
-        if (! empty($request->filter['date_end'])) {
+        if (!empty($request->filter['date_end'])) {
             $filter['date_end'] = $request->filter['date_end'];
         } elseif (isset($request->filter)) {
             unset($filter['date_end']);
         }
 
-        $query = self::createIndexQuery($wallet, $filter, $sortColumn, $sortOrder);
-        $transactions = $query->paginate(250);
+        $query = self::createIndexQuery($wallet, $filter, $sortBy, $sortDirection);
+        $transactions = $query->with('supplier')->paginate(25);
 
         return TransactionResource::collection($transactions);
     }
 
-    private static function createIndexQuery(Wallet $wallet, array $filter, string $sortColumn, string $sortOrder)
+    private static function createIndexQuery(Wallet $wallet, array $filter, string $sortBy, string $sortDirection)
     {
         return Transaction::query()
             ->forWallet($wallet)
             ->forFilter($filter)
-            ->orderBy($sortColumn, $sortOrder)
+            ->orderBy($sortBy, $sortDirection)
             ->orderBy('created_at', 'DESC');
     }
 
