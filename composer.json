@@ -45,6 +45,7 @@
         "valorin/pwned-validator": "^1.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.6",
         "djedaini/laravel-vue-i18n-generator": "^0.1.47",
         "facade/ignition": "^2.5",
