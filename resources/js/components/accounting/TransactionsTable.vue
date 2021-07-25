@@ -10,7 +10,7 @@
         :items-per-page="25"
     >
         <template v-slot:filter-prepend>
-            <b-input-group :prepend="$t('Wallet')">
+            <b-input-group :prepend="$t('Wallet')" :append="walletAmount">
                 <b-select
                     v-model="currentWallet"
                     :options="walletOptions"
@@ -18,18 +18,21 @@
                 />
             </b-input-group>
         </template>
+
         <template v-slot:filter-append>
-            <b-button variant="primary" @click="openAdvancedFilter">
-                <font-awesome-icon icon="search"/>
-                {{ $t('Advanced filter') }}
+            <b-button variant="secondary" @click="openAdvancedFilter">
+                <font-awesome-icon icon="search" />
+                {{ $t("Advanced filter") }}
             </b-button>
         </template>
+
         <template v-slot:cell(receipt_pictures)="data">
             <ReceiptPictureUpload
                 :transaction="data.item.id"
                 :value="data.value"
             />
         </template>
+
         <template v-slot:cell(receipt_no)="data">
             <b-link
                 :to="{
@@ -40,12 +43,14 @@
                 {{ data.value }}
             </b-link>
         </template>
+
         <template v-slot:cell(description)="data">
             {{ data.value }}
             <small v-if="data.item.remarks" class="d-block text-muted">{{
                 data.item.remarks
             }}</small>
         </template>
+
         <template v-slot:cell(supplier)="data">
             <b-link
                 v-if="data.item.supplier"
@@ -79,7 +84,8 @@ export default {
         },
         useSecondaryCategories: Boolean,
         useLocations: Boolean,
-        useCostCenters: Boolean
+        useCostCenters: Boolean,
+        showIntermediateBalances: Boolean
     },
     data() {
         return {
@@ -112,6 +118,15 @@ export default {
                         (item.type == "spending" ? "-" : "") +
                         this.numberFormat(value)
                 },
+                this.showIntermediateBalances
+                    ? {
+                          key: "intermediate_balance",
+                          label: this.$t("Intermediate balance"),
+                          class: "fit text-right",
+                          tdClass: (value, key, item) =>
+                              value > 0 ? "text-success" : "text-danger"
+                      }
+                    : null,
                 {
                     key: "category_full_name",
                     label: this.$t("Category")
@@ -177,6 +192,13 @@ export default {
                 value: e.id,
                 text: e.name
             }));
+        },
+        walletAmount() {
+            if (this.wallets.length == 0) {
+                return null;
+            }
+            const wallet = this.wallets.filter(w => w.id == this.wallet)[0];
+            return this.numberFormat(wallet.amount);
         }
     },
     watch: {
@@ -186,6 +208,7 @@ export default {
     },
     async created() {
         this.wallets = (await walletsApi.list()).data;
+        console.log(this.wallets);
     },
     methods: {
         fetchData(ctx) {
@@ -200,9 +223,7 @@ export default {
         numberFormat(val) {
             return numeral(val).format("0,0.00");
         },
-        openAdvancedFilter() {
-
-        }
+        openAdvancedFilter() {}
     }
 };
 </script>

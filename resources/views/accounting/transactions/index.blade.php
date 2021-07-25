@@ -23,99 +23,6 @@
             </button>
         </div>
     </div>
-
-    @if(! $transactions->isEmpty())
-        <div class="table-responsive">
-            <table class="table table-hover bg-white">
-                <thead>
-                    <tr>
-                        <th class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">{{ __('Receipt') }} </span>#</th>
-                        <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">{{ __('Date') }}</th>
-                        <th class="fit d-table-cell d-sm-none text-right">{{ __('Amount') }}</th>
-                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">{{ __('Income') }}</th>
-                        <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='spending') text-info @endisset">{{ __('Spending') }}</th>
-                        @if($intermediate_balances !== null)
-                            <th class="fit text-right">{{ __('Intermediate balance') }}</th>
-                        @endif
-                        <th class="@isset($filter['category_id']) text-info @endisset">{{ __('Category') }}</th>
-                        @if($secondary_categories !== null)
-                            <th class="@isset($filter['secondary_category']) text-info @endisset">{{ __('Secondary Category') }}</th>
-                        @endif
-                        <th class="@isset($filter['project_id']) text-info @endisset">{{ __('Project') }}</th>
-                        @if($locations !== null)
-                            <th class="@isset($filter['location']) text-info @endisset">{{ __('Location') }}</th>
-                        @endif
-                        @if($cost_centers !== null)
-                            <th class="@isset($filter['cost_center']) text-info @endisset">{{ __('Cost Center') }}</th>
-                        @endif
-                        <th class="d-none d-sm-table-cell @isset($filter['description']) text-info @endisset">{{ __('Description') }}</th>
-                        @if($has_suppliers)
-                            <th class="d-none d-sm-table-cell @isset($filter['supplier']) text-info @endisset">{{ __('Supplier') }}</th>
-                        @endif
-                        <th class="d-none d-sm-table-cell @isset($filter['attendee']) text-info @endisset">{{ __('Attendee') }}</th>
-                        <th class="fit d-none d-md-table-cell @isset($filter['today']) text-info @endisset">{{ __('Registered') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($transactions as $transaction)
-                        <tr>
-                            <td class="fit text-right" >
-                                <a href="{{ route('accounting.transactions.show', $transaction) }}">
-                                    {{ $transaction->receipt_no }}
-                                </a>
-                            </td>
-                            <td class="fit">
-                                {{ $transaction->date }}
-                            </td>
-                            <td class="fit d-table-cell d-sm-none text-right @if($transaction->type == 'income') text-success @elseif($transaction->type == 'spending') text-danger @endif">{{ number_format($transaction->amount, 2) }}</td>
-                            <td class="fit d-none d-sm-table-cell text-right text-success">@if($transaction->type == 'income') {{ number_format($transaction->amount, 2) }}@endif</td>
-                            <td class="fit d-none d-sm-table-cell text-right text-danger">@if($transaction->type == 'spending') {{ number_format($transaction->amount, 2) }}@endif</td>
-                            @if($intermediate_balances !== null)
-                                <td class="fit text-right">{{ number_format($intermediate_balances[$transaction->id], 2) }}</td>
-                            @endif
-                            <td>{{ $transaction->category->name }}</td>
-                            @if($secondary_categories !== null)
-                                <td>{{ $transaction->secondary_category }}</td>
-                            @endif
-                            <td>{{ optional($transaction->project)->name }}</td>
-                            @if($locations !== null)
-                                <td>{{ $transaction->location }}</td>
-                            @endif
-                            @if($cost_centers !== null)
-                                <td>{{ $transaction->cost_center }}</td>
-                            @endif
-                            <td class="d-none d-sm-table-cell">{{ $transaction->description }}</td>
-                            @if($has_suppliers)
-                                <td class="d-none d-sm-table-cell">
-                                    @isset($transaction->supplier)
-                                        @can('view', $transaction->supplier)
-                                            <a href="{{ route('accounting.suppliers.show', $transaction->supplier) }}">
-                                                {{ $transaction->supplier->name }}
-                                            </a>
-                                        @else
-                                            {{ $transaction->supplier->name }}
-                                        @endcan
-                                    @endisset
-                                </td>
-                            @endif
-                            <td class="d-none d-sm-table-cell">{{ $transaction->attendee }}</td>
-                            @php
-                                $audit = $transaction->audits()->first();
-                            @endphp
-                            <td class="fit d-none d-md-table-cell">{{ $transaction->created_at }} @if(isset($audit) && isset($audit->getMetadata()['user_name']))({{ $audit->getMetadata()['user_name'] }})@endif</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div style="overflow-x: auto">
-            {{ $transactions->appends($filter)->links() }}
-        </div>
-    @else
-        <x-alert type="info">
-            {{ __('No transactions found.') }}
-        </x-alert>
-    @endif
 @endsection
 
 @push('footer')
@@ -202,14 +109,6 @@
                 </div>
             </div>
             <hr>
-            <div class="form-row">
-                <div class="col-sm-auto">
-                    {{ Form::bsSelect('sortColumn', $sortColumns, $sortColumn, [], __('Order by')) }}
-                </div>
-                <div class="col-sm-auto mb-3">
-                    {{ Form::bsRadioList('sortOrder', [ 'asc' => __('Ascending'), 'desc' => __('Descending') ], $sortOrder, __('Order')) }}
-                </div>
-            </div>
 
             @slot('footer')
                 @if(count($filter) > 0)

@@ -13,6 +13,7 @@ class SettingsController extends Controller
             'accounting.transactions.use_locations' => (bool) Setting::get('accounting.transactions.use_locations') ?? false,
             'accounting.transactions.use_secondary_categories' => (bool) Setting::get('accounting.transactions.use_secondary_categories') ?? false,
             'accounting.transactions.use_cost_centers' => (bool) Setting::get('accounting.transactions.use_cost_centers') ?? false,
+            'accounting.transactions.show_intermediate_balances' => Setting::get('accounting.transactions.show_intermediate_balances') ?? false,
         ]);
     }
 }

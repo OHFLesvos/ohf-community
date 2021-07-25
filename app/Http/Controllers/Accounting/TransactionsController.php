@@ -28,95 +28,10 @@ class TransactionsController extends Controller
         $this->authorize('viewAny', Transaction::class);
         $this->authorize('view', $wallet);
 
-        $request->validate([
-            'date_start' => [
-                'nullable',
-                'date',
-                'before_or_equal:' . Carbon::today(),
-            ],
-            'date_end' => [
-                'nullable',
-                'date',
-                'before_or_equal:' . Carbon::today(),
-            ],
-            'type' => [
-                'nullable',
-                Rule::in(['income', 'spending']),
-            ],
-            'month' => 'nullable|regex:/[0-1]?[1-9]/',
-            'year' => 'nullable|integer|min:2017|max:' . Carbon::today()->year,
-            'sortColumn' => 'nullable|in:date,created_at,category,secondary_category,project,location,cost_center,attendee,receipt_no',
-            'sortOrder' => 'nullable|in:asc,desc',
-        ]);
-
-        $sortColumns = [
-            'date' => __('Date'),
-            'category' => __('Category'),
-            'secondary_category' => __('Secondary Category'),
-            'project' => __('Project'),
-            'location' => __('Location'),
-            'cost_center' => __('Cost Center'),
-            'attendee' => __('Attendee'),
-            'receipt_no' => __('Receipt'),
-            'created_at' => __('Registered'),
-        ];
-        $sortColumn = session('accounting.sortColumn', self::showIntermediateBalances() ? 'receipt_no' : 'created_at');
-        $sortOrder = session('accounting.sortOrder', 'desc');
-        if (isset($request->sortColumn)) {
-            $sortColumn = $request->sortColumn;
-            session(['accounting.sortColumn' => $sortColumn]);
-        }
-        if (isset($request->sortOrder)) {
-            $sortOrder = $request->sortOrder;
-            session(['accounting.sortOrder' => $sortOrder]);
-        }
-
-        if ($request->query('reset_filter') != null) {
-            session(['accounting.filter' => []]);
-        }
-        $filter = session('accounting.filter', []);
-        foreach (config('accounting.filter_columns') as $col) {
-            if (! empty($request->filter[$col])) {
-                $filter[$col] = $request->filter[$col];
-            } elseif (isset($request->filter)) {
-                unset($filter[$col]);
-            }
-        }
-        if (! empty($request->filter['date_start'])) {
-            $filter['date_start'] = $request->filter['date_start'];
-        } elseif (isset($request->filter)) {
-            unset($filter['date_start']);
-        }
-        if (! empty($request->filter['date_end'])) {
-            $filter['date_end'] = $request->filter['date_end'];
-        } elseif (isset($request->filter)) {
-            unset($filter['date_end']);
-        }
-        session(['accounting.filter' => $filter]);
-
-        $query = Transaction::query()
-            ->forWallet($wallet)
-            // ->forFilter($filter)
-            ->orderBy($sortColumn, $sortOrder)
-            ->orderBy('created_at', 'DESC');
-
-        // Get results
-        $transactions = $query->paginate(250);
-
-        // Single receipt no. query
-        if ($transactions->count() == 1 && ! empty($filter['receipt_no'])) {
-            session(['accounting.filter' => []]);
-            return redirect()->route('accounting.transactions.show', $transactions->first());
-        }
-
         $hasSuppliers = Supplier::count() > 0;
 
         return view('accounting.transactions.index', [
-            'transactions' => $transactions,
-            'filter' => $filter,
-            'sortColumns' => $sortColumns,
-            'sortColumn' => $sortColumn,
-            'sortOrder' => $sortOrder,
+            'filter' => [],
             'attendees' => Transaction::attendees(),
             'categories' => self::addLevelIndentation(Category::getNested()),
             'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
@@ -127,8 +42,6 @@ class TransactionsController extends Controller
             'cost_centers' => self::useCostCenters() ? self::getCostCenters(true) : null,
             'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
             'wallet' => $wallet,
-            'has_multiple_wallets' => Wallet::count() > 1,
-            'intermediate_balances' => ($sortColumn == 'receipt_no' && self::showIntermediateBalances()) ? self::getIntermediateBalances($wallet) : null,
             'has_suppliers' => $hasSuppliers,
             'suppliers' => $hasSuppliers ? Supplier::query()
                 ->has('transactions')
@@ -419,26 +332,5 @@ class TransactionsController extends Controller
     private static function showIntermediateBalances(): bool
     {
         return Setting::get('accounting.transactions.show_intermediate_balances') ?? false;
-    }
-
-    private static function getIntermediateBalances(Wallet $wallet): array
-    {
-        $transactions = Transaction::query()
-            ->forWallet($wallet)
-            ->orderBy('receipt_no', 'ASC')
-            ->get();
-
-        $intermediate_balances = [];
-        $intermediate_balance = 0;
-        foreach ($transactions as $transaction) {
-            if ($transaction->type == 'income') {
-                $intermediate_balance += $transaction->amount;
-            } else {
-                $intermediate_balance -= $transaction->amount;
-            }
-            $intermediate_balances[$transaction->id] = $intermediate_balance;
-        }
-
-        return $intermediate_balances;
     }
 }

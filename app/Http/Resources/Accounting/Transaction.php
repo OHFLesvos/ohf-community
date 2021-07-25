@@ -3,8 +3,7 @@
 namespace App\Http\Resources\Accounting;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Setting;
 
 class Transaction extends JsonResource
 {
@@ -30,6 +29,7 @@ class Transaction extends JsonResource
         $data['can_undo_booking'] = $request->user()->can('undoBooking', $this->resource);
         $data['external_url'] = $this->when($this->external_id !== null, fn () => $this->externalUrl);
         $data['receipt_pictures'] = $this->receiptPictureArray();
+        $data['intermediate_balance'] = Setting::get('accounting.transactions.show_intermediate_balances') ? $this->getIntermediateBalance() : null;
 
         return $data;
     }

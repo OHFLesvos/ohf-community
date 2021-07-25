@@ -5,6 +5,7 @@
             :use-secondary-categories="settings['accounting.transactions.use_secondary_categories']"
             :use-locations="settings['accounting.transactions.use_locations']"
             :use-cost-centers="settings['accounting.transactions.use_cost_centers']"
+            :show-intermediate-balances="settings['accounting.transactions.show_intermediate_balances']"
         />
     </div>
 </template>

@@ -381,4 +381,15 @@ class Transaction extends Model implements Auditable
             ->unique()
             ->toArray();
     }
+
+    public function getIntermediateBalance()
+    {
+        return Transaction::query()
+            ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as sum')
+            ->where('wallet_id', $this->wallet_id)
+            ->where('receipt_no', '<=', $this->receipt_no)
+            ->orderBy('receipt_no', 'ASC')
+            ->pluck('sum')
+            ->first();
+    }
 }
