@@ -66,7 +66,13 @@
             </template>
         </base-table>
 
-        <b-modal id="filter-modal" :title="$t('Advanced filter')">
+        <b-modal
+            id="filter-modal"
+            :title="$t('Advanced filter')"
+            @close="closeFilter"
+            @cancel="closeFilter"
+            @ok="applyFilter"
+        >
             <b-form-row>
                 <b-col sm="3" class="mb-3">
                     <b-form-group :label="$t('Type')">
@@ -486,6 +492,12 @@ export default {
             for (let child of elem.children) {
                 this.fillTree(tree, child, level + 1);
             }
+        },
+        closeFilter() {
+            console.log(this.filter);
+        },
+        applyFilter() {
+            console.log(this.filter);
         }
     }
 };
