@@ -1,5 +1,9 @@
 import { api, route } from "@/api/baseApi";
 export default {
+    async settings() {
+        const url = route("api.accounting.settings");
+        return await api.get(url);
+    },
     async list(wallet, params) {
         const url = route("api.accounting.transactions.index", {
             wallet,

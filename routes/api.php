@@ -22,6 +22,7 @@ use App\Http\Controllers\Fundraising\API\DonorTagsController;
 use App\Http\Controllers\Fundraising\API\ReportController;
 use App\Http\Controllers\Fundraising\API\TagsController;
 use App\Http\Controllers\Fundraising\API\WebhookController;
+use App\Http\Controllers\Settings\API\SettingsController;
 use App\Http\Controllers\UserManagement\API\RoleAdministratorRelationshipController;
 use App\Http\Controllers\UserManagement\API\RoleController;
 use App\Http\Controllers\UserManagement\API\RoleUserRelationshipController;
@@ -319,3 +320,6 @@ Route::get('countries', [DataListController::class, 'countries'])
 Route::get('languages', [DataListController::class, 'languages'])
     ->middleware(['language'])
     ->name('api.languages');
+
+Route::get('settings', [SettingsController::class, 'list'])
+    ->name('api.settings');

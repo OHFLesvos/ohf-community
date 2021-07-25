@@ -719,6 +719,7 @@ export default {
         "You do not have sufficient permissions to view all articles.": "Du hast hast nicht die nötigen Berechtigungen um alle Artikel zu sehen.",
         "Fundraising": "Spender & Spenden",
         "Visitor check-ins": "Besucher Check-ins",
+        "View category": "Kategorie betrachten",
         "Create category": "Kategorie erstellen",
         "Edit category": "Kategorie bearbeiten",
         "Category added.": "Kategorie hinzugefügt.",
