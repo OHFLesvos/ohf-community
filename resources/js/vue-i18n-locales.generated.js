@@ -111,6 +111,7 @@ export default {
         "No log entries found.": "Keine Logeinträge gefunden.",
         "Apply": "Anwenden",
         "Filter": "Filter",
+        "Advanced filter": "Erweiterter Filter",
         "Apply filter": "Filter anwenden",
         "Reset filter": "Filter zurücksetzen",
         "Search message text": "Nachrichtentext durchsuchen",

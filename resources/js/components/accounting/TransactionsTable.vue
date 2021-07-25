@@ -18,6 +18,12 @@
                 />
             </b-input-group>
         </template>
+        <template v-slot:filter-append>
+            <b-button variant="primary" @click="openAdvancedFilter">
+                <font-awesome-icon icon="search"/>
+                {{ $t('Advanced filter') }}
+            </b-button>
+        </template>
         <template v-slot:cell(receipt_pictures)="data">
             <ReceiptPictureUpload
                 :transaction="data.item.id"
@@ -193,6 +199,9 @@ export default {
         },
         numberFormat(val) {
             return numeral(val).format("0,0.00");
+        },
+        openAdvancedFilter() {
+
         }
     }
 };

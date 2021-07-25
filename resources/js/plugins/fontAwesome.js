@@ -40,6 +40,7 @@ import {
     faFile,
     faImage,
     faImages,
+    faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -83,6 +84,7 @@ library.add(
     faFile,
     faImage,
     faImages,
+    faSearch,
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

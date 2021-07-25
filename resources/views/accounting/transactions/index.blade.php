@@ -9,25 +9,6 @@
     </div>
 
     <div class="d-flex justify-content-between align-items-center">
-        <div class="mb-3">
-            <x-icon icon="wallet"/>
-            <span class="d-none d-sm-inline">
-                @if($has_multiple_wallets)
-                    {{ $wallet->name }}:
-                @else
-                    {{ __('Wallet') }}:
-                @endif
-            </span>
-            <u>{{ number_format($wallet->amount, 2) }}</u>
-            @if($has_multiple_wallets)
-                <a href="{{ route('accounting.index') }}" class="d-none d-sm-inline btn btn-sm btn-primary ml-2">
-                    {{ __('Change') }}
-                </a>
-                <a href="{{ route('accounting.index') }}" class="d-inline d-sm-none btn btn-sm">
-                    <x-icon icon="folder-open"/>
-                </a>
-            @endif
-        </div>
         <div class="text-right">
             @if(count($filter) > 0)
                 <a href="{{ route('accounting.transactions.index', $wallet) }}?reset_filter=1" class="btn btn-sm btn-primary mb-3"><x-icon icon="eraser"/> {{ __('Reset filter') }}</a>
@@ -48,7 +29,7 @@
             <table class="table table-hover bg-white">
                 <thead>
                     <tr>
-                        <th colspan="2" class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">{{ __('Receipt') }} </span>#</th>
+                        <th class="fit text-center @if(isset($filter['receipt_no']) || isset($filter['no_receipt'])) text-info @endif"><span class="d-none d-sm-inline">{{ __('Receipt') }} </span>#</th>
                         <th class="fit @if(isset($filter['date_start']) || isset($filter['date_end']) || isset($filter['month'])) text-info @endisset">{{ __('Date') }}</th>
                         <th class="fit d-table-cell d-sm-none text-right">{{ __('Amount') }}</th>
                         <th class="fit d-none d-sm-table-cell text-right @if(isset($filter['type']) && $filter['type']=='income') text-info @endisset">{{ __('Income') }}</th>
@@ -78,27 +59,6 @@
                 <tbody>
                     @foreach ($transactions as $transaction)
                         <tr>
-                            <td class="fit text-center cursor-pointer @if(empty($transaction->receipt_pictures) && isset($transaction->receipt_no)) table-warning receipt-picture-missing @else table-success @endif" data-transaction-id="{{ $transaction->id }}">
-                                @isset($transaction->receipt_no)
-                                    @if(filled($transaction->receipt_pictures))
-                                        @php
-                                            $urls = collect($transaction->receipt_pictures)
-                                                ->filter(fn ($picture) => Storage::exists($picture))
-                                                ->map(fn ($picture) => [ 'url' => Storage::url($picture), 'image' => Str::startsWith(Storage::mimeType($picture), 'image/')]);
-                                            if ($urls->filter(fn ($data) => $data['image'])->isNotEmpty()) {
-                                                $icon = $urls->count() > 1 ? 'images' : 'image';
-                                            } else {
-                                                $icon = 'file';
-                                            }
-                                        @endphp
-                                        @if(filled($urls))
-                                            <x-icon :icon="$icon" :data-urls='$urls->toJson()' class="lightbox" />
-                                        @endif
-                                    @else
-                                        <x-icon icon="upload" />
-                                    @endif
-                                @endisset
-                            </td>
                             <td class="fit text-right" >
                                 <a href="{{ route('accounting.transactions.show', $transaction) }}">
                                     {{ $transaction->receipt_no }}
@@ -146,42 +106,11 @@
                         </tr>
                     @endforeach
                 </tbody>
-                @if(count($filter) > 0)
-                    @php
-                        $sum_income = $transactions->where('type', 'income')->sum('amount');
-                        $sum_spending = $transactions->where('type', 'spending')->sum('amount');
-                    @endphp
-                    @if($sum_income > 0 || $sum_spending > 0)
-                        <tr>
-                            <td colspan="2" rowspan="2" class="align-middle">{{ __('Total') }}</td>
-                            <td class="text-right d-none d-sm-table-cell">
-                                <u class="text-success">{{ number_format($sum_income, 2) }}</u>
-                            </td>
-                            <td class="text-right d-none d-sm-table-cell">
-                                <u class="text-danger">{{ number_format($sum_spending, 2) }}</u>
-                            </td>
-                            <td class="text-right d-table-cell d-sm-none">
-                                @if($sum_income > 0)<u class="text-success">{{ number_format($sum_income, 2) }}</u><br>@endif
-                                @if($sum_spending > 0)<u class="text-danger">{{ number_format($sum_spending, 2) }}</u>@endif
-                                <u>{{ number_format($sum_income - $sum_spending, 2) }}</u>
-                            </td>
-                            <td colspan="6" rowspan="2"></td>
-                        </tr>
-                        <tr class="d-none d-sm-table-row">
-                            <td colspan="2" class="text-center"><u>{{ number_format($sum_income - $sum_spending, 2) }}</u></td>
-                        </tr>
-                    @endif
-                @endif
             </table>
         </div>
         <div style="overflow-x: auto">
             {{ $transactions->appends($filter)->links() }}
         </div>
-        @foreach ($transactions->filter(fn ($e) => $e->receipt_no != null && empty($e->receipt_pictures)) as $transaction)
-            <form action="{{ route('api.accounting.transactions.updateReceipt', $transaction) }}" method="post" enctype="multipart/form-data" class="d-none upload-receipt-form" id="receipt_upload_{{ $transaction->id }}">
-                {{ Form::file('img[]', [ 'accept' => 'image/*,application/pdf', 'multiple', 'class' => 'd-none' ]) }}
-            </form>
-        @endforeach
     @else
         <x-alert type="info">
             {{ __('No transactions found.') }}
@@ -190,82 +119,6 @@
 @endsection
 
 @push('footer')
-    <script>
-        var selectFile = function (evt) {
-            var tr_id = $(evt.target).data('transaction-id');
-            $('#receipt_upload_' + tr_id).find('input[type=file]').click();
-        }
-        $(function () {
-            $('.receipt-picture-missing').on('click', selectFile);
-            $('.upload-receipt-form input[type="file"]').on('change', function () {
-                $(this).parents('form').submit();
-            });
-            $('.upload-receipt-form').on('submit', function (e) {
-                e.preventDefault();
-                var tr_id = $(this).attr('id').substr('#receipt_upload_'.length - 1);
-                var td = $('.receipt-picture-missing[data-transaction-id="' + tr_id + '"]');
-                var icon = td.children('i');
-                td.removeClass('table-warning')
-                    .addClass('table-info')
-                    .removeClass('cursor-pointer')
-                    .off('click');
-                icon.removeClass('fa-upload')
-                    .addClass('fa-spin fa-spinner')
-                $.ajax({
-                    url: $(this).attr('action'),
-                    type: "POST",
-                    data:  new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    success: function () {
-                        td.removeClass('table-info receipt-picture-missing')
-                            .addClass('table-success');
-                        icon.removeClass('fa-spin fa-spinner')
-                            .addClass('fa-check');
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        td.removeClass('table-info')
-                            .addClass('table-warning')
-                            .addClass('cursor-pointer')
-                            .on('click', selectFile);
-                        icon.removeClass('fa-spin fa-spinner')
-                            .addClass('fa-upload');
-                        var message;
-                        if (jqXHR.responseJSON.message) {
-                            if (jqXHR.responseJSON.errors) {
-                                message = "";
-                                var errors = jqXHR.responseJSON.errors;
-                                Object.keys(errors).forEach(function (key) {
-                                    message += errors[key] + "\n";
-                                });
-                            } else {
-                                message = jqXHR.responseJSON.message;
-                            }
-                        } else {
-                            message = textStatus + ': ' + jqXHR.responseText;
-                        }
-                        alert(message);
-                    }
-                });
-            });
-
-            $('.lightbox').each(function(){
-                var data = $(this).data('urls');
-                const lightbox = new FsLightbox();
-                var images = data.filter(d => d.image)
-                lightbox.props.sources = images.map(i => i.url);
-                $(this).parents('td').on('click', function() {
-                    if (images.length > 0) {
-                        lightbox.open()
-                    } else {
-                        window.open(data[0].url, '_blank');
-                    }
-                 });
-            })
-        });
-    </script>
-
     {!! Form::open(['route' => ['accounting.transactions.index', $wallet ], 'method' => 'get']) !!}
         @component('components.modal', [ 'id' => 'filterModal' ])
             @slot('title', __('Filter'))

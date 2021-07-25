@@ -117,11 +117,49 @@ class Transaction extends Model implements Auditable
      * Scope a query to only include transactions matching the given filter conditions
      *
      * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @param string $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForFilter($query, string $filter)
+    {
+        if (empty($filter)) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $qry1) use ($filter) {
+            return $qry1->where('receipt_no', $filter)
+                ->orWhere('amount', $filter)
+                ->orWhere('date', $filter)
+                ->orWhere('secondary_category', 'LIKE', '%' . $filter . '%')
+                ->orWhere('location', 'LIKE', '%' . $filter . '%')
+                ->orWhere('cost_center', 'LIKE', '%' . $filter . '%')
+                ->orWhere('location', 'LIKE', '%' . $filter . '%')
+                ->orWhere('attendee', 'LIKE', '%' . $filter . '%')
+                ->orWhere('description', 'LIKE', '%' . $filter . '%')
+                ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
+                ->orWhereHas('supplier', function (Builder $qry2) use ($filter) {
+                    $qry2->where('id', $filter)
+                        ->orWhere('slug', $filter)
+                        ->orWhere('name', 'LIKE', '%' . $filter . '%');
+                })
+                ->orWhereHas('category', function (Builder $qry2) use ($filter) {
+                    $qry2->where('name', 'LIKE', '%' . $filter . '%');
+                })
+                ->orWhereHas('project', function (Builder $qry2) use ($filter) {
+                    $qry2->where('name', 'LIKE', '%' . $filter . '%');
+                });
+        });
+    }
+
+    /**
+     * Scope a query to only include transactions matching the given filter conditions
+     *
+     * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param array $filter
      * @param bool|null $skipDates
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForFilter($query, array $filter, ?bool $skipDates = false)
+    public function scopeForAdvancedFilter($query, array $filter, ?bool $skipDates = false)
     {
         foreach (config('accounting.filter_columns') as $col) {
             if (!empty($filter[$col])) {

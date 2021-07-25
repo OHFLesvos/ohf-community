@@ -94,7 +94,11 @@ class TransactionsController extends Controller
         }
         session(['accounting.filter' => $filter]);
 
-        $query = self::createIndexQuery($wallet, $filter, $sortColumn, $sortOrder);
+        $query = Transaction::query()
+            ->forWallet($wallet)
+            // ->forFilter($filter)
+            ->orderBy($sortColumn, $sortOrder)
+            ->orderBy('created_at', 'DESC');
 
         // Get results
         $transactions = $query->paginate(250);
@@ -141,14 +145,6 @@ class TransactionsController extends Controller
             ->toArray();
     }
 
-    private static function createIndexQuery(Wallet $wallet, array $filter, string $sortColumn, string $sortOrder)
-    {
-        return Transaction::query()
-            ->forWallet($wallet)
-            ->forFilter($filter)
-            ->orderBy($sortColumn, $sortOrder)
-            ->orderBy('created_at', 'DESC');
-    }
 
     public function create(Wallet $wallet)
     {

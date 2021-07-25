@@ -75,38 +75,34 @@ class TransactionsController extends Controller
             $sortDirection = $request->sortDirection;
         }
 
-        $filter = [];
-        foreach (config('accounting.filter_columns') as $col) {
-            if (!empty($request->filter[$col])) {
-                $filter[$col] = $request->filter[$col];
-            } elseif (isset($request->filter)) {
-                unset($filter[$col]);
-            }
-        }
-        if (!empty($request->filter['date_start'])) {
-            $filter['date_start'] = $request->filter['date_start'];
-        } elseif (isset($request->filter)) {
-            unset($filter['date_start']);
-        }
-        if (!empty($request->filter['date_end'])) {
-            $filter['date_end'] = $request->filter['date_end'];
-        } elseif (isset($request->filter)) {
-            unset($filter['date_end']);
-        }
+        // $filter = [];
+        // foreach (config('accounting.filter_columns') as $col) {
+        //     if (!empty($request->filter[$col])) {
+        //         $filter[$col] = $request->filter[$col];
+        //     } elseif (isset($request->filter)) {
+        //         unset($filter[$col]);
+        //     }
+        // }
+        // if (!empty($request->filter['date_start'])) {
+        //     $filter['date_start'] = $request->filter['date_start'];
+        // } elseif (isset($request->filter)) {
+        //     unset($filter['date_start']);
+        // }
+        // if (!empty($request->filter['date_end'])) {
+        //     $filter['date_end'] = $request->filter['date_end'];
+        // } elseif (isset($request->filter)) {
+        //     unset($filter['date_end']);
+        // }
 
-        $query = self::createIndexQuery($wallet, $filter, $sortBy, $sortDirection);
-        $transactions = $query->with('supplier')->paginate(25);
+        $transactions = Transaction::query()
+            ->forWallet($wallet)
+            ->when($request->filled('filter'), fn($qry) => $qry->forFilter($request->input('filter')))
+            ->orderBy($sortBy, $sortDirection)
+            ->orderBy('created_at', 'DESC')
+            ->with('supplier')
+            ->paginate(25);
 
         return new TransactionCollection($transactions);
-    }
-
-    private static function createIndexQuery(Wallet $wallet, array $filter, string $sortBy, string $sortDirection)
-    {
-        return Transaction::query()
-            ->forWallet($wallet)
-            ->forFilter($filter)
-            ->orderBy($sortBy, $sortDirection)
-            ->orderBy('created_at', 'DESC');
     }
 
     public function show(Transaction $transaction)
