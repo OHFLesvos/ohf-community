@@ -205,6 +205,34 @@ class Transaction extends Model implements Auditable
         $this->receipt_pictures = $pictures;
     }
 
+    public function receiptPictureArray(): array
+    {
+        if (empty($this->receipt_pictures)) {
+            return [];
+        }
+        return collect($this->receipt_pictures)
+            ->filter(fn ($picture) => Storage::exists($picture))
+            ->map(function ($picture) {
+                $isImage = Str::startsWith(Storage::mimeType($picture), 'image/');
+                $thumbnail = $isImage
+                    ? (Storage::exists(thumb_path($picture))
+                        ? Storage::url(thumb_path($picture))
+                        : Storage::url($picture))
+                    : (Storage::exists(thumb_path($picture, 'jpeg'))
+                        ? Storage::url(thumb_path($picture, 'jpeg'))
+                        : null);
+                return [
+                    'type' => $isImage ? 'image' : 'file',
+                    'url' => Storage::url($picture),
+                    'mime_type' => Storage::mimeType($picture),
+                    'file_size' => bytes_to_human(Storage::size($picture)),
+                    'thumbnail_url' => $thumbnail,
+                    'thumbnail_size' => $thumbnail !== null ? config('accounting.thumbnail_size') : null,
+                ];
+            })
+            ->toArray();
+    }
+
     private static function createThumbnail($path, $dimensions)
     {
         $thumbPath = thumb_path($path);

@@ -38,6 +38,8 @@ import {
     faUsers,
     faCalendarAlt,
     faFile,
+    faImage,
+    faImages,
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -79,6 +81,8 @@ library.add(
     faUsers,
     faCalendarAlt,
     faFile,
+    faImage,
+    faImages,
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

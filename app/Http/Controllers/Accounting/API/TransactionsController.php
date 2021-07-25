@@ -136,7 +136,7 @@ class TransactionsController extends Controller
         }
         $transaction->save();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->json($transaction->receiptPictureArray());
     }
 
     public function undoBooking(Transaction $transaction)

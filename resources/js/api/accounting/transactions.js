@@ -1,9 +1,5 @@
 import { api, route } from "@/api/baseApi";
 export default {
-    async settings() {
-        const url = route("api.accounting.settings");
-        return await api.get(url);
-    },
     async list(wallet, params) {
         const url = route("api.accounting.transactions.index", {
             wallet,
@@ -17,6 +13,12 @@ export default {
             ...params
         });
         return await api.get(url);
+    },
+    async updateReceipt(transaction, files) {
+        const formData = new FormData();
+        Array.from(files).forEach(file => formData.append('img[]', file));
+        const url = route("api.accounting.transactions.updateReceipt", transaction);
+        return await api.postFormData(url, formData);
     },
     async locations(params) {
         const url = route("api.accounting.transactions.locations", params);

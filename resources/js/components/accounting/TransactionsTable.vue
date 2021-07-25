@@ -5,6 +5,7 @@
         :fields="fields"
         :api-method="fetchData"
         default-sort-by="created_at"
+        :default-sort-desc="true"
         :empty-text="$t('No transactions found.')"
         :items-per-page="25"
     >
@@ -16,6 +17,12 @@
                     :disabled="isBusy"
                 />
             </b-input-group>
+        </template>
+        <template v-slot:cell(receipt_pictures)="data">
+            <ReceiptPictureUpload
+                :transaction="data.item.id"
+                :value="data.value"
+            />
         </template>
         <template v-slot:cell(receipt_no)="data">
             <b-link
@@ -54,9 +61,11 @@ import numeral from "numeral";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
 import BaseTable from "@/components/table/BaseTable";
+import ReceiptPictureUpload from "@/components/accounting/ReceiptPictureUpload";
 export default {
     components: {
-        BaseTable
+        BaseTable,
+        ReceiptPictureUpload
     },
     props: {
         wallet: {
@@ -71,6 +80,10 @@ export default {
             isBusy: false,
             wallets: [],
             fields: [
+                {
+                    key: "receipt_pictures",
+                    label: ""
+                },
                 {
                     key: "receipt_no",
                     label: this.$t("Receipt"),
