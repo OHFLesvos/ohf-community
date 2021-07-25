@@ -25,6 +25,22 @@ class Transaction extends Model implements Auditable
 
     private const RECEIPT_PICTURE_PATH = 'public/accounting/receipts';
 
+    public const ADVANCED_FILTER_COLUMNS = [
+        'type',
+        'category_id',
+        'secondary_category',
+        'project_id',
+        'location',
+        'cost_center',
+        'attendee',
+        'description',
+        'supplier',
+        'receipt_no',
+        'today',
+        'no_receipt',
+        'controlled',
+    ];
+
     public static function boot()
     {
         static::deleting(function ($model) {
@@ -161,7 +177,7 @@ class Transaction extends Model implements Auditable
      */
     public function scopeForAdvancedFilter($query, array $filter, ?bool $skipDates = false)
     {
-        foreach (config('accounting.filter_columns') as $col) {
+        foreach (self::ADVANCED_FILTER_COLUMNS as $col) {
             if (!empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today());

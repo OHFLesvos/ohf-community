@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
 use App\Http\Resources\Accounting\TransactionCollection;
+use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
@@ -76,22 +77,16 @@ class TransactionsController extends Controller
         }
 
         // $filter = [];
-        // foreach (config('accounting.filter_columns') as $col) {
+        // foreach (Transaction::ADVANCED_FILTER_COLUMNS as $col) {
         //     if (!empty($request->filter[$col])) {
         //         $filter[$col] = $request->filter[$col];
-        //     } elseif (isset($request->filter)) {
-        //         unset($filter[$col]);
         //     }
         // }
         // if (!empty($request->filter['date_start'])) {
         //     $filter['date_start'] = $request->filter['date_start'];
-        // } elseif (isset($request->filter)) {
-        //     unset($filter['date_start']);
         // }
         // if (!empty($request->filter['date_end'])) {
         //     $filter['date_end'] = $request->filter['date_end'];
-        // } elseif (isset($request->filter)) {
-        //     unset($filter['date_end']);
         // }
 
         $transactions = Transaction::query()
@@ -152,8 +147,23 @@ class TransactionsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
+    public function secondaryCategories()
+    {
+        return Transaction::secondaryCategories();
+    }
+
     public function locations()
     {
         return Transaction::locations();
+    }
+
+    public function costCenters()
+    {
+        return Transaction::costCenters();
+    }
+
+    public function attendees()
+    {
+        return Transaction::attendees();
     }
 }

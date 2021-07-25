@@ -13,7 +13,6 @@ use App\Models\Accounting\Project;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Supplier;
 use App\Models\Accounting\Wallet;
-use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -28,26 +27,8 @@ class TransactionsController extends Controller
         $this->authorize('viewAny', Transaction::class);
         $this->authorize('view', $wallet);
 
-        $hasSuppliers = Supplier::count() > 0;
-
         return view('accounting.transactions.index', [
-            'filter' => [],
-            'attendees' => Transaction::attendees(),
-            'categories' => self::addLevelIndentation(Category::getNested()),
-            'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories(true) : null,
-            'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => self::addLevelIndentation(Project::getNested()),
-            'locations' => self::useLocations() ? self::getLocations(true) : null,
-            'fixed_locations' => Setting::has('accounting.transactions.locations'),
-            'cost_centers' => self::useCostCenters() ? self::getCostCenters(true) : null,
-            'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
             'wallet' => $wallet,
-            'has_suppliers' => $hasSuppliers,
-            'suppliers' => $hasSuppliers ? Supplier::query()
-                ->has('transactions')
-                ->select('id', 'name', 'category')
-                ->orderBy('name')
-                ->get() : [],
         ]);
     }
 
@@ -57,7 +38,6 @@ class TransactionsController extends Controller
             ->map(fn($e) => str_repeat("&nbsp;", 4 * $e['indentation']) . $e['name'])
             ->toArray();
     }
-
 
     public function create(Wallet $wallet)
     {

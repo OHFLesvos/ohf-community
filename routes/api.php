@@ -218,8 +218,14 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.index');
         Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
+        Route::get('transactions/secondaryCategories', [TransactionsController::class, 'secondaryCategories'])
+            ->name('transactions.secondaryCategories');
         Route::get('transactions/locations', [TransactionsController::class, 'locations'])
             ->name('transactions.locations');
+        Route::get('transactions/costCenters', [TransactionsController::class, 'costCenters'])
+            ->name('transactions.costCenters');
+        Route::get('transactions/attendees', [TransactionsController::class, 'attendees'])
+            ->name('transactions.attendees');
         Route::resource('transactions', TransactionsController::class)->only(['show']);
         Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
             ->name('transactions.undoBooking');

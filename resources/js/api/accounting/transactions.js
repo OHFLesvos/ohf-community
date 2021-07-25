@@ -24,6 +24,18 @@ export default {
         const url = route("api.accounting.transactions.locations", params);
         return await api.get(url);
     },
+    async secondaryCategories(params) {
+        const url = route("api.accounting.transactions.secondaryCategories", params);
+        return await api.get(url);
+    },
+    async costCenters(params) {
+        const url = route("api.accounting.transactions.costCenters", params);
+        return await api.get(url);
+    },
+    async attendees(params) {
+        const url = route("api.accounting.transactions.attendees", params);
+        return await api.get(url);
+    },
     async markControlled(transaction) {
         const url = route(
             "api.accounting.transactions.markControlled",
