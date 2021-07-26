@@ -226,6 +226,8 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.costCenters');
         Route::get('transactions/attendees', [TransactionsController::class, 'attendees'])
             ->name('transactions.attendees');
+        Route::get('transactions/taxonomies', [TransactionsController::class, 'taxonomies'])
+            ->name('transactions.taxonomies');
         Route::resource('transactions', TransactionsController::class)->only(['show']);
         Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
             ->name('transactions.undoBooking');

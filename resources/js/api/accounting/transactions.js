@@ -36,6 +36,10 @@ export default {
         const url = route("api.accounting.transactions.attendees", params);
         return await api.get(url);
     },
+    async taxonomies(params) {
+        const url = route("api.accounting.transactions.taxonomies", params);
+        return await api.get(url);
+    },
     async markControlled(transaction) {
         const url = route(
             "api.accounting.transactions.markControlled",

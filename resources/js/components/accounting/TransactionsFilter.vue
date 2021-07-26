@@ -109,10 +109,14 @@
             </b-form-row>
             <b-form-row>
                 <b-col sm>
-                    <!-- TODO datalist? -->
                     <b-form-group :label="$t('Attendee')">
-                        <b-form-input v-model="filter.attendee" trim />
+                        <b-form-input
+                            v-model="filter.attendee"
+                            trim
+                            list="attendee-list"
+                        />
                     </b-form-group>
+                    <b-form-datalist id="attendee-list" :options="attendees" />
                 </b-col>
                 <b-col sm>
                     <!-- TODO datalist? -->
@@ -183,6 +187,7 @@ export default {
             projects: [],
             locations: [],
             costCenters: [],
+            attendees: [],
             filter: this.createEmptyFilter(),
             typeOptions: [
                 {
@@ -293,21 +298,25 @@ export default {
     },
     async created() {
         this.categories = await categoriesApi.tree();
-        if (this.useSecondaryCategories) {
-            this.secondaryCategories = await transactionsApi.secondaryCategories();
-        }
         this.projects = await projectsApi.tree();
+        const taxonomies = await transactionsApi.taxonomies();
+        if (this.useSecondaryCategories) {
+            this.secondaryCategories = taxonomies.secondary_categories;
+        }
         if (this.useLocations) {
-            this.locations = await transactionsApi.locations();
+            this.locations = taxonomies.locations;
         }
         if (this.useCostCenters) {
-            this.costCenters = await transactionsApi.costCenters();
+            this.costCenters = taxonomies.cost_centers;
         }
+        this.attendees = taxonomies.attendees;
     },
     methods: {
         cleanObject(value) {
             return Object.fromEntries(
-                Object.entries(value).filter(([_, v]) => !(v == null || v === false || v == ''))
+                Object.entries(value).filter(
+                    ([_, v]) => !(v == null || v === false || v == "")
+                )
             );
         },
         createEmptyFilter() {

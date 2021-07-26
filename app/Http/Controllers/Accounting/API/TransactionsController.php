@@ -11,6 +11,7 @@ use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Setting;
 
 class TransactionsController extends Controller
 {
@@ -132,5 +133,15 @@ class TransactionsController extends Controller
     public function attendees()
     {
         return Transaction::attendees();
+    }
+
+    public function taxonomies()
+    {
+        return response()->json([
+            'secondary_categories' => Setting::get('accounting.transactions.use_secondary_categories') ? Transaction::secondaryCategories() : [],
+            'locations' => Setting::get('accounting.transactions.use_locations') ? Transaction::locations() : [],
+            'cost_centers' => Setting::get('accounting.transactions.use_cost_centers') ? Transaction::costCenters() : [],
+            'attendees' => Transaction::attendees(),
+        ]);
     }
 }
