@@ -3,77 +3,54 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ValidatesResourceIndex;
 use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
 use App\Http\Resources\Accounting\TransactionCollection;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Validation\Rule;
 
 class TransactionsController extends Controller
 {
+    use ValidatesResourceIndex;
+
     public function index(Wallet $wallet, Request $request)
     {
         $this->authorize('viewAny', Transaction::class);
         $this->authorize('view', $wallet);
 
-        $request->validate([
-            'date_start' => [
-                'nullable',
-                'date',
-                'before_or_equal:' . Carbon::today(),
-            ],
-            'date_end' => [
-                'nullable',
-                'date',
-                'before_or_equal:' . Carbon::today(),
-            ],
-            'type' => [
-                'nullable',
-                Rule::in(['income', 'spending']),
-            ],
-            'month' => [
-                'nullable',
-                'regex:/[0-1]?[1-9]/'
-            ],
-            'year' => [
-                'nullable',
-                'integer',
-                'min:2017',
-                'max:' . Carbon::today()->year
-            ],
-            'sortBy' => [
-                'nullable',
-                Rule::in([
-                    'date',
-                    'created_at',
-                    'category',
-                    'secondary_category',
-                    'project',
-                    'location',
-                    'cost_center',
-                    'attendee',
-                    'receipt_no'
-                ])
-            ],
-            'sortDirection' => [
-                'nullable',
-                Rule::in(['asc', 'desc'])
-            ],
+        $this->validateFilter();
+        $this->validatePagination();
+        $this->validateSorting([
+            'date',
+            'created_at',
+            'category',
+            'secondary_category',
+            'project',
+            'location',
+            'cost_center',
+            'attendee',
+            'receipt_no',
         ]);
 
-        $sortBy = 'created_at';
-        $sortDirection = 'desc';
-        if (isset($request->sortBy)) {
-            $sortBy = $request->sortBy;
-        }
-        if (isset($request->sortDirection)) {
-            $sortDirection = $request->sortDirection;
-        }
+        $advanced_filter = $this->parseAdvancedFilter($request);
 
+        $transactions = Transaction::query()
+            ->forWallet($wallet)
+            ->when($request->filled('filter'), fn ($qry) => $qry->forFilter($request->input('filter')))
+            ->when(count($advanced_filter) > 0, fn ($qry) => $qry->forAdvancedFilter($advanced_filter))
+            ->orderBy($this->getSortBy('created_at'), $this->getSortDirection('desc'))
+            ->orderBy('created_at', 'desc')
+            ->with('supplier')
+            ->paginate($this->getPageSize(25));
+
+        return new TransactionCollection($transactions);
+    }
+
+    private function parseAdvancedFilter(Request $request): array
+    {
         $advanced_filter = [];
         foreach (Transaction::ADVANCED_FILTER_COLUMNS as $col) {
             if (!empty($request->advanced_filter[$col])) {
@@ -87,16 +64,7 @@ class TransactionsController extends Controller
             $advanced_filter['date_end'] = $request->advanced_filter['date_end'];
         }
 
-        $transactions = Transaction::query()
-            ->forWallet($wallet)
-            ->when($request->filled('filter'), fn($qry) => $qry->forFilter($request->input('filter')))
-            ->when(count($advanced_filter) > 0, fn($qry) => $qry->forAdvancedFilter($advanced_filter))
-            ->orderBy($sortBy, $sortDirection)
-            ->orderBy('created_at', 'DESC')
-            ->with('supplier')
-            ->paginate(25);
-
-        return new TransactionCollection($transactions);
+        return $advanced_filter;
     }
 
     public function show(Transaction $transaction)
