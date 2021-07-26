@@ -94,10 +94,11 @@ export default {
         showIntermediateBalances: Boolean
     },
     data() {
+        const persitedAdvancedFilter = sessionStorage.getItem("accounting.transactions.advancedFilter");
         return {
             isBusy: false,
             wallets: [],
-            advancedFilter: {},
+            advancedFilter: persitedAdvancedFilter ? JSON.parse(persitedAdvancedFilter) : {},
             fields: [
                 {
                     key: "receipt_pictures",
@@ -213,6 +214,7 @@ export default {
             this.$refs.table.refresh();
         },
         advancedFilter(value) {
+            sessionStorage.setItem("accounting.transactions.advancedFilter", JSON.stringify(value));
             this.$refs.table.refresh();
         }
     },
