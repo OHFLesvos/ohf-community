@@ -188,44 +188,64 @@
                     </button>
                 </p>
             </two-col-list-group-item>
-        </b-list-group>
-
-        <!-- Pictures -->
-        <template v-if="transaction.receipt_pictures.length > 0">
-            <hr class="mt-0" />
-            <div class="form-row mx-3 mb-2">
-                <div
-                    v-for="picture in transaction.receipt_pictures"
-                    :key="picture.url"
-                    class="col-auto mb-2"
-                >
-                    <a
-                        :href="picture.url"
-                        :data-fslightbox="
-                            picture.type == 'image' ? 'gallery' : null
-                        "
-                        :target="picture.type == 'file' ? '_blank' : null"
-                        :title="picture.mime_type"
+            <b-list-group-item v-if="transaction.receipt_pictures.length > 0">
+                <b-form-row>
+                    <b-col
+                        cols="auto"
+                        v-for="picture in transaction.receipt_pictures"
+                        :key="picture.url"
+                        class="mb-2"
                     >
-                        <ThumbnailImage
-                            v-if="picture.thumbnail_url"
-                            :url="picture.thumbnail_url"
-                            :size="picture.thumbnail_size"
-                        />
-                        <span
-                            v-else
-                            class="display-4"
+                        <a
+                            :href="picture.url"
+                            :data-fslightbox="
+                                picture.type == 'image' ? 'gallery' : null
+                            "
+                            :target="picture.type == 'file' ? '_blank' : null"
                             :title="picture.mime_type"
                         >
-                            <font-awesome-icon icon="file" />
-                        </span>
-                    </a>
-                    <template v-if="!picture.thumbnail_url">
-                        {{ picture.mime_type }} ({{ picture.file_size }})
-                    </template>
-                </div>
-            </div>
-        </template>
+                            <ThumbnailImage
+                                v-if="picture.thumbnail_url"
+                                :url="picture.thumbnail_url"
+                                :size="picture.thumbnail_size"
+                            />
+                            <span
+                                v-else
+                                class="display-4"
+                                :title="picture.mime_type"
+                            >
+                                <font-awesome-icon icon="file" />
+                            </span>
+                        </a>
+                        <template v-if="!picture.thumbnail_url">
+                            {{ picture.mime_type }} ({{ picture.file_size }})
+                        </template>
+                    </b-col>
+                </b-form-row>
+            </b-list-group-item>
+        </b-list-group>
+        <p>
+            <router-link
+                v-if="transaction.can_update"
+                :to="{
+                    name: 'accounting.transactions.edit',
+                    params: { id: id }
+                }"
+                class="btn btn-primary"
+            >
+                <font-awesome-icon icon="edit" /> {{ $t("Edit") }}</router-link
+            >
+            <router-link
+                :to="{
+                    name: 'accounting.transactions.index',
+                    params: { wallet: transaction.wallet_id }
+                }"
+                class="btn btn-secondary"
+            >
+                <font-awesome-icon icon="times-circle" />
+                {{ $t("Overview") }}
+            </router-link>
+        </p>
     </b-container>
     <p v-else>
         {{ $t("Loading...") }}
