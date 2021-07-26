@@ -27,6 +27,7 @@ class Transaction extends Model implements Auditable
 
     public const ADVANCED_FILTER_COLUMNS = [
         'type',
+        'amount',
         'category_id',
         'secondary_category',
         'project_id',
@@ -39,6 +40,7 @@ class Transaction extends Model implements Auditable
         'today',
         'no_receipt',
         'controlled',
+        'remarks',
     ];
 
     public static function boot()
@@ -197,9 +199,9 @@ class Transaction extends Model implements Auditable
                     $query->whereHas('supplier', function (Builder $query) use ($filter, $col) {
                         $query->where('id', $filter[$col])
                             ->orWhere('slug', $filter[$col])
-                            ->orWhere('name', $filter[$col]);
+                            ->orWhere('name', 'like', '%' . $filter[$col] . '%');
                     });
-                } elseif ($col == 'attendee' || $col == 'description') {
+                } elseif ($col == 'attendee' || $col == 'description' || $col == 'remarks') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');
                 } else {
                     $query->where($col, $filter[$col]);

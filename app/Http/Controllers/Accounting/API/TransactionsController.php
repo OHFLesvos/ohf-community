@@ -74,22 +74,23 @@ class TransactionsController extends Controller
             $sortDirection = $request->sortDirection;
         }
 
-        // $filter = [];
-        // foreach (Transaction::ADVANCED_FILTER_COLUMNS as $col) {
-        //     if (!empty($request->filter[$col])) {
-        //         $filter[$col] = $request->filter[$col];
-        //     }
-        // }
-        // if (!empty($request->filter['date_start'])) {
-        //     $filter['date_start'] = $request->filter['date_start'];
-        // }
-        // if (!empty($request->filter['date_end'])) {
-        //     $filter['date_end'] = $request->filter['date_end'];
-        // }
+        $advanced_filter = [];
+        foreach (Transaction::ADVANCED_FILTER_COLUMNS as $col) {
+            if (!empty($request->advanced_filter[$col])) {
+                $advanced_filter[$col] = $request->advanced_filter[$col];
+            }
+        }
+        if (!empty($request->advanced_filter['date_start'])) {
+            $advanced_filter['date_start'] = $request->advanced_filter['date_start'];
+        }
+        if (!empty($request->advanced_filter['date_end'])) {
+            $advanced_filter['date_end'] = $request->advanced_filter['date_end'];
+        }
 
         $transactions = Transaction::query()
             ->forWallet($wallet)
             ->when($request->filled('filter'), fn($qry) => $qry->forFilter($request->input('filter')))
+            ->when(count($advanced_filter) > 0, fn($qry) => $qry->forAdvancedFilter($advanced_filter))
             ->orderBy($sortBy, $sortDirection)
             ->orderBy('created_at', 'DESC')
             ->with('supplier')

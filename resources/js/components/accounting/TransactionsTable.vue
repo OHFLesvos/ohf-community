@@ -21,10 +21,12 @@
             </template>
 
             <template v-slot:filter-append>
-                <b-button variant="secondary" v-b-modal.filter-modal>
-                    <font-awesome-icon icon="search" />
-                    {{ $t("Advanced filter") }}
-                </b-button>
+                <TransactionsFilter
+                    v-model="advancedFilter"
+                    :use-secondary-categories="useSecondaryCategories"
+                    :use-locations="useLocations"
+                    :use-cost-centers="useCostCenters"
+                />
             </template>
 
             <template v-slot:cell(receipt_pictures)="data">
@@ -65,129 +67,6 @@
                 </b-link>
             </template>
         </base-table>
-
-        <b-modal
-            id="filter-modal"
-            :title="$t('Advanced filter')"
-            @close="closeFilter"
-            @cancel="closeFilter"
-            @ok="applyFilter"
-        >
-            <b-form-row>
-                <b-col sm="3" class="mb-3">
-                    <b-form-group :label="$t('Type')">
-                        <b-form-radio-group
-                            v-model="filter.type"
-                            :options="typeOptions"
-                            stacked
-                        />
-                    </b-form-group>
-                </b-col>
-                <b-col sm="3" class="mb-3">
-                    <b-form-group :label="$t('Controlled')">
-                        <b-form-radio-group
-                            v-model="filter.controlled"
-                            :options="controlledOptions"
-                            stacked
-                        />
-                    </b-form-group>
-                </b-col>
-                <b-col sm="3" class="mb-3">
-                    <b-form-group :label="$t('Receipt')">
-                        <b-form-input
-                            type="number"
-                            v-model="filter.receipt_no"
-                            min="1"
-                        />
-                    </b-form-group>
-                </b-col>
-            </b-form-row>
-            <b-form-row>
-                <b-col sm>
-                    <b-form-group :label="$t('From')">
-                        <b-form-input type="date" v-model="filter.date_start" />
-                    </b-form-group>
-                </b-col>
-                <b-col sm>
-                    <b-form-group :label="$t('To')">
-                        <b-form-input type="date" v-model="filter.date_end" />
-                    </b-form-group>
-                </b-col>
-            </b-form-row>
-            <b-form-row>
-                <b-col sm>
-                    <b-form-group :label="$t('Category')">
-                        <b-select
-                            v-model="filter.category_id"
-                            :options="categoryOptions"
-                        />
-                    </b-form-group>
-                </b-col>
-                <b-col sm v-if="useSecondaryCategories">
-                    <b-form-group :label="$t('Secondary Category')">
-                        <b-select
-                            v-model="filter.secondary_category"
-                            :options="secondaryCategoryOptions"
-                        />
-                    </b-form-group>
-                </b-col>
-                <b-col sm>
-                    <b-form-group :label="$t('Project')">
-                        <b-select
-                            v-model="filter.project_id"
-                            :options="projectOptions"
-                        />
-                    </b-form-group>
-                </b-col>
-            </b-form-row>
-            <b-form-row>
-                <b-col sm v-if="useLocations">
-                    <b-form-group :label="$t('Location')">
-                        <b-select
-                            v-model="filter.location"
-                            :options="locationOptions"
-                        />
-                    </b-form-group>
-                </b-col>
-                <b-col sm v-if="useCostCenters">
-                    <b-form-group :label="$t('Cost Center')">
-                        <b-select
-                            v-model="filter.cost_center"
-                            :options="costCenterOptions"
-                        />
-                    </b-form-group>
-                </b-col>
-            </b-form-row>
-            <b-form-row>
-                <b-col sm>
-                    <!-- TODO datalist? -->
-                    <b-form-group :label="$t('Attendee')">
-                        <b-form-input v-model="filter.attendee" />
-                    </b-form-group>
-                </b-col>
-                <b-col sm>
-                    <b-form-group :label="$t('Description')">
-                        <b-form-input v-model="filter.description" />
-                    </b-form-group>
-                </b-col>
-            </b-form-row>
-            <b-form-row>
-                <b-col sm>
-                    <!-- TODO datalist? -->
-                    <b-form-group :label="$t('Supplier')">
-                        <b-form-input v-model="filter.supplier" />
-                    </b-form-group>
-                </b-col>
-                <b-col sm>
-                    <b-form-checkbox v-model="filter.today">
-                        {{ $t("Registered today") }}
-                    </b-form-checkbox>
-                    <b-form-checkbox v-model="filter.no_receipt">
-                        {{ $t("No receipt") }}
-                    </b-form-checkbox>
-                </b-col>
-            </b-form-row>
-        </b-modal>
     </div>
 </template>
 
@@ -196,14 +75,14 @@ import moment from "moment";
 import numeral from "numeral";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
-import categoriesApi from "@/api/accounting/categories";
-import projectsApi from "@/api/accounting/projects";
 import BaseTable from "@/components/table/BaseTable";
 import ReceiptPictureUpload from "@/components/accounting/ReceiptPictureUpload";
+import TransactionsFilter from "@/components/accounting/TransactionsFilter";
 export default {
     components: {
         BaseTable,
-        ReceiptPictureUpload
+        ReceiptPictureUpload,
+        TransactionsFilter
     },
     props: {
         wallet: {
@@ -218,56 +97,7 @@ export default {
         return {
             isBusy: false,
             wallets: [],
-            categories: [],
-            secondaryCategories: [],
-            projects: [],
-            locations: [],
-            costCenters: [],
-            filter: {
-                type: null,
-                controlled: null,
-                receipt_no: null,
-                date_start: null,
-                date_end: null,
-                category_id: null,
-                secondary_category: null,
-                project_id: null,
-                location: null,
-                cost_center: null,
-                attendee: null,
-                description: null,
-                supplier: null,
-                today: false,
-                no_receipt: false
-            },
-            typeOptions: [
-                {
-                    value: "income",
-                    text: this.$t("Income")
-                },
-                {
-                    value: "spending",
-                    text: this.$t("Spending")
-                },
-                {
-                    value: null,
-                    text: this.$t("Any")
-                }
-            ],
-            controlledOptions: [
-                {
-                    value: "yes",
-                    text: this.$t("Yes")
-                },
-                {
-                    value: "no",
-                    text: this.$t("No")
-                },
-                {
-                    value: null,
-                    text: this.$t("Any")
-                }
-            ],
+            advancedFilter: {},
             fields: [
                 {
                     key: "receipt_pictures",
@@ -376,98 +206,29 @@ export default {
                 value: e.id,
                 text: e.name
             }));
-        },
-        categoryOptions() {
-            let arr = [
-                {
-                    value: null,
-                    text: `- ${this.$t("Category")} -`
-                }
-            ];
-            for (let elem of this.categories) {
-                this.fillTree(arr, elem);
-            }
-            return arr;
-        },
-        secondaryCategoryOptions() {
-            let arr = [
-                {
-                    value: null,
-                    text: `- ${this.$t("Secondary Category")} -`
-                }
-            ];
-            arr.push(
-                ...this.secondaryCategories.map(e => ({
-                    value: e,
-                    text: e
-                }))
-            );
-            return arr;
-        },
-        projectOptions() {
-            let arr = [
-                {
-                    value: null,
-                    text: `- ${this.$t("Project")} -`
-                }
-            ];
-            for (let elem of this.projects) {
-                this.fillTree(arr, elem);
-            }
-            return arr;
-        },
-        locationOptions() {
-            let arr = [
-                {
-                    value: null,
-                    text: `- ${this.$t("Location")} -`
-                }
-            ];
-            arr.push(
-                ...this.locations.map(e => ({
-                    value: e,
-                    text: e
-                }))
-            );
-            return arr;
-        },
-        costCenterOptions() {
-            let arr = [
-                {
-                    value: null,
-                    text: `- ${this.$t("Cost Center")} -`
-                }
-            ];
-            arr.push(
-                ...this.costCenters.map(e => ({
-                    value: e,
-                    text: e
-                }))
-            );
-            return arr;
         }
     },
     watch: {
         wallet() {
             this.$refs.table.refresh();
+        },
+        advancedFilter(value) {
+            this.$refs.table.refresh();
         }
     },
     async created() {
         this.wallets = (await walletsApi.list()).data;
-        this.categories = await categoriesApi.tree();
-        if (this.useSecondaryCategories) {
-            this.secondaryCategories = await transactionsApi.secondaryCategories();
-        }
-        this.projects = await projectsApi.tree();
-        if (this.useLocations) {
-            this.locations = await transactionsApi.locations();
-        }
-        if (this.useCostCenters) {
-            this.costCenters = await transactionsApi.costCenters();
-        }
     },
     methods: {
         fetchData(ctx) {
+            if (Object.keys(this.advancedFilter).length > 0) {
+                Object.entries(this.advancedFilter).forEach(function([
+                    key,
+                    value
+                ]) {
+                    ctx[`advanced_filter[${key}]`] = value;
+                });
+            }
             return transactionsApi.list(this.wallet, ctx);
         },
         dateFormat(value) {
@@ -478,26 +239,6 @@ export default {
         },
         numberFormat(val) {
             return numeral(val).format("0,0.00");
-        },
-        fillTree(tree, elem, level = 0) {
-            let text = "";
-            if (level > 0) {
-                text += "&nbsp;".repeat(level * 5);
-            }
-            text += elem.name;
-            tree.push({
-                html: text,
-                value: elem.id
-            });
-            for (let child of elem.children) {
-                this.fillTree(tree, child, level + 1);
-            }
-        },
-        closeFilter() {
-            console.log(this.filter);
-        },
-        applyFilter() {
-            console.log(this.filter);
         }
     }
 };
