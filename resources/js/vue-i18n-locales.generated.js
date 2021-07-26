@@ -483,6 +483,7 @@ export default {
         "Receipt": "Beleg",
         "Receipt No.": "Beleg Nr.",
         "Show transaction": "Transaktion anzeigen",
+        "Edit transaction": "Transaktion bearbeiten",
         "Wallet": "Kasse",
         "Wallets": "Kassen",
         "Do you really want to delete this transaction?": "Soll diese Transaktion wirklich gelöscht werden?",

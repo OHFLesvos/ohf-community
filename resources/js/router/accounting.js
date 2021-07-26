@@ -360,4 +360,22 @@ export default [
             }
         }
     },
+    {
+        path: "/accounting/transactions/:id/edit",
+        name: "accounting.transactions.edit",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionEditPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Edit transaction"),
+                container: true,
+            }
+        }
+    },
 ];
