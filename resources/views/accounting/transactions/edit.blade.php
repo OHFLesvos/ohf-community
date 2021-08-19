@@ -3,15 +3,11 @@
 @section('title', __('Edit transaction #:number', ['number' => $transaction->receipt_no]))
 
 @section('content')
+    <div id="app">
+        <x-spinner />
+    </div>
+
     {!! Form::model($transaction, ['route' => ['accounting.transactions.update', $transaction], 'method' => 'put', 'files' => true]) !!}
-        <div class="form-row">
-            <div class="col-sm-auto">
-                {{ Form::bsNumber('receipt_no', null, [ 'required', 'step' => '1', 'min' => 1 ], __('Receipt No.')) }}
-            </div>
-            <div class="col-sm-auto">
-                {{ Form::bsDate('date', null, [ 'required' ], __('Date')) }}
-            </div>
-        </div>
         <div class="form-row">
             <div class="col-sm-auto pb-3">
             {{ Form::bsRadioInlineList('type', [ 'income' => __('Income'), 'spending' => __('Spending') ], 'spending', __('Type')) }}

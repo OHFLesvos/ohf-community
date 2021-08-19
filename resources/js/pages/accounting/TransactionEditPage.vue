@@ -1,18 +1,12 @@
 <template>
     <b-container v-if="transaction" class="px-0">
-        Edit
-        <p>
-            <router-link
-                :to="{
-                    name: 'accounting.transactions.show',
-                    params: { id: id }
-                }"
-                class="btn btn-secondary"
-            >
-                <font-awesome-icon icon="times-circle" />
-                {{ $t("Cancel") }}
-            </router-link>
-        </p>
+        <TransactionForm
+            :transaction="transaction"
+            :disabled="isBusy"
+            @submit="handleUpdate"
+            @delete="handleDelete"
+            @cancel="handleCancel"
+        />
     </b-container>
     <p v-else>
         {{ $t("Loading...") }}
@@ -21,7 +15,11 @@
 
 <script>
 import transactionsApi from "@/api/accounting/transactions";
+import TransactionForm from "@/components/accounting/TransactionForm";
 export default {
+    components: {
+        TransactionForm
+    },
     props: {
         id: {
             required: true
@@ -50,6 +48,40 @@ export default {
                 alert(err);
                 console.error(err);
             }
+        },
+        async handleUpdate(formData) {
+            this.isBusy = true;
+            try {
+                await transactionsApi.update(this.id, formData);
+                showSnackbar(this.$t("Transaction updated."));
+                this.$router.push({
+                    name: "accounting.transactions.show",
+                    params: { id: this.id }
+                });
+            } catch (err) {
+                alert(err);
+            }
+            this.isBusy = false;
+        },
+        async handleDelete() {
+            this.isBusy = true;
+            try {
+                await transactionsApi.delete(this.id);
+                showSnackbar(this.$t("Transaction deleted."));
+                this.$router.push({
+                    name: "accounting.transactions.index",
+                    params: { wallet: transaction.wallet_id }
+                });
+            } catch (err) {
+                alert(err);
+            }
+            this.isBusy = false;
+        },
+        handleCancel() {
+            this.$router.push({
+                name: "accounting.transactions.show",
+                params: { id: this.id }
+            });
         }
     }
 };
