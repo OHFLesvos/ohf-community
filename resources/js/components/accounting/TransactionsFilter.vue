@@ -45,7 +45,7 @@
                     <b-form-group :label="$t('Amount')">
                         <b-form-input
                             type="number"
-                            step="any"
+                            step=".01"
                             v-model="filter.amount"
                         />
                     </b-form-group>

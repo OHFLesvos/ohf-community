@@ -54,6 +54,85 @@
                 </b-col>
             </b-form-row>
 
+            <b-form-row>
+                <!-- Amount -->
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Amount')"
+                        vid="amount"
+                        :rules="{ required: true, decimal: true, min_value: 0 }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Amount')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                            :description="$t('Write decimal point as comma (,)')"
+                        >
+                            <b-form-input
+                                v-model="form.amount"
+                                autocomplete="off"
+                                type="number"
+                                required
+                                step=".01"
+                                min="0"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Transaction fees')"
+                        vid="fees"
+                        :rules="{ decimal: true, min_value: 0 }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Transaction fees')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                            :description="$t('Write decimal point as comma (,)')"
+                        >
+                            <b-form-input
+                                v-model="form.fees"
+                                autocomplete="off"
+                                type="number"
+                                step=".01"
+                                min="0"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Attendee')"
+                        vid="attendee"
+                        :rules="{  }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Attendee')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="form.attendee"
+                                autocomplete="off"
+                                type="text"
+                                list="attendee-list"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                        <b-form-datalist id="attendee-list" :options="attendees" />
+                    </validation-provider>
+                </b-col>
+
+            </b-form-row>
+
             <p class="d-flex justify-content-between align-items-start">
                 <span>
                     <!-- Submit -->
@@ -105,13 +184,20 @@ export default {
             form: this.transaction
                 ? {
                       receipt_no: this.transaction.receipt_no,
-                      date: this.transaction.date
+                      date: this.transaction.date,
+                      amount: this.transaction.amount,
+                      fees: this.transaction.fees,
+                      attendee: this.transaction.attendee,
                   }
                 : {
                       receipt_no: null,
-                      date: null
+                      date: null,
+                      amount: null,
+                      fees: null,
+                      attendee: null,
                   },
-            loaded: false
+            loaded: false,
+            attendees: []
         };
     },
     async created() {

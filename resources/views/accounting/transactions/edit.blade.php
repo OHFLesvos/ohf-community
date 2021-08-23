@@ -13,12 +13,6 @@
             {{ Form::bsRadioInlineList('type', [ 'income' => __('Income'), 'spending' => __('Spending') ], 'spending', __('Type')) }}
             </div>
             <div class="col-sm">
-                {{ Form::bsNumber('amount', null, [ 'required', 'step' => 'any', 'min' => 0], __('Amount'), __('Write decimal point as comma (,)')) }}
-            </div>
-            <div class="col-sm">
-                {{ Form::bsNumber('fees', null, [ 'step' => 'any', 'min' => 0], __('Transaction fees'), __('Write decimal point as comma (,)')) }}
-            </div>
-            <div class="col-sm">
                 {{ Form::bsText('attendee', null, [ 'list' => $attendees ], __('Attendee')) }}
             </div>
         </div>
