@@ -67,7 +67,9 @@
                             :label="$t('Amount')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
-                            :description="$t('Write decimal point as comma (,)')"
+                            :description="
+                                $t('Write decimal point as comma (,)')
+                            "
                         >
                             <b-form-input
                                 v-model="form.amount"
@@ -82,6 +84,7 @@
                     </validation-provider>
                 </b-col>
 
+                <!-- Transaction fees -->
                 <b-col sm>
                     <validation-provider
                         :name="$t('Transaction fees')"
@@ -93,7 +96,9 @@
                             :label="$t('Transaction fees')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
-                            :description="$t('Write decimal point as comma (,)')"
+                            :description="
+                                $t('Write decimal point as comma (,)')
+                            "
                         >
                             <b-form-input
                                 v-model="form.fees"
@@ -107,11 +112,12 @@
                     </validation-provider>
                 </b-col>
 
+                <!-- Attendee -->
                 <b-col sm>
                     <validation-provider
                         :name="$t('Attendee')"
                         vid="attendee"
-                        :rules="{  }"
+                        :rules="{}"
                         v-slot="validationContext"
                     >
                         <b-form-group
@@ -127,10 +133,35 @@
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
-                        <b-form-datalist id="attendee-list" :options="attendees" />
+                        <b-form-datalist
+                            id="attendee-list"
+                            :options="attendees"
+                        />
                     </validation-provider>
                 </b-col>
+            </b-form-row>
 
+            <b-form-row>
+                <b-col md>
+                    <validation-provider
+                        :name="$t('Category')"
+                        vid="category_id"
+                        :rules="{ required: true }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Category')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.category_id"
+                                :options="categories"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
             </b-form-row>
 
             <p class="d-flex justify-content-between align-items-start">
@@ -171,6 +202,7 @@
 </template>
 
 <script>
+import categoriesApi from "@/api/accounting/categories";
 export default {
     props: {
         transaction: {
@@ -188,6 +220,7 @@ export default {
                       amount: this.transaction.amount,
                       fees: this.transaction.fees,
                       attendee: this.transaction.attendee,
+                      category_id: this.transaction.category_id
                   }
                 : {
                       receipt_no: null,
@@ -195,12 +228,15 @@ export default {
                       amount: null,
                       fees: null,
                       attendee: null,
+                      category_id: null
                   },
             loaded: false,
-            attendees: []
+            attendees: [],
+            categories: []
         };
     },
     async created() {
+        await this.fetchTree();
         this.loaded = true;
     },
     methods: {
@@ -217,6 +253,32 @@ export default {
                 )
             ) {
                 this.$emit("delete");
+            }
+        },
+        async fetchTree() {
+            let data = await categoriesApi.tree({ exclude: this.category?.id });
+            this.categories = !this.transaction ? [
+                {
+                    text: '- ' + this.$t('Category') + ' -',
+                    value: null
+                }
+            ] : [];
+            for (let elem of data) {
+                this.fillTree(this.categories, elem);
+            }
+        },
+        fillTree(tree, elem, level = 0) {
+            let text = "";
+            if (level > 0) {
+                text += "&nbsp;".repeat(level * 5);
+            }
+            text += elem.name;
+            tree.push({
+                html: text,
+                value: elem.id
+            });
+            for (let child of elem.children) {
+                this.fillTree(tree, child, level + 1);
             }
         }
     }
