@@ -14,24 +14,11 @@ class TransactionIndexContextButtons implements ContextButtons
     {
         $wallet = $view->getData()['wallet'];
         return [
-            'action' => [
-                'url' => route('accounting.transactions.create', $wallet),
-                'caption' => __('Add'),
-                'icon' => 'plus-circle',
-                'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', Transaction::class),
-            ],
             'summary' => [
                 'url' => route('accounting.transactions.summary', ['wallet' => $wallet]),
                 'caption' => __('Summary'),
                 'icon' => 'calculator',
                 'authorized' => Gate::allows('view-accounting-summary'),
-            ],
-            'export' => [
-                'url' => route('accounting.transactions.export', $wallet),
-                'caption' => __('Export'),
-                'icon' => 'download',
-                'authorized' => Auth::user()->can('viewAny', Transaction::class),
             ],
             'webling' => [
                 'url' => route('accounting.webling.index', $wallet),

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Accounting\API\CategoriesController;
 use App\Http\Controllers\Accounting\API\ControllingController;
+use App\Http\Controllers\Accounting\API\ExportController;
 use App\Http\Controllers\Accounting\API\TransactionsController;
 use App\Http\Controllers\Accounting\API\ProjectsController;
 use App\Http\Controllers\Accounting\API\SummaryController;
@@ -218,6 +219,8 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.index');
         Route::post('wallets/{wallet}/transactions', [TransactionsController::class, 'store'])
             ->name('transactions.store');
+        Route::get('wallets/{wallet}/transactions/export', [ExportController::class, 'doExport'])
+            ->name('transactions.export');
         Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
         Route::get('transactions/secondaryCategories', [TransactionsController::class, 'secondaryCategories'])

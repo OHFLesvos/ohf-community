@@ -31,6 +31,11 @@
                         />
                     </b-col>
                     <b-col cols="auto">
+                        <!-- TODO Auth::user()->can('viewAny', Transaction::class) -->
+                        <TransactionExportDialog :wallet="wallet" />
+                    </b-col>
+                    <b-col cols="auto">
+                        <!-- TODO Auth::user()->can('create', Transaction::class) -->
                         <router-link
                             class="btn btn-primary"
                             :to="{
@@ -94,11 +99,13 @@ import transactionsApi from "@/api/accounting/transactions";
 import BaseTable from "@/components/table/BaseTable";
 import ReceiptPictureUpload from "@/components/accounting/ReceiptPictureUpload";
 import TransactionsFilter from "@/components/accounting/TransactionsFilter";
+import TransactionExportDialog from "@/components/accounting/TransactionExportDialog";
 export default {
     components: {
         BaseTable,
         ReceiptPictureUpload,
-        TransactionsFilter
+        TransactionsFilter,
+        TransactionExportDialog,
     },
     props: {
         wallet: {
