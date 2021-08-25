@@ -32,7 +32,7 @@
                     </b-col>
                     <b-col cols="auto">
                         <!-- TODO Auth::user()->can('viewAny', Transaction::class) -->
-                        <TransactionExportDialog :wallet="wallet" />
+                        <TransactionExportDialog :wallet="wallet" :filter="advancedFilter" />
                     </b-col>
                     <b-col cols="auto">
                         <!-- TODO Auth::user()->can('create', Transaction::class) -->

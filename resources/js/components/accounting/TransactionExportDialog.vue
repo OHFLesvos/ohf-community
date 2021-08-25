@@ -31,6 +31,14 @@
                         stacked
                     />
                 </b-form-group>
+                <b-form-group v-if="this.filter" :label="$t('Selection')" class="mb-3">
+                    <b-form-radio-group
+                        v-model="selection"
+                        :options="selectionOptions"
+                        required
+                        stacked
+                    />
+                </b-form-group>
             </b-modal>
         </form>
     </div>
@@ -40,7 +48,11 @@
 export default {
     props: {
         wallet: {
-            required: true,
+            required: true
+        },
+        filter: {
+            required: false,
+            type: Object
         }
     },
     data() {
@@ -58,7 +70,14 @@ export default {
             groupings: {
                 none: this.$t("None"),
                 monthly: this.$t("Monthly")
-            }
+            },
+            selection: "all",
+            selections: this.filter
+                ? {
+                      all: this.$t("All records"),
+                      filtered: this.$t("Selected records according to current filter")
+                  }
+                : {}
         };
     },
     computed: {
@@ -73,6 +92,12 @@ export default {
                 value: e[0],
                 text: e[1]
             }));
+        },
+        selectionOptions() {
+            return Object.entries(this.selections).map(e => ({
+                value: e[0],
+                text: e[1]
+            }));
         }
     },
     methods: {
@@ -81,6 +106,7 @@ export default {
             this.handleSubmit();
         },
         handleSubmit() {
+            console.log(this.filter);
             this.isBusy = true;
             document.location = this.route(
                 "api.accounting.transactions.export",

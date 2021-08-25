@@ -23,25 +23,12 @@ class ExportController extends Controller
 
     protected function exportView(): string
     {
-        return 'accounting.transactions.export';
+        return '';
     }
 
     protected function exportViewArgs(): array
     {
-        $filter = session('accounting.filter', []);
-        return [
-            'wallet' => Wallet::findOrFail(request()->route('wallet')),
-            'groupings' => [
-                'none' => __('None'),
-                'monthly' => __('Monthly'),
-            ],
-            'grouping' => 'none',
-            'selections' => ! empty($filter) ? [
-                'all' => __('All records'),
-                'filtered' => __('Selected records according to current filter'),
-            ] : null,
-            'selection' => 'all',
-        ];
+        return [];
     }
 
     protected function exportValidateArgs(): array
