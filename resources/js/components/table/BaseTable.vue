@@ -11,8 +11,8 @@
 
         <!-- Filter  -->
         <b-form-row>
-            <b-col v-if="!!$slots['filter-prepend']" cols="auto">
-                <slot name="filter-prepend"></slot>
+            <b-col v-if="!!$slots['filter-prepend'] || !!$scopedSlots['filter-prepend']" cols="auto">
+                <slot name="filter-prepend" :filter="filter"></slot>
             </b-col>
             <b-col>
                 <table-filter
@@ -23,8 +23,8 @@
                     :total-rows="totalRows"
                 />
             </b-col>
-            <b-col v-if="!!$slots['filter-append']" cols="auto">
-                <slot name="filter-append"></slot>
+            <b-col v-if="!!$slots['filter-append'] || !!$scopedSlots['filter-append']" cols="auto">
+                <slot name="filter-append" :filter="filter"></slot>
             </b-col>
         </b-form-row>
 

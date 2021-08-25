@@ -14,6 +14,8 @@ class TransactionsMonthSheet extends BaseTransactionsExport
      */
     private Carbon $month;
 
+    private ?string $filter;
+
     /**
      * Filter conditions
      *
@@ -23,10 +25,11 @@ class TransactionsMonthSheet extends BaseTransactionsExport
 
     private Wallet $wallet;
 
-    public function __construct(Wallet $wallet, Carbon $month, ?array $advancedFilter = [])
+    public function __construct(Wallet $wallet, Carbon $month, ?string $filter = null, ?array $advancedFilter = [])
     {
         $this->wallet = $wallet;
         $this->month = $month;
+        $this->filter = $filter;
         $this->advancedFilter = $advancedFilter;
     }
 
@@ -37,6 +40,7 @@ class TransactionsMonthSheet extends BaseTransactionsExport
 
         return Transaction::query()
             ->forWallet($this->wallet)
+            ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter, true)
             ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC')

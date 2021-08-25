@@ -20,7 +20,7 @@
                 </b-input-group>
             </template>
 
-            <template v-slot:filter-append>
+            <template v-slot:filter-append="data">
                 <b-form-row>
                     <b-col>
                         <TransactionsFilter
@@ -32,9 +32,9 @@
                     </b-col>
                     <b-col cols="auto">
                         <!-- TODO Auth::user()->can('viewAny', Transaction::class) -->
-                        <!-- :filter="filter" -->
                         <TransactionExportDialog
                             :wallet="wallet"
+                            :filter="data.filter"
                             :advancedFilter="advancedFilter" />
                     </b-col>
                     <b-col cols="auto">

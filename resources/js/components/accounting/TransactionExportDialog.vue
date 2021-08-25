@@ -125,7 +125,7 @@ export default {
             };
             if (this.selection == 'filtered') {
                 if (this.filter && this.filter.length > 0) {
-                    params['filter'] = this.value;
+                    params['filter'] = this.filter;
                 }
                 if (this.advancedFilter && Object.keys(this.advancedFilter).length > 0) {
                     Object.entries(this.advancedFilter).forEach(function([key, value]) {
