@@ -190,8 +190,6 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.show');
         Route::get('transactions/{transaction}/edit', [TransactionsController::class, 'edit'])
             ->name('transactions.edit');
-        Route::delete('transactions/{transaction}', [TransactionsController::class, 'destroy'])
-            ->name('transactions.destroy');
 
         // Webling
         Route::get('wallets/{wallet}/webling', [WeblingApiController::class, 'index'])

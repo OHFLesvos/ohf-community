@@ -20,13 +20,6 @@ class TransactionShowContextButtons implements ContextButtons
                 'icon_floating' => 'pencil-alt',
                 'authorized' => Auth::user()->can('update', $transaction),
             ],
-            'delete' => [
-                'url' => route('accounting.transactions.destroy', $transaction),
-                'caption' => __('Delete'),
-                'icon' => 'trash',
-                'authorized' => Auth::user()->can('delete', $transaction),
-                'confirmation' => __('Do you really want to delete this transaction?'),
-            ],
             'back' => [
                 'url' => route('accounting.transactions.index', $transaction->wallet),
                 'caption' => __('Close'),

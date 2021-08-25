@@ -24,6 +24,10 @@ export default {
         const url = route("api.accounting.transactions.updateReceipt", transaction);
         return await api.postFormData(url, formData);
     },
+    async delete (id) {
+        const url = route('api.accounting.transactions.destroy', id)
+        return await api.delete(url)
+    },
     async locations(params) {
         const url = route("api.accounting.transactions.locations", params);
         return await api.get(url);

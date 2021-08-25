@@ -13,13 +13,6 @@ class TransactionEditContextButtons implements ContextButtons
     {
         $transaction = $view->getData()['transaction'];
         return [
-            'delete' => [
-                'url' => route('accounting.transactions.destroy', $transaction),
-                'caption' => __('Delete'),
-                'icon' => 'trash',
-                'authorized' => Auth::user()->can('delete', $transaction),
-                'confirmation' => __('Do you really want to delete this transaction?'),
-            ],
             'back' => [
                 'url' => route('accounting.transactions.index', $transaction->wallet),
                 'caption' => __('Cancel'),

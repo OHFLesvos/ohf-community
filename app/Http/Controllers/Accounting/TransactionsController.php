@@ -173,19 +173,6 @@ class TransactionsController extends Controller
         ]);
     }
 
-    public function destroy(Transaction $transaction)
-    {
-        $this->authorize('delete', $transaction);
-
-        $wallet = $transaction->wallet;
-
-        $transaction->delete();
-
-        return redirect()
-            ->route('accounting.transactions.index', $wallet)
-            ->with('info', __('Transaction deleted.'));
-    }
-
     protected function exportAuthorize()
     {
         $this->authorize('viewAny', Transaction::class);

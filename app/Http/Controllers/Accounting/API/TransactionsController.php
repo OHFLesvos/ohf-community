@@ -147,6 +147,15 @@ class TransactionsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
+    public function destroy(Transaction $transaction)
+    {
+        $this->authorize('delete', $transaction);
+
+        $transaction->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
+
     public function secondaryCategories()
     {
         return Transaction::secondaryCategories();

@@ -228,7 +228,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.attendees');
         Route::get('transactions/taxonomies', [TransactionsController::class, 'taxonomies'])
             ->name('transactions.taxonomies');
-        Route::resource('transactions', TransactionsController::class)->only(['show', 'update']);
+        Route::apiResource('transactions', TransactionsController::class)->except(['index', 'store']);
         Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
             ->name('transactions.undoBooking');
 
