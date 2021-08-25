@@ -32,7 +32,10 @@
                     </b-col>
                     <b-col cols="auto">
                         <!-- TODO Auth::user()->can('viewAny', Transaction::class) -->
-                        <TransactionExportDialog :wallet="wallet" :filter="advancedFilter" />
+                        <!-- :filter="filter" -->
+                        <TransactionExportDialog
+                            :wallet="wallet"
+                            :advancedFilter="advancedFilter" />
                     </b-col>
                     <b-col cols="auto">
                         <!-- TODO Auth::user()->can('create', Transaction::class) -->

@@ -56,6 +56,10 @@ export default {
         },
         filter: {
             required: false,
+            type: String
+        },
+        advancedFilter: {
+            required: false,
             type: Object
         }
     },
@@ -86,7 +90,7 @@ export default {
     },
     computed: {
         hasFilter() {
-            return this.filter && Object.keys(this.filter).length > 0;
+            return (this.filter && this.filter.length > 0) || (this.advancedFilter && Object.keys(this.advancedFilter).length > 0);
         },
         formatOptions() {
             return Object.entries(this.formats).map(e => ({
@@ -119,10 +123,15 @@ export default {
                 format: this.format,
                 grouping: this.grouping
             };
-            if (this.selection == 'filtered' && Object.keys(this.filter).length > 0) {
-                Object.entries(this.filter).forEach(function([key, value]) {
-                    params[`advanced_filter[${key}]`] = value;
-                });
+            if (this.selection == 'filtered') {
+                if (this.filter && this.filter.length > 0) {
+                    params['filter'] = this.value;
+                }
+                if (this.advancedFilter && Object.keys(this.advancedFilter).length > 0) {
+                    Object.entries(this.advancedFilter).forEach(function([key, value]) {
+                        params[`advanced_filter[${key}]`] = value;
+                    });
+                }
             }
             document.location = this.route(
                 "api.accounting.transactions.export",
