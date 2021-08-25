@@ -31,7 +31,11 @@
                         stacked
                     />
                 </b-form-group>
-                <b-form-group v-if="this.filter" :label="$t('Selection')" class="mb-3">
+                <b-form-group
+                    v-if="hasFilter"
+                    :label="$t('Selection')"
+                    class="mb-3"
+                >
                     <b-form-radio-group
                         v-model="selection"
                         :options="selectionOptions"
@@ -72,15 +76,18 @@ export default {
                 monthly: this.$t("Monthly")
             },
             selection: "all",
-            selections: this.filter
-                ? {
-                      all: this.$t("All records"),
-                      filtered: this.$t("Selected records according to current filter")
-                  }
-                : {}
+            selections: {
+                all: this.$t("All records"),
+                filtered: this.$t(
+                    "Selected records according to current filter"
+                )
+            }
         };
     },
     computed: {
+        hasFilter() {
+            return this.filter && Object.keys(this.filter).length > 0;
+        },
         formatOptions() {
             return Object.entries(this.formats).map(e => ({
                 value: e[0],
@@ -106,17 +113,23 @@ export default {
             this.handleSubmit();
         },
         handleSubmit() {
-            console.log(this.filter);
             this.isBusy = true;
+            const params = {
+                wallet: this.wallet,
+                format: this.format,
+                grouping: this.grouping
+            };
+            if (this.selection == 'filtered' && Object.keys(this.filter).length > 0) {
+                Object.entries(this.filter).forEach(function([key, value]) {
+                    params[`advanced_filter[${key}]`] = value;
+                });
+            }
             document.location = this.route(
                 "api.accounting.transactions.export",
-                {
-                    wallet: this.wallet,
-                    format: this.format,
-                    grouping: this.grouping
-                }
+                params
             );
             setTimeout(() => {
+                this.isBusy = false;
                 this.$nextTick(() => {
                     this.$bvModal.hide("modal-export-transactions");
                 });

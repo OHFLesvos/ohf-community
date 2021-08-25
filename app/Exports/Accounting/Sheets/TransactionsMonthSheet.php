@@ -19,15 +19,15 @@ class TransactionsMonthSheet extends BaseTransactionsExport
      *
      * @var array<string>
      */
-    private array $filter;
+    private array $advancedFilter;
 
     private Wallet $wallet;
 
-    public function __construct(Wallet $wallet, Carbon $month, ?array $filter = [])
+    public function __construct(Wallet $wallet, Carbon $month, ?array $advancedFilter = [])
     {
         $this->wallet = $wallet;
         $this->month = $month;
-        $this->filter = $filter;
+        $this->advancedFilter = $advancedFilter;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
@@ -37,7 +37,7 @@ class TransactionsMonthSheet extends BaseTransactionsExport
 
         return Transaction::query()
             ->forWallet($this->wallet)
-            ->forAdvancedFilter($this->filter, true)
+            ->forAdvancedFilter($this->advancedFilter, true)
             ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC')
             ->whereDate('date', '>=', $dateFrom)

@@ -12,14 +12,14 @@ class TransactionsExport extends BaseTransactionsExport
      *
      * @var array<string>
      */
-    private array $filter;
+    private array $advancedFilter;
 
     private Wallet $wallet;
 
-    public function __construct(Wallet $wallet, array $filter = [])
+    public function __construct(Wallet $wallet, array $advancedFilter = [])
     {
         $this->wallet = $wallet;
-        $this->filter = $filter;
+        $this->advancedFilter = $advancedFilter;
         $this->orientation = 'landscape';
     }
 
@@ -27,7 +27,7 @@ class TransactionsExport extends BaseTransactionsExport
     {
         return Transaction::query()
             ->forWallet($this->wallet)
-            ->forAdvancedFilter($this->filter)
+            ->forAdvancedFilter($this->advancedFilter)
             ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC');
     }
