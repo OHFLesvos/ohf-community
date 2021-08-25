@@ -739,5 +739,6 @@
     "Used in :num transactions.": "Wird in :num Transaktionen verwendet.",
     "Balance": "Bilanz",
     "No entries registered.": "Keine Einträge registriert.",
-    "Accounting category": "Buchhaltungskategorie"
+    "Accounting category": "Buchhaltungskategorie",
+    "Generating file...": "Datei wird erstellt..."
 }

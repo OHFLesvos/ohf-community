@@ -487,7 +487,6 @@ export default {
         "Wallet": "Kasse",
         "Wallets": "Kassen",
         "Do you really want to delete this transaction?": "Soll diese Transaktion wirklich gelöscht werden?",
-        "Edit transaction #{number}": "Transaktion #{number} bearbeiten",
         "Choose picture of receipt": "Beleg-Bild auswählen",
         "Add picture of receipt": "Beleg-Bild hinzufügen",
         "Remove picture of receipt": "Beleg-Bild entfernen",
@@ -742,6 +741,7 @@ export default {
         "Balance": "Bilanz",
         "No entries registered.": "Keine Einträge registriert.",
         "Accounting category": "Buchhaltungskategorie",
+        "Generating file...": "Datei wird erstellt...",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

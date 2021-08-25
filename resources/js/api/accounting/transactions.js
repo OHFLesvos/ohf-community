@@ -72,5 +72,12 @@ export default {
             transaction
         );
         return await api.put(url);
+    },
+    async export(params) {
+        const url = route(
+            "api.accounting.transactions.export",
+            params
+        );
+        return await api.download(url)
     }
 };

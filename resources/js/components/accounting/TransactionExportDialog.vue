@@ -7,12 +7,7 @@
         <form ref="form" @submit.stop.prevent="handleSubmit">
             <b-modal
                 v-model="modalShow"
-                id="modal-export-transactions"
                 :title="$t('Export')"
-                footer-class="d-flex justify-content-between"
-                :cancel-title="$t('Cancel')"
-                :ok-title="$t('Export')"
-                :ok-disabled="isBusy"
                 @ok="handleOk"
             >
                 <b-form-group :label="$t('File format')" class="mb-3">
@@ -43,12 +38,34 @@
                         stacked
                     />
                 </b-form-group>
+
+                <template #modal-footer="{ ok, cancel }">
+                    <template  v-if="isBusy" >
+                        <b-spinner class="align-middle mr-2"></b-spinner>
+                        {{ $t('Generating file...') }}
+                    </template>
+                    <template v-else>
+                        <b-button
+                            variant="secondary"
+                            @click="cancel()"
+                        >
+                            {{ $t("Cancel") }}
+                        </b-button>
+                        <b-button
+                            variant="primary"
+                            @click="ok()"
+                        >
+                            {{ $t("Export") }}
+                        </b-button>
+                        </template>
+                </template>
             </b-modal>
         </form>
     </div>
 </template>
 
 <script>
+import transactionsApi from "@/api/accounting/transactions";
 export default {
     props: {
         wallet: {
@@ -90,7 +107,11 @@ export default {
     },
     computed: {
         hasFilter() {
-            return (this.filter && this.filter.length > 0) || (this.advancedFilter && Object.keys(this.advancedFilter).length > 0);
+            return (
+                (this.filter && this.filter.length > 0) ||
+                (this.advancedFilter &&
+                    Object.keys(this.advancedFilter).length > 0)
+            );
         },
         formatOptions() {
             return Object.entries(this.formats).map(e => ({
@@ -116,33 +137,37 @@ export default {
             bvModalEvt.preventDefault();
             this.handleSubmit();
         },
-        handleSubmit() {
-            this.isBusy = true;
+        async handleSubmit() {
             const params = {
                 wallet: this.wallet,
                 format: this.format,
                 grouping: this.grouping
             };
-            if (this.selection == 'filtered') {
+            if (this.selection == "filtered") {
                 if (this.filter && this.filter.length > 0) {
-                    params['filter'] = this.filter;
+                    params["filter"] = this.filter;
                 }
-                if (this.advancedFilter && Object.keys(this.advancedFilter).length > 0) {
-                    Object.entries(this.advancedFilter).forEach(function([key, value]) {
+                if (
+                    this.advancedFilter &&
+                    Object.keys(this.advancedFilter).length > 0
+                ) {
+                    Object.entries(this.advancedFilter).forEach(function([
+                        key,
+                        value
+                    ]) {
                         params[`advanced_filter[${key}]`] = value;
                     });
                 }
             }
-            document.location = this.route(
-                "api.accounting.transactions.export",
-                params
-            );
-            setTimeout(() => {
-                this.isBusy = false;
-                this.$nextTick(() => {
-                    this.$bvModal.hide("modal-export-transactions");
-                });
-            }, 1000);
+
+            this.isBusy = true;
+            try {
+                await transactionsApi.export(params);
+                this.modalShow = false;
+            } catch (ex) {
+                alert(ex);
+            }
+            this.isBusy = false;
         }
     }
 };
