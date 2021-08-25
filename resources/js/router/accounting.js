@@ -327,7 +327,20 @@ export default [
             default: () =>
                 import(
                     /* webpackChunkName: "accounting" */ "@/pages/accounting/SummaryPage"
-                )
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Summary"),
+                buttons: [
+                    {
+                        href: ziggyRoute('accounting.index' ),
+                        icon: "list",
+                        text: i18n.t("Overview")
+                    }
+                ]
+            }
         }
     },
     {

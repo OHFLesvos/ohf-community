@@ -135,6 +135,7 @@ export default {
         "Maintenance": "Wartung",
         "Transactions": "Transaktionen",
         "Amount": "Betrag",
+        "Total Amount": "Totalbetrag",
         "File format": "Dateiformat",
         "Number of results per page": "Anzahl Resultate pro Seite",
         "Current settings": "Aktuelle Einstellungen",

@@ -1,9 +1,5 @@
 <template>
     <div>
-        <h1 class="display-4">
-            {{ $t("Summary") }}
-            <small class="ml-2">{{ heading }}</small>
-        </h1>
         <alert-with-retry :value="errorText" @retry="fetchData" />
         <div class="row mb-2">
             <div class="col-sm">
@@ -68,6 +64,8 @@
             :items="wallets"
             :fields="walletFields"
             class="shadow-sm mb-4 bg-white"
+            :caption="heading"
+            caption-top
         >
             <template #cell(name)="data">
                 <a
@@ -468,3 +466,11 @@ export default {
     }
 };
 </script>
+
+<style>
+table caption {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+</style>
