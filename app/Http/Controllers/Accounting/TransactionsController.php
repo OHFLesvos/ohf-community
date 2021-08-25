@@ -170,60 +170,7 @@ class TransactionsController extends Controller
 
         return view('accounting.transactions.edit', [
             'transaction' => $transaction,
-            'attendees' => Transaction::attendees(),
-            'categories' => self::addLevelIndentation(Category::getNested()),
-            'secondary_categories' => self::useSecondaryCategories() ? self::getSecondaryCategories() : null,
-            'fixed_secondary_categories' => Setting::has('accounting.transactions.secondary_categories'),
-            'projects' => self::addLevelIndentation(Project::getNested()),
-            'locations' => self::useLocations() ? self::getLocations() : null,
-            'fixed_locations' => Setting::has('accounting.transactions.locations'),
-            'cost_centers' => self::useCostCenters() ? self::getCostCenters() : null,
-            'fixed_cost_centers' => Setting::has('accounting.transactions.cost_centers'),
-            'suppliers' => Supplier::select('id', 'name', 'category')->orderBy('name')->get(),
         ]);
-    }
-
-    public function update(StoreTransaction $request, Transaction $transaction)
-    {
-        $this->authorize('update', $transaction);
-
-        $transaction->date = $request->date;
-        $transaction->receipt_no = $request->receipt_no;
-        $transaction->type = $request->type;
-        $transaction->amount = $request->amount;
-        $transaction->fees = $request->fees;
-        $transaction->attendee = $request->attendee;
-        $transaction->category()->associate($request->category_id);
-        if (self::useSecondaryCategories()) {
-            $transaction->secondary_category = $request->secondary_category;
-        }
-        $transaction->project()->associate($request->project_id);
-        if (self::useLocations()) {
-            $transaction->location = $request->location;
-        }
-        if (self::useCostCenters()) {
-            $transaction->cost_center = $request->cost_center;
-        }
-        $transaction->description = $request->description;
-        $transaction->remarks = $request->remarks;
-
-        $transaction->supplier()->associate($request->input('supplier_id'));
-
-        if (isset($request->remove_receipt_picture) && is_array($request->remove_receipt_picture)) {
-            foreach ($request->remove_receipt_picture as $picture) {
-                $transaction->deleteReceiptPicture($picture);
-            }
-        } elseif (isset($request->receipt_picture) && is_array($request->receipt_picture)) {
-            for ($i = 0; $i < count($request->receipt_picture); $i++) {
-                $transaction->addReceiptPicture($request->file('receipt_picture')[$i]);
-            }
-        }
-
-        $transaction->save();
-
-        return redirect()
-            ->route('accounting.transactions.index', $transaction->wallet)
-            ->with('info', __('Transaction updated.'));
     }
 
     public function destroy(Transaction $transaction)

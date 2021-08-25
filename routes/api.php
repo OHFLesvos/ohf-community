@@ -228,7 +228,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.attendees');
         Route::get('transactions/taxonomies', [TransactionsController::class, 'taxonomies'])
             ->name('transactions.taxonomies');
-        Route::resource('transactions', TransactionsController::class)->only(['show']);
+        Route::resource('transactions', TransactionsController::class)->only(['show', 'update']);
         Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
             ->name('transactions.undoBooking');
 
@@ -241,6 +241,8 @@ Route::middleware(['language', 'auth'])
 
         Route::get('suppliers/export', [SuppliersController::class, 'export'])
             ->name('suppliers.export');
+        Route::get('suppliers/names', [SuppliersController::class, 'names'])
+            ->name('suppliers.names');
         Route::resource('suppliers', SuppliersController::class);
         Route::get('suppliers/{supplier}/transactions', [SuppliersController::class, 'transactions'])
             ->name('suppliers.transactions');

@@ -24,4 +24,8 @@ export default {
         const url = route('api.accounting.suppliers.transactions', { supplier: id, ...params})
         return await api.get(url)
     },
+    async names () {
+        const url = route('api.accounting.suppliers.names')
+        return await api.get(url)
+    },
 }

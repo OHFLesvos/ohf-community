@@ -148,4 +148,9 @@ class SuppliersController extends Controller
         $extension = 'xlsx';
         return (new SuppliersExport())->download($file_name . '.' . $extension);
     }
+
+    public function names()
+    {
+        return Supplier::select('id', 'name', 'category')->orderBy('name')->get();
+    }
 }

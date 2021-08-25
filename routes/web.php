@@ -190,8 +190,6 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.show');
         Route::get('transactions/{transaction}/edit', [TransactionsController::class, 'edit'])
             ->name('transactions.edit');
-        Route::put('transactions/{transaction}', [TransactionsController::class, 'update'])
-            ->name('transactions.update');
         Route::delete('transactions/{transaction}', [TransactionsController::class, 'destroy'])
             ->name('transactions.destroy');
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesResourceIndex;
+use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
 use App\Http\Resources\Accounting\TransactionCollection;
@@ -75,6 +76,37 @@ class TransactionsController extends Controller
         return new TransactionResource($transaction->load('supplier'));
     }
 
+    public function update(StoreTransaction $request, Transaction $transaction)
+    {
+        $this->authorize('update', $transaction);
+
+        $transaction->date = $request->date;
+        $transaction->receipt_no = $request->receipt_no;
+        $transaction->type = $request->type;
+        $transaction->amount = $request->amount;
+        $transaction->fees = $request->fees;
+        $transaction->attendee = $request->attendee;
+        $transaction->category()->associate($request->category_id);
+        if (self::useSecondaryCategories()) {
+            $transaction->secondary_category = $request->secondary_category;
+        }
+        $transaction->project()->associate($request->project_id);
+        if (self::useLocations()) {
+            $transaction->location = $request->location;
+        }
+        if (self::useCostCenters()) {
+            $transaction->cost_center = $request->cost_center;
+        }
+        $transaction->description = $request->description;
+        $transaction->remarks = $request->remarks;
+
+        $transaction->supplier()->associate($request->input('supplier_id'));
+
+        $transaction->save();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
+
     public function updateReceipt(Request $request, Transaction $transaction)
     {
         $this->authorize('update', $transaction);
@@ -143,5 +175,20 @@ class TransactionsController extends Controller
             'cost_centers' => Setting::get('accounting.transactions.use_cost_centers') ? Transaction::costCenters() : [],
             'attendees' => Transaction::attendees(),
         ]);
+    }
+
+    private static function useSecondaryCategories(): bool
+    {
+        return Setting::get('accounting.transactions.use_secondary_categories') ?? false;
+    }
+
+    private static function useLocations(): bool
+    {
+        return Setting::get('accounting.transactions.use_locations') ?? false;
+    }
+
+    private static function useCostCenters(): bool
+    {
+        return Setting::get('accounting.transactions.use_cost_centers') ?? false;
     }
 }

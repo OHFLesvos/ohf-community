@@ -55,6 +55,29 @@
             </b-form-row>
 
             <b-form-row>
+                <!-- Type -->
+                <b-col sm="auto" class="pb-3">
+                    <validation-provider
+                        :name="$t('Type')"
+                        vid="type"
+                        :rules="{ required: true }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Type')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-radio-group
+                                v-model="form.type"
+                                :options="typeOptions"
+                                stacked
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
                 <!-- Amount -->
                 <b-col sm>
                     <validation-provider
@@ -128,7 +151,6 @@
                             <b-form-input
                                 v-model="form.attendee"
                                 autocomplete="off"
-                                type="text"
                                 list="attendee-list"
                                 :state="getValidationState(validationContext)"
                             />
@@ -142,7 +164,7 @@
             </b-form-row>
 
             <b-form-row>
-                <b-col md>
+                <b-col sm>
                     <validation-provider
                         :name="$t('Category')"
                         vid="category_id"
@@ -157,6 +179,157 @@
                             <b-select
                                 v-model="form.category_id"
                                 :options="categories"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+                <b-col sm v-if="useSecondaryCategories">
+                    <validation-provider
+                        :name="$t('Secondary Category')"
+                        vid="secondary_category"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Secondary Category')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.secondary_category"
+                                :options="secondaryCategoryOptions"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Project')"
+                        vid="project_id"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Project')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.project_id"
+                                :options="projects"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+            </b-form-row>
+
+            <b-form-row>
+                <b-col sm v-if="useLocations">
+                    <validation-provider
+                        :name="$t('Location')"
+                        vid="location"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Location')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.location"
+                                :options="locationOptions"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                <b-col sm v-if="useCostCenters">
+                    <validation-provider
+                        :name="$t('Cost Center')"
+                        vid="cost_center"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Cost Center')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.cost_center"
+                                :options="costCenterOptions"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+            </b-form-row>
+
+            <b-form-row>
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Description')"
+                        vid="description"
+                        :rules="{ required: true }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Description')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="form.description"
+                                autocomplete="off"
+                                required
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Supplier')"
+                        vid="supplier_id"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Supplier')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.supplier_id"
+                                :options="supplierOptions"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+            </b-form-row>
+
+            <b-form-row>
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Remarks')"
+                        vid="remarks"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Remarks')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="form.remarks"
+                                autocomplete="off"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -202,14 +375,20 @@
 </template>
 
 <script>
+import transactionsApi from "@/api/accounting/transactions";
 import categoriesApi from "@/api/accounting/categories";
+import projectsApi from "@/api/accounting/projects";
+import suppliersApi from "@/api/accounting/suppliers";
 export default {
     props: {
         transaction: {
             type: Object,
             required: false
         },
-        disabled: Boolean
+        disabled: Boolean,
+        useSecondaryCategories: Boolean,
+        useLocations: Boolean,
+        useCostCenters: Boolean
     },
     data() {
         return {
@@ -217,26 +396,132 @@ export default {
                 ? {
                       receipt_no: this.transaction.receipt_no,
                       date: this.transaction.date,
+                      type: this.transaction.type,
                       amount: this.transaction.amount,
                       fees: this.transaction.fees,
                       attendee: this.transaction.attendee,
-                      category_id: this.transaction.category_id
+                      category_id: this.transaction.category_id,
+                      secondary_category: this.transaction.secondary_category,
+                      project_id: this.transaction.project_id,
+                      location: this.transaction.location,
+                      cost_center: this.transaction.cost_center,
+                      description: this.transaction.description,
+                      supplier_id: this.transaction.supplier_id,
+                      remarks: this.transaction.remarks
                   }
                 : {
                       receipt_no: null,
                       date: null,
+                      type: null,
                       amount: null,
                       fees: null,
                       attendee: null,
-                      category_id: null
+                      category_id: null,
+                      secondary_category: null,
+                      project_id: null,
+                      location: null,
+                      cost_center: null,
+                      description: null,
+                      supplier_id: null,
+                      remarks: null
                   },
             loaded: false,
+            typeOptions: [
+                {
+                    value: "income",
+                    text: this.$t("Income")
+                },
+                {
+                    value: "spending",
+                    text: this.$t("Spending")
+                }
+            ],
             attendees: [],
-            categories: []
+            categories: [],
+            secondaryCategories: [],
+            projects: [],
+            locations: [],
+            costCenters: [],
+            suppliers: []
         };
     },
+    computed: {
+        secondaryCategoryOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("Secondary Category")} -`
+                }
+            ];
+            arr.push(
+                ...this.secondaryCategories.map(e => ({
+                    value: e,
+                    text: e
+                }))
+            );
+            return arr;
+        },
+        locationOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("Location")} -`
+                }
+            ];
+            arr.push(
+                ...this.locations.map(e => ({
+                    value: e,
+                    text: e
+                }))
+            );
+            return arr;
+        },
+        costCenterOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("Cost Center")} -`
+                }
+            ];
+            arr.push(
+                ...this.costCenters.map(e => ({
+                    value: e,
+                    text: e
+                }))
+            );
+            return arr;
+        },
+        supplierOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("Supplier")} -`
+                }
+            ];
+            arr.push(
+                ...this.suppliers.map(e => ({
+                    value: e.id,
+                    text: e.name + (e.category ? ` (${e.category})` : "")
+                }))
+            );
+            return arr;
+        }
+    },
     async created() {
-        await this.fetchTree();
+        await this.fetchCategoryTree();
+        await this.fetchProjectTree();
+        const taxonomies = await transactionsApi.taxonomies();
+        if (this.useSecondaryCategories) {
+            this.secondaryCategories = taxonomies.secondary_categories;
+        }
+        if (this.useLocations) {
+            this.locations = taxonomies.locations;
+        }
+        if (this.useCostCenters) {
+            this.costCenters = taxonomies.cost_centers;
+        }
+        this.attendees = taxonomies.attendees;
+        this.suppliers = await suppliersApi.names();
         this.loaded = true;
     },
     methods: {
@@ -255,16 +540,30 @@ export default {
                 this.$emit("delete");
             }
         },
-        async fetchTree() {
+        async fetchCategoryTree() {
             let data = await categoriesApi.tree({ exclude: this.category?.id });
-            this.categories = !this.transaction ? [
-                {
-                    text: '- ' + this.$t('Category') + ' -',
-                    value: null
-                }
-            ] : [];
+            this.categories = !this.transaction
+                ? [
+                      {
+                          text: "- " + this.$t("Category") + " -",
+                          value: null
+                      }
+                  ]
+                : [];
             for (let elem of data) {
                 this.fillTree(this.categories, elem);
+            }
+        },
+        async fetchProjectTree() {
+            let data = await projectsApi.tree({ exclude: this.category?.id });
+            this.projects = [
+                {
+                    text: "- " + this.$t("Project") + " -",
+                    value: null
+                }
+            ];
+            for (let elem of data) {
+                this.fillTree(this.projects, elem);
             }
         },
         fillTree(tree, elem, level = 0) {

@@ -14,6 +14,10 @@ export default {
         });
         return await api.get(url);
     },
+    async update (id, data) {
+        const url = route('api.accounting.transactions.update', id)
+        return await api.put(url, data)
+    },
     async updateReceipt(transaction, files) {
         const formData = new FormData();
         Array.from(files).forEach(file => formData.append('img[]', file));

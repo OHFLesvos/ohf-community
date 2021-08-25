@@ -3,6 +3,9 @@
         <TransactionForm
             :transaction="transaction"
             :disabled="isBusy"
+            :use-secondary-categories="settings['accounting.transactions.use_secondary_categories']"
+            :use-locations="settings['accounting.transactions.use_locations']"
+            :use-cost-centers="settings['accounting.transactions.use_cost_centers']"
             @submit="handleUpdate"
             @delete="handleDelete"
             @cancel="handleCancel"
@@ -14,8 +17,10 @@
 </template>
 
 <script>
+import { showSnackbar } from '@/utils'
 import transactionsApi from "@/api/accounting/transactions";
 import TransactionForm from "@/components/accounting/TransactionForm";
+import { mapState } from "vuex";
 export default {
     components: {
         TransactionForm
@@ -31,6 +36,7 @@ export default {
             isBusy: false
         };
     },
+    computed: mapState(["settings"]),
     watch: {
         $route() {
             this.fetch();
