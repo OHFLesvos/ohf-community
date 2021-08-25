@@ -30,15 +30,13 @@
                             :use-cost-centers="useCostCenters"
                         />
                     </b-col>
-                    <b-col cols="auto">
-                        <!-- TODO Auth::user()->can('viewAny', Transaction::class) -->
+                    <b-col v-if="can('view-transactions')" cols="auto">
                         <TransactionExportDialog
                             :wallet="wallet"
                             :filter="data.filter"
                             :advancedFilter="advancedFilter" />
                     </b-col>
-                    <b-col cols="auto">
-                        <!-- TODO Auth::user()->can('create', Transaction::class) -->
+                    <b-col v-if="can('create-transactions')" cols="auto">
                         <router-link
                             class="btn btn-primary"
                             :to="{
@@ -103,6 +101,7 @@ import BaseTable from "@/components/table/BaseTable";
 import ReceiptPictureUpload from "@/components/accounting/ReceiptPictureUpload";
 import TransactionsFilter from "@/components/accounting/TransactionsFilter";
 import TransactionExportDialog from "@/components/accounting/TransactionExportDialog";
+import { can } from "@/plugins/laravel";
 export default {
     components: {
         BaseTable,
@@ -255,6 +254,7 @@ export default {
         this.wallets = (await walletsApi.list()).data;
     },
     methods: {
+        can,
         fetchData(ctx) {
             if (Object.keys(this.advancedFilter).length > 0) {
                 Object.entries(this.advancedFilter).forEach(function([
