@@ -1,4 +1,5 @@
 import i18n from "@/plugins/i18n";
+import ziggyRoute from "@/plugins/ziggy";
 
 import { can } from "@/plugins/laravel";
 
@@ -27,7 +28,7 @@ export default [
                         show: can("configure-accounting")
                     }
                 ],
-                container: true,
+                container: true
             }
         }
     },
@@ -44,7 +45,7 @@ export default [
         props: {
             header: {
                 title: i18n.t("Create wallet"),
-                container: true,
+                container: true
             }
         }
     },
@@ -62,7 +63,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Edit wallet"),
-                container: true,
+                container: true
             }
         }
     },
@@ -88,7 +89,7 @@ export default [
                         show: can("configure-accounting")
                     }
                 ],
-                container: true,
+                container: true
             }
         }
     },
@@ -105,7 +106,7 @@ export default [
         props: {
             header: {
                 title: i18n.t("Create category"),
-                container: true,
+                container: true
             }
         }
     },
@@ -123,7 +124,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("View category"),
-                container: true,
+                container: true
             }
         }
     },
@@ -141,7 +142,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Edit category"),
-                container: true,
+                container: true
             }
         }
     },
@@ -167,7 +168,7 @@ export default [
                         show: can("configure-accounting")
                     }
                 ],
-                container: true,
+                container: true
             }
         }
     },
@@ -184,7 +185,7 @@ export default [
         props: {
             header: {
                 title: i18n.t("Create project"),
-                container: true,
+                container: true
             }
         }
     },
@@ -202,7 +203,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Edit project"),
-                container: true,
+                container: true
             }
         }
     },
@@ -326,8 +327,8 @@ export default [
             default: () =>
                 import(
                     /* webpackChunkName: "accounting" */ "@/pages/accounting/SummaryPage"
-                ),
-        },
+                )
+        }
     },
     {
         path: "/accounting/wallets/:wallet/transactions",
@@ -337,9 +338,40 @@ export default [
                 import(
                     /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionsIndexPage"
                 ),
+            header: PageHeader
         },
         props: {
             default: true,
+            header: route => ({
+                title: i18n.t("Transactions"),
+                buttons: [
+                    {
+                        to: {
+                            name: "accounting.transactions.create",
+                            params: { wallet: route.params.wallet }
+                        },
+                        icon: "plus-circle",
+                        text: i18n.t("Add"),
+                        variant: "primary",
+                        show: can("create-transactions")
+                    },
+                    {
+                        to: {
+                            name: "accounting.transactions.summary",
+                            query: { wallet: route.params.wallet }
+                        },
+                        icon: "calculator",
+                        text: i18n.t("Summary"),
+                        show: can("view-accounting-summary")
+                    },
+                    {
+                        href: ziggyRoute('accounting.webling.index', route.params.wallet ),
+                        icon: "cloud-upload-alt",
+                        text: i18n.t("Webling"),
+                        show: can("export-to-webling")
+                    }
+                ]
+            })
         }
     },
     {
@@ -356,7 +388,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Register new transaction"),
-                container: true,
+                container: true
             }
         }
     },
@@ -374,7 +406,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Show transaction"),
-                container: true,
+                container: true
             }
         }
     },
@@ -392,8 +424,8 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Edit transaction"),
-                container: true,
+                container: true
             }
         }
-    },
+    }
 ];

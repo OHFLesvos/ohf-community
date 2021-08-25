@@ -41,6 +41,8 @@ import {
     faImage,
     faImages,
     faSearch,
+    faCalculator,
+    faCloudUploadAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -85,6 +87,8 @@ library.add(
     faImage,
     faImages,
     faSearch,
+    faCalculator,
+    faCloudUploadAlt
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

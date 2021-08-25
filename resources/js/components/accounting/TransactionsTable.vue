@@ -36,18 +36,6 @@
                             :filter="data.filter"
                             :advancedFilter="advancedFilter" />
                     </b-col>
-                    <b-col v-if="can('create-transactions')" cols="auto">
-                        <router-link
-                            class="btn btn-primary"
-                            :to="{
-                                name: 'accounting.transactions.create',
-                                params: { wallet: wallet }
-                            }"
-                        >
-                            <font-awesome-icon icon="plus-circle" />
-                            {{ $t("Add") }}
-                        </router-link>
-                    </b-col>
                 </b-form-row>
             </template>
 

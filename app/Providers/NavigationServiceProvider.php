@@ -44,7 +44,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'badges.selection'  => \App\Navigation\ContextButtons\Badges\BadgeSelectionContextButtons::class,
 
-        'accounting.transactions.index'         => \App\Navigation\ContextButtons\Accounting\TransactionIndexContextButtons::class,
         'accounting.transactions.summary'       => \App\Navigation\ContextButtons\Accounting\TransactionSummaryContextButtons::class,
         'accounting.webling.index'              => \App\Navigation\ContextButtons\Accounting\WeblingIndexContextButtons::class,
         'accounting.webling.prepare'            => \App\Navigation\ContextButtons\Accounting\WeblingPrepareContextButtons::class,
