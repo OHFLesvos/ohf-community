@@ -5,7 +5,7 @@
         <category-form
             :disabled="isBusy"
             @submit="handleRegister"
-            @cancel="handleCnacel"
+            @cancel="handleCancel"
         />
     </b-container>
 </template>
@@ -35,7 +35,7 @@ export default {
             }
             this.isBusy = false
         },
-        handleCnacel () {
+        handleCancel () {
             this.$router.push({ name: 'accounting.categories.index' })
         }
     }

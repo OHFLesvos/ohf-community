@@ -8,7 +8,7 @@
             :supplier="supplier"
             :disabled="isBusy"
             @submit="updateSupplier"
-            @cancel="handleCnacel"
+            @cancel="handleCancel"
             @delete="deleteSupplier"
         />
         <hr>
@@ -83,7 +83,7 @@ export default {
             }
             this.isBusy = false
         },
-        handleCnacel () {
+        handleCancel () {
             this.$router.push({ name: 'accounting.suppliers.show', parms: { id: this.supplier.slug } })
         },
         dateFormat (value) {

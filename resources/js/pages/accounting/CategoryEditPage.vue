@@ -7,7 +7,7 @@
             :category="category"
             :disabled="isBusy"
             @submit="handleUpdate"
-            @cancel="handleCnacel"
+            @cancel="handleCancel"
             @delete="handleDelete"
         />
         <hr>
@@ -89,7 +89,7 @@ export default {
             }
             this.isBusy = false
         },
-        handleCnacel () {
+        handleCancel () {
             this.$router.push({ name: 'accounting.categories.show', params: { id: this.id } })
         },
         dateFormat (value) {

@@ -14,6 +14,10 @@ export default {
         });
         return await api.get(url);
     },
+    async store (wallet, data) {
+        const url = route('api.accounting.transactions.store', wallet)
+        return await api.post(url, data)
+    },
     async update (id, data) {
         const url = route('api.accounting.transactions.update', id)
         return await api.put(url, data)

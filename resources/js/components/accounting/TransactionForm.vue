@@ -178,6 +178,7 @@
                         >
                             <b-select
                                 v-model="form.category_id"
+                                required
                                 :options="categories"
                                 :state="getValidationState(validationContext)"
                             />
@@ -375,6 +376,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import transactionsApi from "@/api/accounting/transactions";
 import categoriesApi from "@/api/accounting/categories";
 import projectsApi from "@/api/accounting/projects";
@@ -384,6 +386,10 @@ export default {
         transaction: {
             type: Object,
             required: false
+        },
+        defaultReceiptNumber: {
+            required: false,
+            type: Number
         },
         disabled: Boolean,
         useSecondaryCategories: Boolean,
@@ -410,8 +416,8 @@ export default {
                       remarks: this.transaction.remarks
                   }
                 : {
-                      receipt_no: null,
-                      date: null,
+                      receipt_no: this.defaultReceiptNumber ? this.defaultReceiptNumber : null,
+                      date: moment().format(moment.HTML5_FMT.DATE),
                       type: null,
                       amount: null,
                       fees: null,

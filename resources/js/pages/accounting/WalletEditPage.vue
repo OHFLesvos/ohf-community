@@ -7,7 +7,7 @@
             :wallet="wallet"
             :disabled="isBusy"
             @submit="updateWallet"
-            @cancel="handleCnacel"
+            @cancel="handleCancel"
             @delete="deleteWallet"
         />
         <hr>
@@ -82,7 +82,7 @@ export default {
             }
             this.isBusy = false
         },
-        handleCnacel () {
+        handleCancel () {
             this.$router.push({ name: 'accounting.wallets.index' })
         },
         dateFormat (value) {

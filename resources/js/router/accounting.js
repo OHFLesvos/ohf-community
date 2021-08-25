@@ -343,6 +343,24 @@ export default [
         }
     },
     {
+        path: "/accounting/wallets/:wallet/transactions/create",
+        name: "accounting.transactions.create",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionCreatePage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Register new transaction"),
+                container: true,
+            }
+        }
+    },
+    {
         path: "/accounting/transactions/:id",
         name: "accounting.transactions.show",
         components: {

@@ -21,12 +21,28 @@
             </template>
 
             <template v-slot:filter-append>
-                <TransactionsFilter
-                    v-model="advancedFilter"
-                    :use-secondary-categories="useSecondaryCategories"
-                    :use-locations="useLocations"
-                    :use-cost-centers="useCostCenters"
-                />
+                <b-form-row>
+                    <b-col>
+                        <TransactionsFilter
+                            v-model="advancedFilter"
+                            :use-secondary-categories="useSecondaryCategories"
+                            :use-locations="useLocations"
+                            :use-cost-centers="useCostCenters"
+                        />
+                    </b-col>
+                    <b-col cols="auto">
+                        <router-link
+                            class="btn btn-primary"
+                            :to="{
+                                name: 'accounting.transactions.create',
+                                params: { wallet: wallet }
+                            }"
+                        >
+                            <font-awesome-icon icon="plus-circle" />
+                            {{ $t("Add") }}
+                        </router-link>
+                    </b-col>
+                </b-form-row>
             </template>
 
             <template v-slot:cell(receipt_pictures)="data">
@@ -94,11 +110,15 @@ export default {
         showIntermediateBalances: Boolean
     },
     data() {
-        const persitedAdvancedFilter = sessionStorage.getItem("accounting.transactions.advancedFilter");
+        const persitedAdvancedFilter = sessionStorage.getItem(
+            "accounting.transactions.advancedFilter"
+        );
         return {
             isBusy: false,
             wallets: [],
-            advancedFilter: persitedAdvancedFilter ? JSON.parse(persitedAdvancedFilter) : {},
+            advancedFilter: persitedAdvancedFilter
+                ? JSON.parse(persitedAdvancedFilter)
+                : {},
             fields: [
                 {
                     key: "receipt_pictures",
@@ -214,7 +234,10 @@ export default {
             this.$refs.table.refresh();
         },
         advancedFilter(value) {
-            sessionStorage.setItem("accounting.transactions.advancedFilter", JSON.stringify(value));
+            sessionStorage.setItem(
+                "accounting.transactions.advancedFilter",
+                JSON.stringify(value)
+            );
             this.$refs.table.refresh();
         }
     },

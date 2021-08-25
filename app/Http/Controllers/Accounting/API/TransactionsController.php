@@ -69,6 +69,43 @@ class TransactionsController extends Controller
         return $advanced_filter;
     }
 
+    public function store(Wallet $wallet, StoreTransaction $request)
+    {
+        $this->authorize('create', Transaction::class);
+        $this->authorize('view', $wallet);
+
+        $transaction = new Transaction();
+        $transaction->date = $request->date;
+        $transaction->receipt_no = $request->receipt_no;
+        $transaction->type = $request->type;
+        $transaction->amount = $request->amount;
+        $transaction->fees = $request->fees;
+        $transaction->attendee = $request->attendee;
+        $transaction->category()->associate($request->category_id);
+        if (self::useSecondaryCategories()) {
+            $transaction->secondary_category = $request->secondary_category;
+        }
+        $transaction->project()->associate($request->project_id);
+        if (self::useLocations()) {
+            $transaction->location = $request->location;
+        }
+        if (self::useCostCenters()) {
+            $transaction->cost_center = $request->cost_center;
+        }
+        $transaction->description = $request->description;
+        $transaction->remarks = $request->remarks;
+
+        $transaction->supplier()->associate($request->input('supplier_id'));
+
+        $transaction->wallet()->associate($wallet);
+
+        $transaction->save();
+
+        return response()->json([
+            'id' => $transaction->id,
+        ], Response::HTTP_CREATED);
+    }
+
     public function show(Transaction $transaction)
     {
         $this->authorize('view', $transaction);
