@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Accounting;
 
 use App\Exports\Accounting\TransactionsExport;
 use App\Exports\Accounting\TransactionsMonthsExport;
-use App\Exports\Accounting\WeblingTransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use App\Models\Accounting\Transaction;
@@ -66,11 +65,6 @@ class TransactionsController extends Controller
         $filter = session('accounting.filter', []);
         return [
             'wallet' => Wallet::findOrFail(request()->route('wallet')),
-            'columnsSelection' => [
-                'all' => __('All'),
-                'webling' => __('Selection for Webling Accounting'),
-            ],
-            'columns' => 'all',
             'groupings' => [
                 'none' => __('None'),
                 'monthly' => __('Monthly'),
@@ -87,10 +81,6 @@ class TransactionsController extends Controller
     protected function exportValidateArgs(): array
     {
         return [
-            'columns' => [
-                'required',
-                Rule::in(['all', 'webling']),
-            ],
             'grouping' => [
                 'required',
                 Rule::in(['none', 'monthly']),
@@ -114,9 +104,6 @@ class TransactionsController extends Controller
         $filter = $request->selection == 'filtered' ? session('accounting.filter', []) : [];
         if ($request->grouping == 'monthly') {
             return new TransactionsMonthsExport($wallet, $filter);
-        }
-        if ($request->columns == 'webling') {
-            return new WeblingTransactionsExport($wallet, $filter);
         }
         return new TransactionsExport($wallet, $filter);
     }

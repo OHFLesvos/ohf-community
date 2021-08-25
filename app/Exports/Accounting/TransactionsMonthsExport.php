@@ -40,7 +40,7 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
     {
         $months = Transaction::query()
             ->forWallet($this->wallet)
-            ->forFilter($this->filter, true)
+            ->forAdvancedFilter($this->filter, true)
             ->selectRaw('MONTH(date) as month')
             ->selectRaw('YEAR(date) as year')
             ->groupBy(DB::raw('MONTH(date)'))

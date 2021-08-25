@@ -27,7 +27,7 @@ class TransactionsExport extends BaseTransactionsExport
     {
         return Transaction::query()
             ->forWallet($this->wallet)
-            ->forFilter($this->filter)
+            ->forAdvancedFilter($this->filter)
             ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC');
     }
