@@ -28,13 +28,6 @@ class TransactionsController extends Controller
         ]);
     }
 
-    private static function addLevelIndentation(array $items): array
-    {
-        return collect($items)
-            ->map(fn($e) => str_repeat("&nbsp;", 4 * $e['indentation']) . $e['name'])
-            ->toArray();
-    }
-
     public function create(Wallet $wallet)
     {
         $this->authorize('create', Transaction::class);
@@ -48,18 +41,14 @@ class TransactionsController extends Controller
     {
         $this->authorize('view', $transaction);
 
-        return view('accounting.transactions.show', [
-            'transaction' => $transaction,
-        ]);
+        return view('accounting.transactions.show');
     }
 
     public function edit(Transaction $transaction)
     {
         $this->authorize('update', $transaction);
 
-        return view('accounting.transactions.edit', [
-            'transaction' => $transaction,
-        ]);
+        return view('accounting.transactions.edit');
     }
 
     protected function exportAuthorize()
