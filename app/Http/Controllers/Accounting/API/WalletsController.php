@@ -120,4 +120,15 @@ class WalletsController extends Controller
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
+
+    public function names(Request $request)
+    {
+        return Wallet::orderBy('name')->get()
+            ->filter(fn ($wallet) => $request->user()->can('view', $wallet))
+            ->map(fn ($wallet) => [
+                'id' => $wallet->id,
+                'name' => $wallet->name,
+                'amount' => $wallet->amount,
+            ]);
+    }
 }

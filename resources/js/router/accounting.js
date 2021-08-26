@@ -21,6 +21,14 @@ export default [
                 title: i18n.t("Overview"),
                 buttons: [
                     {
+                        to: {
+                            name: "accounting.transactions.summary"
+                        },
+                        icon: "calculator",
+                        text: i18n.t("Summary"),
+                        show: can("view-accounting-summary")
+                    },
+                    {
                         to: { name: "accounting.categories.index" },
                         icon: "tag",
                         text: i18n.t("Manage categories"),
@@ -56,7 +64,7 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Overview"),
+                title: i18n.t("Wallets"),
                 buttons: [
                     {
                         to: { name: "accounting.wallets.create" },
@@ -64,6 +72,14 @@ export default [
                         icon: "plus-circle",
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "money-bill-alt",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ],
                 container: true
@@ -125,6 +141,14 @@ export default [
                         icon: "plus-circle",
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "money-bill-alt",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ],
                 container: true
@@ -204,6 +228,14 @@ export default [
                         icon: "plus-circle",
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "money-bill-alt",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ],
                 container: true
@@ -373,7 +405,7 @@ export default [
                 title: i18n.t("Summary"),
                 buttons: [
                     {
-                        href: ziggyRoute('accounting.index' ),
+                        to: { name: "accounting.index" },
                         icon: "list",
                         text: i18n.t("Overview")
                     }
@@ -416,7 +448,10 @@ export default [
                         show: can("view-accounting-summary")
                     },
                     {
-                        href: ziggyRoute('accounting.webling.index', route.params.wallet ),
+                        href: ziggyRoute(
+                            "accounting.webling.index",
+                            route.params.wallet
+                        ),
                         icon: "cloud-upload-alt",
                         text: i18n.t("Webling"),
                         show: can("export-to-webling")

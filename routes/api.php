@@ -202,6 +202,8 @@ Route::middleware(['language', 'auth'])
     ->prefix('accounting')
     ->name('api.accounting.')
     ->group(function () {
+        Route::get('wallets/names', [WalletsController::class, 'names'])
+            ->name('wallets.names');
         Route::resource('wallets', WalletsController::class);
         Route::get('categories/tree', [CategoriesController::class, 'tree'])
             ->name('categories.tree');
