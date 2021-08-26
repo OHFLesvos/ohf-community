@@ -7,6 +7,44 @@ import PageHeader from "@/components/layout/PageHeader";
 
 export default [
     {
+        path: "/accounting",
+        name: "accounting.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/AccountingIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Overview"),
+                buttons: [
+                    {
+                        to: { name: "accounting.categories.index" },
+                        icon: "tag",
+                        text: i18n.t("Manage categories"),
+                        show: can("view-accounting-categories")
+                    },
+                    {
+                        to: { name: "accounting.projects.index" },
+                        icon: "tag",
+                        text: i18n.t("Manage projects"),
+                        show: can("view-accounting-projects")
+                    },
+                    {
+                        to: { name: "accounting.wallets.index" },
+                        variant: "secondary",
+                        icon: "wallet",
+                        text: i18n.t("Manage wallets"),
+                        show: can("configure-accounting")
+                    }
+                ],
+                container: true
+            }
+        }
+    },
+    {
         path: "/accounting/wallets",
         name: "accounting.wallets.index",
         components: {

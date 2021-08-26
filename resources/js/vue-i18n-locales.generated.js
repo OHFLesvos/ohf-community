@@ -487,6 +487,7 @@ export default {
         "Edit transaction": "Transaktion bearbeiten",
         "Wallet": "Kasse",
         "Wallets": "Kassen",
+        "Manage wallets": "Kassen verwalten",
         "Do you really want to delete this transaction?": "Soll diese Transaktion wirklich gelöscht werden?",
         "Choose picture of receipt": "Beleg-Bild auswählen",
         "Add picture of receipt": "Beleg-Bild hinzufügen",

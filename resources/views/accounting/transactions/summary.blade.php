@@ -17,6 +17,5 @@
     @endphp
     <script>
         window.Laravel.permissions = @json($permissions)
-
     </script>
 @endpush
