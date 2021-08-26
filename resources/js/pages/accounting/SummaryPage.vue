@@ -69,7 +69,7 @@
         >
             <template #cell(name)="data">
                 <a
-                    v-if="can('can-view-transactions')"
+                    v-if="can('view-transactions')"
                     :href="
                         route('accounting.transactions.index', {
                             wallet: data.item.id,

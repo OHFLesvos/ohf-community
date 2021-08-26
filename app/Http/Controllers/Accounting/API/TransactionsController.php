@@ -215,6 +215,8 @@ class TransactionsController extends Controller
 
     public function taxonomies()
     {
+        $this->authorize('viewAny', Transaction::class);
+
         return response()->json([
             'secondary_categories' => Setting::get('accounting.transactions.use_secondary_categories') ? Transaction::secondaryCategories() : [],
             'locations' => Setting::get('accounting.transactions.use_locations') ? Transaction::locations() : [],

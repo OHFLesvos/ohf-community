@@ -11,7 +11,7 @@
             <span v-if="data.item.prefix" v-html="data.item.prefix"></span>
             <template v-if="data.value">
                 <a
-                    v-if="wallet && can('can-view-transactions')"
+                    v-if="wallet && can('view-transactions')"
                     :href="
                         route('accounting.transactions.index', {
                             wallet,

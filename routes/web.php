@@ -167,20 +167,20 @@ Route::middleware(['language', 'auth'])
     ->group(function () {
 
         // Overview
-        Route::get('', [WalletController::class, 'index'])
+        Route::view('', 'accounting.index')
             ->name('index');
 
-        Route::view('transactions/summary', 'accounting.transactions.summary')
+        Route::view('transactions/summary', 'accounting.index')
             ->name('transactions.summary');
 
         // Transactions
-        Route::get('wallets/{wallet}/transactions', [TransactionsController::class, 'index'])
+        Route::view('wallets/{wallet}/transactions', 'accounting.index')
             ->name('transactions.index');
-        Route::get('wallets/{wallet}/transactions/create', [TransactionsController::class, 'create'])
+        Route::view('wallets/{wallet}/transactions/create', 'accounting.index')
             ->name('transactions.create');
-        Route::get('transactions/{transaction}', [TransactionsController::class, 'show'])
+        Route::view('transactions/{transaction}', 'accounting.index')
             ->name('transactions.show');
-        Route::get('transactions/{transaction}/edit', [TransactionsController::class, 'edit'])
+        Route::view('transactions/{transaction}/edit', 'accounting.index')
             ->name('transactions.edit');
 
         // Webling
