@@ -194,23 +194,23 @@ Route::middleware(['language', 'auth'])
             ->name('webling.sync');
 
         // Wallets
-        Route::view('wallets', 'accounting.wallets')
+        Route::view('wallets', 'accounting.index')
             ->name('wallets');
-        Route::view('wallets/{any}', 'accounting.wallets')
+        Route::view('wallets/{any}', 'accounting.index')
             ->where('any', '.*')
             ->name('wallets.any');
 
         // Categories
-        Route::view('categories', 'accounting.categories')
+        Route::view('categories', 'accounting.index')
             ->name('categories');
-        Route::view('categories/{any}', 'accounting.categories')
+        Route::view('categories/{any}', 'accounting.index')
             ->where('any', '.*')
             ->name('categories.any');
 
         // Projects
-        Route::view('projects', 'accounting.projects')
+        Route::view('projects', 'accounting.index')
             ->name('projects');
-        Route::view('projects/{any}', 'accounting.projects')
+        Route::view('projects/{any}', 'accounting.index')
             ->where('any', '.*')
             ->name('projects.any');
 

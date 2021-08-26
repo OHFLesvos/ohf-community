@@ -14,29 +14,27 @@ class TransactionsController extends Controller
         $this->authorize('viewAny', Transaction::class);
         $this->authorize('view', $wallet);
 
-        return view('accounting.transactions', [
-            'wallet' => $wallet,
-        ]);
+        return view('accounting.index');
     }
 
     public function create(Wallet $wallet)
     {
         $this->authorize('create', Transaction::class);
 
-        return view('accounting.transactions');
+        return view('accounting.index');
     }
 
     public function show(Transaction $transaction)
     {
         $this->authorize('view', $transaction);
 
-        return view('accounting.transactions');
+        return view('accounting.index');
     }
 
     public function edit(Transaction $transaction)
     {
         $this->authorize('update', $transaction);
 
-        return view('accounting.transactions');
+        return view('accounting.index');
     }
 }
