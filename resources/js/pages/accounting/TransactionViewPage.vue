@@ -1,6 +1,20 @@
 <template>
     <b-container v-if="transaction" class="px-0">
         <b-list-group flush class="shawow-sm mb-4">
+            <!-- Wallet -->
+            <two-col-list-group-item :title="$t('Wallet')">
+                <router-link
+                    :to="{
+                        name: 'accounting.transactions.index',
+                        params: {
+                            wallet: transaction.wallet_id
+                        }
+                    }"
+                >
+                    {{ transaction.wallet_name }}
+                </router-link>
+            </two-col-list-group-item>
+
             <!-- Receipt -->
             <two-col-list-group-item :title="$t('Receipt')">
                 {{ transaction.receipt_no }}
