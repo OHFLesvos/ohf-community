@@ -25,9 +25,14 @@
                 </template>
             </template>
             <template v-slot:cell(num_transactions)="data">
-                <a :href="route('accounting.transactions.index', data.item)">
+                <router-link
+                    :to="{
+                        name: 'accounting.transactions.index',
+                        params: { wallet: data.item.id }
+                    }"
+                >
                     {{ data.value }}
-                </a>
+                </router-link>
             </template>
             <template v-slot:cell(is_default)="data">
                 <font-awesome-icon :icon="data.value ? 'check' : 'times'" />

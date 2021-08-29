@@ -11,7 +11,7 @@ $(function() {
                     url: url
                 })
                 .then(() => console.log("Successful share"))
-                .catch(error => console.log("Error sharing", error));
+                .catch(error => console.error("Error sharing", error));
         } else {
             var dummy = $("<input>")
                 .val(url)

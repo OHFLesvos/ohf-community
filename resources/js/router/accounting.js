@@ -1,10 +1,57 @@
 import i18n from "@/plugins/i18n";
+import ziggyRoute from "@/plugins/ziggy";
 
 import { can } from "@/plugins/laravel";
 
 import PageHeader from "@/components/layout/PageHeader";
 
 export default [
+    {
+        path: "/accounting",
+        name: "accounting.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/AccountingIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Overview"),
+                buttons: [
+                    {
+                        to: {
+                            name: "accounting.transactions.summary"
+                        },
+                        icon: "calculator",
+                        text: i18n.t("Summary"),
+                        show: can("view-accounting-summary")
+                    },
+                    {
+                        to: { name: "accounting.categories.index" },
+                        icon: "tag",
+                        text: i18n.t("Categories"),
+                        show: can("view-accounting-categories")
+                    },
+                    {
+                        to: { name: "accounting.projects.index" },
+                        icon: "tag",
+                        text: i18n.t("Projects"),
+                        show: can("view-accounting-projects")
+                    },
+                    {
+                        to: { name: "accounting.suppliers.index" },
+                        variant: "secondary",
+                        icon: "truck",
+                        text: i18n.t("Suppliers"),
+                        show: can("view-suppliers") || can("manage-suppliers")
+                    }
+                ],
+                container: true
+            }
+        }
+    },
     {
         path: "/accounting/wallets",
         name: "accounting.wallets.index",
@@ -17,7 +64,7 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Overview"),
+                title: i18n.t("Wallets"),
                 buttons: [
                     {
                         to: { name: "accounting.wallets.create" },
@@ -25,9 +72,17 @@ export default [
                         icon: "plus-circle",
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ],
-                container: true,
+                container: true
             }
         }
     },
@@ -44,7 +99,7 @@ export default [
         props: {
             header: {
                 title: i18n.t("Create wallet"),
-                container: true,
+                container: true
             }
         }
     },
@@ -62,7 +117,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Edit wallet"),
-                container: true,
+                container: true
             }
         }
     },
@@ -86,9 +141,17 @@ export default [
                         icon: "plus-circle",
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ],
-                container: true,
+                container: true
             }
         }
     },
@@ -105,7 +168,7 @@ export default [
         props: {
             header: {
                 title: i18n.t("Create category"),
-                container: true,
+                container: true
             }
         }
     },
@@ -123,7 +186,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("View category"),
-                container: true,
+                container: true
             }
         }
     },
@@ -141,7 +204,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Edit category"),
-                container: true,
+                container: true
             }
         }
     },
@@ -165,9 +228,17 @@ export default [
                         icon: "plus-circle",
                         text: i18n.t("Add"),
                         show: can("configure-accounting")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ],
-                container: true,
+                container: true
             }
         }
     },
@@ -184,7 +255,7 @@ export default [
         props: {
             header: {
                 title: i18n.t("Create project"),
-                container: true,
+                container: true
             }
         }
     },
@@ -202,7 +273,7 @@ export default [
             default: true,
             header: {
                 title: i18n.t("Edit project"),
-                container: true,
+                container: true
             }
         }
     },
@@ -218,7 +289,7 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Overview"),
+                title: i18n.t("Suppliers"),
                 buttons: [
                     {
                         to: { name: "accounting.suppliers.create" },
@@ -226,6 +297,14 @@ export default [
                         icon: "plus-circle",
                         text: i18n.t("Add"),
                         show: can("manage-suppliers")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "money-bill-alt",
+                        text: i18n.t("Accounting"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ]
             }
@@ -327,6 +406,128 @@ export default [
                 import(
                     /* webpackChunkName: "accounting" */ "@/pages/accounting/SummaryPage"
                 ),
+            header: PageHeader
         },
+        props: {
+            header: {
+                title: i18n.t("Summary"),
+                buttons: [
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview")
+                    }
+                ]
+            }
+        }
     },
+    {
+        path: "/accounting/wallets/:wallet/transactions",
+        name: "accounting.transactions.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionsIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: route => ({
+                title: i18n.t("Transactions"),
+                buttons: [
+                    {
+                        to: {
+                            name: "accounting.transactions.create",
+                            params: { wallet: route.params.wallet }
+                        },
+                        icon: "plus-circle",
+                        text: i18n.t("Add"),
+                        variant: "primary",
+                        show: can("create-transactions")
+                    },
+                    {
+                        to: {
+                            name: "accounting.transactions.summary",
+                            query: { wallet: route.params.wallet }
+                        },
+                        icon: "calculator",
+                        text: i18n.t("Summary"),
+                        show: can("view-accounting-summary")
+                    },
+                    {
+                        href: ziggyRoute(
+                            "accounting.webling.index",
+                            route.params.wallet
+                        ),
+                        icon: "cloud-upload-alt",
+                        text: i18n.t("Webling"),
+                        show: can("export-to-webling")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
+                    }
+                ]
+            })
+        }
+    },
+    {
+        path: "/accounting/wallets/:wallet/transactions/create",
+        name: "accounting.transactions.create",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionCreatePage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Register new transaction"),
+                container: true
+            }
+        }
+    },
+    {
+        path: "/accounting/transactions/:id",
+        name: "accounting.transactions.show",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionViewPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Show transaction"),
+                container: true
+            }
+        }
+    },
+    {
+        path: "/accounting/transactions/:id/edit",
+        name: "accounting.transactions.edit",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionEditPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Edit transaction"),
+                container: true
+            }
+        }
+    }
 ];

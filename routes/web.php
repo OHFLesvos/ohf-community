@@ -167,35 +167,21 @@ Route::middleware(['language', 'auth'])
     ->group(function () {
 
         // Overview
-        Route::get('', [WalletController::class, 'index'])
+        Route::view('', 'accounting.index')
             ->name('index');
 
-        Route::view('transactions/summary', 'accounting.transactions.summary')
+        Route::view('transactions/summary', 'accounting.index')
             ->name('transactions.summary');
 
         // Transactions
-        Route::get('wallets/{wallet}/transactions/export', [TransactionsController::class, 'export'])
-            ->name('transactions.export');
-        Route::post('wallets/{wallet}/transactions/doExport', [TransactionsController::class, 'doExport'])
-            ->name('transactions.doExport');
-        Route::get('transactions/{transaction}/snippet', [TransactionsController::class, 'snippet'])
-            ->name('transactions.snippet');
-        Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
-            ->name('transactions.undoBooking');
-        Route::get('wallets/{wallet}/transactions', [TransactionsController::class, 'index'])
+        Route::view('wallets/{wallet}/transactions', 'accounting.index')
             ->name('transactions.index');
-        Route::get('wallets/{wallet}/transactions/create', [TransactionsController::class, 'create'])
+        Route::view('wallets/{wallet}/transactions/create', 'accounting.index')
             ->name('transactions.create');
-        Route::post('wallets/{wallet}/transactions', [TransactionsController::class, 'store'])
-            ->name('transactions.store');
-        Route::get('transactions/{transaction}', [TransactionsController::class, 'show'])
+        Route::view('transactions/{transaction}', 'accounting.index')
             ->name('transactions.show');
-        Route::get('transactions/{transaction}/edit', [TransactionsController::class, 'edit'])
+        Route::view('transactions/{transaction}/edit', 'accounting.index')
             ->name('transactions.edit');
-        Route::put('transactions/{transaction}', [TransactionsController::class, 'update'])
-            ->name('transactions.update');
-        Route::delete('transactions/{transaction}', [TransactionsController::class, 'destroy'])
-            ->name('transactions.destroy');
 
         // Webling
         Route::get('wallets/{wallet}/webling', [WeblingApiController::class, 'index'])
@@ -208,32 +194,32 @@ Route::middleware(['language', 'auth'])
             ->name('webling.sync');
 
         // Wallets
-        Route::view('wallets', 'accounting.wallets')
+        Route::view('wallets', 'accounting.index')
             ->name('wallets');
-        Route::view('wallets/{any}', 'accounting.wallets')
+        Route::view('wallets/{any}', 'accounting.index')
             ->where('any', '.*')
             ->name('wallets.any');
 
         // Categories
-        Route::view('categories', 'accounting.categories')
+        Route::view('categories', 'accounting.index')
             ->name('categories');
-        Route::view('categories/{any}', 'accounting.categories')
+        Route::view('categories/{any}', 'accounting.index')
             ->where('any', '.*')
             ->name('categories.any');
 
         // Projects
-        Route::view('projects', 'accounting.projects')
+        Route::view('projects', 'accounting.index')
             ->name('projects');
-        Route::view('projects/{any}', 'accounting.projects')
+        Route::view('projects/{any}', 'accounting.index')
             ->where('any', '.*')
             ->name('projects.any');
 
         // Suppliers
-        Route::view('suppliers', 'accounting.suppliers')
+        Route::view('suppliers', 'accounting.index')
             ->name('suppliers');
-        Route::view('suppliers/{supplier}', 'accounting.suppliers')
+        Route::view('suppliers/{supplier}', 'accounting.index')
             ->name('suppliers.show');
-        Route::view('suppliers/{any}', 'accounting.suppliers')
+        Route::view('suppliers/{any}', 'accounting.index')
             ->where('any', '.*')
             ->name('suppliers.any');
     });

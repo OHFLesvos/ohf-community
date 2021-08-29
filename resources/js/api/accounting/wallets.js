@@ -20,6 +20,10 @@ export default {
         const url = route('api.accounting.wallets.destroy', id)
         return await api.delete(url)
     },
+    async names () {
+        const url = route('api.accounting.wallets.names')
+        return await api.get(url)
+    },
     // async transactions (id, params = {}) {
     //     const url = route('api.accounting.wallets.transactions', { wallet: id, ...params})
     //     return await api.get(url)

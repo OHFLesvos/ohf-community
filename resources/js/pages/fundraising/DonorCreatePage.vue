@@ -6,7 +6,7 @@
         <donor-form
             :disabled="isBusy"
             @submit="registerDonor"
-            @cancel="handleCnacel"
+            @cancel="handleCancel"
         />
     </b-container>
 </template>
@@ -37,7 +37,7 @@ export default {
             }
             this.isBusy = false
         },
-        handleCnacel () {
+        handleCancel () {
             this.$router.push({ name: 'fundraising.donors.index' })
         },
         dateFormat (value) {

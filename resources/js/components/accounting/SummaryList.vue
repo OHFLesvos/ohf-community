@@ -10,20 +10,24 @@
         <template #cell(name)="data">
             <span v-if="data.item.prefix" v-html="data.item.prefix"></span>
             <template v-if="data.value">
-                <a
-                    v-if="wallet && can('can-view-transactions')"
-                    :href="
-                        route('accounting.transactions.index', {
-                            wallet,
+                <router-link
+                    v-if="wallet && can('view-transactions')"
+                    :to="{
+                        name: 'accounting.transactions.index',
+                        params: {
+                            wallet: wallet,
+                        },
+                        query: {
                             [`filter[${paramName}]`]: data.item.id
                                 ? data.item.id
                                 : data.value,
                             'filter[date_start]': filterDateStart,
                             'filter[date_end]': filterDateEnd
-                        })
-                    "
-                    >{{ data.value }}</a
+                        }
+                    }"
                 >
+                    {{ data.value }}
+                </router-link>
                 <template v-else>{{ data.value }}</template>
             </template>
             <em v-else>{{ noNameLabel }}</em>

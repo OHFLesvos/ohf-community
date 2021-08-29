@@ -11,6 +11,7 @@ trait ValidatesResourceIndex
         request()->validate([
             'filter' => [
                 'nullable',
+                'string'
             ],
         ]);
     }
@@ -42,7 +43,7 @@ trait ValidatesResourceIndex
             ],
             'sortDirection' => [
                 'nullable',
-                'in:asc,desc',
+                Rule::in(['asc', 'desc'])
             ],
         ]);
     }

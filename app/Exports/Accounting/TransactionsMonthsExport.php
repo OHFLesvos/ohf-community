@@ -19,18 +19,21 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
 {
     use Exportable, DefaultFormatting;
 
+    private ?string $filter;
+
     /**
      * Filter conditions
      *
      * @var array<string>
      */
-    private array $filter;
+    private array $advancedFilter;
 
     private Wallet $wallet;
 
-    public function __construct(Wallet $wallet, $filter = [])
+    public function __construct(Wallet $wallet, ?string $filter = null, array $advancedFilter = [])
     {
         $this->filter = $filter;
+        $this->advancedFilter = $advancedFilter;
         $this->wallet = $wallet;
 
         setlocale(LC_TIME, \App::getLocale());
@@ -40,7 +43,8 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
     {
         $months = Transaction::query()
             ->forWallet($this->wallet)
-            ->forFilter($this->filter, true)
+            ->forFilter($this->filter)
+            ->forAdvancedFilter($this->advancedFilter)
             ->selectRaw('MONTH(date) as month')
             ->selectRaw('YEAR(date) as year')
             ->groupBy(DB::raw('MONTH(date)'))
@@ -55,7 +59,7 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
 
         // Transactions by month
         foreach ($months as $month) {
-            $sheet = new TransactionsMonthSheet($this->wallet, $month, $this->filter);
+            $sheet = new TransactionsMonthSheet($this->wallet, $month, $this->filter, $this->advancedFilter);
             $sheet->orientation = 'landscape';
             $sheets[] = $sheet;
         }

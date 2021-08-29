@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Accounting\API\CategoriesController;
 use App\Http\Controllers\Accounting\API\ControllingController;
+use App\Http\Controllers\Accounting\API\ExportController;
 use App\Http\Controllers\Accounting\API\TransactionsController;
 use App\Http\Controllers\Accounting\API\ProjectsController;
 use App\Http\Controllers\Accounting\API\SummaryController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\Fundraising\API\DonorTagsController;
 use App\Http\Controllers\Fundraising\API\ReportController;
 use App\Http\Controllers\Fundraising\API\TagsController;
 use App\Http\Controllers\Fundraising\API\WebhookController;
+use App\Http\Controllers\Settings\API\SettingsController;
 use App\Http\Controllers\UserManagement\API\RoleAdministratorRelationshipController;
 use App\Http\Controllers\UserManagement\API\RoleController;
 use App\Http\Controllers\UserManagement\API\RoleUserRelationshipController;
@@ -200,6 +202,8 @@ Route::middleware(['language', 'auth'])
     ->prefix('accounting')
     ->name('api.accounting.')
     ->group(function () {
+        Route::get('wallets/names', [WalletsController::class, 'names'])
+            ->name('wallets.names');
         Route::resource('wallets', WalletsController::class);
         Route::get('categories/tree', [CategoriesController::class, 'tree'])
             ->name('categories.tree');
@@ -213,10 +217,27 @@ Route::middleware(['language', 'auth'])
         Route::get('transactions/summary', [SummaryController::class, 'index'])
             ->name('transactions.summary');
 
+        Route::get('wallets/{wallet}/transactions', [TransactionsController::class, 'index'])
+            ->name('transactions.index');
+        Route::post('wallets/{wallet}/transactions', [TransactionsController::class, 'store'])
+            ->name('transactions.store');
+        Route::get('wallets/{wallet}/transactions/export', [ExportController::class, 'doExport'])
+            ->name('transactions.export');
         Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
+        Route::get('transactions/secondaryCategories', [TransactionsController::class, 'secondaryCategories'])
+            ->name('transactions.secondaryCategories');
         Route::get('transactions/locations', [TransactionsController::class, 'locations'])
             ->name('transactions.locations');
+        Route::get('transactions/costCenters', [TransactionsController::class, 'costCenters'])
+            ->name('transactions.costCenters');
+        Route::get('transactions/attendees', [TransactionsController::class, 'attendees'])
+            ->name('transactions.attendees');
+        Route::get('transactions/taxonomies', [TransactionsController::class, 'taxonomies'])
+            ->name('transactions.taxonomies');
+        Route::apiResource('transactions', TransactionsController::class)->except(['index', 'store']);
+        Route::put('transactions/{transaction}/undoBooking', [TransactionsController::class, 'undoBooking'])
+            ->name('transactions.undoBooking');
 
         Route::get('transactions/{transaction}/controlled', [ControllingController::class, 'controlled'])
             ->name('transactions.controlled');
@@ -227,6 +248,8 @@ Route::middleware(['language', 'auth'])
 
         Route::get('suppliers/export', [SuppliersController::class, 'export'])
             ->name('suppliers.export');
+        Route::get('suppliers/names', [SuppliersController::class, 'names'])
+            ->name('suppliers.names');
         Route::resource('suppliers', SuppliersController::class);
         Route::get('suppliers/{supplier}/transactions', [SuppliersController::class, 'transactions'])
             ->name('suppliers.transactions');
@@ -314,3 +337,6 @@ Route::get('countries', [DataListController::class, 'countries'])
 Route::get('languages', [DataListController::class, 'languages'])
     ->middleware(['language'])
     ->name('api.languages');
+
+Route::get('settings', [SettingsController::class, 'list'])
+    ->name('api.settings');

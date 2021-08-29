@@ -51,5 +51,8 @@
         "vue-router": "^3.4.7",
         "vue-template-compiler": "^2.6.12",
         "vuex": "^3.5.1"
+    },
+    "dependencies": {
+        "fslightbox-vue": "^1.2.0"
     }
 }

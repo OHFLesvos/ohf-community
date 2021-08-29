@@ -4,7 +4,7 @@
             :project="project"
             :disabled="isBusy"
             @submit="handleUpdate"
-            @cancel="handleCnacel"
+            @cancel="handleCancel"
             @delete="handleDelete"
         />
         <hr />
@@ -86,7 +86,7 @@ export default {
             }
             this.isBusy = false;
         },
-        handleCnacel() {
+        handleCancel() {
             this.$router.push({ name: "accounting.projects.index" });
         },
         dateFormat(value) {

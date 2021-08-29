@@ -5,7 +5,7 @@
         <wallet-form
             :disabled="isBusy"
             @submit="registerWallet"
-            @cancel="handleCnacel"
+            @cancel="handleCancel"
         />
     </b-container>
 </template>
@@ -35,7 +35,7 @@ export default {
             }
             this.isBusy = false
         },
-        handleCnacel () {
+        handleCancel () {
             this.$router.push({ name: 'accounting.wallets.index' })
         }
     }

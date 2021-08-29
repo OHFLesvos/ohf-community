@@ -136,7 +136,7 @@ class SuppliersController extends Controller
 
         return TransactionResource::collection($supplier->transactions()
             ->orderBy($sortBy, $sortDirection)
-            ->forFilter(['description' => $filter])
+            ->forFilter($filter)
             ->paginate($pageSize));
     }
 
@@ -147,5 +147,10 @@ class SuppliersController extends Controller
         $file_name = __('Suppliers') . ' - ' . now()->toDateString();
         $extension = 'xlsx';
         return (new SuppliersExport())->download($file_name . '.' . $extension);
+    }
+
+    public function names()
+    {
+        return Supplier::select('id', 'name', 'category')->orderBy('name')->get();
     }
 }

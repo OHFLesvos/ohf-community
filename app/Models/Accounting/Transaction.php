@@ -25,6 +25,24 @@ class Transaction extends Model implements Auditable
 
     private const RECEIPT_PICTURE_PATH = 'public/accounting/receipts';
 
+    public const ADVANCED_FILTER_COLUMNS = [
+        'type',
+        'amount',
+        'category_id',
+        'secondary_category',
+        'project_id',
+        'location',
+        'cost_center',
+        'attendee',
+        'description',
+        'supplier',
+        'receipt_no',
+        'today',
+        'no_receipt',
+        'controlled',
+        'remarks',
+    ];
+
     public static function boot()
     {
         static::deleting(function ($model) {
@@ -117,13 +135,50 @@ class Transaction extends Model implements Auditable
      * Scope a query to only include transactions matching the given filter conditions
      *
      * @param \Illuminate\Database\Eloquent\Builder  $query
-     * @param array $filter
-     * @param bool|null $skipDates
+     * @param string $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForFilter($query, array $filter, ?bool $skipDates = false)
+    public function scopeForFilter($query, string $filter)
     {
-        foreach (config('accounting.filter_columns') as $col) {
+        if (empty($filter)) {
+            return $query;
+        }
+
+        return $query->where(function (Builder $qry1) use ($filter) {
+            return $qry1->where('receipt_no', $filter)
+                ->orWhere('amount', $filter)
+                ->orWhere('date', $filter)
+                ->orWhere('secondary_category', 'LIKE', '%' . $filter . '%')
+                ->orWhere('location', 'LIKE', '%' . $filter . '%')
+                ->orWhere('cost_center', 'LIKE', '%' . $filter . '%')
+                ->orWhere('location', 'LIKE', '%' . $filter . '%')
+                ->orWhere('attendee', 'LIKE', '%' . $filter . '%')
+                ->orWhere('description', 'LIKE', '%' . $filter . '%')
+                ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
+                ->orWhereHas('supplier', function (Builder $qry2) use ($filter) {
+                    $qry2->where('id', $filter)
+                        ->orWhere('slug', $filter)
+                        ->orWhere('name', 'LIKE', '%' . $filter . '%');
+                })
+                ->orWhereHas('category', function (Builder $qry2) use ($filter) {
+                    $qry2->where('name', 'LIKE', '%' . $filter . '%');
+                })
+                ->orWhereHas('project', function (Builder $qry2) use ($filter) {
+                    $qry2->where('name', 'LIKE', '%' . $filter . '%');
+                });
+        });
+    }
+
+    /**
+     * Scope a query to only include transactions matching the given filter conditions
+     *
+     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @param array $filter
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeForAdvancedFilter($query, array $filter)
+    {
+        foreach (self::ADVANCED_FILTER_COLUMNS as $col) {
             if (!empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today());
@@ -143,23 +198,16 @@ class Transaction extends Model implements Auditable
                     $query->whereHas('supplier', function (Builder $query) use ($filter, $col) {
                         $query->where('id', $filter[$col])
                             ->orWhere('slug', $filter[$col])
-                            ->orWhere('name', $filter[$col]);
+                            ->orWhere('name', 'like', '%' . $filter[$col] . '%');
                     });
-                } elseif ($col == 'attendee' || $col == 'description') {
+                } elseif ($col == 'attendee' || $col == 'description' || $col == 'remarks') {
                     $query->where($col, 'like', '%' . $filter[$col] . '%');
                 } else {
                     $query->where($col, $filter[$col]);
                 }
             }
         }
-        if (!$skipDates) {
-            if (!empty($filter['date_start'])) {
-                $query->whereDate('date', '>=', $filter['date_start']);
-            }
-            if (!empty($filter['date_end'])) {
-                $query->whereDate('date', '<=', $filter['date_end']);
-            }
-        }
+
         return $query;
     }
 
@@ -203,6 +251,36 @@ class Transaction extends Model implements Auditable
         $pictures = $this->receipt_pictures ?? [];
         $pictures[] = $storedFile;
         $this->receipt_pictures = $pictures;
+    }
+
+    public function receiptPictureArray(): array
+    {
+        if (empty($this->receipt_pictures)) {
+            return [];
+        }
+        return collect($this->receipt_pictures)
+            ->filter(fn ($picture) => Storage::exists($picture))
+            ->map(function ($picture) {
+                $isImage = Str::startsWith(Storage::mimeType($picture), 'image/');
+                $thumbnail = $isImage
+                    ? (Storage::exists(thumb_path($picture))
+                        ? Storage::url(thumb_path($picture))
+                        : Storage::url($picture))
+                    : (Storage::exists(thumb_path($picture, 'jpeg'))
+                        ? Storage::url(thumb_path($picture, 'jpeg'))
+                        : null);
+                return [
+                    'name' => $picture,
+                    'type' => $isImage ? 'image' : 'file',
+                    'url' => Storage::url($picture),
+                    'mime_type' => Storage::mimeType($picture),
+                    'file_size' => bytes_to_human(Storage::size($picture)),
+                    'thumbnail_url' => $thumbnail,
+                    'thumbnail_size' => $thumbnail !== null ? config('accounting.thumbnail_size') : null,
+                ];
+            })
+            ->values()
+            ->toArray();
     }
 
     private static function createThumbnail($path, $dimensions)
@@ -314,5 +392,16 @@ class Transaction extends Model implements Auditable
             ->pluck('year')
             ->unique()
             ->toArray();
+    }
+
+    public function getIntermediateBalance()
+    {
+        return Transaction::query()
+            ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as sum')
+            ->where('wallet_id', $this->wallet_id)
+            ->where('receipt_no', '<=', $this->receipt_no)
+            ->orderBy('receipt_no', 'ASC')
+            ->pluck('sum')
+            ->first();
     }
 }

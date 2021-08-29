@@ -1,39 +1,30 @@
-@extends('layouts.app', ['wide_layout' => false])
+@extends('layouts.app')
 
 @section('title', __('Accounting'))
 
 @section('content')
-    <div class="card shadow-sm mb-4">
-        <div class="card-header d-flex justify-content-between">
-            <span>{{ __('Wallets') }}</span>
-            @can('configure-accounting')
-                <a href="{{ route('accounting.wallets') }}">{{ __('Manage') }}</a>
-            @endcan
-        </div>
-        <div class="list-group list-group-flush">
-            @forelse($wallets as $wallet)
-                @can('viewAny', App\Models\Accounting\Transaction::class)
-                    <a href="{{ route('accounting.transactions.index', $wallet) }}" class="list-group-item list-group-item-action">
-                        {{ $wallet->name }}
-                        <span class="float-right">{{ number_format($wallet->amount, 2) }}</span>
-                    </a>
-                @else
-                    <div class="list-group-item">{{ $wallet->name }}</div>
-                @endcan
-            @empty
-                <div class="list-group-item">
-                    {{ __('No wallets found.') }}
-                </div>
-            @endforelse
-        </div>
+    <div id="app">
+        <x-spinner />
     </div>
-
-    <p>
-        @can('viewAny', App\Models\Accounting\Category::class)
-            <a href="{{ route('accounting.categories') }}" class="btn btn-secondary">{{ __('Manage categories') }}</a>
-        @endcan
-        @can('viewAny', App\Models\Accounting\Project::class)
-            <a href="{{ route('accounting.projects') }}" class="btn btn-secondary">{{ __('Manage projects') }}</a>
-        @endcan
-    </p>
 @endsection
+
+@push('head')
+    @php
+        $permissions = [
+            'view-transactions' => Auth::user()->can('viewAny', App\Models\Accounting\Transaction::class),
+            'configure-accounting' => Gate::allows('configure-accounting'),
+            'view-accounting-categories' => Auth::user()->can('viewAny', App\Models\Accounting\Category::class),
+            'view-accounting-projects' => Auth::user()->can('viewAny', App\Models\Accounting\Project::class),
+            'create-transactions' => Auth::user()->can('create', App\Models\Accounting\Transaction::class),
+            'view-accounting-summary' => Gate::allows('view-accounting-summary'),
+            'export-to-webling' => Auth::user()->can('book-accounting-transactions-externally')
+                        && config('services.webling.api_url') !== null
+                        && config('services.webling.api_key') !== null,
+            'view-suppliers' => Auth::user()->can('viewAny',  App\Models\Accounting\Supplier::class),
+            'manage-suppliers' => Gate::allows('manage-suppliers'),
+        ];
+    @endphp
+    <script>
+        window.Laravel.permissions = @json($permissions)
+    </script>
+@endpush

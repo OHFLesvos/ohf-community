@@ -37,6 +37,17 @@ import {
     faUser,
     faUsers,
     faCalendarAlt,
+    faFile,
+    faImage,
+    faImages,
+    faSearch,
+    faCalculator,
+    faCloudUploadAlt,
+    faWallet,
+    faTag,
+    faMoneyBillAlt,
+    faTruck,
+    faHome
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -77,6 +88,17 @@ library.add(
     faUser,
     faUsers,
     faCalendarAlt,
+    faFile,
+    faImage,
+    faImages,
+    faSearch,
+    faCalculator,
+    faCloudUploadAlt,
+    faWallet,
+    faTag,
+    faMoneyBillAlt,
+    faTruck,
+    faHome
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

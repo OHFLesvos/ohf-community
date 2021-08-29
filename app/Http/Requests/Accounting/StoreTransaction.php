@@ -84,6 +84,10 @@ class StoreTransaction extends FormRequest
                 'nullable',
                 'exists:suppliers,id',
             ],
+            'delete_receipts' => [
+                'nullable',
+                'array',
+            ]
         ];
     }
 
