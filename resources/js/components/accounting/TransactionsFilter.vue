@@ -54,12 +54,20 @@
             <b-form-row>
                 <b-col sm>
                     <b-form-group :label="$t('From')">
-                        <b-form-input type="date" v-model="filter.date_start" />
+                        <b-form-input
+                            type="date"
+                            v-model="filter.date_start"
+                            :max="filter.date_end"
+                        />
                     </b-form-group>
                 </b-col>
                 <b-col sm>
                     <b-form-group :label="$t('To')">
-                        <b-form-input type="date" v-model="filter.date_end" />
+                        <b-form-input
+                            type="date"
+                            v-model="filter.date_end"
+                            :min="filter.date_start"
+                        />
                     </b-form-group>
                 </b-col>
             </b-form-row>

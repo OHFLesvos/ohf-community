@@ -174,10 +174,9 @@ class Transaction extends Model implements Auditable
      *
      * @param \Illuminate\Database\Eloquent\Builder  $query
      * @param array $filter
-     * @param bool|null $skipDates
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForAdvancedFilter($query, array $filter, ?bool $skipDates = false)
+    public function scopeForAdvancedFilter($query, array $filter)
     {
         foreach (self::ADVANCED_FILTER_COLUMNS as $col) {
             if (!empty($filter[$col])) {
@@ -208,14 +207,7 @@ class Transaction extends Model implements Auditable
                 }
             }
         }
-        if (!$skipDates) {
-            if (!empty($filter['date_start'])) {
-                $query->whereDate('date', '>=', $filter['date_start']);
-            }
-            if (!empty($filter['date_end'])) {
-                $query->whereDate('date', '<=', $filter['date_end']);
-            }
-        }
+
         return $query;
     }
 

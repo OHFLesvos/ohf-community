@@ -10,19 +10,39 @@ class TransactionsExport extends BaseTransactionsExport
     private ?string $filter;
 
     /**
-     * Filter conditions
-     *
-     * @var array<string>
+     * @var string[]
      */
     private array $advancedFilter;
 
+    /**
+     * @var string|Carbon
+     */
+    private $dateFrom;
+
+    /**
+     * @var string|Carbon
+     */
+    private $dateTo;
+
     private Wallet $wallet;
 
-    public function __construct(Wallet $wallet, ?string $filter = null, array $advancedFilter = [])
-    {
+    /**
+     * @param string[] $advancedFilter
+     * @param string|Carbon $dateFrom
+     * @param string|Carbon $dateTo
+     */
+    public function __construct(
+        Wallet $wallet,
+        ?string $filter = null,
+        array $advancedFilter = [],
+        $dateFrom = null,
+        $dateTo = null
+    ) {
         $this->wallet = $wallet;
         $this->filter = $filter;
         $this->advancedFilter = $advancedFilter;
+        $this->dateFrom = $dateFrom;
+        $this->dateTo = $dateTo;
         $this->orientation = 'landscape';
     }
 
@@ -32,6 +52,14 @@ class TransactionsExport extends BaseTransactionsExport
             ->forWallet($this->wallet)
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
+            ->when(
+                !empty($this->dateFrom),
+                fn ($qry) => $qry->whereDate('date', '>=', $this->dateFrom)
+            )
+            ->when(
+                !empty($this->dateTo),
+                fn ($qry) => $qry->whereDate('date', '<=', $this->dateTo)
+            )
             ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC');
     }

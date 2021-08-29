@@ -41,11 +41,10 @@ class TransactionsMonthSheet extends BaseTransactionsExport
         return Transaction::query()
             ->forWallet($this->wallet)
             ->forFilter($this->filter)
-            ->forAdvancedFilter($this->advancedFilter, true)
+            ->forAdvancedFilter($this->advancedFilter)
+            ->forDateRange($dateFrom, $dateTo)
             ->orderBy('date', 'ASC')
-            ->orderBy('created_at', 'ASC')
-            ->whereDate('date', '>=', $dateFrom)
-            ->whereDate('date', '<=', $dateTo);
+            ->orderBy('created_at', 'ASC');
     }
 
     public function title(): string

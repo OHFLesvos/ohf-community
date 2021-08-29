@@ -5,11 +5,7 @@
             {{ $t("Export") }}
         </b-button>
         <form ref="form" @submit.stop.prevent="handleSubmit">
-            <b-modal
-                v-model="modalShow"
-                :title="$t('Export')"
-                @ok="handleOk"
-            >
+            <b-modal v-model="modalShow" :title="$t('Export')" @ok="handleOk">
                 <b-form-group :label="$t('File format')" class="mb-3">
                     <b-form-radio-group
                         v-model="format"
@@ -40,24 +36,18 @@
                 </b-form-group>
 
                 <template #modal-footer="{ ok, cancel }">
-                    <template  v-if="isBusy" >
+                    <template v-if="isBusy">
                         <b-spinner class="align-middle mr-2"></b-spinner>
-                        {{ $t('Generating file...') }}
+                        {{ $t("Generating file...") }}
                     </template>
                     <template v-else>
-                        <b-button
-                            variant="secondary"
-                            @click="cancel()"
-                        >
+                        <b-button variant="secondary" @click="cancel()">
                             {{ $t("Cancel") }}
                         </b-button>
-                        <b-button
-                            variant="primary"
-                            @click="ok()"
-                        >
+                        <b-button variant="primary" @click="ok()">
                             {{ $t("Export") }}
                         </b-button>
-                        </template>
+                    </template>
                 </template>
             </b-modal>
         </form>
@@ -151,11 +141,18 @@ export default {
                     this.advancedFilter &&
                     Object.keys(this.advancedFilter).length > 0
                 ) {
+                    console.log(this.advancedFilter);
                     Object.entries(this.advancedFilter).forEach(function([
                         key,
                         value
                     ]) {
-                        params[`advanced_filter[${key}]`] = value;
+                        if (key == "date_start") {
+                            params["date_start"] = value;
+                        } else if (key == "date_end") {
+                            params["date_end"] = value;
+                        } else {
+                            params[`advanced_filter[${key}]`] = value;
+                        }
                     });
                 }
             }

@@ -53,12 +53,31 @@ class ExportController extends Controller
 
     protected function exportExportable(Request $request)
     {
+        $request->validate([
+            'filter' => [
+                'nullable',
+                'string',
+            ],
+            'advanced_filter' => [
+                'nullable',
+                'array',
+            ],
+            'date_start' => [
+                'nullable',
+                'date',
+            ],
+            'date_end' => [
+                'nullable',
+                'date',
+            ],
+        ]);
+
         $wallet = Wallet::findOrFail($request->route('wallet'));
         $filter = $request->input('filter', '');
         $advancedFilter = $request->input('advanced_filter', []);
         if ($request->grouping == 'monthly') {
             return new TransactionsMonthsExport($wallet, $filter, $advancedFilter);
         }
-        return new TransactionsExport($wallet, $filter, $advancedFilter);
+        return new TransactionsExport($wallet, $filter, $advancedFilter, $request->date_start, $request->date_end);
     }
 }

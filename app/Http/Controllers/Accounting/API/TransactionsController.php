@@ -36,6 +36,12 @@ class TransactionsController extends Controller
             'attendee',
             'receipt_no',
         ]);
+        $request->validate([
+            'advanced_filter' => [
+                'nullable',
+                'array',
+            ],
+        ]);
 
         $advanced_filter = $this->parseAdvancedFilter($request);
 
@@ -43,6 +49,14 @@ class TransactionsController extends Controller
             ->forWallet($wallet)
             ->when($request->filled('filter'), fn ($qry) => $qry->forFilter($request->input('filter')))
             ->when(count($advanced_filter) > 0, fn ($qry) => $qry->forAdvancedFilter($advanced_filter))
+            ->when(
+                !empty($request->advanced_filter['date_start']),
+                fn ($qry) => $qry->whereDate('date', '>=', $request->advanced_filter['date_start'])
+            )
+            ->when(
+                !empty($request->advanced_filter['date_end']),
+                fn ($qry) => $qry->whereDate('date', '<=', $request->advanced_filter['date_end'])
+            )
             ->orderBy($this->getSortBy('created_at'), $this->getSortDirection('desc'))
             ->orderBy('created_at', 'desc')
             ->with('supplier')
@@ -58,12 +72,6 @@ class TransactionsController extends Controller
             if (!empty($request->advanced_filter[$col])) {
                 $advanced_filter[$col] = $request->advanced_filter[$col];
             }
-        }
-        if (!empty($request->advanced_filter['date_start'])) {
-            $advanced_filter['date_start'] = $request->advanced_filter['date_start'];
-        }
-        if (!empty($request->advanced_filter['date_end'])) {
-            $advanced_filter['date_end'] = $request->advanced_filter['date_end'];
         }
 
         return $advanced_filter;
@@ -139,7 +147,7 @@ class TransactionsController extends Controller
 
         $transaction->supplier()->associate($request->input('supplier_id'));
 
-        foreach($request->input('delete_receipts', []) as $picture) {
+        foreach ($request->input('delete_receipts', []) as $picture) {
             $transaction->deleteReceiptPicture($picture);
         }
 
