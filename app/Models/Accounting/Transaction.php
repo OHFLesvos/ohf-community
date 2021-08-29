@@ -278,6 +278,7 @@ class Transaction extends Model implements Auditable
                         ? Storage::url(thumb_path($picture, 'jpeg'))
                         : null);
                 return [
+                    'name' => $picture,
                     'type' => $isImage ? 'image' : 'file',
                     'url' => Storage::url($picture),
                     'mime_type' => Storage::mimeType($picture),

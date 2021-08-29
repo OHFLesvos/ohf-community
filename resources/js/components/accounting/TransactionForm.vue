@@ -338,6 +338,30 @@
                 </b-col>
             </b-form-row>
 
+            <b-form-row v-if="transaction.receipt_pictures.length > 0" class="mb-3">
+                <b-col
+                    cols="auto"
+                    v-for="picture in transaction.receipt_pictures"
+                    :key="picture.url"
+                    class="mb-2"
+                >
+                    <ThumbnailImage
+                        v-if="picture.thumbnail_url"
+                        :url="picture.thumbnail_url"
+                        :size="picture.thumbnail_size"
+                    />
+                    <span v-else class="display-4" :title="picture.mime_type">
+                        <font-awesome-icon icon="file" />
+                    </span>
+                    <b-form-checkbox
+                        v-model="form.delete_receipts"
+                        :value="picture.name"
+                    >
+                        {{ $t("Delete") }}
+                    </b-form-checkbox>
+                </b-col>
+            </b-form-row>
+
             <p class="d-flex justify-content-between align-items-start">
                 <span>
                     <!-- Submit -->
@@ -381,7 +405,11 @@ import transactionsApi from "@/api/accounting/transactions";
 import categoriesApi from "@/api/accounting/categories";
 import projectsApi from "@/api/accounting/projects";
 import suppliersApi from "@/api/accounting/suppliers";
+import ThumbnailImage from "@/components/ThumbnailImage";
 export default {
+    components: {
+        ThumbnailImage
+    },
     props: {
         transaction: {
             type: Object,
@@ -413,10 +441,13 @@ export default {
                       cost_center: this.transaction.cost_center,
                       description: this.transaction.description,
                       supplier_id: this.transaction.supplier_id,
-                      remarks: this.transaction.remarks
+                      remarks: this.transaction.remarks,
+                      delete_receipts: []
                   }
                 : {
-                      receipt_no: this.defaultReceiptNumber ? this.defaultReceiptNumber : null,
+                      receipt_no: this.defaultReceiptNumber
+                          ? this.defaultReceiptNumber
+                          : null,
                       date: moment().format(moment.HTML5_FMT.DATE),
                       type: null,
                       amount: null,
@@ -429,7 +460,8 @@ export default {
                       cost_center: null,
                       description: null,
                       supplier_id: null,
-                      remarks: null
+                      remarks: null,
+                      delete_receipts: []
                   },
             loaded: false,
             typeOptions: [

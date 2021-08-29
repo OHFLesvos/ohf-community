@@ -139,6 +139,10 @@ class TransactionsController extends Controller
 
         $transaction->supplier()->associate($request->input('supplier_id'));
 
+        foreach($request->input('delete_receipts', []) as $picture) {
+            $transaction->deleteReceiptPicture($picture);
+        }
+
         $transaction->save();
 
         return response(null, Response::HTTP_NO_CONTENT);
@@ -158,7 +162,6 @@ class TransactionsController extends Controller
             ],
         ]);
 
-        // $transaction->deleteReceiptPictures();
         for ($i = 0; $i < count($request->img); $i++) {
             $transaction->addReceiptPicture($request->file('img')[$i]);
         }
