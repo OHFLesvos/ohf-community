@@ -31,21 +31,21 @@ export default [
                     {
                         to: { name: "accounting.categories.index" },
                         icon: "tag",
-                        text: i18n.t("Manage categories"),
+                        text: i18n.t("Categories"),
                         show: can("view-accounting-categories")
                     },
                     {
                         to: { name: "accounting.projects.index" },
                         icon: "tag",
-                        text: i18n.t("Manage projects"),
+                        text: i18n.t("Projects"),
                         show: can("view-accounting-projects")
                     },
                     {
-                        to: { name: "accounting.wallets.index" },
+                        to: { name: "accounting.suppliers.index" },
                         variant: "secondary",
-                        icon: "wallet",
-                        text: i18n.t("Manage wallets"),
-                        show: can("configure-accounting")
+                        icon: "truck",
+                        text: i18n.t("Suppliers"),
+                        show: can("view-suppliers") || can("manage-suppliers")
                     }
                 ],
                 container: true
@@ -75,7 +75,7 @@ export default [
                     },
                     {
                         to: { name: "accounting.index" },
-                        icon: "money-bill-alt",
+                        icon: "home",
                         text: i18n.t("Overview"),
                         show:
                             can("view-accounting-summary") ||
@@ -144,7 +144,7 @@ export default [
                     },
                     {
                         to: { name: "accounting.index" },
-                        icon: "money-bill-alt",
+                        icon: "home",
                         text: i18n.t("Overview"),
                         show:
                             can("view-accounting-summary") ||
@@ -231,7 +231,7 @@ export default [
                     },
                     {
                         to: { name: "accounting.index" },
-                        icon: "money-bill-alt",
+                        icon: "home",
                         text: i18n.t("Overview"),
                         show:
                             can("view-accounting-summary") ||
@@ -289,7 +289,7 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Overview"),
+                title: i18n.t("Suppliers"),
                 buttons: [
                     {
                         to: { name: "accounting.suppliers.create" },
@@ -297,6 +297,14 @@ export default [
                         icon: "plus-circle",
                         text: i18n.t("Add"),
                         show: can("manage-suppliers")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "money-bill-alt",
+                        text: i18n.t("Accounting"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ]
             }
@@ -406,7 +414,7 @@ export default [
                 buttons: [
                     {
                         to: { name: "accounting.index" },
-                        icon: "list",
+                        icon: "home",
                         text: i18n.t("Overview")
                     }
                 ]
@@ -455,6 +463,14 @@ export default [
                         icon: "cloud-upload-alt",
                         text: i18n.t("Webling"),
                         show: can("export-to-webling")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
                     }
                 ]
             })

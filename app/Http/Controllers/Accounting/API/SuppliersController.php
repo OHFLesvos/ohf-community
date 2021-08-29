@@ -136,7 +136,7 @@ class SuppliersController extends Controller
 
         return TransactionResource::collection($supplier->transactions()
             ->orderBy($sortBy, $sortDirection)
-            ->forFilter(['description' => $filter])
+            ->forFilter($filter)
             ->paginate($pageSize));
     }
 

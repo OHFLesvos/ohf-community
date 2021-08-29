@@ -83,17 +83,15 @@
                 v-if="transaction.supplier"
                 :title="$t('Supplier')"
             >
-                <a
+                <router-link
                     v-if="transaction.supplier.can_view"
-                    :href="
-                        route(
-                            'accounting.suppliers.show',
-                            transaction.supplier.slug
-                        )
-                    "
+                    :to="{
+                        name: 'accounting.suppliers.show',
+                        params: { id: transaction.supplier.slug }
+                    }"
                 >
                     {{ transaction.supplier.name }}
-                </a>
+                </router-link>
                 <template v-else>
                     {{ transaction.supplier.name }}
                 </template>

@@ -2,10 +2,7 @@
     <div>
         <tab-nav :items="tabNavItems">
             <template v-slot:after(transactions)>
-                <b-badge
-                    v-if="transactionsCount > 0"
-                    class="ml-1"
-                >
+                <b-badge v-if="transactionsCount > 0" class="ml-1">
                     {{ transactionsCount }}
                 </b-badge>
             </template>
@@ -15,8 +12,8 @@
 </template>
 
 <script>
-import TabNav from '@/components/layout/TabNav'
-import suppliersApi from '@/api/accounting/suppliers'
+import TabNav from "@/components/layout/TabNav";
+import suppliersApi from "@/api/accounting/suppliers";
 export default {
     components: {
         TabNav
@@ -26,41 +23,41 @@ export default {
             required: true
         }
     },
-    data () {
+    data() {
         return {
             transactionsCount: null,
             tabNavItems: [
                 {
-                    to: { name: 'accounting.suppliers.show' },
-                    icon: 'info',
-                    text: this.$t('Details')
+                    to: { name: "accounting.suppliers.show" },
+                    icon: "info",
+                    text: this.$t("Details")
                 },
                 {
-                    to: { name: 'accounting.suppliers.show.transactions' },
-                    icon: 'list',
-                    text: this.$t('Transactions'),
-                    key: 'transactions'
-                },
+                    to: { name: "accounting.suppliers.show.transactions" },
+                    icon: "list",
+                    text: this.$t("Transactions"),
+                    key: "transactions"
+                }
             ]
-        }
+        };
     },
     watch: {
         $route() {
-            this.fetchData()
+            this.fetchData();
         }
     },
-    async created () {
-        this.fetchData()
+    async created() {
+        this.fetchData();
     },
     methods: {
-        async fetchData () {
+        async fetchData() {
             try {
-                let data = await suppliersApi.find(this.id)
-                this.transactionsCount = data.data.transactions_count
+                let data = await suppliersApi.find(this.id);
+                this.transactionsCount = data.data.transactions_count;
             } catch (err) {
-                this.error = err
+                this.error = err;
             }
-        },
+        }
     }
-}
+};
 </script>

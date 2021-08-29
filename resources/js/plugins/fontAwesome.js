@@ -45,7 +45,9 @@ import {
     faCloudUploadAlt,
     faWallet,
     faTag,
-    faMoneyBillAlt
+    faMoneyBillAlt,
+    faTruck,
+    faHome
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -94,7 +96,9 @@ library.add(
     faCloudUploadAlt,
     faWallet,
     faTag,
-    faMoneyBillAlt
+    faMoneyBillAlt,
+    faTruck,
+    faHome
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

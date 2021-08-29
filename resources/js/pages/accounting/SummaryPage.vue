@@ -68,18 +68,21 @@
             caption-top
         >
             <template #cell(name)="data">
-                <a
+                <router-link
                     v-if="can('view-transactions')"
-                    :href="
-                        route('accounting.transactions.index', {
+                    :to="{
+                        name: 'accounting.transactions.index',
+                        params: {
                             wallet: data.item.id,
+                        },
+                        query: {
                             'filter[date_start]': filterDateStart,
                             'filter[date_end]': filterDateEnd
-                        })
-                    "
+                        }
+                    }"
                 >
                     {{ data.value }}
-                </a>
+                </router-link>
                 <template v-else>
                     {{ data.value }}
                 </template>

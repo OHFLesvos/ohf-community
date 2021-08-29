@@ -20,6 +20,7 @@
             'export-to-webling' => Auth::user()->can('book-accounting-transactions-externally')
                         && config('services.webling.api_url') !== null
                         && config('services.webling.api_key') !== null,
+            'view-suppliers' => Auth::user()->can('viewAny',  App\Models\Accounting\Supplier::class),
             'manage-suppliers' => Gate::allows('manage-suppliers'),
         ];
     @endphp

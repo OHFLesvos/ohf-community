@@ -11,19 +11,24 @@
             :items-per-page="25"
         >
             <template v-slot:cell(receipt_no)="data">
-                <a :href="route('accounting.transactions.show', data.item)">
+                <router-link
+                    :to="{
+                        name: 'accounting.transactions.show',
+                        params: { id: data.item.id }
+                    }"
+                >
                     {{ data.value }}
-                </a>
+                </router-link>
             </template>
         </base-table>
     </div>
 </template>
 
 <script>
-import moment from 'moment'
-import numeral from 'numeral'
-import suppliersApi from '@/api/accounting/suppliers'
-import BaseTable from '@/components/table/BaseTable'
+import moment from "moment";
+import numeral from "numeral";
+import suppliersApi from "@/api/accounting/suppliers";
+import BaseTable from "@/components/table/BaseTable";
 export default {
     components: {
         BaseTable
@@ -33,72 +38,72 @@ export default {
             required: true
         }
     },
-    data () {
+    data() {
         return {
             transactionFields: [
                 {
-                    key: 'receipt_no',
-                    label: this.$t('Receipt No.'),
+                    key: "receipt_no",
+                    label: this.$t("Receipt No."),
                     sortable: true,
-                    class: 'text-right fit'
+                    class: "text-right fit"
                 },
                 {
-                    key: 'date',
-                    label: this.$t('Date'),
+                    key: "date",
+                    label: this.$t("Date"),
                     sortable: true,
                     formatter: this.dateFormat,
-                    class: 'fit'
+                    class: "fit"
                 },
                 {
-                    key: 'amount',
-                    label: this.$t('Amount'),
+                    key: "amount",
+                    label: this.$t("Amount"),
                     formatter: (value, key, item) => {
-                        let val = value
-                        if (item.type == 'spending') {
-                            val = -val
+                        let val = value;
+                        if (item.type == "spending") {
+                            val = -val;
                         }
-                        return numeral(val).format('0,0.00')
+                        return numeral(val).format("0,0.00");
                     },
-                    class: 'text-right fit',
+                    class: "text-right fit",
                     tdClass: (value, key, item) => {
-                        if (item.type == 'spending') {
-                            return 'text-danger'
+                        if (item.type == "spending") {
+                            return "text-danger";
                         }
-                        return 'text-success'
+                        return "text-success";
                     }
                 },
                 {
-                    key: 'category',
-                    label: this.$t('Category')
+                    key: "category",
+                    label: this.$t("Category")
                 },
                 {
-                    key: 'description',
-                    label: this.$t('Description')
+                    key: "description",
+                    label: this.$t("Description")
                 },
                 {
-                    key: 'attendee',
-                    label: this.$t('Attendee')
+                    key: "attendee",
+                    label: this.$t("Attendee")
                 },
                 {
-                    key: 'created_at',
-                    label: this.$t('Registered'),
+                    key: "created_at",
+                    label: this.$t("Registered"),
                     sortable: true,
                     formatter: this.dateTimeFormat,
-                    class: 'fit'
+                    class: "fit"
                 }
             ]
-        }
+        };
     },
     methods: {
-        fetchTransactions (ctx) {
-            return suppliersApi.transactions(this.id, ctx)
+        fetchTransactions(ctx) {
+            return suppliersApi.transactions(this.id, ctx);
         },
-        dateFormat (value) {
-            return moment(value).format('LL')
+        dateFormat(value) {
+            return moment(value).format("LL");
         },
-        dateTimeFormat (value) {
-            return moment(value).format('LLL')
+        dateTimeFormat(value) {
+            return moment(value).format("LLL");
         }
     }
-}
+};
 </script>
