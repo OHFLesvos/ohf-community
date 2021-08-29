@@ -286,6 +286,7 @@ class Transaction extends Model implements Auditable
                     'thumbnail_size' => $thumbnail !== null ? config('accounting.thumbnail_size') : null,
                 ];
             })
+            ->values()
             ->toArray();
     }
 
