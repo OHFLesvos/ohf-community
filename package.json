@@ -26,6 +26,7 @@
         "eslint": "^7.14.0",
         "eslint-plugin-vue": "^7.1.0",
         "fslightbox": "^3.2.2",
+        "fslightbox-vue": "^1.2.0",
         "google-palette": "^1.1.0",
         "iban": "0.0.14",
         "jquery": "^3.5.1",
@@ -51,8 +52,5 @@
         "vue-router": "^3.4.7",
         "vue-template-compiler": "^2.6.12",
         "vuex": "^3.5.1"
-    },
-    "dependencies": {
-        "fslightbox-vue": "^1.2.0"
     }
 }
