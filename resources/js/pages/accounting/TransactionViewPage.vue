@@ -140,7 +140,7 @@
                 <template v-if="transaction.controlled_at">
                     {{ transaction.controlled_at | dateTimeFormat }}
                     <template v-if="transaction.controlled_by">
-                        ({{ transaction.controller_name }})
+                        <small>({{ transaction.controller_name }})</small>
                         <button
                             v-if="transaction.can_undo_controlling"
                             class="btn btn-secondary btn-sm undo-controlled"
@@ -201,7 +201,10 @@
                 </p>
             </two-col-list-group-item>
             <b-list-group-item
-                v-if="this.transaction.receipt_pictures.length > 0 || transaction.can_update"
+                v-if="
+                    this.transaction.receipt_pictures.length > 0 ||
+                        transaction.can_update
+                "
             >
                 <TransactionPictures :transaction="transaction" />
             </b-list-group-item>
@@ -252,7 +255,7 @@ export default {
     data() {
         return {
             transaction: null,
-            isBusy: false,
+            isBusy: false
         };
     },
     watch: {
