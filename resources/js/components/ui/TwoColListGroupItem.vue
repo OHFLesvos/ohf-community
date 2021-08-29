@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { BListGroupItem, BRow, BCol } from 'bootstrap-vue'
 export default {
     components: {
         BListGroupItem,

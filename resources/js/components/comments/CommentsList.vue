@@ -64,7 +64,6 @@
 
 <script>
 import commentsApi from "@/api/comments";
-import { BButton } from "bootstrap-vue";
 import CommentEditor from "@/components/comments/CommentEditor";
 import CommentCard from "@/components/comments/CommentCard";
 import { showSnackbar } from "@/utils";

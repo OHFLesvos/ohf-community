@@ -43,7 +43,6 @@
 
 <script>
 import Nl2br from 'vue-nl2br'
-import { BCard, BCardText, BButton } from 'bootstrap-vue'
 export default {
     components: {
         BCard,

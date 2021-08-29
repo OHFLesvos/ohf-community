@@ -48,7 +48,6 @@
 
 <script>
 import _ from 'lodash'
-import { BButton } from 'bootstrap-vue'
 import TagEditor from '@/components/tags/TagEditor'
 import { showSnackbar } from '@/utils'
 export default {

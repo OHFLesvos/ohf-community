@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { BButton } from 'bootstrap-vue'
 import TagInput from '@/components/tags/TagInput'
 export default {
     components: {
