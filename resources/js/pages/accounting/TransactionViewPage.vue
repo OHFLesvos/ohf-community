@@ -201,22 +201,20 @@
                 </p>
             </two-col-list-group-item>
             <b-list-group-item
-                v-if="receiptPictures.length > 0 || transaction.can_update"
+                v-if="pictures.length > 0 || transaction.can_update"
             >
                 <b-form-row>
                     <b-col
                         cols="auto"
-                        v-for="picture in receiptPictures"
+                        v-for="(picture, idx) in pictures"
                         :key="picture.url"
                         class="mb-2"
                     >
                         <a
                             :href="picture.url"
-                            :data-fslightbox="
-                                picture.type == 'image' ? 'gallery' : null
-                            "
                             :target="picture.type == 'file' ? '_blank' : null"
                             :title="picture.mime_type"
+                            @click="openLightbox($event, idx)"
                         >
                             <ThumbnailImage
                                 v-if="picture.thumbnail_url"
@@ -236,13 +234,20 @@
                         </template>
                     </b-col>
                 </b-form-row>
+                <FsLightbox
+                    v-if="this.actualImages.length > 0"
+                    :toggler="toggler"
+                    :sourceIndex="sourceIndex"
+                    :sources="actualImages.map(i => i.url)"
+                    :key="this.actualImages.length"
+                />
                 <template v-if="transaction.can_update">
                     <b-button
                         @click="$refs.fileInput.click()"
                         :disabled="isBusy"
                     >
                         <font-awesome-icon :icon="icon" :spin="iconSpin" />
-                        {{ $t('Add picture') }}
+                        {{ $t("Add picture") }}
                     </b-button>
                     <input
                         ref="fileInput"
@@ -285,7 +290,7 @@
 </template>
 
 <script>
-import "fslightbox";
+import FsLightbox from "fslightbox-vue";
 import transactionsApi from "@/api/accounting/transactions";
 import numeral from "numeral";
 import moment from "moment";
@@ -294,7 +299,8 @@ import ThumbnailImage from "@/components/ThumbnailImage";
 export default {
     components: {
         TwoColListGroupItem,
-        ThumbnailImage
+        ThumbnailImage,
+        FsLightbox
     },
     props: {
         id: {
@@ -305,11 +311,16 @@ export default {
         return {
             transaction: null,
             isBusy: false,
-            receiptPictures: [],
+            pictures: [],
             isUploading: false,
+            toggler: false,
+            sourceIndex: 0
         };
     },
     computed: {
+        actualImages() {
+            return this.pictures.filter(i => i.type == "image");
+        },
         icon() {
             if (this.isUploading) {
                 return "spinner";
@@ -318,7 +329,7 @@ export default {
         },
         iconSpin() {
             return this.isUploading == true;
-        },
+        }
     },
     watch: {
         $route() {
@@ -333,7 +344,7 @@ export default {
             try {
                 let data = await transactionsApi.find(this.id);
                 this.transaction = data.data;
-                this.receiptPictures = this.transaction.receipt_pictures;
+                this.pictures = this.transaction.receipt_pictures;
                 this.$nextTick(() => refreshFsLightbox());
             } catch (err) {
                 alert(err);
@@ -392,12 +403,18 @@ export default {
                     this.transaction,
                     event.target.files
                 );
-                this.receiptPictures = data;
+                this.pictures = data;
             } catch (err) {
                 alert(err);
             }
             this.isUploading = false;
             this.isBusy = false;
+        },
+        openLightbox(evt, idx)
+        {
+            evt.preventDefault();
+            this.sourceIndex = idx;
+            this.toggler = !this.toggler;
         }
     }
 };
