@@ -47,7 +47,8 @@ import {
     faTag,
     faMoneyBillAlt,
     faTruck,
-    faHome
+    faHome,
+    faEraser
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -98,7 +99,8 @@ library.add(
     faTag,
     faMoneyBillAlt,
     faTruck,
-    faHome
+    faHome,
+    faEraser
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
