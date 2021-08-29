@@ -200,11 +200,13 @@
                     </button>
                 </p>
             </two-col-list-group-item>
-            <b-list-group-item v-if="transaction.receipt_pictures.length > 0">
+            <b-list-group-item
+                v-if="receiptPictures.length > 0 || transaction.can_update"
+            >
                 <b-form-row>
                     <b-col
                         cols="auto"
-                        v-for="picture in transaction.receipt_pictures"
+                        v-for="picture in receiptPictures"
                         :key="picture.url"
                         class="mb-2"
                     >
@@ -234,8 +236,26 @@
                         </template>
                     </b-col>
                 </b-form-row>
+                <template v-if="transaction.can_update">
+                    <b-button
+                        @click="$refs.fileInput.click()"
+                        :disabled="isBusy"
+                    >
+                        <font-awesome-icon :icon="icon" :spin="iconSpin" />
+                        {{ $t('Add picture') }}
+                    </b-button>
+                    <input
+                        ref="fileInput"
+                        type="file"
+                        accept="image/*,application/pdf"
+                        multiple
+                        @change="addReceiptPicture"
+                        v-show="false"
+                    />
+                </template>
             </b-list-group-item>
         </b-list-group>
+
         <p>
             <router-link
                 v-if="transaction.can_update"
@@ -284,8 +304,21 @@ export default {
     data() {
         return {
             transaction: null,
-            isBusy: false
+            isBusy: false,
+            receiptPictures: [],
+            isUploading: false,
         };
+    },
+    computed: {
+        icon() {
+            if (this.isUploading) {
+                return "spinner";
+            }
+            return "upload";
+        },
+        iconSpin() {
+            return this.isUploading == true;
+        },
     },
     watch: {
         $route() {
@@ -300,6 +333,7 @@ export default {
             try {
                 let data = await transactionsApi.find(this.id);
                 this.transaction = data.data;
+                this.receiptPictures = this.transaction.receipt_pictures;
                 this.$nextTick(() => refreshFsLightbox());
             } catch (err) {
                 alert(err);
@@ -344,6 +378,25 @@ export default {
             } catch (err) {
                 alert(err);
             }
+            this.isBusy = false;
+        },
+        async addReceiptPicture(event) {
+            const files = event.target.files;
+            if (files.length == 0) {
+                return;
+            }
+            this.isBusy = true;
+            this.isUploading = true;
+            try {
+                let data = await transactionsApi.updateReceipt(
+                    this.transaction,
+                    event.target.files
+                );
+                this.receiptPictures = data;
+            } catch (err) {
+                alert(err);
+            }
+            this.isUploading = false;
             this.isBusy = false;
         }
     }

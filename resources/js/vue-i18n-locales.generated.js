@@ -672,6 +672,7 @@ export default {
         "Do you really want to disable Two-Factor Authentication for {name}?": "Soll die Zwei-Faktor-Authentifizierung für {name} wirklich deaktiviert werden?",
         "Do you really want to disable OAuth for {name}?": "Soll OAuth für {name} wirklich deaktiviert werden?",
         "Avatar": "Avatar",
+        "Add picture": "Bild hinzufügen",
         "Change picture": "Bild ändern",
         "New user account registered at {app_name}": "Neues Benutzerkonto registriert bei {app_name}",
         "New user registered: {name}": "Neuer Benutzer registriert: {name}",

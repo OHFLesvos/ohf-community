@@ -158,7 +158,7 @@ class TransactionsController extends Controller
             ],
         ]);
 
-        $transaction->deleteReceiptPictures();
+        // $transaction->deleteReceiptPictures();
         for ($i = 0; $i < count($request->img); $i++) {
             $transaction->addReceiptPicture($request->file('img')[$i]);
         }
