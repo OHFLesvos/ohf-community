@@ -62,7 +62,7 @@ export default {
                 let data = await this.suggestionsProvider()
                 this.tagify.settings.whitelist = data.data.map(t => t.name)
             } catch (err) {
-                console.log(err)
+                console.error(err)
             }
         },
         async fetchTags (value) {
@@ -82,7 +82,7 @@ export default {
                 this.tagify.settings.whitelist.splice(0, whitelist.length, ...whitelist)
                 this.tagify.loading(false).dropdown.show.call(this.tagify, value) // render the suggestions dropdown
             } catch (err) {
-                console.log(err)
+                console.error(err)
             }
         }
     }

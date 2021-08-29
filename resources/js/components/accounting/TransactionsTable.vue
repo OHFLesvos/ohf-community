@@ -34,7 +34,8 @@
                         <TransactionExportDialog
                             :wallet="wallet"
                             :filter="data.filter"
-                            :advancedFilter="advancedFilter" />
+                            :advancedFilter="advancedFilter"
+                        />
                     </b-col>
                 </b-form-row>
             </template>
@@ -81,6 +82,7 @@
 </template>
 
 <script>
+import qs from "qs";
 import moment from "moment";
 import numeral from "numeral";
 import walletsApi from "@/api/accounting/wallets";
@@ -95,7 +97,7 @@ export default {
         BaseTable,
         ReceiptPictureUpload,
         TransactionsFilter,
-        TransactionExportDialog,
+        TransactionExportDialog
     },
     props: {
         wallet: {
@@ -107,15 +109,23 @@ export default {
         showIntermediateBalances: Boolean
     },
     data() {
-        const persitedAdvancedFilter = sessionStorage.getItem(
-            "accounting.transactions.advancedFilter"
-        );
+        let advancedFilter = {};
+        const queryParams = qs.parse(this.$route.query);
+        if (queryParams.filter && Object.keys(queryParams.filter).length > 0) {
+            advancedFilter = queryParams.filter;
+            sessionStorage.removeItem("accounting.transactions.advancedFilter");
+        } else {
+            const persitedAdvancedFilter = sessionStorage.getItem(
+                "accounting.transactions.advancedFilter"
+            );
+            if (persitedAdvancedFilter) {
+                advancedFilter = JSON.parse(persitedAdvancedFilter);
+            }
+        }
         return {
             isBusy: false,
             wallets: [],
-            advancedFilter: persitedAdvancedFilter
-                ? JSON.parse(persitedAdvancedFilter)
-                : {},
+            advancedFilter: advancedFilter,
             fields: [
                 {
                     key: "receipt_pictures",

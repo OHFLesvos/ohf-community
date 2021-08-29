@@ -141,7 +141,6 @@ export default {
                     this.advancedFilter &&
                     Object.keys(this.advancedFilter).length > 0
                 ) {
-                    console.log(this.advancedFilter);
                     Object.entries(this.advancedFilter).forEach(function([
                         key,
                         value
