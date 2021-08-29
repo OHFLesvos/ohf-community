@@ -1,11 +1,12 @@
-import numberFormat from '@/plugins/numeral'
-import { roundWithDecimals } from '@/utils'
+import { numberFormat, decimalNumberFormat } from "@/utils/numbers";
+import { roundWithDecimals } from "@/utils";
 export default {
     methods: {
         numberFormat,
+        decimalNumberFormat,
         roundWithDecimals,
-        percentValue (value, total) {
-            return roundWithDecimals(value / total * 100, 1)
+        percentValue(value, total) {
+            return roundWithDecimals((value / total) * 100, 1);
         }
     }
-}
+};

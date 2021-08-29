@@ -32,10 +32,10 @@
                     class="mr-1"
                 >
                     <small class="text-muted">
-                        {{ data.item.currency }} {{ numberFormat(data.item.amount) }}
+                        {{ data.item.currency }} {{ data.item.amount | decimalNumberFormat }}
                     </small>
                 </span>
-                {{ baseCurrency }} {{ numberFormat(data.value) }}
+                {{ baseCurrency }} {{ data.value | decimalNumberFormat }}
             </template>
 
             <!-- Colgroup -->
@@ -52,7 +52,7 @@
                 <b-tr v-if="data.items.length > 0">
                     <b-th :colspan="1"></b-th>
                     <b-th class="text-right">
-                        <u>{{ baseCurrency }} {{ numberFormat(totalAmount(data.items)) }}</u>
+                        <u>{{ baseCurrency }} {{ totalAmount(data.items) | decimalNumberFormat }}</u>
                     </b-th>
                     <b-th :colspan="5"></b-th>
                 </b-tr>
@@ -63,7 +63,6 @@
 
 <script>
 import moment from 'moment'
-import numeral from 'numeral'
 import { roundWithDecimals } from '@/utils'
 export default {
     props: {
@@ -137,9 +136,6 @@ export default {
         }
     },
     methods: {
-        numberFormat (value) {
-            return numeral(value).format('0,0.00')
-        },
         totalAmount (items) {
             let sum = items.reduce((a,b) => a + parseFloat(b.exchange_amount), 0)
             return roundWithDecimals(sum, 2)

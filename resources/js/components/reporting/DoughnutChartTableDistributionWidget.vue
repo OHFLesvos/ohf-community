@@ -1,16 +1,13 @@
 <template>
-    <b-card
-        :header="title"
-        class="mb-4"
-        no-body
-    >
+    <b-card :header="title" class="mb-4" no-body>
         <template v-if="myData">
             <b-card-body>
                 <doughnut-chart
                     :title="title"
                     :data="myData"
                     :height="300"
-                    class="mb-2">
+                    class="mb-2"
+                >
                 </doughnut-chart>
             </b-card-body>
             <b-table-simple
@@ -19,10 +16,7 @@
                 small
                 class="my-0"
             >
-                <b-tr
-                    v-for="(value, label) in myData"
-                    :key="label"
-                >
+                <b-tr v-for="(value, label) in myData" :key="label">
                     <b-td class="fit">
                         {{ label }}
                     </b-td>
@@ -38,27 +32,26 @@
                         {{ percentValue(value, total) }}%
                     </b-td>
                     <b-td class="fit text-right d-none d-sm-table-cell">
-                        {{ numberFormat(value) }}
+                        {{ value | numberFormat }}
                     </b-td>
                 </b-tr>
             </b-table-simple>
         </template>
         <b-card-body v-else>
-            {{ $t('Loading...') }}
+            {{ $t("Loading...") }}
         </b-card-body>
     </b-card>
 </template>
 
 <script>
-import DoughnutChart from '@/components/charts/DoughnutChart'
-import numberFormatMixin from '@/mixins/numberFormatMixin'
+import DoughnutChart from "@/components/charts/DoughnutChart";
+import numberFormatMixin from "@/mixins/numberFormatMixin";
+
 export default {
     components: {
         DoughnutChart
     },
-    mixins: [
-        numberFormatMixin
-    ],
+    mixins: [numberFormatMixin],
     props: {
         title: {
             required: true,
@@ -69,22 +62,22 @@ export default {
             required: true
         }
     },
-    data () {
+    data() {
         return {
-            myData: null,
-        }
+            myData: null
+        };
     },
     computed: {
-        total () {
-            return Object.values(this.myData).reduce((a,b) => a + b, 0)
+        total() {
+            return Object.values(this.myData).reduce((a, b) => a + b, 0);
         }
     },
-    async created () {
-        if (typeof this.data === 'function') {
-            this.myData = await this.data()
+    async created() {
+        if (typeof this.data === "function") {
+            this.myData = await this.data();
         } else {
-            this.myData = this.data
+            this.myData = this.data;
         }
     }
-}
+};
 </script>

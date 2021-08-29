@@ -23,6 +23,7 @@ Vue.config.productionTip = false;
 import router from "@/router";
 import store from "@/store";
 import DefaultApp from "@/DefaultApp";
+import "@/plugins/filters";
 
 if (document.getElementById("app")) {
     new Vue({

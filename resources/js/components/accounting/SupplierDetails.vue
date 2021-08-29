@@ -1,9 +1,6 @@
 <template>
     <b-list-group v-if="supplier" class="mb-3" flush>
-
-        <two-col-list-group-item
-            :title="$t('Name')"
-        >
+        <two-col-list-group-item :title="$t('Name')">
             {{ supplier.name }}
         </two-col-list-group-item>
 
@@ -14,10 +11,7 @@
             {{ supplier.category }}
         </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="supplier.address"
-            :title="$t('Address')"
-        >
+        <two-col-list-group-item v-if="supplier.address" :title="$t('Address')">
             <maps-link
                 :label="supplier.address"
                 :query="supplier.address"
@@ -25,39 +19,25 @@
             />
         </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="supplier.phone"
-            :title="$t('Phone')"
-        >
-            <phone-link
-                :value="supplier.phone"
-            />
+        <two-col-list-group-item v-if="supplier.phone" :title="$t('Phone')">
+            <phone-link :value="supplier.phone" />
         </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="supplier.mobile"
-            :title="$t('Mobile')"
-        >
-            <phone-link
-                :value="supplier.mobile"
-                mobile
-            />
+        <two-col-list-group-item v-if="supplier.mobile" :title="$t('Mobile')">
+            <phone-link :value="supplier.mobile" mobile />
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="supplier.email"
             :title="$t('E-Mail Address')"
         >
-            <email-link
-                :value="supplier.email"
-            />
+            <email-link :value="supplier.email" />
         </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="supplier.website"
-            :title="$t('Website')"
-        >
-            <a :href="supplier.website" target="_blank">{{ supplier.website }}</a>
+        <two-col-list-group-item v-if="supplier.website" :title="$t('Website')">
+            <a :href="supplier.website" target="_blank">{{
+                supplier.website
+            }}</a>
         </two-col-list-group-item>
 
         <two-col-list-group-item
@@ -74,24 +54,15 @@
             {{ supplier.tax_office }}
         </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="supplier.bank"
-            :title="$t('Bank')"
-        >
+        <two-col-list-group-item v-if="supplier.bank" :title="$t('Bank')">
             {{ supplier.bank }}
         </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="supplier.iban"
-            :title="$t('IBAN')"
-        >
+        <two-col-list-group-item v-if="supplier.iban" :title="$t('IBAN')">
             {{ supplier.iban }}
         </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="supplier.remarks"
-            :title="$t('Remarks')"
-        >
+        <two-col-list-group-item v-if="supplier.remarks" :title="$t('Remarks')">
             {{ supplier.remarks }}
         </two-col-list-group-item>
 
@@ -99,22 +70,20 @@
             v-if="supplier.spending"
             :title="$t('Spending')"
         >
-            {{ numberFormat(supplier.spending) }}
+            {{ supplier.spending | decimalNumberFormat }}
         </two-col-list-group-item>
-
     </b-list-group>
     <p v-else>
-        {{ $t('Loading...') }}
+        {{ $t("Loading...") }}
     </p>
 </template>
 
 <script>
-import numeral from 'numeral'
-import suppliersApi from '@/api/accounting/suppliers'
-import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem'
-import PhoneLink from '@/components/common/PhoneLink'
-import EmailLink from '@/components/common/EmailLink'
-import MapsLink from '@/components/common/MapsLink'
+import suppliersApi from "@/api/accounting/suppliers";
+import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
+import PhoneLink from "@/components/common/PhoneLink";
+import EmailLink from "@/components/common/EmailLink";
+import MapsLink from "@/components/common/MapsLink";
 export default {
     components: {
         TwoColListGroupItem,
@@ -127,26 +96,25 @@ export default {
             required: true
         }
     },
-    data () {
+    data() {
         return {
             supplier: null
-        }
+        };
     },
-    async created () {
-        this.fetchSupplier()
+    async created() {
+        this.fetchSupplier();
     },
     methods: {
-        async fetchSupplier () {
+        async fetchSupplier() {
             try {
-                let data = await suppliersApi.find(this.id, { with_spending: true })
-                this.supplier = data.data
+                let data = await suppliersApi.find(this.id, {
+                    with_spending: true
+                });
+                this.supplier = data.data;
             } catch (err) {
-                alert(err)
+                alert(err);
             }
-        },
-        numberFormat (val) {
-            return numeral(val).format('0,0.00')
         }
     }
-}
+};
 </script>

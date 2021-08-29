@@ -26,13 +26,16 @@
 
 <script>
 import moment from "moment";
-import numeral from "numeral";
 import suppliersApi from "@/api/accounting/suppliers";
 import BaseTable from "@/components/table/BaseTable";
+import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     components: {
         BaseTable
     },
+    mixins: [
+        numberFormatMixin
+    ],
     props: {
         id: {
             required: true
@@ -62,7 +65,7 @@ export default {
                         if (item.type == "spending") {
                             val = -val;
                         }
-                        return numeral(val).format("0,0.00");
+                        return this.decimalNumberFormat(val);
                     },
                     class: "text-right fit",
                     tdClass: (value, key, item) => {

@@ -77,7 +77,7 @@
                 </div>
                 <p>
                     {{ $t('Total donations made') }}:<br>
-                    <u><strong>{{ baseCurrency }} {{ numberFormat(totalAmount) }}</strong></u>
+                    <u><strong>{{ baseCurrency }} {{ totalAmount | decimalNumberFormat }}</strong></u>
                 </p>
             </template>
             <b-alert v-else-if="donations" show variant="info">
@@ -98,7 +98,6 @@ import donorsApi from '@/api/fundraising/donors'
 import { showSnackbar } from '@/utils'
 import DonationForm from '@/components/fundraising/DonationForm'
 import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
-import numeral from 'numeral'
 import { roundWithDecimals } from '@/utils'
 export default {
     components: {
@@ -227,9 +226,6 @@ export default {
                 alert(err)
             }
             this.isBusy = false
-        },
-        numberFormat (value) {
-            return numeral(value).format('0,0.00')
         },
         dateFormat (value) {
             return moment(value).format('LLL')

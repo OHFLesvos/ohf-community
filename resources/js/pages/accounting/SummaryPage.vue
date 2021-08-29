@@ -20,7 +20,10 @@
                             :disabled="isBusy"
                         />
                     </div>
-                    <div v-if="useLocations && allLocations.length" class="col-auto mb-2">
+                    <div
+                        v-if="useLocations && allLocations.length"
+                        class="col-auto mb-2"
+                    >
                         <b-select
                             v-model="location"
                             :options="locationOptions"
@@ -73,7 +76,7 @@
                     :to="{
                         name: 'accounting.transactions.index',
                         params: {
-                            wallet: data.item.id,
+                            wallet: data.item.id
                         },
                         query: {
                             'filter[date_start]': filterDateStart,
@@ -93,21 +96,28 @@
                         <strong>{{ $t("Sum across all wallets") }}</strong>
                     </b-td>
                     <b-td class="text-right">
-                        <strong>{{ numberFormat(totals.income) }}</strong>
-                    </b-td>
-                    <b-td class="text-right">
-                        <strong>{{ numberFormat(totals.spending) }}</strong>
-                    </b-td>
-                    <b-td class="text-right">
                         <strong>{{
-                            numberFormat(totals.income - totals.spending)
+                            totals.income | decimalNumberFormat
                         }}</strong>
                     </b-td>
                     <b-td class="text-right">
-                        <strong>{{ numberFormat(totals.fees) }}</strong>
+                        <strong>{{
+                            totals.spending | decimalNumberFormat
+                        }}</strong>
                     </b-td>
                     <b-td class="text-right">
-                        <strong>{{ numberFormat(totals.amount) }}</strong>
+                        <strong>{{
+                            (totals.income - totals.spending)
+                                | decimalNumberFormat
+                        }}</strong>
+                    </b-td>
+                    <b-td class="text-right">
+                        <strong>{{ totals.fees | decimalNumberFormat }}</strong>
+                    </b-td>
+                    <b-td class="text-right">
+                        <strong>{{
+                            totals.amount | decimalNumberFormat
+                        }}</strong>
                     </b-td>
                 </b-tr>
             </template>
@@ -169,8 +179,6 @@
                 </b-col>
             </b-row>
         </template>
-
-
     </div>
 </template>
 
@@ -180,15 +188,16 @@ import summaryApi from "@/api/accounting/summary";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
 import projectsApi from "@/api/accounting/projects";
-import numeral from "numeral";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import SummaryList from "@/components/accounting/SummaryList";
 import { can } from "@/plugins/laravel";
+import numberFormatMixin from "@/mixins/numberFormatMixin";
 export default {
     components: {
         AlertWithRetry,
         SummaryList
     },
+    mixins: [numberFormatMixin],
     data() {
         return {
             year: this.$route.query.year ?? null,
@@ -224,20 +233,20 @@ export default {
                     key: "income",
                     label: this.$t("Income"),
                     class: "text-right",
-                    formatter: (value, key, item) => this.numberFormat(value)
+                    formatter: this.decimalNumberFormat
                 },
                 {
                     key: "spending",
                     label: this.$t("Spending"),
                     class: "text-right",
-                    formatter: (value, key, item) => this.numberFormat(value)
+                    formatter: this.decimalNumberFormat
                 },
                 {
                     key: "difference",
                     label: this.$t("Difference"),
                     class: "text-right",
                     formatter: (value, key, item) =>
-                        this.numberFormat(item.income - item.spending),
+                        this.decimalNumberFormat(item.income - item.spending),
                     tdClass: (value, key, item) =>
                         this.colorClass(item.income - item.spending > 0)
                 },
@@ -245,13 +254,13 @@ export default {
                     key: "fees",
                     label: this.$t("Fees"),
                     class: "text-right",
-                    formatter: (value, key, item) => this.numberFormat(value)
+                    formatter: this.decimalNumberFormat
                 },
                 {
                     key: "amount",
                     label: this.$t("Balance"),
                     class: "text-right",
-                    formatter: (value, key, item) => this.numberFormat(value),
+                    formatter: this.decimalNumberFormat,
                     tdClass: (value, key, item) => this.colorClass(value > 0)
                 }
             ]
@@ -389,8 +398,8 @@ export default {
     },
     async created() {
         this.allWallets = (await walletsApi.list()).data;
-        this.allProjects = (await projectsApi.tree());
-        this.allLocations = (await transactionsApi.locations());
+        this.allProjects = await projectsApi.tree();
+        this.allLocations = await transactionsApi.locations();
 
         await this.fetchData();
         this.isLoaded = true;
@@ -462,9 +471,6 @@ export default {
             } catch (err) {
                 this.errorText = err;
             }
-        },
-        numberFormat(val) {
-            return numeral(val).format("0,0.00");
         }
     }
 };

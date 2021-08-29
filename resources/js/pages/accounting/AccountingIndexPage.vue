@@ -1,6 +1,10 @@
 <template>
     <b-container class="px-0">
-        <b-card class="shadow-sm mb-4" no-body header-class="d-flex justify-content-between">
+        <b-card
+            class="shadow-sm mb-4"
+            no-body
+            header-class="d-flex justify-content-between"
+        >
             <template #header>
                 <span>{{ $t("Wallets") }}</span>
                 <router-link
@@ -29,7 +33,7 @@
                     >
                         {{ wallet.name }}
                         <span class="float-right">{{
-                            formatNumber(wallet.amount)
+                            wallet.amount | decimalNumberFormat
                         }}</span>
                     </b-list-group-item>
                 </template>
@@ -42,7 +46,6 @@
 </template>
 
 <script>
-import numeral from "numeral";
 import walletsApi from "@/api/accounting/wallets";
 import { can } from "@/plugins/laravel";
 export default {
@@ -57,8 +60,7 @@ export default {
         this.loaded = true;
     },
     methods: {
-        can,
-        formatNumber: value => numeral(value).format("0,0.00")
+        can
     }
 };
 </script>

@@ -15,7 +15,7 @@
                     :to="{
                         name: 'accounting.transactions.index',
                         params: {
-                            wallet: wallet,
+                            wallet: wallet
                         },
                         query: {
                             [`filter[${paramName}]`]: data.item.id
@@ -36,9 +36,10 @@
 </template>
 
 <script>
-import numeral from "numeral";
 import { can } from "@/plugins/laravel";
+import numberFormatMixin from "@/mixins/numberFormatMixin";
 export default {
+    mixins: [numberFormatMixin],
     props: {
         items: {
             type: Array,
@@ -69,7 +70,7 @@ export default {
                           label: this.$t("Amount"),
                           class: "text-right",
                           formatter: (value, key, item) =>
-                              this.numberFormat(value),
+                              this.decimalNumberFormat(value),
                           tdClass: (value, key, item) =>
                               this.colorClass(value > 0)
                       }
@@ -81,8 +82,8 @@ export default {
                           class: "text-right",
                           formatter: (value, key, item) =>
                               item.amount != value
-                                  ? "(" + this.numberFormat(value) + ")"
-                                  : this.numberFormat(value),
+                                  ? "(" + this.decimalNumberFormat(value) + ")"
+                                  : this.decimalNumberFormat(value),
                           tdClass: (value, key, item) =>
                               this.colorClass(value > 0)
                       }
@@ -110,9 +111,6 @@ export default {
         can,
         colorClass(value) {
             return value > 0 ? "text-success" : "text-danger";
-        },
-        numberFormat(val) {
-            return numeral(val).format("0,0.00");
         },
         fillTree(tree, elem, level = 0) {
             tree.push({

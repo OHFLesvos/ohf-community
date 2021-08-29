@@ -46,13 +46,16 @@
 
 <script>
 import moment from "moment";
-import numeral from "numeral";
 import walletsApi from "@/api/accounting/wallets";
 import BaseTable from "@/components/table/BaseTable";
+import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     components: {
         BaseTable
     },
+        mixins: [
+        numberFormatMixin
+    ],
     data() {
         return {
             fields: [
@@ -64,7 +67,7 @@ export default {
                     key: "amount",
                     label: this.$t("Amount"),
                     class: "fit text-right",
-                    formatter: value => numeral(value).format("0,0.00")
+                    formatter: this.decimalNumberFormat
                 },
                 {
                     key: "num_transactions",

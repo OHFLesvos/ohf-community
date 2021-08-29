@@ -32,7 +32,7 @@
                         'text-success': transaction.type == 'income',
                         'text-danger': transaction.type == 'spending'
                     }"
-                    >{{ numberFormat(transaction.amount) }}</span
+                    >{{ transaction.amount | decimalNumberFormat }}</span
                 >
                 <small v-if="transaction.type == 'income'"
                     >({{ $t("Income") }})</small
@@ -47,7 +47,7 @@
                 v-if="transaction.fees"
                 :title="$t('Transaction fees')"
             >
-                {{ numberFormat(transaction.fees) }}
+                {{ transaction.fees | decimalNumberFormat }}
             </two-col-list-group-item>
 
             <!-- Category -->
@@ -237,7 +237,6 @@
 
 <script>
 import transactionsApi from "@/api/accounting/transactions";
-import numeral from "numeral";
 import moment from "moment";
 import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
 import TransactionPictures from "@/components/accounting/TransactionPictures";
@@ -274,9 +273,6 @@ export default {
                 alert(err);
                 console.error(err);
             }
-        },
-        numberFormat(val) {
-            return numeral(val).format("0,0.00");
         },
         dateTimeFormat(value) {
             return moment(value).format("LLL");

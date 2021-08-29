@@ -22,9 +22,9 @@
                 v-if="data.item.currency != baseCurrency"
                 class="text-muted ml-1"
             >
-                {{ data.item.currency }} {{ numberFormat(data.item.amount) }}
+                {{ data.item.currency }} {{ data.item.amount | decimalNumberFormat }}
             </small>
-            {{ baseCurrency }} {{ numberFormat(data.value) }}
+            {{ baseCurrency }} {{ data.value | decimalNumberFormat }}
         </template>
 
         <!-- Donor -->
@@ -46,7 +46,6 @@
 
 <script>
 import moment from 'moment'
-import numeral from 'numeral'
 import BaseTable from '@/components/table/BaseTable'
 import donationsApi from '@/api/fundraising/donations'
 export default {
@@ -127,9 +126,6 @@ export default {
             let data = await donationsApi.list(params)
             this.baseCurrency = data.meta.base_currency
             return data
-        },
-        numberFormat (value) {
-            return numeral(value).format('0,0.00')
         }
     }
 }
