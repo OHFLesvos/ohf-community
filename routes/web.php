@@ -215,11 +215,11 @@ Route::middleware(['language', 'auth'])
             ->name('projects.any');
 
         // Suppliers
-        Route::view('suppliers', 'accounting.suppliers')
+        Route::view('suppliers', 'accounting.index')
             ->name('suppliers');
-        Route::view('suppliers/{supplier}', 'accounting.suppliers')
+        Route::view('suppliers/{supplier}', 'accounting.index')
             ->name('suppliers.show');
-        Route::view('suppliers/{any}', 'accounting.suppliers')
+        Route::view('suppliers/{any}', 'accounting.index')
             ->where('any', '.*')
             ->name('suppliers.any');
     });
