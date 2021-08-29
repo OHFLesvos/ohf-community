@@ -3,7 +3,7 @@
         <b-form-row>
             <b-col
                 cols="auto"
-                v-for="(picture, idx) in pictures"
+                v-for="picture in pictures"
                 :key="picture.url"
                 class="mb-2"
             >
@@ -11,7 +11,7 @@
                     :href="picture.url"
                     :target="picture.type == 'file' ? '_blank' : null"
                     :title="picture.mime_type"
-                    @click="openLightbox($event, idx)"
+                    @click="picture.type == 'image' ? openLightbox($event, picture.url) : undefined"
                 >
                     <ThumbnailImage
                         v-if="picture.thumbnail_url"
@@ -30,7 +30,7 @@
         <FsLightbox
             v-if="this.actualImages.length > 0"
             :toggler="toggler"
-            :sourceIndex="sourceIndex"
+            :source="source"
             :sources="actualImages.map(i => i.url)"
             :key="this.actualImages.length"
         />
@@ -69,7 +69,7 @@ export default {
         return {
             pictures: this.transaction.receipt_pictures,
             toggler: false,
-            sourceIndex: 0,
+            source: undefined,
             isUploading: false
         };
     },
@@ -105,9 +105,9 @@ export default {
             }
             this.isUploading = false;
         },
-        openLightbox(evt, idx) {
+        openLightbox(evt, source) {
             evt.preventDefault();
-            this.sourceIndex = idx;
+            this.source = source;
             this.toggler = !this.toggler;
         }
     }
