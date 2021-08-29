@@ -57,10 +57,12 @@ Route::middleware('language')->group(function () {
         ->name('userPrivacyPolicy');
 
     // Settings
-    Route::get('settings', [SettingsController::class, 'edit'])
-        ->name('settings.edit');
-    Route::put('settings', [SettingsController::class, 'update'])
-        ->name('settings.update');
+    Route::middleware('auth')->group(function () {
+        Route::get('settings', [SettingsController::class, 'edit'])
+            ->name('settings.edit');
+        Route::put('settings', [SettingsController::class, 'update'])
+            ->name('settings.update');
+    });
 });
 
 //

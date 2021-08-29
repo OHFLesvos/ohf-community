@@ -25,7 +25,6 @@
         "cross-env": "^7.0",
         "eslint": "^7.14.0",
         "eslint-plugin-vue": "^7.1.0",
-        "fslightbox": "^3.2.2",
         "fslightbox-vue": "^1.2.0",
         "google-palette": "^1.1.0",
         "iban": "0.0.14",
