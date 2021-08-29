@@ -45,9 +45,6 @@
 import Nl2br from 'vue-nl2br'
 export default {
     components: {
-        BCard,
-        BCardText,
-        BButton,
         Nl2br,
     },
     props: {

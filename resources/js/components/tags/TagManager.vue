@@ -52,7 +52,6 @@ import TagEditor from '@/components/tags/TagEditor'
 import { showSnackbar } from '@/utils'
 export default {
     components: {
-        BButton,
         TagEditor
     },
     props: {

@@ -34,9 +34,6 @@
 
 <script>
 export default {
-    components: {
-        BButton
-    },
     props: {
         comment: {
             type: Object,

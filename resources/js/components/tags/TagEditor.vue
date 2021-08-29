@@ -36,8 +36,7 @@
 import TagInput from '@/components/tags/TagInput'
 export default {
     components: {
-        TagInput,
-        BButton
+        TagInput
     },
     props: {
         tags: {

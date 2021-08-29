@@ -13,11 +13,6 @@
 
 <script>
 export default {
-    components: {
-        BListGroupItem,
-        BRow,
-        BCol
-    },
     props: {
         title: {
             type: String,

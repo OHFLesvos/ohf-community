@@ -40,8 +40,6 @@
 import moment from 'moment'
 import visitorsApi from '@/api/visitors'
 export default {
-    components: {
-    },
     data () {
         return {
             dailyFields: [
