@@ -50,7 +50,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import BaseTable from '@/components/table/BaseTable'
 import EmailLink from '@/components/common/EmailLink'
 import UserAvatar from '@/components/UserAvatar'
@@ -110,9 +109,7 @@ export default {
                     tdClass: 'align-middle',
                     sortable: true,
                     sortDirection: 'desc',
-                    formatter: value => {
-                        return moment(value).fromNow()
-                    }
+                    formatter: this.timeFromNow
                 }
             ]
         }

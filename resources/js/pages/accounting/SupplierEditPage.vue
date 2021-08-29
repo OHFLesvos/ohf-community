@@ -11,7 +11,7 @@
         <p class="text-right">
             <small>
                 {{ $t("Last updated") }}:
-                {{ dateFormat(supplier.updated_at) }}
+                {{ supplier.updated_at | dateTimeFormat }}
             </small>
         </p>
     </b-container>
@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import { showSnackbar } from "@/utils";
 import suppliersApi from "@/api/accounting/suppliers";
 import SupplierForm from "@/components/accounting/SupplierForm";
@@ -87,9 +86,6 @@ export default {
                 name: "accounting.suppliers.show",
                 parms: { id: this.supplier.slug }
             });
-        },
-        dateFormat(value) {
-            return moment(value).format("LLL");
         }
     }
 };

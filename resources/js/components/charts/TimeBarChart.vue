@@ -25,15 +25,11 @@ import { applyColorPaletteToDatasets } from '@/utils'
 import ReactiveBarChart from '@/components/charts/ReactiveBarChart'
 import ReactiveLineChart from '@/components/charts/ReactiveLineChart'
 import slugify from 'slugify'
-import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     components: {
         ReactiveBarChart,
         ReactiveLineChart
     },
-    mixins: [
-        numberFormatMixin
-    ],
     props: {
         title: {
             type: String,

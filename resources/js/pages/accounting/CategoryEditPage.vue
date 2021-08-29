@@ -21,7 +21,7 @@
             </small>
             <small>
                 {{ $t('Last updated') }}:
-                {{ dateFormat(category.updated_at) }}
+                {{ category.updated_at | dateTimeFormat }}
             </small>
         </p>
     </b-container>
@@ -31,7 +31,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { showSnackbar } from '@/utils'
 import categoriesApi from '@/api/accounting/categories'
 import CategoryForm from '@/components/accounting/CategoryForm'
@@ -91,9 +90,6 @@ export default {
         },
         handleCancel () {
             this.$router.push({ name: 'accounting.categories.show', params: { id: this.id } })
-        },
-        dateFormat (value) {
-            return moment(value).format('LLL')
         }
     }
 }

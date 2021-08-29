@@ -66,11 +66,7 @@
 </template>
 
 <script>
-import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
-    mixins: [
-        numberFormatMixin
-    ],
     props: {
         header: {
             required: true,

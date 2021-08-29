@@ -82,7 +82,6 @@
 </template>
 
 <script>
-// import moment from 'moment'
 import Nl2br from 'vue-nl2br'
 import BaseTable from '@/components/table/BaseTable'
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
@@ -138,16 +137,6 @@ export default {
                     key: 'languages',
                     label: this.$t('Languages')
                 },
-                // {
-                //     key: 'created_at',
-                //     label: this.$t('Registered'),
-                //     class: 'd-none d-sm-table-cell fit',
-                //     sortable: true,
-                //     sortDirection: 'desc',
-                //     formatter: value => {
-                //         return moment(value).fromNow()
-                //     }
-                // }
             ],
             workStatus: sessionStorage.getItem('cmtyvol.workStatus')
                 ? sessionStorage.getItem('cmtyvol.workStatus')

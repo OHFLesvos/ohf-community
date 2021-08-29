@@ -98,7 +98,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { showSnackbar } from '@/utils'
 import visitorsApi from '@/api/visitors'
 import RegisterVisitorForm from '@/components/visitors/RegisterVisitorForm'
@@ -158,9 +157,7 @@ export default {
                     sortable: true,
                     sortDirection: 'desc',
                     tdClass: 'align-middle',
-                    formatter: value => {
-                        return moment(value).format('HH:mm')
-                    },
+                    formatter: this.timeFormat,
                     class: 'fit'
                 },
                 {

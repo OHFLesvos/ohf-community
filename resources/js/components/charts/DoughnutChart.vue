@@ -4,12 +4,8 @@ import { Doughnut } from 'vue-chartjs'
 import ChartJsPluginDataLabels from 'chartjs-plugin-datalabels'
 import { Chart } from 'chart.js'
 Chart.plugins.unregister(ChartJsPluginDataLabels)
-import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     extends: Doughnut,
-    mixins: [
-        numberFormatMixin
-    ],
     props: {
         title: {
             type: String,

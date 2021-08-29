@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import { roundWithDecimals } from '@/utils'
 export default {
     props: {
@@ -81,9 +80,7 @@ export default {
                 {
                     key: 'date',
                     label: this.$t('Date'),
-                    formatter: value => {
-                        return moment(value).format('LL')
-                    },
+                    formatter: this.dateFormat,
                     width: '10em'
                 },
                 {
@@ -120,17 +117,13 @@ export default {
                     key: 'created_at',
                     label: this.$t('Registered'),
                     width: '12em',
-                    formatter: value => {
-                        return moment(value).format('LLL')
-                    }
+                    formatter: this.dateTimeFormat
                 },
                 {
                     key: 'thanked',
                     label: this.$t('Thanked'),
                     width: '12em',
-                    formatter: value => {
-                        return value ? moment(value).format('LLL') : null
-                    }
+                    formatter: this.dateTimeFormat
                 }
             ]
         }

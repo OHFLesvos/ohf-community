@@ -129,7 +129,7 @@
 
             <!-- Registered -->
             <two-col-list-group-item :title="$t('Registered')">
-                {{ dateTimeFormat(transaction.created_at) }}
+                {{ transaction.created_at | dateTimeFormat }}
                 <small v-if="transaction.creating_user"
                     >({{ transaction.creating_user }})</small
                 >
@@ -138,7 +138,7 @@
             <!-- Controlled -->
             <two-col-list-group-item :title="$t('Controlled')">
                 <template v-if="transaction.controlled_at">
-                    {{ dateTimeFormat(transaction.controlled_at) }}
+                    {{ transaction.controlled_at | dateTimeFormat }}
                     <template v-if="transaction.controlled_by">
                         ({{ transaction.controller_name }})
                         <button
@@ -237,7 +237,6 @@
 
 <script>
 import transactionsApi from "@/api/accounting/transactions";
-import moment from "moment";
 import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
 import TransactionPictures from "@/components/accounting/TransactionPictures";
 export default {
@@ -273,9 +272,6 @@ export default {
                 alert(err);
                 console.error(err);
             }
-        },
-        dateTimeFormat(value) {
-            return moment(value).format("LLL");
         },
         async markControlled() {
             this.isBusy = true;

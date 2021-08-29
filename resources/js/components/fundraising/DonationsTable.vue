@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import BaseTable from '@/components/table/BaseTable'
 import donationsApi from '@/api/fundraising/donations'
 export default {
@@ -107,9 +106,7 @@ export default {
                     label: this.$t('Registered'),
                     class: 'd-none d-sm-table-cell fit',
                     sortable: true,
-                    formatter: value => {
-                        return moment(value).fromNow()
-                    }
+                    formatter: this.timeFromNow
                 },
                 {
                     key: 'thanked',

@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import Nl2br from 'vue-nl2br'
 import { BCard, BCardText, BButton } from 'bootstrap-vue'
 export default {
@@ -81,10 +80,9 @@ export default {
     },
     methods: {
         toDateString(date) {
-            const mom = moment(date)
             return this.dateFromNow
-                ? mom.fromNow()
-                : mom.format("LLL")
+                ? this.timeFromNow(date)
+                : this.dateTimeFormat(date)
         }
     }
 }

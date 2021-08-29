@@ -55,15 +55,15 @@
         <two-col-list-group-item
             :title="$t('Registered')"
         >
-            {{ moment(donor.created_at).format('LLL') }}
-            <small class="text-muted pl-2">{{  moment(donor.created_at).fromNow() }}</small>
+            {{ donor.created_at | dateTimeFormat }}
+            <small class="text-muted pl-2">{{  donor.created_at | timeFromNow }}</small>
         </two-col-list-group-item>
 
         <two-col-list-group-item
             :title="$t('Last updated')"
         >
-            {{ moment(donor.updated_at).format('LLL') }}
-            <small class="text-muted pl-2">{{  moment(donor.updated_at).fromNow() }}</small>
+            {{ donor.updated_at | dateTimeFormat }}
+            <small class="text-muted pl-2">{{  donor.updated_at | timeFromNow }}</small>
         </two-col-list-group-item>
 
         <two-col-list-group-item :title="$t('Tags')">
@@ -85,7 +85,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import donorsApi from '@/api/fundraising/donors'
 import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem'
 import PhoneLink from '@/components/common/PhoneLink'
@@ -125,7 +124,6 @@ export default {
                 alert(err)
             }
         },
-        moment,
         listAllTags: donorsApi.listTags,
         listTags () {
             return donorsApi.listDonorsTags(this.id)

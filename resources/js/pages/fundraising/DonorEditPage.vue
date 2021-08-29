@@ -15,7 +15,7 @@
         <p class="text-right">
             <small>
                 {{ $t('Last updated') }}:
-                {{ dateFormat(donor.updated_at) }}
+                {{ donor.updated_at | dateTimeFormat }}
             </small>
         </p>
     </b-container>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import donorsApi from '@/api/fundraising/donors'
 import { showSnackbar } from '@/utils'
 import DonorForm from '@/components/fundraising/DonorForm'
@@ -82,9 +81,6 @@ export default {
                 alert(err)
             }
             this.isBusy = false
-        },
-        dateFormat (value) {
-            return moment(value).format('LLL')
         }
     }
 }

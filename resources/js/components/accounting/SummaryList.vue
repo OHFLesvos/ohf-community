@@ -37,9 +37,7 @@
 
 <script>
 import { can } from "@/plugins/laravel";
-import numberFormatMixin from "@/mixins/numberFormatMixin";
 export default {
-    mixins: [numberFormatMixin],
     props: {
         items: {
             type: Array,

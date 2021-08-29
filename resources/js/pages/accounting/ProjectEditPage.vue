@@ -18,7 +18,7 @@
             </small>
             <small>
                 {{ $t("Last updated") }}:
-                {{ dateFormat(project.updated_at) }}
+                {{ project.updated_at | dateTimeFormat }}
             </small>
         </p>
     </b-container>
@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import moment from "moment";
 import { showSnackbar } from "@/utils";
 import projectsApi from "@/api/accounting/projects";
 import ProjectForm from "@/components/accounting/ProjectForm";
@@ -88,9 +87,6 @@ export default {
         },
         handleCancel() {
             this.$router.push({ name: "accounting.projects.index" });
-        },
-        dateFormat(value) {
-            return moment(value).format("LLL");
         }
     }
 };

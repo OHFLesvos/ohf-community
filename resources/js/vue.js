@@ -25,6 +25,11 @@ import store from "@/store";
 import DefaultApp from "@/DefaultApp";
 import "@/plugins/filters";
 
+import numberFormatMixin from "@/mixins/numberFormatMixin";
+import dateFormatMixin from "@/mixins/dateFormatMixin";
+Vue.mixin(numberFormatMixin);
+Vue.mixin(dateFormatMixin);
+
 if (document.getElementById("app")) {
     new Vue({
         router,

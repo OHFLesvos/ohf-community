@@ -14,7 +14,7 @@
                     {{ $t('Edit donation') }}
                     <small class="d-none d-sm-inline">
                         {{ $t('Last updated') }}:
-                        {{ dateFormat(selectedDonation.updated_at) }}
+                        {{ selectedDonation.updated_at | dateTimeFormat }}
                     </small>
                 </template>
 
@@ -226,9 +226,6 @@ export default {
                 alert(err)
             }
             this.isBusy = false
-        },
-        dateFormat (value) {
-            return moment(value).format('LLL')
         }
     }
 }

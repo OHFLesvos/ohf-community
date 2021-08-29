@@ -83,7 +83,6 @@
 
 <script>
 import qs from "qs";
-import moment from "moment";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
 import BaseTable from "@/components/table/BaseTable";
@@ -91,7 +90,6 @@ import ReceiptPictureUpload from "@/components/accounting/ReceiptPictureUpload";
 import TransactionsFilter from "@/components/accounting/TransactionsFilter";
 import TransactionExportDialog from "@/components/accounting/TransactionExportDialog";
 import { can } from "@/plugins/laravel";
-import numberFormatMixin from "@/mixins/numberFormatMixin";
 export default {
     components: {
         BaseTable,
@@ -99,7 +97,6 @@ export default {
         TransactionsFilter,
         TransactionExportDialog
     },
-    mixins: [numberFormatMixin],
     props: {
         wallet: {
             required: true
@@ -264,12 +261,6 @@ export default {
                 });
             }
             return transactionsApi.list(this.wallet, ctx);
-        },
-        dateFormat(value) {
-            return value ? moment(value).format("LL") : null;
-        },
-        dateTimeFormat(value) {
-            return value ? moment(value).format("LLL") : null;
         }
     }
 };

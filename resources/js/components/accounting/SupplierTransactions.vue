@@ -25,17 +25,12 @@
 </template>
 
 <script>
-import moment from "moment";
 import suppliersApi from "@/api/accounting/suppliers";
 import BaseTable from "@/components/table/BaseTable";
-import numberFormatMixin from '@/mixins/numberFormatMixin'
 export default {
     components: {
         BaseTable
     },
-    mixins: [
-        numberFormatMixin
-    ],
     props: {
         id: {
             required: true
@@ -100,12 +95,6 @@ export default {
     methods: {
         fetchTransactions(ctx) {
             return suppliersApi.transactions(this.id, ctx);
-        },
-        dateFormat(value) {
-            return moment(value).format("LL");
-        },
-        dateTimeFormat(value) {
-            return moment(value).format("LLL");
         }
     }
 };

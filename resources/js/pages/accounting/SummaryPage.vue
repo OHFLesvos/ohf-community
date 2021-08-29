@@ -191,13 +191,11 @@ import projectsApi from "@/api/accounting/projects";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import SummaryList from "@/components/accounting/SummaryList";
 import { can } from "@/plugins/laravel";
-import numberFormatMixin from "@/mixins/numberFormatMixin";
 export default {
     components: {
         AlertWithRetry,
         SummaryList
     },
-    mixins: [numberFormatMixin],
     data() {
         return {
             year: this.$route.query.year ?? null,

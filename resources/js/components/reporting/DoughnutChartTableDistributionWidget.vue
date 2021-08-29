@@ -45,13 +45,10 @@
 
 <script>
 import DoughnutChart from "@/components/charts/DoughnutChart";
-import numberFormatMixin from "@/mixins/numberFormatMixin";
-
 export default {
     components: {
         DoughnutChart
     },
-    mixins: [numberFormatMixin],
     props: {
         title: {
             required: true,

@@ -155,7 +155,7 @@ export default {
             }
         },
         mapCountData (data) {
-            this.firstDonorRegistration = moment(data.first).format('LL')
+            this.firstDonorRegistration = this.dateFormat(data.first)
             return [
                 {
                     name: this.$t('Total'),
