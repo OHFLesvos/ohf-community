@@ -21,14 +21,14 @@
         "
     >
         <template v-slot:cell(name)="data">
-            <b-link
+            <router-link
                 :to="{
                     name: 'accounting.suppliers.show',
                     params: { id: data.item.slug }
                 }"
             >
                 {{ data.value }}
-            </b-link>
+            </router-link>
         </template>
         <template v-slot:cell(contact)="data">
             <phone-link

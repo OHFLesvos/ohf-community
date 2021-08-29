@@ -48,14 +48,14 @@
             </template>
 
             <template v-slot:cell(receipt_no)="data">
-                <b-link
+                <router-link
                     :to="{
                         name: 'accounting.transactions.show',
                         params: { id: data.item.id }
                     }"
                 >
                     {{ data.value }}
-                </b-link>
+                </router-link>
             </template>
 
             <template v-slot:cell(description)="data">
@@ -66,7 +66,7 @@
             </template>
 
             <template v-slot:cell(supplier)="data">
-                <b-link
+                <router-link
                     v-if="data.item.supplier"
                     :to="{
                         name: 'accounting.suppliers.show',
@@ -75,7 +75,7 @@
                     :title="data.item.supplier.category"
                 >
                     {{ data.item.supplier.name }}
-                </b-link>
+                </router-link>
             </template>
         </base-table>
     </div>

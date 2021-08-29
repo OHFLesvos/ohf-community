@@ -11,7 +11,7 @@
             no-filter
         >
             <template v-slot:cell(name)="data">
-                <b-link
+                <router-link
                     v-if="data.item.can_update"
                     :to="{
                         name: 'accounting.wallets.edit',
@@ -19,7 +19,7 @@
                     }"
                 >
                     {{ data.value }}
-                </b-link>
+                </router-link>
                 <template v-else>
                     {{ data.value }}
                 </template>

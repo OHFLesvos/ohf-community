@@ -69,7 +69,6 @@ import CommentCard from "@/components/comments/CommentCard";
 import { showSnackbar } from "@/utils";
 export default {
     components: {
-        BButton,
         CommentEditor,
         CommentCard
     },
