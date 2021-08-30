@@ -146,7 +146,7 @@ class Transaction extends Model implements Auditable
 
         return $query->where(function (Builder $qry1) use ($filter) {
             return $qry1->where('receipt_no', $filter)
-                ->orWhere('amount', $filter)
+                ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('amount', $filter))
                 ->orWhere('date', $filter)
                 ->orWhere('secondary_category', 'LIKE', '%' . $filter . '%')
                 ->orWhere('location', 'LIKE', '%' . $filter . '%')
