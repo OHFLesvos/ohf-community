@@ -338,7 +338,7 @@
                 </b-col>
             </b-form-row>
 
-            <b-form-row v-if="transaction.receipt_pictures.length > 0" class="mb-3">
+            <b-form-row v-if="transaction && transaction.receipt_pictures.length > 0" class="mb-3">
                 <b-col
                     cols="auto"
                     v-for="picture in transaction.receipt_pictures"
