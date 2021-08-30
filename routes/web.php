@@ -332,7 +332,7 @@ Route::prefix('reports')
             ->name('cmtyvol.')
             ->middleware('can:view-community-volunteer-reports')
             ->group(function () {
-                Route::view('report', 'reports.cmtyvol.report')
+                Route::view('report', 'vue-app')
                     ->name('report');
             });
 
@@ -341,7 +341,7 @@ Route::prefix('reports')
             ->name('visitors.')
             ->middleware('can:register-visitors')
             ->group(function () {
-                Route::view('checkins', 'reports.visitors.checkins')
+                Route::view('checkins', 'vue-app')
                     ->name('checkins');
             });
 
@@ -350,7 +350,7 @@ Route::prefix('reports')
             ->name('fundraising.')
             ->middleware('can:view-fundraising-reports')
             ->group(function () {
-                Route::view('donations', 'reports.fundraising.donations')
+                Route::view('donations', 'vue-app')
                     ->name('donations');
             });
     });
