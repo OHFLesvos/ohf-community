@@ -185,6 +185,8 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+
+                <!-- Secondary Category -->
                 <b-col sm v-if="useSecondaryCategories">
                     <validation-provider
                         :name="$t('Secondary Category')"
@@ -205,6 +207,8 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+
+                <!-- Project -->
                 <b-col sm>
                     <validation-provider
                         :name="$t('Project')"
@@ -228,6 +232,8 @@
             </b-form-row>
 
             <b-form-row>
+
+                <!-- Location -->
                 <b-col sm v-if="useLocations">
                     <validation-provider
                         :name="$t('Location')"
@@ -249,6 +255,7 @@
                     </validation-provider>
                 </b-col>
 
+                <!-- Cost centers -->
                 <b-col sm v-if="useCostCenters">
                     <validation-provider
                         :name="$t('Cost Center')"
@@ -272,6 +279,8 @@
             </b-form-row>
 
             <b-form-row>
+
+                <!-- Description -->
                 <b-col sm>
                     <validation-provider
                         :name="$t('Description')"
@@ -293,6 +302,8 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+
+                <!-- Supplier -->
                 <b-col sm>
                     <validation-provider
                         :name="$t('Supplier')"
