@@ -19,7 +19,7 @@ mix.webpackConfig({
         }
     },
     output: {
-        chunkFilename: "js/chunks/[name].js"
+        chunkFilename: "js/chunks/[name].js?id=[chunkhash]"
     }
 });
 
