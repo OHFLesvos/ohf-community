@@ -68,6 +68,9 @@
 import walletsApi from "@/api/accounting/wallets";
 import { can } from "@/plugins/laravel";
 export default {
+    title() {
+        return this.$t("Accounting");
+    },
     data() {
         return {
             loaded: false,

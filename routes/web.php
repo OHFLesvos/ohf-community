@@ -153,9 +153,9 @@ Route::middleware(['language', 'auth', 'can:view-fundraising'])
     ->name('fundraising.')
     ->group(function () {
         // SPA
-        Route::view('', 'fundraising.index')
+        Route::view('', 'vue-app')
             ->name('index');
-        Route::view('/{any}', 'fundraising.index')
+        Route::view('/{any}', 'vue-app')
             ->where('any', '.*');
     });
 
@@ -169,20 +169,20 @@ Route::middleware(['language', 'auth'])
     ->group(function () {
 
         // Overview
-        Route::view('', 'accounting.index')
+        Route::view('', 'vue-app')
             ->name('index');
 
-        Route::view('transactions/summary', 'accounting.index')
+        Route::view('transactions/summary', 'vue-app')
             ->name('transactions.summary');
 
         // Transactions
-        Route::view('wallets/{wallet}/transactions', 'accounting.index')
+        Route::view('wallets/{wallet}/transactions', 'vue-app')
             ->name('transactions.index');
-        Route::view('wallets/{wallet}/transactions/create', 'accounting.index')
+        Route::view('wallets/{wallet}/transactions/create', 'vue-app')
             ->name('transactions.create');
-        Route::view('transactions/{transaction}', 'accounting.index')
+        Route::view('transactions/{transaction}', 'vue-app')
             ->name('transactions.show');
-        Route::view('transactions/{transaction}/edit', 'accounting.index')
+        Route::view('transactions/{transaction}/edit', 'vue-app')
             ->name('transactions.edit');
 
         // Webling
@@ -196,32 +196,32 @@ Route::middleware(['language', 'auth'])
             ->name('webling.sync');
 
         // Wallets
-        Route::view('wallets', 'accounting.index')
+        Route::view('wallets', 'vue-app')
             ->name('wallets');
-        Route::view('wallets/{any}', 'accounting.index')
+        Route::view('wallets/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('wallets.any');
 
         // Categories
-        Route::view('categories', 'accounting.index')
+        Route::view('categories', 'vue-app')
             ->name('categories');
-        Route::view('categories/{any}', 'accounting.index')
+        Route::view('categories/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('categories.any');
 
         // Projects
-        Route::view('projects', 'accounting.index')
+        Route::view('projects', 'vue-app')
             ->name('projects');
-        Route::view('projects/{any}', 'accounting.index')
+        Route::view('projects/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('projects.any');
 
         // Suppliers
-        Route::view('suppliers', 'accounting.index')
+        Route::view('suppliers', 'vue-app')
             ->name('suppliers');
-        Route::view('suppliers/{supplier}', 'accounting.index')
+        Route::view('suppliers/{supplier}', 'vue-app')
             ->name('suppliers.show');
-        Route::view('suppliers/{any}', 'accounting.index')
+        Route::view('suppliers/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('suppliers.any');
     });

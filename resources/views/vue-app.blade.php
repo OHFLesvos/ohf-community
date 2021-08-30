@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@section('title', __('Accounting'))
-
 @section('content')
     <div id="app">
         <x-spinner />
@@ -22,9 +20,13 @@
                         && config('services.webling.api_key') !== null,
             'view-suppliers' => Auth::user()->can('viewAny',  App\Models\Accounting\Supplier::class),
             'manage-suppliers' => Gate::allows('manage-suppliers'),
+            'view-fundraising-entities' => Gate::allows('view-fundraising-entities'),
+            'manage-fundraising-entities' => Gate::allows('manage-fundraising-entities'),
+            'view-fundraising-reports' => Gate::allows('view-fundraising-reports'),
         ];
     @endphp
     <script>
-        window.Laravel.permissions = @json($permissions)
+        window.Laravel.permissions = @json($permissions);
+        window.Laravel.title = "{{ config('app.name') }} - {{ config('app.product_name') }}";
     </script>
 @endpush

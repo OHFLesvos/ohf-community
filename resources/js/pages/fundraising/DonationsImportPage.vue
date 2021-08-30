@@ -56,6 +56,9 @@
 import donationsApi from '@/api/fundraising/donations'
 import { showSnackbar } from '@/utils'
 export default {
+    title() {
+        return this.$t("Import");
+    },
     data () {
         return {
             types: [

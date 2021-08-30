@@ -31,6 +31,9 @@
 <script>
 import DonationsTable from '@/components/fundraising/DonationsTable'
 export default {
+    title() {
+        return this.$t("Donations");
+    },
     components: {
         DonationsTable
     },

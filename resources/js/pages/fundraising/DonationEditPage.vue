@@ -38,6 +38,9 @@ import donationsApi from '@/api/fundraising/donations'
 import { showSnackbar } from '@/utils'
 import DonationForm from '@/components/fundraising/DonationForm'
 export default {
+    title() {
+        return this.$t("Edit donation");
+    },
     components: {
         DonationForm
     },
