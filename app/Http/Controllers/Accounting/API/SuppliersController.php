@@ -151,6 +151,6 @@ class SuppliersController extends Controller
 
     public function names()
     {
-        return Supplier::select('id', 'name', 'category')->orderBy('name')->get();
+        return Supplier::select('id', 'name', 'category', 'slug')->orderBy('name')->get();
     }
 }

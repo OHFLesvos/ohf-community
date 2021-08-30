@@ -70,7 +70,8 @@ class Donation extends Model
         if (! empty($filter)) {
             $query->where(function ($wq) use ($filter) {
                 return $wq->where('date', $filter)
-                    ->orWhere('amount', $filter)
+                    ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('amount', $filter))
+                    ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('exchange_amount', $filter))
                     ->orWhereHas('donor', fn ($query) => $query->forSimpleFilter($filter))
                     ->orWhere('channel', 'LIKE', '%' . $filter . '%')
                     ->orWhere('purpose', 'LIKE', '%' . $filter . '%')
