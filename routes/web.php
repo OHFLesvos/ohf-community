@@ -148,14 +148,14 @@ Route::middleware(['language', 'auth'])
 // Fundraising
 //
 
-Route::middleware(['language', 'auth'])
+Route::middleware(['language', 'auth', 'can:view-fundraising'])
     ->prefix('fundraising')
     ->name('fundraising.')
     ->group(function () {
         // SPA
-        Route::get('', [FundraisingController::class, 'index'])
+        Route::view('', 'fundraising.index')
             ->name('index');
-        Route::get('/{any}', [FundraisingController::class, 'index'])
+        Route::view('/{any}', 'fundraising.index')
             ->where('any', '.*');
     });
 

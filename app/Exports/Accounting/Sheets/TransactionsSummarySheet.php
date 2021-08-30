@@ -32,7 +32,7 @@ class TransactionsSummarySheet extends BaseExport implements FromView, WithColum
 
     public function view(): View
     {
-        return view('accounting.transactions.export_summary', [
+        return view('accounting.export_summary', [
             'months' => $this->months,
         ]);
     }
