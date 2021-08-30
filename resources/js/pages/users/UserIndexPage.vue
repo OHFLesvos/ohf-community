@@ -8,10 +8,7 @@
         :items-per-page="25"
     >
         <template v-slot:cell(avatar_url)="data">
-            <user-avatar
-                :url="data.value"
-                size="30"
-            />
+            <user-avatar :url="data.value" size="30" />
         </template>
         <template v-slot:cell(name)="data">
             <a :href="data.item.links.show">
@@ -33,7 +30,7 @@
                 <a :href="role.links.show">
                     {{ role.name }}
                 </a>
-                <br>
+                <br />
             </span>
         </template>
         <template v-slot:cell(is_2fa_enabled)="data">
@@ -50,11 +47,14 @@
 </template>
 
 <script>
-import BaseTable from '@/components/table/BaseTable'
-import EmailLink from '@/components/common/EmailLink'
-import UserAvatar from '@/components/UserAvatar'
-import usersApi from '@/api/user_management/users'
+import BaseTable from "@/components/table/BaseTable";
+import EmailLink from "@/components/common/EmailLink";
+import UserAvatar from "@/components/UserAvatar";
+import usersApi from "@/api/user_management/users";
 export default {
+    title() {
+        return this.$t("Users");
+    },
     components: {
         BaseTable,
         EmailLink,
@@ -64,58 +64,59 @@ export default {
         return {
             fields: [
                 {
-                    key: 'avatar_url',
-                    label: this.$t('Avatar'),
-                    class: 'fit align-middle text-center'
+                    key: "avatar_url",
+                    label: this.$t("Avatar"),
+                    class: "fit align-middle text-center"
                 },
                 {
-                    key: 'name',
-                    label: this.$t('Name'),
+                    key: "name",
+                    label: this.$t("Name"),
                     sortable: true,
-                    class: 'align-middle'
+                    class: "align-middle"
                 },
                 {
-                    key: 'email',
-                    label: this.$t('E-Mail Address'),
-                    class: 'align-middle d-none d-sm-table-cell'
+                    key: "email",
+                    label: this.$t("E-Mail Address"),
+                    class: "align-middle d-none d-sm-table-cell"
                 },
                 {
-                    key: 'roles',
-                    label: this.$t('Roles'),
-                    class: 'align-middle d-none d-sm-table-cell'
+                    key: "roles",
+                    label: this.$t("Roles"),
+                    class: "align-middle d-none d-sm-table-cell"
                 },
                 {
-                    key: 'provider_name',
-                    label: this.$t('OAuth'),
-                    class: 'align-middle fit d-none d-md-table-cell',
+                    key: "provider_name",
+                    label: this.$t("OAuth"),
+                    class: "align-middle fit d-none d-md-table-cell",
+                    sortable: true
+                },
+                {
+                    key: "is_2fa_enabled",
+                    label: this.$t("2FA"),
+                    class: "align-middle d-none d-md-table-cell text-center fit"
+                },
+                {
+                    key: "is_super_admin",
+                    label: this.$t("Admin"),
+                    class:
+                        "align-middle d-none d-md-table-cell text-center fit",
                     sortable: true,
+                    sortDirection: "desc"
                 },
                 {
-                    key: 'is_2fa_enabled',
-                    label: this.$t('2FA'),
-                    class: 'align-middle d-none d-md-table-cell text-center fit',
-                },
-                {
-                    key: 'is_super_admin',
-                    label: this.$t('Admin'),
-                    class: 'align-middle d-none d-md-table-cell text-center fit',
+                    key: "created_at",
+                    label: this.$t("Registered"),
+                    class: "d-none d-sm-table-cell fit",
+                    tdClass: "align-middle",
                     sortable: true,
-                    sortDirection: 'desc',
-                },
-                {
-                    key: 'created_at',
-                    label: this.$t('Registered'),
-                    class: 'd-none d-sm-table-cell fit',
-                    tdClass: 'align-middle',
-                    sortable: true,
-                    sortDirection: 'desc',
+                    sortDirection: "desc",
                     formatter: this.timeFromNow
                 }
             ]
-        }
+        };
     },
     methods: {
         list: usersApi.listWithRoles
     }
-}
+};
 </script>
