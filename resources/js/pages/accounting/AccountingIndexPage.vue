@@ -44,7 +44,7 @@
         </b-card>
         <b-row>
             <b-col
-                v-for="(button, idx) in buttons"
+                v-for="(button, idx) in buttons.filter(btn => btn.show)"
                 :key="idx"
                 sm="6"
                 md="4"
@@ -89,7 +89,7 @@ export default {
                 },
                 {
                     to: { name: "accounting.projects.index" },
-                    icon: "tag",
+                    icon: "project-diagram",
                     text: this.$t("Projects"),
                     show: this.can("view-accounting-projects")
                 },
