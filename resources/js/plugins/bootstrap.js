@@ -4,6 +4,7 @@ import {
     AlertPlugin,
     AvatarPlugin,
     BadgePlugin,
+    BreadcrumbPlugin,
     ButtonPlugin,
     ButtonGroupPlugin,
     CardPlugin,
@@ -32,6 +33,7 @@ Vue.use(AlertPlugin);
 Vue.use(AvatarPlugin);
 Vue.use(BadgePlugin);
 Vue.use(ButtonPlugin);
+Vue.use(BreadcrumbPlugin);
 Vue.use(ButtonGroupPlugin);
 Vue.use(CardPlugin);
 Vue.use(DropdownPlugin);

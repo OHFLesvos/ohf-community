@@ -1,5 +1,6 @@
 <template>
     <div v-if="settings">
+        <router-view name="breadcrumbs" />
         <router-view name="header" />
         <router-view name="beforeContent" />
         <router-view />
