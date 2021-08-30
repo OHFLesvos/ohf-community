@@ -268,7 +268,7 @@ Route::middleware(['auth', 'language'])
             ->group(function () {
 
                 // Overview
-                Route::view('overview', 'cmtyvol.overview')
+                Route::view('overview', 'vue-app')
                     ->name('overview')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 

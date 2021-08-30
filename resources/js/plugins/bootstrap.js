@@ -25,6 +25,7 @@ import {
     ModalPlugin,
     PaginationPlugin,
     ProgressPlugin,
+    PopoverPlugin,
     SpinnerPlugin,
     TablePlugin
 } from "bootstrap-vue";
@@ -53,5 +54,6 @@ Vue.use(NavPlugin);
 Vue.use(ModalPlugin);
 Vue.use(PaginationPlugin);
 Vue.use(ProgressPlugin);
+Vue.use(PopoverPlugin);
 Vue.use(SpinnerPlugin);
 Vue.use(TablePlugin);

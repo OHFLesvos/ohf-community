@@ -89,6 +89,9 @@ import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector'
 import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector'
 import GridView from '@/components/cmtyvol/GridView'
 export default {
+    title() {
+        return this.$t("Community Volunteers");
+    },
     components: {
         BaseTable,
         Nl2br,
