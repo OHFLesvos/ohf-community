@@ -313,9 +313,9 @@ Route::middleware(['auth', 'language'])
     ->name('visitors.')
     ->group(function () {
         // TODO authorization
-        Route::view('', 'visitors.index')
+        Route::view('', 'vue-app')
             ->name('index');
-        Route::view('/{any}', 'visitors.index')
+        Route::view('/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('any');
     });

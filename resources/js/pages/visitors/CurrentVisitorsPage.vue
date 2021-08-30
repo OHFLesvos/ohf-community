@@ -103,6 +103,9 @@ import visitorsApi from '@/api/visitors'
 import RegisterVisitorForm from '@/components/visitors/RegisterVisitorForm'
 import BaseTable from '@/components/table/BaseTable'
 export default {
+    title() {
+        return this.$t("Visitors");
+    },
     components: {
         RegisterVisitorForm,
         BaseTable
