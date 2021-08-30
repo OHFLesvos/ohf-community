@@ -559,19 +559,7 @@ export default {
     watch: {
         form: {
             async handler(form) {
-                if (
-                    form.supplier_id &&
-                    this.selectedSupplier?.id != form.supplier_id
-                ) {
-                    const supplier = this.suppliers.filter(
-                        s => s.id == form.supplier_id
-                    )[0];
-                    this.selectedSupplier = (
-                        await suppliersApi.find(supplier.slug)
-                    ).data;
-                } else if (!form.supplier_id && this.selectedSupplier) {
-                    this.selectedSupplier = null;
-                }
+                await this.loadSupplierDetails(form.supplier_id)
             },
             deep: true
         }
@@ -591,6 +579,7 @@ export default {
         }
         this.attendees = taxonomies.attendees;
         this.suppliers = await suppliersApi.names();
+        await this.loadSupplierDetails(this.form.supplier_id)
         this.loaded = true;
     },
     methods: {
@@ -647,6 +636,21 @@ export default {
             });
             for (let child of elem.children) {
                 this.fillTree(tree, child, level + 1);
+            }
+        },
+        async loadSupplierDetails(supplierId) {
+            if (
+                supplierId &&
+                this.selectedSupplier?.id != supplierId
+            ) {
+                const supplier = this.suppliers.filter(
+                    s => s.id == supplierId
+                )[0];
+                this.selectedSupplier = (
+                    await suppliersApi.find(supplier.slug)
+                ).data;
+            } else if (!supplierId && this.selectedSupplier) {
+                this.selectedSupplier = null;
             }
         }
     }
