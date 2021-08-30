@@ -312,6 +312,11 @@
                             />
                         </b-form-group>
                     </validation-provider>
+                    <SupplierInfo
+                        v-if="selectedSupplier"
+                        :supplier="selectedSupplier"
+                        :hideName="true"
+                    />
                 </b-col>
             </b-form-row>
 
@@ -338,7 +343,10 @@
                 </b-col>
             </b-form-row>
 
-            <b-form-row v-if="transaction && transaction.receipt_pictures.length > 0" class="mb-3">
+            <b-form-row
+                v-if="transaction && transaction.receipt_pictures.length > 0"
+                class="mb-3"
+            >
                 <b-col
                     cols="auto"
                     v-for="picture in transaction.receipt_pictures"
@@ -406,9 +414,11 @@ import categoriesApi from "@/api/accounting/categories";
 import projectsApi from "@/api/accounting/projects";
 import suppliersApi from "@/api/accounting/suppliers";
 import ThumbnailImage from "@/components/ThumbnailImage";
+import SupplierInfo from "@/components/accounting/SupplierInfo";
 export default {
     components: {
-        ThumbnailImage
+        ThumbnailImage,
+        SupplierInfo
     },
     props: {
         transaction: {
@@ -480,7 +490,8 @@ export default {
             projects: [],
             locations: [],
             costCenters: [],
-            suppliers: []
+            suppliers: [],
+            selectedSupplier: null
         };
     },
     computed: {
@@ -543,6 +554,26 @@ export default {
                 }))
             );
             return arr;
+        }
+    },
+    watch: {
+        form: {
+            async handler(form) {
+                if (
+                    form.supplier_id &&
+                    this.selectedSupplier?.id != form.supplier_id
+                ) {
+                    const supplier = this.suppliers.filter(
+                        s => s.id == form.supplier_id
+                    )[0];
+                    this.selectedSupplier = (
+                        await suppliersApi.find(supplier.slug)
+                    ).data;
+                } else if (!form.supplier_id && this.selectedSupplier) {
+                    this.selectedSupplier = null;
+                }
+            },
+            deep: true
         }
     },
     async created() {
