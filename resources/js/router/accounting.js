@@ -19,35 +19,6 @@ export default [
         props: {
             header: {
                 title: i18n.t("Overview"),
-                buttons: [
-                    {
-                        to: {
-                            name: "accounting.transactions.summary"
-                        },
-                        icon: "calculator",
-                        text: i18n.t("Summary"),
-                        show: can("view-accounting-summary")
-                    },
-                    {
-                        to: { name: "accounting.categories.index" },
-                        icon: "tag",
-                        text: i18n.t("Categories"),
-                        show: can("view-accounting-categories")
-                    },
-                    {
-                        to: { name: "accounting.projects.index" },
-                        icon: "tag",
-                        text: i18n.t("Projects"),
-                        show: can("view-accounting-projects")
-                    },
-                    {
-                        to: { name: "accounting.suppliers.index" },
-                        variant: "secondary",
-                        icon: "truck",
-                        text: i18n.t("Suppliers"),
-                        show: can("view-suppliers") || can("manage-suppliers")
-                    }
-                ],
                 container: true
             }
         }
