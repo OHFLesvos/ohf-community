@@ -49,7 +49,9 @@ import {
     faTruck,
     faHome,
     faEraser,
-    faProjectDiagram
+    faProjectDiagram,
+    faChartBar,
+    faDoorOpen
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -102,7 +104,9 @@ library.add(
     faTruck,
     faHome,
     faEraser,
-    faProjectDiagram
+    faProjectDiagram,
+    faChartBar,
+    faDoorOpen
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

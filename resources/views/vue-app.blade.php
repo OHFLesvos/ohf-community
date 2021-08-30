@@ -23,6 +23,9 @@
             'view-fundraising-entities' => Gate::allows('view-fundraising-entities'),
             'manage-fundraising-entities' => Gate::allows('manage-fundraising-entities'),
             'view-fundraising-reports' => Gate::allows('view-fundraising-reports'),
+            'view-community-volunteer-reports' => Gate::allows('view-community-volunteer-reports'),
+            'view-fundraising-reports' => Gate::allows('view-fundraising-reports'),
+            'register-visitors' => Gate::allows('register-visitors'),
         ];
     @endphp
     <script>

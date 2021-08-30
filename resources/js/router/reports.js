@@ -1,8 +1,22 @@
+import i18n from "@/plugins/i18n";
+import PageHeader from "@/components/layout/PageHeader";
+
 export default [
     {
         path: "/reports",
-        redirect: {
-            name: "visitors.listCurrent"
+        name: "reports.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "reports" */ "@/pages/reports/ReportsIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Reports"),
+                container: true
+            }
         }
     },
     {

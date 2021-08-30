@@ -327,10 +327,9 @@ Route::prefix('reports')
     ->group(function () {
 
         // Reports overview
-        Route::get('', [ReportsController::class, 'index'])
+        Route::view('', 'vue-app')
             ->name('index')
             ->middleware('can:view-reports');
-
 
         // Reports: Community volunteers
         Route::prefix('cmtyvol')
