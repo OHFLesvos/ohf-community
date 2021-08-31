@@ -745,6 +745,7 @@ export default {
         "No entries registered.": "Keine Einträge registriert.",
         "Accounting category": "Buchhaltungskategorie",
         "Generating file...": "Datei wird erstellt...",
+        "Budget": "Budget",
         "Budgets": "Budgets",
         "Create budget": "Budget erstellen",
         "Budget added.": "Budget hinzugefügt.",

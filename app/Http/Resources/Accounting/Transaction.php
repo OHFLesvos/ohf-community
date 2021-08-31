@@ -20,6 +20,7 @@ class Transaction extends JsonResource
         $data['category_full_name'] = $this->category->getPathElements()->pluck('name')->join(' » ');
         $data['project_full_name'] = $this->when($this->project !== null, fn () => $this->project->getPathElements()->pluck('name')->join(' » '));
         $data['supplier'] = $this->whenLoaded('supplier', fn () => new Supplier($this->supplier));
+        $data['budget_name'] = $this->when($this->budget_id !== null, fn () => optional($this->budget)->name);
         $data['can_update'] = $request->user()->can('update', $this->resource);
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
         $audit = $this->audits()->first();

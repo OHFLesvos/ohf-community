@@ -25,6 +25,24 @@
                 {{ transaction.date }}
             </two-col-list-group-item>
 
+            <!-- Budget -->
+            <two-col-list-group-item
+                v-if="transaction.budget_id"
+                :title="$t('Budget')"
+            >
+                <router-link
+                    v-if="can('view-budgets')"
+                    :to="{
+                        name: 'accounting.budgets.show',
+                        params: { id: transaction.budget_id }
+                    }"
+                    >{{ transaction.budget_name }}</router-link
+                >
+                <template v-else>
+                    {{ transaction.budget_name }}
+                </template>
+            </two-col-list-group-item>
+
             <!-- Amount -->
             <two-col-list-group-item :title="$t('Amount')">
                 <span
@@ -242,6 +260,7 @@
 import transactionsApi from "@/api/accounting/transactions";
 import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
 import TransactionPictures from "@/components/accounting/TransactionPictures";
+import { can } from "@/plugins/laravel";
 export default {
     components: {
         TwoColListGroupItem,
@@ -267,6 +286,7 @@ export default {
         this.fetch();
     },
     methods: {
+        can,
         async fetch() {
             try {
                 let data = await transactionsApi.find(this.id);

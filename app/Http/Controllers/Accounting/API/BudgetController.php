@@ -59,7 +59,7 @@ class BudgetController extends Controller
 
     public function names()
     {
-        return Transaction::select('id', 'name')
+        return Budget::select('id', 'name', 'closed_at')
             ->orderBy('name')
             ->get();
     }
