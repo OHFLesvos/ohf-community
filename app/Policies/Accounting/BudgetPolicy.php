@@ -25,7 +25,7 @@ class BudgetPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('fundraising.donors_donations.view');
+        return $user->hasPermission('accounting.budgets.view');
     }
 
     /**
@@ -37,7 +37,7 @@ class BudgetPolicy
      */
     public function view(User $user, Budget $budget)
     {
-        return $user->hasPermission('fundraising.donors_donations.view');
+        return $user->hasPermission('accounting.budgets.view');
     }
 
     /**
@@ -48,7 +48,7 @@ class BudgetPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('fundraising.donors_donations.manage');
+        return $user->hasPermission('accounting.budgets.manage');
     }
 
     /**
@@ -60,7 +60,7 @@ class BudgetPolicy
      */
     public function update(User $user, Budget $budget)
     {
-        return $user->hasPermission('fundraising.donors_donations.manage');
+        return $user->hasPermission('accounting.budgets.manage');
     }
 
     /**
@@ -72,6 +72,6 @@ class BudgetPolicy
      */
     public function delete(User $user, Budget $budget)
     {
-        return $user->hasPermission('fundraising.donors_donations.manage');
+        return $user->hasPermission('accounting.budgets.manage');
     }
 }
