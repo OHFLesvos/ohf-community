@@ -241,4 +241,18 @@ class DonorController extends Controller
 
         return BudgetResource::collection($donor->budgets);
     }
+
+    public function names()
+    {
+        $this->authorize('viewAny', Donor::class);
+
+        return Donor::orderBy('first_name')
+            ->orderBy('last_name')
+            ->orderBy('company')
+            ->get()
+            ->map(fn ($donor) => [
+                'id' => $donor->id,
+                'name' => $donor->fullName,
+            ]);
+    }
 }

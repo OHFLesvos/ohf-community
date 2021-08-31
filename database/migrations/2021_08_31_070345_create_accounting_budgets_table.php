@@ -19,10 +19,12 @@ return new class extends Migration
             $table->text('description')
                 ->nullable();
             $table->decimal('amount', 8, 2);
-            $table->unsignedInteger('donor_id');
+            $table->unsignedInteger('donor_id')
+                ->nullable();
             $table->foreign('donor_id')
                 ->references('id')
-                ->on('donors');
+                ->on('donors')
+                ->nullOnDelete();
             $table->timestamps();
         });
 

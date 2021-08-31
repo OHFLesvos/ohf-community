@@ -18,7 +18,85 @@
                             <b-form-input
                                 v-model="form.name"
                                 autocomplete="off"
+                                reqired
                                 :autofocus="!budget"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                <!-- Amount -->
+                <b-col md="3">
+                    <validation-provider
+                        :name="$t('Amount')"
+                        vid="amount"
+                        :rules="{ required: true, decimal: true, min_value: 0 }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Amount')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                            :description="
+                                $t('Write decimal point as comma (,)')
+                            "
+                        >
+                            <b-form-input
+                                v-model="form.amount"
+                                autocomplete="off"
+                                type="number"
+                                required
+                                step=".01"
+                                min="0"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+            </b-form-row>
+
+            <b-form-row>
+                <!-- Description -->
+                <b-col md>
+                    <validation-provider
+                        :name="$t('Description')"
+                        vid="description"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Description')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-textarea
+                                v-model="form.description"
+                                autocomplete="off"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+            </b-form-row>
+
+            <b-form-row>
+                <!-- Donor -->
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Donor')"
+                        vid="donor_id"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Donor')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.donor_id"
+                                :options="donors"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -72,7 +150,8 @@
 </template>
 
 <script>
-import rolesApi from "@/api/user_management/roles";
+import { can } from "@/plugins/laravel";
+import donorsApi from "@/api/fundraising/donors";
 export default {
     props: {
         budget: {
@@ -85,16 +164,24 @@ export default {
         return {
             form: this.budget
                 ? {
-                      name: this.budget.name
+                      name: this.budget.name,
+                      amount: this.budget.amount,
+                      description: this.budget.description,
+                      donor_id: this.budget.donor_id
                   }
                 : {
-                      name: null
+                      name: null,
+                      amount: null,
+                      description: null,
+                      donor_id: null
                   },
-            roles: []
+            donors: []
         };
     },
     created() {
-        this.fetchRoles();
+        if (this.can("view-fundraising-entities")) {
+            this.fetchDonors();
+        }
     },
     methods: {
         getValidationState({ dirty, validated, valid = null }) {
@@ -108,15 +195,25 @@ export default {
                 this.$emit("delete");
             }
         },
-        async fetchRoles() {
-            let data = await rolesApi.list();
-            this.roles = data.data.map(r => {
-                return {
-                    text: r.name,
-                    value: r.id
-                };
-            });
-        }
+        async fetchDonors() {
+            let data = await donorsApi.names();
+            let donors = [
+                {
+                    value: null,
+                    text: `- ${this.$t("Donor")} -`
+                }
+            ];
+            donors.push(
+                ...data.map(donor => {
+                    return {
+                        text: donor.name,
+                        value: donor.id
+                    };
+                })
+            );
+            this.donors = donors;
+        },
+        can
     }
 };
 </script>

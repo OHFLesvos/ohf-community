@@ -5,27 +5,31 @@
             <dd class="col-sm-9">{{ budget.name }}</dd>
             <template v-if="budget.description">
                 <dt class="col-sm-3">{{ $t("Description") }}</dt>
-                <dd class="col-sm-9">{{ budget.description }}</dd>
+                <dd class="col-sm-9">
+                    <nl2br tag="span" :text="budget.description" />
+                </dd>
             </template>
-            <dt class="col-sm-3">{{ $t("Donor") }}</dt>
-            <dd class="col-sm-9">
-                <router-link
-                    v-if="can('view-fundraising-entities')"
-                    :to="{
-                        name: 'fundraising.donors.show',
-                        params: { id: budget.donor_id }
-                    }"
-                >
-                    {{ budget.donor.full_name }}
-                </router-link>
-                <template v-else>
-                    {{ budget.donor.full_name }}
-                </template>
-            </dd>
             <dt class="col-sm-3">{{ $t("Amount") }}</dt>
             <dd class="col-sm-9">{{ budget.amount | decimalNumberFormat }}</dd>
             <dt class="col-sm-3">{{ $t("Balance") }}</dt>
             <dd class="col-sm-9">{{ budget.balance | decimalNumberFormat }}</dd>
+            <template v-if="budget.donor">
+                <dt class="col-sm-3">{{ $t("Donor") }}</dt>
+                <dd class="col-sm-9">
+                    <router-link
+                        v-if="can('view-fundraising-entities')"
+                        :to="{
+                            name: 'fundraising.donors.show',
+                            params: { id: budget.donor_id }
+                        }"
+                    >
+                        {{ budget.donor.full_name }}
+                    </router-link>
+                    <template v-else>
+                        {{ budget.donor.full_name }}
+                    </template>
+                </dd>
+            </template>
         </dl>
         <base-table
             v-if="can('view-transactions')"
@@ -80,9 +84,11 @@
 import budgetsApi from "@/api/accounting/budgets";
 import BaseTable from "@/components/table/BaseTable";
 import { can } from "@/plugins/laravel";
+import Nl2br from "vue-nl2br";
 export default {
     components: {
-        BaseTable
+        BaseTable,
+        Nl2br
     },
     props: {
         id: {

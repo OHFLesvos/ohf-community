@@ -127,6 +127,8 @@ Route::middleware(['language', 'auth'])
             ->name('donors.export');
         Route::get('donors/salutations', [DonorController::class, 'salutations'])
             ->name('donors.salutations');
+        Route::get('donors/names', [DonorController::class, 'names'])
+            ->name('donors.names');
         Route::apiResource('donors', DonorController::class);
         Route::get('donors/{donor}/vcard', [DonorController::class, 'vcard'])
             ->name('donors.vcard');

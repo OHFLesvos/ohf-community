@@ -34,7 +34,8 @@ class StoreBudget extends FormRequest
                 'numeric',
             ],
             'donor_id' => [
-                'exists' => 'donors,id',
+                'nullable',
+                'exists:donors,id',
             ],
         ];
     }
