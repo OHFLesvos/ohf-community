@@ -103,16 +103,16 @@
                     </validation-provider>
                 </b-col>
 
-                <!-- Completed -->
+                <!-- Closing date -->
                 <b-col sm>
                     <validation-provider
-                        :name="$t('Completed')"
+                        :name="$t('Closing date')"
                         vid="closed_at"
                         :rules="{}"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('Completed')"
+                            :label="$t('Closing date')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -126,6 +126,12 @@
                     </validation-provider>
                 </b-col>
             </b-form-row>
+
+            <p>
+                <b-form-checkbox v-model="form.is_completed">
+                    {{ $t("Completed") }}
+                </b-form-checkbox>
+            </p>
 
             <p class="d-flex justify-content-between align-items-start">
                 <span>
@@ -184,6 +190,7 @@ export default {
                       description: this.budget.description,
                       donor_id: this.budget.donor_id,
                       closed_at: this.budget.closed_at,
+                      is_completed: this.budget.is_completed
                   }
                 : {
                       name: null,
@@ -191,6 +198,7 @@ export default {
                       description: null,
                       donor_id: null,
                       closed_at: null,
+                      is_completed: null
                   },
             donors: []
         };

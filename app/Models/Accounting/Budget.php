@@ -21,12 +21,17 @@ class Budget extends Model
         'amount',
         'donor_id',
         'closed_at',
+        'is_completed',
     ];
 
     protected $nullable = [
         'description',
         'donor_id',
         'closed_at',
+    ];
+
+    protected $casts = [
+        'is_completed' => 'boolean',
     ];
 
     protected $dates = [

@@ -599,7 +599,7 @@ export default {
             ];
             arr.push(
                 ...this.budgets
-                    .filter(budget => !budget.closed_at || this.transaction?.budget_id == budget.id)
+                    .filter(budget => !budget.is_completed || this.transaction?.budget_id == budget.id)
                     .map(e => ({
                     value: e.id,
                     text: e.name

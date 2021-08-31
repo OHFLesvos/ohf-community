@@ -757,7 +757,9 @@ export default {
         "Budget deleted.": "Budget gelöscht",
         "Really delete this budget?": "Soll dieses Budget wirklich gelöscht werden?",
         "No budgets found.": "Keine Budgets gefunden.",
+        "Closing date": "Abschlussdatum",
         "Completed": "Abgeschlossen",
+        "Date must be before or on the budget closing date {date}.": "Datum muss vor oder gleich dem Budgetabschlussdatum {date} sein.",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

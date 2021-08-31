@@ -28,6 +28,7 @@ class BudgetFactory extends Factory
             'description' => $this->faker->optional(0.7)->sentence,
             'amount' => $this->faker->randomFloat(2, 1, 50000),
             'donor_id' => Donor::factory(),
+            'is_completed' => $this->faker->boolean(10),
             'created_at' => $date,
             'closed_at' => $this->faker->optional(0.1)->dateTimeBetween($date, 'now'),
         ];

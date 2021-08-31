@@ -27,6 +27,7 @@ return new class extends Migration
                 ->nullOnDelete();
             $table->date('closed_at')
                 ->nullable();
+            $table->boolean('is_completed');
             $table->timestamps();
         });
 

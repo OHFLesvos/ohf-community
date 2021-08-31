@@ -31,8 +31,12 @@
                 </dd>
             </template>
             <template v-if="budget.closed_at">
-                <dt class="col-sm-3">{{ $t("Completed") }}</dt>
+                <dt class="col-sm-3">{{ $t("Closing date") }}</dt>
                 <dd class="col-sm-9">{{ budget.closed_at | dateFormat }}</dd>
+            </template>
+            <template v-if="budget.is_completed">
+                <dt class="col-sm-3">{{ $t("Completed") }}</dt>
+                <dd class="col-sm-9">{{ $t('Yes') }}</dd>
             </template>
         </dl>
         <base-table

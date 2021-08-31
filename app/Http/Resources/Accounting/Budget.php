@@ -26,6 +26,7 @@ class Budget extends JsonResource
             'num_transactions' => $this->transactions->count(),
             'can_update' => $request->user()->can('update', $this->resource),
             'can_delete' => $request->user()->can('delete', $this->resource),
+            "is_completed" => $this->is_completed,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "closed_at" => $this->closed_at,
