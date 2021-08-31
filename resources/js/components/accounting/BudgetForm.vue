@@ -198,7 +198,7 @@ export default {
                       description: null,
                       donor_id: null,
                       closed_at: null,
-                      is_completed: null
+                      is_completed: false
                   },
             donors: []
         };
