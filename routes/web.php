@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Accounting\TransactionsController;
-use App\Http\Controllers\Accounting\WalletController;
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Badges\BadgeMakerController;
@@ -12,10 +10,8 @@ use App\Http\Controllers\Collaboration\TagController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
-use App\Http\Controllers\Fundraising\FundraisingController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PrivacyPolicy;
-use App\Http\Controllers\Reports\ReportsController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
@@ -153,9 +149,9 @@ Route::middleware(['language', 'auth', 'can:view-fundraising'])
     ->name('fundraising.')
     ->group(function () {
         // SPA
-        Route::view('', 'fundraising.index')
+        Route::view('', 'vue-app')
             ->name('index');
-        Route::view('/{any}', 'fundraising.index')
+        Route::view('/{any}', 'vue-app')
             ->where('any', '.*');
     });
 
@@ -169,20 +165,20 @@ Route::middleware(['language', 'auth'])
     ->group(function () {
 
         // Overview
-        Route::view('', 'accounting.index')
+        Route::view('', 'vue-app')
             ->name('index');
 
-        Route::view('transactions/summary', 'accounting.index')
+        Route::view('transactions/summary', 'vue-app')
             ->name('transactions.summary');
 
         // Transactions
-        Route::view('wallets/{wallet}/transactions', 'accounting.index')
+        Route::view('wallets/{wallet}/transactions', 'vue-app')
             ->name('transactions.index');
-        Route::view('wallets/{wallet}/transactions/create', 'accounting.index')
+        Route::view('wallets/{wallet}/transactions/create', 'vue-app')
             ->name('transactions.create');
-        Route::view('transactions/{transaction}', 'accounting.index')
+        Route::view('transactions/{transaction}', 'vue-app')
             ->name('transactions.show');
-        Route::view('transactions/{transaction}/edit', 'accounting.index')
+        Route::view('transactions/{transaction}/edit', 'vue-app')
             ->name('transactions.edit');
 
         // Webling
@@ -196,32 +192,32 @@ Route::middleware(['language', 'auth'])
             ->name('webling.sync');
 
         // Wallets
-        Route::view('wallets', 'accounting.index')
+        Route::view('wallets', 'vue-app')
             ->name('wallets');
-        Route::view('wallets/{any}', 'accounting.index')
+        Route::view('wallets/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('wallets.any');
 
         // Categories
-        Route::view('categories', 'accounting.index')
+        Route::view('categories', 'vue-app')
             ->name('categories');
-        Route::view('categories/{any}', 'accounting.index')
+        Route::view('categories/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('categories.any');
 
         // Projects
-        Route::view('projects', 'accounting.index')
+        Route::view('projects', 'vue-app')
             ->name('projects');
-        Route::view('projects/{any}', 'accounting.index')
+        Route::view('projects/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('projects.any');
 
         // Suppliers
-        Route::view('suppliers', 'accounting.index')
+        Route::view('suppliers', 'vue-app')
             ->name('suppliers');
-        Route::view('suppliers/{supplier}', 'accounting.index')
+        Route::view('suppliers/{supplier}', 'vue-app')
             ->name('suppliers.show');
-        Route::view('suppliers/{any}', 'accounting.index')
+        Route::view('suppliers/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('suppliers.any');
     });
@@ -268,7 +264,7 @@ Route::middleware(['auth', 'language'])
             ->group(function () {
 
                 // Overview
-                Route::view('overview', 'cmtyvol.overview')
+                Route::view('overview', 'vue-app')
                     ->name('overview')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
@@ -313,9 +309,9 @@ Route::middleware(['auth', 'language'])
     ->name('visitors.')
     ->group(function () {
         // TODO authorization
-        Route::view('', 'visitors.index')
+        Route::view('', 'vue-app')
             ->name('index');
-        Route::view('/{any}', 'visitors.index')
+        Route::view('/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('any');
     });
@@ -327,17 +323,16 @@ Route::prefix('reports')
     ->group(function () {
 
         // Reports overview
-        Route::get('', [ReportsController::class, 'index'])
+        Route::view('', 'vue-app')
             ->name('index')
             ->middleware('can:view-reports');
-
 
         // Reports: Community volunteers
         Route::prefix('cmtyvol')
             ->name('cmtyvol.')
             ->middleware('can:view-community-volunteer-reports')
             ->group(function () {
-                Route::view('report', 'reports.cmtyvol.report')
+                Route::view('report', 'vue-app')
                     ->name('report');
             });
 
@@ -346,7 +341,7 @@ Route::prefix('reports')
             ->name('visitors.')
             ->middleware('can:register-visitors')
             ->group(function () {
-                Route::view('checkins', 'reports.visitors.checkins')
+                Route::view('checkins', 'vue-app')
                     ->name('checkins');
             });
 
@@ -355,7 +350,7 @@ Route::prefix('reports')
             ->name('fundraising.')
             ->middleware('can:view-fundraising-reports')
             ->group(function () {
-                Route::view('donations', 'reports.fundraising.donations')
+                Route::view('donations', 'vue-app')
                     ->name('donations');
             });
     });

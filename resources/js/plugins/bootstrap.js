@@ -4,6 +4,7 @@ import {
     AlertPlugin,
     AvatarPlugin,
     BadgePlugin,
+    BreadcrumbPlugin,
     ButtonPlugin,
     ButtonGroupPlugin,
     CardPlugin,
@@ -24,6 +25,7 @@ import {
     ModalPlugin,
     PaginationPlugin,
     ProgressPlugin,
+    PopoverPlugin,
     SpinnerPlugin,
     TablePlugin
 } from "bootstrap-vue";
@@ -32,6 +34,7 @@ Vue.use(AlertPlugin);
 Vue.use(AvatarPlugin);
 Vue.use(BadgePlugin);
 Vue.use(ButtonPlugin);
+Vue.use(BreadcrumbPlugin);
 Vue.use(ButtonGroupPlugin);
 Vue.use(CardPlugin);
 Vue.use(DropdownPlugin);
@@ -51,5 +54,6 @@ Vue.use(NavPlugin);
 Vue.use(ModalPlugin);
 Vue.use(PaginationPlugin);
 Vue.use(ProgressPlugin);
+Vue.use(PopoverPlugin);
 Vue.use(SpinnerPlugin);
 Vue.use(TablePlugin);

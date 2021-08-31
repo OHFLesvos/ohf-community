@@ -13,6 +13,9 @@ import donorsApi from "@/api/fundraising/donors";
 import { showSnackbar } from "@/utils";
 import DonorForm from "@/components/fundraising/DonorForm";
 export default {
+    title() {
+        return this.$t("Add donor");
+    },
     components: {
         DonorForm
     },

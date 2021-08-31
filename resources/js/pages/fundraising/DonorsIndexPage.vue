@@ -21,6 +21,9 @@
 import DonorsTable from '@/components/fundraising/DonorsTable'
 import donorsApi from '@/api/fundraising/donors'
 export default {
+    title() {
+        return this.$t("Donors");
+    },
     components: {
         DonorsTable
     },

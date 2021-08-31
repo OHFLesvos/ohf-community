@@ -42,6 +42,25 @@
                 </b-list-group-item>
             </b-list-group>
         </b-card>
+        <b-row>
+            <b-col
+                v-for="(button, idx) in buttons.filter(btn => btn.show)"
+                :key="idx"
+                sm="6"
+                md="4"
+                lg="3"
+                class="mb-4"
+            >
+                <b-button
+                    class="d-block"
+                    :variant="button.variant"
+                    :to="button.to"
+                >
+                    <font-awesome-icon :icon="button.icon" />
+                    {{ button.text }}</b-button
+                >
+            </b-col>
+        </b-row>
     </b-container>
 </template>
 
@@ -49,10 +68,42 @@
 import walletsApi from "@/api/accounting/wallets";
 import { can } from "@/plugins/laravel";
 export default {
+    title() {
+        return this.$t("Accounting");
+    },
     data() {
         return {
             loaded: false,
-            wallets: []
+            wallets: [],
+            buttons: [
+                {
+                    to: {
+                        name: "accounting.transactions.summary"
+                    },
+                    icon: "calculator",
+                    text: this.$t("Summary"),
+                    show: this.can("view-accounting-summary")
+                },
+                {
+                    to: { name: "accounting.categories.index" },
+                    icon: "tag",
+                    text: this.$t("Categories"),
+                    show: this.can("view-accounting-categories")
+                },
+                {
+                    to: { name: "accounting.projects.index" },
+                    icon: "project-diagram",
+                    text: this.$t("Projects"),
+                    show: this.can("view-accounting-projects")
+                },
+                {
+                    to: { name: "accounting.suppliers.index" },
+                    variant: "secondary",
+                    icon: "truck",
+                    text: this.$t("Suppliers"),
+                    show: this.can("view-suppliers") || can("manage-suppliers")
+                }
+            ]
         };
     },
     async created() {

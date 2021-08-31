@@ -29,6 +29,9 @@ import dateFormatMixin from "@/mixins/dateFormatMixin";
 Vue.mixin(numberFormatMixin);
 Vue.mixin(dateFormatMixin);
 
+import titleMixin from '@/mixins/titleMixin'
+Vue.mixin(titleMixin)
+
 if (document.getElementById("app")) {
     new Vue({
         router,

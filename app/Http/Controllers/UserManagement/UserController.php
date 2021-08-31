@@ -27,28 +27,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $request->validate([
-            'sort' => [
-                'in:name,created_at',
-            ],
-            'order' => [
-                'in:asc,desc',
-            ],
-        ]);
-
-        $sort = $request->input('sort', session('usermanagement.users.sort', 'name'));
-        $order = $request->input('order', session('usermanagement.users.order', 'asc'));
-
-        session(['usermanagement.users.sort' => $sort]);
-        session(['usermanagement.users.order' => $order]);
-
-        return view('user_management.users.index', [
-            'users' => User::with(['roles'])
-                ->orderBy($sort, $order)
-                ->paginate(100),
-            'sort' => $sort,
-            'order' => $order,
-        ]);
+        return view('vue-app');
     }
 
     /**

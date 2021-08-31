@@ -35,6 +35,9 @@ import donorsApi from '@/api/fundraising/donors'
 import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 import TabNav from '@/components/layout/TabNav'
 export default {
+    title() {
+        return this.$t("Show donor");
+    },
     components: {
         AlertWithRetry,
         TabNav
