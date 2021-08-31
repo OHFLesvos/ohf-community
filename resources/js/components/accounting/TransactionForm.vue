@@ -594,7 +594,7 @@ export default {
             let arr = [
                 {
                     value: null,
-                    text: `- ${this.$t("Budgets")} -`
+                    text: `- ${this.$t("No budget")} -`
                 }
             ];
             arr.push(

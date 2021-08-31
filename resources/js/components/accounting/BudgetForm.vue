@@ -217,7 +217,7 @@ export default {
             let donors = [
                 {
                     value: null,
-                    text: `- ${this.$t("Donor")} -`
+                    text: `- ${this.$t("No donor")} -`
                 }
             ];
             donors.push(
