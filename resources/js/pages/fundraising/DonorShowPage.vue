@@ -60,6 +60,7 @@ export default {
             loaded: false,
             error: null,
             canViewDonations: false,
+            canViewBudgets: false,
             donationsCount: null,
             budgetsCount: null,
             commentCount: null,
@@ -81,6 +82,7 @@ export default {
                     icon: 'money-bill-alt',
                     text: this.$t('Budgets'),
                     key: 'budgets',
+                    show: () => this.canViewBudgets
                 },
                 {
                     to: { name: 'fundraising.donors.show.comments' },
@@ -106,6 +108,7 @@ export default {
                 let data = await donorsApi.find(this.id, true)
                 let donor = data.data
                 this.canViewDonations = donor.can_view_donations
+                this.canViewBudgets = donor.can_view_budgets
                 this.donationsCount = donor.donations_count
                 this.budgetsCount = donor.budgets_count
                 this.commentCount = donor.comments_count
