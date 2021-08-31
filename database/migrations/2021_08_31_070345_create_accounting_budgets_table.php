@@ -27,7 +27,10 @@ return new class extends Migration
         });
 
         Schema::table('accounting_transactions', function (Blueprint $table) {
-            $table->foreignId('budget_id')->nullable()->constrained('accounting_budgets');
+            $table->foreignId('budget_id')
+                ->nullable()
+                ->constrained('accounting_budgets')
+                ->nullOnDelete();
         });
     }
 

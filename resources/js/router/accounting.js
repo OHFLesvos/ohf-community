@@ -500,5 +500,75 @@ export default [
                 container: true
             }
         }
-    }
+    },
+    {
+        path: "/accounting/budgets",
+        name: "accounting.budgets.index",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetsIndexPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Budgets"),
+                buttons: [
+                    {
+                        to: { name: "accounting.budgets.create" },
+                        variant: "primary",
+                        icon: "plus-circle",
+                        text: i18n.t("Add"),
+                        // show: can("configure-accounting")
+                    },
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview"),
+                        show:
+                            can("view-accounting-summary") ||
+                            can("view-transactions")
+                    }
+                ],
+                container: true
+            }
+        },
+    },
+    {
+        path: "/accounting/budgets/:id",
+        name: "accounting.budgets.show",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetShowPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Show budget"),
+                container: true
+            }
+        }
+    },
+    {
+        path: "/accounting/budgets/:id/edit",
+        name: "accounting.budgets.edit",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetEditPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Edit budget"),
+                container: true
+            }
+        }
+    },
 ];

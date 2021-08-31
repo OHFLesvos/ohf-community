@@ -220,6 +220,13 @@ Route::middleware(['language', 'auth'])
         Route::view('suppliers/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('suppliers.any');
+
+        // Budgets
+        Route::view('budgets', 'vue-app')
+            ->name('budgets');
+        Route::view('budgets/{any}', 'vue-app')
+            ->where('any', '.*')
+            ->name('budgets.any');
     });
 
 //

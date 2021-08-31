@@ -47,10 +47,9 @@ class Budget extends Model
      * Scope a query to only include budgets matching the given filter conditions
      *
      * @param \Illuminate\Database\Eloquent\Builder  $query
-     * @param string $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForFilter($query, string $filter)
+    public function scopeForFilter($query, ?string $filter)
     {
         if (empty($filter)) {
             return $query;

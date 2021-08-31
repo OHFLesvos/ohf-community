@@ -38,6 +38,8 @@ return [
         'book_externally' => 'Accounting: Book transactions externally',
         'view_summary' => 'Accounting: View summary',
         'manage_suppliers' => 'Accounting: Manage suppliers',
+        'view_budgets' => 'Accounting: View budgets',
+        'manage_budgets' => 'Accounting: Manage budgets',
         'configure_accounting'  => 'Accounting: Configure settings',
 
         'view_wiki' => 'Wiki: View articles',

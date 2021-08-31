@@ -102,6 +102,13 @@ export default {
                     icon: "truck",
                     text: this.$t("Suppliers"),
                     show: this.can("view-suppliers") || can("manage-suppliers")
+                },
+                                {
+                    to: { name: "accounting.budgets.index" },
+                    variant: "secondary",
+                    icon: "money-bill-alt",
+                    text: this.$t("Budgets"),
+                    show: this.can("view-budgets") || can("manage-budgets")
                 }
             ]
         };

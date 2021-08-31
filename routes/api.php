@@ -259,6 +259,8 @@ Route::middleware(['language', 'auth'])
         Route::get('suppliers/{supplier}/transactions', [SuppliersController::class, 'transactions'])
             ->name('suppliers.transactions');
 
+        Route::get('budgets/names', [BudgetController::class, 'names'])
+            ->name('budgets.names');
         Route::apiResource('budgets', BudgetController::class);
         Route::get('budgets/{budget}/transactions', [BudgetController::class, 'transactions'])
             ->name('budgets.transactions');

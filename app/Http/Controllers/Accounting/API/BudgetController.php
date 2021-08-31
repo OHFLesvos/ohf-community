@@ -22,6 +22,7 @@ class BudgetController extends Controller
     {
         $data = Budget::forFilter($request->input('filter', ''))
             ->orderBy('name')
+            ->with('transactions')
             ->paginate(10);
 
         return BudgetResource::collection($data);
@@ -38,7 +39,7 @@ class BudgetController extends Controller
 
     public function show(Budget $budget)
     {
-        return new BudgetResource($budget);
+        return new BudgetResource($budget->load('donor'));
     }
 
     public function update(StoreBudget $request, Budget $budget)
@@ -56,10 +57,21 @@ class BudgetController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
+    public function names()
+    {
+        return Transaction::select('id', 'name')
+            ->orderBy('name')
+            ->get();
+    }
+
     public function transactions(Budget $budget)
     {
         $this->authorize('viewAny', Transaction::class);
 
-        return new TransactionCollection($budget->transactions);
+        $data = $budget->transactions()
+            ->orderBy('created_at', 'desc')
+            ->paginate();
+
+        return new TransactionCollection($data);
     }
 }
