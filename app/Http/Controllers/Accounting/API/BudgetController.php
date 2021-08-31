@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Accounting\API;
 
+use App\Exports\Accounting\BudgetTransactionsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreBudget;
 use App\Http\Resources\Accounting\Budget as BudgetResource;
 use App\Http\Resources\Accounting\TransactionCollection;
 use App\Models\Accounting\Budget;
 use App\Models\Accounting\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -73,5 +75,16 @@ class BudgetController extends Controller
             ->paginate();
 
         return new TransactionCollection($data);
+    }
+
+    public function export(Budget $budget)
+    {
+        $this->authorize('viewAny', Transaction::class);
+
+        $file_name = config('app.name') . ' ' . __('Budget') . ' [' . $budget->name . '] (' . Carbon::now()->toDateString() . ')';
+        $file_ext = "xlsx";
+
+        $export = new BudgetTransactionsExport($budget);
+        return $export->download($file_name . '.' . $file_ext);
     }
 }

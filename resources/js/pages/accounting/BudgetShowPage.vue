@@ -36,7 +36,7 @@
             </template>
             <template v-if="budget.is_completed">
                 <dt class="col-sm-3">{{ $t("Completed") }}</dt>
-                <dd class="col-sm-9">{{ $t('Yes') }}</dd>
+                <dd class="col-sm-9">{{ $t("Yes") }}</dd>
             </template>
         </dl>
         <base-table
@@ -72,6 +72,13 @@
             >
                 <font-awesome-icon icon="edit" /> {{ $t("Edit") }}</router-link
             >
+            <b-button @click="exportFile" :disabled="isBusy">
+                <font-awesome-icon
+                    :icon="isBusy ? 'spinner' : 'download'"
+                    :spin="isBusy"
+                />
+                {{ $t("Export") }}
+            </b-button>
             <router-link
                 :to="{
                     name: 'accounting.budgets.index'
@@ -105,6 +112,7 @@ export default {
     },
     data() {
         return {
+            isBusy: false,
             budget: null,
             transactions: [],
             transactioFields: [
@@ -168,7 +176,17 @@ export default {
         async fetchTransactions() {
             return await budgetsApi.transactions(this.id);
         },
-        can
+        can,
+        async exportFile() {
+            this.isBusy = true;
+            try {
+                await budgetsApi.export(this.id);
+            } catch (err) {
+                alert(err);
+                console.error(err);
+            }
+            this.isBusy = false;
+        }
     }
 };
 </script>
