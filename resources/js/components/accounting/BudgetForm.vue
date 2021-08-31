@@ -102,15 +102,30 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-            </b-form-row>
 
-            <!-- <p>
-                <b-form-checkbox
-                    v-model="form.is_default"
-                >
-                    {{ $t('Default') }}
-                </b-form-checkbox>
-            </p> -->
+                <!-- Completed -->
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Completed')"
+                        vid="closed_at"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Completed')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-datepicker
+                                v-model="form.closed_at"
+                                autocomplete="off"
+                                reset-button
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+            </b-form-row>
 
             <p class="d-flex justify-content-between align-items-start">
                 <span>
@@ -167,13 +182,15 @@ export default {
                       name: this.budget.name,
                       amount: this.budget.amount,
                       description: this.budget.description,
-                      donor_id: this.budget.donor_id
+                      donor_id: this.budget.donor_id,
+                      closed_at: this.budget.closed_at,
                   }
                 : {
                       name: null,
-                      amount: null,
+                      amount: 0,
                       description: null,
-                      donor_id: null
+                      donor_id: null,
+                      closed_at: null,
                   },
             donors: []
         };

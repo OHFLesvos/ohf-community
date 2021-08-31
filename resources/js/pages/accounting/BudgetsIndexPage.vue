@@ -63,6 +63,12 @@ export default {
                     label: this.$t("Created"),
                     class: "fit",
                     formatter: this.dateFormat
+                },
+                {
+                    key: "closed_at",
+                    label: this.$t("Completed"),
+                    class: "fit",
+                    formatter: this.dateFormat
                 }
             ]
         };

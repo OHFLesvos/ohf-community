@@ -30,6 +30,10 @@
                     </template>
                 </dd>
             </template>
+            <template v-if="budget.closed_at">
+                <dt class="col-sm-3">{{ $t("Completed") }}</dt>
+                <dd class="col-sm-9">{{ budget.closed_at | dateFormat }}</dd>
+            </template>
         </dl>
         <base-table
             v-if="can('view-transactions')"

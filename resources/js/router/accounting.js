@@ -536,6 +536,23 @@ export default [
         },
     },
     {
+        path: "/accounting/budgets/create",
+        name: "accounting.budgets.create",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetCreatePage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Create budget"),
+                container: true
+            }
+        }
+    },
+    {
         path: "/accounting/budgets/:id",
         name: "accounting.budgets.show",
         components: {
