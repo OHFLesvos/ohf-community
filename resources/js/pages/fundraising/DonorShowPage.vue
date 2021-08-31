@@ -14,6 +14,14 @@
                     {{ donationsCount }}
                 </b-badge>
             </template>
+            <template v-slot:after(budgets)>
+                <b-badge
+                    v-if="budgetsCount > 0"
+                    class="ml-1"
+                >
+                    {{ budgetsCount }}
+                </b-badge>
+            </template>
             <template v-slot:after(comments)>
                 <b-badge
                     v-if="commentCount > 0"
@@ -53,6 +61,7 @@ export default {
             error: null,
             canViewDonations: false,
             donationsCount: null,
+            budgetsCount: null,
             commentCount: null,
             tabNavItems: [
                 {
@@ -66,6 +75,12 @@ export default {
                     text: this.$t('Donations'),
                     key: 'donations',
                     show: () => this.canViewDonations
+                },
+                {
+                    to: { name: 'fundraising.donors.show.budgets' },
+                    icon: 'money-bill-alt',
+                    text: this.$t('Budgets'),
+                    key: 'budgets',
                 },
                 {
                     to: { name: 'fundraising.donors.show.comments' },
@@ -92,6 +107,7 @@ export default {
                 let donor = data.data
                 this.canViewDonations = donor.can_view_donations
                 this.donationsCount = donor.donations_count
+                this.budgetsCount = donor.budgets_count
                 this.commentCount = donor.comments_count
                 this.loaded = true
             } catch (err) {
@@ -101,6 +117,9 @@ export default {
         updateCount (evt) {
             if (evt.type == 'donations') {
                 this.donationsCount = evt.value
+            }
+            if (evt.type == 'budgets') {
+                this.budgetsCount = evt.value
             }
             else if (evt.type == 'comments') {
                 this.commentCount = evt.value

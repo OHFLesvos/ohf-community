@@ -239,7 +239,7 @@ class DonorController extends Controller
         $this->authorize('view', $donor);
         $this->authorize('viewAny', Budget::class);
 
-        return BudgetResource::collection($donor->budgets);
+        return BudgetResource::collection($donor->budgets()->paginate());
     }
 
     public function names()

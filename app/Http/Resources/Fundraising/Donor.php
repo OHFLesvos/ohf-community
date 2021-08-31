@@ -43,6 +43,7 @@ class Donor extends JsonResource
                 'can_create_tag' => $request->user()->can('create', Tag::class),
                 'can_view_donations' => $can_view_donations,
                 'donations_count' => $can_view_donations ? $this->donations()->count() : null,
+                'budgets_count' => $this->budgets()->count(),
                 'comments_count' => $this->comments()->count(),
             ];
         }
