@@ -52,6 +52,28 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+
+                <!-- Budget -->
+                <b-col sm>
+                    <validation-provider
+                        :name="$t('Budget')"
+                        vid="budget_id"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Budget')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.budget_id"
+                                :options="budgetOptions"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
             </b-form-row>
 
             <b-form-row>
@@ -232,7 +254,6 @@
             </b-form-row>
 
             <b-form-row>
-
                 <!-- Location -->
                 <b-col sm v-if="useLocations">
                     <validation-provider
@@ -279,7 +300,6 @@
             </b-form-row>
 
             <b-form-row>
-
                 <!-- Description -->
                 <b-col sm>
                     <validation-provider
@@ -426,6 +446,7 @@ import projectsApi from "@/api/accounting/projects";
 import suppliersApi from "@/api/accounting/suppliers";
 import ThumbnailImage from "@/components/ThumbnailImage";
 import SupplierInfo from "@/components/accounting/SupplierInfo";
+import budgetsApi from "@/api/accounting/budgets";
 export default {
     components: {
         ThumbnailImage,
@@ -462,6 +483,7 @@ export default {
                       cost_center: this.transaction.cost_center,
                       description: this.transaction.description,
                       supplier_id: this.transaction.supplier_id,
+                      budget_id: this.transaction.budget_id,
                       remarks: this.transaction.remarks,
                       delete_receipts: []
                   }
@@ -481,6 +503,7 @@ export default {
                       cost_center: null,
                       description: null,
                       supplier_id: null,
+                      budget_id: null,
                       remarks: null,
                       delete_receipts: []
                   },
@@ -502,6 +525,7 @@ export default {
             locations: [],
             costCenters: [],
             suppliers: [],
+            budgets: [],
             selectedSupplier: null
         };
     },
@@ -565,12 +589,29 @@ export default {
                 }))
             );
             return arr;
+        },
+        budgetOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("No budget")} -`
+                }
+            ];
+            arr.push(
+                ...this.budgets
+                    .filter(budget => !budget.is_completed || this.transaction?.budget_id == budget.id)
+                    .map(e => ({
+                    value: e.id,
+                    text: e.name
+                }))
+            );
+            return arr;
         }
     },
     watch: {
         form: {
             async handler(form) {
-                await this.loadSupplierDetails(form.supplier_id)
+                await this.loadSupplierDetails(form.supplier_id);
             },
             deep: true
         }
@@ -590,7 +631,8 @@ export default {
         }
         this.attendees = taxonomies.attendees;
         this.suppliers = await suppliersApi.names();
-        await this.loadSupplierDetails(this.form.supplier_id)
+        this.budgets = await budgetsApi.names();
+        await this.loadSupplierDetails(this.form.supplier_id);
         this.loaded = true;
     },
     methods: {
@@ -650,10 +692,7 @@ export default {
             }
         },
         async loadSupplierDetails(supplierId) {
-            if (
-                supplierId &&
-                this.selectedSupplier?.id != supplierId
-            ) {
+            if (supplierId && this.selectedSupplier?.id != supplierId) {
                 const supplier = this.suppliers.filter(
                     s => s.id == supplierId
                 )[0];

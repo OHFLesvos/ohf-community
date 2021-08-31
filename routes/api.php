@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Accounting\API\BudgetController;
 use App\Http\Controllers\Accounting\API\CategoriesController;
 use App\Http\Controllers\Accounting\API\ControllingController;
 use App\Http\Controllers\Accounting\API\ExportController;
@@ -126,6 +127,8 @@ Route::middleware(['language', 'auth'])
             ->name('donors.export');
         Route::get('donors/salutations', [DonorController::class, 'salutations'])
             ->name('donors.salutations');
+        Route::get('donors/names', [DonorController::class, 'names'])
+            ->name('donors.names');
         Route::apiResource('donors', DonorController::class);
         Route::get('donors/{donor}/vcard', [DonorController::class, 'vcard'])
             ->name('donors.vcard');
@@ -135,6 +138,10 @@ Route::middleware(['language', 'auth'])
             ->only('index', 'store');
         Route::get('donors/{donor}/donations/export', [DonorDonationsController::class, 'export'])
             ->name('donors.donations.export');
+
+        // Budgets
+        Route::get('donors/{donor}/budgets', [DonorController::class, 'budgets'])
+            ->name('donors.budgets');
 
         // Donor's comments
         Route::apiResource('donors.comments', DonorCommentsController::class)
@@ -253,6 +260,14 @@ Route::middleware(['language', 'auth'])
         Route::resource('suppliers', SuppliersController::class);
         Route::get('suppliers/{supplier}/transactions', [SuppliersController::class, 'transactions'])
             ->name('suppliers.transactions');
+
+        Route::get('budgets/names', [BudgetController::class, 'names'])
+            ->name('budgets.names');
+        Route::apiResource('budgets', BudgetController::class);
+        Route::get('budgets/{budget}/transactions', [BudgetController::class, 'transactions'])
+            ->name('budgets.transactions');
+        Route::get('budgets/{budget}/export', [BudgetController::class, 'export'])
+            ->name('budgets.export');
     });
 
 //

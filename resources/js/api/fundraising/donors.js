@@ -54,5 +54,13 @@ export default {
     async storeDonorsTags (donorId, data) {
         const url = route('api.fundraising.donors.tags.store', donorId)
         return await api.post(url, data)
+    },
+    async names() {
+        const url = route("api.fundraising.donors.names");
+        return await api.get(url);
+    },
+    async budgets(donorId) {
+        const url = route("api.fundraising.donors.budgets", donorId);
+        return await api.get(url);
     }
 }

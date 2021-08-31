@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Fundraising\API;
 use App\Exports\Fundraising\DonorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonor;
+use App\Http\Resources\Accounting\Budget as BudgetResource;
 use App\Http\Resources\Fundraising\Donor as DonorResource;
 use App\Http\Resources\Fundraising\DonorCollection;
+use App\Models\Accounting\Budget;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -230,5 +232,27 @@ class DonorController extends Controller
         );
 
         return (new DonorsExport())->download($file_name);
+    }
+
+    public function budgets(Donor $donor)
+    {
+        $this->authorize('view', $donor);
+        $this->authorize('viewAny', Budget::class);
+
+        return BudgetResource::collection($donor->budgets()->paginate());
+    }
+
+    public function names()
+    {
+        $this->authorize('viewAny', Donor::class);
+
+        return Donor::orderBy('first_name')
+            ->orderBy('last_name')
+            ->orderBy('company')
+            ->get()
+            ->map(fn ($donor) => [
+                'id' => $donor->id,
+                'name' => $donor->fullName,
+            ]);
     }
 }

@@ -106,7 +106,8 @@ library.add(
     faEraser,
     faProjectDiagram,
     faChartBar,
-    faDoorOpen
+    faDoorOpen,
+    faMoneyBillAlt
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

@@ -743,5 +743,20 @@
     "Balance": "Bilanz",
     "No entries registered.": "Keine Einträge registriert.",
     "Accounting category": "Buchhaltungskategorie",
-    "Generating file...": "Datei wird erstellt..."
+    "Generating file...": "Datei wird erstellt...",
+    "No donor": "Kein Spender",
+    "Budget": "Budget",
+    "Budgets": "Budgets",
+    "No budget": "Kein Budget",
+    "Create budget": "Budget erstellen",
+    "Budget added.": "Budget hinzugefügt.",
+    "Show budget": "Budget anzeigen",
+    "Edit budget": "Budget bearbeiten",
+    "Budget updated.": "Budget aktualisiert",
+    "Budget deleted.": "Budget gelöscht",
+    "Really delete this budget?": "Soll dieses Budget wirklich gelöscht werden?",
+    "No budgets found.": "Keine Budgets gefunden.",
+    "Closing date": "Abschlussdatum",
+    "Completed": "Abgeschlossen",
+    "Date must be before or on the budget closing date :date.": "Datum muss vor oder gleich dem Budgetabschlussdatum :date sein."
 }

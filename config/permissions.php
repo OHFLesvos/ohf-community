@@ -50,6 +50,12 @@ return [
         'accounting.suppliers.manage' => [
             'label' => 'auth.permissions.manage_suppliers',
         ],
+        'accounting.budgets.view' => [
+            'label' => 'auth.permissions.view_budgets',
+        ],
+        'accounting.budgets.manage' => [
+            'label' => 'auth.permissions.manage_budgets',
+        ],
         'accounting.configure' => [
             'label' => 'auth.permissions.configure_accounting',
         ],
@@ -95,6 +101,7 @@ return [
         'view-accounting-summary' => 'accounting.summary.view',
         'book-accounting-transactions-externally' => 'accounting.transactions.book_externally',
         'manage-suppliers' => 'accounting.suppliers.manage',
+        'manage-budgets' => 'accounting.budgets.manage',
         'configure-accounting' => 'accounting.configure',
         'manage-community-volunteers' => 'cmtyvol.manage',
         'view-community-volunteer-reports' => 'cmtyvol.manage',

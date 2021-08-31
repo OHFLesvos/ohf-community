@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Accounting;
 
+use App\Models\Accounting\Budget;
 use App\Models\Accounting\Transaction;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
@@ -84,6 +85,10 @@ class StoreTransaction extends FormRequest
                 'nullable',
                 'exists:suppliers,id',
             ],
+            'budget_id' => [
+                'nullable',
+                'exists:accounting_budgets,id',
+            ],
             'delete_receipts' => [
                 'nullable',
                 'array',
@@ -102,6 +107,18 @@ class StoreTransaction extends FormRequest
         $validator->after(function ($validator) {
             if (optional($this->transaction)->controlled_at !== null) {
                 $validator->errors()->add('controlled_at', __('Kann bereits kontrollierte Transaktion nicht ändern.'));
+            }
+            if ($this->budget_id !== null) {
+                $budget = Budget::find($this->budget_id);
+                if ($budget !== null) {
+                    if ($budget->closed_at !== null) {
+                        $date = new Carbon($this->date);
+                        $closed = new Carbon($budget->closed_at);
+                        if ($date->gt($closed)) {
+                            $validator->errors()->add('date', __('Date must be before or on the budget closing date :date.', ['date' => $closed->toDateString()]));
+                        }
+                    }
+                }
             }
         });
     }

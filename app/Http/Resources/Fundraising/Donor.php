@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Fundraising;
 
+use App\Models\Accounting\Budget;
 use App\Models\Fundraising\Donation;
 use App\Models\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -27,12 +28,14 @@ class Donor extends JsonResource
     {
         if ($this->extended) {
             $can_view_donations = $request->user()->can('viewAny', Donation::class);
+            $can_view_budgets = $request->user()->can('viewAny', Budget::class);
             return [
                 'id' => $this->id,
                 'salutation' => $this->salutation,
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
                 'company' => $this->company,
+                'full_name' => $this->fullName,
                 'fullAddress' => $this->fullAddress,
                 'email' => $this->email,
                 'phone' => $this->phone,
@@ -42,6 +45,8 @@ class Donor extends JsonResource
                 'can_create_tag' => $request->user()->can('create', Tag::class),
                 'can_view_donations' => $can_view_donations,
                 'donations_count' => $can_view_donations ? $this->donations()->count() : null,
+                'can_view_budgets' => $can_view_budgets,
+                'budgets_count' => $can_view_budgets ? $this->budgets()->count() : null,
                 'comments_count' => $this->comments()->count(),
             ];
         }
@@ -52,6 +57,7 @@ class Donor extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'company' => $this->company,
+            'full_name' => $this->fullName,
             'street' => $this->street,
             'zip' => $this->zip,
             'city' => $this->city,

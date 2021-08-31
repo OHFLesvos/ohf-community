@@ -163,6 +163,15 @@ export default [
                 props: true
             },
             {
+                path: "budgets",
+                name: "fundraising.donors.show.budgets",
+                component: () =>
+                    import(
+                        /* webpackChunkName: "fundraising" */ "@/components/fundraising/DonorBudgets"
+                    ),
+                props: true
+            },
+            {
                 path: "comments",
                 name: "fundraising.donors.show.comments",
                 component: () =>

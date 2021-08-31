@@ -46,6 +46,7 @@
             :empty-filtered-text="$t('There are no records matching your request.')"
             :no-sort-reset="true"
             :filter="filter"
+            :tbody-tr-class="tbodyTrClass"
             class="bg-white shadow-sm"
         >
             <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
@@ -107,6 +108,9 @@ export default {
         emptyText: {
             required: false,
             type: String
+        },
+        tbodyTrClass: {
+            required: false,
         },
         itemsPerPage: {
             required: false,

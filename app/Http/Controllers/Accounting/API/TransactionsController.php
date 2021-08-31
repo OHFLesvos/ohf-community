@@ -104,6 +104,7 @@ class TransactionsController extends Controller
         $transaction->remarks = $request->remarks;
 
         $transaction->supplier()->associate($request->input('supplier_id'));
+        $transaction->budget()->associate($request->input('budget_id'));
 
         $transaction->wallet()->associate($wallet);
 
@@ -146,6 +147,7 @@ class TransactionsController extends Controller
         $transaction->remarks = $request->remarks;
 
         $transaction->supplier()->associate($request->input('supplier_id'));
+        $transaction->budget()->associate($request->input('budget_id'));
 
         foreach ($request->input('delete_receipts', []) as $picture) {
             $transaction->deleteReceiptPicture($picture);

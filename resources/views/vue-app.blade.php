@@ -26,6 +26,8 @@
             'view-community-volunteer-reports' => Gate::allows('view-community-volunteer-reports'),
             'view-fundraising-reports' => Gate::allows('view-fundraising-reports'),
             'register-visitors' => Gate::allows('register-visitors'),
+            'view-budgets' => Auth::user()->can('viewAny',  App\Models\Accounting\Budget::class),
+            'manage-budgets' => Gate::allows('manage-budgets'),
         ];
     @endphp
     <script>
