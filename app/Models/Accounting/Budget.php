@@ -20,10 +20,17 @@ class Budget extends Model
         'description',
         'amount',
         'donor_id',
+        'closed_at',
     ];
 
     protected $nullable = [
         'description',
+        'donor_id',
+        'closed_at',
+    ];
+
+    protected $dates = [
+        'closed_at',
     ];
 
     public function transactions()

@@ -25,6 +25,8 @@ return new class extends Migration
                 ->references('id')
                 ->on('donors')
                 ->nullOnDelete();
+            $table->date('closed_at')
+                ->nullable();
             $table->timestamps();
         });
 

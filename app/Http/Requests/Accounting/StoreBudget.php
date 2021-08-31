@@ -32,11 +32,16 @@ class StoreBudget extends FormRequest
             ],
             'amount' => [
                 'numeric',
+                'min:0',
             ],
             'donor_id' => [
                 'nullable',
                 'exists:donors,id',
             ],
+            'closed_at' => [
+                'nullable',
+                'date',
+            ]
         ];
     }
 }

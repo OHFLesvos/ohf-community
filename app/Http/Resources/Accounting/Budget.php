@@ -28,6 +28,7 @@ class Budget extends JsonResource
             'can_delete' => $request->user()->can('delete', $this->resource),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
+            "closed_at" => $this->closed_at,
         ];
     }
 }
