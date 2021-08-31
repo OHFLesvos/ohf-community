@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Accounting\API\BudgetController;
 use App\Http\Controllers\Accounting\API\CategoriesController;
 use App\Http\Controllers\Accounting\API\ControllingController;
 use App\Http\Controllers\Accounting\API\ExportController;
@@ -136,6 +137,10 @@ Route::middleware(['language', 'auth'])
         Route::get('donors/{donor}/donations/export', [DonorDonationsController::class, 'export'])
             ->name('donors.donations.export');
 
+        // Budgets
+        Route::get('donors/{donor}/budgets', [DonorController::class, 'budgets'])
+            ->name('donors.budgets');
+
         // Donor's comments
         Route::apiResource('donors.comments', DonorCommentsController::class)
             ->only('index', 'store');
@@ -253,6 +258,10 @@ Route::middleware(['language', 'auth'])
         Route::resource('suppliers', SuppliersController::class);
         Route::get('suppliers/{supplier}/transactions', [SuppliersController::class, 'transactions'])
             ->name('suppliers.transactions');
+
+        Route::apiResource('budgets', BudgetController::class);
+        Route::get('budgets/{budget}/transactions', [BudgetController::class, 'transactions'])
+            ->name('budgets.transactions');
     });
 
 //

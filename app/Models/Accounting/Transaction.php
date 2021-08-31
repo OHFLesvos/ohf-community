@@ -92,6 +92,11 @@ class Transaction extends Model implements Auditable
         return $this->belongsTo(Supplier::class);
     }
 
+    public function budget()
+    {
+        return $this->belongsTo(Budget::class);
+    }
+
     /**
      * Get the wallet that owns this transaction.
      */

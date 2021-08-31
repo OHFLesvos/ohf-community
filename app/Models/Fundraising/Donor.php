@@ -2,6 +2,7 @@
 
 namespace App\Models\Fundraising;
 
+use App\Models\Accounting\Budget;
 use App\Models\Traits\CommentsRelation;
 use App\Models\Traits\CountryCodeField;
 use App\Models\Traits\CreatedUntilScope;
@@ -108,6 +109,11 @@ class Donor extends Model
     public function donations()
     {
         return $this->hasMany(Donation::class);
+    }
+
+    public function budgets()
+    {
+        return $this->hasMany(Budget::class);
     }
 
     public function amountPerYear(int $year): ?int

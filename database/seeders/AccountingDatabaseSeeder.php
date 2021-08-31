@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Accounting\Budget;
 use App\Models\Accounting\Category;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Project;
@@ -48,5 +49,19 @@ class AccountingDatabaseSeeder extends Seeder
                         ->toArray()
                 );
             });
+
+        Budget::factory()
+            ->count(20)
+            ->create()
+            ->each(function(Budget $budget) {
+                Transaction::inRandomOrder()
+                    ->limit(mt_rand(5, 10))
+                    ->get()
+                    ->each(function(Transaction $transaction) use ($budget) {
+                        $transaction->budget()->associate($budget);
+                        $transaction->save();
+                    });
+            });
+
     }
 }
