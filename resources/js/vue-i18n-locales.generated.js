@@ -760,6 +760,8 @@ export default {
         "Closing date": "Abschlussdatum",
         "Completed": "Abgeschlossen",
         "Date must be before or on the budget closing date {date}.": "Datum muss vor oder gleich dem Budgetabschlussdatum {date} sein.",
+        "Agreed amount": "Vereinbarter Betrag",
+        "Initial amount": "Startbetrag",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
