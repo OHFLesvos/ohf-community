@@ -9,8 +9,12 @@
                     <nl2br tag="span" :text="budget.description" />
                 </dd>
             </template>
-            <dt class="col-sm-3">{{ $t("Amount") }}</dt>
-            <dd class="col-sm-9">{{ budget.amount | decimalNumberFormat }}</dd>
+            <dt class="col-sm-3">{{ $t("Agreed amount") }}</dt>
+            <dd class="col-sm-9">{{ budget.agreed_amount | decimalNumberFormat }}</dd>
+            <template v-if="budget.initial_amount">
+                <dt class="col-sm-3">{{ $t("Initial amount") }}</dt>
+                <dd class="col-sm-9">{{ budget.initial_amount | decimalNumberFormat }}</dd>
+            </template>
             <dt class="col-sm-3">{{ $t("Balance") }}</dt>
             <dd class="col-sm-9">{{ budget.balance | decimalNumberFormat }}</dd>
             <template v-if="budget.donor">

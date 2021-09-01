@@ -758,5 +758,7 @@
     "No budgets found.": "Keine Budgets gefunden.",
     "Closing date": "Abschlussdatum",
     "Completed": "Abgeschlossen",
-    "Date must be before or on the budget closing date :date.": "Datum muss vor oder gleich dem Budgetabschlussdatum :date sein."
+    "Date must be before or on the budget closing date :date.": "Datum muss vor oder gleich dem Budgetabschlussdatum :date sein.",
+    "Agreed amount": "Vereinbarter Betrag",
+    "Initial amount": "Startbetrag"
 }

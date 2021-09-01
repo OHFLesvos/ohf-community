@@ -18,7 +18,8 @@ class Budget extends Model
     protected $fillable = [
         'name',
         'description',
-        'amount',
+        'agreed_amount',
+        'initial_amount',
         'donor_id',
         'closed_at',
         'is_completed',
@@ -50,7 +51,7 @@ class Budget extends Model
 
     public function getBalance(): float
     {
-        return $this->amount + $this->transactions
+        return $this->initial_amount + $this->transactions
             ->map(fn ($transaction) => $transaction->type == 'income' ? $transaction->amount : -$transaction->amount)
             ->sum();
     }

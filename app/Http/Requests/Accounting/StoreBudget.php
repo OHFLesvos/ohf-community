@@ -30,7 +30,11 @@ class StoreBudget extends FormRequest
             'description' => [
                 'nullable',
             ],
-            'amount' => [
+            'agreed_amount' => [
+                'numeric',
+                'min:0',
+            ],
+            'initial_amount' => [
                 'numeric',
                 'min:0',
             ],

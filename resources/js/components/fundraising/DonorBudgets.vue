@@ -47,8 +47,8 @@ export default {
                     label: this.$t("Name")
                 },
                 {
-                    key: "amount",
-                    label: this.$t("Amount"),
+                    key: "agreed_amount",
+                    label: this.$t("Agreed amount"),
                     class: "fit text-right",
                     formatter: this.decimalNumberFormat
                 },

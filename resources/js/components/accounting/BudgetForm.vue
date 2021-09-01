@@ -26,16 +26,16 @@
                     </validation-provider>
                 </b-col>
 
-                <!-- Amount -->
+                <!-- Agreed amount -->
                 <b-col md="3">
                     <validation-provider
-                        :name="$t('Amount')"
-                        vid="amount"
+                        :name="$t('Agreed amount')"
+                        vid="agreed_amount"
                         :rules="{ required: true, decimal: true, min_value: 0 }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('Amount')"
+                            :label="$t('Agreed amount')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                             :description="
@@ -43,7 +43,36 @@
                             "
                         >
                             <b-form-input
-                                v-model="form.amount"
+                                v-model="form.agreed_amount"
+                                autocomplete="off"
+                                type="number"
+                                required
+                                step=".01"
+                                min="0"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                <!-- Initial amount -->
+                <b-col md="3">
+                    <validation-provider
+                        :name="$t('Initial amount')"
+                        vid="initial_amount"
+                        :rules="{ required: true, decimal: true, min_value: 0 }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Initial amount')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                            :description="
+                                $t('Write decimal point as comma (,)')
+                            "
+                        >
+                            <b-form-input
+                                v-model="form.initial_amount"
                                 autocomplete="off"
                                 type="number"
                                 required
@@ -186,7 +215,8 @@ export default {
             form: this.budget
                 ? {
                       name: this.budget.name,
-                      amount: this.budget.amount,
+                      agreed_amount: this.budget.agreed_amount,
+                      initial_amount: this.budget.initial_amount,
                       description: this.budget.description,
                       donor_id: this.budget.donor_id,
                       closed_at: this.budget.closed_at,
@@ -194,7 +224,8 @@ export default {
                   }
                 : {
                       name: null,
-                      amount: 0,
+                      agreed_amount: 0,
+                      initial_amount: 0,
                       description: null,
                       donor_id: null,
                       closed_at: null,
