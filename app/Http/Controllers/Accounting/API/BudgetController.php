@@ -72,6 +72,7 @@ class BudgetController extends Controller
 
         $data = $budget->transactions()
             ->orderBy('created_at', 'desc')
+            ->with('supplier')
             ->paginate();
 
         return new TransactionCollection($data);

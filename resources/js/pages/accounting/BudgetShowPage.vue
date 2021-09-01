@@ -64,6 +64,19 @@
                     {{ data.value }}
                 </router-link>
             </template>
+
+            <template v-slot:cell(supplier)="data">
+                <router-link
+                    v-if="data.item.supplier"
+                    :to="{
+                        name: 'accounting.suppliers.show',
+                        params: { id: data.item.supplier.slug }
+                    }"
+                    :title="data.item.supplier.category"
+                >
+                    {{ data.item.supplier.name }}
+                </router-link>
+            </template>
         </base-table>
         <p>
             <router-link
