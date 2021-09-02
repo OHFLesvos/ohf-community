@@ -64,26 +64,24 @@ export default {
                 },
                 !this.flattenChildren
                     ? {
-                          key: "amount",
+                          key: "amount_formatted",
                           label: this.$t("Amount"),
                           class: "text-right",
-                          formatter: (value, key, item) =>
-                              this.decimalNumberFormat(value),
                           tdClass: (value, key, item) =>
-                              this.colorClass(value > 0)
+                              this.colorClass(item.amount > 0)
                       }
                     : null,
                 this.flattenChildren
                     ? {
-                          key: "total_amount",
+                          key: "total_amount_formatted",
                           label: this.$t("Total Amount"),
                           class: "text-right",
                           formatter: (value, key, item) =>
-                              item.amount != value
-                                  ? "(" + this.decimalNumberFormat(value) + ")"
-                                  : this.decimalNumberFormat(value),
+                              item.amount_formatted != value
+                                  ? "(" + value + ")"
+                                  : value,
                           tdClass: (value, key, item) =>
-                              this.colorClass(value > 0)
+                              this.colorClass(item.total_amount > 0)
                       }
                     : null,
                 this.showDonations
@@ -117,7 +115,9 @@ export default {
                 donations: elem.donations,
                 prefix: level > 0 ? "&nbsp;".repeat(level * 5) : "",
                 amount: elem.amount,
-                total_amount: elem.total_amount
+                amount_formatted: elem.amount_formatted,
+                total_amount: elem.total_amount,
+                total_amount_formatted: elem.total_amount_formatted
             });
             for (let child of elem.children) {
                 this.fillTree(tree, child, level + 1);

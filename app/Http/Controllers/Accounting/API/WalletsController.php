@@ -129,6 +129,7 @@ class WalletsController extends Controller
                 'id' => $wallet->id,
                 'name' => $wallet->name,
                 'amount' => $wallet->amount,
+                'amount_formatted' => $wallet->amount_formatted,
             ]);
     }
 }

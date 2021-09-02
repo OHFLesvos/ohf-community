@@ -16,6 +16,7 @@ class Wallet extends JsonResource
     {
         $data = parent::toArray($request);
         $data['amount'] = $this->amount;
+        $data['amount_formatted'] = $this->amountFormatted;
         $data['num_transactions'] = $this->transactions()->count();
         $data['is_restricted'] = $this->roles()->exists();
         $data['roles'] = $this->roles->map(fn ($u) => $u->only(['id', 'name']));

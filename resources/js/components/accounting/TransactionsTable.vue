@@ -224,7 +224,7 @@ export default {
                 return null;
             }
             const wallet = this.wallets.filter(w => w.id == this.wallet)[0];
-            return this.decimalNumberFormat(wallet.amount);
+            return wallet.amount_formatted;
         },
         walletOptions() {
             return this.wallets.map(e => ({

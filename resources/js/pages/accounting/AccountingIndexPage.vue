@@ -33,7 +33,7 @@
                     >
                         {{ wallet.name }}
                         <span class="float-right">{{
-                            wallet.amount | decimalNumberFormat
+                            wallet.amount_formatted
                         }}</span>
                     </b-list-group-item>
                 </template>
