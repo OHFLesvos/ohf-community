@@ -71,7 +71,7 @@ export default {
                     }
                 },
                 {
-                    key: "category",
+                    key: "category_full_name",
                     label: this.$t("Category")
                 },
                 {
