@@ -362,7 +362,6 @@
                     <SupplierInfo
                         v-if="selectedSupplier"
                         :supplier="selectedSupplier"
-                        :hideName="true"
                     />
                 </b-col>
             </b-form-row>
