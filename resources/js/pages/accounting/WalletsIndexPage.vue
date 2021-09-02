@@ -59,10 +59,9 @@ export default {
                     label: this.$t("Name")
                 },
                 {
-                    key: "amount",
+                    key: "amount_formatted",
                     label: this.$t("Amount"),
                     class: "fit text-right",
-                    formatter: this.decimalNumberFormat
                 },
                 {
                     key: "num_transactions",

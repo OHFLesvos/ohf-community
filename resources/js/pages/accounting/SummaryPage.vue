@@ -96,28 +96,19 @@
                         <strong>{{ $t("Sum across all wallets") }}</strong>
                     </b-td>
                     <b-td class="text-right">
-                        <strong>{{
-                            totals.income | decimalNumberFormat
-                        }}</strong>
+                        <strong>{{ totals.income_formatted }}</strong>
                     </b-td>
                     <b-td class="text-right">
-                        <strong>{{
-                            totals.spending | decimalNumberFormat
-                        }}</strong>
+                        <strong>{{ totals.spending_formatted }}</strong>
                     </b-td>
                     <b-td class="text-right">
-                        <strong>{{
-                            (totals.income - totals.spending)
-                                | decimalNumberFormat
-                        }}</strong>
+                        <strong>{{ totals.difference_formatted }}</strong>
                     </b-td>
                     <b-td class="text-right">
-                        <strong>{{ totals.fees | decimalNumberFormat }}</strong>
+                        <strong>{{ totals.fees_formatted }}</strong>
                     </b-td>
                     <b-td class="text-right">
-                        <strong>{{
-                            totals.amount | decimalNumberFormat
-                        }}</strong>
+                        <strong>{{ totals.amount_formatted }}</strong>
                     </b-td>
                 </b-tr>
             </template>
@@ -228,38 +219,31 @@ export default {
                     label: this.$t("Wallet")
                 },
                 {
-                    key: "income",
+                    key: "income_formatted",
                     label: this.$t("Income"),
-                    class: "text-right",
-                    formatter: this.decimalNumberFormat
+                    class: "text-right"
                 },
                 {
-                    key: "spending",
+                    key: "spending_formatted",
                     label: this.$t("Spending"),
-                    class: "text-right",
-                    formatter: this.decimalNumberFormat
+                    class: "text-right"
                 },
                 {
-                    key: "difference",
+                    key: "difference_formatted",
                     label: this.$t("Difference"),
                     class: "text-right",
-                    formatter: (value, key, item) =>
-                        this.decimalNumberFormat(item.income - item.spending),
-                    tdClass: (value, key, item) =>
-                        this.colorClass(item.income - item.spending > 0)
+                    tdClass: value => this.colorClass(value > 0)
                 },
                 {
-                    key: "fees",
+                    key: "fees_formatted",
                     label: this.$t("Fees"),
-                    class: "text-right",
-                    formatter: this.decimalNumberFormat
+                    class: "text-right"
                 },
                 {
-                    key: "amount",
+                    key: "amount_formatted",
                     label: this.$t("Balance"),
                     class: "text-right",
-                    formatter: this.decimalNumberFormat,
-                    tdClass: (value, key, item) => this.colorClass(value > 0)
+                    tdClass: value => this.colorClass(value > 0)
                 }
             ]
         };

@@ -7,6 +7,7 @@ use App\Models\Accounting\Category;
 use App\Models\Accounting\Project;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
+use App\Support\Accounting\FormatsCurrency;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ use Setting;
 
 class SummaryController extends Controller
 {
+    use FormatsCurrency;
+
     public function index(Request $request)
     {
         $this->authorize('view-accounting-summary');
@@ -58,42 +61,66 @@ class SummaryController extends Controller
 
         $totals = $this->totals($request);
         $wallets = Wallet::orderBy('name')
-            ->when($request->filled('wallet'), fn($qry) => $qry->where('id', $request->wallet))
+            ->when($request->filled('wallet'), fn ($qry) => $qry->where('id', $request->wallet))
             ->get()
             ->filter(fn ($wallet) => request()->user()->can('view', $wallet))
-            ->map(fn ($wallet) => [
-                'id' => $wallet->id,
-                'name' => $wallet->name,
-                'income' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['income'] ?? 0 : 0,
-                'spending' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['spending'] ?? 0 : 0,
-                'fees' => isset($totals[$wallet->id]) ? $totals[$wallet->id]['fees'] ?? 0 : 0,
-                'amount' => $wallet->calculatedSum($dateTo),
-            ]);
+            ->map(function (Wallet $wallet) use ($dateTo, $totals) {
+                $income = isset($totals[$wallet->id]) ? $totals[$wallet->id]['income'] ?? 0 : 0;
+                $spending = isset($totals[$wallet->id]) ? $totals[$wallet->id]['spending'] ?? 0 : 0;
+                $amount = $wallet->calculatedSum($dateTo);
+                $fees = isset($totals[$wallet->id]) ? $totals[$wallet->id]['fees'] ?? 0 : 0;
+                return [
+                    'id' => $wallet->id,
+                    'name' => $wallet->name,
+                    'income' => $income,
+                    'income_formatted' => $this->formatCurrency($income),
+                    'spending' => $spending,
+                    'spending_formatted' => $this->formatCurrency($spending),
+                    'difference' => $income - $spending,
+                    'difference_formatted' => $this->formatCurrency($income - $spending),
+                    'fees' => $fees,
+                    'fees_formatted' => $this->formatCurrency($fees),
+                    'amount' => $amount,
+                    'amount_formatted' => $this->formatCurrency($amount),
+                ];
+            });
 
         $categories = Category::queryByParent();
         $revenueByCategory = $this->revenueByRelationField('category_id', 'category', $request);
         $this->fillInRevenue($categories, $revenueByCategory);
         $categories = $this->removeZeroRevenueItems($categories);
+        $categories = $this->addFormattedAmounts($categories);
         $this->addCategoryDonations($categories);
 
         $projects = Project::queryByParent();
         $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
         $this->fillInRevenue($projects, $revenueByProject);
         $projects = $this->removeZeroRevenueItems($projects);
+        $projects = $this->addFormattedAmounts($projects);
 
         $useLocations = Setting::get('accounting.transactions.use_locations') ?? false;
         $useSecondaryCategories = Setting::get('accounting.transactions.use_secondary_categories') ?? false;
 
+        $totalIncome = $totals->sum('income');
+        $totalSpending = $totals->sum('spending');
+        $totalFees = $totals->sum('fees');
+        $totalAmount = $wallets->sum('amount');
         return [
             'years' => Transaction::years(),
             'categories' => $categories,
             'projects' => $projects,
             'wallets' => $wallets,
             'totals' => [
-                'income' => $totals->sum('income'),
-                'spending' => $totals->sum('spending'),
-                'fees' => $totals->sum('fees'),
-                'amount' => $wallets->sum('amount'),
+                'income' => $totalIncome,
+                'income_formatted' => $this->formatCurrency($totalIncome),
+                'spending' => $totalSpending,
+                'spending_formatted' => $this->formatCurrency($totalSpending),
+                'difference' => $totalIncome - $totalSpending,
+                'difference_formatted' => $this->formatCurrency($totalIncome - $totalSpending),
+                'fees' => $totalFees,
+                'fees_formatted' => $this->formatCurrency($totalFees),
+                'amount' => $totalAmount,
+                'amount_formatted' => $this->formatCurrency($totalAmount),
             ],
             'locations' => $useLocations
                 ? $this->revenueByField('location', $request)
@@ -128,7 +155,7 @@ class SummaryController extends Controller
         $total = 0;
         foreach ($items as &$item) {
             $childRevenue = $this->fillInRevenue($item['children'], $revenues);
-            $item['amount'] = $revenues->get($item['id'], 0);
+            $item['amount'] = (float) $revenues->get($item['id'], 0);
             $item['total_amount'] = $item['amount'] + $childRevenue;
             $total += $item['total_amount'];
         }
@@ -147,12 +174,22 @@ class SummaryController extends Controller
         return collect($filteredItems);
     }
 
+    private function addFormattedAmounts(Collection $items): Collection
+    {
+        foreach ($items as &$item) {
+            $item['children'] = $this->addFormattedAmounts($item['children']);
+            $item['amount_formatted'] = $this->formatCurrency($item['amount']);
+            $item['total_amount_formatted'] = $this->formatCurrency($item['total_amount']);
+        }
+        return $items;
+    }
+
     private function addCategoryDonations(Collection $categories): void
     {
         foreach ($categories as &$item) {
             $this->addCategoryDonations($item['children']);
             $donationSum = $item->donations()->sum('exchange_amount');
-            $item['donations'] = $donationSum > 0 ? (number_format($donationSum, 2) . ' '. config('fundraising.base_currency')) : null;
+            $item['donations'] = $donationSum > 0 ? (number_format($donationSum, 2) . ' ' . config('fundraising.base_currency')) : null;
         }
     }
 
