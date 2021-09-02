@@ -1,16 +1,14 @@
 <template>
     <dl class="row">
-        <template v-if="!hideName">
-            <dt class="col-sm-3">{{ $t("Name") }}</dt>
-            <dd class="col-sm-9">{{ supplier.name }}</dd>
-            <template v-if="supplier.category">
-                <dt class="col-sm-3">
-                    {{ $t("Category") }}
-                </dt>
-                <dd class="col-sm-9">
-                    {{ supplier.category }}
-                </dd>
-            </template>
+        <dt class="col-sm-3">{{ $t("Name") }}</dt>
+        <dd class="col-sm-9">{{ supplier.name }}</dd>
+        <template v-if="supplier.category">
+            <dt class="col-sm-3">
+                {{ $t("Category") }}
+            </dt>
+            <dd class="col-sm-9">
+                {{ supplier.category }}
+            </dd>
         </template>
         <template v-if="supplier.address">
             <dt class="col-sm-3">{{ $t("Address") }}</dt>
@@ -74,8 +72,7 @@ export default {
     props: {
         supplier: {
             required: true
-        },
-        hideName: Boolean
+        }
     }
 };
 </script>
