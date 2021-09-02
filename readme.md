@@ -12,6 +12,7 @@ Requirements
   * Mbstring PHP Extension
   * Tokenizer PHP Extension
   * XML PHP Extension
+  * Intl Extension
 * Composer
 * MySQL Database
 

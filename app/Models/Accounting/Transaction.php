@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use NumberFormatter;
 use Org_Heigl\Ghostscript\Ghostscript;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -408,5 +409,11 @@ class Transaction extends Model implements Auditable
             ->orderBy('receipt_no', 'ASC')
             ->pluck('sum')
             ->first();
+    }
+
+    public function getAmountFormattedAttribute()
+    {
+        $fmt = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
+        return $fmt->formatCurrency($this->amount, config('accounting.default_currency'));
     }
 }
