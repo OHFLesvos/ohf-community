@@ -99,10 +99,10 @@ export const api = {
             let filename = null;
             const disposition = response.headers["content-disposition"];
             if (disposition && disposition.indexOf("attachment") !== -1) {
-                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                var filenameRegex = /filename\*?=['"]?(?:UTF-\d['"]*)?([^;\r\n"']*)['"]?;?/;
                 var matches = filenameRegex.exec(disposition);
                 if (matches != null && matches[1]) {
-                    filename = matches[1].replace(/['"]/g, "");
+                    filename = decodeURIComponent(matches[1].replace(/['"]/g, ""));
                 }
             }
 

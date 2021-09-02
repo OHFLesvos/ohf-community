@@ -10,10 +10,14 @@
                 </dd>
             </template>
             <dt class="col-sm-3">{{ $t("Agreed amount") }}</dt>
-            <dd class="col-sm-9">{{ budget.agreed_amount | decimalNumberFormat }}</dd>
+            <dd class="col-sm-9">
+                {{ budget.agreed_amount | decimalNumberFormat }}
+            </dd>
             <template v-if="budget.initial_amount">
                 <dt class="col-sm-3">{{ $t("Initial amount") }}</dt>
-                <dd class="col-sm-9">{{ budget.initial_amount | decimalNumberFormat }}</dd>
+                <dd class="col-sm-9">
+                    {{ budget.initial_amount | decimalNumberFormat }}
+                </dd>
             </template>
             <dt class="col-sm-3">{{ $t("Balance") }}</dt>
             <dd class="col-sm-9">{{ budget.balance | decimalNumberFormat }}</dd>
@@ -64,6 +68,19 @@
                     {{ data.value }}
                 </router-link>
             </template>
+
+            <template v-slot:cell(supplier)="data">
+                <router-link
+                    v-if="data.item.supplier"
+                    :to="{
+                        name: 'accounting.suppliers.show',
+                        params: { id: data.item.supplier.slug }
+                    }"
+                    :title="data.item.supplier.category"
+                >
+                    {{ data.item.supplier.name }}
+                </router-link>
+            </template>
         </base-table>
         <p>
             <router-link
@@ -76,13 +93,21 @@
             >
                 <font-awesome-icon icon="edit" /> {{ $t("Edit") }}</router-link
             >
-            <b-button @click="exportFile" :disabled="isBusy">
-                <font-awesome-icon
-                    :icon="isBusy ? 'spinner' : 'download'"
-                    :spin="isBusy"
-                />
-                {{ $t("Export") }}
-            </b-button>
+            <b-dropdown :disabled="isBusy">
+                <template #button-content>
+                    <font-awesome-icon
+                        :icon="isBusy ? 'spinner' : 'download'"
+                        :spin="isBusy"
+                    />
+                    {{ $t("Export") }}
+                </template>
+                <b-dropdown-item @click="exportFile()"
+                    >{{ $t('Spreadsheet only') }}</b-dropdown-item
+                >
+                <b-dropdown-item @click="exportFile({ include_pictures: true })"
+                    >{{ $t('Spreadsheet and pictures') }}</b-dropdown-item
+                >
+            </b-dropdown>
             <router-link
                 :to="{
                     name: 'accounting.budgets.index'
@@ -181,10 +206,10 @@ export default {
             return await budgetsApi.transactions(this.id);
         },
         can,
-        async exportFile() {
+        async exportFile(params) {
             this.isBusy = true;
             try {
-                await budgetsApi.export(this.id);
+                await budgetsApi.export(this.id, params);
             } catch (err) {
                 alert(err);
                 console.error(err);

@@ -762,6 +762,8 @@ export default {
         "Date must be before or on the budget closing date {date}.": "Datum muss vor oder gleich dem Budgetabschlussdatum {date} sein.",
         "Agreed amount": "Vereinbarter Betrag",
         "Initial amount": "Startbetrag",
+        "Spreadsheet only": "Nur Tabelle",
+        "Spreadsheet and pictures": "Tabelle und Bilder",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

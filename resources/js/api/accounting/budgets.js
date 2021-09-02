@@ -34,8 +34,8 @@ export default {
         const url = route("api.accounting.budgets.names");
         return await api.get(url);
     },
-    async export(id) {
-        const url = route("api.accounting.budgets.export", id);
+    async export(id, params) {
+        const url = route("api.accounting.budgets.export", { budget: id, ...params });
         return await api.download(url);
     }
 };
