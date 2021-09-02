@@ -47,16 +47,14 @@ export default {
                     label: this.$t("Name")
                 },
                 {
-                    key: "agreed_amount",
+                    key: "agreed_amount_formatted",
                     label: this.$t("Agreed amount"),
                     class: "fit text-right",
-                    formatter: this.decimalNumberFormat
                 },
                 {
-                    key: "balance",
+                    key: "balance_formatted",
                     label: this.$t("Balance"),
                     class: "fit text-right",
-                    formatter: this.decimalNumberFormat
                 },
                 {
                     key: "num_transactions",

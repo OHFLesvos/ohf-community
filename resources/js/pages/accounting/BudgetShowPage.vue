@@ -11,16 +11,16 @@
             </template>
             <dt class="col-sm-3">{{ $t("Agreed amount") }}</dt>
             <dd class="col-sm-9">
-                {{ budget.agreed_amount | decimalNumberFormat }}
+                {{ budget.agreed_amount_formatted }}
             </dd>
             <template v-if="budget.initial_amount">
                 <dt class="col-sm-3">{{ $t("Initial amount") }}</dt>
                 <dd class="col-sm-9">
-                    {{ budget.initial_amount | decimalNumberFormat }}
+                    {{ budget.initial_amount_formatted }}
                 </dd>
             </template>
             <dt class="col-sm-3">{{ $t("Balance") }}</dt>
-            <dd class="col-sm-9">{{ budget.balance | decimalNumberFormat }}</dd>
+            <dd class="col-sm-9">{{ budget.balance_formatted }}</dd>
             <template v-if="budget.donor">
                 <dt class="col-sm-3">{{ $t("Donor") }}</dt>
                 <dd class="col-sm-9">
@@ -101,11 +101,12 @@
                     />
                     {{ $t("Export") }}
                 </template>
-                <b-dropdown-item @click="exportFile()"
-                    >{{ $t('Spreadsheet only') }}</b-dropdown-item
-                >
-                <b-dropdown-item @click="exportFile({ include_pictures: true })"
-                    >{{ $t('Spreadsheet and pictures') }}</b-dropdown-item
+                <b-dropdown-item @click="exportFile()">{{
+                    $t("Spreadsheet only")
+                }}</b-dropdown-item>
+                <b-dropdown-item
+                    @click="exportFile({ include_pictures: true })"
+                    >{{ $t("Spreadsheet and pictures") }}</b-dropdown-item
                 >
             </b-dropdown>
             <router-link
@@ -155,14 +156,13 @@ export default {
                     formatter: this.dateFormat
                 },
                 {
-                    key: "amount",
+                    key: "amount_formatted",
                     label: this.$t("Amount"),
                     class: "fit text-right",
                     tdClass: (value, key, item) =>
                         item.type == "income" ? "text-success" : "text-danger",
                     formatter: (value, key, item) =>
-                        (item.type == "spending" ? "-" : "") +
-                        this.decimalNumberFormat(value)
+                        (item.type == "spending" ? "-" : "") + value
                 },
                 {
                     key: "category_full_name",

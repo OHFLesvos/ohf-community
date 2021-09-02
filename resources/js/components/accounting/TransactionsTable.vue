@@ -142,14 +142,13 @@ export default {
                     formatter: this.dateFormat
                 },
                 {
-                    key: "amount",
+                    key: "amount_formatted",
                     label: this.$t("Amount"),
                     class: "fit text-right",
                     tdClass: (value, key, item) =>
                         item.type == "income" ? "text-success" : "text-danger",
                     formatter: (value, key, item) =>
-                        (item.type == "spending" ? "-" : "") +
-                        this.decimalNumberFormat(value)
+                        (item.type == "spending" ? "-" : "") + value
                 },
                 this.showIntermediateBalances
                     ? {
@@ -225,7 +224,7 @@ export default {
                 return null;
             }
             const wallet = this.wallets.filter(w => w.id == this.wallet)[0];
-            return this.decimalNumberFormat(wallet.amount);
+            return wallet.amount_formatted;
         },
         walletOptions() {
             return this.wallets.map(e => ({

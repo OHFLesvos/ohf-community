@@ -10,6 +10,7 @@ class SettingsController extends Controller
     public function list()
     {
         return response()->json([
+            'accounting.transactions.currency' => Setting::get('accounting.transactions.currency'),
             'accounting.transactions.use_locations' => (bool) Setting::get('accounting.transactions.use_locations') ?? false,
             'accounting.transactions.use_secondary_categories' => (bool) Setting::get('accounting.transactions.use_secondary_categories') ?? false,
             'accounting.transactions.use_cost_centers' => (bool) Setting::get('accounting.transactions.use_cost_centers') ?? false,
