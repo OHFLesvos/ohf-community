@@ -133,7 +133,7 @@
             </two-col-list-group-item>
 
             <!-- Attendee -->
-            <two-col-list-group-item :title="$t('Attendee')">
+            <two-col-list-group-item v-if="transaction.attendee" :title="$t('Attendee')">
                 {{ transaction.attendee }}
             </two-col-list-group-item>
 
