@@ -3,7 +3,6 @@
 namespace App\Models\Accounting;
 
 use App\Models\Role;
-use App\Support\Accounting\FormatsCurrency;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +10,6 @@ use Illuminate\Database\Eloquent\Model;
 class Wallet extends Model
 {
     use HasFactory;
-    use FormatsCurrency;
 
     protected $table = 'accounting_wallets';
 
@@ -82,11 +80,6 @@ class Wallet extends Model
     public function getAmountAttribute(): float
     {
         return $this->calculatedSum() ?? 0;
-    }
-
-    public function getAmountFormattedAttribute()
-    {
-        return $this->formatCurrency($this->getAmountAttribute());
     }
 
     public function getLatestActivityAttribute(): ?Carbon

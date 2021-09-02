@@ -2,11 +2,14 @@
 
 namespace App\Http\Resources\Accounting;
 
+use App\Support\Accounting\FormatsCurrency;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Setting;
 
 class Transaction extends JsonResource
 {
+    use FormatsCurrency;
+
     /**
      * Transform the resource into an array.
      *
@@ -16,8 +19,8 @@ class Transaction extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
-        $data['amount_formatted'] = $this->amountFormatted;
-        $data['fees_formatted'] = $this->feesFormatted;
+        $data['amount_formatted'] = $this->formatCurrency($this->amount);
+        $data['fees_formatted'] = $this->formatCurrency($this->fees);
         $data['wallet_name'] = $this->wallet->name;
         $data['category_full_name'] = $this->category->getPathElements()->pluck('name')->join(' » ');
         $data['project_full_name'] = $this->when($this->project !== null, fn () => $this->project->getPathElements()->pluck('name')->join(' » '));

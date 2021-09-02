@@ -5,7 +5,6 @@ namespace App\Models\Accounting;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
 use App\Models\User;
-use App\Support\Accounting\FormatsCurrency;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,7 +20,6 @@ class Transaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
-    use FormatsCurrency;
 
     protected $table = "accounting_transactions";
 
@@ -410,15 +408,5 @@ class Transaction extends Model implements Auditable
             ->orderBy('receipt_no', 'ASC')
             ->pluck('sum')
             ->first();
-    }
-
-    public function getAmountFormattedAttribute()
-    {
-        return $this->formatCurrency($this->amount);
-    }
-
-    public function getFeesFormattedAttribute()
-    {
-        return $this->formatCurrency($this->fees);
     }
 }

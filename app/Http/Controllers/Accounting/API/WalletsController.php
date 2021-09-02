@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreWallet;
+use App\Http\Resources\Accounting\SimpleWallet;
 use App\Models\Accounting\Wallet;
 use Illuminate\Http\Request;
 use App\Http\Resources\Accounting\Wallet as WalletResource;
@@ -125,11 +126,6 @@ class WalletsController extends Controller
     {
         return Wallet::orderBy('name')->get()
             ->filter(fn ($wallet) => $request->user()->can('view', $wallet))
-            ->map(fn ($wallet) => [
-                'id' => $wallet->id,
-                'name' => $wallet->name,
-                'amount' => $wallet->amount,
-                'amount_formatted' => $wallet->amount_formatted,
-            ]);
+            ->map(fn ($wallet) => new SimpleWallet($wallet));
     }
 }
