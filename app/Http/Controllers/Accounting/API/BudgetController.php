@@ -12,6 +12,9 @@ use App\Models\Accounting\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use ZipStream\Option\Archive;
+use ZipStream\ZipStream;
 
 class BudgetController extends Controller
 {
@@ -78,14 +81,45 @@ class BudgetController extends Controller
         return new TransactionCollection($data);
     }
 
-    public function export(Budget $budget)
+    public function export(Budget $budget, Request $request)
     {
         $this->authorize('viewAny', Transaction::class);
+
+        $export = new BudgetTransactionsExport($budget);
 
         $file_name = config('app.name') . ' ' . __('Budget') . ' [' . $budget->name . '] (' . Carbon::now()->toDateString() . ')';
         $file_ext = "xlsx";
 
-        $export = new BudgetTransactionsExport($budget);
+        if ($request->has('include_pictures')) {
+            $options = new Archive();
+            $options->setSendHttpHeaders(true);
+            $zip = new ZipStream($file_name . '.zip', $options);
+            $temp_file = 'temp/' . uniqid() . '.' . $file_ext;
+            $export->store($temp_file);
+            $zip->addFileFromPath($file_name . '.' . $file_ext, storage_path('app/' . $temp_file));
+            Storage::delete($temp_file);
+            foreach ($budget->transactions as $transaction) {
+                if (empty($transaction->receipt_pictures)) {
+                    continue;
+                }
+                $counter = 0;
+                foreach (collect($transaction->receipt_pictures)->filter(fn ($picture) => Storage::exists($picture)) as $picture) {
+                    $picture_path = storage_path('app/'.$picture);
+                    if (is_file($picture_path)) {
+                        $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
+                        $id = (string) $transaction->receipt_no;
+                        if ($counter > 0) {
+                            $id .= " (" . ($counter + 1) . ')';
+                        }
+                        $zip->addFileFromPath('receipts/' . $id . '.' . $ext, $picture_path);
+                        $counter++;
+                    }
+                }
+            }
+            $zip->finish();
+            return;
+        }
+
         return $export->download($file_name . '.' . $file_ext);
     }
 }
