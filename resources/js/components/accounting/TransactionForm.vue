@@ -73,6 +73,10 @@
                             />
                         </b-form-group>
                     </validation-provider>
+                    <BudgetInfo
+                        v-if="selectedBudget"
+                        :budget="selectedBudget"
+                    />
                 </b-col>
             </b-form-row>
 
@@ -461,12 +465,14 @@ import projectsApi from "@/api/accounting/projects";
 import suppliersApi from "@/api/accounting/suppliers";
 import ThumbnailImage from "@/components/ThumbnailImage";
 import SupplierInfo from "@/components/accounting/SupplierInfo";
+import BudgetInfo from "@/components/accounting/BudgetInfo";
 import budgetsApi from "@/api/accounting/budgets";
 import { mapState } from "vuex";
 export default {
     components: {
         ThumbnailImage,
-        SupplierInfo
+        SupplierInfo,
+        BudgetInfo
     },
     props: {
         transaction: {
@@ -542,7 +548,8 @@ export default {
             costCenters: [],
             suppliers: [],
             budgets: [],
-            selectedSupplier: null
+            selectedSupplier: null,
+            selectedBudget: null
         };
     },
     computed: {
@@ -633,6 +640,7 @@ export default {
         form: {
             async handler(form) {
                 await this.loadSupplierDetails(form.supplier_id);
+                await this.loadBudgetDetails(form.budget_id);
             },
             deep: true
         }
@@ -654,6 +662,7 @@ export default {
         this.suppliers = await suppliersApi.names();
         this.budgets = await budgetsApi.names();
         await this.loadSupplierDetails(this.form.supplier_id);
+        await this.loadBudgetDetails(this.form.budget_id);
         this.loaded = true;
     },
     methods: {
@@ -722,6 +731,13 @@ export default {
                 ).data;
             } else if (!supplierId && this.selectedSupplier) {
                 this.selectedSupplier = null;
+            }
+        },
+        async loadBudgetDetails(budgetId) {
+            if (budgetId && this.selectedBudget?.id != budgetId) {
+                this.selectedBudget = (await budgetsApi.find(budgetId)).data;
+            } else if (!budgetId && this.selectedBudget) {
+                this.selectedBudget = null;
             }
         }
     }
