@@ -17,6 +17,7 @@ class Transaction extends JsonResource
     {
         $data = parent::toArray($request);
         $data['amount_formatted'] = $this->amountFormatted;
+        $data['fees_formatted'] = $this->feesFormatted;
         $data['wallet_name'] = $this->wallet->name;
         $data['category_full_name'] = $this->category->getPathElements()->pluck('name')->join(' » ');
         $data['project_full_name'] = $this->when($this->project !== null, fn () => $this->project->getPathElements()->pluck('name')->join(' » '));

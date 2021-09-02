@@ -5,6 +5,7 @@ namespace App\Models\Accounting;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
 use App\Models\User;
+use App\Support\Accounting\FormatsCurrency;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use NumberFormatter;
 use Org_Heigl\Ghostscript\Ghostscript;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -21,6 +21,7 @@ class Transaction extends Model implements Auditable
 {
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
+    use FormatsCurrency;
 
     protected $table = "accounting_transactions";
 
@@ -413,7 +414,11 @@ class Transaction extends Model implements Auditable
 
     public function getAmountFormattedAttribute()
     {
-        $fmt = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
-        return $fmt->formatCurrency($this->amount, config('accounting.default_currency'));
+        return $this->formatCurrency($this->amount);
+    }
+
+    public function getFeesFormattedAttribute()
+    {
+        return $this->formatCurrency($this->fees);
     }
 }

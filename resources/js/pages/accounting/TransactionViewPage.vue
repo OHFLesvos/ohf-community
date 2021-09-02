@@ -50,7 +50,7 @@
                         'text-success': transaction.type == 'income',
                         'text-danger': transaction.type == 'spending'
                     }"
-                    >{{ transaction.amount | decimalNumberFormat }}</span
+                    >{{ transaction.amount_formatted }}</span
                 >
                 <small v-if="transaction.type == 'income'"
                     >({{ $t("Income") }})</small
@@ -65,7 +65,7 @@
                 v-if="transaction.fees"
                 :title="$t('Transaction fees')"
             >
-                {{ transaction.fees | decimalNumberFormat }}
+                {{ transaction.fees_formatted }}
             </two-col-list-group-item>
 
             <!-- Category -->
