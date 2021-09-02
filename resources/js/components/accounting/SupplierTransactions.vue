@@ -53,14 +53,14 @@ export default {
                     class: "fit"
                 },
                 {
-                    key: "amount",
+                    key: "amount_formatted",
                     label: this.$t("Amount"),
                     formatter: (value, key, item) => {
                         let val = value;
                         if (item.type == "spending") {
-                            val = -val;
+                            val = '-' + val;
                         }
-                        return this.decimalNumberFormat(val);
+                        return val;
                     },
                     class: "text-right fit",
                     tdClass: (value, key, item) => {
