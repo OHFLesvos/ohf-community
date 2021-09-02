@@ -116,15 +116,23 @@
                                 $t('Write decimal point as comma (,)')
                             "
                         >
-                            <b-form-input
-                                v-model="form.amount"
-                                autocomplete="off"
-                                type="number"
-                                required
-                                step=".01"
-                                min="0"
-                                :state="getValidationState(validationContext)"
-                            />
+                            <b-input-group
+                                :append="
+                                    settings['accounting.transactions.currency']
+                                "
+                            >
+                                <b-form-input
+                                    v-model="form.amount"
+                                    autocomplete="off"
+                                    type="number"
+                                    required
+                                    step=".01"
+                                    min="0"
+                                    :state="
+                                        getValidationState(validationContext)
+                                    "
+                                />
+                            </b-input-group>
                         </b-form-group>
                     </validation-provider>
                 </b-col>
@@ -145,14 +153,22 @@
                                 $t('Write decimal point as comma (,)')
                             "
                         >
-                            <b-form-input
-                                v-model="form.fees"
-                                autocomplete="off"
-                                type="number"
-                                step=".01"
-                                min="0"
-                                :state="getValidationState(validationContext)"
-                            />
+                            <b-input-group
+                                :append="
+                                    settings['accounting.transactions.currency']
+                                "
+                            >
+                                <b-form-input
+                                    v-model="form.fees"
+                                    autocomplete="off"
+                                    type="number"
+                                    step=".01"
+                                    min="0"
+                                    :state="
+                                        getValidationState(validationContext)
+                                    "
+                                />
+                            </b-input-group>
                         </b-form-group>
                     </validation-provider>
                 </b-col>
@@ -447,6 +463,7 @@ import suppliersApi from "@/api/accounting/suppliers";
 import ThumbnailImage from "@/components/ThumbnailImage";
 import SupplierInfo from "@/components/accounting/SupplierInfo";
 import budgetsApi from "@/api/accounting/budgets";
+import { mapState } from "vuex";
 export default {
     components: {
         ThumbnailImage,
@@ -530,6 +547,7 @@ export default {
         };
     },
     computed: {
+        ...mapState(["settings"]),
         secondaryCategoryOptions() {
             let arr = [
                 {
@@ -599,11 +617,15 @@ export default {
             ];
             arr.push(
                 ...this.budgets
-                    .filter(budget => !budget.is_completed || this.transaction?.budget_id == budget.id)
+                    .filter(
+                        budget =>
+                            !budget.is_completed ||
+                            this.transaction?.budget_id == budget.id
+                    )
                     .map(e => ({
-                    value: e.id,
-                    text: e.name
-                }))
+                        value: e.id,
+                        text: e.name
+                    }))
             );
             return arr;
         }

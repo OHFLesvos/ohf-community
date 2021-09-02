@@ -42,15 +42,23 @@
                                 $t('Write decimal point as comma (,)')
                             "
                         >
-                            <b-form-input
-                                v-model="form.agreed_amount"
-                                autocomplete="off"
-                                type="number"
-                                required
-                                step=".01"
-                                min="0"
-                                :state="getValidationState(validationContext)"
-                            />
+                            <b-input-group
+                                :append="
+                                    settings['accounting.transactions.currency']
+                                "
+                            >
+                                <b-form-input
+                                    v-model="form.agreed_amount"
+                                    autocomplete="off"
+                                    type="number"
+                                    required
+                                    step=".01"
+                                    min="0"
+                                    :state="
+                                        getValidationState(validationContext)
+                                    "
+                                />
+                            </b-input-group>
                         </b-form-group>
                     </validation-provider>
                 </b-col>
@@ -71,15 +79,23 @@
                                 $t('Write decimal point as comma (,)')
                             "
                         >
-                            <b-form-input
-                                v-model="form.initial_amount"
-                                autocomplete="off"
-                                type="number"
-                                required
-                                step=".01"
-                                min="0"
-                                :state="getValidationState(validationContext)"
-                            />
+                            <b-input-group
+                                :append="
+                                    settings['accounting.transactions.currency']
+                                "
+                            >
+                                <b-form-input
+                                    v-model="form.initial_amount"
+                                    autocomplete="off"
+                                    type="number"
+                                    required
+                                    step=".01"
+                                    min="0"
+                                    :state="
+                                        getValidationState(validationContext)
+                                    "
+                                />
+                            </b-input-group>
                         </b-form-group>
                     </validation-provider>
                 </b-col>
@@ -202,6 +218,7 @@
 <script>
 import { can } from "@/plugins/laravel";
 import donorsApi from "@/api/fundraising/donors";
+import { mapState } from "vuex";
 export default {
     props: {
         budget: {
@@ -233,6 +250,9 @@ export default {
                   },
             donors: []
         };
+    },
+    computed: {
+        ...mapState(["settings"])
     },
     created() {
         if (this.can("view-fundraising-entities")) {
