@@ -3,6 +3,10 @@
 namespace App\Http\Resources\Accounting;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Money\Currencies\ISOCurrencies;
+use Money\Currency;
+use Money\Formatter\IntlMoneyFormatter;
+use Money\Money;
 use Setting;
 
 class Transaction extends JsonResource
@@ -16,6 +20,13 @@ class Transaction extends JsonResource
     public function toArray($request)
     {
         $data = parent::toArray($request);
+
+        $money = new Money(intval($this->amount * 100), new Currency('EUR'));
+        $currencies = new ISOCurrencies();
+        $numberFormatter = new \NumberFormatter('en_US', \NumberFormatter::CURRENCY);
+        $moneyFormatter = new IntlMoneyFormatter($numberFormatter, $currencies);
+        $data['amount_currency'] =  $moneyFormatter->format($money);
+
         $data['wallet_name'] = $this->wallet->name;
         $data['category_full_name'] = $this->category->getPathElements()->pluck('name')->join(' » ');
         $data['project_full_name'] = $this->when($this->project !== null, fn () => $this->project->getPathElements()->pluck('name')->join(' » '));
