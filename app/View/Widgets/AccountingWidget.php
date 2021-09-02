@@ -3,10 +3,13 @@
 namespace App\View\Widgets;
 
 use App\Models\Accounting\Wallet;
+use App\Support\Accounting\FormatsCurrency;
 use Illuminate\Support\Facades\Gate;
 
 class AccountingWidget implements Widget
 {
+    use FormatsCurrency;
+
     public function authorize(): bool
     {
         return Gate::allows('view-accounting-summary');
@@ -18,7 +21,12 @@ class AccountingWidget implements Widget
             'wallets' => Wallet::orderBy('is_default', 'desc')
                 ->orderBy('name')
                 ->get()
-                ->filter(fn ($wallet) => request()->user()->can('view', $wallet)),
+                ->filter(fn (Wallet $wallet) => request()->user()->can('view', $wallet))
+                ->map(fn (Wallet $wallet) => [
+                    'name' => $wallet->name,
+                    'url' => route('accounting.transactions.index', $wallet),
+                    'amount_formatted' => $this->formatCurrency($wallet->amount),
+                ]),
         ]);
     }
 }
