@@ -28,8 +28,6 @@ class Transaction extends JsonResource
         $data['budget_name'] = $this->when($this->budget_id !== null, fn () => optional($this->budget)->name);
         $data['can_update'] = $request->user()->can('update', $this->resource);
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
-        $audit = $this->audits()->first();
-        $data['creating_user'] = $this->when(isset($audit) && isset($audit->getMetadata()['user_name']), fn () => $audit->getMetadata()['user_name']);
         $data['controller_name'] = $this->when($this->controlled_by !== null, fn () => optional($this->controller)->name);
         $data['can_undo_controlling'] = $request->user()->can('undoControlling', $this->resource);
         $data['can_book_externally'] = $request->user()->can('book-accounting-transactions-externally');

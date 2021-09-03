@@ -148,9 +148,11 @@
             <!-- Registered -->
             <two-col-list-group-item :title="$t('Registered')">
                 {{ transaction.created_at | dateTimeFormat }}
-                <small v-if="transaction.creating_user"
-                    >({{ transaction.creating_user }})</small
-                >
+            </two-col-list-group-item>
+
+            <!-- Last updated -->
+            <two-col-list-group-item :title="$t('Last updated')">
+                {{ transaction.updated_at | dateTimeFormat }}
             </two-col-list-group-item>
 
             <!-- Controlled -->

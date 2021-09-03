@@ -43,7 +43,6 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
             __('Controlled at'),
             __('Controlled by'),
             __('Booked'),
-            __('Author'),
             __('Remarks'),
         ]);
     }
@@ -53,7 +52,6 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
      */
     public function map($transaction): array
     {
-        $audit = $transaction->audits()->first();
         $data = [
             $transaction->date,
             $transaction->receipt_no,
@@ -80,7 +78,6 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
             $transaction->controlled_at,
             $transaction->controlled_by !== null ? $transaction->controller->name : null,
             $transaction->booked ? __('Yes') : __('No'),
-            isset($audit) && isset($audit->getMetadata()['user_name']) ? $audit->getMetadata()['user_name'] : '',
             $transaction->remarks,
         ]);
     }
