@@ -1,12 +1,10 @@
 <template>
     <b-container class="px-0">
-        <b-card
-            :header="$t('Wallets')"
-            class="shadow-sm mb-4"
-            no-body
-        >
+        <alert-with-retry :value="errorText" @retry="refresh" />
+        <b-card :header="$t('Wallets')" class="shadow-sm mb-4" no-body>
             <b-table
-                :items="fetchWallets"
+                ref="table"
+                :items="itemProvider"
                 :fields="fields"
                 show-empty
                 :empty-text="$t('No wallets found.')"
@@ -15,8 +13,24 @@
                 responsive
             >
                 <div slot="table-busy" class="text-center my-2">
-                    {{ $t("Loading...") }}
+                    <b-spinner class="align-middle"></b-spinner>
+                    <strong>{{ $t("Loading...") }}</strong>
                 </div>
+                <template #cell(name)="data">
+                    <template v-if="can('view-transactions')">
+                        <router-link
+                            :to="{
+                                name: 'accounting.transactions.index',
+                                params: { wallet: data.item.id }
+                            }"
+                        >
+                            {{ data.value }}</router-link
+                        >
+                    </template>
+                    <template v-else>
+                        {{ data.value }}
+                    </template>
+                </template>
             </b-table>
         </b-card>
         <b-row>
@@ -42,13 +56,18 @@
 </template>
 
 <script>
+import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import walletsApi from "@/api/accounting/wallets";
 export default {
     title() {
         return this.$t("Accounting");
     },
+    components: {
+        AlertWithRetry
+    },
     data() {
         return {
+            errorText: null,
             fields: [
                 {
                     key: "name",
@@ -108,8 +127,16 @@ export default {
         };
     },
     methods: {
-        async fetchWallets() {
-            return await walletsApi.names();
+        async itemProvider() {
+            this.errorText = null;
+            try {
+                return await walletsApi.names();
+            } catch (ex) {
+                this.errorText = ex;
+            }
+        },
+        refresh() {
+            this.$refs.table.refresh();
         }
     }
 };
