@@ -67,7 +67,7 @@ export default {
                           label: this.$t("Amount"),
                           class: "text-right",
                           tdClass: (value, key, item) =>
-                              this.colorClass(item.amount > 0)
+                              this.colorClass(item.amount)
                       }
                     : null,
                 this.flattenChildren
@@ -76,11 +76,11 @@ export default {
                           label: this.$t("Total Amount"),
                           class: "text-right",
                           formatter: (value, key, item) =>
-                              item.amount_formatted != value
-                                  ? "(" + value + ")"
+                              item.amount != 0 && item.amount_formatted != value
+                                  ? value + " (" + item.amount_formatted + ")"
                                   : value,
                           tdClass: (value, key, item) =>
-                              this.colorClass(item.total_amount > 0)
+                              this.colorClass(item.total_amount)
                       }
                     : null,
                 this.showDonations
@@ -104,7 +104,13 @@ export default {
     },
     methods: {
         colorClass(value) {
-            return value > 0 ? "text-success" : "text-danger";
+            if (value > 0) {
+                return "text-success"
+            }
+            if (value < 0) {
+                return "text-danger";
+            }
+            return null;
         },
         fillTree(tree, elem, level = 0) {
             tree.push({

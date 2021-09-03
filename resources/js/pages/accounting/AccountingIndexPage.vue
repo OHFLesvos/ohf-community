@@ -11,6 +11,7 @@
                 class="mb-0"
                 thead-class="d-none"
                 responsive
+                hover
             >
                 <div slot="table-busy" class="text-center my-2">
                     <b-spinner class="align-middle"></b-spinner>
