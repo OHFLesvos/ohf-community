@@ -4,7 +4,7 @@
         <b-card :header="$t('Wallets')" class="shadow-sm mb-4" no-body>
             <b-table
                 ref="table"
-                :items="itemProvider"
+                :items="fetchData"
                 :fields="fields"
                 show-empty
                 :empty-text="$t('No wallets found.')"
@@ -127,7 +127,7 @@ export default {
         };
     },
     methods: {
-        async itemProvider() {
+        async fetchData() {
             this.errorText = null;
             try {
                 return await walletsApi.names();
