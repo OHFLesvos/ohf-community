@@ -18,8 +18,7 @@ class AccountingWidget implements Widget
     public function render()
     {
         return view('widgets.accounting', [
-            'wallets' => Wallet::orderBy('is_default', 'desc')
-                ->orderBy('name')
+            'wallets' => Wallet::orderBy('name')
                 ->get()
                 ->filter(fn (Wallet $wallet) => request()->user()->can('view', $wallet))
                 ->map(fn (Wallet $wallet) => [

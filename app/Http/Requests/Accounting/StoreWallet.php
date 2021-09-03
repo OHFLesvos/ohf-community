@@ -32,19 +32,7 @@ class StoreWallet extends FormRequest
                 isset($this->wallet)
                     ? Rule::unique('accounting_wallets')->ignore($this->wallet->id)
                     : Rule::unique('accounting_wallets'),
-            ],
-            'is_default' => [
-                'boolean',
-            ],
+            ]
         ];
-    }
-
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            if (isset($this->wallet) && $this->wallet->is_default && ! $this->input('is_default')) {
-                $validator->errors()->add('is_default', __('There must be one default wallet.'));
-            }
-        });
     }
 }

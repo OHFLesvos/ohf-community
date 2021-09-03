@@ -33,14 +33,6 @@
 
             </b-form-row>
 
-            <p>
-                <b-form-checkbox
-                    v-model="form.is_default"
-                >
-                    {{ $t('Default') }}
-                </b-form-checkbox>
-            </p>
-
             <b-card
                 :header="$t('User roles with access (Whitelist)')"
                 class="mb-4"
@@ -114,11 +106,9 @@ export default {
         return {
             form: this.wallet ? {
                 name: this.wallet.name,
-                is_default: this.wallet.is_default,
                 roles: this.wallet.roles.map(r => r.id)
             } : {
                 name: null,
-                is_default: false,
                 roles: []
             },
             roles: []

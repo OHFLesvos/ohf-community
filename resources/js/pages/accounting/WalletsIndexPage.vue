@@ -34,9 +34,6 @@
                     {{ data.value }}
                 </router-link>
             </template>
-            <template v-slot:cell(is_default)="data">
-                <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
-            </template>
             <template v-slot:cell(is_restricted)="data">
                 <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
             </template>
@@ -67,11 +64,6 @@ export default {
                     key: "num_transactions",
                     label: this.$t("Transactions"),
                     class: "fit text-right"
-                },
-                {
-                    key: "is_default",
-                    label: this.$t("Default"),
-                    class: "fit text-center"
                 },
                 {
                     key: "is_restricted",
