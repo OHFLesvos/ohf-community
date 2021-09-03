@@ -14,33 +14,19 @@
                     {{ $t("Manage wallets") }}
                 </router-link>
             </template>
-            <b-list-group flush>
-                <b-list-group-item v-if="!loaded">
+            <b-table
+                :items="fetchWallets"
+                :fields="fields"
+                show-empty
+                :empty-text="$t('No wallets found.')"
+                class="mb-0"
+                thead-class="d-none"
+                responsive
+            >
+                <div slot="table-busy" class="text-center my-2">
                     {{ $t("Loading...") }}
-                </b-list-group-item>
-                <template v-else-if="wallets.length > 0">
-                    <b-list-group-item
-                        v-for="wallet in wallets"
-                        :key="wallet.id"
-                        :to="
-                            can('view-transactions')
-                                ? {
-                                      name: 'accounting.transactions.index',
-                                      params: { wallet: wallet.id }
-                                  }
-                                : null
-                        "
-                    >
-                        {{ wallet.name }}
-                        <span class="float-right">{{
-                            wallet.amount_formatted
-                        }}</span>
-                    </b-list-group-item>
-                </template>
-                <b-list-group-item v-else>
-                    {{ $t("No wallets found.") }}
-                </b-list-group-item>
-            </b-list-group>
+                </div>
+            </b-table>
         </b-card>
         <b-row>
             <b-col
@@ -73,8 +59,19 @@ export default {
     },
     data() {
         return {
-            loaded: false,
-            wallets: [],
+            fields: [
+                {
+                    key: "name",
+                    label: this.$t("Name")
+                },
+                {
+                    key: "amount_formatted",
+                    label: this.$t("Amount"),
+                    class: "fit text-right",
+                    tdClass: (value, key, item) =>
+                        item.amount < 0 ? "text-danger" : null
+                }
+            ],
             buttons: [
                 {
                     to: {
@@ -103,7 +100,7 @@ export default {
                     text: this.$t("Suppliers"),
                     show: this.can("view-suppliers") || can("manage-suppliers")
                 },
-                                {
+                {
                     to: { name: "accounting.budgets.index" },
                     variant: "secondary",
                     icon: "money-bill-alt",
@@ -113,12 +110,11 @@ export default {
             ]
         };
     },
-    async created() {
-        this.wallets = await walletsApi.names();
-        this.loaded = true;
-    },
     methods: {
-        can
+        can,
+        async fetchWallets() {
+            return await walletsApi.names();
+        }
     }
 };
 </script>
