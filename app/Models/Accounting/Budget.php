@@ -51,9 +51,10 @@ class Budget extends Model
 
     public function getBalance(): float
     {
-        return $this->initial_amount + $this->transactions
+        $sumTransactions = $this->transactions
             ->map(fn ($transaction) => $transaction->type == 'income' ? $transaction->amount : -$transaction->amount)
             ->sum();
+        return round($this->initial_amount + $sumTransactions, 2);
     }
 
     /**
