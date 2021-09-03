@@ -1,19 +1,10 @@
 <template>
     <b-container class="px-0">
         <b-card
+            :header="$t('Wallets')"
             class="shadow-sm mb-4"
             no-body
-            header-class="d-flex justify-content-between"
         >
-            <template #header>
-                <span>{{ $t("Wallets") }}</span>
-                <router-link
-                    v-if="can('configure-accounting')"
-                    :to="{ name: 'accounting.wallets.index' }"
-                >
-                    {{ $t("Manage wallets") }}
-                </router-link>
-            </template>
             <b-table
                 :items="fetchWallets"
                 :fields="fields"
@@ -52,7 +43,6 @@
 
 <script>
 import walletsApi from "@/api/accounting/wallets";
-import { can } from "@/plugins/laravel";
 export default {
     title() {
         return this.$t("Accounting");
@@ -106,12 +96,18 @@ export default {
                     icon: "money-bill-alt",
                     text: this.$t("Budgets"),
                     show: this.can("view-budgets") || can("manage-budgets")
+                },
+                {
+                    to: { name: "accounting.wallets.index" },
+                    variant: "secondary",
+                    icon: "wallet",
+                    text: this.$t("Wallets"),
+                    show: this.can("configure-accounting")
                 }
             ]
         };
     },
     methods: {
-        can,
         async fetchWallets() {
             return await walletsApi.names();
         }

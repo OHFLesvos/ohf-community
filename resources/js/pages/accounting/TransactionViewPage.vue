@@ -260,7 +260,6 @@
 import transactionsApi from "@/api/accounting/transactions";
 import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
 import TransactionPictures from "@/components/accounting/TransactionPictures";
-import { can } from "@/plugins/laravel";
 export default {
     components: {
         TwoColListGroupItem,
@@ -286,7 +285,6 @@ export default {
         this.fetch();
     },
     methods: {
-        can,
         async fetch() {
             try {
                 let data = await transactionsApi.find(this.id);

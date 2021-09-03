@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { can } from "@/plugins/laravel";
 export default {
     props: {
         items: {
@@ -104,7 +103,6 @@ export default {
         }
     },
     methods: {
-        can,
         colorClass(value) {
             return value > 0 ? "text-success" : "text-danger";
         },

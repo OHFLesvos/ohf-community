@@ -14,7 +14,6 @@
 </template>
 
 <script>
-import { can } from "@/plugins/laravel";
 export default {
     title() {
         return this.$t("Reports");
@@ -26,19 +25,19 @@ export default {
                     label: this.$t("Community Volunteers"),
                     to: { name: "cmtyvol.report" },
                     icon: "chart-bar",
-                    show: can("view-community-volunteer-reports")
+                    show: this.can("view-community-volunteer-reports")
                 },
                 {
                     label: this.$t("Fundraising"),
                     to: { name: "reports.fundraising.donations" },
                     icon: "donate",
-                    show: can("view-fundraising-reports")
+                    show: this.can("view-fundraising-reports")
                 },
                 {
                     label: this.$t("Visitor check-ins"),
                     to: { name: "reports.visitors.checkins" },
                     icon: "door-open",
-                    show: can("register-visitors")
+                    show: this.can("register-visitors")
                 }
             ]
         };

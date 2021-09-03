@@ -181,7 +181,6 @@ import transactionsApi from "@/api/accounting/transactions";
 import projectsApi from "@/api/accounting/projects";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import SummaryList from "@/components/accounting/SummaryList";
-import { can } from "@/plugins/laravel";
 export default {
     components: {
         AlertWithRetry,
@@ -409,7 +408,6 @@ export default {
         colorClass(value) {
             return value > 0 ? "text-success" : "text-danger";
         },
-        can,
         async fetchData() {
             this.$router.push(
                 {
