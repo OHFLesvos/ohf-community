@@ -1,46 +1,38 @@
 <template>
     <b-container class="px-0">
-        <b-card
-            class="shadow-sm mb-4"
-            no-body
-            header-class="d-flex justify-content-between"
-        >
-            <template #header>
-                <span>{{ $t("Wallets") }}</span>
-                <router-link
-                    v-if="can('configure-accounting')"
-                    :to="{ name: 'accounting.wallets.index' }"
-                >
-                    {{ $t("Manage wallets") }}
-                </router-link>
-            </template>
-            <b-list-group flush>
-                <b-list-group-item v-if="!loaded">
-                    {{ $t("Loading...") }}
-                </b-list-group-item>
-                <template v-else-if="wallets.length > 0">
-                    <b-list-group-item
-                        v-for="wallet in wallets"
-                        :key="wallet.id"
-                        :to="
-                            can('view-transactions')
-                                ? {
-                                      name: 'accounting.transactions.index',
-                                      params: { wallet: wallet.id }
-                                  }
-                                : null
-                        "
-                    >
-                        {{ wallet.name }}
-                        <span class="float-right">{{
-                            wallet.amount_formatted
-                        }}</span>
-                    </b-list-group-item>
+        <alert-with-retry :value="errorText" @retry="refresh" />
+        <b-card :header="$t('Wallets')" class="shadow-sm mb-4" no-body>
+            <b-table
+                ref="table"
+                :items="fetchData"
+                :fields="fields"
+                show-empty
+                :empty-text="$t('No wallets found.')"
+                class="mb-0"
+                thead-class="d-none"
+                responsive
+                hover
+            >
+                <div slot="table-busy" class="text-center my-2">
+                    <b-spinner class="align-middle"></b-spinner>
+                    <strong>{{ $t("Loading...") }}</strong>
+                </div>
+                <template #cell(name)="data">
+                    <template v-if="can('view-transactions')">
+                        <router-link
+                            :to="{
+                                name: 'accounting.transactions.index',
+                                params: { wallet: data.item.id }
+                            }"
+                        >
+                            {{ data.value }}</router-link
+                        >
+                    </template>
+                    <template v-else>
+                        {{ data.value }}
+                    </template>
                 </template>
-                <b-list-group-item v-else>
-                    {{ $t("No wallets found.") }}
-                </b-list-group-item>
-            </b-list-group>
+            </b-table>
         </b-card>
         <b-row>
             <b-col
@@ -65,16 +57,31 @@
 </template>
 
 <script>
+import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import walletsApi from "@/api/accounting/wallets";
-import { can } from "@/plugins/laravel";
 export default {
     title() {
         return this.$t("Accounting");
     },
+    components: {
+        AlertWithRetry
+    },
     data() {
         return {
-            loaded: false,
-            wallets: [],
+            errorText: null,
+            fields: [
+                {
+                    key: "name",
+                    label: this.$t("Name")
+                },
+                {
+                    key: "amount_formatted",
+                    label: this.$t("Amount"),
+                    class: "fit text-right",
+                    tdClass: (value, key, item) =>
+                        item.amount < 0 ? "text-danger" : null
+                }
+            ],
             buttons: [
                 {
                     to: {
@@ -103,22 +110,35 @@ export default {
                     text: this.$t("Suppliers"),
                     show: this.can("view-suppliers") || can("manage-suppliers")
                 },
-                                {
+                {
                     to: { name: "accounting.budgets.index" },
                     variant: "secondary",
                     icon: "money-bill-alt",
                     text: this.$t("Budgets"),
                     show: this.can("view-budgets") || can("manage-budgets")
+                },
+                {
+                    to: { name: "accounting.wallets.index" },
+                    variant: "secondary",
+                    icon: "wallet",
+                    text: this.$t("Wallets"),
+                    show: this.can("configure-accounting")
                 }
             ]
         };
     },
-    async created() {
-        this.wallets = await walletsApi.names();
-        this.loaded = true;
-    },
     methods: {
-        can
+        async fetchData() {
+            this.errorText = null;
+            try {
+                return await walletsApi.names();
+            } catch (ex) {
+                this.errorText = ex;
+            }
+        },
+        refresh() {
+            this.$refs.table.refresh();
+        }
     }
 };
 </script>

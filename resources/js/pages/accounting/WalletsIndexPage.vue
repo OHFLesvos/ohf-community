@@ -34,9 +34,6 @@
                     {{ data.value }}
                 </router-link>
             </template>
-            <template v-slot:cell(is_default)="data">
-                <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
-            </template>
             <template v-slot:cell(is_restricted)="data">
                 <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
             </template>
@@ -59,30 +56,21 @@ export default {
                     label: this.$t("Name")
                 },
                 {
-                    key: "amount_formatted",
-                    label: this.$t("Amount"),
-                    class: "fit text-right",
-                },
-                {
                     key: "num_transactions",
                     label: this.$t("Transactions"),
                     class: "fit text-right"
                 },
                 {
-                    key: "is_default",
-                    label: this.$t("Default"),
-                    class: "fit text-center"
+                    key: "amount_formatted",
+                    label: this.$t("Amount"),
+                    class: "fit text-right",
+                    tdClass: (value, key, item) =>
+                        item.amount < 0 ? "text-danger" : null
                 },
                 {
                     key: "is_restricted",
                     label: this.$t("Restricted"),
                     class: "fit text-center"
-                },
-                {
-                    key: "created_at",
-                    label: this.$t("Created"),
-                    class: "fit",
-                    formatter: this.dateFormat
                 },
                 {
                     key: "latest_activity",

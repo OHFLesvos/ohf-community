@@ -133,7 +133,7 @@
             </two-col-list-group-item>
 
             <!-- Attendee -->
-            <two-col-list-group-item :title="$t('Attendee')">
+            <two-col-list-group-item v-if="transaction.attendee" :title="$t('Attendee')">
                 {{ transaction.attendee }}
             </two-col-list-group-item>
 
@@ -260,7 +260,6 @@
 import transactionsApi from "@/api/accounting/transactions";
 import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
 import TransactionPictures from "@/components/accounting/TransactionPictures";
-import { can } from "@/plugins/laravel";
 export default {
     components: {
         TwoColListGroupItem,
@@ -286,7 +285,6 @@ export default {
         this.fetch();
     },
     methods: {
-        can,
         async fetch() {
             try {
                 let data = await transactionsApi.find(this.id);

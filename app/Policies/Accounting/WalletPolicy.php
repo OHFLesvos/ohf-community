@@ -82,7 +82,7 @@ class WalletPolicy
     public function delete(User $user, Wallet $wallet)
     {
         if ($user->isSuperAdmin() || $user->hasPermission('accounting.configure')) {
-            return ! $wallet->is_default && Wallet::count() > 1;
+            return Wallet::count() > 1;
         }
         return false;
     }

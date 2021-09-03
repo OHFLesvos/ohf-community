@@ -216,7 +216,6 @@
 </template>
 
 <script>
-import { can } from "@/plugins/laravel";
 import donorsApi from "@/api/fundraising/donors";
 import { mapState } from "vuex";
 export default {
@@ -288,8 +287,7 @@ export default {
                 })
             );
             this.donors = donors;
-        },
-        can
+        }
     }
 };
 </script>

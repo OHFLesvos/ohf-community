@@ -124,8 +124,9 @@ class WalletsController extends Controller
 
     public function names(Request $request)
     {
-        return Wallet::orderBy('name')->get()
-            ->filter(fn ($wallet) => $request->user()->can('view', $wallet))
-            ->map(fn ($wallet) => new SimpleWallet($wallet));
+        return Wallet::orderBy('name')
+            ->get()
+            ->filter(fn (Wallet $wallet) => $request->user()->can('view', $wallet))
+            ->map(fn (Wallet $wallet) => new SimpleWallet($wallet));
     }
 }

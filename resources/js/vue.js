@@ -29,6 +29,9 @@ import dateFormatMixin from "@/mixins/dateFormatMixin";
 Vue.mixin(numberFormatMixin);
 Vue.mixin(dateFormatMixin);
 
+import laravelCanMixin from '@/mixins/laravelCanMixin'
+Vue.mixin(laravelCanMixin)
+
 import titleMixin from '@/mixins/titleMixin'
 Vue.mixin(titleMixin)
 

@@ -101,13 +101,13 @@
                     <b-td class="text-right">
                         <strong>{{ totals.spending_formatted }}</strong>
                     </b-td>
-                    <b-td class="text-right">
+                    <b-td class="text-right" :class="colorClass(totals.difference)">
                         <strong>{{ totals.difference_formatted }}</strong>
                     </b-td>
                     <b-td class="text-right">
                         <strong>{{ totals.fees_formatted }}</strong>
                     </b-td>
-                    <b-td class="text-right">
+                    <b-td class="text-right" :class="colorClass(totals.amount)">
                         <strong>{{ totals.amount_formatted }}</strong>
                     </b-td>
                 </b-tr>
@@ -181,7 +181,6 @@ import transactionsApi from "@/api/accounting/transactions";
 import projectsApi from "@/api/accounting/projects";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import SummaryList from "@/components/accounting/SummaryList";
-import { can } from "@/plugins/laravel";
 export default {
     components: {
         AlertWithRetry,
@@ -232,7 +231,7 @@ export default {
                     key: "difference_formatted",
                     label: this.$t("Difference"),
                     class: "text-right",
-                    tdClass: value => this.colorClass(value > 0)
+                    tdClass: (value, idx, item) => this.colorClass(item.difference)
                 },
                 {
                     key: "fees_formatted",
@@ -243,7 +242,7 @@ export default {
                     key: "amount_formatted",
                     label: this.$t("Balance"),
                     class: "text-right",
-                    tdClass: value => this.colorClass(value > 0)
+                    tdClass: (value, idx, item) => this.colorClass(item.amount)
                 }
             ]
         };
@@ -407,9 +406,14 @@ export default {
             this.month = now.month();
         },
         colorClass(value) {
-            return value > 0 ? "text-success" : "text-danger";
+            if (value > 0) {
+                return "text-success"
+            }
+            if (value < 0) {
+                return "text-danger";
+            }
+            return null;
         },
-        can,
         async fetchData() {
             this.$router.push(
                 {

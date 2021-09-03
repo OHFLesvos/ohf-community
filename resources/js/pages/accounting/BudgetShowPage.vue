@@ -128,7 +128,6 @@
 <script>
 import budgetsApi from "@/api/accounting/budgets";
 import BaseTable from "@/components/table/BaseTable";
-import { can } from "@/plugins/laravel";
 import Nl2br from "vue-nl2br";
 export default {
     components: {
@@ -205,7 +204,6 @@ export default {
         async fetchTransactions() {
             return await budgetsApi.transactions(this.id);
         },
-        can,
         async exportFile(params) {
             this.isBusy = true;
             try {
