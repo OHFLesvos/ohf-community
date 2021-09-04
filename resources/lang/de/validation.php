@@ -87,7 +87,6 @@ return [
     'uploaded' => 'Der :attribute konnte nicht hochgeladen werden.',
     'url' => 'Das Format von :attribute ist ungültig.',
     'old_password' => 'Das alte Passwort stimmt nicht überein.',
-    'pwned' => 'Dieses Passwort wurde als unsicher eingestuft, da es in gehackten Datenbanken gefunden wurde. Bitte verwende ein neues Passwort.',
     'country_code' => 'Der :attribute ist ungültig.',
     'country_name' => 'Der :attribute ist ungültig.',
     'language_code' => 'Der :attribute ist ungültig.',
