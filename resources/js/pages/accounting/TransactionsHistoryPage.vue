@@ -1,6 +1,13 @@
 <template>
     <div>
-        <TransactionHistory :entries="fetchHistory" showId />
+        <b-row class="mb-3">
+            <b-col cols="auto">
+                <b-input-group :prepend="$t('Date')">
+                    <b-form-datepicker v-model="date" reset-button />
+                </b-input-group>
+            </b-col>
+        </b-row>
+        <TransactionHistory ref="history" :entries="fetchHistory" showId />
     </div>
 </template>
 
@@ -15,10 +22,20 @@ export default {
         TransactionHistory
     },
     data() {
-        return {};
+        return {
+            date: null
+        };
+    },
+    watch: {
+        date() {
+            this.$refs.history.refresh();
+        }
     },
     methods: {
         async fetchHistory(ctx) {
+            if (this.date) {
+                ctx.date = this.date;
+            }
             return await transactionsApi.history(ctx);
         }
     }

@@ -1,5 +1,6 @@
 <template>
     <base-table
+        ref="table"
         id="transactions-history-table"
         :fields="fields"
         :api-method="entries"
@@ -98,6 +99,11 @@ export default {
                 }
             ]
         };
+    },
+    methods: {
+        refresh() {
+            this.$refs.table.refresh();
+        }
     }
 };
 </script>
