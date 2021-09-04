@@ -166,7 +166,7 @@
                     <button
                         v-if="transaction.can_undo_controlling"
                         class="btn btn-secondary btn-sm undo-controlled"
-                        :disabled="isBusy"
+                        :disabled="isBusy || disabled"
                         @click="undoControlled()"
                     >
                         {{ $t("Undo") }}
@@ -174,9 +174,9 @@
                 </template>
             </template>
             <button
-                v-else-if="transaction.can_update"
+                v-else-if="transaction.can_control"
                 class="btn btn-primary btn-sm mark-controlled"
-                :disabled="isBusy"
+                :disabled="isBusy || disabled"
                 @click="markControlled()"
             >
                 {{ $t("Mark as controlled") }}
@@ -213,7 +213,7 @@
                 <button
                     type="submit"
                     class="btn btn-sm btn-outline-danger"
-                    :disabled="isBusy"
+                    :disabled="isBusy || disabled"
                     @click="undoBooking()"
                 >
                     <font-awesome-icon icon="undo" />
@@ -244,7 +244,8 @@ export default {
     props: {
         transaction: {
             required: true
-        }
+        },
+        disabled: Boolean
     },
     data() {
         return {
@@ -256,7 +257,7 @@ export default {
             this.isBusy = true;
             try {
                 await transactionsApi.markControlled(this.transaction);
-                this.fetch();
+                this.$emit('update');
             } catch (err) {
                 alert(err);
             }
@@ -266,7 +267,7 @@ export default {
             this.isBusy = true;
             try {
                 await transactionsApi.undoControlled(this.transaction);
-                this.fetch();
+                this.$emit('update');
             } catch (err) {
                 alert(err);
             }
@@ -280,7 +281,7 @@ export default {
             this.isBusy = true;
             try {
                 await transactionsApi.undoBooking(this.transaction);
-                this.fetch();
+                this.$emit('update');
             } catch (err) {
                 alert(err);
             }

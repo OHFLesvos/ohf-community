@@ -29,6 +29,7 @@ class Transaction extends JsonResource
         $data['can_update'] = $request->user()->can('update', $this->resource);
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
         $data['controller_name'] = $this->when($this->controlled_by !== null, fn () => optional($this->controller)->name);
+        $data['can_control'] = $request->user()->can('control', $this->resource);
         $data['can_undo_controlling'] = $request->user()->can('undoControlling', $this->resource);
         $data['can_book_externally'] = $request->user()->can('book-accounting-transactions-externally');
         $data['can_undo_booking'] = $request->user()->can('undoBooking', $this->resource);

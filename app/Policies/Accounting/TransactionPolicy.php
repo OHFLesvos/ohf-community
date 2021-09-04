@@ -12,7 +12,7 @@ class TransactionPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin() && !in_array($ability, ['update', 'delete', 'undoBooking'])) {
+        if ($user->isSuperAdmin() && !in_array($ability, ['update', 'delete', 'control', 'undoControlling', 'undoBooking'])) {
             return true;
         }
     }
@@ -34,33 +34,51 @@ class TransactionPolicy
 
     public function update(User $user, Transaction $transaction)
     {
-        if (!$transaction->booked && $transaction->controlled_at === null) {
-            return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.update');
+        if ($transaction->booked || $transaction->controlled_at !== null) {
+            return false;
         }
-        return false;
+
+        return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.update');
     }
 
     public function delete(User $user, Transaction $transaction)
     {
-        if (!$transaction->booked && $transaction->controlled_at === null) {
-            return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.delete');
+        if ($transaction->booked || $transaction->controlled_at !== null) {
+            return false;
         }
-        return false;
+
+        return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.delete');
+    }
+
+    public function control(User $user, Transaction $transaction)
+    {
+        if (!$this->update($user, $transaction)) {
+            return false;
+        }
+
+        $userHasRegisteredTransaction = $transaction->audits()
+            ->where('user_id', $user->id)
+            ->where('event', 'created')
+            ->exists();
+
+        return !$userHasRegisteredTransaction;
     }
 
     public function undoBooking(User $user, Transaction $transaction)
     {
-        if ($transaction->booked) {
-            return $user->isSuperAdmin() || $user->can('book-accounting-transactions-externally');
+        if (!$transaction->booked) {
+            return false;
         }
-        return false;
+
+        return $user->isSuperAdmin() || $user->can('book-accounting-transactions-externally');
     }
 
     public function undoControlling(User $user, Transaction $transaction)
     {
         if ($transaction->booked) {
-            return $user->isSuperAdmin() || $user->id === $transaction->controlled_by;
+            return false;
         }
-        return false;
+
+        return $user->isSuperAdmin() || $user->id === $transaction->controlled_by;
     }
 }

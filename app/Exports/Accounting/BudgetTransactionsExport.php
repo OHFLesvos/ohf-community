@@ -33,7 +33,7 @@ class BudgetTransactionsExport extends BaseExport implements FromQuery, WithHead
 
     public function title(): string
     {
-        return $this->budget->name . ' ' . __('Transactions');
+        return __('Transactions');
     }
 
     public function headings(): array
