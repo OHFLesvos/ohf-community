@@ -55,13 +55,6 @@ export default {
     data() {
         return {
             fields: [
-                this.showId
-                    ? {
-                          key: "transaction_id",
-                          label: this.$t("Transaction ID"),
-                          class: "fit text-right"
-                      }
-                    : null,
                 {
                     key: "created_at",
                     label: this.$t("Date"),
@@ -79,7 +72,7 @@ export default {
                 },
                 {
                     key: "event",
-                    label: this.$t("Event"),
+                    label: this.$t("Action"),
                     formatter: event => {
                         if (event == "created") {
                             return this.$t("Created");
@@ -91,8 +84,27 @@ export default {
                             return this.$t("Deleted");
                         }
                         return event;
+                    },
+                    tdClass: (event) => {
+                        if (event == "created") {
+                            return 'text-success';
+                        }
+                        if (event == "updated") {
+                            return 'text-info';
+                        }
+                        if (event == "deleted") {
+                            return 'text-danger';
+                        }
+                        return null;
                     }
                 },
+                this.showId
+                    ? {
+                          key: "transaction_id",
+                          label: this.$t("Transaction ID"),
+                          class: "fit text-right"
+                      }
+                    : null,
                 {
                     key: "changes",
                     label: this.$t("Changes")
