@@ -2,12 +2,14 @@
     <b-container v-if="transaction" class="px-0">
         <b-tabs justified>
             <b-tab :title="$t('Details')" active>
-                <TransactionDetails :transaction="transaction" />
+                <TransactionDetails
+                    :transaction="transaction"
+                    :disabled="isBusy"
+                    @update="fetch"
+                />
             </b-tab>
             <b-tab :title="$t('History')" lazy>
-                <TransactionHistory
-                    :entries="fetchHistory"
-                />
+                <TransactionHistory :entries="fetchHistory" />
             </b-tab>
         </b-tabs>
 
@@ -71,6 +73,7 @@ export default {
     },
     methods: {
         async fetch() {
+            this.isBusy = true;
             try {
                 let data = await transactionsApi.find(this.id);
                 this.transaction = data.data;
@@ -78,6 +81,7 @@ export default {
                 alert(err);
                 console.error(err);
             }
+            this.isBusy = false;
         },
         async fetchHistory() {
             return await transactionsApi.transactionHistory(this.id);

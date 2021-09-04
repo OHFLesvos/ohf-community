@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Accounting\StoreControlled;
 use App\Models\Accounting\Transaction;
+use Illuminate\Http\Request;
 
 class ControllingController extends Controller
 {
@@ -18,9 +18,9 @@ class ControllingController extends Controller
         ]);
     }
 
-    public function markControlled(StoreControlled $request, Transaction $transaction)
+    public function markControlled(Request $request, Transaction $transaction)
     {
-        $this->authorize('update', $transaction);
+        $this->authorize('control', $transaction);
 
         $transaction->controlled_at = now();
         $transaction->controlled_by = $request->user()->id;
