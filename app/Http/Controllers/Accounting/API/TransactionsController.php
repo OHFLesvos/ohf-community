@@ -127,7 +127,10 @@ class TransactionsController extends Controller
     {
         $this->authorize('view', $transaction);
 
-        return TransactionHistory::collection($transaction->audits()->with('user')->get());
+        return TransactionHistory::collection($transaction->audits()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->get());
     }
 
     public function update(StoreTransaction $request, Transaction $transaction)

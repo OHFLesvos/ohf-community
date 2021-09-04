@@ -763,5 +763,11 @@
     "Agreed amount": "Vereinbarter Betrag",
     "Initial amount": "Startbetrag",
     "Spreadsheet only": "Nur Tabelle",
-    "Spreadsheet and pictures": "Tabelle und Bilder"
+    "Spreadsheet and pictures": "Tabelle und Bilder",
+    "Event": "Ereignis",
+    "Changes": "Änderungen",
+    "Updated": "Aktualisiert",
+    "Deleted": "Gelöscht",
+    "History": "Geschichte",
+    "No entries found.": "Keine Einträge gefunden."
 }

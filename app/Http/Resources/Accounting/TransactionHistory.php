@@ -18,13 +18,31 @@ class TransactionHistory extends JsonResource
         return [
             "id" => $this->id,
             "event" => $this->event,
-            "old_values" => $this->old_values,
-            "new_values" => $this->new_values,
+            "changes" => $this->getChanges($this->old_values, $this->new_values),
             "ip_address" => $this->ip_address,
-            "user_agent" => $this->user_agent,
             "created_at" => $this->created_at,
             "user"  => $this->getUserArray($this->user),
         ];
+    }
+
+    private function getChanges(array $oldValues, array $newValues): array
+    {
+        $changes = [];
+        foreach ($oldValues as $key => $val) {
+            $changes[$key]['old'] = $val;
+            $changes[$key]['new'] = null;
+        }
+        foreach ($newValues as $key => $val) {
+            if (!isset($changes[$key]['old'])) {
+                $changes[$key]['old'] = null;
+            }
+            $changes[$key]['new'] = $val;
+        }
+
+        return collect($changes)
+            ->filter(fn ($val, $key) => $key != "id")
+            ->sortKeys()
+            ->toArray();
     }
 
     private function getUserArray(?User $user)

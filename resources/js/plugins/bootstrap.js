@@ -27,6 +27,7 @@ import {
     ProgressPlugin,
     PopoverPlugin,
     SpinnerPlugin,
+    TabsPlugin,
     TablePlugin
 } from "bootstrap-vue";
 
@@ -56,4 +57,5 @@ Vue.use(PaginationPlugin);
 Vue.use(ProgressPlugin);
 Vue.use(PopoverPlugin);
 Vue.use(SpinnerPlugin);
+Vue.use(TabsPlugin);
 Vue.use(TablePlugin);
