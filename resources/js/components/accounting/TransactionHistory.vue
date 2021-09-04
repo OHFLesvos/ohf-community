@@ -12,6 +12,16 @@
             <b-spinner class="align-middle"></b-spinner>
             <strong>{{ $t("Loading...") }}</strong>
         </div>
+        <template v-slot:cell(transaction_id)="data">
+            <router-link
+                :to="{
+                    name: 'accounting.transactions.show',
+                    params: { id: data.value }
+                }"
+            >
+                {{ data.value }}
+            </router-link>
+        </template>
         <template #cell(changes)="data">
             <ul class="mb-0 list-unstyled">
                 <li v-for="(change, key) in data.value" :key="key">
@@ -37,11 +47,17 @@ export default {
     props: {
         entries: {
             required: true
-        }
+        },
+        showId: Boolean
     },
     data() {
         return {
             fields: [
+                this.showId ? {
+                    key: "transaction_id",
+                    label: this.$t("Transaction ID"),
+                    class: "fit text-right",
+                } : null,
                 {
                     key: "created_at",
                     label: this.$t("Date"),

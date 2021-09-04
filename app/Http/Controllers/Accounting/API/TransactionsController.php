@@ -13,6 +13,7 @@ use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use OwenIt\Auditing\Models\Audit;
 use Setting;
 
 class TransactionsController extends Controller
@@ -123,7 +124,16 @@ class TransactionsController extends Controller
         return new TransactionResource($transaction->load('supplier'));
     }
 
-    public function history(Transaction $transaction)
+    public function history()
+    {
+        $this->authorize('viewAny', Transaction::class);
+
+        return TransactionHistory::collection(Audit::where('auditable_type', Transaction::class)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10));
+    }
+
+    public function transactionHistory(Transaction $transaction)
     {
         $this->authorize('view', $transaction);
 

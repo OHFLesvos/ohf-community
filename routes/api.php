@@ -232,8 +232,10 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.export');
         Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
-        Route::get('transactions/{transaction}/history', [TransactionsController::class, 'history'])
+        Route::get('transactions/history', [TransactionsController::class, 'history'])
             ->name('transactions.history');
+        Route::get('transactions/{transaction}/history', [TransactionsController::class, 'transactionHistory'])
+            ->name('transactions.transactionHistory');
         Route::get('transactions/secondaryCategories', [TransactionsController::class, 'secondaryCategories'])
             ->name('transactions.secondaryCategories');
         Route::get('transactions/locations', [TransactionsController::class, 'locations'])
