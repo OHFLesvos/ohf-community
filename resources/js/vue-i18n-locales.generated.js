@@ -771,6 +771,7 @@ export default {
         "Deleted": "Gelöscht",
         "History": "Geschichte",
         "No entries found.": "Keine Einträge gefunden.",
+        "Transaction ID": "Transaktions ID",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

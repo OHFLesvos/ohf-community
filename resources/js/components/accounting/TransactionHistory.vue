@@ -1,17 +1,25 @@
 <template>
-    <b-table
-        :items="entries"
+    <base-table
+        ref="table"
+        id="transactions-history-table"
         :fields="fields"
-        responsive
-        hover
-        striped
-        show-empty
+        :api-method="entries"
         :empty-text="$t('No entries found.')"
+        :items-per-page="10"
+        default-sort-by="created_at"
+        :default-sort-desc="true"
+        no-filter
     >
-        <div slot="table-busy" class="text-center my-2">
-            <b-spinner class="align-middle"></b-spinner>
-            <strong>{{ $t("Loading...") }}</strong>
-        </div>
+        <template v-slot:cell(transaction_id)="data">
+            <router-link
+                :to="{
+                    name: 'accounting.transactions.show',
+                    params: { id: data.value }
+                }"
+            >
+                {{ data.value }}
+            </router-link>
+        </template>
         <template #cell(changes)="data">
             <ul class="mb-0 list-unstyled">
                 <li v-for="(change, key) in data.value" :key="key">
@@ -29,19 +37,31 @@
                 </li>
             </ul>
         </template>
-    </b-table>
+    </base-table>
 </template>
 
 <script>
+import BaseTable from "@/components/table/BaseTable";
 export default {
+    components: {
+        BaseTable
+    },
     props: {
         entries: {
             required: true
-        }
+        },
+        showId: Boolean
     },
     data() {
         return {
             fields: [
+                this.showId
+                    ? {
+                          key: "transaction_id",
+                          label: this.$t("Transaction ID"),
+                          class: "fit text-right"
+                      }
+                    : null,
                 {
                     key: "created_at",
                     label: this.$t("Date"),
@@ -79,6 +99,11 @@ export default {
                 }
             ]
         };
+    },
+    methods: {
+        refresh() {
+            this.$refs.table.refresh();
+        }
     }
 };
 </script>

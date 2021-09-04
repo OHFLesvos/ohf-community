@@ -7,6 +7,10 @@ export default {
         });
         return await api.get(url);
     },
+    async history(params) {
+        let url = route("api.accounting.transactions.history", params);
+        return await api.get(url);
+    },
     async find(id, params = {}) {
         let url = route("api.accounting.transactions.show", {
             transaction: id,
@@ -14,8 +18,8 @@ export default {
         });
         return await api.get(url);
     },
-    async history(id) {
-        let url = route("api.accounting.transactions.history", id);
+    async transactionHistory(id) {
+        let url = route("api.accounting.transactions.transactionHistory", id);
         return await api.get(url);
     },
     async store (wallet, data) {

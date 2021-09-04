@@ -393,6 +393,29 @@ export default [
         }
     },
     {
+        path: "/accounting/transactions/history",
+        name: "accounting.transactions.history",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionsHistoryPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("History"),
+                buttons: [
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview")
+                    }
+                ]
+            }
+        }
+    },
+    {
         path: "/accounting/wallets/:wallet/transactions",
         name: "accounting.transactions.index",
         components: {

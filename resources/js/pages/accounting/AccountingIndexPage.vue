@@ -123,6 +123,13 @@ export default {
                     icon: "wallet",
                     text: this.$t("Wallets"),
                     show: this.can("configure-accounting")
+                },
+                {
+                    to: { name: "accounting.transactions.history" },
+                    variant: "secondary",
+                    icon: "history",
+                    text: this.$t("History"),
+                    show: this.can("view-transactions")
                 }
             ]
         };

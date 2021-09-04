@@ -70,11 +70,6 @@ export default {
         this.fetch();
     },
     methods: {
-        // changeTab(newTabIndex) {
-        //     if (newTabIndex == 1) {
-        //         this.fetchHistory();
-        //     }
-        // },
         async fetch() {
             try {
                 let data = await transactionsApi.find(this.id);
@@ -85,13 +80,7 @@ export default {
             }
         },
         async fetchHistory() {
-            try {
-                let data = await transactionsApi.history(this.id);
-                return data.data;
-            } catch (err) {
-                alert(err);
-                console.error(err);
-            }
+            return await transactionsApi.transactionHistory(this.id);
         }
     }
 };

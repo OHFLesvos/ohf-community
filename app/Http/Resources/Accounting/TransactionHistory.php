@@ -17,6 +17,7 @@ class TransactionHistory extends JsonResource
     {
         return [
             "id" => $this->id,
+            "transaction_id" => $this->auditable_id,
             "event" => $this->event,
             "changes" => $this->getChanges($this->old_values, $this->new_values),
             "ip_address" => $this->ip_address,
@@ -40,7 +41,6 @@ class TransactionHistory extends JsonResource
         }
 
         return collect($changes)
-            ->filter(fn ($val, $key) => $key != "id")
             ->sortKeys()
             ->toArray();
     }

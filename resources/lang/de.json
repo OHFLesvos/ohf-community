@@ -769,5 +769,6 @@
     "Updated": "Aktualisiert",
     "Deleted": "Gelöscht",
     "History": "Geschichte",
-    "No entries found.": "Keine Einträge gefunden."
+    "No entries found.": "Keine Einträge gefunden.",
+    "Transaction ID": "Transaktions ID"
 }

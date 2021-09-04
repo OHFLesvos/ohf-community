@@ -64,6 +64,7 @@
 
         <!-- Pagination -->
         <table-pagination
+            v-if="totalRows > 0"
             v-model="currentPage"
             :total-rows="totalRows"
             :per-page="perPage"
@@ -170,7 +171,7 @@ export default {
             }
             try {
                 let data = await this.apiMethod(params)
-                this.totalRows = data.meta.total
+                this.totalRows = data.meta ? data.meta.total : 0;
                 this.$emit('metadata', data.meta)
                 sessionStorage.setItem(this.id + '.sortBy', ctx.sortBy)
                 sessionStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)

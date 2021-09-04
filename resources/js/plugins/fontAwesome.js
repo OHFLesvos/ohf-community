@@ -52,8 +52,8 @@ import {
     faProjectDiagram,
     faChartBar,
     faDoorOpen,
-    faArrowRight,
-    faLongArrowAltRight
+    faLongArrowAltRight,
+    faHistory
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -110,7 +110,8 @@ library.add(
     faChartBar,
     faDoorOpen,
     faMoneyBillAlt,
-    faLongArrowAltRight
+    faLongArrowAltRight,
+    faHistory
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
