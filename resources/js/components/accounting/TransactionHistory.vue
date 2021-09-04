@@ -1,17 +1,14 @@
 <template>
-    <b-table
-        :items="entries"
+    <base-table
+        id="transactions-history-table"
         :fields="fields"
-        responsive
-        hover
-        striped
-        show-empty
+        :api-method="entries"
         :empty-text="$t('No entries found.')"
+        :items-per-page="10"
+        default-sort-by="created_at"
+        :default-sort-desc="true"
+        no-filter
     >
-        <div slot="table-busy" class="text-center my-2">
-            <b-spinner class="align-middle"></b-spinner>
-            <strong>{{ $t("Loading...") }}</strong>
-        </div>
         <template v-slot:cell(transaction_id)="data">
             <router-link
                 :to="{
@@ -39,11 +36,15 @@
                 </li>
             </ul>
         </template>
-    </b-table>
+    </base-table>
 </template>
 
 <script>
+import BaseTable from "@/components/table/BaseTable";
 export default {
+    components: {
+        BaseTable
+    },
     props: {
         entries: {
             required: true
@@ -53,11 +54,13 @@ export default {
     data() {
         return {
             fields: [
-                this.showId ? {
-                    key: "transaction_id",
-                    label: this.$t("Transaction ID"),
-                    class: "fit text-right",
-                } : null,
+                this.showId
+                    ? {
+                          key: "transaction_id",
+                          label: this.$t("Transaction ID"),
+                          class: "fit text-right"
+                      }
+                    : null,
                 {
                     key: "created_at",
                     label: this.$t("Date"),

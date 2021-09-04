@@ -18,14 +18,8 @@ export default {
         return {};
     },
     methods: {
-        async fetchHistory() {
-            try {
-                let data = await transactionsApi.history();
-                return data.data;
-            } catch (err) {
-                alert(err);
-                console.error(err);
-            }
+        async fetchHistory(ctx) {
+            return await transactionsApi.history(ctx);
         }
     }
 };

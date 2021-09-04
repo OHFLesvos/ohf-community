@@ -80,13 +80,7 @@ export default {
             }
         },
         async fetchHistory() {
-            try {
-                let data = await transactionsApi.transactionHistory(this.id);
-                return data.data;
-            } catch (err) {
-                alert(err);
-                console.error(err);
-            }
+            return await transactionsApi.transactionHistory(this.id);
         }
     }
 };
