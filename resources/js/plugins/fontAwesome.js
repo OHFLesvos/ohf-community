@@ -51,7 +51,9 @@ import {
     faEraser,
     faProjectDiagram,
     faChartBar,
-    faDoorOpen
+    faDoorOpen,
+    faArrowRight,
+    faLongArrowAltRight
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -107,7 +109,8 @@ library.add(
     faProjectDiagram,
     faChartBar,
     faDoorOpen,
-    faMoneyBillAlt
+    faMoneyBillAlt,
+    faLongArrowAltRight
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

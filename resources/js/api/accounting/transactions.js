@@ -14,6 +14,10 @@ export default {
         });
         return await api.get(url);
     },
+    async history(id) {
+        let url = route("api.accounting.transactions.history", id);
+        return await api.get(url);
+    },
     async store (wallet, data) {
         const url = route('api.accounting.transactions.store', wallet)
         return await api.post(url, data)

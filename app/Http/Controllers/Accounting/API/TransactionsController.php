@@ -8,6 +8,7 @@ use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
 use App\Http\Resources\Accounting\TransactionCollection;
+use App\Http\Resources\Accounting\TransactionHistory;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Illuminate\Http\Request;
@@ -120,6 +121,16 @@ class TransactionsController extends Controller
         $this->authorize('view', $transaction);
 
         return new TransactionResource($transaction->load('supplier'));
+    }
+
+    public function history(Transaction $transaction)
+    {
+        $this->authorize('view', $transaction);
+
+        return TransactionHistory::collection($transaction->audits()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->get());
     }
 
     public function update(StoreTransaction $request, Transaction $transaction)

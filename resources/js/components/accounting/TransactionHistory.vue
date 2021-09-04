@@ -1,0 +1,84 @@
+<template>
+    <b-table
+        :items="entries"
+        :fields="fields"
+        responsive
+        hover
+        striped
+        show-empty
+        :empty-text="$t('No entries found.')"
+    >
+        <div slot="table-busy" class="text-center my-2">
+            <b-spinner class="align-middle"></b-spinner>
+            <strong>{{ $t("Loading...") }}</strong>
+        </div>
+        <template #cell(changes)="data">
+            <ul class="mb-0 list-unstyled">
+                <li v-for="(change, key) in data.value" :key="key">
+                    {{ key }}:
+                    <code v-if="data.item.event !== 'created'">{{
+                        change.old !== null ? change.old : "null"
+                    }}</code>
+                    <font-awesome-icon
+                        v-if="data.item.event === 'updated'"
+                        icon="long-arrow-alt-right"
+                    />
+                    <code v-if="data.item.event !== 'deleted'">{{
+                        change.new !== null ? change.new : "null"
+                    }}</code>
+                </li>
+            </ul>
+        </template>
+    </b-table>
+</template>
+
+<script>
+export default {
+    props: {
+        entries: {
+            required: true
+        }
+    },
+    data() {
+        return {
+            fields: [
+                {
+                    key: "created_at",
+                    label: this.$t("Date"),
+                    formatter: this.dateTimeFormat
+                },
+                {
+                    key: "user",
+                    label: this.$t("User"),
+                    formatter: user => {
+                        if (user == null) {
+                            return null;
+                        }
+                        return user.name;
+                    }
+                },
+                {
+                    key: "event",
+                    label: this.$t("Event"),
+                    formatter: event => {
+                        if (event == "created") {
+                            return this.$t("Created");
+                        }
+                        if (event == "updated") {
+                            return this.$t("Updated");
+                        }
+                        if (event == "deleted") {
+                            return this.$t("Deleted");
+                        }
+                        return event;
+                    }
+                },
+                {
+                    key: "changes",
+                    label: this.$t("Changes")
+                }
+            ]
+        };
+    }
+};
+</script>
