@@ -79,6 +79,24 @@ class TransactionsController extends Controller
         return $advanced_filter;
     }
 
+    public function history(Request $request)
+    {
+        $this->authorize('viewAny', Transaction::class);
+
+        $this->validatePagination();
+        $request->validate([
+            'date' => [
+                'nullable',
+                'date'
+            ]
+        ]);
+
+        return TransactionHistory::collection(Audit::where('auditable_type', Transaction::class)
+            ->when($request->has('date'), fn ($qry) => $qry->whereDate('created_at', $request->input('date')))
+            ->orderBy('created_at', 'desc')
+            ->paginate(10));
+    }
+
     public function store(Wallet $wallet, StoreTransaction $request)
     {
         $this->authorize('create', Transaction::class);
@@ -122,15 +140,6 @@ class TransactionsController extends Controller
         $this->authorize('view', $transaction);
 
         return new TransactionResource($transaction->load('supplier'));
-    }
-
-    public function history()
-    {
-        $this->authorize('viewAny', Transaction::class);
-
-        return TransactionHistory::collection(Audit::where('auditable_type', Transaction::class)
-            ->orderBy('created_at', 'desc')
-            ->paginate(10));
     }
 
     public function transactionHistory(Transaction $transaction)
