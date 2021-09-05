@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterController extends Controller
 {
@@ -86,10 +87,8 @@ class RegisterController extends Controller
             ],
             'password' => [
                 'required',
-                'string',
-                'min:8',
-                'pwned',
                 'confirmed',
+                Password::defaults(),
             ],
         ]);
     }

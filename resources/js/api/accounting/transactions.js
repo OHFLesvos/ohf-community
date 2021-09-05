@@ -60,6 +60,10 @@ export default {
         const url = route("api.accounting.transactions.taxonomies", params);
         return await api.get(url);
     },
+    async listControllable(params) {
+        const url = route("api.accounting.transactions.controllable", params);
+        return await api.get(url);
+    },
     async markControlled(transaction) {
         const url = route(
             "api.accounting.transactions.markControlled",

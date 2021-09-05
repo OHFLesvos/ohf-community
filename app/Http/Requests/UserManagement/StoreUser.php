@@ -5,6 +5,7 @@ namespace App\Http\Requests\UserManagement;
 use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 
 class StoreUser extends FormRequest
 {
@@ -40,9 +41,7 @@ class StoreUser extends FormRequest
             ],
             'password' => [
                 'required',
-                'string',
-                'min:8',
-                'pwned',
+                Password::defaults(),
             ],
             'roles' => [
                 'array',

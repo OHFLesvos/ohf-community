@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-form-row>
+        <b-form-row v-if="pictures.length > 0">
             <b-col
                 cols="auto"
                 v-for="picture in pictures"
@@ -34,7 +34,7 @@
             :sources="actualImages.map(i => i.url)"
             :key="this.actualImages.length"
         />
-        <template v-if="transaction.can_update">
+        <template v-if="transaction.can_update && allowUpload">
             <b-button @click="$refs.fileInput.click()" :disabled="isUploading">
                 <font-awesome-icon :icon="icon" :spin="iconSpin" />
                 {{ $t("Add picture") }}
@@ -63,7 +63,8 @@ export default {
     props: {
         transaction: {
             required: true
-        }
+        },
+        allowUpload: Boolean
     },
     data() {
         return {

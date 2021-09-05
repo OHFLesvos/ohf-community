@@ -3,7 +3,11 @@
         <b-row class="mb-3">
             <b-col cols="auto">
                 <b-input-group :prepend="$t('Date')">
-                    <b-form-datepicker v-model="date" reset-button />
+                    <b-form-datepicker
+                        v-model="date"
+                        reset-button
+                        today-button
+                    />
                 </b-input-group>
             </b-col>
         </b-row>

@@ -163,24 +163,26 @@
                 {{ transaction.controlled_at | dateTimeFormat }}
                 <template v-if="transaction.controlled_by">
                     <small>({{ transaction.controller_name }})</small>
-                    <button
+                    <b-button
                         v-if="transaction.can_undo_controlling"
-                        class="btn btn-secondary btn-sm undo-controlled"
+                        variant="secondary"
+                        size="sm"
                         :disabled="isBusy || disabled"
                         @click="undoControlled()"
                     >
                         {{ $t("Undo") }}
-                    </button>
+                    </b-button>
                 </template>
             </template>
-            <button
+            <b-button
                 v-else-if="transaction.can_control"
-                class="btn btn-primary btn-sm mark-controlled"
+                variant="primary"
+                size="sm"
                 :disabled="isBusy || disabled"
                 @click="markControlled()"
             >
                 {{ $t("Mark as controlled") }}
-            </button>
+            </b-button>
             <template v-else>
                 {{ $t("No") }}
             </template>
@@ -227,7 +229,7 @@
                     transaction.can_update
             "
         >
-            <TransactionPictures :transaction="transaction" />
+            <TransactionPictures :transaction="transaction" allowUpload />
         </b-list-group-item>
     </b-list-group>
 </template>
@@ -239,7 +241,7 @@ import TransactionPictures from "@/components/accounting/TransactionPictures";
 export default {
     components: {
         TwoColListGroupItem,
-        TransactionPictures,
+        TransactionPictures
     },
     props: {
         transaction: {
@@ -257,7 +259,7 @@ export default {
             this.isBusy = true;
             try {
                 await transactionsApi.markControlled(this.transaction);
-                this.$emit('update');
+                this.$emit("update");
             } catch (err) {
                 alert(err);
             }
@@ -267,7 +269,7 @@ export default {
             this.isBusy = true;
             try {
                 await transactionsApi.undoControlled(this.transaction);
-                this.$emit('update');
+                this.$emit("update");
             } catch (err) {
                 alert(err);
             }
@@ -281,7 +283,7 @@ export default {
             this.isBusy = true;
             try {
                 await transactionsApi.undoBooking(this.transaction);
-                this.$emit('update');
+                this.$emit("update");
             } catch (err) {
                 alert(err);
             }
