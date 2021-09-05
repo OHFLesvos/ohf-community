@@ -90,7 +90,9 @@
                 {{ transaction.updated_at | dateTimeFormat }}
             </dd>
         </dl>
+
         <TransactionPictures :transaction="transaction" />
+
         <b-button
             :to="{
                 name: 'accounting.transactions.show',

@@ -41,6 +41,7 @@ class ControllingController extends Controller
             ->when($request->has('from'), fn ($qry) => $qry->whereDate('date', '>=', $request->input('from')))
             ->when($request->has('to'), fn ($qry) => $qry->whereDate('date', '<=', $request->input('to')))
             ->orderBy($this->getSortBy('date'), $this->getSortDirection('asc'))
+            ->with('supplier')
             ->get()
             ->filter(fn(Transaction $transaction) => $request->user()->can('control', $transaction))
             ->paginate($this->getPageSize(25));
