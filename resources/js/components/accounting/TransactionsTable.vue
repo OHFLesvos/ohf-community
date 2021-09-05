@@ -65,6 +65,20 @@
                 }}</small>
             </template>
 
+            <template v-slot:cell(budget_name)="data">
+                <router-link
+                    v-if="can('view-budgets')"
+                    :to="{
+                        name: 'accounting.budgets.show',
+                        params: { id: data.item.budget_id }
+                    }"
+                    >{{ data.value }}</router-link
+                >
+                <template v-else>
+                    {{ data.value }}
+                </template>
+            </template>
+
             <template v-slot:cell(supplier)="data">
                 <router-link
                     v-if="data.item.supplier"
