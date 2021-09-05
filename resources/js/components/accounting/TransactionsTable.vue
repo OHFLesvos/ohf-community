@@ -169,6 +169,10 @@ export default {
                       }
                     : null,
                 {
+                    key: "budget_name",
+                    label: this.$t("Budget")
+                },
+                {
                     key: "project_full_name",
                     label: this.$t("Project")
                 },
