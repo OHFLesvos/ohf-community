@@ -130,6 +130,13 @@ export default {
                     icon: "history",
                     text: this.$t("History"),
                     show: this.can("view-transactions")
+                },
+                {
+                    to: { name: "accounting.transactions.controlling" },
+                    variant: "secondary",
+                    icon: "check",
+                    text: this.$t("Controlling"),
+                    show: this.can("view-transactions")
                 }
             ]
         };

@@ -3,15 +3,23 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ValidatesResourceIndex;
 use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
 use Illuminate\Http\Request;
 
 class ControllingController extends Controller
 {
+    use ValidatesResourceIndex;
+
     public function controllable(Request $request)
     {
         $this->authorize('viewAny', Transaction::class);
+
+        $this->validatePagination();
+        $this->validateSorting([
+            'date',
+        ]);
 
         $request->validate([
             'wallet' => [
@@ -30,12 +38,12 @@ class ControllingController extends Controller
 
         $data = Transaction::whereNull('controlled_by')
             ->when($request->has('wallet'), fn ($qry) => $qry->where('wallet_id', $request->input('wallet')))
-            ->when($request->has('from'), fn ($qry) => $qry->whereDate('from', '>=', $request->input('from')))
-            ->when($request->has('to'), fn ($qry) => $qry->whereDate('to', '<=', $request->input('to')))
-            ->orderBy('date', 'asc')
+            ->when($request->has('from'), fn ($qry) => $qry->whereDate('date', '>=', $request->input('from')))
+            ->when($request->has('to'), fn ($qry) => $qry->whereDate('date', '<=', $request->input('to')))
+            ->orderBy($this->getSortBy('date'), $this->getSortDirection('asc'))
             ->get()
             ->filter(fn(Transaction $transaction) => $request->user()->can('control', $transaction))
-            ->paginate();
+            ->paginate($this->getPageSize(25));
 
         return TransactionResource::collection($data);
     }

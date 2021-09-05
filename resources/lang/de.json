@@ -770,5 +770,7 @@
     "Deleted": "Gelöscht",
     "History": "Geschichte",
     "No entries found.": "Keine Einträge gefunden.",
-    "Transaction ID": "Transaktions ID"
+    "Transaction ID": "Transaktions ID",
+    "Controlling": "Controlling",
+    "Refresh": "Neu laden"
 }

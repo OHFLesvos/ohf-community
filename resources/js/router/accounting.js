@@ -416,6 +416,29 @@ export default [
         }
     },
     {
+        path: "/accounting/transactions/controlling",
+        name: "accounting.transactions.controlling",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionsControllingPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            header: {
+                title: i18n.t("Controlling"),
+                buttons: [
+                    {
+                        to: { name: "accounting.index" },
+                        icon: "home",
+                        text: i18n.t("Overview")
+                    }
+                ]
+            }
+        }
+    },
+    {
         path: "/accounting/wallets/:wallet/transactions",
         name: "accounting.transactions.index",
         components: {
