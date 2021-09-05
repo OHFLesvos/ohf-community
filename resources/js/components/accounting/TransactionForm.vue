@@ -69,6 +69,7 @@
                             <b-select
                                 v-model="form.budget_id"
                                 :options="budgetOptions"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -194,6 +195,7 @@
                                 v-model="form.attendee"
                                 autocomplete="off"
                                 list="attendee-list"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -222,6 +224,7 @@
                                 v-model="form.category_id"
                                 required
                                 :options="categories"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -244,6 +247,7 @@
                             <b-select
                                 v-model="form.secondary_category"
                                 :options="secondaryCategoryOptions"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -266,6 +270,7 @@
                             <b-select
                                 v-model="form.project_id"
                                 :options="projects"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -290,6 +295,7 @@
                             <b-select
                                 v-model="form.location"
                                 :options="locationOptions"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -312,6 +318,7 @@
                             <b-select
                                 v-model="form.cost_center"
                                 :options="costCenterOptions"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -359,6 +366,7 @@
                             <b-select
                                 v-model="form.supplier_id"
                                 :options="supplierOptions"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
