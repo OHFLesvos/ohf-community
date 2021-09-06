@@ -28,6 +28,7 @@ class BudgetController extends Controller
 
     public function index(Request $request)
     {
+        $this->validateFilter();
         $this->validatePagination();
 
         $data = Budget::forFilter($request->input('filter', ''))
