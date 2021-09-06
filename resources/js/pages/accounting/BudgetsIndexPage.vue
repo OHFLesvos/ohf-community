@@ -8,7 +8,6 @@
             default-sort-by="name"
             :empty-text="$t('No budgets found.')"
             :items-per-page="25"
-            no-filter
             :tbody-tr-class="rowClass"
         >
             <template v-slot:cell(name)="data">
@@ -48,12 +47,14 @@ export default {
                 {
                     key: "agreed_amount_formatted",
                     label: this.$t("Agreed amount"),
-                    class: "fit text-right",
+                    class: "fit text-right"
                 },
                 {
                     key: "balance_formatted",
                     label: this.$t("Balance"),
                     class: "fit text-right",
+                    tdClass: (value, key, item) =>
+                        item.balance < 0 ? "text-danger" : null
                 },
                 {
                     key: "num_transactions",

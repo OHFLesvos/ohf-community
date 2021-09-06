@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Accounting\API;
 
 use App\Exports\Accounting\BudgetTransactionsExport;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\Accounting\StoreBudget;
 use App\Http\Resources\Accounting\Budget as BudgetResource;
 use App\Http\Resources\Accounting\TransactionCollection;
@@ -18,6 +19,8 @@ use ZipStream\ZipStream;
 
 class BudgetController extends Controller
 {
+    use ValidatesResourceIndex;
+
     public function __construct()
     {
         $this->authorizeResource(Budget::class);
@@ -25,10 +28,13 @@ class BudgetController extends Controller
 
     public function index(Request $request)
     {
+        $this->validateFilter();
+        $this->validatePagination();
+
         $data = Budget::forFilter($request->input('filter', ''))
             ->orderBy('name')
             ->with('transactions')
-            ->paginate(10);
+            ->paginate($this->getPageSize(10));
 
         return BudgetResource::collection($data);
     }
