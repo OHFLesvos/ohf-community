@@ -63,9 +63,6 @@
         </b-table>
 
         <!-- Pagination -->
-        totalRows: {{  totalRows }}
-        currentPage: {{ currentPage }}
-        perPage: {{ perPage }}
         <table-pagination
             v-if="totalRows > 0"
             v-model="currentPage"
@@ -176,8 +173,6 @@ export default {
                 let data = await this.apiMethod(params)
                 this.totalRows = data.meta ? data.meta.total : 0;
                 this.$emit('metadata', data.meta)
-                console.log(ctx.perPage)
-                console.log(data.meta.per_page)
                 if (data.meta && ctx.perPage != data.meta.per_page) {
                     console.error(`Discrepancies detected between requested items per page (${ctx.perPage}) and returned items per page (${data.meta.per_page}).`)
                 }
