@@ -22,7 +22,8 @@
                 v-if="data.item.currency != baseCurrency"
                 class="text-muted ml-1"
             >
-                {{ data.item.currency }} {{ data.item.amount | decimalNumberFormat }}
+                {{ data.item.currency }}
+                {{ data.item.amount | decimalNumberFormat }}
             </small>
             {{ baseCurrency }} {{ data.value | decimalNumberFormat }}
         </template>
@@ -32,6 +33,22 @@
             <slot name="donor-cell" :value="data.value" :item="data.item">
                 {{ data.value }}
             </slot>
+        </template>
+
+        <!-- Budget -->
+        <template v-slot:cell(budget_name)="data">
+            <router-link
+                v-if="can('view-budgets') && data.item.budget_id"
+                :to="{
+                    name: 'accounting.budgets.show',
+                    params: { id: data.item.budget_id }
+                }"
+            >
+                {{ data.value }}
+            </router-link>
+            <template v-else>
+                {{ data.value }}
+            </template>
         </template>
 
         <!-- Thanked -->
@@ -45,8 +62,8 @@
 </template>
 
 <script>
-import BaseTable from '@/components/table/BaseTable'
-import donationsApi from '@/api/fundraising/donations'
+import BaseTable from "@/components/table/BaseTable";
+import donationsApi from "@/api/fundraising/donations";
 export default {
     components: {
         BaseTable
@@ -55,75 +72,81 @@ export default {
         return {
             fields: [
                 {
-                    key: 'date',
-                    label: this.$t('Date'),
-                    class: 'fit',
+                    key: "date",
+                    label: this.$t("Date"),
+                    class: "fit",
                     sortable: true,
-                    sortDirection: 'desc'
+                    sortDirection: "desc",
+                    formatter: this.dateFormat,
                 },
                 {
-                    key: 'exchange_amount',
-                    label: this.$t('Amount'),
-                    class: 'text-right fit',
+                    key: "exchange_amount",
+                    label: this.$t("Amount"),
+                    class: "text-right fit",
                     sortable: true,
-                    sortDirection: 'desc'
+                    sortDirection: "desc"
                 },
                 {
-                    key: 'donor',
-                    label: this.$t('Donor'),
+                    key: "donor",
+                    label: this.$t("Donor"),
                     sortable: false
                 },
                 {
-                    key: 'channel',
-                    label: this.$t('Channel'),
-                    class: 'd-none d-sm-table-cell',
+                    key: "channel",
+                    label: this.$t("Channel"),
+                    class: "d-none d-sm-table-cell",
                     sortable: false
                 },
                 {
-                    key: 'purpose',
-                    label: this.$t('Purpose'),
+                    key: "purpose",
+                    label: this.$t("Purpose"),
                     sortable: false
                 },
                 {
-                    key: 'accounting_category',
-                    label: this.$t('Accounting category'),
+                    key: "accounting_category",
+                    label: this.$t("Accounting category"),
                     sortable: false
                 },
                 {
-                    key: 'reference',
-                    label: this.$t('Reference'),
-                    class: 'd-none d-sm-table-cell',
+                    key: "budget_name",
+                    label: this.$t("Budget"),
                     sortable: false
                 },
                 {
-                    key: 'in_name_of',
-                    label: this.$t('In the name of'),
-                    class: 'd-none d-sm-table-cell',
+                    key: "reference",
+                    label: this.$t("Reference"),
+                    class: "d-none d-sm-table-cell",
+                    sortable: false
+                },
+                {
+                    key: "in_name_of",
+                    label: this.$t("In the name of"),
+                    class: "d-none d-sm-table-cell",
                     sortable: true
                 },
                 {
-                    key: 'created_at',
-                    label: this.$t('Registered'),
-                    class: 'd-none d-sm-table-cell fit',
+                    key: "created_at",
+                    label: this.$t("Registered"),
+                    class: "d-none d-sm-table-cell fit",
                     sortable: true,
                     formatter: this.timeFromNow
                 },
                 {
-                    key: 'thanked',
-                    label: this.$t('Thanked'),
-                    class: 'fit',
+                    key: "thanked",
+                    label: this.$t("Thanked"),
+                    class: "fit",
                     sortable: false
                 }
             ],
             baseCurrency: null
-        }
+        };
     },
     methods: {
-        async list (params) {
-            let data = await donationsApi.list(params)
-            this.baseCurrency = data.meta.base_currency
-            return data
+        async list(params) {
+            let data = await donationsApi.list(params);
+            this.baseCurrency = data.meta.base_currency;
+            return data;
         }
     }
-}
+};
 </script>

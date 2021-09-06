@@ -21,7 +21,7 @@
 
         <!-- Date -->
         <two-col-list-group-item :title="$t('Date')">
-            {{ transaction.date }}
+            {{ transaction.date | dateFormat }}
         </two-col-list-group-item>
 
         <!-- Budget -->

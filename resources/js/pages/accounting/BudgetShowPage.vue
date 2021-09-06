@@ -47,41 +47,99 @@
                 <dd class="col-sm-9">{{ $t("Yes") }}</dd>
             </template>
         </dl>
-        <base-table
-            v-if="can('view-transactions')"
-            id="budget-transactions-table"
-            :fields="transactioFields"
-            :api-method="fetchTransactions"
-            default-sort-by="created_at"
-            :default-sort-desc="true"
-            :empty-text="$t('No transactions found.')"
-            :items-per-page="25"
-            no-filter
-        >
-            <template v-slot:cell(receipt_no)="data">
-                <router-link
-                    :to="{
-                        name: 'accounting.transactions.show',
-                        params: { id: data.item.id }
-                    }"
-                >
-                    {{ data.value }}
-                </router-link>
-            </template>
 
-            <template v-slot:cell(supplier)="data">
-                <router-link
-                    v-if="data.item.supplier"
-                    :to="{
-                        name: 'accounting.suppliers.show',
-                        params: { id: data.item.supplier.slug }
-                    }"
-                    :title="data.item.supplier.category"
+        <!-- Transactions -->
+        <template v-if="can('view-transactions')">
+            <h4>{{ $t("Transactions") }}</h4>
+            <base-table
+                id="budget-transactions-table"
+                :fields="transactioFields"
+                :api-method="fetchTransactions"
+                default-sort-by="created_at"
+                :default-sort-desc="true"
+                :empty-text="$t('No transactions found.')"
+                :items-per-page="25"
+                no-filter
+            >
+                <template v-slot:cell(receipt_no)="data">
+                    <router-link
+                        :to="{
+                            name: 'accounting.transactions.show',
+                            params: { id: data.item.id }
+                        }"
+                    >
+                        {{ data.value }}
+                    </router-link>
+                </template>
+
+                <template v-slot:cell(supplier)="data">
+                    <router-link
+                        v-if="data.item.supplier"
+                        :to="{
+                            name: 'accounting.suppliers.show',
+                            params: { id: data.item.supplier.slug }
+                        }"
+                        :title="data.item.supplier.category"
+                    >
+                        {{ data.item.supplier.name }}
+                    </router-link>
+                </template>
+            </base-table>
+        </template>
+
+        <!-- Donations -->
+        <template v-if="can('view-fundraising-entities')">
+            <h4>
+                {{ $t("Donations") }}
+            </h4>
+            <p v-if="donationTotalExchangeAmount">
+                {{ $t("Total") }}:
+                <u
+                    >{{ donationBaseCurrency }}
+                    {{ donationTotalExchangeAmount }}</u
                 >
-                    {{ data.item.supplier.name }}
-                </router-link>
-            </template>
-        </base-table>
+            </p>
+            <base-table
+                id="budget-donations-table"
+                :fields="donationFields"
+                :api-method="fetchDonations"
+                default-sort-by="created_at"
+                :default-sort-desc="true"
+                :empty-text="$t('No donations found.')"
+                :items-per-page="25"
+                no-filter
+            >
+                <!-- Amount -->
+                <template v-slot:cell(exchange_amount)="data">
+                    <small
+                        v-if="data.item.currency != donationBaseCurrency"
+                        class="text-muted ml-1"
+                    >
+                        {{ data.item.currency }}
+                        {{ data.item.amount | decimalNumberFormat }}
+                    </small>
+                    {{ donationBaseCurrency }}
+                    {{ data.value | decimalNumberFormat }}
+                </template>
+
+                <!-- Donor -->
+                <template v-slot:cell(donor)="data">
+                    <router-link
+                        v-if="data.value != '' && data.item.donor_id"
+                        :to="{
+                            name: 'fundraising.donors.show',
+                            params: { id: data.item.donor_id }
+                        }"
+                    >
+                        {{ data.value }}
+                    </router-link>
+                    <template v-else>
+                        {{ data.value }}
+                    </template>
+                </template>
+            </base-table>
+        </template>
+
         <p>
             <router-link
                 v-if="budget.can_update"
@@ -180,7 +238,46 @@ export default {
                     label: this.$t("Registered"),
                     formatter: this.dateTimeFormat
                 }
-            ]
+            ],
+            donationFields: [
+                {
+                    key: "donor",
+                    label: this.$t("Donor")
+                },
+                {
+                    key: "date",
+                    label: this.$t("Date"),
+                    class: "fit",
+                    formatter: this.dateFormat
+                },
+                {
+                    key: "exchange_amount",
+                    label: this.$t("Amount"),
+                    class: "text-right fit"
+                },
+                {
+                    key: "channel",
+                    label: this.$t("Channel"),
+                    class: "d-none d-sm-table-cell"
+                },
+                {
+                    key: "purpose",
+                    label: this.$t("Purpose")
+                },
+                {
+                    key: "reference",
+                    label: this.$t("Reference"),
+                    class: "d-none d-sm-table-cell"
+                },
+                {
+                    key: "created_at",
+                    label: this.$t("Registered"),
+                    class: "d-none d-sm-table-cell fit",
+                    formatter: this.timeFromNow
+                }
+            ],
+            donationBaseCurrency: null,
+            donationTotalExchangeAmount: null
         };
     },
     watch: {
@@ -201,8 +298,14 @@ export default {
                 console.error(err);
             }
         },
-        async fetchTransactions() {
-            return await budgetsApi.transactions(this.id);
+        async fetchTransactions(ctx) {
+            return await budgetsApi.transactions(this.id, ctx);
+        },
+        async fetchDonations(ctx) {
+            const data = await budgetsApi.donations(this.id, ctx);
+            this.donationBaseCurrency = data.meta.base_currency;
+            this.donationTotalExchangeAmount = data.meta.total_exchange_amount;
+            return data;
         },
         async exportFile(params) {
             this.isBusy = true;

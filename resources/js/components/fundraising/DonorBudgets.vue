@@ -76,8 +76,8 @@ export default {
         };
     },
     methods: {
-        async fetchData() {
-            return await donorsApi.budgets(this.id);
+        async fetchData(ctx) {
+            return await donorsApi.budgets(this.id, ctx);
         },
         rowClass(item, type) {
             if (!item || type !== "row") return;

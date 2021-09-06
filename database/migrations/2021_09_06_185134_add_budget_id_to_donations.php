@@ -13,8 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('accounting_budgets', function (Blueprint $table) {
-            $table->string('name')->unique()->change();
+        Schema::table('donations', function (Blueprint $table) {
+            $table->foreignId('budget_id')
+                ->nullable()
+                ->constrained('accounting_budgets')
+                ->nullOnDelete();
         });
     }
 
@@ -25,8 +28,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('accounting_budgets', function (Blueprint $table) {
-            $table->dropUnique(['name']);
+        Schema::table('donations', function (Blueprint $table) {
+            $table->dropForeign(['budget_id']);
+            $table->dropColumn('budget_id');
         });
     }
 };

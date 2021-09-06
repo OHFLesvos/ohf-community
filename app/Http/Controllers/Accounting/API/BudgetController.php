@@ -8,8 +8,10 @@ use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\Accounting\StoreBudget;
 use App\Http\Resources\Accounting\Budget as BudgetResource;
 use App\Http\Resources\Accounting\TransactionCollection;
+use App\Http\Resources\Fundraising\DonationCollection;
 use App\Models\Accounting\Budget;
 use App\Models\Accounting\Transaction;
+use App\Models\Fundraising\Donation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -50,7 +52,7 @@ class BudgetController extends Controller
 
     public function show(Budget $budget)
     {
-        return new BudgetResource($budget->load('donor'));
+        return new BudgetResource($budget->load(['donor']));
     }
 
     public function update(StoreBudget $request, Budget $budget)
@@ -79,12 +81,33 @@ class BudgetController extends Controller
     {
         $this->authorize('viewAny', Transaction::class);
 
+        $this->validatePagination();
+
         $data = $budget->transactions()
             ->orderBy('created_at', 'desc')
             ->with('supplier')
-            ->paginate();
+            ->paginate($this->getPageSize(10));
 
         return new TransactionCollection($data);
+    }
+
+    public function donations(Budget $budget)
+    {
+        $this->authorize('viewAny', Donation::class);
+
+        $this->validatePagination();
+
+        $data = $budget->donations()
+            ->with(['donor'])
+            ->orderBy('created_at', 'desc')
+            ->paginate($this->getPageSize(10));
+
+        return (new DonationCollection($data))
+            ->additional([
+                'meta' => [
+                    'total_exchange_amount' => $budget->donations()->sum('exchange_amount'),
+                ]
+            ]);
     }
 
     public function export(Budget $budget, Request $request)

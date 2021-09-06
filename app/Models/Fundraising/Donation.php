@@ -2,6 +2,7 @@
 
 namespace App\Models\Fundraising;
 
+use App\Models\Accounting\Budget;
 use App\Models\Accounting\Category;
 use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\InDateRangeScope;
@@ -35,6 +36,11 @@ class Donation extends Model
     public function donor()
     {
         return $this->belongsTo(Donor::class);
+    }
+
+    public function budget()
+    {
+        return $this->belongsTo(Budget::class);
     }
 
     public function accountingCategory()

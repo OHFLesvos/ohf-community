@@ -66,7 +66,7 @@ class DonationController extends Controller
         $filter = trim($request->input('filter', ''));
 
         $donations = Donation::query()
-            ->with(['donor', 'accountingCategory'])
+            ->with(['donor', 'accountingCategory', 'budget'])
             ->forFilter($filter)
             ->orderBy($sortBy, $sortDirection)
             ->paginate($pageSize);
@@ -135,6 +135,12 @@ class DonationController extends Controller
             $donation->accountingCategory()->associate($request->accounting_category_id);
         } else {
             $donation->accountingCategory()->dissociate();
+        }
+
+        if ($request->filled('budget_id')) {
+            $donation->budget()->associate($request->budget_id);
+        } else {
+            $donation->budget()->dissociate();
         }
 
         $donation->save();

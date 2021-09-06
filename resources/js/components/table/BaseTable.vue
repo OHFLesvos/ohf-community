@@ -174,7 +174,7 @@ export default {
                 this.totalRows = data.meta ? data.meta.total : 0;
                 this.$emit('metadata', data.meta)
                 if (data.meta && ctx.perPage != data.meta.per_page) {
-                    console.error(`Discrepancies detected between requested items per page (${ctx.perPage}) and returned items per page (${data.meta.per_page}).`)
+                    console.error(`Table ${this.id}: Discrepancies detected between requested items per page (${ctx.perPage}) and returned items per page (${data.meta.per_page}).`)
                 }
                 sessionStorage.setItem(this.id + '.sortBy', ctx.sortBy)
                 sessionStorage.setItem(this.id + '.sortDesc', ctx.sortDesc)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fundraising\API;
 
 use App\Exports\Fundraising\DonorsExport;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\Fundraising\StoreDonor;
 use App\Http\Resources\Accounting\Budget as BudgetResource;
 use App\Http\Resources\Fundraising\Donor as DonorResource;
@@ -17,6 +18,8 @@ use JeroenDesloovere\VCard\VCard;
 
 class DonorController extends Controller
 {
+    use ValidatesResourceIndex;
+
     /**
      * Display a listing of the resource.
      *
@@ -239,7 +242,11 @@ class DonorController extends Controller
         $this->authorize('view', $donor);
         $this->authorize('viewAny', Budget::class);
 
-        return BudgetResource::collection($donor->budgets()->paginate());
+        $this->validatePagination();
+
+        $data = $donor->budgets()->paginate($this->getPageSize(10));
+
+        return BudgetResource::collection($data);
     }
 
     public function names()

@@ -27,15 +27,29 @@
 
             <!-- Amount / Currency -->
             <template v-slot:cell(exchange_amount)="data">
-                <span
-                    v-if="data.item.currency != baseCurrency"
-                    class="mr-1"
-                >
+                <span v-if="data.item.currency != baseCurrency" class="mr-1">
                     <small class="text-muted">
-                        {{ data.item.currency }} {{ data.item.amount | decimalNumberFormat }}
+                        {{ data.item.currency }}
+                        {{ data.item.amount | decimalNumberFormat }}
                     </small>
                 </span>
                 {{ baseCurrency }} {{ data.value | decimalNumberFormat }}
+            </template>
+
+            <!-- Budget -->
+            <template v-slot:cell(budget_name)="data">
+                <router-link
+                    v-if="can('view-budgets') && data.item.budget_id"
+                    :to="{
+                        name: 'accounting.budgets.show',
+                        params: { id: data.item.budget_id }
+                    }"
+                >
+                    {{ data.value }}
+                </router-link>
+                <template v-else>
+                    {{ data.value }}
+                </template>
             </template>
 
             <!-- Colgroup -->
@@ -44,7 +58,7 @@
                     v-for="field in scope.fields"
                     :key="field.key"
                     :style="{ width: field.width }"
-                >
+                />
             </template>
 
             <!-- Footer -->
@@ -52,7 +66,12 @@
                 <b-tr v-if="data.items.length > 0">
                     <b-th :colspan="1"></b-th>
                     <b-th class="text-right">
-                        <u>{{ baseCurrency }} {{ totalAmount(data.items) | decimalNumberFormat }}</u>
+                        <u
+                            >{{ baseCurrency }}
+                            {{
+                                totalAmount(data.items) | decimalNumberFormat
+                            }}</u
+                        >
                     </b-th>
                     <b-th :colspan="5"></b-th>
                 </b-tr>
@@ -62,7 +81,7 @@
 </template>
 
 <script>
-import { roundWithDecimals } from '@/utils'
+import { roundWithDecimals } from "@/utils";
 export default {
     props: {
         donations: {
@@ -74,65 +93,73 @@ export default {
             type: String
         }
     },
-    data () {
+    data() {
         return {
             fields: [
                 {
-                    key: 'date',
-                    label: this.$t('Date'),
+                    key: "date",
+                    label: this.$t("Date"),
                     formatter: this.dateFormat,
-                    width: '10em'
+                    width: "10em"
                 },
                 {
-                    key: 'exchange_amount',
-                    label: this.$t('Amount'),
-                    class: 'text-md-right',
-                    width: '12em'
+                    key: "exchange_amount",
+                    label: this.$t("Amount"),
+                    class: "text-md-right",
+                    width: "12em"
                 },
                 {
-                    key: 'channel',
-                    label: this.$t('Channel'),
-                    width: '10em'
+                    key: "channel",
+                    label: this.$t("Channel"),
+                    width: "10em"
                 },
                 {
-                    key: 'purpose',
-                    label: this.$t('Purpose')
+                    key: "purpose",
+                    label: this.$t("Purpose")
                 },
                 {
-                    key: 'accounting_category',
-                    label: this.$t('Accounting category'),
+                    key: "accounting_category",
+                    label: this.$t("Accounting category"),
                     sortable: false
                 },
                 {
-                    key: 'reference',
-                    label: this.$t('Reference'),
-                    width: '12em'
+                    key: "budget_name",
+                    label: this.$t("Budget"),
+                    sortable: false
                 },
                 {
-                    key: 'in_name_of',
-                    label: this.$t('In the name of'),
-                    width: '10em'
+                    key: "reference",
+                    label: this.$t("Reference"),
+                    width: "12em"
                 },
                 {
-                    key: 'created_at',
-                    label: this.$t('Registered'),
-                    width: '12em',
+                    key: "in_name_of",
+                    label: this.$t("In the name of"),
+                    width: "10em"
+                },
+                {
+                    key: "created_at",
+                    label: this.$t("Registered"),
+                    width: "12em",
                     formatter: this.dateTimeFormat
                 },
                 {
-                    key: 'thanked',
-                    label: this.$t('Thanked'),
-                    width: '12em',
+                    key: "thanked",
+                    label: this.$t("Thanked"),
+                    width: "12em",
                     formatter: this.dateTimeFormat
                 }
             ]
-        }
+        };
     },
     methods: {
-        totalAmount (items) {
-            let sum = items.reduce((a,b) => a + parseFloat(b.exchange_amount), 0)
-            return roundWithDecimals(sum, 2)
+        totalAmount(items) {
+            let sum = items.reduce(
+                (a, b) => a + parseFloat(b.exchange_amount),
+                0
+            );
+            return roundWithDecimals(sum, 2);
         }
     }
-}
+};
 </script>
