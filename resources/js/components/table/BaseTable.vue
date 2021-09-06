@@ -63,6 +63,9 @@
         </b-table>
 
         <!-- Pagination -->
+        totalRows: {{  totalRows }}
+        currentPage: {{ currentPage }}
+        perPage: {{ perPage }}
         <table-pagination
             v-if="totalRows > 0"
             v-model="currentPage"
