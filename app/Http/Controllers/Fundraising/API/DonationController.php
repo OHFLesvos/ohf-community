@@ -66,7 +66,7 @@ class DonationController extends Controller
         $filter = trim($request->input('filter', ''));
 
         $donations = Donation::query()
-            ->with(['donor', 'accountingCategory', 'budget'])
+            ->with(['donor', 'budget'])
             ->forFilter($filter)
             ->orderBy($sortBy, $sortDirection)
             ->paginate($pageSize);
@@ -130,12 +130,6 @@ class DonationController extends Controller
         $donation->reference = $request->reference;
         $donation->in_name_of = $request->in_name_of;
         $donation->thanked = ! empty($request->thanked) ? ($donation->thanked !== null ? $donation->thanked : Carbon::now()) : null;
-
-        if ($request->filled('accounting_category_id')) {
-            $donation->accountingCategory()->associate($request->accounting_category_id);
-        } else {
-            $donation->accountingCategory()->dissociate();
-        }
 
         if ($request->filled('budget_id')) {
             $donation->budget()->associate($request->budget_id);

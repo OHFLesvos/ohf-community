@@ -28,8 +28,6 @@ class Donation extends JsonResource
             'reference' => $this->reference,
             'in_name_of' => $this->in_name_of,
             'thanked' => $this->thanked,
-            'accounting_category_id' => $this->accounting_category_id,
-            'accounting_category' => $this->whenLoaded('accountingCategory', fn () => optional($this->accountingCategory)->name),
             'budget_id' => $this->budget_id,
             'budget_name' => $this->whenLoaded('budget', fn () => optional($this->budget)->name),
             'can_update' => $request->user()->can('update', $this->resource),
