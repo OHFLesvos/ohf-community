@@ -51,8 +51,7 @@ export default {
         wallet: {},
         filterDateStart: {},
         filterDateEnd: {},
-        flattenChildren: Boolean,
-        showDonations: Boolean
+        flattenChildren: Boolean
     },
     data() {
         return {
@@ -82,13 +81,6 @@ export default {
                           tdClass: (value, key, item) =>
                               this.colorClass(item.total_amount)
                       }
-                    : null,
-                this.showDonations
-                    ? {
-                          key: "donations",
-                          label: this.$t("Donations"),
-                          class: "text-right"
-                      }
                     : null
             ]
         };
@@ -105,7 +97,7 @@ export default {
     methods: {
         colorClass(value) {
             if (value > 0) {
-                return "text-success"
+                return "text-success";
             }
             if (value < 0) {
                 return "text-danger";

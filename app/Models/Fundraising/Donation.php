@@ -3,7 +3,6 @@
 namespace App\Models\Fundraising;
 
 use App\Models\Accounting\Budget;
-use App\Models\Accounting\Category;
 use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\InDateRangeScope;
 use Dyrynda\Database\Support\NullableFields;
@@ -41,11 +40,6 @@ class Donation extends Model
     public function budget()
     {
         return $this->belongsTo(Budget::class);
-    }
-
-    public function accountingCategory()
-    {
-        return $this->belongsTo(Category::class);
     }
 
     /**

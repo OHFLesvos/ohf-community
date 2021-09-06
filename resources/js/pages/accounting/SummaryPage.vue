@@ -126,7 +126,6 @@
                         :filterDateStart="filterDateStart"
                         :filterDateEnd="filterDateEnd"
                         flatten-children
-                        show-donations
                     />
                 </b-col>
                 <!-- Revenue by project -->

@@ -90,7 +90,6 @@ class SummaryController extends Controller
         $this->fillInRevenue($categories, $revenueByCategory);
         $categories = $this->removeZeroRevenueItems($categories);
         $categories = $this->addFormattedAmounts($categories);
-        $this->addCategoryDonations($categories);
 
         $projects = Project::queryByParent();
         $revenueByProject = $this->revenueByRelationField('project_id', 'project', $request);
@@ -182,15 +181,6 @@ class SummaryController extends Controller
             $item['total_amount_formatted'] = $this->formatCurrency($item['total_amount']);
         }
         return $items;
-    }
-
-    private function addCategoryDonations(Collection $categories): void
-    {
-        foreach ($categories as &$item) {
-            $this->addCategoryDonations($item['children']);
-            $donationSum = $item->donations()->sum('exchange_amount');
-            $item['donations'] = $donationSum > 0 ? (number_format($donationSum, 2) . ' ' . config('fundraising.base_currency')) : null;
-        }
     }
 
     private function dateRange(Request $request)

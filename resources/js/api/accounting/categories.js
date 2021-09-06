@@ -27,8 +27,4 @@ export default {
         const url = route("api.accounting.categories.tree", params);
         return await api.get(url);
     },
-    async donations(id) {
-        const url = route("api.accounting.categories.donations", id);
-        return await api.get(url);
-    },
 };

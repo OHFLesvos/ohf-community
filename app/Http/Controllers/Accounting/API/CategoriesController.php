@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreCategory;
 use Illuminate\Http\Request;
 use App\Http\Resources\Accounting\Category as CategoryResource;
-use App\Http\Resources\Fundraising\Donation as DonationResource;
 use App\Models\Accounting\Category;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
@@ -76,7 +75,7 @@ class CategoriesController extends Controller
 
     public function show(Category $category)
     {
-        return new CategoryResource($category->load('donations'));
+        return new CategoryResource($category);
     }
 
     public function update(StoreCategory $request, Category $category)
@@ -118,13 +117,5 @@ class CategoriesController extends Controller
             $e['children'] = $this->addCanUpdate($e['children']);
             return $e;
         });
-    }
-
-    public function donations(Category $category)
-    {
-        return DonationResource::collection($category->donations()
-            ->with('donor')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10));
     }
 }

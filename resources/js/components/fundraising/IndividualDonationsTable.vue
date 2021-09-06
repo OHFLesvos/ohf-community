@@ -118,11 +118,6 @@ export default {
                     label: this.$t("Purpose")
                 },
                 {
-                    key: "accounting_category",
-                    label: this.$t("Accounting category"),
-                    sortable: false
-                },
-                {
                     key: "budget_name",
                     label: this.$t("Budget"),
                     sortable: false

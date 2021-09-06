@@ -153,29 +153,6 @@
                     </validation-provider>
                 </b-col>
 
-                <!-- Accounting category -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('Accounting category')"
-                        vid="accounting_category_id"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Accounting category')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
-                        >
-                            <b-select
-                                v-model="form.accounting_category_id"
-                                :options="categoryTree"
-                                :disabled="!loaded"
-                                :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-
                 <!-- Budget -->
                 <b-col md>
                     <validation-provider
@@ -290,7 +267,6 @@
 
 <script>
 import moment from "moment";
-import categoriesApi from "@/api/accounting/categories";
 import budgetsApi from "@/api/accounting/budgets";
 export default {
     props: {
@@ -325,8 +301,6 @@ export default {
                       reference: this.donation.reference,
                       in_name_of: this.donation.in_name_of,
                       thanked: this.donation.thanked != null,
-                      accounting_category_id: this.donation
-                          .accounting_category_id,
                       budget_id: this.donation.budget_id
                   }
                 : {
@@ -339,10 +313,8 @@ export default {
                       reference: null,
                       in_name_of: null,
                       thanked: false,
-                      accounting_category_id: null,
                       budget_id: null
                   },
-            categoryTree: [],
             budgets: []
         };
     },
@@ -381,7 +353,6 @@ export default {
         }
     },
     async created() {
-        await this.fetchTree();
         this.budgets = await budgetsApi.names();
         this.loaded = true;
     },
@@ -399,32 +370,6 @@ export default {
                 this.$emit("delete");
             }
         },
-        async fetchTree() {
-            let data = await categoriesApi.tree();
-            this.categoryTree = [
-                {
-                    text: " ",
-                    value: null
-                }
-            ];
-            for (let elem of data) {
-                this.fillTree(this.categoryTree, elem);
-            }
-        },
-        fillTree(tree, elem, level = 0) {
-            let text = "";
-            if (level > 0) {
-                text += "&nbsp;".repeat(level * 5);
-            }
-            text += elem.name;
-            tree.push({
-                html: text,
-                value: elem.id
-            });
-            for (let child of elem.children) {
-                this.fillTree(tree, child, level + 1);
-            }
-        }
     }
 };
 </script>

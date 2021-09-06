@@ -103,11 +103,6 @@ export default {
                     sortable: false
                 },
                 {
-                    key: "accounting_category",
-                    label: this.$t("Accounting category"),
-                    sortable: false
-                },
-                {
                     key: "budget_name",
                     label: this.$t("Budget"),
                     sortable: false

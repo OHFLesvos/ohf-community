@@ -37,7 +37,7 @@ class DonorDonationsController extends Controller
         $year = $request->input('year');
 
         $donations = $donor->donations()
-            ->with(['accountingCategory', 'budget'])
+            ->with(['budget'])
             ->when($year, fn ($qry) => $qry->forYear($year))
             ->orderBy('date', 'desc')
             ->orderBy('created_at', 'desc')
@@ -96,11 +96,6 @@ class DonorDonationsController extends Controller
         $donation->in_name_of = $request->in_name_of;
         $donation->thanked = ! empty($request->thanked) ? Carbon::now() : null;
 
-        if ($request->filled('accounting_category_id')) {
-            $donation->accountingCategory()->associate($request->accounting_category_id);
-        } else {
-            $donation->accountingCategory()->dissociate();
-        }
         if ($request->filled('budget_id')) {
             $donation->budget()->associate($request->budget_id);
         } else {
