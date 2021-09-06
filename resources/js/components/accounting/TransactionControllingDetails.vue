@@ -1,14 +1,14 @@
 <template>
     <div>
         <dl class="row mb-0">
-            <dt class="col-sm-4">{{ $t("Receipt") }}</dt>
-            <dd class="col-sm-8">{{ transaction.receipt_no }}</dd>
+            <dt class="col-sm-3">{{ $t("Receipt") }}</dt>
+            <dd class="col-sm-9">{{ transaction.receipt_no }}</dd>
 
-            <dt class="col-sm-4">{{ $t("Date") }}</dt>
-            <dd class="col-sm-8">{{ transaction.date | dateFormat }}</dd>
+            <dt class="col-sm-3">{{ $t("Date") }}</dt>
+            <dd class="col-sm-9">{{ transaction.date | dateFormat }}</dd>
 
-            <dt class="col-sm-4">{{ $t("Amount") }}</dt>
-            <dd class="col-sm-8">
+            <dt class="col-sm-3">{{ $t("Amount") }}</dt>
+            <dd class="col-sm-9">
                 <span
                     :class="{
                         'text-success': transaction.type == 'income',
@@ -25,44 +25,44 @@
             </dd>
 
             <template v-if="transaction.budget_id">
-                <dt class="col-sm-4">{{ $t("Budget") }}</dt>
-                <dd class="col-sm-8">{{ transaction.budget_name }}</dd>
+                <dt class="col-sm-3">{{ $t("Budget") }}</dt>
+                <dd class="col-sm-9">{{ transaction.budget_name }}</dd>
             </template>
 
             <template v-if="transaction.fees">
-                <dt class="col-sm-4">{{ $t("Transaction fees") }}</dt>
-                <dd class="col-sm-8">{{ transaction.fees_formatted }}</dd>
+                <dt class="col-sm-3">{{ $t("Transaction fees") }}</dt>
+                <dd class="col-sm-9">{{ transaction.fees_formatted }}</dd>
             </template>
 
-            <dt class="col-sm-4">{{ $t("Category") }}</dt>
-            <dd class="col-sm-8">{{ transaction.category_full_name }}</dd>
+            <dt class="col-sm-3">{{ $t("Category") }}</dt>
+            <dd class="col-sm-9">{{ transaction.category_full_name }}</dd>
 
             <template v-if="transaction.secondary_category">
-                <dt class="col-sm-4">{{ $t("Secondary Category") }}</dt>
-                <dd class="col-sm-8">{{ transaction.secondary_category }}</dd>
+                <dt class="col-sm-3">{{ $t("Secondary Category") }}</dt>
+                <dd class="col-sm-9">{{ transaction.secondary_category }}</dd>
             </template>
 
             <template v-if="transaction.project_id">
-                <dt class="col-sm-4">{{ $t("Project") }}</dt>
-                <dd class="col-sm-8">{{ transaction.project_full_name }}</dd>
+                <dt class="col-sm-3">{{ $t("Project") }}</dt>
+                <dd class="col-sm-9">{{ transaction.project_full_name }}</dd>
             </template>
 
             <template v-if="transaction.location">
-                <dt class="col-sm-4">{{ $t("Location") }}</dt>
-                <dd class="col-sm-8">{{ transaction.location }}</dd>
+                <dt class="col-sm-3">{{ $t("Location") }}</dt>
+                <dd class="col-sm-9">{{ transaction.location }}</dd>
             </template>
 
             <template v-if="transaction.cost_center">
-                <dt class="col-sm-4">{{ $t("Cost Center") }}</dt>
-                <dd class="col-sm-8">{{ transaction.cost_center }}</dd>
+                <dt class="col-sm-3">{{ $t("Cost Center") }}</dt>
+                <dd class="col-sm-9">{{ transaction.cost_center }}</dd>
             </template>
 
-            <dt class="col-sm-4">{{ $t("Description") }}</dt>
-            <dd class="col-sm-8">{{ transaction.description }}</dd>
+            <dt class="col-sm-3">{{ $t("Description") }}</dt>
+            <dd class="col-sm-9">{{ transaction.description }}</dd>
 
             <template v-if="transaction.supplier">
-                <dt class="col-sm-4">{{ $t("Supplier") }}</dt>
-                <dd class="col-sm-8">
+                <dt class="col-sm-3">{{ $t("Supplier") }}</dt>
+                <dd class="col-sm-9">
                     {{ transaction.supplier.name }}
                     <template v-if="transaction.supplier.category">
                         <br /><small>{{ transaction.supplier.category }}</small>
@@ -71,22 +71,22 @@
             </template>
 
             <template v-if="transaction.attendee">
-                <dt class="col-sm-4">{{ $t("Attendee") }}</dt>
-                <dd class="col-sm-8">{{ transaction.attendee }}</dd>
+                <dt class="col-sm-3">{{ $t("Attendee") }}</dt>
+                <dd class="col-sm-9">{{ transaction.attendee }}</dd>
             </template>
 
             <template v-if="transaction.remarks">
-                <dt class="col-sm-4">{{ $t("Remarks") }}</dt>
-                <dd class="col-sm-8">{{ transaction.remarks }}</dd>
+                <dt class="col-sm-3">{{ $t("Remarks") }}</dt>
+                <dd class="col-sm-9">{{ transaction.remarks }}</dd>
             </template>
 
-            <dt class="col-sm-4">{{ $t("Registered") }}</dt>
-            <dd class="col-sm-8">
+            <dt class="col-sm-3">{{ $t("Registered") }}</dt>
+            <dd class="col-sm-9">
                 {{ transaction.created_at | dateTimeFormat }}
             </dd>
 
-            <dt class="col-sm-4">{{ $t("Last updated") }}</dt>
-            <dd class="col-sm-8">
+            <dt class="col-sm-3">{{ $t("Last updated") }}</dt>
+            <dd class="col-sm-9">
                 {{ transaction.updated_at | dateTimeFormat }}
             </dd>
         </dl>

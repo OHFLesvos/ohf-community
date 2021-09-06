@@ -59,8 +59,11 @@ export default {
         const url = route("api.fundraising.donors.names");
         return await api.get(url);
     },
-    async budgets(donorId) {
-        const url = route("api.fundraising.donors.budgets", donorId);
+    async budgets(donorId, params = {}) {
+        const url = route("api.fundraising.donors.budgets", {
+            donor: donorId,
+            ...params
+        });
         return await api.get(url);
     }
 }

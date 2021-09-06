@@ -272,6 +272,8 @@ Route::middleware(['language', 'auth'])
         Route::apiResource('budgets', BudgetController::class);
         Route::get('budgets/{budget}/transactions', [BudgetController::class, 'transactions'])
             ->name('budgets.transactions');
+        Route::get('budgets/{budget}/donations', [BudgetController::class, 'donations'])
+            ->name('budgets.donations');
         Route::get('budgets/{budget}/export', [BudgetController::class, 'export'])
             ->name('budgets.export');
     });

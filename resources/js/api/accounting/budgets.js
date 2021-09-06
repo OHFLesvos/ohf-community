@@ -30,6 +30,13 @@ export default {
         });
         return await api.get(url);
     },
+    async donations(id, params = {}) {
+        const url = route("api.accounting.budgets.donations", {
+            budget: id,
+            ...params
+        });
+        return await api.get(url);
+    },
     async names() {
         const url = route("api.accounting.budgets.names");
         return await api.get(url);

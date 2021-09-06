@@ -169,6 +169,30 @@
                             <b-select
                                 v-model="form.accounting_category_id"
                                 :options="categoryTree"
+                                :disabled="!loaded"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                <!-- Budget -->
+                <b-col md>
+                    <validation-provider
+                        :name="$t('Budget')"
+                        vid="budget_id"
+                        :rules="{}"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Budget')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.budget_id"
+                                :options="budgetOptions"
+                                :disabled="!loaded"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -267,6 +291,7 @@
 <script>
 import moment from "moment";
 import categoriesApi from "@/api/accounting/categories";
+import budgetsApi from "@/api/accounting/budgets";
 export default {
     props: {
         donation: {
@@ -288,6 +313,7 @@ export default {
     },
     data() {
         return {
+            loaded: false,
             form: this.donation
                 ? {
                       date: this.donation.date,
@@ -300,7 +326,8 @@ export default {
                       in_name_of: this.donation.in_name_of,
                       thanked: this.donation.thanked != null,
                       accounting_category_id: this.donation
-                          .accounting_category_id
+                          .accounting_category_id,
+                      budget_id: this.donation.budget_id
                   }
                 : {
                       date: moment().format(moment.HTML5_FMT.DATE),
@@ -312,9 +339,11 @@ export default {
                       reference: null,
                       in_name_of: null,
                       thanked: false,
-                      accounting_category_id: null
+                      accounting_category_id: null,
+                      budget_id: null
                   },
-            categoryTree: []
+            categoryTree: [],
+            budgets: []
         };
     },
     computed: {
@@ -328,10 +357,33 @@ export default {
                     text: e[1]
                 };
             });
+        },
+        budgetOptions() {
+            let arr = [
+                {
+                    value: null,
+                    text: `- ${this.$t("No budget")} -`
+                }
+            ];
+            arr.push(
+                ...this.budgets
+                    .filter(
+                        budget =>
+                            !budget.is_completed ||
+                            this.transaction?.budget_id == budget.id
+                    )
+                    .map(e => ({
+                        value: e.id,
+                        text: e.name
+                    }))
+            );
+            return arr;
         }
     },
     async created() {
         await this.fetchTree();
+        this.budgets = await budgetsApi.names();
+        this.loaded = true;
     },
     methods: {
         getValidationState({ dirty, validated, valid = null }) {

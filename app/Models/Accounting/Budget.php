@@ -2,6 +2,7 @@
 
 namespace App\Models\Accounting;
 
+use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
@@ -47,6 +48,11 @@ class Budget extends Model
     public function donor()
     {
         return $this->belongsTo(Donor::class);
+    }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
     }
 
     public function getBalance(): float
