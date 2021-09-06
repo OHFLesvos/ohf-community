@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreBudget extends FormRequest
 {
@@ -26,6 +27,9 @@ class StoreBudget extends FormRequest
         return [
             'name' => [
                 'required',
+                isset($this->budget)
+                    ? Rule::unique('accounting_budgets')->ignore($this->budget->id)
+                    : Rule::unique('accounting_budgets'),
             ],
             'description' => [
                 'nullable',
