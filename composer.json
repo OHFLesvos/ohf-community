@@ -20,6 +20,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "gumlet/php-image-resize": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "intervention/image": "^2.6",
         "intervention/validation": "^2.5",
         "jeroendesloovere/vcard": "^1.6",
         "laravel/framework": "^8.0",

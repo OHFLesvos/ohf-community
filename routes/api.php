@@ -230,6 +230,8 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.export');
         Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
+        Route::put('transactions/{transaction}/receipt/rotate', [TransactionsController::class, 'rotateReceipt'])
+            ->name('transactions.rotateReceipt');
         Route::get('transactions/history', [TransactionsController::class, 'history'])
             ->name('transactions.history');
         Route::get('transactions/{transaction}/history', [TransactionsController::class, 'transactionHistory'])

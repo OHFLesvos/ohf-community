@@ -8,14 +8,21 @@
                 class="mb-2"
             >
                 <a
-                    :href="picture.url"
+                    :href="`${picture.url}?${picture.hash}`"
                     :target="picture.type == 'file' ? '_blank' : null"
                     :title="picture.mime_type"
-                    @click="picture.type == 'image' ? openLightbox($event, picture.url) : undefined"
+                    @click="
+                        picture.type == 'image'
+                            ? openLightbox(
+                                  $event,
+                                  `${picture.url}?${picture.hash}`
+                              )
+                            : undefined
+                    "
                 >
                     <ThumbnailImage
                         v-if="picture.thumbnail_url"
-                        :url="picture.thumbnail_url"
+                        :url="`${picture.thumbnail_url}?${picture.hash}`"
                         :size="picture.thumbnail_size"
                     />
                     <span v-else class="display-4" :title="picture.mime_type">
@@ -25,14 +32,21 @@
                 <template v-if="!picture.thumbnail_url">
                     {{ picture.mime_type }} ({{ picture.file_size }})
                 </template>
+                <b-button
+                    v-if="transaction.can_update"
+                    @click="rotateReceipt(picture.name)"
+                    :aria-label="$t('Rotate')"
+                >
+                    <font-awesome-icon icon="undo" />
+                </b-button>
             </b-col>
         </b-form-row>
         <FsLightbox
             v-if="this.actualImages.length > 0"
             :toggler="toggler"
             :source="source"
-            :sources="actualImages.map(i => i.url)"
-            :key="this.actualImages.length"
+            :sources="actualImages.map(i => `${i.url}?${i.hash}`)"
+            :key="this.actualImages.reduce((acc, item) => (acc += item), '')"
         />
         <template v-if="transaction.can_update && allowUpload">
             <b-button @click="$refs.fileInput.click()" :disabled="isUploading">
@@ -110,6 +124,17 @@ export default {
             evt.preventDefault();
             this.source = source;
             this.toggler = !this.toggler;
+        },
+        async rotateReceipt(picture) {
+            try {
+                let data = await transactionsApi.rotateReceipt(
+                    this.transaction,
+                    picture
+                );
+                this.pictures = data;
+            } catch (err) {
+                alert(err);
+            }
         }
     }
 };
