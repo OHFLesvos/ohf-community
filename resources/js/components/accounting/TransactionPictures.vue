@@ -32,13 +32,22 @@
                 <template v-if="!picture.thumbnail_url">
                     {{ picture.mime_type }} ({{ picture.file_size }})
                 </template>
-                <b-button
-                    v-if="transaction.can_update"
-                    @click="rotateReceipt(picture.name)"
-                    :aria-label="$t('Rotate')"
-                >
-                    <font-awesome-icon icon="undo" />
-                </b-button>
+                <div v-if="transaction.can_update" class="mt-1">
+                    <b-button
+                        @click="rotateReceipt(picture.name, 'left')"
+                        :title="$t('Rotate counter-clockwise')"
+                        :aria-label="$t('Rotate counter-clockwise')"
+                    >
+                        <font-awesome-icon icon="undo" />
+                    </b-button>
+                    <b-button
+                        @click="rotateReceipt(picture.name, 'right')"
+                        :title="$t('Rotate clockwise')"
+                        :aria-label="$t('Rotate clockwise')"
+                    >
+                        <font-awesome-icon icon="redo" />
+                    </b-button>
+                </div>
             </b-col>
         </b-form-row>
         <FsLightbox
@@ -125,11 +134,12 @@ export default {
             this.source = source;
             this.toggler = !this.toggler;
         },
-        async rotateReceipt(picture) {
+        async rotateReceipt(picture, direction) {
             try {
                 let data = await transactionsApi.rotateReceipt(
                     this.transaction,
-                    picture
+                    picture,
+                    direction
                 );
                 this.pictures = data;
             } catch (err) {

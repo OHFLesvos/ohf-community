@@ -773,5 +773,7 @@
     "Transaction ID": "Transaktions ID",
     "Controlling": "Controlling",
     "Refresh": "Neu laden",
-    "Rotate": "Drehen"
+    "Rotate": "Drehen",
+    "Rotate counter-clockwise": "Gegen Uhrzeigersinn drehen",
+    "Rotate clockwise": "Im Uhrzeigersinn Drehen"
 }

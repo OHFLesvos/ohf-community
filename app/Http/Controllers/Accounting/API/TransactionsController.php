@@ -218,10 +218,14 @@ class TransactionsController extends Controller
         $request->validate([
             'picture' => [
                 Rule::in($transaction->receipt_pictures),
+            ],
+            'direction' => [
+                'nullable',
+                Rule::in(['left', 'right']),
             ]
         ]);
 
-        $transaction->rotateReceiptPicture($request->picture);
+        $transaction->rotateReceiptPicture($request->picture, $request->input('direction', 'right'));
 
         return response()->json($transaction->receiptPictureArray());
     }

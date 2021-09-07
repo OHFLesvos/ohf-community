@@ -318,16 +318,16 @@ class Transaction extends Model implements Auditable
         $image->save($thumbPath);
     }
 
-    public function rotateReceiptPicture(string $picture)
+    public function rotateReceiptPicture(string $picture, string $direction)
     {
-        self::rotatePicture(Storage::path($picture));
-        self::rotatePicture(Storage::path(thumb_path($picture)));
+        self::rotatePicture(Storage::path($picture), $direction);
+        self::rotatePicture(Storage::path(thumb_path($picture)), $direction);
     }
 
-    private static function rotatePicture(string $path)
+    private static function rotatePicture(string $path, string $direction)
     {
         $img = Image::make($path);
-        $img->rotate(90);
+        $img->rotate($direction == 'left' ? 90 : -90);
         $img->save($path);
     }
 

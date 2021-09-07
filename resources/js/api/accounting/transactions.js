@@ -39,12 +39,12 @@ export default {
         );
         return await api.postFormData(url, formData);
     },
-    async rotateReceipt(transaction, picture) {
+    async rotateReceipt(transaction, picture, direction) {
         const url = route(
             "api.accounting.transactions.rotateReceipt",
             transaction
         );
-        return await api.put(url, { picture: picture });
+        return await api.put(url, { picture: picture, direction: direction });
     },
     async delete(id) {
         const url = route("api.accounting.transactions.destroy", id);
