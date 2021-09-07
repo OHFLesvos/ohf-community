@@ -8,14 +8,21 @@
                 class="mb-2"
             >
                 <a
-                    :href="picture.url"
+                    :href="`${picture.url}?${picture.hash}`"
                     :target="picture.type == 'file' ? '_blank' : null"
                     :title="picture.mime_type"
-                    @click="picture.type == 'image' ? openLightbox($event, picture.url) : undefined"
+                    @click="
+                        picture.type == 'image'
+                            ? openLightbox(
+                                  $event,
+                                  `${picture.url}?${picture.hash}`
+                              )
+                            : undefined
+                    "
                 >
                     <ThumbnailImage
                         v-if="picture.thumbnail_url"
-                        :url="picture.thumbnail_url"
+                        :url="`${picture.thumbnail_url}?${picture.hash}`"
                         :size="picture.thumbnail_size"
                     />
                     <span v-else class="display-4" :title="picture.mime_type">
@@ -25,14 +32,30 @@
                 <template v-if="!picture.thumbnail_url">
                     {{ picture.mime_type }} ({{ picture.file_size }})
                 </template>
+                <div v-if="transaction.can_update" class="mt-1">
+                    <b-button
+                        @click="rotateReceipt(picture.name, 'left')"
+                        :title="$t('Rotate counter-clockwise')"
+                        :aria-label="$t('Rotate counter-clockwise')"
+                    >
+                        <font-awesome-icon icon="undo" />
+                    </b-button>
+                    <b-button
+                        @click="rotateReceipt(picture.name, 'right')"
+                        :title="$t('Rotate clockwise')"
+                        :aria-label="$t('Rotate clockwise')"
+                    >
+                        <font-awesome-icon icon="redo" />
+                    </b-button>
+                </div>
             </b-col>
         </b-form-row>
         <FsLightbox
             v-if="this.actualImages.length > 0"
             :toggler="toggler"
             :source="source"
-            :sources="actualImages.map(i => i.url)"
-            :key="this.actualImages.length"
+            :sources="actualImages.map(i => `${i.url}?${i.hash}`)"
+            :key="this.actualImages.reduce((acc, item) => (acc += item), '')"
         />
         <template v-if="transaction.can_update && allowUpload">
             <b-button @click="$refs.fileInput.click()" :disabled="isUploading">
@@ -110,6 +133,18 @@ export default {
             evt.preventDefault();
             this.source = source;
             this.toggler = !this.toggler;
+        },
+        async rotateReceipt(picture, direction) {
+            try {
+                let data = await transactionsApi.rotateReceipt(
+                    this.transaction,
+                    picture,
+                    direction
+                );
+                this.pictures = data;
+            } catch (err) {
+                alert(err);
+            }
         }
     }
 };

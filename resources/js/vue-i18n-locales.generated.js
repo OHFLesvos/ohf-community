@@ -774,6 +774,9 @@ export default {
         "Transaction ID": "Transaktions ID",
         "Controlling": "Controlling",
         "Refresh": "Neu laden",
+        "Rotate": "Drehen",
+        "Rotate counter-clockwise": "Gegen Uhrzeigersinn drehen",
+        "Rotate clockwise": "Im Uhrzeigersinn Drehen",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

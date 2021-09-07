@@ -13,6 +13,7 @@ use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 use OwenIt\Auditing\Models\Audit;
 use Setting;
 
@@ -206,6 +207,25 @@ class TransactionsController extends Controller
             $transaction->addReceiptPicture($request->file('img')[$i]);
         }
         $transaction->save();
+
+        return response()->json($transaction->receiptPictureArray());
+    }
+
+    public function rotateReceipt(Request $request, Transaction $transaction)
+    {
+        $this->authorize('update', $transaction);
+
+        $request->validate([
+            'picture' => [
+                Rule::in($transaction->receipt_pictures),
+            ],
+            'direction' => [
+                'nullable',
+                Rule::in(['left', 'right']),
+            ]
+        ]);
+
+        $transaction->rotateReceiptPicture($request->picture, $request->input('direction', 'right'));
 
         return response()->json($transaction->receiptPictureArray());
     }

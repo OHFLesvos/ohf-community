@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 use Org_Heigl\Ghostscript\Ghostscript;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -276,6 +277,7 @@ class Transaction extends Model implements Auditable
                         : null);
                 return [
                     'name' => $picture,
+                    'hash' => md5_file(Storage::path($picture)),
                     'type' => $isImage ? 'image' : 'file',
                     'url' => Storage::url($picture),
                     'mime_type' => Storage::mimeType($picture),
@@ -314,6 +316,19 @@ class Transaction extends Model implements Auditable
         $image = new ImageResize($thumbPath);
         $image->crop($dimensions, $dimensions);
         $image->save($thumbPath);
+    }
+
+    public function rotateReceiptPicture(string $picture, string $direction)
+    {
+        self::rotatePicture(Storage::path($picture), $direction);
+        self::rotatePicture(Storage::path(thumb_path($picture)), $direction);
+    }
+
+    private static function rotatePicture(string $path, string $direction)
+    {
+        $img = Image::make($path);
+        $img->rotate($direction == 'left' ? 90 : -90);
+        $img->save($path);
     }
 
     public function deleteReceiptPicture(string $picture)
