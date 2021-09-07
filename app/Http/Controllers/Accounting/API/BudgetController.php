@@ -84,7 +84,7 @@ class BudgetController extends Controller
         $this->validatePagination();
 
         $data = $budget->transactions()
-            ->orderBy('created_at', 'desc')
+            ->orderBy('date', 'desc')
             ->with('supplier')
             ->paginate($this->getPageSize(10));
 
@@ -99,7 +99,7 @@ class BudgetController extends Controller
 
         $data = $budget->donations()
             ->with(['donor'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('date', 'desc')
             ->paginate($this->getPageSize(10));
 
         return (new DonationCollection($data))
