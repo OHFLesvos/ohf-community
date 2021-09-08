@@ -108,14 +108,14 @@ export default {
                     variant: "secondary",
                     icon: "truck",
                     text: this.$t("Suppliers"),
-                    show: this.can("view-suppliers") || can("manage-suppliers")
+                    show: this.can("view-suppliers") || this.can("manage-suppliers")
                 },
                 {
                     to: { name: "accounting.budgets.index" },
                     variant: "secondary",
                     icon: "money-bill-alt",
                     text: this.$t("Budgets"),
-                    show: this.can("view-budgets") || can("manage-budgets")
+                    show: this.can("view-budgets") || this.can("manage-budgets")
                 },
                 {
                     to: { name: "accounting.wallets.index" },
