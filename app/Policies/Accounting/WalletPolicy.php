@@ -25,7 +25,7 @@ class WalletPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('accounting.configure');
+        return $user->hasPermission('accounting.configure') || $user->hasPermission('accounting.transactions.view');
     }
 
     /**
