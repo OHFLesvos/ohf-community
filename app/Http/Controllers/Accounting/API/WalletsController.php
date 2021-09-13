@@ -57,6 +57,8 @@ class WalletsController extends Controller
 
         return WalletResource::collection(Wallet::query()
             ->orderBy($sortBy, $sortDirection)
+            ->get()
+            ->filter(fn (Wallet $wallet) => $request->user()->can('view', $wallet))
             ->paginate($pageSize));
     }
 
