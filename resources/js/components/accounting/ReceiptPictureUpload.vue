@@ -59,6 +59,9 @@ export default {
             if (numImages == 1) {
                 return "image";
             }
+            if (this.pictures.length > 1) {
+                return "copy";
+            }
             return "file";
         },
         iconSpin() {
