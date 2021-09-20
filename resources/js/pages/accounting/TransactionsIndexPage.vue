@@ -14,6 +14,9 @@
 import TransactionsTable from "@/components/accounting/TransactionsTable";
 import { mapState } from "vuex";
 export default {
+    title() {
+        return this.$t("Transactions");
+    },
     components: {
         TransactionsTable
     },

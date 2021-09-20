@@ -37,6 +37,9 @@
 import categoriesApi from "@/api/accounting/categories";
 import Nl2br from "vue-nl2br";
 export default {
+    title() {
+        return this.$t("View category");
+    },
     components: {
         Nl2br
     },

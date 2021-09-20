@@ -22,6 +22,9 @@ import walletsApi from "@/api/accounting/wallets";
 import TransactionForm from "@/components/accounting/TransactionForm";
 import { mapState } from "vuex";
 export default {
+    title() {
+        return this.$t("Register new transaction");
+    },
     components: {
         TransactionForm
     },

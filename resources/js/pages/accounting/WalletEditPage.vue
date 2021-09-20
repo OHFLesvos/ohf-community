@@ -29,6 +29,9 @@ import { showSnackbar } from "@/utils";
 import walletsApi from "@/api/accounting/wallets";
 import WalletForm from "@/components/accounting/WalletForm";
 export default {
+    title() {
+        return this.$t("Edit wallet");
+    },
     components: {
         WalletForm
     },

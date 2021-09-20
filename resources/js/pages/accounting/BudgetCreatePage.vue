@@ -15,6 +15,9 @@ import { showSnackbar } from '@/utils'
 import budgetsApi from "@/api/accounting/budgets";
 import BudgetForm from "@/components/accounting/BudgetForm";
 export default {
+    title() {
+        return this.$t("Create budget");
+    },
     components: {
         BudgetForm
     },

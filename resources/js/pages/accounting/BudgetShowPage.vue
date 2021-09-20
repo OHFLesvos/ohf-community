@@ -188,6 +188,9 @@ import budgetsApi from "@/api/accounting/budgets";
 import BaseTable from "@/components/table/BaseTable";
 import Nl2br from "vue-nl2br";
 export default {
+    title() {
+        return this.$t("Budget anzeigen");
+    },
     components: {
         BaseTable,
         Nl2br

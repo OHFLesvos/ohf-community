@@ -22,6 +22,9 @@ import transactionsApi from "@/api/accounting/transactions";
 import TransactionForm from "@/components/accounting/TransactionForm";
 import { mapState } from "vuex";
 export default {
+    title() {
+        return this.$t("Edit transaction");
+    },
     components: {
         TransactionForm
     },
