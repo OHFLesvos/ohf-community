@@ -13,7 +13,7 @@
             <template v-slot:filter-prepend>
                 <b-input-group :prepend="$t('Wallet')" :append="walletAmount">
                     <b-select
-                        v-model="currentWallet"
+                        v-model="wallet"
                         :options="walletOptions"
                         :disabled="isBusy"
                     />
@@ -67,7 +67,7 @@
 
             <template v-slot:cell(budget_name)="data">
                 <router-link
-                    v-if="can('view-budgets')"
+                    v-if="can('view-budgets') && data.item.budget_id"
                     :to="{
                         name: 'accounting.budgets.show',
                         params: { id: data.item.budget_id }
@@ -111,9 +111,6 @@ export default {
         TransactionExportDialog
     },
     props: {
-        wallet: {
-            required: true
-        },
         useSecondaryCategories: Boolean,
         useLocations: Boolean,
         useCostCenters: Boolean,
@@ -135,9 +132,14 @@ export default {
         }
         return {
             isBusy: false,
+            wallet: this.$route.query.wallet ?? null,
             wallets: [],
             advancedFilter: advancedFilter,
             fields: [
+                {
+                    key: "wallet_name",
+                    label: this.$t("Wallet")
+                },
                 {
                     key: "receipt_pictures",
                     label: ""
@@ -168,7 +170,7 @@ export default {
                           key: "intermediate_balance",
                           label: this.$t("Intermediate balance"),
                           class: "fit text-right",
-                          tdClass: (value, key, item) =>
+                          tdClass: value =>
                               value > 0 ? "text-success" : "text-danger"
                       }
                     : null,
@@ -225,34 +227,41 @@ export default {
         };
     },
     computed: {
-        currentWallet: {
-            get() {
-                return this.wallet;
-            },
-            set(value) {
-                this.$router.push({
-                    name: "accounting.transactions.index",
-                    params: { wallet: value }
-                });
-            }
-        },
         walletAmount() {
             if (this.wallets.length == 0) {
                 return null;
             }
             const wallet = this.wallets.filter(w => w.id == this.wallet)[0];
-            return wallet.amount_formatted;
+            if (wallet) {
+                return wallet.amount_formatted;
+            }
+            return null;
         },
         walletOptions() {
-            return this.wallets.map(e => ({
-                value: e.id,
-                text: e.name
-            }));
+            return [
+                {
+                    value: null,
+                    text: `- ${this.$t("All wallets")} -`
+                },
+                ...this.wallets.map(e => ({
+                    value: e.id,
+                    text: e.name
+                }))
+            ];
         }
     },
     watch: {
-        wallet() {
+        wallet(value) {
             this.$refs.table.refresh();
+            this.$router.push(
+                {
+                    query: {
+                        ...this.$route.query,
+                        wallet: value || undefined,
+                    }
+                },
+                () => {}
+            );
         },
         advancedFilter(value) {
             sessionStorage.setItem(
@@ -275,7 +284,8 @@ export default {
                     ctx[`advanced_filter[${key}]`] = value;
                 });
             }
-            return transactionsApi.list(this.wallet, ctx);
+            ctx["wallet"] = this.wallet;
+            return transactionsApi.list(ctx);
         }
     }
 };

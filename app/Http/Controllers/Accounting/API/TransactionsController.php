@@ -21,10 +21,9 @@ class TransactionsController extends Controller
 {
     use ValidatesResourceIndex;
 
-    public function index(Wallet $wallet, Request $request)
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Transaction::class);
-        $this->authorize('view', $wallet);
 
         $this->validateFilter();
         $this->validatePagination();
@@ -48,8 +47,18 @@ class TransactionsController extends Controller
 
         $advanced_filter = $this->parseAdvancedFilter($request);
 
+        $allowedWalletIds = Wallet::all()
+            ->filter(fn (Wallet $wallet) => $request->user()->can('view', $wallet))
+            ->pluck('id');
+
+        $appends = [];
+        if ($request->filled('wallet')) {
+            $appends['wallet'] = $request->input('wallet');
+        }
+
         $transactions = Transaction::query()
-            ->forWallet($wallet)
+            ->whereIn('wallet_id', $allowedWalletIds)
+            ->when($request->filled('wallet'), fn ($qry) => $qry->where('wallet_id', $request->input('wallet')))
             ->when($request->filled('filter'), fn ($qry) => $qry->forFilter($request->input('filter')))
             ->when(count($advanced_filter) > 0, fn ($qry) => $qry->forAdvancedFilter($advanced_filter))
             ->when(
@@ -63,7 +72,8 @@ class TransactionsController extends Controller
             ->orderBy($this->getSortBy('created_at'), $this->getSortDirection('desc'))
             ->orderBy('created_at', 'desc')
             ->with('supplier')
-            ->paginate($this->getPageSize(25));
+            ->paginate($this->getPageSize(25))
+            ->appends($appends);
 
         return new TransactionCollection($transactions);
     }

@@ -222,8 +222,9 @@ Route::middleware(['language', 'auth'])
         Route::get('transactions/summary', [SummaryController::class, 'index'])
             ->name('transactions.summary');
 
-        Route::get('wallets/{wallet}/transactions', [TransactionsController::class, 'index'])
+        Route::get('transactions', [TransactionsController::class, 'index'])
             ->name('transactions.index');
+
         Route::post('wallets/{wallet}/transactions', [TransactionsController::class, 'store'])
             ->name('transactions.store');
         Route::get('wallets/{wallet}/transactions/export', [ExportController::class, 'doExport'])

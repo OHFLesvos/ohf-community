@@ -172,7 +172,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.summary');
 
         // Transactions
-        Route::view('wallets/{wallet}/transactions', 'vue-app')
+        Route::view('transactions', 'vue-app')
             ->name('transactions.index');
         Route::view('wallets/{wallet}/transactions/create', 'vue-app')
             ->name('transactions.create');

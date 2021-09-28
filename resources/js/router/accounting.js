@@ -439,7 +439,7 @@ export default [
         }
     },
     {
-        path: "/accounting/wallets/:wallet/transactions",
+        path: "/accounting/transactions",
         name: "accounting.transactions.index",
         components: {
             default: () =>
@@ -453,34 +453,34 @@ export default [
             header: route => ({
                 title: i18n.t("Transactions"),
                 buttons: [
-                    {
-                        to: {
-                            name: "accounting.transactions.create",
-                            params: { wallet: route.params.wallet }
-                        },
-                        icon: "plus-circle",
-                        text: i18n.t("Add"),
-                        variant: "primary",
-                        show: can("create-transactions")
-                    },
-                    {
-                        to: {
-                            name: "accounting.transactions.summary",
-                            query: { wallet: route.params.wallet }
-                        },
-                        icon: "calculator",
-                        text: i18n.t("Summary"),
-                        show: can("view-accounting-summary")
-                    },
-                    {
-                        href: ziggyRoute(
-                            "accounting.webling.index",
-                            route.params.wallet
-                        ),
-                        icon: "cloud-upload-alt",
-                        text: i18n.t("Webling"),
-                        show: can("export-to-webling")
-                    },
+                    // {
+                    //     to: {
+                    //         name: "accounting.transactions.create",
+                    //         params: { wallet: route.query.wallet ?? null }
+                    //     },
+                    //     icon: "plus-circle",
+                    //     text: i18n.t("Add"),
+                    //     variant: "primary",
+                    //     show: can("create-transactions")
+                    // },
+                    // {
+                    //     to: {
+                    //         name: "accounting.transactions.summary",
+                    //         query: { wallet: route.query.wallet ?? null }
+                    //     },
+                    //     icon: "calculator",
+                    //     text: i18n.t("Summary"),
+                    //     show: can("view-accounting-summary")
+                    // },
+                    // {
+                    //     href: ziggyRoute(
+                    //         "accounting.webling.index",
+                    //         route.query.wallet ?? null
+                    //     ),
+                    //     icon: "cloud-upload-alt",
+                    //     text: i18n.t("Webling"),
+                    //     show: can("export-to-webling")
+                    // },
                     {
                         to: { name: "accounting.index" },
                         icon: "home",
