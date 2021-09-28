@@ -13,6 +13,9 @@ import { showSnackbar } from "@/utils";
 import suppliersApi from "@/api/accounting/suppliers";
 import SupplierForm from "@/components/accounting/SupplierForm";
 export default {
+    title() {
+        return this.$t("Register supplier");
+    },
     components: {
         SupplierForm
     },

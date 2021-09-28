@@ -21,6 +21,9 @@ import projectsApi from "@/api/accounting/projects";
 import NestedListGroup from "@/components/ui/NestedListGroup";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 export default {
+    title() {
+        return this.$t("Projects");
+    },
     components: {
         NestedListGroup,
         AlertWithRetry

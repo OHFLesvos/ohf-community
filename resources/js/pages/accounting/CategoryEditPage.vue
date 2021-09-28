@@ -35,6 +35,9 @@ import { showSnackbar } from '@/utils'
 import categoriesApi from '@/api/accounting/categories'
 import CategoryForm from '@/components/accounting/CategoryForm'
 export default {
+    title() {
+        return this.$t("Edit category");
+    },
     components: {
         CategoryForm
     },

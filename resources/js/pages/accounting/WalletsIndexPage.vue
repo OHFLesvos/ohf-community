@@ -45,6 +45,9 @@
 import walletsApi from "@/api/accounting/wallets";
 import BaseTable from "@/components/table/BaseTable";
 export default {
+    title() {
+        return this.$t("Wallets");
+    },
     components: {
         BaseTable
     },

@@ -293,7 +293,7 @@ export default [
         },
         props: {
             header: {
-                title: i18n.t("Register Supplier")
+                title: i18n.t("Register supplier")
             }
         }
     },
@@ -365,7 +365,7 @@ export default [
         props: {
             default: true,
             header: {
-                title: i18n.t("Edit Supplier")
+                title: i18n.t("Edit supplier")
             }
         }
     },

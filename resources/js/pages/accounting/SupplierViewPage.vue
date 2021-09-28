@@ -15,6 +15,9 @@
 import TabNav from "@/components/layout/TabNav";
 import suppliersApi from "@/api/accounting/suppliers";
 export default {
+    title() {
+        return this.$t("View supplier");
+    },
     components: {
         TabNav
     },

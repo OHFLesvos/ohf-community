@@ -181,6 +181,9 @@ import projectsApi from "@/api/accounting/projects";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import SummaryList from "@/components/accounting/SummaryList";
 export default {
+    title() {
+        return this.$t("Summary");
+    },
     components: {
         AlertWithRetry,
         SummaryList

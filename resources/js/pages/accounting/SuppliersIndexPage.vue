@@ -57,6 +57,9 @@ import BaseTable from "@/components/table/BaseTable";
 import PhoneLink from "@/components/common/PhoneLink";
 import EmailLink from "@/components/common/EmailLink";
 export default {
+    title() {
+        return this.$t("Suppliers");
+    },
     components: {
         BaseTable,
         EmailLink,
