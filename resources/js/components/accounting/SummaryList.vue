@@ -14,10 +14,8 @@
                     v-if="wallet && can('view-transactions')"
                     :to="{
                         name: 'accounting.transactions.index',
-                        params: {
-                            wallet: wallet
-                        },
                         query: {
+                            wallet: wallet,
                             [`filter[${paramName}]`]: data.item.id
                                 ? data.item.id
                                 : data.value,

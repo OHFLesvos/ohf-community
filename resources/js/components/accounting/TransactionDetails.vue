@@ -5,7 +5,7 @@
             <router-link
                 :to="{
                     name: 'accounting.transactions.index',
-                    params: {
+                    query: {
                         wallet: transaction.wallet_id
                     }
                 }"

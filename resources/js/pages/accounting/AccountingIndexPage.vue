@@ -108,7 +108,9 @@ export default {
                     variant: "secondary",
                     icon: "truck",
                     text: this.$t("Suppliers"),
-                    show: this.can("view-suppliers") || this.can("manage-suppliers")
+                    show:
+                        this.can("view-suppliers") ||
+                        this.can("manage-suppliers")
                 },
                 {
                     to: { name: "accounting.budgets.index" },

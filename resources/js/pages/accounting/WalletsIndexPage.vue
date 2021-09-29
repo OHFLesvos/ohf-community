@@ -28,7 +28,7 @@
                 <router-link
                     :to="{
                         name: 'accounting.transactions.index',
-                        params: { wallet: data.item.id }
+                        query: { wallet: data.item.id }
                     }"
                 >
                     {{ data.value }}

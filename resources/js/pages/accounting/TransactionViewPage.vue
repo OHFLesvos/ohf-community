@@ -27,7 +27,7 @@
             <router-link
                 :to="{
                     name: 'accounting.transactions.index',
-                    params: { wallet: transaction.wallet_id }
+                    query: { wallet: transaction.wallet_id }
                 }"
                 class="btn btn-secondary"
             >

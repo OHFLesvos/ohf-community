@@ -96,6 +96,7 @@
 </template>
 
 <script>
+const ADVANCED_FILTER_SESSION_KEY = "accounting.transactions.advancedFilter";
 import qs from "qs";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
@@ -121,10 +122,10 @@ export default {
         const queryParams = qs.parse(this.$route.query);
         if (queryParams.filter && Object.keys(queryParams.filter).length > 0) {
             advancedFilter = queryParams.filter;
-            sessionStorage.removeItem("accounting.transactions.advancedFilter");
+            sessionStorage.removeItem(ADVANCED_FILTER_SESSION_KEY);
         } else {
             const persitedAdvancedFilter = sessionStorage.getItem(
-                "accounting.transactions.advancedFilter"
+                ADVANCED_FILTER_SESSION_KEY
             );
             if (persitedAdvancedFilter) {
                 advancedFilter = JSON.parse(persitedAdvancedFilter);
@@ -251,21 +252,13 @@ export default {
         }
     },
     watch: {
-        wallet(value) {
+        wallet() {
             this.$refs.table.refresh();
-            this.$router.push(
-                {
-                    query: {
-                        ...this.$route.query,
-                        wallet: value || undefined,
-                    }
-                },
-                () => {}
-            );
+            this.emitChange();
         },
         advancedFilter(value) {
             sessionStorage.setItem(
-                "accounting.transactions.advancedFilter",
+                ADVANCED_FILTER_SESSION_KEY,
                 JSON.stringify(value)
             );
             this.$refs.table.refresh();
@@ -286,6 +279,11 @@ export default {
             }
             ctx["wallet"] = this.wallet;
             return transactionsApi.list(ctx);
+        },
+        emitChange() {
+            this.$emit("change", {
+                wallet: this.wallet || undefined
+            });
         }
     }
 };

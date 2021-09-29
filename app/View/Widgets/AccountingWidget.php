@@ -23,7 +23,7 @@ class AccountingWidget implements Widget
                 ->filter(fn (Wallet $wallet) => request()->user()->can('view', $wallet))
                 ->map(fn (Wallet $wallet) => [
                     'name' => $wallet->name,
-                    'url' => route('accounting.transactions.index', $wallet),
+                    'url' => route('accounting.transactions.index', ['wallet' => $wallet->id]),
                     'amount_formatted' => $this->formatCurrency($wallet->amount),
                 ]),
         ]);

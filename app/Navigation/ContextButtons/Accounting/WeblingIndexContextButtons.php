@@ -14,7 +14,7 @@ class WeblingIndexContextButtons implements ContextButtons
         $wallet = $view->getData()['wallet'];
         return [
             'back' => [
-                'url' => route('accounting.transactions.index', $wallet),
+                'url' => route('accounting.transactions.index', ['wallet' => $wallet->id]),
                 'caption' => __('Close'),
                 'icon' => 'times-circle',
                 'authorized' => Auth::user()->can('viewAny', Transaction::class),

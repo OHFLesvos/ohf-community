@@ -79,7 +79,7 @@ export default {
                 showSnackbar(this.$t("Transaction deleted."));
                 this.$router.push({
                     name: "accounting.transactions.index",
-                    params: { wallet: this.transaction.wallet_id }
+                    query: { wallet: this.transaction.wallet_id }
                 });
             } catch (err) {
                 alert(err);

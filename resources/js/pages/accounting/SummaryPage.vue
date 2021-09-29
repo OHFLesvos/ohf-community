@@ -75,10 +75,8 @@
                     v-if="can('view-transactions')"
                     :to="{
                         name: 'accounting.transactions.index',
-                        params: {
-                            wallet: data.item.id
-                        },
                         query: {
+                            wallet: data.item.id,
                             'filter[date_start]': filterDateStart,
                             'filter[date_end]': filterDateEnd
                         }

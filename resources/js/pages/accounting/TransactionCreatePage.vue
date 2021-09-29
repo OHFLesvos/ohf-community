@@ -3,9 +3,13 @@
         <TransactionForm
             :defaultReceiptNumber="walletData.next_free_receipt"
             :disabled="isBusy"
-            :use-secondary-categories="settings['accounting.transactions.use_secondary_categories']"
+            :use-secondary-categories="
+                settings['accounting.transactions.use_secondary_categories']
+            "
             :use-locations="settings['accounting.transactions.use_locations']"
-            :use-cost-centers="settings['accounting.transactions.use_cost_centers']"
+            :use-cost-centers="
+                settings['accounting.transactions.use_cost_centers']
+            "
             @submit="handleCreate"
             @cancel="handleCancel"
         />
@@ -61,7 +65,7 @@ export default {
         handleCancel() {
             this.$router.push({
                 name: "accounting.transactions.index",
-                params: { wallet: this.wallet }
+                query: { wallet: this.wallet }
             });
         }
     }
