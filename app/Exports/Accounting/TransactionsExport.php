@@ -24,7 +24,7 @@ class TransactionsExport extends BaseTransactionsExport
      */
     private $dateTo;
 
-    private Wallet $wallet;
+    private ?Wallet $wallet;
 
     /**
      * @param string[] $advancedFilter
@@ -32,7 +32,7 @@ class TransactionsExport extends BaseTransactionsExport
      * @param string|Carbon $dateTo
      */
     public function __construct(
-        Wallet $wallet,
+        ?Wallet $wallet,
         ?string $filter = null,
         array $advancedFilter = [],
         $dateFrom = null,
@@ -49,7 +49,7 @@ class TransactionsExport extends BaseTransactionsExport
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
         return Transaction::query()
-            ->forWallet($this->wallet)
+            ->when($this->wallet !== null, fn ($qry) => $qry->forWallet($this->wallet))
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
             ->when(

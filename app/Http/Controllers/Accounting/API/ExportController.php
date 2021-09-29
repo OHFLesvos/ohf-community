@@ -47,13 +47,17 @@ class ExportController extends Controller
 
     protected function exportFilename(Request $request): string
     {
-        $wallet = Wallet::findOrFail($request->route('wallet'));
+        $wallet = Wallet::findOrFail($request->input('wallet'));
         return config('app.name') . ' ' . __('Accounting') . ' [' . $wallet->name . '] (' . Carbon::now()->toDateString() . ')';
     }
 
     protected function exportExportable(Request $request)
     {
         $request->validate([
+            'wallet' => [
+                'nullable',
+                'exists:accounting_wallets,id',
+            ],
             'filter' => [
                 'nullable',
                 'string',
@@ -72,7 +76,7 @@ class ExportController extends Controller
             ],
         ]);
 
-        $wallet = Wallet::findOrFail($request->route('wallet'));
+        $wallet = $request->filled('wallet') ? Wallet::find($request->input('wallet')) : null;
         $filter = $request->input('filter', '');
         $advancedFilter = $request->input('advanced_filter', []);
         if ($request->grouping == 'monthly') {

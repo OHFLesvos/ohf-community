@@ -226,7 +226,7 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.index');
         Route::post('transactions', [TransactionsController::class, 'store'])
             ->name('transactions.store');
-        Route::get('wallets/{wallet}/transactions/export', [ExportController::class, 'doExport'])
+        Route::get('transactions/export', [ExportController::class, 'doExport'])
             ->name('transactions.export');
         Route::post('transactions/{transaction}/receipt', [TransactionsController::class, 'updateReceipt'])
             ->name('transactions.updateReceipt');
