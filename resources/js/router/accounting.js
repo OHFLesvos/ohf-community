@@ -456,7 +456,7 @@ export default [
                     {
                         to: {
                             name: "accounting.transactions.create",
-                            params: { wallet: route.query.wallet ?? null }
+                            query: { wallet: route.query.wallet ?? null }
                         },
                         icon: "plus-circle",
                         text: i18n.t("Add"),
@@ -494,7 +494,7 @@ export default [
         }
     },
     {
-        path: "/accounting/wallets/:wallet/transactions/create",
+        path: "/accounting/transactions/create",
         name: "accounting.transactions.create",
         components: {
             default: () =>

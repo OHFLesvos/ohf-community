@@ -39,6 +39,10 @@ class TransactionsController extends Controller
             'receipt_no',
         ]);
         $request->validate([
+            'wallet' => [
+                'nullable',
+                'exists:accounting_wallets,id',
+            ],
             'advanced_filter' => [
                 'nullable',
                 'array',
@@ -108,14 +112,16 @@ class TransactionsController extends Controller
             ->paginate(10));
     }
 
-    public function store(Wallet $wallet, StoreTransaction $request)
+    public function store(StoreTransaction $request)
     {
         $this->authorize('create', Transaction::class);
+
+        $wallet = Wallet::findOrFail($request->wallet);
         $this->authorize('view', $wallet);
 
         $transaction = new Transaction();
         $transaction->date = $request->date;
-        $transaction->receipt_no = $request->receipt_no;
+        $transaction->receipt_no = $request->receipt_no ?? $wallet->getNextFreeReceiptNumber();
         $transaction->type = $request->type;
         $transaction->amount = $request->amount;
         $transaction->fees = $request->fees;

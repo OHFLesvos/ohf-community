@@ -1,7 +1,6 @@
 <template>
-    <b-container v-if="walletData" class="px-0">
+    <b-container class="px-0">
         <TransactionForm
-            :defaultReceiptNumber="walletData.next_free_receipt"
             :disabled="isBusy"
             :use-secondary-categories="
                 settings['accounting.transactions.use_secondary_categories']
@@ -14,15 +13,11 @@
             @cancel="handleCancel"
         />
     </b-container>
-    <p v-else>
-        {{ $t("Loading...") }}
-    </p>
 </template>
 
 <script>
 import { showSnackbar } from "@/utils";
 import transactionsApi from "@/api/accounting/transactions";
-import walletsApi from "@/api/accounting/wallets";
 import TransactionForm from "@/components/accounting/TransactionForm";
 import { mapState } from "vuex";
 export default {
@@ -32,26 +27,17 @@ export default {
     components: {
         TransactionForm
     },
-    props: {
-        wallet: {
-            required: true
-        }
-    },
     data() {
         return {
             isBusy: false,
-            walletData: null
         };
     },
     computed: mapState(["settings"]),
-    async created() {
-        this.walletData = (await walletsApi.find(this.wallet)).data;
-    },
     methods: {
         async handleCreate(formData) {
             this.isBusy = true;
             try {
-                let data = await transactionsApi.store(this.wallet, formData);
+                let data = await transactionsApi.store(formData);
                 showSnackbar(this.$t("Transaction registered."));
                 this.$router.push({
                     name: "accounting.transactions.show",
@@ -65,7 +51,7 @@ export default {
         handleCancel() {
             this.$router.push({
                 name: "accounting.transactions.index",
-                query: { wallet: this.wallet }
+                query: { wallet: this.$route.query.wallet ?? null }
             });
         }
     }

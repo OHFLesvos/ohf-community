@@ -28,8 +28,12 @@ class StoreTransaction extends FormRequest
     public function rules()
     {
         return [
+            'wallet' => [
+                !isset($this->transaction) ? 'required' : 'nullable',
+                'exists:accounting_wallets,id',
+            ],
             'receipt_no' => [
-                'required',
+                isset($this->transaction) ? 'required' : 'nullable',
                 'integer',
                 'min:1',
                 function ($attribute, $value, $fail) {
@@ -38,7 +42,7 @@ class StoreTransaction extends FormRequest
                             $this->transaction,
                             fn ($qry) => $qry->forWallet($this->transaction->wallet)
                                 ->where('id', '!=', $this->transaction->id),
-                            fn ($qry) => $qry->forWallet($this->wallet),
+                            fn ($qry) => $qry->where('wallet_id', $this->wallet),
                         )
                         ->where('receipt_no', $value)
                         ->exists();
@@ -106,7 +110,7 @@ class StoreTransaction extends FormRequest
     {
         $validator->after(function ($validator) {
             if (optional($this->transaction)->controlled_at !== null) {
-                $validator->errors()->add('controlled_at', __('Kann bereits kontrollierte Transaktion nicht ändern.'));
+                $validator->errors()->add('controlled_at', __('Cannot update already controlled transaction.'));
             }
             if ($this->budget_id !== null) {
                 $budget = Budget::find($this->budget_id);

@@ -2,12 +2,36 @@
     <validation-observer ref="observer" v-slot="{ handleSubmit }" slim>
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
             <b-form-row>
+                <!-- Wallet -->
+                <b-col v-if="!transaction" sm="auto">
+                    <validation-provider
+                        :name="$t('Wallet')"
+                        vid="wallet"
+                        :rules="{ required: true }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Wallet')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-select
+                                v-model="form.wallet"
+                                required
+                                :options="walletOptions"
+                                :disabled="!loaded"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
                 <!-- Receipt No. -->
                 <b-col sm="auto">
                     <validation-provider
                         :name="$t('Receipt No.')"
                         vid="receipt_no"
-                        :rules="{ required: true, integer: true }"
+                        :rules="{ required: !!transaction, integer: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
@@ -19,10 +43,10 @@
                                 v-model="form.receipt_no"
                                 autocomplete="off"
                                 type="number"
-                                required
                                 step="1"
                                 min="1"
-                                :autofocus="!transaction"
+                                :required="!!transaction"
+                                :placeholder="!transaction ? `(${$t('create automatically')})` : null"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -99,6 +123,7 @@
                                 v-model="form.type"
                                 :options="typeOptions"
                                 stacked
+                                required
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -475,6 +500,7 @@ import ThumbnailImage from "@/components/ThumbnailImage";
 import SupplierInfo from "@/components/accounting/SupplierInfo";
 import BudgetInfo from "@/components/accounting/BudgetInfo";
 import budgetsApi from "@/api/accounting/budgets";
+import walletsApi from "@/api/accounting/wallets";
 import { mapState } from "vuex";
 export default {
     components: {
@@ -487,10 +513,6 @@ export default {
             type: Object,
             required: false
         },
-        defaultReceiptNumber: {
-            required: false,
-            type: Number
-        },
         disabled: Boolean,
         useSecondaryCategories: Boolean,
         useLocations: Boolean,
@@ -500,6 +522,7 @@ export default {
         return {
             form: this.transaction
                 ? {
+                      wallet: this.transaction.wallet_id,
                       receipt_no: this.transaction.receipt_no,
                       date: this.transaction.date,
                       type: this.transaction.type,
@@ -518,9 +541,8 @@ export default {
                       delete_receipts: []
                   }
                 : {
-                      receipt_no: this.defaultReceiptNumber
-                          ? this.defaultReceiptNumber
-                          : null,
+                      wallet: this.$route.query.wallet ?? null,
+                      receipt_no: null,
                       date: moment().format(moment.HTML5_FMT.DATE),
                       type: null,
                       amount: null,
@@ -557,11 +579,24 @@ export default {
             suppliers: [],
             budgets: [],
             selectedSupplier: null,
-            selectedBudget: null
+            selectedBudget: null,
+            wallets: []
         };
     },
     computed: {
         ...mapState(["settings"]),
+        walletOptions() {
+            return [
+                {
+                    value: null,
+                    text: `- ${this.$t("Wallet")} -`
+                },
+                ...this.wallets.map(e => ({
+                    value: e.id,
+                    text: e.name
+                }))
+            ];
+        },
         secondaryCategoryOptions() {
             let arr = [
                 {
@@ -646,7 +681,7 @@ export default {
     },
     watch: {
         form: {
-            async handler(form) {
+            async handler(form, oldForm) {
                 await this.loadSupplierDetails(form.supplier_id);
                 await this.loadBudgetDetails(form.budget_id);
             },
@@ -654,6 +689,9 @@ export default {
         }
     },
     async created() {
+        if (!this.transaction) {
+            this.wallets = (await walletsApi.list()).data;
+        }
         await this.fetchCategoryTree();
         await this.fetchProjectTree();
         const taxonomies = await transactionsApi.taxonomies();

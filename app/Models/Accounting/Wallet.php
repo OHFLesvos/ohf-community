@@ -59,7 +59,7 @@ class Wallet extends Model
             ->first())->created_at;
     }
 
-    public function getNextFreeReceiptNumberAttribute(): int
+    public function getNextFreeReceiptNumber(): int
     {
         return optional(Transaction::selectRaw('MAX(receipt_no) as val')
             ->forWallet($this)

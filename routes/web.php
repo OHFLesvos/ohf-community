@@ -174,7 +174,7 @@ Route::middleware(['language', 'auth'])
         // Transactions
         Route::view('transactions', 'vue-app')
             ->name('transactions.index');
-        Route::view('wallets/{wallet}/transactions/create', 'vue-app')
+        Route::view('transactions/create', 'vue-app')
             ->name('transactions.create');
         Route::view('transactions/{transaction}', 'vue-app')
             ->name('transactions.show');
