@@ -24,7 +24,6 @@ class Wallet extends JsonResource
         $data['num_transactions'] = $this->transactions()->count();
         $data['is_restricted'] = $this->roles()->exists();
         $data['roles'] = $this->roles->map(fn ($u) => $u->only(['id', 'name']));
-        $data['latest_activity'] = $this->latestActivity;
         $data['can_update'] = $request->user()->can('update', $this->resource);
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
         return $data;

@@ -74,12 +74,6 @@ export default {
                     key: "is_restricted",
                     label: this.$t("Restricted"),
                     class: "fit text-center"
-                },
-                {
-                    key: "latest_activity",
-                    label: this.$t("Latest activity"),
-                    class: "fit text-right",
-                    formatter: this.dateTimeFormat
                 }
             ]
         };
