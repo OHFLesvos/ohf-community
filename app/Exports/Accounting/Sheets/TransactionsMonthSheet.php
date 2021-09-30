@@ -23,9 +23,9 @@ class TransactionsMonthSheet extends BaseTransactionsExport
      */
     private array $advancedFilter;
 
-    private Wallet $wallet;
+    private ?Wallet $wallet;
 
-    public function __construct(Wallet $wallet, Carbon $month, ?string $filter = null, ?array $advancedFilter = [])
+    public function __construct(?Wallet $wallet, Carbon $month, ?string $filter = null, ?array $advancedFilter = [])
     {
         $this->wallet = $wallet;
         $this->month = $month;
@@ -39,7 +39,7 @@ class TransactionsMonthSheet extends BaseTransactionsExport
         $dateTo = (clone $dateFrom)->endOfMonth();
 
         return Transaction::query()
-            ->forWallet($this->wallet)
+            ->when($this->wallet !== null, fn ($qry) => $qry->forWallet($this->wallet))
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
             ->forDateRange($dateFrom, $dateTo)

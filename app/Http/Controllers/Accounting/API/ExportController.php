@@ -47,8 +47,13 @@ class ExportController extends Controller
 
     protected function exportFilename(Request $request): string
     {
-        $wallet = Wallet::findOrFail($request->input('wallet'));
-        return config('app.name') . ' ' . __('Accounting') . ' [' . $wallet->name . '] (' . Carbon::now()->toDateString() . ')';
+        $str = config('app.name') . ' ' . __('Accounting');
+        $wallet = Wallet::find($request->input('wallet'));
+        if ($wallet !== null) {
+            $str .= ' [' . $wallet->name . ']';
+        }
+        $str .= ' (' . Carbon::now()->toDateString() . ')';
+        return $str;
     }
 
     protected function exportExportable(Request $request)

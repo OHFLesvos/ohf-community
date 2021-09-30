@@ -45,17 +45,17 @@ class TransactionsSummarySheet extends BaseExport implements FromView, WithColum
     public function columnFormats(): array
     {
         return [
-            'B' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
             'C' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
             'D' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
             'E' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'F' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
         ];
     }
 
     protected function applyStyles(Worksheet $sheet)
     {
         parent::applyStyles($sheet);
-        $sheet->getStyle('B2:B'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
-        $sheet->getStyle('C2:C'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('C2:C'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+        $sheet->getStyle('D2:D'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
     }
 }

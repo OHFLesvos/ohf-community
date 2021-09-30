@@ -28,9 +28,9 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
      */
     private array $advancedFilter;
 
-    private Wallet $wallet;
+    private ?Wallet $wallet;
 
-    public function __construct(Wallet $wallet, ?string $filter = null, array $advancedFilter = [])
+    public function __construct(?Wallet $wallet, ?string $filter = null, array $advancedFilter = [])
     {
         $this->filter = $filter;
         $this->advancedFilter = $advancedFilter;
@@ -42,7 +42,7 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
     public function sheets(): array
     {
         $months = Transaction::query()
-            ->forWallet($this->wallet)
+            ->when($this->wallet !== null, fn ($qry) => $qry->forWallet($this->wallet))
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
             ->selectRaw('MONTH(date) as month')

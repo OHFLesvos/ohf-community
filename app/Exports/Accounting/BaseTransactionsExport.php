@@ -18,6 +18,7 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
     public function headings(): array
     {
         $headings = [
+            __('Wallet'),
             __('Date'),
             __('Receipt No.'),
             __('Income'),
@@ -53,6 +54,7 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
     public function map($transaction): array
     {
         $data = [
+            $transaction->wallet->name,
             $transaction->date,
             $transaction->receipt_no,
             $transaction->type == 'income' ? $transaction->amount : '',
@@ -85,18 +87,18 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
     public function columnFormats(): array
     {
         return [
-            'C' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
             'D' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
             'E' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
+            'F' => NumberFormat::FORMAT_NUMBER_COMMA_SEPARATED1,
         ];
     }
 
     protected function applyStyles(Worksheet $sheet)
     {
         parent::applyStyles($sheet);
-        $sheet->getStyle('C2:C' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
-        $sheet->getStyle('D2:D' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('D2:D' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
         $sheet->getStyle('E2:E' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('F2:F' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
     }
 
     private static function useSecondaryCategories(): bool
