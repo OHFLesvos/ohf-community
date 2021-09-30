@@ -49,7 +49,9 @@ export default {
     },
     computed: {
         availableButtons() {
-            return this.buttons.filter(i => {
+            return this.buttons
+                .filter(i => i != null)
+                .filter(i => {
                 if (i.show != undefined) {
                     if (typeof i.show === "function") {
                         return i.show();

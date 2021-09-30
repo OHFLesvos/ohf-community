@@ -472,15 +472,15 @@ export default [
                         text: i18n.t("Summary"),
                         show: can("view-accounting-summary")
                     },
-                    // {
-                    //     href: ziggyRoute(
-                    //         "accounting.webling.index",
-                    //         route.query.wallet ?? null
-                    //     ),
-                    //     icon: "cloud-upload-alt",
-                    //     text: i18n.t("Webling"),
-                    //     show: can("export-to-webling")
-                    // },
+                    route.query.wallet ? {
+                        href: ziggyRoute(
+                            "accounting.webling.index",
+                            route.query.wallet
+                        ),
+                        icon: "cloud-upload-alt",
+                        text: i18n.t("Webling"),
+                        show: can("export-to-webling")
+                    } : null,
                     {
                         to: { name: "accounting.index" },
                         icon: "home",
