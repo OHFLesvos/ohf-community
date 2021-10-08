@@ -7484,6 +7484,7 @@ button.bg-dark:focus {
 }
 
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7503,8 +7504,9 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
-@supports (position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -11709,8 +11711,9 @@ input[type=color].form-control:disabled {
     max-height: none !important;
   }
 }
-@supports (position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky)) {
   .b-table-sticky-header > .table.b-table > thead > tr > th {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 2;
@@ -11725,6 +11728,7 @@ input[type=color].form-control:disabled {
 [class*=table-responsive-] > .table.b-table > thead > tr > .b-table-sticky-column,
 [class*=table-responsive-] > .table.b-table > tbody > tr > .b-table-sticky-column,
 [class*=table-responsive-] > .table.b-table > tfoot > tr > .b-table-sticky-column {
+    position: -webkit-sticky;
     position: sticky;
     left: 0;
   }
