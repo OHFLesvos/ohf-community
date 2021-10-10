@@ -11,11 +11,11 @@
             <span v-if="data.item.prefix" v-html="data.item.prefix"></span>
             <template v-if="data.value">
                 <router-link
-                    v-if="wallet && can('view-transactions')"
+                    v-if="can('view-transactions')"
                     :to="{
                         name: 'accounting.transactions.index',
                         query: {
-                            wallet: wallet,
+                            wallet: wallet || undefined,
                             [`filter[${paramName}]`]: data.item.id
                                 ? data.item.id
                                 : data.value,
