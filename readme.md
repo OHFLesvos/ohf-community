@@ -101,7 +101,7 @@ In this example, Xampp is located at `c:\devel\xampp`, and the document root is 
 
 The configuration of the file `C:\devel\xampp\apache\conf\extra\httpd-vhosts.conf` should look as follows:
 
-    <VirtualHost ohf.test:80>
+    <VirtualHost *:80>
         DocumentRoot "C:/devel/web/ohf.test/public"
         ServerName ohf.test
         <Directory "C:/devel/web/ohf.test/public">
@@ -113,7 +113,7 @@ The configuration of the file `C:\devel\xampp\apache\conf\extra\httpd-vhosts.con
         </Directory>
     </VirtualHost>
 
-    <VirtualHost ohf.test:443>
+    <VirtualHost *:443>
         DocumentRoot "C:/devel/web/ohf.test/public"
         ServerName ohf.test
         SSLEngine on
