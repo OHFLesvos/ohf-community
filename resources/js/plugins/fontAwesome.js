@@ -55,7 +55,8 @@ import {
     faLongArrowAltRight,
     faHistory,
     faSyncAlt,
-    faCopy
+    faCopy,
+    faCircle
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -115,7 +116,8 @@ library.add(
     faLongArrowAltRight,
     faHistory,
     faSyncAlt,
-    faCopy
+    faCopy,
+    faCircle
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
