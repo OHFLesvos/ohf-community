@@ -21,7 +21,7 @@
                 </router-link>
             </template>
             <template v-slot:cell(is_completed)="data">
-                <font-awesome-icon :icon="data.value ? 'check' : 'circle'" />
+                <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
             </template>
         </base-table>
     </b-container>
