@@ -221,22 +221,22 @@ export default {
         },
         getTypeLabel (value) {
             if (value == 'visitor') {
-                return this.$t('Visitor')
+                return this.$t('Visitor OHF')
             }
             if (value == 'visitors') {
-                return this.$t('Visitors')
+                return this.$t('Visitors OHF')
             }
             if (value == 'participant') {
-                return this.$t('Participant')
+                return this.$t('Visitor Partner')
             }
             if (value == 'participants') {
-                return this.$t('Participants')
+                return this.$t('Visitors Partner')
             }
             if (value == 'staff') {
                 return this.$t('Volunteer / Staff')
             }
             if (value == 'external') {
-                return this.$t('External visitor')
+                return this.$t('Other')
             }
             return value
         }
