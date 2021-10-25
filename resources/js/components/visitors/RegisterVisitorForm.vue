@@ -32,7 +32,7 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-            </b-form-row>            
+            </b-form-row>
             <b-form-row>
                 <b-col sm>
                     <validation-provider
@@ -237,7 +237,7 @@ export default {
             }
         },
         focus () {
-            this.$refs.firstNameInput.focus()
+            this.$refs.idNumberInput.focus()
         },
         selectFirstName () {
             this.$refs.firstNameInput.select()
