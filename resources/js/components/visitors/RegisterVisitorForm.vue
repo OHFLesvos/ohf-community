@@ -5,18 +5,46 @@
     >
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
             <b-form-row>
+                <b-col
+                  v-if="formData.type == 'visitor' || formData.type == 'participant'"
+                  sm
+                >
+                    <validation-provider
+                        :name="$t('ID Number')"
+                        vid="id_number"
+                        :rules="{ required: true }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('ID Number')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                            class="required-marker"
+                        >
+                            <b-form-input
+                                ref="idNumberInput"
+                                v-model="formData.id_number"
+                                trim
+                                autocomplete="off"
+                                :state="getValidationState(validationContext)"
+                                :disabled="isDisabled"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+            </b-form-row>
+            <b-form-row>
                 <b-col sm>
                     <validation-provider
                         :name="$t('First Name')"
                         vid="first_name"
-                        :rules="{ required: true }"
+                        :rules="{}"
                         v-slot="validationContext"
                     >
                         <b-form-group
                             :label="$t('First Name')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
-                            class="required-marker"
                         >
                             <b-form-input
                                 v-model="formData.first_name"
@@ -33,14 +61,13 @@
                     <validation-provider
                         :name="$t('Last Name')"
                         vid="last_name"
-                        :rules="{ required: true }"
+                        :rules="{}"
                         v-slot="validationContext"
                     >
                         <b-form-group
                             :label="$t('Last Name')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
-                            class="required-marker"
                         >
                             <b-form-input
                                 v-model="formData.last_name"
@@ -69,32 +96,6 @@
                   sm
                 >
                     <validation-provider
-                        :name="$t('ID Number')"
-                        vid="id_number"
-                        :rules="{ }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('ID Number')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
-                        >
-                            <b-form-input
-                                ref="idNumberInput"
-                                v-model="formData.id_number"
-                                trim
-                                autocomplete="off"
-                                :state="getValidationState(validationContext)"
-                                :disabled="isDisabled"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-                <b-col
-                  v-if="formData.type == 'visitor'"
-                  sm
-                >
-                    <validation-provider
                         :name="$t('Place of residence')"
                         vid="place_of_residence"
                         :rules="{ }"
@@ -116,33 +117,7 @@
                     </validation-provider>
                 </b-col>
                 <b-col
-                  v-if="formData.type == 'participant'"
-                  sm
-                >
-                    <validation-provider
-                        :name="$t('Activity / Program')"
-                        vid="activity"
-                        :rules="{ }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Activity / Program')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
-                        >
-                            <b-form-input
-                                ref="activityInput"
-                                v-model="formData.activity"
-                                trim
-                                autocomplete="off"
-                                :state="getValidationState(validationContext)"
-                                :disabled="isDisabled"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-                <b-col
-                  v-if="formData.type == 'staff' || formData.type == 'external'"
+                  v-if="formData.type == 'participant' || formData.type == 'external'"
                   sm
                 >
                     <validation-provider
@@ -202,10 +177,9 @@ export default {
         return {
             formData: this.initialFormData(),
             types: [
-                { value: 'visitor', text: this.$t('Visitor') },
-                { value: 'participant', text: this.$t('Participant') },
-                { value: 'staff', text: this.$t('Volunteer / Staff') },
-                { value: 'external', text: this.$t('External visitor') },
+                { value: 'visitor', text: this.$t('Visitor OHF') },
+                { value: 'participant', text: this.$t('Visitor Partners') },
+                { value: 'external', text: this.$t('Other') },
             ]
         }
     },
@@ -238,9 +212,7 @@ export default {
                 this.formData.activity = ''
                 this.formData.organization = ''
             } else if (this.formData.type == 'participant') {
-                this.formData.id_number = ''
                 this.formData.place_of_residence = ''
-                this.formData.organization = ''
             } else if (this.formData.type == 'staff' || this.formData.type == 'external') {
                 this.formData.id_number = ''
                 this.formData.place_of_residence = ''
@@ -265,7 +237,7 @@ export default {
             }
         },
         focus () {
-            this.$refs.firstNameInput.focus()
+            this.$refs.idNumberInput.focus()
         },
         selectFirstName () {
             this.$refs.firstNameInput.select()
