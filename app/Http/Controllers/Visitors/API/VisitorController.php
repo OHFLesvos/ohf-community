@@ -88,8 +88,8 @@ class VisitorController extends Controller
         $this->authorize('create', Visitor::class);
 
         $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
+            'first_name' => 'nullable',
+            'last_name' => 'nullable',
             'type' => [
                 'required',
                 Rule::in(['visitor', 'participant', 'staff', 'external']),
