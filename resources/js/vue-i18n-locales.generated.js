@@ -779,6 +779,11 @@ export default {
         "Rotate": "Drehen",
         "Rotate counter-clockwise": "Gegen Uhrzeigersinn drehen",
         "Rotate clockwise": "Im Uhrzeigersinn Drehen",
+        "Other": "Sonstige",
+        "Visitor OHF": "Besucher OHF",
+        "Visitors OHF": "Besucher OHF",
+        "Visitor Partner": "Besucher Partner",
+        "Visitors Partner": "Besucher Partner",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

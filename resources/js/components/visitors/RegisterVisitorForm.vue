@@ -178,7 +178,7 @@ export default {
             formData: this.initialFormData(),
             types: [
                 { value: 'visitor', text: this.$t('Visitor OHF') },
-                { value: 'participant', text: this.$t('Visitor Partners') },
+                { value: 'participant', text: this.$t('Visitor Partner') },
                 { value: 'external', text: this.$t('Other') },
             ]
         }
@@ -191,7 +191,7 @@ export default {
     watch: {
         disabled (val, oldVal) {
             if (!val && oldVal) {
-                this.$nextTick(() => this.selectFirstName())
+                this.$nextTick(() => this.focus())
             }
         }
     },
@@ -209,14 +209,12 @@ export default {
         },
         onSubmit () {
             if (this.formData.type == 'visitor') {
-                this.formData.activity = ''
                 this.formData.organization = ''
             } else if (this.formData.type == 'participant') {
                 this.formData.place_of_residence = ''
-            } else if (this.formData.type == 'staff' || this.formData.type == 'external') {
+            } else if (this.formData.type == 'external') {
                 this.formData.id_number = ''
                 this.formData.place_of_residence = ''
-                this.formData.activity = ''
             }
             this.$emit('submit', this.formData)
         },
@@ -232,21 +230,17 @@ export default {
                 type: 'visitor',
                 id_number: '',
                 place_of_residence: '',
-                activity: '',
                 organization: ''
             }
         },
         focus () {
             this.$refs.idNumberInput.focus()
         },
-        selectFirstName () {
-            this.$refs.firstNameInput.select()
-        },
         changeType (value) {
-            if (value == 'staff' || value == 'external') {
+            if (value == 'external') {
                 this.$nextTick(() => this.$refs.organizationInput.focus())
             } else if (value == 'participant') {
-                this.$nextTick(() => this.$refs.activityInput.focus())
+                this.$nextTick(() => this.$refs.organizationInput.focus())
             } else {
                 this.$nextTick(() => this.$refs.idNumberInput.focus())
             }
