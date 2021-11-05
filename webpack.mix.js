@@ -37,7 +37,6 @@ mix.options({
         "node_modules/@fortawesome/fontawesome-free/webfonts",
         "public/webfonts"
     )
-    .copy("node_modules/summernote/dist/font", "public/css/font")
     .vue()
     .extract()
     .sourceMaps();
