@@ -1518,16 +1518,16 @@
         },
         {
             "name": "endroid/qr-code",
-            "version": "4.4.0",
+            "version": "4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/endroid/qr-code.git",
-                "reference": "8ecd0dc46a4ce873f8d22bd603655755a364cb9e"
+                "reference": "963d88b6c6dca7145beaa53ad1d4c0cbe2c39c22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/qr-code/zipball/8ecd0dc46a4ce873f8d22bd603655755a364cb9e",
-                "reference": "8ecd0dc46a4ce873f8d22bd603655755a364cb9e",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/963d88b6c6dca7145beaa53ad1d4c0cbe2c39c22",
+                "reference": "963d88b6c6dca7145beaa53ad1d4c0cbe2c39c22",
                 "shasum": ""
             },
             "require": {
@@ -1578,7 +1578,7 @@
             ],
             "support": {
                 "issues": "https://github.com/endroid/qr-code/issues",
-                "source": "https://github.com/endroid/qr-code/tree/4.4.0"
+                "source": "https://github.com/endroid/qr-code/tree/4.4.1"
             },
             "funding": [
                 {
@@ -1586,7 +1586,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-10-31T09:53:40+00:00"
+            "time": "2021-11-03T10:05:01+00:00"
         },
         {
             "name": "exolnet/laravel-sqlite-fluent-drop-foreign",
@@ -2496,16 +2496,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.107",
+            "version": "v1.2.108",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "62b9055b555be9e1479d7c37515d7c58975c2aa4"
+                "reference": "69a38c09f99ee056e7cca9fe7c8b1952fd62b837"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/62b9055b555be9e1479d7c37515d7c58975c2aa4",
-                "reference": "62b9055b555be9e1479d7c37515d7c58975c2aa4",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/69a38c09f99ee056e7cca9fe7c8b1952fd62b837",
+                "reference": "69a38c09f99ee056e7cca9fe7c8b1952fd62b837",
                 "shasum": ""
             },
             "require": {
@@ -2542,9 +2542,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.107"
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.108"
             },
-            "time": "2021-10-12T16:06:07+00:00"
+            "time": "2021-10-21T18:55:50+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -2743,16 +2743,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v8.68.1",
+            "version": "v8.69.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "abe985ff1fb82dd04aab03bc1dc56e83fe61a59f"
+                "reference": "545181da688db64fed6d8427e55f630a90ca0d32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/abe985ff1fb82dd04aab03bc1dc56e83fe61a59f",
-                "reference": "abe985ff1fb82dd04aab03bc1dc56e83fe61a59f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/545181da688db64fed6d8427e55f630a90ca0d32",
+                "reference": "545181da688db64fed6d8427e55f630a90ca0d32",
                 "shasum": ""
             },
             "require": {
@@ -2911,7 +2911,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2021-10-27T12:31:46+00:00"
+            "time": "2021-11-02T13:53:22+00:00"
         },
         {
             "name": "laravel/serializable-closure",
@@ -3043,16 +3043,16 @@
         },
         {
             "name": "laravel/ui",
-            "version": "v3.3.0",
+            "version": "v3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/ui.git",
-                "reference": "07d725813350c695c779382cbd6dac0ab8665537"
+                "reference": "28f3d190fe270b6dcd6fdab4a77a392e693ceca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/ui/zipball/07d725813350c695c779382cbd6dac0ab8665537",
-                "reference": "07d725813350c695c779382cbd6dac0ab8665537",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/28f3d190fe270b6dcd6fdab4a77a392e693ceca5",
+                "reference": "28f3d190fe270b6dcd6fdab4a77a392e693ceca5",
                 "shasum": ""
             },
             "require": {
@@ -3095,9 +3095,9 @@
                 "ui"
             ],
             "support": {
-                "source": "https://github.com/laravel/ui/tree/v3.3.0"
+                "source": "https://github.com/laravel/ui/tree/v3.3.2"
             },
-            "time": "2021-05-25T16:45:33+00:00"
+            "time": "2021-11-05T08:25:44+00:00"
         },
         {
             "name": "laravelcollective/html",
@@ -4283,16 +4283,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v8.0.13",
+            "version": "v8.0.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "42f145615cfe830fd432474da1d2e1f927efe402"
+                "reference": "ab362c8b11667813487be5d3da64b31c89d9d826"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/42f145615cfe830fd432474da1d2e1f927efe402",
-                "reference": "42f145615cfe830fd432474da1d2e1f927efe402",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/ab362c8b11667813487be5d3da64b31c89d9d826",
+                "reference": "ab362c8b11667813487be5d3da64b31c89d9d826",
                 "shasum": ""
             },
             "require": {
@@ -4301,7 +4301,7 @@
                 "myclabs/deep-copy": "^1.7",
                 "paragonie/random_compat": "^1.4|^2.0|^9.99.99",
                 "php": "^5.6 || ^7.0 || ~8.0.0 || ~8.1.0",
-                "psr/log": "^1.0",
+                "psr/log": "^1.0 || ^2.0",
                 "setasign/fpdi": "^2.1"
             },
             "require-dev": {
@@ -4354,7 +4354,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-09-10T10:09:59+00:00"
+            "time": "2021-11-02T20:27:57+00:00"
         },
         {
             "name": "mrcage/chf-exchange-rates",
@@ -4521,16 +4521,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.53.1",
+            "version": "2.54.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "f4655858a784988f880c1b8c7feabbf02dfdf045"
+                "reference": "eed83939f1aed3eee517d03a33f5ec587ac529b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/f4655858a784988f880c1b8c7feabbf02dfdf045",
-                "reference": "f4655858a784988f880c1b8c7feabbf02dfdf045",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/eed83939f1aed3eee517d03a33f5ec587ac529b5",
+                "reference": "eed83939f1aed3eee517d03a33f5ec587ac529b5",
                 "shasum": ""
             },
             "require": {
@@ -4541,6 +4541,7 @@
                 "symfony/translation": "^3.4 || ^4.0 || ^5.0"
             },
             "require-dev": {
+                "doctrine/dbal": "^2.0 || ^3.0",
                 "doctrine/orm": "^2.7",
                 "friendsofphp/php-cs-fixer": "^3.0",
                 "kylekatarnls/multi-tester": "^2.0",
@@ -4611,7 +4612,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-06T09:29:23+00:00"
+            "time": "2021-11-01T21:22:20+00:00"
         },
         {
             "name": "nette/schema",
@@ -10535,16 +10536,16 @@
         },
         {
             "name": "composer/composer",
-            "version": "2.1.10",
+            "version": "2.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "ea5f64d1a15c66942979b804c9fb3686be852ca0"
+                "reference": "ddc81bb4718747cc93330ccf832e6be8a6c1d015"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/ea5f64d1a15c66942979b804c9fb3686be852ca0",
-                "reference": "ea5f64d1a15c66942979b804c9fb3686be852ca0",
+                "url": "https://api.github.com/repos/composer/composer/zipball/ddc81bb4718747cc93330ccf832e6be8a6c1d015",
+                "reference": "ddc81bb4718747cc93330ccf832e6be8a6c1d015",
                 "shasum": ""
             },
             "require": {
@@ -10613,7 +10614,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/composer/issues",
-                "source": "https://github.com/composer/composer/tree/2.1.10"
+                "source": "https://github.com/composer/composer/tree/2.1.11"
             },
             "funding": [
                 {
@@ -10629,7 +10630,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-29T20:34:57+00:00"
+            "time": "2021-11-02T11:10:26+00:00"
         },
         {
             "name": "composer/metadata-minifier",
@@ -11642,16 +11643,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.13.0",
+            "version": "v4.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "50953a2691a922aa1769461637869a0a2faa3f53"
+                "reference": "63a79e8daa781cac14e5195e63ed8ae231dd10fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50953a2691a922aa1769461637869a0a2faa3f53",
-                "reference": "50953a2691a922aa1769461637869a0a2faa3f53",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/63a79e8daa781cac14e5195e63ed8ae231dd10fd",
+                "reference": "63a79e8daa781cac14e5195e63ed8ae231dd10fd",
                 "shasum": ""
             },
             "require": {
@@ -11692,9 +11693,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.0"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.1"
             },
-            "time": "2021-09-20T12:20:58+00:00"
+            "time": "2021-11-03T20:52:16+00:00"
         },
         {
             "name": "nunomaduro/collision",
