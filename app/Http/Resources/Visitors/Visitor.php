@@ -14,6 +14,15 @@ class Visitor extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'id_number' => $this->id_number,
+            'gender' => $this->gender,
+            'nationality' => $this->nationality,
+            'living_situation' => $this->living_situation,
+            'anonymized' => $this->anonymized,
+            'checked_in_today' => $this->whenLoaded('checkins', fn () => $this->checkins->contains(fn ($checkin) => $checkin->created_at->isToday())),
+        ];
     }
 }

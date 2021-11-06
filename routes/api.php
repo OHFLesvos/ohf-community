@@ -333,14 +333,20 @@ Route::middleware(['auth', 'language'])
     ->prefix('visitors')
     ->name('api.visitors.')
     ->group(function () {
-        Route::get('current', [VisitorController::class, 'listCurrent'])
-            ->name('listCurrent');
-        Route::post('checkin', [VisitorController::class, 'checkin'])
+        Route::get('', [VisitorController::class, 'index'])
+            ->name('index');
+        Route::post('', [VisitorController::class, 'store'])
+            ->name('store');
+        Route::get('{visitor}', [VisitorController::class, 'show'])
+            ->name('show');
+        Route::put('{visitor}', [VisitorController::class, 'update'])
+            ->name('update');
+        Route::delete('{visitor}', [VisitorController::class, 'destroy'])
+            ->name('destroy');
+
+        Route::post('{visitor}/checkins', [VisitorController::class, 'checkin'])
             ->name('checkin');
-        Route::put('{visitor}/checkout', [VisitorController::class, 'checkout'])
-            ->name('checkout');
-        Route::post('checkoutAll', [VisitorController::class, 'checkoutAll'])
-            ->name('checkoutAll');
+
         Route::get('export', [VisitorController::class, 'export'])
             ->name('export');
         Route::get('dailyVisitors', [VisitorController::class, 'dailyVisitors'])

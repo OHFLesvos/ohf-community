@@ -3,6 +3,7 @@
 namespace App\View\Widgets;
 
 use App\Models\Visitors\Visitor;
+use App\Models\Visitors\VisitorCheckin;
 use Illuminate\Support\Facades\Gate;
 
 class VisitorsWidget implements Widget
@@ -15,12 +16,8 @@ class VisitorsWidget implements Widget
     public function render()
     {
         return view('widgets.visitors', [
-            'current_visitors' => Visitor::query()
-                ->whereNull('left_at')
-                ->whereDate('entered_at', today())
-                ->count(),
-            'todays_visitors' => Visitor::query()
-                ->whereDate('entered_at', today())
+            'todays_visitors' => VisitorCheckin::query()
+                ->whereDate('created_at', today())
                 ->count(),
         ]);
     }

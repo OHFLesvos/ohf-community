@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Visitors\API;
 
 use App\Exports\Visitors\VisitorExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Visitors\StoreVisitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
 use App\Models\Visitors\Visitor;
+use App\Models\Visitors\VisitorCheckin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
@@ -19,7 +21,7 @@ class VisitorController extends Controller
         'external' => 'external',
     ];
 
-    public function listCurrent(Request $request)
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Visitor::class);
 
@@ -42,13 +44,12 @@ class VisitorController extends Controller
                 'alpha_dash',
                 'filled',
                 Rule::in([
-                    'first_name',
-                    'last_name',
+                    'name',
                     'id_number',
-                    'place_of_residence',
-                    'activity',
-                    'organization',
-                    'entered_at',
+                    'date_of_birth',
+                    'gender',
+                    'nationality',
+                    'living_situation',
                 ]),
             ],
             'sortDirection' => [
@@ -57,90 +58,73 @@ class VisitorController extends Controller
             ],
         ]);
 
-        // Sorting, pagination and filter
-        $sortBy = $request->input('sortBy', 'last_name');
+        $sortBy = $request->input('sortBy', 'name');
         $sortDirection = $request->input('sortDirection', 'asc');
         $pageSize = $request->input('pageSize', 100);
         $filter = trim($request->input('filter', ''));
 
         return VisitorResource::collection(Visitor::query()
-            ->whereNull('left_at')
-            ->whereDate('entered_at', today())
+            ->with('checkins')
             ->forFilter($filter)
             ->orderBy($sortBy, $sortDirection)
-            ->orderBy('first_name')
-            ->paginate($pageSize))
-            ->additional(['meta' => [
-                'currently_visiting' => collect(self::TYPES)
-                    ->mapWithKeys(fn ($t, $k) => [
-                        $k => Visitor::query()
-                                ->whereNull('left_at')
-                                ->whereDate('entered_at', today())
-                                ->where('type', $t)
-                                ->count()
-                    ])
-                    ->toArray(),
-            ]]);
+            ->paginate($pageSize));
     }
 
-    public function checkin(Request $request)
+    public function store(StoreVisitor $request)
     {
         $this->authorize('create', Visitor::class);
 
-        $request->validate([
-            'first_name' => 'nullable',
-            'last_name' => 'nullable',
-            'type' => [
-                'required',
-                Rule::in(['visitor', 'participant', 'staff', 'external']),
-            ],
-        ]);
-
         $visitor = new Visitor();
-        $visitor->first_name = $request->first_name;
-        $visitor->last_name = $request->last_name;
-        $visitor->type = $request->type;
-        $visitor->id_number = $request->id_number;
-        $visitor->place_of_residence = $request->place_of_residence;
-        $visitor->activity = $request->activity;
-        $visitor->organization = $request->organization;
-        $visitor->entered_at = now();
+        $visitor->fill($request->all());
         $visitor->save();
 
-        return response()
-            ->json([], Response::HTTP_CREATED);
+        return (new VisitorResource($visitor))->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function checkout(Visitor $visitor)
+    public function show(Visitor $visitor)
+    {
+        $this->authorize('view', $visitor);
+
+        return new VisitorResource($visitor);
+    }
+
+    public function update(Visitor $visitor, StoreVisitor $request)
     {
         $this->authorize('update', $visitor);
 
-        if ($visitor->left_at !== null) {
-            abort(Response::HTTP_CONFLICT);
-        }
-
-        $visitor->left_at = now();
+        $visitor->fill($request->all());
         $visitor->save();
 
-        return response()
-            ->json([], Response::HTTP_NO_CONTENT);
+        return new VisitorResource($visitor);
     }
 
-    public function checkoutAll()
+    public function destroy(Visitor $visitor)
     {
-        $this->authorize('updateAny', Visitor::class);
+        $this->authorize('delete', $visitor);
 
-        Visitor::query()
-            ->whereNull('left_at')
-            ->update([
-                'left_at' => now(),
-            ]);
+        $visitor->delete();
 
         return response()
             ->json([], Response::HTTP_NO_CONTENT);
     }
 
-    public function export(Request $request)
+    public function checkin(Visitor $visitor, Request $request)
+    {
+        $this->authorize('update', $visitor);
+
+        $request->validate([
+            'purpose_of_visit' => 'nullable'
+        ]);
+
+        $checkin = new VisitorCheckin();
+        $checkin->fill($request->all());
+        $visitor->checkins()->save($checkin);
+
+        return response()
+            ->json([], Response::HTTP_NO_CONTENT);
+    }
+
+    public function export()
     {
         $this->authorize('export-visitors');
 
