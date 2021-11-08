@@ -121,7 +121,7 @@ class VisitorController extends Controller
         $visitor->checkins()->save($checkin);
 
         return response()
-            ->json([], Response::HTTP_NO_CONTENT);
+            ->json($this->getCheckedInData());
     }
 
     public function export()
@@ -135,9 +135,15 @@ class VisitorController extends Controller
 
     public function checkins()
     {
-        return response()->json([
+        return response()
+            ->json($this->getCheckedInData());
+    }
+
+    private function getCheckedInData(): array
+    {
+        return [
             'checked_in_today' => VisitorCheckin::whereDate('created_at', today()->toDateString())->count(),
-        ]);
+        ];
     }
 
     public function dailyVisitors()
@@ -150,12 +156,12 @@ class VisitorController extends Controller
             ->selectRaw('DATE(entered_at) as day')
             ->addSelect(
                 collect(self::TYPES)
-                ->mapWithKeys(fn ($t, $k) => [
-                    $k => Visitor::selectRaw('COUNT(*)')
-                        ->whereRaw('DATE(entered_at) = day')
-                        ->where('type', $t)
-                ])
-                ->toArray()
+                    ->mapWithKeys(fn ($t, $k) => [
+                        $k => Visitor::selectRaw('COUNT(*)')
+                            ->whereRaw('DATE(entered_at) = day')
+                            ->where('type', $t)
+                    ])
+                    ->toArray()
             )
             ->selectRaw('COUNT(*) as total')
             ->groupByRaw('DATE(entered_at)')
@@ -173,13 +179,13 @@ class VisitorController extends Controller
             ->selectRaw('YEAR(entered_at) as year')
             ->addSelect(
                 collect(self::TYPES)
-                ->mapWithKeys(fn ($t, $k) => [
-                    $k => Visitor::selectRaw('COUNT(*)')
-                        ->whereRaw('MONTH(entered_at) = month')
-                        ->whereRaw('YEAR(entered_at) = year')
-                        ->where('type', $t)
-                ])
-                ->toArray()
+                    ->mapWithKeys(fn ($t, $k) => [
+                        $k => Visitor::selectRaw('COUNT(*)')
+                            ->whereRaw('MONTH(entered_at) = month')
+                            ->whereRaw('YEAR(entered_at) = year')
+                            ->where('type', $t)
+                    ])
+                    ->toArray()
             )
             ->selectRaw('COUNT(*) as total')
             ->groupByRaw('MONTH(entered_at)')

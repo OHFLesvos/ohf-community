@@ -188,10 +188,10 @@ export default {
         async checkin(visitor) {
             this.isBusy = true;
             try {
-                await visitorsApi.checkin(visitor.id);
+                let data = await visitorsApi.checkin(visitor.id);
+                this.checkedInToday = data.checked_in_today;
                 visitor.checked_in_today = true;
                 showSnackbar("Checked in " + visitor.name);
-                this.fetchCheckins();
             } catch (ex) {
                 alert(ex);
             }

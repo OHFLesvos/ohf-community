@@ -6,7 +6,7 @@ export default [
         }
     },
     {
-        path: "/visitors/check/in",
+        path: "/visitors/check-in",
         name: "visitors.check_in",
         components: {
             default: () =>
