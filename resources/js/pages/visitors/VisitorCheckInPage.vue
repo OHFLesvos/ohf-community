@@ -133,6 +133,7 @@ export default {
             totalRows: 0,
             errorText: null,
             checkedInToday: null,
+            timer: null,
         };
     },
     watch: {
@@ -150,11 +151,22 @@ export default {
     },
     async created() {
         this.fetchCheckins();
+        this.timer = setInterval(this.fetchCheckins, 60 * 1000);
+    },
+    beforeRouteLeave(to, from, next) {
+        if (this.timer) {
+            clearInterval(this.timer);
+        }
+        next();
     },
     methods: {
         async fetchCheckins() {
-            const data = await visitorsApi.checkins();
-            this.checkedInToday = data.checked_in_today;
+            try {
+                const data = await visitorsApi.checkins();
+                this.checkedInToday = data.checked_in_today;
+            } catch (ex) {
+                console.error(ex);
+            }
         },
         async searchVisitors() {
             this.isBusy = true;
