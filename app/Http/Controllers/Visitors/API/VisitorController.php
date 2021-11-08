@@ -66,6 +66,7 @@ class VisitorController extends Controller
         return VisitorResource::collection(Visitor::query()
             ->with('checkins')
             ->forFilter($filter)
+            ->where('anonymized', false)
             ->orderBy($sortBy, $sortDirection)
             ->paginate($pageSize));
     }
