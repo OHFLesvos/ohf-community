@@ -784,6 +784,7 @@ export default {
         "Visitors OHF": "Besucher OHF",
         "Visitor Partner": "Besucher Partner",
         "Visitors Partner": "Besucher Partner",
+        "Living situation": "Lebenssituation",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

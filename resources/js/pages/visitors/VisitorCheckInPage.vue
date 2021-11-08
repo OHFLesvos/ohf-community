@@ -44,6 +44,12 @@
             <template v-else>
                 <b-alert variant="warning" show>No results.</b-alert>
             </template>
+
+            <p>
+                <b-button variant="primary" :to="{ name: 'visitors.create' }"
+                    >Register new visitor</b-button
+                >
+            </p>
         </template>
     </b-container>
 </template>

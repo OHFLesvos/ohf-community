@@ -14,5 +14,15 @@ export default [
                     /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorCheckInPage"
                 )
         }
+    },
+    {
+        path: "/visitors/register",
+        name: "visitors.create",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorRegisterPage"
+                )
+        }
     }
 ];
