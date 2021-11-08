@@ -19,7 +19,7 @@ class AnonymizeVisitors extends Command
      *
      * @var string
      */
-    protected $description = 'Anonymizes visitor records who have not checked in more than one month.';
+    protected $description = 'Anonymize visitor records who have not checked in more for more than 60 days.';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class AnonymizeVisitors extends Command
     {
         $visitors = Visitor::where('anonymized', false)
             ->whereDoesntHave('checkins', function ($qry) {
-                $qry->whereDate('created_at', '>=', now()->subMonth()->toDateString());
+                $qry->whereDate('created_at', '>=', now()->subDays(60)->toDateString());
             })->get();
 
         $visitors->each(function (Visitor $visitor) {
