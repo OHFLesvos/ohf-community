@@ -133,6 +133,13 @@ class VisitorController extends Controller
         return (new VisitorExport())->download($file_name . '.' . $extension);
     }
 
+    public function checkins()
+    {
+        return response()->json([
+            'checked_in_today' => VisitorCheckin::whereDate('created_at', today()->toDateString())->count(),
+        ]);
+    }
+
     public function dailyVisitors()
     {
         $this->authorize('viewAny', Visitor::class);

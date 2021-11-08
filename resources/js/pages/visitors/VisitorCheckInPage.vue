@@ -1,5 +1,12 @@
 <template>
     <b-container>
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="display-4 mb-3">Visitor check-in</h2>
+            <span v-if="checkedInToday !== null"
+                >{{ checkedInToday }} check-ins today</span
+            >
+        </div>
+
         <b-form-group>
             <b-form-input
                 v-model.trim="search"
@@ -125,6 +132,7 @@ export default {
             perPage: 10,
             totalRows: 0,
             errorText: null,
+            checkedInToday: null,
         };
     },
     watch: {
@@ -140,7 +148,14 @@ export default {
             this.searchVisitors();
         },
     },
+    async created() {
+        this.fetchCheckins();
+    },
     methods: {
+        async fetchCheckins() {
+            const data = await visitorsApi.checkins();
+            this.checkedInToday = data.checked_in_today;
+        },
         async searchVisitors() {
             this.isBusy = true;
             this.errorText = null;
@@ -164,6 +179,7 @@ export default {
                 await visitorsApi.checkin(visitor.id);
                 visitor.checked_in_today = true;
                 showSnackbar("Checked in " + visitor.name);
+                this.fetchCheckins();
             } catch (ex) {
                 alert(ex);
             }

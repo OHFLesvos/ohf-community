@@ -4,6 +4,10 @@ export default {
         const url = route('api.visitors.index', params)
         return await api.get(url)
     },
+    async checkins () {
+        const url = route('api.visitors.checkins')
+        return await api.get(url)
+    },
     async checkin (visitor) {
         const url = route('api.visitors.checkin', visitor)
         return await api.post(url)

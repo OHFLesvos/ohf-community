@@ -333,6 +333,9 @@ Route::middleware(['auth', 'language'])
     ->prefix('visitors')
     ->name('api.visitors.')
     ->group(function () {
+        Route::get('checkins', [VisitorController::class, 'checkins'])
+            ->name('checkins');
+
         Route::get('', [VisitorController::class, 'index'])
             ->name('index');
         Route::post('', [VisitorController::class, 'store'])
