@@ -27,74 +27,10 @@
                         v-for="visitor in visitors"
                         :key="visitor.id"
                     >
-                        <b-row class="align-items-center">
-                            <b-col>
-                                <dl class="row mb-0">
-                                    <template v-if="visitor.name">
-                                        <dt class="col-sm-4">
-                                            {{ $t("Name") }}
-                                        </dt>
-                                        <dd class="col-sm-8">
-                                            {{ visitor.name }}
-                                        </dd>
-                                    </template>
-                                    <template v-if="visitor.id_number">
-                                        <dt class="col-sm-4">
-                                            {{ $t("ID Number") }}
-                                        </dt>
-                                        <dd class="col-sm-8">
-                                            {{ visitor.id_number }}
-                                        </dd>
-                                    </template>
-                                    <template v-if="visitor.gender">
-                                        <dt class="col-sm-4">
-                                            {{ $t("Gender") }}
-                                        </dt>
-                                        <dd class="col-sm-8">
-                                            {{ visitor.gender }}
-                                        </dd>
-                                    </template>
-                                    <template v-if="visitor.nationality">
-                                        <dt class="col-sm-4">
-                                            {{ $t("Nationality") }}
-                                        </dt>
-                                        <dd class="col-sm-8">
-                                            {{ visitor.nationality }}
-                                        </dd>
-                                    </template>
-                                    <template v-if="visitor.date_of_birth">
-                                        <dt class="col-sm-4">
-                                            {{ $t("Date of birth") }}
-                                        </dt>
-                                        <dd class="col-sm-8">
-                                            {{ visitor.date_of_birth }}
-                                        </dd>
-                                    </template>
-                                    <template v-if="visitor.date_of_birth">
-                                        <dt class="col-sm-4">
-                                            {{ $t("Living situation") }}
-                                        </dt>
-                                        <dd class="col-sm-8">
-                                            {{ visitor.living_situation }}
-                                        </dd>
-                                    </template>
-                                </dl>
-                            </b-col>
-                            <b-col cols="auto">
-                                <b-button
-                                    :variant="
-                                        visitor.checked_in_today
-                                            ? 'secondary'
-                                            : 'primary'
-                                    "
-                                    :disabled="
-                                        visitor.checked_in_today || isBusy
-                                    "
-                                    @click="checkin(visitor)"
-                                    >Check-in</b-button
-                                >
-                            </b-col>
-                        </b-row>
+                        <VisitorDetails
+                            :value="visitor"
+                            @checkedIn="checkedInToday = $event"
+                        />
                     </b-list-group-item>
                 </b-list-group>
                 <table-pagination
@@ -116,11 +52,12 @@
 import visitorsApi from "@/api/visitors";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import TablePagination from "@/components/table/TablePagination";
-import { showSnackbar } from "@/utils";
+import VisitorDetails from "@/components/visitors/VisitorDetails";
 export default {
     components: {
         AlertWithRetry,
         TablePagination,
+        VisitorDetails,
     },
     data() {
         return {
@@ -182,18 +119,6 @@ export default {
                 this.searched = true;
             } catch (ex) {
                 this.errorText = ex;
-            }
-            this.isBusy = false;
-        },
-        async checkin(visitor) {
-            this.isBusy = true;
-            try {
-                let data = await visitorsApi.checkin(visitor.id);
-                this.checkedInToday = data.checked_in_today;
-                visitor.checked_in_today = true;
-                showSnackbar("Checked in " + visitor.name);
-            } catch (ex) {
-                alert(ex);
             }
             this.isBusy = false;
         },
