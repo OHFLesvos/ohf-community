@@ -4,16 +4,8 @@ export default {
         const url = route('api.visitors.index', params)
         return await api.get(url)
     },
-    async checkin (data) {
-        const url = route('api.visitors.checkin')
-        return await api.post(url, data)
-    },
-    async checkout (id) {
-        const url = route('api.visitors.checkout', id)
-        return await api.put(url)
-    },
-    async checkoutAll () {
-        const url = route('api.visitors.checkoutAll')
+    async checkin (visitor) {
+        const url = route('api.visitors.checkin', visitor)
         return await api.post(url)
     },
     async dailyVisitors () {

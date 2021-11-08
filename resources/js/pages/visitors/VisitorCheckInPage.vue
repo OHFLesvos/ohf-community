@@ -5,7 +5,7 @@
                 v-model.trim="search"
                 type="search"
                 debounce="500"
-                placeholder="Search visitor name or ID number..."
+                placeholder="Search visitor name, ID number or date of birth…"
                 autofocus
                 autocomplete="off"
             />
@@ -75,8 +75,15 @@
                             </b-col>
                             <b-col cols="auto">
                                 <b-button
-                                    variant="primary"
-                                    :disabled="visitor.checked_in_today"
+                                    :variant="
+                                        visitor.checked_in_today
+                                            ? 'secondary'
+                                            : 'primary'
+                                    "
+                                    :disabled="
+                                        visitor.checked_in_today || isBusy
+                                    "
+                                    @click="checkin(visitor)"
                                     >Check-in</b-button
                                 >
                             </b-col>
@@ -102,6 +109,7 @@
 import visitorsApi from "@/api/visitors";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import TablePagination from "@/components/table/TablePagination";
+import { showSnackbar } from "@/utils";
 export default {
     components: {
         AlertWithRetry,
@@ -147,6 +155,17 @@ export default {
                 this.searched = true;
             } catch (ex) {
                 this.errorText = ex;
+            }
+            this.isBusy = false;
+        },
+        async checkin(visitor) {
+            this.isBusy = true;
+            try {
+                await visitorsApi.checkin(visitor.id);
+                visitor.checked_in_today = true;
+                showSnackbar("Checked in " + visitor.name);
+            } catch (ex) {
+                alert(ex);
             }
             this.isBusy = false;
         },
