@@ -1,60 +1,71 @@
-import Vue from 'vue'
+import Vue from "vue";
 import {
     ValidationProvider,
     ValidationObserver,
     extend,
-    localize
-} from 'vee-validate'
+    localize,
+} from "vee-validate";
 
-import * as rules from "vee-validate/dist/rules"
-Object.keys(rules).forEach(rule => {
-    extend(rule, rules[rule])
-})
+import * as rules from "vee-validate/dist/rules";
+Object.keys(rules).forEach((rule) => {
+    extend(rule, rules[rule]);
+});
 
-import i18n from '@/plugins/i18n'
-import en from "vee-validate/dist/locale/en.json"
-import de from "vee-validate/dist/locale/de.json"
+import i18n from "@/plugins/i18n";
+import en from "vee-validate/dist/locale/en.json";
+import de from "vee-validate/dist/locale/de.json";
 localize({
     en,
-    de
-})
-localize(i18n.locale)
+    de,
+});
+localize(i18n.locale);
 
-const IBAN = require('iban');
-extend('iban', (value) => {
+const IBAN = require("iban");
+extend("iban", (value) => {
     if (IBAN.isValid(value)) {
-      return true
+        return true;
     }
-    return i18n.t('validation.iban', {attribute: i18n.t('validation.attributes.iban')})
-})
+    return i18n.t("validation.iban", {
+        attribute: i18n.t("validation.attributes.iban"),
+    });
+});
 
-extend('date', (value) => {
-    if (value && value.match(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/)) {
-      return true
+import moment from "moment";
+extend("date", (value) => {
+    if (
+        value &&
+        value.match(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/) &&
+        moment(value, moment.DATE, true).isValid()
+    ) {
+        return true;
     }
-    return i18n.t('validation.date', {attribute: i18n.t('validation.attributes.date')})
-})
+    return i18n.t("validation.date", {
+        attribute: i18n.t("validation.attributes.date"),
+    });
+});
 
 extend("decimal", {
-    validate: (value, { decimals = '*', separator = '.' } = {}) => {
-        if (value === null || value === undefined || value === '') {
+    validate: (value, { decimals = "*", separator = "." } = {}) => {
+        if (value === null || value === undefined || value === "") {
             return {
-                valid: false
-            }
+                valid: false,
+            };
         }
         if (Number(decimals) === 0) {
             return {
                 valid: /^-?\d*$/.test(value),
-            }
+            };
         }
-        const regexPart = decimals === '*' ? '+' : `{1,${decimals}}`;
-        const regex = new RegExp(`^[-+]?\\d*(\\${separator}\\d${regexPart})?([eE]{1}[-]?\\d+)?$`);
-        return regex.test(value)
+        const regexPart = decimals === "*" ? "+" : `{1,${decimals}}`;
+        const regex = new RegExp(
+            `^[-+]?\\d*(\\${separator}\\d${regexPart})?([eE]{1}[-]?\\d+)?$`
+        );
+        return regex.test(value);
     },
-    message: i18n.t('validation.numeric', { attribute: '{_field_}' })
-})
+    message: i18n.t("validation.numeric", { attribute: "{_field_}" }),
+});
 
-extend('required_without', {
+extend("required_without", {
     ...rules.required_if,
     // params: ['target']
     // TODO make it work with multiple fields
@@ -62,8 +73,11 @@ extend('required_without', {
         let target_value = args.target;
         return Boolean(target_value || value);
     },
-    message: i18n.t('validation.required_without', { attribute: '{_field_}', values: '{target}' })
+    message: i18n.t("validation.required_without", {
+        attribute: "{_field_}",
+        values: "{target}",
+    }),
 });
 
-Vue.component('validation-provider', ValidationProvider)
-Vue.component('validation-observer', ValidationObserver)
+Vue.component("validation-provider", ValidationProvider);
+Vue.component("validation-observer", ValidationObserver);

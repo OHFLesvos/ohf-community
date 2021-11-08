@@ -18,7 +18,6 @@
                                 v-model="formData.name"
                                 trim
                                 required
-                                autofocus
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                                 :disabled="disabled"
@@ -65,6 +64,30 @@
 
                 <b-col sm>
                     <validation-provider
+                        :name="$t('Date of birth')"
+                        vid="date_of_birth"
+                        :rules="{ required: true, date: true }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Date of birth')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="formData.date_of_birth"
+                                trim
+                                autocomplete="off"
+                                :state="getValidationState(validationContext)"
+                                :disabled="disabled"
+                                placeholder="YYYY-MM-DD"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
+                <b-col sm>
+                    <validation-provider
                         :name="$t('Nationality')"
                         vid="nationality"
                         :rules="{}"
@@ -75,12 +98,12 @@
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
-                            <b-form-input
+                            <b-form-select
                                 v-model="formData.nationality"
-                                trim
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                                 :disabled="disabled"
+                                :options="['', ...nationalities]"
                             />
                         </b-form-group>
                     </validation-provider>
@@ -115,6 +138,9 @@
                     <font-awesome-icon icon="check" />
                     {{ $t("Register") }}
                 </b-button>
+                <b-button variant="link" :to="{ name: 'visitors.check_in' }">{{
+                    $t("Cancel")
+                }}</b-button>
             </p>
         </b-form>
     </validation-observer>
@@ -133,13 +159,53 @@ export default {
                 name: "",
                 id_number: "",
                 gender: null,
-                living_situation: "",
+                date_of_birth: "",
                 nationality: "",
+                living_situation: "",
             },
             genders: [
                 { value: "male", text: this.$t("Male") },
                 { value: "female", text: this.$t("Female") },
                 { value: "other", text: this.$t("Other") },
+            ],
+            nationalities: [
+                "Afghanistan",
+                "Algeria",
+                "Angola",
+                "Bangladesh",
+                "Burkina Faso",
+                "Burundi",
+                "Cameroon",
+                "Comoros",
+                "Djibouti",
+                "DRC",
+                "Egypt",
+                "Eritrea",
+                "Gambia",
+                "Ghana",
+                "Guinea",
+                "Iran",
+                "Iran - Kurd",
+                "Iraq",
+                "Ivory Coast",
+                "Kuwait",
+                "Mali",
+                "Morocco",
+                "Nepal",
+                "Nigeria",
+                "North Sudan",
+                "Pakistan",
+                "Palestine",
+                "Senegal",
+                "Sierra Leone",
+                "Somalia",
+                "Stateless",
+                "Sudan",
+                "Syria",
+                "Tajikistan",
+                "Togo",
+                "Uganda",
+                "Yemen",
             ],
         };
     },

@@ -75,6 +75,7 @@ export default {
     data() {
         return {
             visitor: this.value,
+            isBusy: false,
         };
     },
     methods: {
@@ -83,7 +84,7 @@ export default {
             try {
                 let data = await visitorsApi.checkin(visitor.id);
                 visitor.checked_in_today = true;
-                this.$emit('checkedIn', data.checked_in_today)
+                this.$emit("checkedIn", data.checked_in_today);
                 showSnackbar("Checked in " + visitor.name);
             } catch (ex) {
                 alert(ex);
