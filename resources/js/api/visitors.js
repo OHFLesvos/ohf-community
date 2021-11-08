@@ -1,7 +1,7 @@
 import { api, route } from '@/api/baseApi'
 export default {
-    async listCurrent (ctx) {
-        const url = route('api.visitors.listCurrent', ctx)
+    async list (params) {
+        const url = route('api.visitors.index', params)
         return await api.get(url)
     },
     async checkin (data) {

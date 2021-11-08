@@ -2,16 +2,16 @@ export default [
     {
         path: "/visitors",
         redirect: {
-            name: "visitors.listCurrent"
+                name: "visitors.check_in"
         }
     },
     {
-        path: "/visitors/current",
-        name: "visitors.listCurrent",
+        path: "/visitors/check/in",
+        name: "visitors.check_in",
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "visitors" */ "@/pages/visitors/CurrentVisitorsPage"
+                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorCheckInPage"
                 )
         }
     }
