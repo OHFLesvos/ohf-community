@@ -15,6 +15,7 @@
                             :invalid-feedback="validationContext.errors[0]"
                         >
                             <b-form-input
+                                ref="nameInput"
                                 v-model="formData.name"
                                 trim
                                 required
@@ -121,7 +122,7 @@
                     /></b-form-group>
                 </b-col>
             </b-form-row>
-            <p>
+            <div>
                 <b-button variant="primary" type="submit" :disabled="disabled">
                     <font-awesome-icon icon="check" />
                     {{ $t("Register") }}
@@ -129,7 +130,7 @@
                 <b-button variant="link" @click="$emit('cancel')">{{
                     $t("Cancel")
                 }}</b-button>
-            </p>
+            </div>
         </b-form>
     </validation-observer>
 </template>
@@ -140,7 +141,7 @@ import { mapState } from "vuex";
 import moment from "moment";
 export default {
     props: {
-        disabled: Boolean,
+        disabled: Boolean
     },
     mixins: [formInputMixin],
     data() {
@@ -153,13 +154,13 @@ export default {
                 gender: null,
                 date_of_birth: search && searchType == "date" ? search : "",
                 nationality: "",
-                living_situation: "",
+                living_situation: ""
             },
             genders: [
                 { value: "male", text: this.$t("Male") },
                 { value: "female", text: this.$t("Female") },
-                { value: "other", text: this.$t("Other") },
-            ],
+                { value: "other", text: this.$t("Other") }
+            ]
         };
     },
     computed: {
@@ -169,11 +170,14 @@ export default {
         },
         livingSituations() {
             return ["", ...this.settings["visitors.living_situation"]];
-        },
+        }
+    },
+    mounted() {
+        this.$refs.nameInput.focus();
     },
     methods: {
         submit() {
-            this.$refs.observer.validate().then((valid) => {
+            this.$refs.observer.validate().then(valid => {
                 if (valid) {
                     this.onSubmit();
                 }
@@ -190,7 +194,7 @@ export default {
                 return "number";
             }
             return "string";
-        },
-    },
+        }
+    }
 };
 </script>

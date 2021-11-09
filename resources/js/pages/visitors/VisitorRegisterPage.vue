@@ -26,10 +26,8 @@ export default {
         async handleCreate(formData) {
             this.isBusy = true;
             try {
-                let data = await visitorsApi.store(formData);
-                let visitor = data.data;
-                await visitorsApi.checkin(visitor.id);
-                showSnackbar(this.$t("Visitor registered and checked-in."));
+                await visitorsApi.store(formData);
+                showSnackbar(this.$t("Visitor registered."));
                 this.$router.push({ name: "visitors.check_in" });
             } catch (err) {
                 alert(err);

@@ -789,6 +789,7 @@ export default {
         "Visitor check-in": "Besucher Check-in",
         "No results.": "Keine Resultate.",
         "Checked-in today": "Heute eingecheckt",
+        "Visitor registered.": "Besucher registriert.",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

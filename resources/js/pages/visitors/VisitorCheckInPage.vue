@@ -55,13 +55,21 @@
                 }}</b-alert>
             </template>
 
-            <p>
+            <b-card
+                v-if="showRegistrationForm"
+                class="mb-3"
+                :header="$t('Register new visitor')"
+            >
+                <VisitorForm
+                    :disabled="isBusy"
+                    @submit="handleCreate"
+                    @cancel="showRegistrationForm = false"
+                />
+            </b-card>
+            <p v-else>
                 <b-button
                     variant="primary"
-                    :to="{
-                        name: 'visitors.create',
-                        query: { search: this.search }
-                    }"
+                    @click="showRegistrationForm = true"
                     >{{ $t("Register new visitor") }}</b-button
                 >
             </p>
@@ -74,12 +82,14 @@ import visitorsApi from "@/api/visitors";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import TablePagination from "@/components/table/TablePagination";
 import VisitorDetails from "@/components/visitors/VisitorDetails";
+import VisitorForm from "@/components/visitors/VisitorForm";
 import { showSnackbar } from "@/utils";
 export default {
     components: {
         AlertWithRetry,
         TablePagination,
-        VisitorDetails
+        VisitorDetails,
+        VisitorForm
     },
     data() {
         return {
@@ -92,7 +102,8 @@ export default {
             totalRows: 0,
             errorText: null,
             checkedInToday: null,
-            timer: null
+            timer: null,
+            showRegistrationForm: false
         };
     },
     watch: {
@@ -161,6 +172,18 @@ export default {
                 showSnackbar(`Checked in ${visitor.name}.`);
             } catch (ex) {
                 alert(ex);
+            }
+            this.isBusy = false;
+        },
+        async handleCreate(formData) {
+            this.isBusy = true;
+            try {
+                let data = await visitorsApi.store(formData);
+                this.visitors.push(data.data);
+                showSnackbar(this.$t("Visitor registered."));
+                this.showRegistrationForm = false
+            } catch (err) {
+                alert(err);
             }
             this.isBusy = false;
         }
