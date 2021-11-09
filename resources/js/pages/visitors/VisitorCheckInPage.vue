@@ -12,7 +12,7 @@
                 v-model.trim="search"
                 type="search"
                 debounce="500"
-                placeholder="Search visitor name, ID number or date of birth…"
+                :placeholder="$t('Search visitor name, ID number or date of birth…')"
                 autofocus
                 autocomplete="off"
             />

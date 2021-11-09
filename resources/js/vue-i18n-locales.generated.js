@@ -790,6 +790,7 @@ export default {
         "No results.": "Keine Resultate.",
         "Checked-in today": "Heute eingecheckt",
         "Visitor registered.": "Besucher registriert.",
+        "Search visitor name, ID number or date of birth…": "Suche nach Besuchername, ID Nummmer or Geburtsdatum…",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
