@@ -4,6 +4,7 @@ namespace App\Http\Requests\Visitors;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Setting;
 
 class StoreVisitor extends FormRequest
 {
@@ -42,6 +43,7 @@ class StoreVisitor extends FormRequest
             ],
             'nationality' => [
                 'nullable',
+                Rule::in(Setting::get('visitors.nationalities', [])),
             ],
             'living_situation' => [
                 'nullable',

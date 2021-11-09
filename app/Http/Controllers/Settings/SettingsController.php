@@ -18,6 +18,7 @@ class SettingsController extends Controller
             'branding' => __('Branding'),
             'accounting' => __('Accounting'),
             'badges' => __('Badges'),
+            'visitors' => __('Visitors'),
         ];
     }
 
@@ -36,6 +37,7 @@ class SettingsController extends Controller
         'accounting.transactions.cost_centers' => \App\Settings\Accounting\TransactionCostCenters::class,
         'accounting.transactions.show_intermediate_balances' => \App\Settings\Accounting\TransactionShowIntermediateBalances::class,
         'badges.logo_file' => \App\Settings\Badges\LogoFile::class,
+        'visitors.nationalities' => \App\Settings\Visitors\VisitorNationalities::class,
     ];
 
     private static function getSettings(): Collection
