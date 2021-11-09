@@ -3,7 +3,6 @@
 namespace App\Exports\Visitors;
 
 use App\Exports\BaseExport;
-use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
