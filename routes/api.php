@@ -333,6 +333,13 @@ Route::middleware(['auth', 'language'])
     ->prefix('visitors')
     ->name('api.visitors.')
     ->group(function () {
+        Route::get('export', [VisitorController::class, 'export'])
+            ->name('export');
+        Route::get('dailyVisitors', [VisitorController::class, 'dailyVisitors'])
+            ->name('dailyVisitors');
+        Route::get('monthlyVisitors', [VisitorController::class, 'monthlyVisitors'])
+            ->name('monthlyVisitors');
+
         Route::get('checkins', [VisitorController::class, 'checkins'])
             ->name('checkins');
 
@@ -349,13 +356,6 @@ Route::middleware(['auth', 'language'])
 
         Route::post('{visitor}/checkins', [VisitorController::class, 'checkin'])
             ->name('checkin');
-
-        Route::get('export', [VisitorController::class, 'export'])
-            ->name('export');
-        Route::get('dailyVisitors', [VisitorController::class, 'dailyVisitors'])
-            ->name('dailyVisitors');
-        Route::get('monthlyVisitors', [VisitorController::class, 'monthlyVisitors'])
-            ->name('monthlyVisitors');
     });
 
 //

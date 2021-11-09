@@ -266,6 +266,8 @@
     "Type to search (:fields)...": "Zum Suchen tippen (:fields)...",
     "Not all results have been listed. Please refine your search criteria.": "Nicht alle Resultate können angezeigt werden. Bitte Suchkriterien verfeinern.",
     "No results found for ':term'.": "Keine Resultate gefunden für ':term'.",
+    "male": "männlich",
+    "female": "weiblich",
     "Male": "Männlich",
     "Female": "Weiblich",
     "Login": "Login",
@@ -779,6 +781,7 @@
     "Rotate counter-clockwise": "Gegen Uhrzeigersinn drehen",
     "Rotate clockwise": "Im Uhrzeigersinn Drehen",
     "Other": "Sonstige",
+    "other": "sonstige",
     "Visitor OHF": "Besucher OHF",
     "Visitors OHF": "Besucher OHF",
     "Visitor Partner": "Besucher Partner",
@@ -790,5 +793,6 @@
     "Checked-in today": "Heute eingecheckt",
     "Visitor registered.": "Besucher registriert.",
     "Search visitor name, ID number or date of birth…": "Suche nach Besuchername, ID Nummmer or Geburtsdatum…",
-    "Purpose of visit": "Grund des Besuchs"
+    "Purpose of visit": "Grund des Besuchs",
+    "Anonymized": "Anonymisiert"
 }

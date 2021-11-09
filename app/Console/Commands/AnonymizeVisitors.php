@@ -19,7 +19,7 @@ class AnonymizeVisitors extends Command
      *
      * @var string
      */
-    protected $description = 'Anonymize visitor records who have not checked in more for more than 60 days.';
+    protected $description = 'Anonymize visitor records who have not checked in more for a while.';
 
     /**
      * Create a new command instance.
@@ -38,9 +38,12 @@ class AnonymizeVisitors extends Command
      */
     public function handle()
     {
+        $days = config('visitors.retention_days');
+        $thresholdDate = now()->subDays($days);
+
         $visitors = Visitor::where('anonymized', false)
-            ->whereDoesntHave('checkins', function ($qry) {
-                $qry->whereDate('created_at', '>=', now()->subDays(60)->toDateString());
+            ->whereDoesntHave('checkins', function ($qry) use ($thresholdDate) {
+                $qry->whereDate('created_at', '>=', $thresholdDate->toDateString());
             })->get();
 
         $visitors->each(function (Visitor $visitor) {
@@ -53,7 +56,7 @@ class AnonymizeVisitors extends Command
             $visitor->save();
         });
 
-        $this->info("Anonymized {$visitors->count()} visitors.");
+        $this->info("Anonymized {$visitors->count()} visitors who haven't been active since {$thresholdDate->toDateString()}.");
 
         return Command::SUCCESS;
     }

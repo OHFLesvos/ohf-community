@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'retention_days' => 14,
+    'retention_days' => 90,
 ];
