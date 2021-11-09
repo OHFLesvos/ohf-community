@@ -34,9 +34,11 @@
                             variant="primary"
                             :disabled="isBusy"
                             @click="checkin(visitor)"
-                            >Check-in</b-button
+                            >{{ $t("Check-in") }}</b-button
                         >
-                        <span v-else class="text-success">Checked-in today.</span>
+                        <b-button v-else variant="secondary" disabled>{{
+                            $t("Checked-in today")
+                        }}</b-button>
                     </template>
                 </b-card>
                 <table-pagination
@@ -58,7 +60,7 @@
                     variant="primary"
                     :to="{
                         name: 'visitors.create',
-                        query: { search: this.search },
+                        query: { search: this.search }
                     }"
                     >{{ $t("Register new visitor") }}</b-button
                 >
@@ -77,7 +79,7 @@ export default {
     components: {
         AlertWithRetry,
         TablePagination,
-        VisitorDetails,
+        VisitorDetails
     },
     data() {
         return {
@@ -90,13 +92,14 @@ export default {
             totalRows: 0,
             errorText: null,
             checkedInToday: null,
-            timer: null,
+            timer: null
         };
     },
     watch: {
         search: {
             immediate: true,
             handler(value) {
+                this.searched = false;
                 if (value.length > 0) {
                     this.searchVisitors();
                     sessionStorage.setItem(
@@ -105,14 +108,13 @@ export default {
                     );
                 } else {
                     this.visitors = [];
-                    this.searched = false;
                     sessionStorage.removeItem("visitors.checkin.filter");
                 }
-            },
+            }
         },
         currentPage() {
             this.searchVisitors();
-        },
+        }
     },
     async created() {
         this.fetchCheckins();
@@ -140,7 +142,7 @@ export default {
                 let data = await visitorsApi.list({
                     filter: this.search,
                     page: this.currentPage,
-                    pageSize: this.perPage,
+                    pageSize: this.perPage
                 });
                 this.visitors = data.data;
                 this.totalRows = data.meta.total;
@@ -161,7 +163,7 @@ export default {
                 alert(ex);
             }
             this.isBusy = false;
-        },
-    },
+        }
+    }
 };
 </script>
