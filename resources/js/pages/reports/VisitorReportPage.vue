@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container>
         <h3>{{ $t("Visitors by day") }}</h3>
         <b-table
             :items="dailyitemProvider"
@@ -33,50 +33,41 @@
                 <strong>{{ $t("Loading...") }}</strong>
             </div>
         </b-table>
-    </div>
+    </b-container>
 </template>
 
 <script>
 import moment from "moment";
 import visitorsApi from "@/api/visitors";
+import { mapState } from "vuex";
 export default {
     title() {
         return this.$t("Report") + ": " + this.$t("Visitor check-ins");
     },
     data() {
-        return {
-            dailyFields: [
+        return {};
+    },
+    computed: {
+        ...mapState(["settings"]),
+        dailyFields() {
+            return [
                 {
                     key: "day",
                     label: this.$t("Date")
                 },
-                {
-                    key: "visitors",
-                    label: this.$t("Visitors"),
-                    class: "text-right"
-                },
-                {
-                    key: "participants",
-                    label: this.$t("Participants"),
-                    class: "text-right"
-                },
-                {
-                    key: "staff",
-                    label: this.$t("Volunteers / Staff"),
-                    class: "text-right"
-                },
-                {
-                    key: "external",
-                    label: this.$t("External visitors"),
-                    class: "text-right"
-                },
+                ...this.settings["visitors.purposes_of_visit"].map(k => ({
+                    key: k,
+                    label: k
+                })),
                 {
                     key: "total",
                     label: this.$t("Total"),
                     class: "text-right"
                 }
-            ],
-            monthlyFields: [
+            ];
+        },
+        monthlyFields() {
+            return [
                 {
                     key: "date",
                     label: this.$t("Date"),
@@ -87,33 +78,17 @@ export default {
                         }).format("MMMM YYYY");
                     }
                 },
-                {
-                    key: "visitors",
-                    label: this.$t("Visitors"),
-                    class: "text-right"
-                },
-                {
-                    key: "participants",
-                    label: this.$t("Participants"),
-                    class: "text-right"
-                },
-                {
-                    key: "staff",
-                    label: this.$t("Volunteers / Staff"),
-                    class: "text-right"
-                },
-                {
-                    key: "external",
-                    label: this.$t("External visitors"),
-                    class: "text-right"
-                },
+                ...this.settings["visitors.purposes_of_visit"].map(k => ({
+                    key: k,
+                    label: k
+                })),
                 {
                     key: "total",
                     label: this.$t("Total"),
                     class: "text-right"
                 }
-            ]
-        };
+            ];
+        }
     },
     methods: {
         async dailyitemProvider(ctx) {
