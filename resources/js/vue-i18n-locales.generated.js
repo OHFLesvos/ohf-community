@@ -798,6 +798,8 @@ export default {
         "Purpose of visit": "Grund des Besuchs",
         "Anonymized": "Anonymisiert",
         "Purposes of visit": "Besuchsgründe",
+        "Edit visitor": "Besucher bearbeiten",
+        "Visitor updated.": "Besucher aktualisiert.",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

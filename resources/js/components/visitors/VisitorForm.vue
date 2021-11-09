@@ -129,7 +129,7 @@
             <div>
                 <b-button variant="primary" type="submit" :disabled="disabled">
                     <font-awesome-icon icon="check" />
-                    {{ $t("Register") }}
+                    {{ value ? $t("Update") : $t("Register") }}
                 </b-button>
                 <b-button variant="link" @click="$emit('cancel')">{{
                     $t("Cancel")
@@ -193,7 +193,9 @@ export default {
         }
     },
     mounted() {
-        this.$refs.nameInput.focus();
+        if (!this.value) {
+            this.$refs.nameInput.focus();
+        }
     },
     methods: {
         submit() {

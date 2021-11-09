@@ -12,7 +12,9 @@
                 v-model.trim="search"
                 type="search"
                 debounce="500"
-                :placeholder="$t('Search visitor name, ID number or date of birth…')"
+                :placeholder="
+                    $t('Search visitor name, ID number or date of birth…')
+                "
                 autofocus
                 autocomplete="off"
             />
@@ -33,6 +35,15 @@
                             :value="visitor"
                             @checkin="checkedInToday = $event"
                         />
+                        <b-button
+                            variant="secondary"
+                            :to="{
+                                name: 'visitors.edit',
+                                params: { id: visitor.id }
+                            }"
+                            ><font-awesome-icon icon="edit" />
+                            {{ $t("Edit") }}</b-button
+                        >
                     </template>
                 </b-card>
                 <table-pagination
@@ -91,7 +102,10 @@ export default {
     },
     data() {
         return {
-            search: this.$route.query.search ?? (sessionStorage.getItem("visitors.checkin.filter") ?? ""),
+            search:
+                this.$route.query.search ??
+                sessionStorage.getItem("visitors.checkin.filter") ??
+                "",
             visitors: [],
             searched: false,
             isBusy: false,
@@ -110,14 +124,14 @@ export default {
             handler(value) {
                 this.searched = false;
                 if (value.length > 0) {
-                    this.$router.replace({query: { search: value }});
+                    this.$router.replace({ query: { search: value } });
                     this.searchVisitors();
                     sessionStorage.setItem(
                         "visitors.checkin.filter",
                         this.search
                     );
                 } else {
-                    this.$router.replace({query: { search: undefined }});
+                    this.$router.replace({ query: { search: undefined } });
                     this.visitors = [];
                     sessionStorage.removeItem("visitors.checkin.filter");
                 }

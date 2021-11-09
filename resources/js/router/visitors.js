@@ -24,5 +24,18 @@ export default [
                     /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorRegisterPage"
                 )
         }
+    },
+    {
+        path: "/visitors/:id/edit",
+        name: "visitors.edit",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorEditPage"
+                )
+        },
+        props: {
+            default: true,
+        }
     }
 ];
