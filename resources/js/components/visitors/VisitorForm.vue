@@ -145,6 +145,9 @@ import { mapState } from "vuex";
 import moment from "moment";
 export default {
     props: {
+        value: {
+            required: false,
+        },
         disabled: Boolean
     },
     mixins: [formInputMixin],
@@ -152,7 +155,7 @@ export default {
         const search = this.$route.query.search;
         const searchType = this.detectValueType(search);
         return {
-            formData: {
+            formData: this.value ?? {
                 name: search && searchType == "string" ? search : "",
                 id_number: search && searchType == "number" ? search : "",
                 gender: null,

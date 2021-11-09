@@ -91,7 +91,7 @@ export default {
     },
     data() {
         return {
-            search: sessionStorage.getItem("visitors.checkin.filter") ?? "",
+            search: this.$route.query.search ?? (sessionStorage.getItem("visitors.checkin.filter") ?? ""),
             visitors: [],
             searched: false,
             isBusy: false,
@@ -110,12 +110,14 @@ export default {
             handler(value) {
                 this.searched = false;
                 if (value.length > 0) {
+                    this.$router.replace({query: { search: value }});
                     this.searchVisitors();
                     sessionStorage.setItem(
                         "visitors.checkin.filter",
                         this.search
                     );
                 } else {
+                    this.$router.replace({query: { search: undefined }});
                     this.visitors = [];
                     sessionStorage.removeItem("visitors.checkin.filter");
                 }
