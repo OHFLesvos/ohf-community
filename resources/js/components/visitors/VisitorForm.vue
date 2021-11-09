@@ -162,18 +162,21 @@
 <script>
 import formInputMixin from "@/mixins/formInputMixin";
 import { mapState } from "vuex";
+import moment from "moment"
 export default {
     props: {
         disabled: Boolean,
     },
     mixins: [formInputMixin],
     data() {
+        const search = this.$route.query.search;
+        const searchType = this.detectValueType(search);
         return {
             formData: {
-                name: "",
-                id_number: "",
+                name: search && searchType == 'string' ? search : "",
+                id_number: search && searchType == 'number' ? search : "",
                 gender: null,
-                date_of_birth: "",
+                date_of_birth: search && searchType == 'date' ? search : "",
                 nationality: "",
                 living_situation: "",
             },
@@ -203,6 +206,15 @@ export default {
         },
         onSubmit() {
             this.$emit("submit", this.formData);
+        },
+        detectValueType(value) {
+            if (moment(value, moment.DATE, true).isValid()) {
+                return "date";
+            }
+            if (/\d+/.test(value)) {
+                return "number";
+            }
+            return "string";
         },
     },
 };

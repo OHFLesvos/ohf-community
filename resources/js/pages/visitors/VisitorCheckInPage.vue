@@ -48,7 +48,7 @@
             </template>
 
             <p>
-                <b-button variant="primary" :to="{ name: 'visitors.create' }">{{
+                <b-button variant="primary" :to="{ name: 'visitors.create', query: {search: this.search} }">{{
                     $t("Register new visitor")
                 }}</b-button>
             </p>
