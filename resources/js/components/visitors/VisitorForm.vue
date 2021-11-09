@@ -52,14 +52,26 @@
             </b-form-row>
 
             <b-form-row>
-                <b-col cols="auto" class="pr-3">
-                    <b-form-group :label="$t('Gender')">
-                        <b-form-radio-group
-                            v-model="formData.gender"
-                            :options="genders"
-                            stacked
-                        />
-                    </b-form-group>
+                <b-col sm class="pr-3">
+                    <validation-provider
+                        :name="$t('Gender')"
+                        vid="gender"
+                        :rules="{ required: true }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Gender')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-radio-group
+                                v-model="formData.gender"
+                                :options="genders"
+                                stacked
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
                 </b-col>
 
                 <b-col sm>
@@ -78,6 +90,7 @@
                                 v-model="formData.date_of_birth"
                                 trim
                                 autocomplete="off"
+                                required
                                 :state="getValidationState(validationContext)"
                                 :disabled="disabled"
                                 placeholder="YYYY-MM-DD"
@@ -85,7 +98,8 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-
+            </b-form-row>
+            <b-form-row>
                 <b-col sm>
                     <validation-provider
                         :name="$t('Nationality')"
@@ -108,8 +122,7 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
-            </b-form-row>
-            <b-form-row>
+
                 <b-col sm>
                     <validation-provider
                         :name="$t('Living situation')"
@@ -138,7 +151,7 @@
                     <font-awesome-icon icon="check" />
                     {{ $t("Register") }}
                 </b-button>
-                <b-button variant="link" :to="{ name: 'visitors.check_in' }">{{
+                <b-button variant="link" @click="$emit('cancel')">{{
                     $t("Cancel")
                 }}</b-button>
             </p>

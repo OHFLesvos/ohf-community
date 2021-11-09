@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <div class="d-flex justify-content-between align-items-center">
-            <h2 class="display-4 mb-3">Visitor check-in</h2>
+            <h2 class="display-4 mb-3">{{ $t("Visitor check-in") }}</h2>
             <span v-if="checkedInToday !== null"
                 >{{ checkedInToday }} check-ins today</span
             >
@@ -42,13 +42,15 @@
                 />
             </template>
             <template v-else>
-                <b-alert variant="warning" show>No results.</b-alert>
+                <b-alert variant="warning" show>{{
+                    $t("No results.")
+                }}</b-alert>
             </template>
 
             <p>
-                <b-button variant="primary" :to="{ name: 'visitors.create' }"
-                    >Register new visitor</b-button
-                >
+                <b-button variant="primary" :to="{ name: 'visitors.create' }">{{
+                    $t("Register new visitor")
+                }}</b-button>
             </p>
         </template>
     </b-container>
@@ -67,7 +69,7 @@ export default {
     },
     data() {
         return {
-            search: "",
+            search: sessionStorage.getItem("visitors.checkin.filter") ?? "",
             visitors: [],
             searched: false,
             isBusy: false,
@@ -80,13 +82,21 @@ export default {
         };
     },
     watch: {
-        search(val) {
-            if (val.length > 0) {
-                this.searchVisitors();
-            } else {
-                this.visitors = [];
-                this.searched = false;
-            }
+        search: {
+            immediate: true,
+            handler(value) {
+                if (value.length > 0) {
+                    this.searchVisitors();
+                    sessionStorage.setItem(
+                        "visitors.checkin.filter",
+                        this.search
+                    );
+                } else {
+                    this.visitors = [];
+                    this.searched = false;
+                    sessionStorage.removeItem("visitors.checkin.filter");
+                }
+            },
         },
         currentPage() {
             this.searchVisitors();

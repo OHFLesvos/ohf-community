@@ -785,6 +785,9 @@ export default {
         "Visitor Partner": "Besucher Partner",
         "Visitors Partner": "Besucher Partner",
         "Living situation": "Lebenssituation",
+        "Register new visitor": "Neuen Besucher registrieren",
+        "Visitor check-in": "Besucher Check-in",
+        "No results.": "Keine Resultate.",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
