@@ -29,18 +29,10 @@
                 >
                     <VisitorDetails :value="visitor" />
                     <template #footer>
-                        <b-button
-                            v-if="!visitor.checked_in_today"
-                            variant="primary"
-                            :disabled="isBusy"
-                            @click="checkin(visitor)"
-                            >
-                            <font-awesome-icon icon="calendar-check" />
-                            {{ $t("Check-in") }}</b-button
-                        >
-                        <b-button v-else variant="secondary" disabled>{{
-                            $t("Checked-in today")
-                        }}</b-button>
+                        <VisitorCheckinButton
+                            :value="visitor"
+                            @checkin="checkedInToday = $event"
+                        />
                     </template>
                 </b-card>
                 <table-pagination
@@ -72,7 +64,7 @@
                 <b-button
                     variant="primary"
                     @click="showRegistrationForm = true"
-                    >
+                >
                     <font-awesome-icon icon="plus-circle" />
                     {{ $t("Register new visitor") }}</b-button
                 >
@@ -87,13 +79,15 @@ import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import TablePagination from "@/components/table/TablePagination";
 import VisitorDetails from "@/components/visitors/VisitorDetails";
 import VisitorForm from "@/components/visitors/VisitorForm";
+import VisitorCheckinButton from "@/components/visitors/VisitorCheckinButton";
 import { showSnackbar } from "@/utils";
 export default {
     components: {
         AlertWithRetry,
         TablePagination,
         VisitorDetails,
-        VisitorForm
+        VisitorForm,
+        VisitorCheckinButton
     },
     data() {
         return {
@@ -167,25 +161,13 @@ export default {
             }
             this.isBusy = false;
         },
-        async checkin(visitor) {
-            this.isBusy = true;
-            try {
-                let data = await visitorsApi.checkin(visitor.id);
-                visitor.checked_in_today = true;
-                this.checkedInToday = data.checked_in_today;
-                showSnackbar(`Checked in ${visitor.name}.`);
-            } catch (ex) {
-                alert(ex);
-            }
-            this.isBusy = false;
-        },
         async handleCreate(formData) {
             this.isBusy = true;
             try {
                 let data = await visitorsApi.store(formData);
                 this.visitors.push(data.data);
                 showSnackbar(this.$t("Visitor registered."));
-                this.showRegistrationForm = false
+                this.showRegistrationForm = false;
             } catch (err) {
                 alert(err);
             }
