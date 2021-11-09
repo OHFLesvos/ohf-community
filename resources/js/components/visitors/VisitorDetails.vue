@@ -21,7 +21,7 @@
                 {{ $t("Gender") }}
             </dt>
             <dd class="col-sm-8">
-                {{ visitor.gender }}
+                {{ genderLabel }}
             </dd>
         </template>
         <template v-if="visitor.nationality">
@@ -57,12 +57,26 @@ export default {
         value: {
             required: true,
             type: Object
-        },
+        }
     },
     data() {
         return {
-            visitor: this.value,
+            visitor: this.value
         };
     },
+    computed: {
+        genderLabel() {
+            if (this.visitor.gender == "male") {
+                return this.$t("male");
+            }
+            if (this.visitor.gender == "female") {
+                return this.$t("female");
+            }
+            if (this.visitor.gender == "other") {
+                return this.$t("other");
+            }
+            return this.visitor.gender;
+        }
+    }
 };
 </script>

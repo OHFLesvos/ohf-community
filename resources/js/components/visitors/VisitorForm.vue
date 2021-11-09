@@ -161,9 +161,9 @@ export default {
                 living_situation: ""
             },
             genders: [
-                { value: "male", text: this.$t("Male") },
-                { value: "female", text: this.$t("Female") },
-                { value: "other", text: this.$t("Other") }
+                { value: "male", text: this.$t("male") },
+                { value: "female", text: this.$t("female") },
+                { value: "other", text: this.$t("other") }
             ]
         };
     },
