@@ -87,15 +87,19 @@
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
-                            <b-form-input
-                                v-model="formData.date_of_birth"
-                                trim
-                                autocomplete="off"
-                                required
-                                :state="getValidationState(validationContext)"
-                                :disabled="disabled"
-                                placeholder="YYYY-MM-DD"
-                            />
+                            <b-input-group :append="age">
+                                <b-form-input
+                                    v-model="formData.date_of_birth"
+                                    trim
+                                    autocomplete="off"
+                                    required
+                                    :state="
+                                        getValidationState(validationContext)
+                                    "
+                                    :disabled="disabled"
+                                    placeholder="YYYY-MM-DD"
+                                />
+                            </b-input-group>
                         </b-form-group>
                     </validation-provider>
                 </b-col>
@@ -170,6 +174,19 @@ export default {
         },
         livingSituations() {
             return ["", ...this.settings["visitors.living_situation"]];
+        },
+        age() {
+            if (this.formData.date_of_birth) {
+                let date = moment(
+                    this.formData.date_of_birth,
+                    moment.HTML5_FMT.DATE,
+                    true
+                );
+                if (date.isValid()) {
+                    return ""+moment().diff(date, "years");
+                }
+            }
+            return undefined;
         }
     },
     mounted() {

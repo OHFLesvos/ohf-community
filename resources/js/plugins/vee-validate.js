@@ -34,8 +34,7 @@ import moment from "moment";
 extend("date", (value) => {
     if (
         value &&
-        value.match(/^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/) &&
-        moment(value, moment.DATE, true).isValid()
+        moment(value, moment.HTML5_FMT.DATE, true).isValid()
     ) {
         return true;
     }
