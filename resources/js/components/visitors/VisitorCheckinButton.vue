@@ -1,9 +1,29 @@
 <template>
+    <div v-if="open && !visitor.checked_in_today">
+        <b-form-group :label="$t('Purpose of visit')">
+            <b-form-select
+                v-model="formData.purpose_of_visit"
+                autocomplete="off"
+                :disabled="isBusy"
+                :options="purposesOfVisit"
+            />
+        </b-form-group>
+        <b-button
+            variant="success"
+            :disabled="isBusy"
+            @click="checkin(visitor)"
+        >
+            <font-awesome-icon icon="calendar-check" />
+            {{ $t("Check-in") }}</b-button
+        >
+        <b-button variant="link" :disabled="isBusy" @click="open = false">{{
+            $t("Cancel")
+        }}</b-button>
+    </div>
     <b-button
-        v-if="!visitor.checked_in_today"
+        v-else-if="!visitor.checked_in_today"
         variant="primary"
-        :disabled="isBusy"
-        @click="checkin(visitor)"
+        @click="open = true"
     >
         <font-awesome-icon icon="calendar-check" />
         {{ $t("Check-in") }}</b-button
@@ -15,6 +35,7 @@
 
 <script>
 import visitorsApi from "@/api/visitors";
+import { mapState } from "vuex";
 import { showSnackbar } from "@/utils";
 export default {
     props: {
@@ -26,17 +47,28 @@ export default {
     data() {
         return {
             visitor: this.value,
-            isBusy: false
+            isBusy: false,
+            open: false,
+            formData: {
+                purpose_of_visit: ""
+            }
         };
+    },
+    computed: {
+        ...mapState(["settings"]),
+        purposesOfVisit() {
+            return ["", ...this.settings["visitors.purposes_of_visit"]];
+        }
     },
     methods: {
         async checkin(visitor) {
             this.isBusy = true;
             try {
-                let data = await visitorsApi.checkin(visitor.id);
+                let data = await visitorsApi.checkin(visitor.id, this.formData);
                 this.$emit("checkin", data.checked_in_today);
                 visitor.checked_in_today = true;
                 showSnackbar(`Checked in ${visitor.name}.`);
+                this.open = false;
             } catch (ex) {
                 alert(ex);
             }

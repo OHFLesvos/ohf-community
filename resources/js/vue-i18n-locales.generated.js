@@ -791,6 +791,7 @@ export default {
         "Checked-in today": "Heute eingecheckt",
         "Visitor registered.": "Besucher registriert.",
         "Search visitor name, ID number or date of birth…": "Suche nach Besuchername, ID Nummmer or Geburtsdatum…",
+        "Purpose of visit": "Grund des Besuchs",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

@@ -12,9 +12,9 @@ export default {
         const url = route('api.visitors.checkins')
         return await api.get(url)
     },
-    async checkin (visitor) {
-        const url = route('api.visitors.checkin', visitor)
-        return await api.post(url)
+    async checkin (visitorId, data) {
+        const url = route('api.visitors.checkin', visitorId)
+        return await api.post(url, data)
     },
     async dailyVisitors () {
         const url = route('api.visitors.dailyVisitors')

@@ -59,6 +59,17 @@ class SettingsController extends Controller
                 'Self accommodated',
                 'NGO Accommodation',
                 'other'
+            ],
+            'visitors.purposes_of_visit' => [
+                'OHF',
+                'MVI',
+                'Makerspace',
+                'Sporos',
+                'Wave of Hope',
+                'ReFocus',
+                'Intersos',
+                'ISOP',
+                'YSR'
             ]
         ]);
     }
