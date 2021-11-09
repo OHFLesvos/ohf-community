@@ -22,17 +22,25 @@
 
         <template v-if="searched">
             <template v-if="visitors.length > 0">
-                <b-list-group class="mb-3">
-                    <b-list-group-item
-                        v-for="visitor in visitors"
-                        :key="visitor.id"
-                    >
-                        <VisitorDetails
-                            :value="visitor"
-                            @checkedIn="checkedInToday = $event"
-                        />
-                    </b-list-group-item>
-                </b-list-group>
+                <b-card
+                    v-for="visitor in visitors"
+                    :key="visitor.id"
+                    class="mb-3 shadow-sm"
+                >
+                    <VisitorDetails :value="visitor" />
+                    <template #footer>
+                        <b-button
+                            :variant="
+                                visitor.checked_in_today
+                                    ? 'secondary'
+                                    : 'primary'
+                            "
+                            :disabled="visitor.checked_in_today || isBusy"
+                            @click="checkin(visitor)"
+                            >Check-in</b-button
+                        >
+                    </template>
+                </b-card>
                 <table-pagination
                     v-if="totalRows > perPage"
                     v-model="currentPage"
@@ -48,9 +56,14 @@
             </template>
 
             <p>
-                <b-button variant="primary" :to="{ name: 'visitors.create', query: {search: this.search} }">{{
-                    $t("Register new visitor")
-                }}</b-button>
+                <b-button
+                    variant="primary"
+                    :to="{
+                        name: 'visitors.create',
+                        query: { search: this.search },
+                    }"
+                    >{{ $t("Register new visitor") }}</b-button
+                >
             </p>
         </template>
     </b-container>
@@ -61,6 +74,7 @@ import visitorsApi from "@/api/visitors";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry";
 import TablePagination from "@/components/table/TablePagination";
 import VisitorDetails from "@/components/visitors/VisitorDetails";
+import { showSnackbar } from "@/utils";
 export default {
     components: {
         AlertWithRetry,
@@ -135,6 +149,18 @@ export default {
                 this.searched = true;
             } catch (ex) {
                 this.errorText = ex;
+            }
+            this.isBusy = false;
+        },
+        async checkin(visitor) {
+            this.isBusy = true;
+            try {
+                let data = await visitorsApi.checkin(visitor.id);
+                visitor.checked_in_today = true;
+                this.checkedInToday = data.checked_in_today;
+                showSnackbar(`Checked in ${visitor.name}.`);
+            } catch (ex) {
+                alert(ex);
             }
             this.isBusy = false;
         },
