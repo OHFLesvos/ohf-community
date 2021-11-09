@@ -11,6 +11,7 @@ use App\Models\Visitors\VisitorCheckin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Setting;
 
 class VisitorController extends Controller
 {
@@ -114,7 +115,10 @@ class VisitorController extends Controller
         $this->authorize('update', $visitor);
 
         $request->validate([
-            'purpose_of_visit' => 'nullable'
+            'purpose_of_visit' => [
+                'nullable',
+                Rule::in(Setting::get('visitors.purposes_of_visit', [])),
+            ]
         ]);
 
         $checkin = new VisitorCheckin();

@@ -47,6 +47,7 @@ class StoreVisitor extends FormRequest
             ],
             'living_situation' => [
                 'nullable',
+                Rule::in(Setting::get('visitors.living_situations', [])),
             ],
             'anonymized' => [
                 'boolean',

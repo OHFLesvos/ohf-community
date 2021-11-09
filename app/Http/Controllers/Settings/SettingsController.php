@@ -38,6 +38,8 @@ class SettingsController extends Controller
         'accounting.transactions.show_intermediate_balances' => \App\Settings\Accounting\TransactionShowIntermediateBalances::class,
         'badges.logo_file' => \App\Settings\Badges\LogoFile::class,
         'visitors.nationalities' => \App\Settings\Visitors\VisitorNationalities::class,
+        'visitors.living_situations' => \App\Settings\Visitors\VisitorLivingSituations::class,
+        'visitors.purposes_of_visit' => \App\Settings\Visitors\VisitorPurposesOfVisit::class,
     ];
 
     private static function getSettings(): Collection

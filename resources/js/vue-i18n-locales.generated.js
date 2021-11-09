@@ -788,6 +788,7 @@ export default {
         "Visitor Partner": "Besucher Partner",
         "Visitors Partner": "Besucher Partner",
         "Living situation": "Lebenssituation",
+        "Living situations": "Lebenssituationen",
         "Register new visitor": "Neuen Besucher registrieren",
         "Visitor check-in": "Besucher Check-in",
         "No results.": "Keine Resultate.",
@@ -796,6 +797,7 @@ export default {
         "Search visitor name, ID number or date of birth…": "Suche nach Besuchername, ID Nummmer or Geburtsdatum…",
         "Purpose of visit": "Grund des Besuchs",
         "Anonymized": "Anonymisiert",
+        "Purposes of visit": "Besuchsgründe",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

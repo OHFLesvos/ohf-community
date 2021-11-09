@@ -173,7 +173,7 @@ export default {
             return ["", ...this.settings["visitors.nationalities"]];
         },
         livingSituations() {
-            return ["", ...this.settings["visitors.living_situation"]];
+            return ["", ...this.settings["visitors.living_situations"]];
         },
         age() {
             if (this.formData.date_of_birth) {
