@@ -1,9 +1,10 @@
 <template>
     <b-container v-if="visitor">
         <h2 class="display-4 mb-3">{{ $t("Edit visitor") }}</h2>
+        <b-alert v-if="visitor.anonymized" show variant="warning">{{ $t('This record has been anonymized.') }}</b-alert>
         <VisitorForm
             :value="visitor"
-            :disabled="isBusy"
+            :disabled="isBusy || visitor.anonymized"
             @submit="handleUpdate"
             @delete="handleDelete"
             @cancel="handleCancel"

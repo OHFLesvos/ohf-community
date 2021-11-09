@@ -69,6 +69,7 @@
                                 v-model="formData.gender"
                                 :options="genders"
                                 stacked
+                                :disabled="disabled"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
