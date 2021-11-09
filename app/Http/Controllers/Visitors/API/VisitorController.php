@@ -4,22 +4,18 @@ namespace App\Http\Controllers\Visitors\API;
 
 use App\Exports\Visitors\VisitorExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Visitors\StoreVisitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
 use App\Models\Visitors\Visitor;
+use App\Models\Visitors\VisitorCheckin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Setting;
 
 class VisitorController extends Controller
 {
-    const TYPES = [
-        'visitors' => 'visitor',
-        'participants' => 'participant',
-        'staff' => 'staff',
-        'external' => 'external',
-    ];
-
-    public function listCurrent(Request $request)
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Visitor::class);
 
@@ -42,13 +38,12 @@ class VisitorController extends Controller
                 'alpha_dash',
                 'filled',
                 Rule::in([
-                    'first_name',
-                    'last_name',
+                    'name',
                     'id_number',
-                    'place_of_residence',
-                    'activity',
-                    'organization',
-                    'entered_at',
+                    'date_of_birth',
+                    'gender',
+                    'nationality',
+                    'living_situation',
                 ]),
             ],
             'sortDirection' => [
@@ -57,90 +52,77 @@ class VisitorController extends Controller
             ],
         ]);
 
-        // Sorting, pagination and filter
-        $sortBy = $request->input('sortBy', 'last_name');
+        $sortBy = $request->input('sortBy', 'name');
         $sortDirection = $request->input('sortDirection', 'asc');
         $pageSize = $request->input('pageSize', 100);
         $filter = trim($request->input('filter', ''));
 
         return VisitorResource::collection(Visitor::query()
-            ->whereNull('left_at')
-            ->whereDate('entered_at', today())
+            ->with('checkins')
             ->forFilter($filter)
+            ->where('anonymized', false)
             ->orderBy($sortBy, $sortDirection)
-            ->orderBy('first_name')
-            ->paginate($pageSize))
-            ->additional(['meta' => [
-                'currently_visiting' => collect(self::TYPES)
-                    ->mapWithKeys(fn ($t, $k) => [
-                        $k => Visitor::query()
-                                ->whereNull('left_at')
-                                ->whereDate('entered_at', today())
-                                ->where('type', $t)
-                                ->count()
-                    ])
-                    ->toArray(),
-            ]]);
+            ->paginate($pageSize));
     }
 
-    public function checkin(Request $request)
+    public function store(StoreVisitor $request)
     {
         $this->authorize('create', Visitor::class);
 
-        $request->validate([
-            'first_name' => 'nullable',
-            'last_name' => 'nullable',
-            'type' => [
-                'required',
-                Rule::in(['visitor', 'participant', 'staff', 'external']),
-            ],
-        ]);
-
         $visitor = new Visitor();
-        $visitor->first_name = $request->first_name;
-        $visitor->last_name = $request->last_name;
-        $visitor->type = $request->type;
-        $visitor->id_number = $request->id_number;
-        $visitor->place_of_residence = $request->place_of_residence;
-        $visitor->activity = $request->activity;
-        $visitor->organization = $request->organization;
-        $visitor->entered_at = now();
+        $visitor->fill($request->all());
         $visitor->save();
 
-        return response()
-            ->json([], Response::HTTP_CREATED);
+        return (new VisitorResource($visitor))->response()->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function checkout(Visitor $visitor)
+    public function show(Visitor $visitor)
+    {
+        $this->authorize('view', $visitor);
+
+        return new VisitorResource($visitor);
+    }
+
+    public function update(Visitor $visitor, StoreVisitor $request)
     {
         $this->authorize('update', $visitor);
 
-        if ($visitor->left_at !== null) {
-            abort(Response::HTTP_CONFLICT);
-        }
-
-        $visitor->left_at = now();
+        $visitor->fill($request->all());
         $visitor->save();
 
-        return response()
-            ->json([], Response::HTTP_NO_CONTENT);
+        return new VisitorResource($visitor);
     }
 
-    public function checkoutAll()
+    public function destroy(Visitor $visitor)
     {
-        $this->authorize('updateAny', Visitor::class);
+        $this->authorize('delete', $visitor);
 
-        Visitor::query()
-            ->whereNull('left_at')
-            ->update([
-                'left_at' => now(),
-            ]);
+        $visitor->delete();
 
         return response()
             ->json([], Response::HTTP_NO_CONTENT);
     }
 
-    public function export(Request $request)
+    public function checkin(Visitor $visitor, Request $request)
+    {
+        $this->authorize('update', $visitor);
+
+        $request->validate([
+            'purpose_of_visit' => [
+                'nullable',
+                Rule::in(Setting::get('visitors.purposes_of_visit', [])),
+            ]
+        ]);
+
+        $checkin = new VisitorCheckin();
+        $checkin->fill($request->all());
+        $visitor->checkins()->save($checkin);
+
+        return response()
+            ->json($this->getCheckedInData());
+    }
+
+    public function export()
     {
         $this->authorize('export-visitors');
 
@@ -149,25 +131,38 @@ class VisitorController extends Controller
         return (new VisitorExport())->download($file_name . '.' . $extension);
     }
 
+    public function checkins()
+    {
+        return response()
+            ->json($this->getCheckedInData());
+    }
+
+    private function getCheckedInData(): array
+    {
+        return [
+            'checked_in_today' => VisitorCheckin::whereDate('created_at', today()->toDateString())->count(),
+        ];
+    }
+
     public function dailyVisitors()
     {
         $this->authorize('viewAny', Visitor::class);
 
         $maxNumberOfActiveDays = 30;
 
-        return Visitor::query()
-            ->selectRaw('DATE(entered_at) as day')
+        return VisitorCheckin::query()
+            ->selectRaw('DATE(created_at) as day')
             ->addSelect(
-                collect(self::TYPES)
-                ->mapWithKeys(fn ($t, $k) => [
-                    $k => Visitor::selectRaw('COUNT(*)')
-                        ->whereRaw('DATE(entered_at) = day')
-                        ->where('type', $t)
-                ])
-                ->toArray()
+                collect(Setting::get('visitors.purposes_of_visit', []))
+                    ->mapWithKeys(fn ($t, $k) => [
+                        $t => VisitorCheckin::selectRaw('COUNT(*)')
+                            ->whereRaw('DATE(created_at) = day')
+                            ->where('purpose_of_visit', $t)
+                    ])
+                    ->toArray()
             )
             ->selectRaw('COUNT(*) as total')
-            ->groupByRaw('DATE(entered_at)')
+            ->groupByRaw('DATE(created_at)')
             ->orderBy('day', 'desc')
             ->limit($maxNumberOfActiveDays)
             ->get();
@@ -177,22 +172,22 @@ class VisitorController extends Controller
     {
         $this->authorize('viewAny', Visitor::class);
 
-        return Visitor::query()
-            ->selectRaw('MONTH(entered_at) as month')
-            ->selectRaw('YEAR(entered_at) as year')
+        return VisitorCheckin::query()
+            ->selectRaw('MONTH(created_at) as month')
+            ->selectRaw('YEAR(created_at) as year')
             ->addSelect(
-                collect(self::TYPES)
-                ->mapWithKeys(fn ($t, $k) => [
-                    $k => Visitor::selectRaw('COUNT(*)')
-                        ->whereRaw('MONTH(entered_at) = month')
-                        ->whereRaw('YEAR(entered_at) = year')
-                        ->where('type', $t)
-                ])
-                ->toArray()
+                collect(Setting::get('visitors.purposes_of_visit', []))
+                    ->mapWithKeys(fn ($t, $k) => [
+                        $t => VisitorCheckin::selectRaw('COUNT(*)')
+                            ->whereRaw('MONTH(created_at) = month')
+                            ->whereRaw('YEAR(created_at) = year')
+                            ->where('purpose_of_visit', $t)
+                    ])
+                    ->toArray()
             )
             ->selectRaw('COUNT(*) as total')
-            ->groupByRaw('MONTH(entered_at)')
-            ->groupByRaw('YEAR(entered_at)')
+            ->groupByRaw('MONTH(created_at)')
+            ->groupByRaw('YEAR(created_at)')
             ->orderBy('year', 'desc')
             ->orderBy('month', 'desc')
             ->get();

@@ -3,51 +3,71 @@
 namespace App\Models\Visitors;
 
 use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Visitor extends Model
 {
     use HasFactory;
     use NullableFields;
 
-    protected $nullable = [
+    protected $fillable = [
+        'name',
         'id_number',
-        'place_of_residence',
-        'activity',
-        'organization',
-        'left_at',
+        'gender',
+        'date_of_birth',
+        'nationality',
+        'living_situation',
+        'anonymized',
+    ];
+
+    protected $nullable = [
+        'name',
+        'id_number',
+        'gender',
+        'date_of_birth',
+        'nationality',
+        'living_situation',
     ];
 
     protected $dates = [
-        'entered_at',
-        'left_at',
+        'date_of_birth',
     ];
 
-    /**
-     * Scope a query to only include donors matching the given filter
-     * If no filter is specified, all records will be returned.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string|null $filter
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeForFilter($query, ?string $filter = '')
+    protected $casts = [
+        'anonymized' => 'boolean',
+    ];
+
+    public function checkins()
     {
-        if (! empty($filter)) {
+        return $this->hasMany(VisitorCheckin::class);
+    }
+
+    public function scopeForFilter(Builder $query, ?string $filter = ''): Builder
+    {
+        if (!empty($filter)) {
             $query->where(function ($wq) use ($filter) {
-                return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
-                    ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
-                    ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('id_number', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('place_of_residence', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('activity', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('organization', 'LIKE', '%' . $filter . '%');
+                return $wq->where('name', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('id_number', $filter)
+                    ->orWhere('date_of_birth', $filter);
             });
         }
 
         return $query;
+    }
+
+    public function getGenderLabelAttribute()
+    {
+        if ($this->gender == 'male') {
+            return __('male');
+        }
+        if ($this->gender == 'female') {
+            return __('female');
+        }
+        if ($this->gender == 'other') {
+            return __('other');
+        }
+        return $this->gender;
     }
 }

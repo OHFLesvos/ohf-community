@@ -17,6 +17,7 @@
         "**/vendor/**": true
     },
     "cSpell.words": [
+        "Anonymized",
         "iban",
         "laravel",
         "mbstring",

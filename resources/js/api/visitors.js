@@ -1,20 +1,32 @@
 import { api, route } from '@/api/baseApi'
 export default {
-    async listCurrent (ctx) {
-        const url = route('api.visitors.listCurrent', ctx)
+    async list (params) {
+        const url = route('api.visitors.index', params)
         return await api.get(url)
     },
-    async checkin (data) {
-        const url = route('api.visitors.checkin')
+    async store (data) {
+        const url = route('api.visitors.store')
         return await api.post(url, data)
     },
-    async checkout (id) {
-        const url = route('api.visitors.checkout', id)
-        return await api.put(url)
+    async find(id) {
+        let url = route("api.visitors.show", id);
+        return await api.get(url);
     },
-    async checkoutAll () {
-        const url = route('api.visitors.checkoutAll')
-        return await api.post(url)
+    async update(id, data) {
+        const url = route("api.visitors.update", id);
+        return await api.put(url, data);
+    },
+    async delete(id) {
+        const url = route("api.visitors.destroy", id);
+        return await api.delete(url);
+    },
+    async checkins () {
+        const url = route('api.visitors.checkins')
+        return await api.get(url)
+    },
+    async checkin (visitorId, data) {
+        const url = route('api.visitors.checkin', visitorId)
+        return await api.post(url, data)
     },
     async dailyVisitors () {
         const url = route('api.visitors.dailyVisitors')

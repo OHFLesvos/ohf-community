@@ -15,6 +15,9 @@ class SettingsController extends Controller
             'accounting.transactions.use_secondary_categories' => (bool) Setting::get('accounting.transactions.use_secondary_categories') ?? false,
             'accounting.transactions.use_cost_centers' => (bool) Setting::get('accounting.transactions.use_cost_centers') ?? false,
             'accounting.transactions.show_intermediate_balances' => Setting::get('accounting.transactions.show_intermediate_balances') ?? false,
+            'visitors.nationalities' => Setting::get('visitors.nationalities', []),
+            "visitors.living_situations" => Setting::get('visitors.living_situations', []),
+            'visitors.purposes_of_visit' => Setting::get('visitors.purposes_of_visit', []),
         ]);
     }
 }

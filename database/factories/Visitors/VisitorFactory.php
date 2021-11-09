@@ -23,19 +23,14 @@ class VisitorFactory extends Factory
     public function definition()
     {
         $gender = $this->faker->optional(0.9)->randomElement(['male', 'female']);
-        $entered_at = $this->faker->dateTimeBetween('-3 months', 'now');
-        $left_at = $this->faker->optional(0.9)->dateTimeBetween($entered_at, (new Carbon($entered_at))->addMinutes(90));
-        $type = $this->faker->randomElement(['visitor', 'participant', 'staff', 'external']);
         return [
-            'first_name' => $this->faker->firstName($gender),
-            'last_name' => $this->faker->lastName,
+            'name' => $this->faker->name($gender),
             'id_number' => $this->faker->optional(0.6)->numberBetween(10000, 99999),
-            'place_of_residence' => $this->faker->optional(0.6)->city,
-            'entered_at' => $entered_at,
-            'left_at' => $left_at,
-            'type' => $type,
-            'organization' => $type == 'staff' || $type == 'external' ? $this->faker->company : null,
-            'activity' => $type == 'participant' ? $this->faker->bs : null,
+            'gender' => $gender,
+            'date_of_birth' => $this->faker->dateTimeBetween('-50 years', '-1 month'),
+            'nationality' => $this->faker->optional(0.95)->country,
+            'living_situation' => $this->faker->optional(0.6)->city,
+            // 'purpose_of_visit' => $this->faker->bs,
         ];
     }
 }
