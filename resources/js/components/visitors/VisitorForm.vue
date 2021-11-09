@@ -117,7 +117,7 @@
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                                 :disabled="disabled"
-                                :options="['', ...nationalities]"
+                                :options="nationalities"
                             />
                         </b-form-group>
                     </validation-provider>
@@ -135,12 +135,12 @@
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
-                            <b-form-input
+                            <b-form-select
                                 v-model="formData.living_situation"
-                                trim
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                                 :disabled="disabled"
+                                :options="livingSituations"
                             />
                         </b-form-group>
                     </validation-provider>
@@ -161,6 +161,7 @@
 
 <script>
 import formInputMixin from "@/mixins/formInputMixin";
+import { mapState } from "vuex";
 export default {
     props: {
         disabled: Boolean,
@@ -181,46 +182,16 @@ export default {
                 { value: "female", text: this.$t("Female") },
                 { value: "other", text: this.$t("Other") },
             ],
-            nationalities: [
-                "Afghanistan",
-                "Algeria",
-                "Angola",
-                "Bangladesh",
-                "Burkina Faso",
-                "Burundi",
-                "Cameroon",
-                "Comoros",
-                "Djibouti",
-                "DRC",
-                "Egypt",
-                "Eritrea",
-                "Gambia",
-                "Ghana",
-                "Guinea",
-                "Iran",
-                "Iran - Kurd",
-                "Iraq",
-                "Ivory Coast",
-                "Kuwait",
-                "Mali",
-                "Morocco",
-                "Nepal",
-                "Nigeria",
-                "North Sudan",
-                "Pakistan",
-                "Palestine",
-                "Senegal",
-                "Sierra Leone",
-                "Somalia",
-                "Stateless",
-                "Sudan",
-                "Syria",
-                "Tajikistan",
-                "Togo",
-                "Uganda",
-                "Yemen",
-            ],
         };
+    },
+    computed: {
+        ...mapState(["settings"]),
+        nationalities() {
+            return ["", ...this.settings["visitors.nationalities"]];
+        },
+        livingSituations() {
+            return ["", ...this.settings["visitors.living_situation"]];
+        },
     },
     methods: {
         submit() {
