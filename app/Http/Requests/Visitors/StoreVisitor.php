@@ -41,7 +41,6 @@ class StoreVisitor extends FormRequest
             ],
             'nationality' => [
                 'nullable',
-                'country_name',
             ],
             'living_situation' => [
                 'nullable',

@@ -30,15 +30,13 @@
                     <VisitorDetails :value="visitor" />
                     <template #footer>
                         <b-button
-                            :variant="
-                                visitor.checked_in_today
-                                    ? 'secondary'
-                                    : 'primary'
-                            "
-                            :disabled="visitor.checked_in_today || isBusy"
+                            v-if="!visitor.checked_in_today"
+                            variant="primary"
+                            :disabled="isBusy"
                             @click="checkin(visitor)"
                             >Check-in</b-button
                         >
+                        <span v-else class="text-success">Checked-in today.</span>
                     </template>
                 </b-card>
                 <table-pagination

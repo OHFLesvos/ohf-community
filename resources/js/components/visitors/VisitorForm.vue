@@ -101,49 +101,24 @@
             </b-form-row>
             <b-form-row>
                 <b-col sm>
-                    <validation-provider
-                        :name="$t('Nationality')"
-                        vid="nationality"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Nationality')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
-                        >
-                            <b-form-select
-                                v-model="formData.nationality"
-                                autocomplete="off"
-                                :state="getValidationState(validationContext)"
-                                :disabled="disabled"
-                                :options="nationalities"
-                            />
-                        </b-form-group>
-                    </validation-provider>
+                    <b-form-group :label="$t('Nationality')">
+                        <b-form-select
+                            v-model="formData.nationality"
+                            autocomplete="off"
+                            :disabled="disabled"
+                            :options="nationalities"
+                        />
+                    </b-form-group>
                 </b-col>
 
                 <b-col sm>
-                    <validation-provider
-                        :name="$t('Living situation')"
-                        vid="living_situation"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Living situation')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
-                        >
-                            <b-form-select
-                                v-model="formData.living_situation"
-                                autocomplete="off"
-                                :state="getValidationState(validationContext)"
-                                :disabled="disabled"
-                                :options="livingSituations"
-                            />
-                        </b-form-group>
-                    </validation-provider>
+                    <b-form-group :label="$t('Living situation')">
+                        <b-form-select
+                            v-model="formData.living_situation"
+                            autocomplete="off"
+                            :disabled="disabled"
+                            :options="livingSituations"
+                    /></b-form-group>
                 </b-col>
             </b-form-row>
             <p>
@@ -162,7 +137,7 @@
 <script>
 import formInputMixin from "@/mixins/formInputMixin";
 import { mapState } from "vuex";
-import moment from "moment"
+import moment from "moment";
 export default {
     props: {
         disabled: Boolean,
@@ -173,10 +148,10 @@ export default {
         const searchType = this.detectValueType(search);
         return {
             formData: {
-                name: search && searchType == 'string' ? search : "",
-                id_number: search && searchType == 'number' ? search : "",
+                name: search && searchType == "string" ? search : "",
+                id_number: search && searchType == "number" ? search : "",
                 gender: null,
-                date_of_birth: search && searchType == 'date' ? search : "",
+                date_of_birth: search && searchType == "date" ? search : "",
                 nationality: "",
                 living_situation: "",
             },
