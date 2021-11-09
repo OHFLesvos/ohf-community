@@ -126,14 +126,30 @@
                     /></b-form-group>
                 </b-col>
             </b-form-row>
-            <div>
-                <b-button variant="primary" type="submit" :disabled="disabled">
-                    <font-awesome-icon icon="check" />
-                    {{ value ? $t("Update") : $t("Register") }}
+            <div class="d-flex justify-content-between align-items-start">
+                <span>
+                    <b-button
+                        variant="primary"
+                        type="submit"
+                        :disabled="disabled"
+                    >
+                        <font-awesome-icon icon="check" />
+                        {{ value ? $t("Update") : $t("Register") }}
+                    </b-button>
+                    <b-button variant="link" @click="$emit('cancel')">{{
+                        $t("Cancel")
+                    }}</b-button>
+                </span>
+
+                <b-button
+                    v-if="value"
+                    variant="link"
+                    :disabled="disabled"
+                    class="text-danger"
+                    @click="onDelete"
+                >
+                    {{ $t("Delete") }}
                 </b-button>
-                <b-button variant="link" @click="$emit('cancel')">{{
-                    $t("Cancel")
-                }}</b-button>
             </div>
         </b-form>
     </validation-observer>
@@ -146,7 +162,7 @@ import moment from "moment";
 export default {
     props: {
         value: {
-            required: false,
+            required: false
         },
         disabled: Boolean
     },
@@ -186,7 +202,7 @@ export default {
                     true
                 );
                 if (date.isValid()) {
-                    return ""+moment().diff(date, "years");
+                    return "" + moment().diff(date, "years");
                 }
             }
             return undefined;
@@ -216,6 +232,11 @@ export default {
                 return "number";
             }
             return "string";
+        },
+        onDelete() {
+            if (confirm(this.$t("Really delete this visitor?"))) {
+                this.$emit("delete");
+            }
         }
     }
 };

@@ -20,17 +20,20 @@
             $t("Cancel")
         }}</b-button>
     </div>
-    <b-button
-        v-else-if="!visitor.checked_in_today"
-        variant="primary"
-        @click="open = true"
-    >
-        <font-awesome-icon icon="calendar-check" />
-        {{ $t("Check-in") }}</b-button
-    >
-    <b-button v-else variant="secondary" disabled>{{
-        $t("Checked-in today")
-    }}</b-button>
+    <div v-else class="d-flex justify-content-between">
+        <b-button
+            v-if="!visitor.checked_in_today"
+            variant="primary"
+            @click="open = true"
+        >
+            <font-awesome-icon icon="calendar-check" />
+            {{ $t("Check-in") }}</b-button
+        >
+        <b-button v-else variant="secondary" disabled>{{
+            $t("Checked-in today")
+        }}</b-button>
+        <slot name="append"></slot>
+    </div>
 </template>
 
 <script>

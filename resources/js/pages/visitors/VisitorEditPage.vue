@@ -5,6 +5,7 @@
             :value="visitor"
             :disabled="isBusy"
             @submit="handleUpdate"
+            @delete="handleDelete"
             @cancel="handleCancel"
         />
     </b-container>
@@ -49,6 +50,17 @@ export default {
             try {
                 await visitorsApi.update(this.id, formData);
                 showSnackbar(this.$t("Visitor updated."));
+                this.$router.push({ name: "visitors.check_in" });
+            } catch (err) {
+                alert(err);
+            }
+            this.isBusy = false;
+        },
+        async handleDelete() {
+            this.isBusy = true;
+            try {
+                await visitorsApi.delete(this.id);
+                showSnackbar(this.$t("Visitor deleted."));
                 this.$router.push({ name: "visitors.check_in" });
             } catch (err) {
                 alert(err);

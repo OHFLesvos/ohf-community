@@ -798,5 +798,7 @@
     "Anonymized": "Anonymisiert",
     "Purposes of visit": "Besuchsgründe",
     "Edit visitor": "Besucher bearbeiten",
-    "Visitor updated.": "Besucher aktualisiert."
+    "Visitor updated.": "Besucher aktualisiert.",
+    "Really delete this visitor?": "Diesen Besucher wirklich löschen?",
+    "Visitor deleted.": "Besucher gelöscht."
 }

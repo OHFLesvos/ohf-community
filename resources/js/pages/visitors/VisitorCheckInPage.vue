@@ -34,16 +34,19 @@
                         <VisitorCheckinButton
                             :value="visitor"
                             @checkin="checkedInToday = $event"
-                        />
-                        <b-button
-                            variant="secondary"
-                            :to="{
-                                name: 'visitors.edit',
-                                params: { id: visitor.id }
-                            }"
-                            ><font-awesome-icon icon="edit" />
-                            {{ $t("Edit") }}</b-button
                         >
+                            <template #append>
+                                <b-button
+                                    variant="secondary"
+                                    :to="{
+                                        name: 'visitors.edit',
+                                        params: { id: visitor.id }
+                                    }"
+                                    ><font-awesome-icon icon="edit" />
+                                    {{ $t("Edit") }}</b-button
+                                >
+                            </template>
+                        </VisitorCheckinButton>
                     </template>
                 </b-card>
                 <table-pagination

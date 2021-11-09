@@ -800,6 +800,8 @@ export default {
         "Purposes of visit": "Besuchsgründe",
         "Edit visitor": "Besucher bearbeiten",
         "Visitor updated.": "Besucher aktualisiert.",
+        "Really delete this visitor?": "Diesen Besucher wirklich löschen?",
+        "Visitor deleted.": "Besucher gelöscht.",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
