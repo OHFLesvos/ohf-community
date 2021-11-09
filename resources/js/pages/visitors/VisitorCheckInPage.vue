@@ -34,7 +34,9 @@
                             variant="primary"
                             :disabled="isBusy"
                             @click="checkin(visitor)"
-                            >{{ $t("Check-in") }}</b-button
+                            >
+                            <font-awesome-icon icon="calendar-check" />
+                            {{ $t("Check-in") }}</b-button
                         >
                         <b-button v-else variant="secondary" disabled>{{
                             $t("Checked-in today")
@@ -70,7 +72,9 @@
                 <b-button
                     variant="primary"
                     @click="showRegistrationForm = true"
-                    >{{ $t("Register new visitor") }}</b-button
+                    >
+                    <font-awesome-icon icon="plus-circle" />
+                    {{ $t("Register new visitor") }}</b-button
                 >
             </p>
         </template>
