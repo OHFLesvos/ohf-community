@@ -455,6 +455,7 @@
     "Gender": "Geschlecht",
     "Date of birth": "Geburtsdatum",
     "Age": "Alter",
+    "Age :age": "Alter: :age",
     "Police Number": "Polizeinummer",
     "Residence": "Aufenthalt",
     "Pickup location": "Abholort",

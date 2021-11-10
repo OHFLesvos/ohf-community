@@ -456,6 +456,7 @@ export default {
         "Gender": "Geschlecht",
         "Date of birth": "Geburtsdatum",
         "Age": "Alter",
+        "Age {age}": "Alter: {age}",
         "Police Number": "Polizeinummer",
         "Residence": "Aufenthalt",
         "Pickup location": "Abholort",
@@ -985,6 +986,7 @@ export default {
         "Showing the latest {days} active days.": "Showing the latest {days} active days.",
         "{count} check-ins today": "{count} check-ins today",
         "Inactive visitor records will be anonymized after {days} days.": "Inactive visitor records will be anonymized after {days} days.",
+        "Age {age}": "Age: {age}",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",

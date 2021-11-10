@@ -37,7 +37,7 @@
                 {{ $t("Date of birth") }}
             </dt>
             <dd class="col-sm-8">
-                {{ visitor.date_of_birth }}
+                {{ dateOfBirthLabel }}
             </dd>
         </template>
         <template v-if="visitor.date_of_birth">
@@ -52,16 +52,17 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
     props: {
         value: {
             required: true,
-            type: Object
-        }
+            type: Object,
+        },
     },
     data() {
         return {
-            visitor: this.value
+            visitor: this.value,
         };
     },
     computed: {
@@ -76,7 +77,17 @@ export default {
                 return this.$t("other");
             }
             return this.visitor.gender;
-        }
-    }
+        },
+        dateOfBirthLabel() {
+            if (this.visitor.date_of_birth) {
+                return moment(
+                    this.visitor.date_of_birth,
+                    moment.HTML5_FMT.DATE,
+                    true
+                ).format('DD/MM/YYYY');
+            }
+            return null;
+        },
+    },
 };
 </script>

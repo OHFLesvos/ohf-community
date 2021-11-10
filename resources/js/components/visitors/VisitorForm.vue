@@ -88,19 +88,11 @@
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
-                            <b-input-group :append="age">
-                                <b-form-input
-                                    v-model="formData.date_of_birth"
-                                    trim
-                                    autocomplete="off"
-                                    required
-                                    :state="
-                                        getValidationState(validationContext)
-                                    "
-                                    :disabled="disabled"
-                                    placeholder="YYYY-MM-DD"
-                                />
-                            </b-input-group>
+                            <DateOfBirthInput
+                                v-model="formData.date_of_birth"
+                                :disabled="disabled"
+                                required
+                            />
                         </b-form-group>
                     </validation-provider>
                 </b-col>
@@ -160,12 +152,16 @@
 import formInputMixin from "@/mixins/formInputMixin";
 import { mapState } from "vuex";
 import moment from "moment";
+import DateOfBirthInput from "@/components/common/DateOfBirthInput";
 export default {
+    components: {
+        DateOfBirthInput,
+    },
     props: {
         value: {
-            required: false
+            required: false,
         },
-        disabled: Boolean
+        disabled: Boolean,
     },
     mixins: [formInputMixin],
     data() {
@@ -178,13 +174,13 @@ export default {
                 gender: null,
                 date_of_birth: search && searchType == "date" ? search : "",
                 nationality: "",
-                living_situation: ""
+                living_situation: "",
             },
             genders: [
                 { value: "male", text: this.$t("male") },
                 { value: "female", text: this.$t("female") },
-                { value: "other", text: this.$t("other") }
-            ]
+                { value: "other", text: this.$t("other") },
+            ],
         };
     },
     computed: {
@@ -195,19 +191,6 @@ export default {
         livingSituations() {
             return ["", ...this.settings["visitors.living_situations"]];
         },
-        age() {
-            if (this.formData.date_of_birth) {
-                let date = moment(
-                    this.formData.date_of_birth,
-                    moment.HTML5_FMT.DATE,
-                    true
-                );
-                if (date.isValid()) {
-                    return "" + moment().diff(date, "years");
-                }
-            }
-            return undefined;
-        }
     },
     mounted() {
         if (!this.value) {
@@ -216,7 +199,7 @@ export default {
     },
     methods: {
         submit() {
-            this.$refs.observer.validate().then(valid => {
+            this.$refs.observer.validate().then((valid) => {
                 if (valid) {
                     this.onSubmit();
                 }
@@ -238,7 +221,7 @@ export default {
             if (confirm(this.$t("Really delete this visitor?"))) {
                 this.$emit("delete");
             }
-        }
-    }
+        },
+    },
 };
 </script>
