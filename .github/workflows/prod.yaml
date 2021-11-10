@@ -24,16 +24,18 @@ jobs:
         node-version: '16.x'
     - run: npm ci
     - run: npm run prod
-    - name: Set outputs
-      id: vars
-      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
     - name: Archive Release
       uses: thedoctor0/zip-release@master
       with:
         type: 'zip'
-        filename: 'release-${{ steps.vars.outputs.sha_short }}.zip'
+        filename: 'release.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig .vscode/* .eslintrc.js .styleci.yml'
-    - uses: actions/upload-artifact@v2
+    - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        name: release
-        path: release-${{ steps.vars.outputs.sha_short }}.zip
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
+        prerelease: true
+        title: "Development Build"
+        files: |
+          LICENSE.md
+          *.zip
