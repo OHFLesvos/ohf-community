@@ -3,8 +3,8 @@
         <div class="d-flex justify-content-between align-items-center">
             <h2 class="display-4 mb-3">{{ $t("Visitor check-in") }}</h2>
             <span v-if="checkedInToday !== null"
-                >{{ checkedInToday }} check-ins today</span
-            >
+                >{{ $t("{count} check-ins today", { count: checkedInToday }) }}
+            </span>
         </div>
 
         <b-form-group>
@@ -40,7 +40,7 @@
                                     variant="secondary"
                                     :to="{
                                         name: 'visitors.edit',
-                                        params: { id: visitor.id }
+                                        params: { id: visitor.id },
                                     }"
                                     ><font-awesome-icon icon="edit" />
                                     {{ $t("Edit") }}</b-button
@@ -101,7 +101,7 @@ export default {
         TablePagination,
         VisitorDetails,
         VisitorForm,
-        VisitorCheckinButton
+        VisitorCheckinButton,
     },
     data() {
         return {
@@ -118,7 +118,7 @@ export default {
             errorText: null,
             checkedInToday: null,
             timer: null,
-            showRegistrationForm: false
+            showRegistrationForm: false,
         };
     },
     watch: {
@@ -138,11 +138,11 @@ export default {
                     this.visitors = [];
                     sessionStorage.removeItem("visitors.checkin.filter");
                 }
-            }
+            },
         },
         currentPage() {
             this.searchVisitors();
-        }
+        },
     },
     async created() {
         this.fetchCheckins();
@@ -170,7 +170,7 @@ export default {
                 let data = await visitorsApi.list({
                     filter: this.search,
                     page: this.currentPage,
-                    pageSize: this.perPage
+                    pageSize: this.perPage,
                 });
                 this.visitors = data.data;
                 this.totalRows = data.meta.total;
@@ -191,7 +191,7 @@ export default {
                 alert(err);
             }
             this.isBusy = false;
-        }
-    }
+        },
+    },
 };
 </script>

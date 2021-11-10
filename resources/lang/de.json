@@ -800,5 +800,6 @@
     "Edit visitor": "Besucher bearbeiten",
     "Visitor updated.": "Besucher aktualisiert.",
     "Really delete this visitor?": "Diesen Besucher wirklich löschen?",
-    "Visitor deleted.": "Besucher gelöscht."
+    "Visitor deleted.": "Besucher gelöscht.",
+    ":count check-ins today": ":count check-ins heute"
 }

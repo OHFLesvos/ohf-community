@@ -1,12 +1,12 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/manifest.js": "/js/manifest.js",
-    "/js/chunks/visitors.js?id=1320b3706bc3bca0": "/js/chunks/visitors.js?id=1320b3706bc3bca0",
-    "/js/chunks/accounting.js?id=d4232a57bb83eae5": "/js/chunks/accounting.js?id=d4232a57bb83eae5",
-    "/js/chunks/fundraising.js?id=d95e487ac6cceaa3": "/js/chunks/fundraising.js?id=d95e487ac6cceaa3",
-    "/js/chunks/reports.js?id=1816557df88276ee": "/js/chunks/reports.js?id=1816557df88276ee",
-    "/js/chunks/user-management.js?id=ff439f378ee5e493": "/js/chunks/user-management.js?id=ff439f378ee5e493",
-    "/js/chunks/cmtyvol.js?id=0dffa2e12e5ff764": "/js/chunks/cmtyvol.js?id=0dffa2e12e5ff764",
+    "/js/chunks/visitors.js?id=f170fdbf73885655": "/js/chunks/visitors.js?id=f170fdbf73885655",
+    "/js/chunks/accounting.js?id=960b2bf55304b590": "/js/chunks/accounting.js?id=960b2bf55304b590",
+    "/js/chunks/fundraising.js?id=e2a0a4bc529d506d": "/js/chunks/fundraising.js?id=e2a0a4bc529d506d",
+    "/js/chunks/reports.js?id=de937bd8d17c2538": "/js/chunks/reports.js?id=de937bd8d17c2538",
+    "/js/chunks/user-management.js?id=0f43c4ca046ebc01": "/js/chunks/user-management.js?id=0f43c4ca046ebc01",
+    "/js/chunks/cmtyvol.js?id=400cf3aa0007ef59": "/js/chunks/cmtyvol.js?id=400cf3aa0007ef59",
     "/css/app.css": "/css/app.css",
     "/js/vendor.js": "/js/vendor.js",
     "/webfonts/fa-brands-400.eot": "/webfonts/fa-brands-400.eot",
@@ -23,10 +23,5 @@
     "/webfonts/fa-solid-900.svg": "/webfonts/fa-solid-900.svg",
     "/webfonts/fa-solid-900.ttf": "/webfonts/fa-solid-900.ttf",
     "/webfonts/fa-solid-900.woff": "/webfonts/fa-solid-900.woff",
-    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2",
-    "/js/chunks/reports.js?id=5ed75bae6129539c": "/js/chunks/reports.js?id=5ed75bae6129539c",
-    "/js/chunks/visitors.js?id=b5f6e29ff6f32f49": "/js/chunks/visitors.js?id=b5f6e29ff6f32f49",
-    "/js/chunks/reports.js?id=26009992a28bca87": "/js/chunks/reports.js?id=26009992a28bca87",
-    "/js/chunks/reports.js?id=a68739ab9aaf5d5c": "/js/chunks/reports.js?id=a68739ab9aaf5d5c",
-    "/js/chunks/reports.js?id=2d549473ad93a46e": "/js/chunks/reports.js?id=2d549473ad93a46e"
+    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2"
 }
