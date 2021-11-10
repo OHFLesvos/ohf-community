@@ -24,5 +24,6 @@
         "symlink",
         "webling",
         "xampp"
-    ]
+    ],
+    "git.pullTags": false
 }
