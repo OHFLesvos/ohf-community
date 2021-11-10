@@ -5,9 +5,8 @@ on:
     branches: [ production ]
 
 jobs:
-
-  publish:
-    name: Build and publish artifacts
+  pre-release:
+    name: "Pre Release"
     runs-on: ubuntu-latest
 
     steps:
