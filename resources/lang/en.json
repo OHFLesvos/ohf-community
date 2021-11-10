@@ -3,5 +3,7 @@
     "Used in :num transactions.": "Used in :num transactions.",
     "Type to search (:fields)...": "Type to search (:fields)...",
     ":x out of :y": ":x out of :y",
-    "Error: :err": "Error: :err"
+    "Error: :err": "Error: :err",
+    "Showing the latest :days active days.": "Showing the latest :days active days.",
+    ":count check-ins today": ":count check-ins today"
 }

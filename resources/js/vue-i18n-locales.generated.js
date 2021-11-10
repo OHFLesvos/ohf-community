@@ -802,6 +802,7 @@ export default {
         "Visitor updated.": "Besucher aktualisiert.",
         "Really delete this visitor?": "Diesen Besucher wirklich löschen?",
         "Visitor deleted.": "Besucher gelöscht.",
+        "{count} check-ins today": "{count} check-ins heute",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -980,6 +981,8 @@ export default {
         "Type to search ({fields})...": "Type to search ({fields})...",
         "{x} out of {y}": "{x} out of {y}",
         "Error: {err}": "Error: {err}",
+        "Showing the latest {days} active days.": "Showing the latest {days} active days.",
+        "{count} check-ins today": "{count} check-ins today",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
