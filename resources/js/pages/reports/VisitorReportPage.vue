@@ -8,7 +8,7 @@
             responsive
             :show-empty="true"
             :empty-text="$t('No data registered.')"
-            :caption="$t('Showing the latest :days active days.', { days: 30 })"
+            :caption="$t('Showing the latest {days} active days.', { days: numberOfDays })"
             tbody-class="bg-white"
             thead-class="bg-white"
         >
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+const numberOfDays = 10;
 import moment from "moment";
 import visitorsApi from "@/api/visitors";
 import { mapState } from "vuex";
@@ -53,17 +54,17 @@ export default {
             return [
                 {
                     key: "day",
-                    label: this.$t("Date")
+                    label: this.$t("Date"),
                 },
-                ...this.settings["visitors.purposes_of_visit"].map(k => ({
+                ...this.settings["visitors.purposes_of_visit"].map((k) => ({
                     key: k,
-                    label: k
+                    label: k,
                 })),
                 {
                     key: "total",
                     label: this.$t("Total"),
-                    class: "text-right"
-                }
+                    class: "text-right",
+                },
             ];
         },
         monthlyFields() {
@@ -74,31 +75,34 @@ export default {
                     formatter: (value, key, item) => {
                         return moment({
                             year: item.year,
-                            month: item.month - 1
+                            month: item.month - 1,
                         }).format("MMMM YYYY");
-                    }
+                    },
                 },
-                ...this.settings["visitors.purposes_of_visit"].map(k => ({
+                ...this.settings["visitors.purposes_of_visit"].map((k) => ({
                     key: k,
-                    label: k
+                    label: k,
                 })),
                 {
                     key: "total",
                     label: this.$t("Total"),
-                    class: "text-right"
-                }
+                    class: "text-right",
+                },
             ];
-        }
+        },
+        numberOfDays: () => numberOfDays
     },
     methods: {
         async dailyitemProvider(ctx) {
-            let data = await visitorsApi.dailyVisitors();
+            let data = await visitorsApi.dailyVisitors({
+                days: numberOfDays,
+            });
             return data || [];
         },
         async monthlyItemProvider(ctx) {
             let data = await visitorsApi.monthlyVisitors();
             return data || [];
-        }
-    }
+        },
+    },
 };
 </script>

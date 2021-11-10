@@ -28,8 +28,8 @@ export default {
         const url = route('api.visitors.checkin', visitorId)
         return await api.post(url, data)
     },
-    async dailyVisitors () {
-        const url = route('api.visitors.dailyVisitors')
+    async dailyVisitors (params = {}) {
+        const url = route('api.visitors.dailyVisitors', params)
         return await api.get(url)
     },
     async monthlyVisitors () {
