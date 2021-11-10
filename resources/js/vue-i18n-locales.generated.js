@@ -803,6 +803,7 @@ export default {
         "Really delete this visitor?": "Diesen Besucher wirklich löschen?",
         "Visitor deleted.": "Besucher gelöscht.",
         "{count} check-ins today": "{count} check-ins heute",
+        "Inactive visitor records will be anonymized after {days} days.": "Inaktive Besucherdaten werden nach {days} Tagen gelöscht.",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -983,6 +984,7 @@ export default {
         "Error: {err}": "Error: {err}",
         "Showing the latest {days} active days.": "Showing the latest {days} active days.",
         "{count} check-ins today": "{count} check-ins today",
+        "Inactive visitor records will be anonymized after {days} days.": "Inactive visitor records will be anonymized after {days} days.",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",

@@ -801,5 +801,6 @@
     "Visitor updated.": "Besucher aktualisiert.",
     "Really delete this visitor?": "Diesen Besucher wirklich löschen?",
     "Visitor deleted.": "Besucher gelöscht.",
-    ":count check-ins today": ":count check-ins heute"
+    ":count check-ins today": ":count check-ins heute",
+    "Inactive visitor records will be anonymized after :days days.": "Inaktive Besucherdaten werden nach :days Tagen gelöscht."
 }

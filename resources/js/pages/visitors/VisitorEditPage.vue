@@ -1,7 +1,11 @@
 <template>
-    <b-container v-if="visitor">
+    <b-container v-if="visitor" class="mb-3">
         <h2 class="display-4 mb-3">{{ $t("Edit visitor") }}</h2>
-        <b-alert v-if="visitor.anonymized" show variant="warning">{{ $t('This record has been anonymized.') }}</b-alert>
+
+        <b-alert v-if="visitor.anonymized" show variant="warning">{{
+            $t("This record has been anonymized.")
+        }}</b-alert>
+
         <VisitorForm
             :value="visitor"
             :disabled="isBusy || visitor.anonymized"
@@ -21,17 +25,17 @@ import VisitorForm from "@/components/visitors/VisitorForm";
 import { showSnackbar } from "@/utils";
 export default {
     components: {
-        VisitorForm
+        VisitorForm,
     },
     props: {
         id: {
-            required: true
-        }
+            required: true,
+        },
     },
     data() {
         return {
             isBusy: false,
-            visitor: null
+            visitor: null,
         };
     },
     async created() {
@@ -70,7 +74,7 @@ export default {
         },
         handleCancel() {
             this.$router.push({ name: "visitors.check_in" });
-        }
-    }
+        },
+    },
 };
 </script>

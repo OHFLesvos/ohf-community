@@ -84,6 +84,16 @@
                 >
             </p>
         </template>
+        <p v-else class="text-muted text-center">
+            <small>
+                {{
+                    $t(
+                        "Inactive visitor records will be anonymized after {days} days.",
+                        { days: settings["visitors.retention_days"] }
+                    )
+                }}
+            </small>
+        </p>
     </b-container>
 </template>
 
@@ -95,6 +105,7 @@ import VisitorDetails from "@/components/visitors/VisitorDetails";
 import VisitorForm from "@/components/visitors/VisitorForm";
 import VisitorCheckinButton from "@/components/visitors/VisitorCheckinButton";
 import { showSnackbar } from "@/utils";
+import { mapState } from "vuex";
 export default {
     components: {
         AlertWithRetry,
@@ -120,6 +131,9 @@ export default {
             timer: null,
             showRegistrationForm: false,
         };
+    },
+    computed: {
+        ...mapState(["settings"]),
     },
     watch: {
         search: {
