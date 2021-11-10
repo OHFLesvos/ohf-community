@@ -16,16 +16,6 @@ export default [
         }
     },
     {
-        path: "/visitors/register",
-        name: "visitors.create",
-        components: {
-            default: () =>
-                import(
-                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorRegisterPage"
-                )
-        }
-    },
-    {
         path: "/visitors/:id/edit",
         name: "visitors.edit",
         components: {

@@ -1,7 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/manifest.js": "/js/manifest.js",
-    "/js/chunks/visitors.js?id=2009587f34f8e113": "/js/chunks/visitors.js?id=2009587f34f8e113",
+    "/js/chunks/visitors.js?id=40124884ce636d07": "/js/chunks/visitors.js?id=40124884ce636d07",
     "/js/chunks/accounting.js?id=960b2bf55304b590": "/js/chunks/accounting.js?id=960b2bf55304b590",
     "/js/chunks/fundraising.js?id=e2a0a4bc529d506d": "/js/chunks/fundraising.js?id=e2a0a4bc529d506d",
     "/js/chunks/reports.js?id=de937bd8d17c2538": "/js/chunks/reports.js?id=de937bd8d17c2538",
@@ -23,18 +23,5 @@
     "/webfonts/fa-solid-900.svg": "/webfonts/fa-solid-900.svg",
     "/webfonts/fa-solid-900.ttf": "/webfonts/fa-solid-900.ttf",
     "/webfonts/fa-solid-900.woff": "/webfonts/fa-solid-900.woff",
-    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2",
-    "/js/chunks/visitors.js?id=b56eeb2bca75e227": "/js/chunks/visitors.js?id=b56eeb2bca75e227",
-    "/js/chunks/visitors.js?id=4abcb21ccfc4102a": "/js/chunks/visitors.js?id=4abcb21ccfc4102a",
-    "/js/chunks/visitors.js?id=3e9cefc7ca2be588": "/js/chunks/visitors.js?id=3e9cefc7ca2be588",
-    "/js/chunks/visitors.js?id=08bb7954f2064ffb": "/js/chunks/visitors.js?id=08bb7954f2064ffb",
-    "/js/chunks/visitors.js?id=410a1eb7c9c568b0": "/js/chunks/visitors.js?id=410a1eb7c9c568b0",
-    "/js/chunks/visitors.js?id=75969022d101f0d6": "/js/chunks/visitors.js?id=75969022d101f0d6",
-    "/js/chunks/visitors.js?id=ea6baffaed2e459f": "/js/chunks/visitors.js?id=ea6baffaed2e459f",
-    "/js/chunks/visitors.js?id=999fb0aa053dd47a": "/js/chunks/visitors.js?id=999fb0aa053dd47a",
-    "/js/chunks/visitors.js?id=d39f0172c39740b4": "/js/chunks/visitors.js?id=d39f0172c39740b4",
-    "/js/chunks/visitors.js?id=080238661623a7e8": "/js/chunks/visitors.js?id=080238661623a7e8",
-    "/js/chunks/visitors.js?id=2c40d8e45579643c": "/js/chunks/visitors.js?id=2c40d8e45579643c",
-    "/js/chunks/visitors.js?id=7d6354ee8e030382": "/js/chunks/visitors.js?id=7d6354ee8e030382",
-    "/js/chunks/visitors.js?id=32a1f91719e5d11a": "/js/chunks/visitors.js?id=32a1f91719e5d11a"
+    "/webfonts/fa-solid-900.woff2": "/webfonts/fa-solid-900.woff2"
 }
