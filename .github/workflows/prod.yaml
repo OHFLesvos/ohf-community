@@ -32,7 +32,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'release-${{ steps.vars.outputs.sha_short }}.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig .vscode'
+        exclusions: '*.git* /*node_modules/* .editorconfig .vscode/* .eslintrc.js .styleci.yml'
     - uses: actions/upload-artifact@v2
       with:
         name: release
