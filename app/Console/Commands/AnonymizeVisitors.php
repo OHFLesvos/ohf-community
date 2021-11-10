@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Visitors\Visitor;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class AnonymizeVisitors extends Command
 {
@@ -56,7 +57,9 @@ class AnonymizeVisitors extends Command
             $visitor->save();
         });
 
-        $this->info("Anonymized {$visitors->count()} visitors who haven't been active since {$thresholdDate->toDateString()}.");
+        $message = "Anonymized {$visitors->count()} visitors who haven't been active since {$thresholdDate->toDateString()}.";
+        $this->info($message);
+        Log::info($message);
 
         return Command::SUCCESS;
     }
