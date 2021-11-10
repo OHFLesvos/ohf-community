@@ -31,7 +31,7 @@ jobs:
       uses: thedoctor0/zip-release@master
       with:
         type: 'zip'
-        filename: 'release.zip'
+        filename: 'release-${{ steps.vars.outputs.sha_short }}.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig .vscode'
     - uses: actions/upload-artifact@v2
       with:
