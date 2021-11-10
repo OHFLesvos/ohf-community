@@ -61,7 +61,6 @@ jobs:
     #     QUEUE_DRIVER: sync
     #   run: vendor/bin/phpunit
 
-
   php-security-checker:
     name: Local PHP Security Checker
     runs-on: ubuntu-latest
