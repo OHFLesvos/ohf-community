@@ -15,6 +15,7 @@ Requirements
   * Intl Extension
 * Composer
 * MySQL Database
+* Node.js (for development)
 
 Installation
 ------------
@@ -38,6 +39,8 @@ Create/migrate database tables:
     php artisan migrate
 
 For more information see https://laravel.com/docs/installation
+
+You have to compile the frontend assets (see below) in order for Javascript and CSS files to be generated in the public web folder.
 
 Login with Google OAuth
 -----------------------
@@ -74,7 +77,6 @@ Releasing
 
 * Update `Changelog.md` file
 * Set version number of format `major.minor.patch` in property `version` in `config/app.php` file
-* Compile assets for production release: `npm install && npm run prod`
 * Commit into VCS
 * Create VCS tag
 * Push VCS changes to origin repository

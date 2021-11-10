@@ -17,3 +17,7 @@ yarn-error.log
 _ide_helper.php
 .phpstorm.meta.php
 /storage/settings.json
+public/css/
+public/js/
+public/mix-manifest.json
+public/webfonts/
