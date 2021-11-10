@@ -32,7 +32,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'release.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig' .vscode
+        exclusions: '*.git* /*node_modules/* .editorconfig .vscode'
     - uses: actions/upload-artifact@v2
       with:
         name: release
