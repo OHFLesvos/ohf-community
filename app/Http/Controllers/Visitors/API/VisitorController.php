@@ -144,11 +144,18 @@ class VisitorController extends Controller
         ];
     }
 
-    public function dailyVisitors()
+    public function dailyVisitors(Request $request)
     {
         $this->authorize('viewAny', Visitor::class);
 
-        $maxNumberOfActiveDays = 30;
+        $request->validate([
+            'days' => [
+                'nullable',
+                'int',
+                'min:1',
+            ]
+        ]);
+        $maxNumberOfActiveDays = $request->input('days', 10);
 
         return VisitorCheckin::query()
             ->selectRaw('DATE(created_at) as day')
