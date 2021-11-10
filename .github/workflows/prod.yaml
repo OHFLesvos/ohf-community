@@ -28,7 +28,7 @@ jobs:
       with:
         type: 'zip'
         filename: 'dist.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig .vscode/* .eslintrc.js .styleci.yml'
+        exclusions: '*.git* /*node_modules/* .editorconfig .vscode/ .eslintrc.js .styleci.yml'
     - name: Publish latest release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
