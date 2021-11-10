@@ -53,7 +53,7 @@ class VisitorExport extends BaseExport implements FromQuery, WithHeadings, WithM
             $checkin->visitor->id_number,
             $checkin->visitor->genderLabel,
             $checkin->visitor->nationality,
-            $checkin->visitor->date_of_birth,
+            optional($checkin->visitor->date_of_birth)->toDateString(),
             $checkin->visitor->living_situation,
             $checkin->purpose_of_visit,
         ];
