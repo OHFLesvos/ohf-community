@@ -1,0 +1,39 @@
+name: Production
+
+on:
+  push:
+    branches: [ production ]
+
+jobs:
+
+  publish:
+    name: Build and publish artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.4
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+    - run: npm ci
+    - run: npm run prod
+    - name: Set outputs
+      id: vars
+      run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+    - name: Archive Release
+      uses: thedoctor0/zip-release@master
+      with:
+        type: 'zip'
+        filename: 'release.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig' .vscode
+    - uses: actions/upload-artifact@v2
+      with:
+        name: release
+        path: release-${{ steps.vars.outputs.sha_short }}.zip
