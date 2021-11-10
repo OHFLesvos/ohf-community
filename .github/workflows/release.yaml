@@ -1,13 +1,14 @@
-name: Production
+name: "Tagged Release"
 
 on:
   push:
-    branches: [ production ]
+    tags:
+      - "v*"
 
 jobs:
-  pre-release:
-    name: "Pre Release"
-    runs-on: ubuntu-latest
+  tagged-release:
+    name: "Tagged Release"
+    runs-on: "ubuntu-latest"
 
     steps:
     - uses: actions/checkout@v2
@@ -29,13 +30,11 @@ jobs:
         type: 'zip'
         filename: 'dist.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig .vscode/* .eslintrc.js .styleci.yml'
-    - name: Publish latest release
+    - name: Publish tagged release
       uses: "marvinpinto/action-automatic-releases@latest"
       with:
         repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "latest"
-        prerelease: true
-        title: "Development Build"
+        prerelease: false
         files: |
           *.md
           *.zip
