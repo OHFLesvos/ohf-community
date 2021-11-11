@@ -25,7 +25,7 @@ class BudgetController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Budget::class);
+        // $this->authorizeResource(Budget::class);
     }
 
     public function index(Request $request)

@@ -27,8 +27,8 @@ class Donor extends JsonResource
     public function toArray($request)
     {
         if ($this->extended) {
-            $can_view_donations = $request->user()->can('viewAny', Donation::class);
-            $can_view_budgets = $request->user()->can('viewAny', Budget::class);
+            $can_view_donations = optional($request->user())->can('viewAny', Donation::class) ?? false;
+            $can_view_budgets =  optional($request->user())->can('viewAny', Budget::class) ?? false;
             return [
                 'id' => $this->id,
                 'salutation' => $this->salutation,
@@ -42,7 +42,7 @@ class Donor extends JsonResource
                 'language' => $this->language,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at,
-                'can_create_tag' => $request->user()->can('create', Tag::class),
+                'can_create_tag' => optional($request->user())->can('create', Tag::class) ?? false,
                 'can_view_donations' => $can_view_donations,
                 'donations_count' => $can_view_donations ? $this->donations()->count() : null,
                 'can_view_budgets' => $can_view_budgets,
@@ -65,8 +65,8 @@ class Donor extends JsonResource
             'email' => $this->email,
             'phone' => $this->phone,
             'language' => $this->language,
-            'can_update' => $request->user()->can('update', $this->resource),
-            'can_delete' => $request->user()->can('delete', $this->resource),
+            'can_update' => optional($request->user())->can('update', $this->resource) ?? false,
+            'can_delete' => optional($request->user())->can('delete', $this->resource) ?? false,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

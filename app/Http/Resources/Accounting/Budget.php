@@ -19,6 +19,7 @@ class Budget extends JsonResource
     public function toArray($request)
     {
         $balance = $this->getBalance();
+        $donor = new Donor($this->whenLoaded('donor'));
         return [
             "id" => $this->id,
             "name" => $this->name,
@@ -28,12 +29,12 @@ class Budget extends JsonResource
             "initial_amount" => (float) $this->initial_amount,
             "initial_amount_formatted" =>  $this->formatCurrency($this->initial_amount),
             "donor_id" => $this->donor_id,
-            'donor' => new Donor($this->whenLoaded('donor')),
+            'donor' => (optional($request->user())->can('view', $donor->resource) ?? false) ? $donor : null,
             'balance' => $balance,
             'balance_formatted' => $this->formatCurrency($balance),
             'num_transactions' => $this->transactions->count(),
-            'can_update' => $request->user()->can('update', $this->resource),
-            'can_delete' => $request->user()->can('delete', $this->resource),
+            'can_update' => optional($request->user())->can('update', $this->resource) ?? false,
+            'can_delete' => optional($request->user())->can('delete', $this->resource) ?? false,
             "is_completed" => $this->is_completed,
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,

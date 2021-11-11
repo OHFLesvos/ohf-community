@@ -229,6 +229,14 @@ Route::middleware(['language', 'auth'])
             ->name('budgets.any');
     });
 
+Route::middleware(['language'])
+    ->prefix('accounting')
+    ->name('accounting.')
+    ->group(function () {
+        Route::view('budget/{budget}/public', 'vue-app')
+            ->name('budgets.show-public');
+});
+
 //
 // Collaboration
 //

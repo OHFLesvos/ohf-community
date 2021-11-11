@@ -617,6 +617,24 @@ export default [
         }
     },
     {
+        path: "/accounting/budget/:id/public",
+        name: "accounting.budgets.show-public",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetShowPage"
+                ),
+            header: PageHeader
+        },
+        props: {
+            default: true,
+            header: {
+                title: i18n.t("Show budget"),
+                container: true
+            }
+        }
+    },
+    {
         path: "/accounting/budgets/:id/edit",
         name: "accounting.budgets.edit",
         components: {
