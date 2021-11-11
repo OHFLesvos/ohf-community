@@ -139,6 +139,7 @@ export default {
         search: {
             immediate: true,
             handler(value) {
+                this.showRegistrationForm = false;
                 this.searched = false;
                 if (value.length > 0) {
                     this.$router.replace({ query: { search: value } });
