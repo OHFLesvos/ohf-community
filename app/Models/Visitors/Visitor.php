@@ -49,7 +49,7 @@ class Visitor extends Model
         if (!empty($filter)) {
             $query->where(function ($wq) use ($filter) {
                 return $wq->where('name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('id_number', $filter)
+                    ->orWhere('id_number', 'LIKE', '%' . $filter . '%')
                     ->orWhere('date_of_birth', $filter);
             });
         }
