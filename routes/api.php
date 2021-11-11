@@ -282,8 +282,9 @@ Route::middleware(['language'])
     ->prefix('accounting')
     ->name('api.accounting.')
     ->group(function () {
-        Route::get('budgets/{budget}/public', [BudgetController::class, 'show'])
-            ->name('budgets.show-public');
+        Route::get('budgets/{budget}/public', [BudgetController::class, 'showPublic'])
+            ->name('budgets.show-public')
+            ->middleware('signed');
     });
 
 //

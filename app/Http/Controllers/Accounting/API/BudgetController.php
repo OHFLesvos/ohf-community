@@ -25,7 +25,7 @@ class BudgetController extends Controller
 
     public function __construct()
     {
-        // $this->authorizeResource(Budget::class);
+        $this->authorizeResource(Budget::class);
     }
 
     public function index(Request $request)
@@ -51,6 +51,11 @@ class BudgetController extends Controller
     }
 
     public function show(Budget $budget)
+    {
+        return new BudgetResource($budget->load(['donor']));
+    }
+
+    public function showPublic(Budget $budget)
     {
         return new BudgetResource($budget->load(['donor']));
     }

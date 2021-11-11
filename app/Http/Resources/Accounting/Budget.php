@@ -5,6 +5,7 @@ namespace App\Http\Resources\Accounting;
 use App\Http\Resources\Fundraising\Donor;
 use App\Support\Accounting\FormatsCurrency;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class Budget extends JsonResource
 {
@@ -39,6 +40,7 @@ class Budget extends JsonResource
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
             "closed_at" => $this->closed_at,
+            'public_url' => URL::signedRoute('api.accounting.budgets.show-public', ['budget' => $this->id]),
         ];
     }
 }

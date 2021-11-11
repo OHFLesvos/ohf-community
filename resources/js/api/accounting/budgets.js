@@ -15,6 +15,14 @@ export default {
         });
         return await api.get(url);
     },
+    async findPublic(id, signature, params = {}) {
+        let url = route("api.accounting.budgets.showPublic", {
+            budget: id,
+            signature: signature,
+            ...params
+        });
+        return await api.get(url);
+    },
     async update(id, data) {
         const url = route("api.accounting.budgets.update", id);
         return await api.put(url, data);
