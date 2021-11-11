@@ -14,6 +14,7 @@
         <span class="mx-1">/</span>
         <b-form-input
             v-model="month"
+            ref="month"
             trim
             :reqired="required"
             autocomplete="off"
@@ -26,6 +27,7 @@
         <span class="mx-1">/</span>
         <b-form-input
             v-model="year"
+            ref="year"
             trim
             :reqired="required"
             autocomplete="off"
@@ -50,9 +52,9 @@ export default {
     data() {
         const date = moment(this.value, moment.HTML5_FMT.DATE, true);
         return {
-            day: date.isValid() ? date.format("DD") : null,
-            month: date.isValid() ? date.format("MM") : null,
-            year: date.isValid() ? date.format("YYYY") : null,
+            day: date.isValid() ? date.format("DD") : '',
+            month: date.isValid() ? date.format("MM") : '',
+            year: date.isValid() ? date.format("YYYY") : '',
         };
     },
     computed: {
@@ -67,11 +69,17 @@ export default {
         },
     },
     watch: {
-        day() {
+        day(val) {
             this.emitChange();
+            if (val.length == 2 && this.month.length == 0) {
+                this.$refs.month.focus()
+            }
         },
-        month() {
+        month(val) {
             this.emitChange();
+            if (val.length == 2 && this.year.length == 0) {
+                this.$refs.year.focus()
+            }
         },
         year() {
             this.emitChange();
