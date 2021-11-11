@@ -40,7 +40,7 @@ Create/migrate database tables:
 
 For more information see https://laravel.com/docs/installation
 
-You have to compile the frontend assets (see below) in order for Javascript and CSS files to be generated in the public web folder.
+You have to compile the frontend assets (see below) in order for Javascript and CSS files to be available in the public web folder.
 
 Login with Google OAuth
 -----------------------
@@ -88,10 +88,7 @@ It is recommended to execute a production deployment / upgrade as follows:
 
     php artisan down --retry=60
     php composer install --optimize-autoloader --no-dev
-    php artisan cache:clear
-    php artisan view:cache
-    php artisan config:cache
-    php artisan route:cache
+    php artisan optimize
     php artisan migrate --force
     php artisan up
 
