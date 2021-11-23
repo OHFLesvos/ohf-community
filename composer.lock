@@ -4359,16 +4359,16 @@
         },
         {
             "name": "mrcage/chf-exchange-rates",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mrcage/chf-exchange-rates-php.git",
-                "reference": "3ad72e50e3f1b5da16270cf727e2e8cf3bde090f"
+                "reference": "9d85e4f4af9ffa15eaa687db713c31a5d539f61d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrcage/chf-exchange-rates-php/zipball/3ad72e50e3f1b5da16270cf727e2e8cf3bde090f",
-                "reference": "3ad72e50e3f1b5da16270cf727e2e8cf3bde090f",
+                "url": "https://api.github.com/repos/mrcage/chf-exchange-rates-php/zipball/9d85e4f4af9ffa15eaa687db713c31a5d539f61d",
+                "reference": "9d85e4f4af9ffa15eaa687db713c31a5d539f61d",
                 "shasum": ""
             },
             "require": {
@@ -4398,9 +4398,9 @@
             "description": "Retrieves Swiss Franc exchange rates for foreign currencies based on data from the website of the Swiss Federal Customs Administration.",
             "support": {
                 "issues": "https://github.com/mrcage/chf-exchange-rates-php/issues",
-                "source": "https://github.com/mrcage/chf-exchange-rates-php/tree/1.5.0"
+                "source": "https://github.com/mrcage/chf-exchange-rates-php/tree/1.5.1"
             },
-            "time": "2020-09-22T06:10:50+00:00"
+            "time": "2021-11-23T13:24:55+00:00"
         },
         {
             "name": "myclabs/deep-copy",
