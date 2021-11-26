@@ -2497,16 +2497,16 @@
         },
         {
             "name": "jaybizzle/crawler-detect",
-            "version": "v1.2.108",
+            "version": "v1.2.109",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JayBizzle/Crawler-Detect.git",
-                "reference": "69a38c09f99ee056e7cca9fe7c8b1952fd62b837"
+                "reference": "487b73e6f9effc8c88c9eec3c9c451e166b7669c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/69a38c09f99ee056e7cca9fe7c8b1952fd62b837",
-                "reference": "69a38c09f99ee056e7cca9fe7c8b1952fd62b837",
+                "url": "https://api.github.com/repos/JayBizzle/Crawler-Detect/zipball/487b73e6f9effc8c88c9eec3c9c451e166b7669c",
+                "reference": "487b73e6f9effc8c88c9eec3c9c451e166b7669c",
                 "shasum": ""
             },
             "require": {
@@ -2543,9 +2543,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JayBizzle/Crawler-Detect/issues",
-                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.108"
+                "source": "https://github.com/JayBizzle/Crawler-Detect/tree/v1.2.109"
             },
-            "time": "2021-10-21T18:55:50+00:00"
+            "time": "2021-11-24T18:07:38+00:00"
         },
         {
             "name": "jean85/pretty-package-versions",
@@ -2691,16 +2691,16 @@
         },
         {
             "name": "jeroendesloovere/vcard",
-            "version": "1.7.2",
+            "version": "v1.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jeroendesloovere/vcard.git",
-                "reference": "21a7341a589d80196a55e1f6317468a93e57c104"
+                "reference": "2b8b6190c613d368b8cb6552e59cf6e6e7d0aea9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jeroendesloovere/vcard/zipball/21a7341a589d80196a55e1f6317468a93e57c104",
-                "reference": "21a7341a589d80196a55e1f6317468a93e57c104",
+                "url": "https://api.github.com/repos/jeroendesloovere/vcard/zipball/2b8b6190c613d368b8cb6552e59cf6e6e7d0aea9",
+                "reference": "2b8b6190c613d368b8cb6552e59cf6e6e7d0aea9",
                 "shasum": ""
             },
             "require": {
@@ -2738,9 +2738,9 @@
             ],
             "support": {
                 "issues": "https://github.com/jeroendesloovere/vcard/issues",
-                "source": "https://github.com/jeroendesloovere/vcard/tree/master"
+                "source": "https://github.com/jeroendesloovere/vcard/tree/v1.7.3"
             },
-            "time": "2019-03-02T13:21:03+00:00"
+            "time": "2021-11-24T20:21:20+00:00"
         },
         {
             "name": "laravel/framework",
@@ -3530,16 +3530,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.1.6",
+            "version": "1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "627be7fcde84c71aa0f15097fcf48fd5f2be5287"
+                "reference": "3ca8f158ee21efa4bbd4f74bea5730c9b9261e2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/627be7fcde84c71aa0f15097fcf48fd5f2be5287",
-                "reference": "627be7fcde84c71aa0f15097fcf48fd5f2be5287",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/3ca8f158ee21efa4bbd4f74bea5730c9b9261e2d",
+                "reference": "3ca8f158ee21efa4bbd4f74bea5730c9b9261e2d",
                 "shasum": ""
             },
             "require": {
@@ -3612,7 +3612,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/1.1.6"
+                "source": "https://github.com/thephpleague/flysystem/tree/1.1.7"
             },
             "funding": [
                 {
@@ -3620,7 +3620,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2021-11-21T11:04:36+00:00"
+            "time": "2021-11-25T19:40:58+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -4679,16 +4679,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v3.2.5",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "9cd80396ca58d7969ab44fc7afcf03624dfa526e"
+                "reference": "2f261e55bd6a12057442045bf2c249806abc1d02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/9cd80396ca58d7969ab44fc7afcf03624dfa526e",
-                "reference": "9cd80396ca58d7969ab44fc7afcf03624dfa526e",
+                "url": "https://api.github.com/repos/nette/utils/zipball/2f261e55bd6a12057442045bf2c249806abc1d02",
+                "reference": "2f261e55bd6a12057442045bf2c249806abc1d02",
                 "shasum": ""
             },
             "require": {
@@ -4699,7 +4699,7 @@
             },
             "require-dev": {
                 "nette/tester": "~2.0",
-                "phpstan/phpstan": "^0.12",
+                "phpstan/phpstan": "^1.0",
                 "tracy/tracy": "^2.3"
             },
             "suggest": {
@@ -4758,9 +4758,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v3.2.5"
+                "source": "https://github.com/nette/utils/tree/v3.2.6"
             },
-            "time": "2021-09-20T10:50:11+00:00"
+            "time": "2021-11-24T15:47:23+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -11125,16 +11125,16 @@
         },
         {
             "name": "facade/ignition",
-            "version": "2.17.0",
+            "version": "2.17.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/ignition.git",
-                "reference": "28d12b473ffcbe326959385772fd5125c73bc974"
+                "reference": "317f6110c1977b50e06365bbb155fbe5079035ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/28d12b473ffcbe326959385772fd5125c73bc974",
-                "reference": "28d12b473ffcbe326959385772fd5125c73bc974",
+                "url": "https://api.github.com/repos/facade/ignition/zipball/317f6110c1977b50e06365bbb155fbe5079035ec",
+                "reference": "317f6110c1977b50e06365bbb155fbe5079035ec",
                 "shasum": ""
             },
             "require": {
@@ -11199,7 +11199,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-            "time": "2021-11-24T08:47:21+00:00"
+            "time": "2021-11-25T10:26:30+00:00"
         },
         {
             "name": "facade/ignition-contracts",
@@ -13453,7 +13453,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
