@@ -193,16 +193,14 @@ abstract class BaseController extends Controller
                 'icon' => 'id-card',
                 'value' => fn ($cmtyvol) => $cmtyvol->police_no,
                 'overview' => false,
-                'prefix' => '05/',
                 'section' => 'general',
                 'import_labels' => ['Police No.'],
                 'assign' => function ($cmtyvol, $value) {
-                    $val = preg_replace('/^05\//', '', $value);
-                    $cmtyvol->police_no = (!empty($val) ? $val : null);
+                    $cmtyvol->police_no = (!empty($value) ? $value : null);
                 },
-                'form_type' => 'number',
+                'form_type' => 'text',
                 'form_name' => 'police_number',
-                'form_validate' => 'nullable|numeric',
+                'form_validate' => 'nullable',
             ],
             [
                 'label' => __('Languages'),
