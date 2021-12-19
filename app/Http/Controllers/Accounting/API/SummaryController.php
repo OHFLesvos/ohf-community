@@ -73,15 +73,15 @@ class SummaryController extends Controller
                     'id' => $wallet->id,
                     'name' => $wallet->name,
                     'income' => $income,
-                    'income_formatted' => $this->formatCurrency($income),
+                    'income_formatted' => $this->formatCurrency($income, $wallet->currency),
                     'spending' => $spending,
-                    'spending_formatted' => $this->formatCurrency($spending),
+                    'spending_formatted' => $this->formatCurrency($spending, $wallet->currency),
                     'difference' => $income - $spending,
-                    'difference_formatted' => $this->formatCurrency($income - $spending),
+                    'difference_formatted' => $this->formatCurrency($income - $spending, $wallet->currency),
                     'fees' => $fees,
-                    'fees_formatted' => $this->formatCurrency($fees),
+                    'fees_formatted' => $this->formatCurrency($fees, $wallet->currency),
                     'amount' => $amount,
-                    'amount_formatted' => $this->formatCurrency($amount),
+                    'amount_formatted' => $this->formatCurrency($amount, $wallet->currency),
                 ];
             });
 
