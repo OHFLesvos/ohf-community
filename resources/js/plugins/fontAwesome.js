@@ -56,7 +56,9 @@ import {
     faHistory,
     faSyncAlt,
     faCopy,
-    faCalendarCheck
+    faCalendarCheck,
+    faLock,
+    faFolderOpen
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -117,7 +119,9 @@ library.add(
     faHistory,
     faSyncAlt,
     faCopy,
-    faCalendarCheck
+    faCalendarCheck,
+    faLock,
+    faFolderOpen
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

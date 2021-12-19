@@ -59,9 +59,12 @@ class WalletsController extends Controller
             ->orderBy($sortBy, $sortDirection)
             ->get()
             ->filter(fn (Wallet $wallet) => $request->user()->can('view', $wallet))
-            ->paginate($pageSize))->additional(['meta' => [
-            'default_currency' => setting('accounting.transactions.currency'),
-        ]]);
+            ->paginate($pageSize))
+            ->additional([
+                'meta' => [
+                    'default_currency' => setting('accounting.transactions.currency'),
+                ]
+            ]);
     }
 
     /**

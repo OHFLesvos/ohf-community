@@ -26,6 +26,10 @@
                     </validation-provider>
                 </b-col>
 
+            </b-form-row>
+
+            <b-form-row>
+
                 <!-- Agreed amount -->
                 <b-col md="3">
                     <validation-provider
@@ -99,6 +103,30 @@
                         </b-form-group>
                     </validation-provider>
                 </b-col>
+
+                <!-- Currency -->
+                <b-col md>
+                    <validation-provider
+                        :name="$t('Currency')"
+                        vid="currency"
+                        :rules="{ required: false }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Currency')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-select
+                                v-model="form.currency"
+                                :options="currencies"
+                                :state="getValidationState(validationContext)"
+                                :disabled="!isLoaded"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
             </b-form-row>
 
             <b-form-row>
@@ -143,6 +171,7 @@
                                 v-model="form.donor_id"
                                 :options="donors"
                                 :state="getValidationState(validationContext)"
+                                :disabled="!isLoaded"
                             />
                         </b-form-group>
                     </validation-provider>
@@ -184,7 +213,7 @@
                     <b-button
                         type="submit"
                         variant="primary"
-                        :disabled="disabled"
+                        :disabled="disabled || !isLoaded"
                     >
                         <font-awesome-icon icon="check" />
                         {{ budget ? $t("Update") : $t("Add") }}
@@ -216,6 +245,7 @@
 </template>
 
 <script>
+import commonApi from "@/api/common";
 import donorsApi from "@/api/fundraising/donors";
 import { mapState } from "vuex";
 export default {
@@ -233,6 +263,7 @@ export default {
                       name: this.budget.name,
                       agreed_amount: this.budget.agreed_amount,
                       initial_amount: this.budget.initial_amount,
+                      currency: this.budget.currency,
                       description: this.budget.description,
                       donor_id: this.budget.donor_id,
                       closed_at: this.budget.closed_at,
@@ -242,21 +273,26 @@ export default {
                       name: null,
                       agreed_amount: 0,
                       initial_amount: 0,
+                      currency: null,
                       description: null,
                       donor_id: null,
                       closed_at: null,
                       is_completed: false
                   },
-            donors: []
+            donors: [],
+            currencies: [],
+            isLoaded: false
         };
     },
     computed: {
         ...mapState(["settings"])
     },
-    created() {
+    async created() {
         if (this.can("view-fundraising-entities")) {
-            this.fetchDonors();
+            await this.fetchDonors();
         }
+        await this.fetchCurrencies();
+        this.isLoaded = true
     },
     methods: {
         getValidationState({ dirty, validated, valid = null }) {
@@ -287,7 +323,25 @@ export default {
                 })
             );
             this.donors = donors;
-        }
+        },
+        async fetchCurrencies() {
+            let data = await commonApi.listCurrencies();
+            let items = [
+                {
+                    value: null,
+                    text: `- ${this.$t("Default")} -`,
+                },
+            ];
+            items.push(
+                ...Object.entries(data).map((e) => {
+                    return {
+                        text: e[1],
+                        value: e[0],
+                    };
+                })
+            );
+            this.currencies = items;
+        },
     }
 };
 </script>

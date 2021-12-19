@@ -20,7 +20,6 @@
                                 autocomplete="off"
                                 :autofocus="!wallet"
                                 :state="getValidationState(validationContext)"
-                                :disabled="!isLoaded"
                             />
                         </b-form-group>
                     </validation-provider>

@@ -189,7 +189,7 @@ import BaseTable from "@/components/table/BaseTable";
 import Nl2br from "vue-nl2br";
 export default {
     title() {
-        return this.$t("Budget anzeigen");
+        return this.$t("Show budget");
     },
     components: {
         BaseTable,

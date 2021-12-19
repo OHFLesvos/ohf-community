@@ -24,12 +24,14 @@ class Budget extends Model
         'donor_id',
         'closed_at',
         'is_completed',
+        'currency'
     ];
 
     protected $nullable = [
         'description',
         'donor_id',
         'closed_at',
+        'currency',
     ];
 
     protected $casts = [

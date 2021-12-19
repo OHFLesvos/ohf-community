@@ -133,7 +133,7 @@ class BudgetController extends Controller
                 }
                 $counter = 0;
                 foreach (collect($transaction->receipt_pictures)->filter(fn ($picture) => Storage::exists($picture)) as $picture) {
-                    $picture_path = storage_path('app/'.$picture);
+                    $picture_path = storage_path('app/' . $picture);
                     if (is_file($picture_path)) {
                         $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
                         $id = (string) $transaction->receipt_no;
