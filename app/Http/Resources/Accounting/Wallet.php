@@ -20,7 +20,7 @@ class Wallet extends JsonResource
         $amount = $this->amount;
         $data = parent::toArray($request);
         $data['amount'] = $amount;
-        $data['amount_formatted'] = $this->formatCurrency($amount);
+        $data['amount_formatted'] = $this->formatCurrency($amount, $this->currency);
         $data['currency'] = $this->currency;
         $data['currency_name'] = $this->currency !== null ? (config('currencies')[$this->currency][0] ?? null) : null;
         $data['num_transactions'] = $this->transactions()->count();

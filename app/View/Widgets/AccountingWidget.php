@@ -24,7 +24,7 @@ class AccountingWidget implements Widget
                 ->map(fn (Wallet $wallet) => [
                     'name' => $wallet->name,
                     'url' => route('accounting.transactions.index', ['wallet' => $wallet->id]),
-                    'amount_formatted' => $this->formatCurrency($wallet->amount),
+                    'amount_formatted' => $this->formatCurrency($wallet->amount, $wallet->currency),
                 ]),
         ]);
     }

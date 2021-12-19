@@ -22,7 +22,7 @@ class SimpleWallet extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'amount' => $amount,
-            'amount_formatted' => $this->formatCurrency($amount),
+            'amount_formatted' => $this->formatCurrency($amount, $this->currency),
         ];
     }
 }
