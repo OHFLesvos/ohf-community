@@ -4,17 +4,24 @@ namespace App\Models\Accounting;
 
 use App\Models\Role;
 use Carbon\Carbon;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Wallet extends Model
 {
     use HasFactory;
+    use NullableFields;
 
     protected $table = 'accounting_wallets';
 
     protected $fillable = [
         'name',
+        'currency',
+    ];
+
+    protected $nullable = [
+        'currency',
     ];
 
     /**

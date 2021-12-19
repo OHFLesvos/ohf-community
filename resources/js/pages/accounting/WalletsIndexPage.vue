@@ -53,10 +53,16 @@ export default {
     },
     data() {
         return {
+            default_currency: null,
             fields: [
                 {
                     key: "name",
                     label: this.$t("Name")
+                },
+                {
+                    key: "currency",
+                    label: this.$t("Currency"),
+                    formatter: v => v ?? `${this.$t('Default')} (${this.default_currency})`,
                 },
                 {
                     key: "num_transactions",
@@ -80,7 +86,9 @@ export default {
     },
     methods: {
         async fetchData(ctx) {
-            return walletsApi.list(ctx);
+            let data = await walletsApi.list(ctx);
+            this.default_currency = data.meta.default_currency;
+            return data;
         }
     }
 };

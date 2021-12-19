@@ -31,6 +31,29 @@
                     </validation-provider>
                 </b-col>
 
+                                <!-- Currency -->
+                <b-col md>
+                    <validation-provider
+                        :name="$t('Currency')"
+                        vid="currency"
+                        :rules="{ required: false }"
+                        v-slot="validationContext"
+                    >
+                        <b-form-group
+                            :label="$t('Currency')"
+                            :state="getValidationState(validationContext)"
+                            :invalid-feedback="validationContext.errors[0]"
+                        >
+                            <b-form-input
+                                v-model="form.currency"
+                                autocomplete="off"
+                                :autofocus="!wallet"
+                                :state="getValidationState(validationContext)"
+                            />
+                        </b-form-group>
+                    </validation-provider>
+                </b-col>
+
             </b-form-row>
 
             <b-card
@@ -106,9 +129,11 @@ export default {
         return {
             form: this.wallet ? {
                 name: this.wallet.name,
+                currency: this.wallet.currency,
                 roles: this.wallet.roles.map(r => r.id)
             } : {
                 name: null,
+                currency: null,
                 roles: []
             },
             roles: []
