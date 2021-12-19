@@ -62,7 +62,7 @@ export default {
                 {
                     key: "currency",
                     label: this.$t("Currency"),
-                    formatter: v => v ?? `${this.$t('Default')} (${this.default_currency})`,
+                    formatter: (value, key, item) => value ? item.currency_name : `${this.$t('Default')} (${this.default_currency})`,
                 },
                 {
                     key: "num_transactions",

@@ -370,5 +370,9 @@ Route::get('languages', [DataListController::class, 'languages'])
     ->middleware(['language'])
     ->name('api.languages');
 
+Route::get('currencies', [DataListController::class, 'currencies'])
+    ->middleware(['language'])
+    ->name('api.currencies');
+
 Route::get('settings', [SettingsController::class, 'list'])
     ->name('api.settings');

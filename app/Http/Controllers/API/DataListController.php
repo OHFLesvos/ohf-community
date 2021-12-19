@@ -32,4 +32,11 @@ class DataListController extends Controller
 
         return localized_language_names($request->input('locale'));
     }
+
+    public function currencies()
+    {
+        return collect(config('currencies'))
+            ->map(fn ($e) => $e[0])
+            ->toArray();
+    }
 }
