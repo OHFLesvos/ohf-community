@@ -207,7 +207,7 @@ class TransactionsController extends Controller
 
     public function updateReceipt(Request $request, Transaction $transaction)
     {
-        $this->authorize('update', $transaction);
+        $this->authorize('updateReceipt', $transaction);
 
         $request->validate([
             'img' => [
@@ -229,7 +229,7 @@ class TransactionsController extends Controller
 
     public function rotateReceipt(Request $request, Transaction $transaction)
     {
-        $this->authorize('update', $transaction);
+        $this->authorize('updateReceipt', $transaction);
 
         $request->validate([
             'picture' => [

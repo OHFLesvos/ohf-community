@@ -226,7 +226,7 @@
         <b-list-group-item
             v-if="
                 this.transaction.receipt_pictures.length > 0 ||
-                    transaction.can_update
+                    transaction.can_update_receipt
             "
         >
             <TransactionPictures :transaction="transaction" allowUpload />

@@ -41,6 +41,11 @@ class TransactionPolicy
         return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.update');
     }
 
+    public function updateReceipt(User $user, Transaction $transaction)
+    {
+        return $user->isSuperAdmin() || $user->hasPermission('accounting.transactions.update');
+    }
+
     public function delete(User $user, Transaction $transaction)
     {
         if ($transaction->booked || $transaction->controlled_at !== null) {

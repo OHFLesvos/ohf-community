@@ -32,7 +32,7 @@
                 <template v-if="!picture.thumbnail_url">
                     {{ picture.mime_type }} ({{ picture.file_size }})
                 </template>
-                <div v-if="transaction.can_update" class="mt-1">
+                <div v-if="transaction.can_update_receipt" class="mt-1">
                     <b-button
                         @click="rotateReceipt(picture.name, 'left')"
                         :title="$t('Rotate counter-clockwise')"
@@ -57,7 +57,7 @@
             :sources="actualImages.map(i => `${i.url}?${i.hash}`)"
             :key="this.actualImages.reduce((acc, item) => (acc += item), '')"
         />
-        <template v-if="transaction.can_update && allowUpload">
+        <template v-if="transaction.can_update_receipt && allowUpload">
             <b-button @click="$refs.fileInput.click()" :disabled="isUploading">
                 <font-awesome-icon :icon="icon" :spin="iconSpin" />
                 {{ $t("Add picture") }}

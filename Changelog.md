@@ -1,6 +1,10 @@
 # Changelog
 
-## NEXT
+## 3.6.0
+
+* Allow upload/rotate of receipt pictures even if transactions has been controlled
+
+## 3.0.0
 
 * Removed book library feature
 * Removed bank, persons, shop and coupons feature
