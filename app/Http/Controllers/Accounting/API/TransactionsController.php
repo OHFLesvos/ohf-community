@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\AuthorizeAny;
 use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\Accounting\StoreTransaction;
 use App\Models\Accounting\Transaction;
@@ -20,6 +21,7 @@ use Setting;
 class TransactionsController extends Controller
 {
     use ValidatesResourceIndex;
+    use AuthorizeAny;
 
     public function index(Request $request)
     {
@@ -171,33 +173,44 @@ class TransactionsController extends Controller
 
     public function update(StoreTransaction $request, Transaction $transaction)
     {
-        $this->authorize('update', $transaction);
+        $this->authorizeAny(['update', 'updateMetadata'], $transaction);
 
-        $transaction->date = $request->date;
-        $transaction->receipt_no = $request->receipt_no;
-        $transaction->type = $request->type;
-        $transaction->amount = $request->amount;
-        $transaction->fees = $request->fees;
-        $transaction->attendee = $request->attendee;
-        $transaction->category()->associate($request->category_id);
-        if (self::useSecondaryCategories()) {
-            $transaction->secondary_category = $request->secondary_category;
-        }
-        $transaction->project()->associate($request->project_id);
-        if (self::useLocations()) {
-            $transaction->location = $request->location;
-        }
-        if (self::useCostCenters()) {
-            $transaction->cost_center = $request->cost_center;
-        }
-        $transaction->description = $request->description;
-        $transaction->remarks = $request->remarks;
+        $canUpdate = $request->user()->can('update', $transaction);
+        $canUpdateMetadata = $request->user()->can('updateMetadata', $transaction);
 
-        $transaction->supplier()->associate($request->input('supplier_id'));
-        $transaction->budget()->associate($request->input('budget_id'));
+        if ($canUpdate) {
+            $transaction->date = $request->date;
+            $transaction->receipt_no = $request->receipt_no;
+            $transaction->type = $request->type;
+            $transaction->amount = $request->amount;
+            $transaction->fees = $request->fees;
+        }
 
-        foreach ($request->input('delete_receipts', []) as $picture) {
-            $transaction->deleteReceiptPicture($picture);
+        if ($canUpdate || $canUpdateMetadata ) {
+            $transaction->attendee = $request->attendee;
+            $transaction->category()->associate($request->category_id);
+            if (self::useSecondaryCategories()) {
+                $transaction->secondary_category = $request->secondary_category;
+            }
+            $transaction->project()->associate($request->project_id);
+            if (self::useLocations()) {
+                $transaction->location = $request->location;
+            }
+            if (self::useCostCenters()) {
+                $transaction->cost_center = $request->cost_center;
+            }
+            $transaction->description = $request->description;
+            $transaction->remarks = $request->remarks;
+
+            $transaction->supplier()->associate($request->input('supplier_id'));
+        }
+
+        if ($canUpdate) {
+            $transaction->budget()->associate($request->input('budget_id'));
+
+            foreach ($request->input('delete_receipts', []) as $picture) {
+                $transaction->deleteReceiptPicture($picture);
+            }
         }
 
         $transaction->save();

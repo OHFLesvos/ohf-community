@@ -25,6 +25,16 @@
                 <font-awesome-icon icon="edit" /> {{ $t("Edit") }}</router-link
             >
             <router-link
+                v-else-if="transaction.can_update_metadata"
+                :to="{
+                    name: 'accounting.transactions.edit',
+                    params: { id: id }
+                }"
+                class="btn btn-primary"
+            >
+                <font-awesome-icon icon="edit" /> {{ $t("Edit metadata") }}</router-link
+            >
+            <router-link
                 :to="{
                     name: 'accounting.transactions.index',
                     query: { wallet: transaction.wallet_id }

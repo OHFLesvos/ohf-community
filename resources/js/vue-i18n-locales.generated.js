@@ -805,6 +805,7 @@ export default {
         "Visitor deleted.": "Besucher gelöscht.",
         "{count} check-ins today": "{count} check-ins heute",
         "Inactive visitor records will be anonymized after {days} days.": "Inaktive Besucherdaten werden nach {days} Tagen gelöscht.",
+        "Edit metadata": "Metadaten bearbeiten",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -823,6 +824,7 @@ export default {
                 "view_transactions": "Buchhaltung: Transaktionen betrachten",
                 "create_transactions": "Buchhaltung: Transaktionen erfassen",
                 "update_transactions": "Buchhaltung: Transaktionen bearbeiten",
+                "update_transaction_metadata": "Buchhaltung: Metadaten von Transaktionen bearbeiten",
                 "delete_transactions": "Buchhaltung: Transaktionen löschen",
                 "book_externally": "Buchhaltung: Transaktionen extern verbuchen",
                 "view_summary": "Buchhaltung: Zusammenfassung ansehen",
@@ -1004,6 +1006,7 @@ export default {
                 "view_transactions": "Accounting: View transactions",
                 "create_transactions": "Accounting: Register transactions",
                 "update_transactions": "Accounting: Edit transactions",
+                "update_transaction_metadata": "Accounting: Edit metadata of transactions",
                 "delete_transactions": "Accounting: Delete transactions",
                 "book_externally": "Accounting: Book transactions externally",
                 "view_summary": "Accounting: View summary",

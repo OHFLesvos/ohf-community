@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.7.0
+
+* Allow editing of transaction metadata (with specific user permission) for controlled transactions
+
 ## 3.6.0
 
 * Allow upload/rotate of receipt pictures even if transactions has been controlled

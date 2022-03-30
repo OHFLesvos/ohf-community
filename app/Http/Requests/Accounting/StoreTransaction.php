@@ -109,7 +109,7 @@ class StoreTransaction extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if (optional($this->transaction)->controlled_at !== null) {
+            if ($this->transaction !== null && $this->transaction->controlled_at !== null && !request()->user()->can('updateMetadata', $this->transaction)) {
                 $validator->errors()->add('controlled_at', __('Cannot update already controlled transaction.'));
             }
             if ($this->budget_id !== null) {

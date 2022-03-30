@@ -38,6 +38,9 @@ return [
         'accounting.transactions.update' => [
             'label' => 'auth.permissions.update_transactions',
         ],
+        'accounting.transactions.update_metadata' => [
+            'label' => 'auth.permissions.update_transaction_metadata',
+        ],
         'accounting.transactions.delete' => [
             'label' => 'auth.permissions.delete_transactions',
         ],

@@ -48,6 +48,7 @@
                                 :required="!!transaction"
                                 :placeholder="!transaction ? `(${$t('create automatically')})` : null"
                                 :state="getValidationState(validationContext)"
+                                :disabled="transaction && !transaction.can_update"
                             />
                         </b-form-group>
                     </validation-provider>
@@ -72,6 +73,7 @@
                                 type="date"
                                 required
                                 :state="getValidationState(validationContext)"
+                                :disabled="transaction && !transaction.can_update"
                             />
                         </b-form-group>
                     </validation-provider>
@@ -93,7 +95,7 @@
                             <b-select
                                 v-model="form.budget_id"
                                 :options="budgetOptions"
-                                :disabled="!loaded"
+                                :disabled="!loaded || (transaction && !transaction.can_update)"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -124,6 +126,7 @@
                                 :options="typeOptions"
                                 stacked
                                 required
+                                :disabled="transaction && !transaction.can_update"
                                 :state="getValidationState(validationContext)"
                             />
                         </b-form-group>
@@ -158,6 +161,7 @@
                                     required
                                     step=".01"
                                     min="0"
+                                    :disabled="transaction && !transaction.can_update"
                                     :state="
                                         getValidationState(validationContext)
                                     "
@@ -194,6 +198,7 @@
                                     type="number"
                                     step=".01"
                                     min="0"
+                                    :disabled="transaction && !transaction.can_update"
                                     :state="
                                         getValidationState(validationContext)
                                     "
@@ -427,7 +432,7 @@
             </b-form-row>
 
             <b-form-row
-                v-if="transaction && transaction.receipt_pictures.length > 0"
+                v-if="transaction && transaction.receipt_pictures.length > 0 && transaction.can_update"
                 class="mb-3"
             >
                 <b-col

@@ -28,6 +28,7 @@ class Transaction extends JsonResource
         $data['budget_name'] = $this->when($this->budget_id !== null, fn () => optional($this->budget)->name);
         $data['can_update'] = $request->user()->can('update', $this->resource);
         $data['can_update_receipt'] = $request->user()->can('updateReceipt', $this->resource);
+        $data['can_update_metadata'] = $request->user()->can('updateMetadata', $this->resource);
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
         $data['controller_name'] = $this->when($this->controlled_by !== null, fn () => optional($this->controller)->name);
         $data['can_control'] = $request->user()->can('control', $this->resource);
