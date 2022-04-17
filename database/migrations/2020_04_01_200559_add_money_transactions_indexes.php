@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMoneyTransactionsIndexes extends Migration
+return new class extends Migration
 {
     public function __construct()
     {
@@ -47,4 +47,4 @@ class AddMoneyTransactionsIndexes extends Migration
             $table->text('description')->change();
         });
     }
-}
+};

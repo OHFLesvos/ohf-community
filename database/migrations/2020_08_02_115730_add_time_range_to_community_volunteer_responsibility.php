@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTimeRangeToCommunityVolunteerResponsibility extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -30,4 +30,4 @@ class AddTimeRangeToCommunityVolunteerResponsibility extends Migration
             $table->dropColumn(['start_date', 'end_date']);
         });
     }
-}
+};

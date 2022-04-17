@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountingSignedTransactionsView extends Migration
+return new class extends Migration
 {
     public function __construct()
     {
@@ -53,4 +53,4 @@ union all
 SELECT date, amount, receipt_no, category, project, description, remarks from money_transactions where type = 'income'
 SQL;
     }
-}
+};

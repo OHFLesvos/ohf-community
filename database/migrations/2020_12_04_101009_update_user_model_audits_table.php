@@ -3,7 +3,7 @@
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 
-class UpdateUserModelAuditsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -29,4 +29,4 @@ class UpdateUserModelAuditsTable extends Migration
     {
         //
     }
-}
+};

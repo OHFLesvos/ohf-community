@@ -1,11 +1,10 @@
 <?php
 
-use App\Models\Accounting\Transaction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddReceiptPicturesToMoneyTransactions extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -58,4 +57,4 @@ class AddReceiptPicturesToMoneyTransactions extends Migration
             $table->dropColumn('receipt_pictures');
         });
     }
-}
+};
