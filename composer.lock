@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0673ed654cc5f6705daeb0f8db4d4ada",
+    "content-hash": "8834a6565c2f3596356e3812bc7efe65",
     "packages": [
         {
             "name": "akaunting/laravel-language",
@@ -10173,6 +10173,64 @@
             "time": "2018-12-13T10:34:14+00:00"
         },
         {
+            "name": "buzzclue/laravel-vue-i18n-generator",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/buzzclue/laravel-vue-i18n-generator.git",
+                "reference": "7919ca721e1ebf6d4b3ddec10d06794e030bb316"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/buzzclue/laravel-vue-i18n-generator/zipball/7919ca721e1ebf6d4b3ddec10d06794e030bb316",
+                "reference": "7919ca721e1ebf6d4b3ddec10d06794e030bb316",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "illuminate/console": "~5.1.0|~5.2.0|~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0|~6.0|~7.0|~8.0|~9.0",
+                "illuminate/support": "~5.1.0|~5.2.0|~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0|~6.0|~7.0|~8.0|~9.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MartinLindhe\\VueInternationalizationGenerator\\GeneratorProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MartinLindhe\\VueInternationalizationGenerator\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Abbas Arif",
+                    "email": "abbasarif@acexlogics.com"
+                }
+            ],
+            "description": "Generates a vue-i18n compatible include file from your Laravel translations.",
+            "homepage": "http://github.com/buzzclue/laravel-vue-i18n-generator",
+            "keywords": [
+                "laravel",
+                "vue-i18n"
+            ],
+            "support": {
+                "source": "https://github.com/buzzclue/laravel-vue-i18n-generator/tree/master"
+            },
+            "time": "2022-03-21T17:06:05+00:00"
+        },
+        {
             "name": "composer/pcre",
             "version": "3.0.0",
             "source": {
@@ -12966,7 +13024,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "buzzclue/laravel-vue-i18n-generator": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
