@@ -13,14 +13,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v2
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: 8.0
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
       - name: Use Node.js ${{ matrix.node-version }}
@@ -39,7 +39,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 7.4
+        php-version: 8.0
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
