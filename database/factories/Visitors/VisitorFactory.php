@@ -3,7 +3,6 @@
 namespace Database\Factories\Visitors;
 
 use App\Models\Visitors\Visitor;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VisitorFactory extends Factory

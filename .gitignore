@@ -21,3 +21,4 @@ yarn-error.log
 /nbproject/private/
 _ide_helper.php
 .phpstorm.meta.php
+.php-cs-fixer.cache

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Fundraising;
 
-use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class Donation extends JsonResource

@@ -3,7 +3,6 @@
 namespace App\Http\Resources\Accounting;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
-use Setting;
 
 class TransactionCollection extends ResourceCollection
 {
