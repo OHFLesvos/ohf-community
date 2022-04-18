@@ -35,11 +35,14 @@ Vue.mixin(laravelCanMixin)
 import titleMixin from '@/mixins/titleMixin'
 Vue.mixin(titleMixin)
 
+import vuetify from '@/plugins/vuetify'
+
 if (document.getElementById("app")) {
     new Vue({
         router,
         store,
         i18n,
+        vuetify,
         render: h => h(DefaultApp)
     }).$mount("#app");
 }
