@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Route;
 //
 // User management
 //
-Route::middleware(['auth', 'language'])
+Route::middleware(['auth:sanctum', 'language'])
     ->name('api.')
     ->group(function () {
         Route::apiResource('users', UserController::class);
@@ -116,7 +116,7 @@ Route::middleware(['auth', 'language'])
 // Fundraising
 //
 
-Route::middleware(['language', 'auth'])
+Route::middleware(['language', 'auth:sanctum'])
     ->prefix('fundraising')
     ->name('api.fundraising.')
     ->group(function () {
@@ -184,7 +184,7 @@ Route::middleware(['language', 'auth'])
             });
     });
 
-Route::middleware(['language', 'auth'])
+Route::middleware(['language', 'auth:sanctum'])
     ->name('api.')
     ->group(function () {
         Route::apiResource('comments', CommentsController::class)
@@ -204,7 +204,7 @@ Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
 // Accounting
 //
 
-Route::middleware(['language', 'auth'])
+Route::middleware(['language', 'auth:sanctum'])
     ->prefix('accounting')
     ->name('api.accounting.')
     ->group(function () {
@@ -281,7 +281,7 @@ Route::middleware(['language', 'auth'])
 // Community volunteers
 //
 
-Route::middleware(['auth', 'language'])
+Route::middleware(['auth:sanctum', 'language'])
     ->name('api.')
     ->group(function () {
         Route::name('cmtyvol.')
@@ -317,7 +317,7 @@ Route::middleware(['auth', 'language'])
 //
 // Visitors
 //
-Route::middleware(['auth', 'language'])
+Route::middleware(['auth:sanctum', 'language'])
     ->prefix('visitors')
     ->name('api.visitors.')
     ->group(function () {
