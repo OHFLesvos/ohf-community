@@ -38,7 +38,7 @@
                 @endphp
                 @isset($metadata)
                     <h5>{{ __('Last change') }}</h5>
-                    <p>{{ __('Updated by :author :time.', ['author' => $metadata['user_name'], 'time' => (new Carbon\Carbon($metadata['audit_created_at']))->diffForHumans() ]) }}</p>
+                    <p>{{ __('Updated by :author :time.', ['author' => $metadata['user_name'] ?? 'Unknown', 'time' => (new Carbon\Carbon($metadata['audit_created_at']))->diffForHumans() ]) }}</p>
                 @endisset
             @else
                 {{ __('Updated :time.', ['time' => (new Carbon\Carbon($article->updated_at))->diffForHumans()]) }}
