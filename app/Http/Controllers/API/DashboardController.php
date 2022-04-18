@@ -17,12 +17,17 @@ class DashboardController extends Controller
 
     function __invoke()
     {
-        $data = collect($this->dashboardWidgets)
-            ->map(fn ($clazz) => new $clazz())
-            ->filter(fn ($widget) => $widget instanceof Widget)
-            ->filter(fn ($widget) => $widget->authorize())
-            ->map(fn ($widget) => $widget->render()->render());
-
-        return response()->json($data);
+        return response()->json([
+            'widgets' => collect($this->dashboardWidgets)
+                ->map(fn ($clazz) => new $clazz())
+                ->filter(fn ($widget) => $widget instanceof Widget)
+                ->filter(fn ($widget) => $widget->authorize())
+                ->map(fn ($widget) => $widget->render()?->render()),
+            'data' => collect($this->dashboardWidgets)
+                ->map(fn ($clazz) => new $clazz())
+                ->filter(fn ($widget) => $widget instanceof Widget)
+                ->filter(fn ($widget) => $widget->authorize())
+                ->mapWithKeys(fn ($widget) => [$widget->key() => $widget->data()]),
+        ]);
     }
 }

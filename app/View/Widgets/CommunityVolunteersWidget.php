@@ -12,10 +12,20 @@ class CommunityVolunteersWidget implements Widget
         return Auth::user()->can('viewAny', CommunityVolunteer::class);
     }
 
+    public function key(): string
+    {
+        return 'cmtyvol';
+    }
+
+    public function data(): array
+    {
+        return [
+            'active' => CommunityVolunteer::workStatus('active')->count(),
+        ];
+    }
+
     public function render()
     {
-        return view('widgets.cmtyvol', [
-            'active' => CommunityVolunteer::workStatus('active')->count(),
-        ]);
+        return null;
     }
 }
