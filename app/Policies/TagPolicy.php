@@ -25,8 +25,7 @@ class TagPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermission('wiki.view')
-            || $user->hasPermission('fundraising.donors_donations.view');
+        return $user->hasPermission('fundraising.donors_donations.view');
     }
 
     /**
@@ -36,19 +35,9 @@ class TagPolicy
      * @param  \App\Models\Tag  $tag
      * @return mixed
      */
-    public function view(?User $user, Tag $tag)
+    public function view(User $user, Tag $tag)
     {
-        if ($user === null) {
-            return self::hasPublicArticles($tag);
-        }
-        return $user->hasPermission('wiki.view')
-            || $user->hasPermission('fundraising.donors_donations.view')
-            || self::hasPublicArticles($tag);
-    }
-
-    private static function hasPublicArticles(Tag $tag)
-    {
-        return $tag->wikiArticles()->where('public', true)->count() > 0;
+        return $user->hasPermission('fundraising.donors_donations.view');
     }
 
     /**
@@ -59,8 +48,7 @@ class TagPolicy
      */
     public function create(User $user)
     {
-        return $user->hasPermission('wiki.edit')
-            || $user->hasPermission('fundraising.donors_donations.manage');
+        return $user->hasPermission('fundraising.donors_donations.manage');
     }
 
     /**
@@ -72,8 +60,7 @@ class TagPolicy
      */
     public function update(User $user, Tag $tag)
     {
-        return $user->hasPermission('wiki.edit')
-            || $user->hasPermission('fundraising.donors_donations.manage');
+        return $user->hasPermission('fundraising.donors_donations.manage');
     }
 
     /**
@@ -85,7 +72,6 @@ class TagPolicy
      */
     public function delete(User $user, Tag $tag)
     {
-        return $user->hasPermission('wiki.edit')
-            || $user->hasPermission('fundraising.donors_donations.manage');
+        return $user->hasPermission('fundraising.donors_donations.manage');
     }
 }

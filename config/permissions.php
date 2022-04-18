@@ -62,15 +62,6 @@ return [
         'accounting.configure' => [
             'label' => 'auth.permissions.configure_accounting',
         ],
-        'wiki.view' => [
-            'label' => 'auth.permissions.view_wiki',
-        ],
-        'wiki.edit' => [
-            'label' => 'auth.permissions.edit_wiki',
-        ],
-        'wiki.delete' => [
-            'label' => 'auth.permissions.delete_wiki',
-        ],
         'cmtyvol.view' => [
             'label' => 'auth.permissions.view_community_volunteers',
         ],

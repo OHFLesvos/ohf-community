@@ -11,7 +11,6 @@ use App\Http\Controllers\Accounting\API\SuppliersController;
 use App\Http\Controllers\Accounting\API\WalletsController;
 use App\Http\Controllers\API\CommentsController;
 use App\Http\Controllers\API\DataListController;
-use App\Http\Controllers\Collaboration\API\ArticleController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
@@ -313,17 +312,6 @@ Route::middleware(['auth', 'language'])
         // Comments
         Route::apiResource('cmtyvol.comments', CommunityVolunteerCommentsController::class)
             ->only('index', 'store');
-    });
-
-//
-// Collaboration
-//
-
-Route::middleware(['auth', 'language'])
-    ->prefix('kb')
-    ->name('api.kb.')
-    ->group(function () {
-        Route::resource('articles', ArticleController::class);
     });
 
 //

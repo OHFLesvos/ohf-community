@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Collaboration\WikiArticle;
 use App\Models\Fundraising\Donor;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Cviebrock\EloquentSluggable\SluggableScopeHelpers;
@@ -37,14 +36,6 @@ class Tag extends Model
     public function getRouteKeyName()
     {
         return 'slug';
-    }
-
-    /**
-     * Get all of the wiki articles that are assigned this tag.
-     */
-    public function wikiArticles()
-    {
-        return $this->morphedByMany(WikiArticle::class, 'taggable');
     }
 
     /**

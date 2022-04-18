@@ -4160,16 +4160,16 @@
         },
         {
             "name": "mpdf/mpdf",
-            "version": "v8.1.0",
+            "version": "v8.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mpdf/mpdf.git",
-                "reference": "84a55688fdc9c86134f71a9ffe96a14bc6d059a7"
+                "reference": "e511e89a66bdb066e3fbf352f00f4734d5064cbf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/84a55688fdc9c86134f71a9ffe96a14bc6d059a7",
-                "reference": "84a55688fdc9c86134f71a9ffe96a14bc6d059a7",
+                "url": "https://api.github.com/repos/mpdf/mpdf/zipball/e511e89a66bdb066e3fbf352f00f4734d5064cbf",
+                "reference": "e511e89a66bdb066e3fbf352f00f4734d5064cbf",
                 "shasum": ""
             },
             "require": {
@@ -4233,7 +4233,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2022-04-16T08:17:15+00:00"
+            "time": "2022-04-18T11:50:28+00:00"
         },
         {
             "name": "mrcage/chf-exchange-rates",

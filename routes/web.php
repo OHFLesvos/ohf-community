@@ -4,9 +4,6 @@ use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Badges\BadgeMakerController;
 use App\Http\Controllers\ChangelogController;
-use App\Http\Controllers\Collaboration\ArticleController;
-use App\Http\Controllers\Collaboration\SearchController;
-use App\Http\Controllers\Collaboration\TagController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
@@ -227,36 +224,6 @@ Route::middleware(['language', 'auth'])
         Route::view('budgets/{any}', 'vue-app')
             ->where('any', '.*')
             ->name('budgets.any');
-    });
-
-//
-// Collaboration
-//
-
-Route::middleware(['language'])
-    ->prefix('kb')
-    ->name('kb.')
-    ->group(function () {
-        Route::group(['middleware' => ['auth']], function () {
-            Route::get('', [SearchController::class, 'index'])
-                ->name('index');
-            Route::get('latest_changes', [SearchController::class, 'latestChanges'])
-                ->name('latestChanges');
-
-            Route::get('tags', [TagController::class, 'tags'])
-                ->name('tags');
-            Route::get('tags/{tag}/pdf', [TagController::class, 'pdf'])
-                ->name('tags.pdf');
-
-            Route::get('articles/{article}/pdf', [ArticleController::class, 'pdf'])
-                ->name('articles.pdf');
-            Route::resource('articles', ArticleController::class)
-                ->except('show');
-        });
-        Route::get('tags/{tag}', [TagController::class, 'tag'])
-            ->name('tag');
-        Route::resource('articles', ArticleController::class)
-            ->only('show');
     });
 
 //
