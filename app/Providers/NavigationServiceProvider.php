@@ -17,7 +17,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Accounting\AccountingNavigationItem::class,
         \App\Navigation\Drawer\Fundraising\FundraisingNavigationItem::class,
         \App\Navigation\Drawer\Badges\BadgesNavigationItem::class,
-        \App\Navigation\Drawer\Collaboration\KBItem::class,
         \App\Navigation\Drawer\ReportsNavigationItem::class,
         \App\Navigation\Drawer\UserManagement\UsersNavigationItem::class,
         \App\Navigation\Drawer\Settings\SettingsNavigationItem::class,
@@ -47,15 +46,6 @@ class NavigationServiceProvider extends ServiceProvider
         'accounting.suppliers'                  => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
         'accounting.suppliers.show'             => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
         'accounting.suppliers.any'              => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
-
-        'kb.index'                        => \App\Navigation\ContextButtons\Collaboration\IndexContextButtons::class,
-        'kb.latestChanges'                => \App\Navigation\ContextButtons\Collaboration\LatestChangesContextButtons::class,
-        'kb.tags'                         => \App\Navigation\ContextButtons\Collaboration\TagsContextButtons::class,
-        'kb.tag'                          => \App\Navigation\ContextButtons\Collaboration\TagContextButtons::class,
-        'kb.articles.index'               => \App\Navigation\ContextButtons\Collaboration\ArticleIndexContextButtons::class,
-        'kb.articles.create'              => \App\Navigation\ContextButtons\Collaboration\ArticleCreateContextButtons::class,
-        'kb.articles.show'                => \App\Navigation\ContextButtons\Collaboration\ArticleShowContextButtons::class,
-        'kb.articles.edit'                => \App\Navigation\ContextButtons\Collaboration\ArticleEditContextButtons::class,
 
         'cmtyvol.index'            => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersIndexContextButtons::class,
         'cmtyvol.show'             => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersShowContextButtons::class,

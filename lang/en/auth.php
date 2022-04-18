@@ -43,10 +43,6 @@ return [
         'manage_budgets' => 'Accounting: Manage budgets',
         'configure_accounting'  => 'Accounting: Configure settings',
 
-        'view_wiki' => 'Wiki: View articles',
-        'edit_wiki' => 'Wiki: Create and edit articles',
-        'delete_wiki' => 'Wiki: Delete articles',
-
         'view_community_volunteers' => 'Community volunteers: View community volunteers',
         'manage_community_volunteers' => 'Community volunteers: Manage community volunteers',
 

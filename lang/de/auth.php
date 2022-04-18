@@ -42,10 +42,6 @@ return [
         'manage_budgets' => 'Buchhaltung: Budgets verwalten',
         'configure_accounting'  => 'Buchhaltung: Einstellungen bearbeiten',
 
-        'view_wiki' => 'Wiki: Artikel betrachten',
-        'edit_wiki' => 'Wiki: Artikel erstellen und bearbeiten',
-        'delete_wiki' => 'Wiki: Artikel löschen',
-
         'view_community_volunteers' => 'Community Volunteers: Community Volunteers betrachten',
         'manage_community_volunteers' => 'Community Volunteers: Community Volunteers verwalten',
 

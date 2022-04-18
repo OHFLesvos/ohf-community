@@ -11,7 +11,6 @@ class HomeController extends Controller
         \App\View\Widgets\CommunityVolunteersWidget::class,
         \App\View\Widgets\AccountingWidget::class,
         \App\View\Widgets\FundraisingWidget::class,
-        \App\View\Widgets\KBWidget::class,
         \App\View\Widgets\UsersWidget::class,
     ];
 
