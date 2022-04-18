@@ -7,43 +7,31 @@ on:
     branches: [ master ]
 
 jobs:
-  npm-build:
-    name: NPM assets build
+  laravel-tests:
+    name: Laravel tests
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run dev
-
-  laravel-tests:
-    name: Laravel tests
-    runs-on: ubuntu-latest
+        node-version: [16.x]
+        php-version: [8.0]
 
     steps:
     - uses: actions/checkout@v2
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 7.4
+        php-version: ${{ matrix.php-version }}
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run dev
     - name: Generate key
       run: php artisan key:generate
     - name: Directory Permissions

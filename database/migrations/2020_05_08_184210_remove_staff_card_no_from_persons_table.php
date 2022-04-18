@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RemoveStaffCardNoFromPersonsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -33,4 +33,4 @@ class RemoveStaffCardNoFromPersonsTable extends Migration
             $table->timestamp('staff_card_issued')->nullable()->after('staff_card_no');
         });
     }
-}
+};

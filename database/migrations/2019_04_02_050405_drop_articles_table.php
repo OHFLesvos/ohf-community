@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropArticlesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -42,4 +42,4 @@ class DropArticlesTable extends Migration
             $table->boolean('has_article_mgmt')->default(false)->after('enable_in_bank');
         });
     }
-}
+};

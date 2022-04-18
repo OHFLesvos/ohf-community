@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddMissingBooleanDefaultValues extends Migration
+return new class extends Migration
 {
     public function __construct()
     {
@@ -45,4 +45,4 @@ class AddMissingBooleanDefaultValues extends Migration
             $table->boolean('booked')->default(null)->change();
         });
     }
-}
+};

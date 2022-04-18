@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RemoveWorkDatesFromCommunityVolunteersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -50,4 +50,4 @@ class RemoveWorkDatesFromCommunityVolunteersTable extends Migration
             $table->date('work_leaving_date')->nullable()->after('work_starting_date');
         });
     }
-}
+};

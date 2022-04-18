@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSlugToSuppliersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -17,12 +17,12 @@ class AddSlugToSuppliersTable extends Migration
         Schema::table('suppliers', function (Blueprint $table) {
             $table->string('slug')->nullable()->after('name');
         });
-        
+
         Supplier::whereNull('slug')->get()->each(function ($s) {
             $s->touch();
             $s->save();
         });
-        
+
         Schema::table('suppliers', function (Blueprint $table) {
             $table->string('slug')->nullable(false)->change();
         });
@@ -39,4 +39,4 @@ class AddSlugToSuppliersTable extends Migration
             $table->dropColumn('slug');
         });
     }
-}
+};

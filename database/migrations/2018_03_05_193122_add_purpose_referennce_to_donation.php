@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPurposeReferennceToDonation extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -37,4 +37,4 @@ class AddPurposeReferennceToDonation extends Migration
             $table->renameColumn('channel', 'origin');
         });
     }
-}
+};

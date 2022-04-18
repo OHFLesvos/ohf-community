@@ -5,7 +5,6 @@ namespace App\Providers;
 use App\Providers\Traits\RegisterContextButtons;
 use App\Providers\Traits\RegistersNavigationItems;
 use Illuminate\Support\ServiceProvider;
-use Mpdf\Tag\Q;
 
 class NavigationServiceProvider extends ServiceProvider
 {

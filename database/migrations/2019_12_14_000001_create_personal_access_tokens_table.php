@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('library_books', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('title');
-            $table->string('author')->nullable();
-            $table->string('language')->nullable();
-            $table->string('isbn10')->nullable();
-            $table->string('isbn13')->nullable();
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('tokenable');
+            $table->string('name');
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('library_books');
+        Schema::dropIfExists('personal_access_tokens');
     }
 };

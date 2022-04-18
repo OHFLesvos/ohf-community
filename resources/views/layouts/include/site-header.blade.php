@@ -69,20 +69,11 @@
                         {{ $button['caption'] }}
                     </a>
                 @else
-                    @php
-                        if (isset($button['attributes'])) {
-                            $attributes = collect($button['attributes'])
-                                ->map(fn ($v, $k) => $k . '="' . $v . '"')
-                                ->implode(' ');
-                        } else {
-                            $attributes = '';
-                        }
-                    @endphp
-                    <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block" @if($key == 'help') target="_blank"@endif {!! $attributes !!}>
+                    <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block" @if($key == 'help') target="_blank"@endif>
                         <x-icon :icon="$button['icon']"/>
                         {{ $button['caption'] }}
                     </a>
-                    <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}" @if($key == 'help') target="_blank"@endif  {!! $attributes !!}>
+                    <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}" @if($key == 'help') target="_blank"@endif>
                         <x-icon :icon="$button['icon']"/>
                     </a>
                 @endif

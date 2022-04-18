@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPersonSearchIndex extends Migration
+return new class extends Migration
 {
     public function __construct()
     {
@@ -36,4 +36,4 @@ class AddPersonSearchIndex extends Migration
             $table->dropIndex('persons_search_index');
         });
     }
-}
+};

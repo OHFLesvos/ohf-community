@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Schema;
 
-class DeleteSettingsTable extends Migration
+return new class extends Migration
 {
     public function __construct()
     {
@@ -43,4 +43,4 @@ class DeleteSettingsTable extends Migration
             $table->text($this->valueColumn);
         });
     }
-}
+};

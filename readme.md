@@ -6,7 +6,7 @@ Community center manager based on [Laravel](https://laravel.com/). Laravel is a 
 Requirements
 ------------
 
-* PHP >= 7.4.0
+* PHP >= 8.0
   * OpenSSL PHP Extension
   * PDO PHP Extension
   * Mbstring PHP Extension

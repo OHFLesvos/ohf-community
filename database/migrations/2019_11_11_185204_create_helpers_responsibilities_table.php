@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHelpersResponsibilitiesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -93,4 +93,4 @@ class CreateHelpersResponsibilitiesTable extends Migration
         Schema::dropIfExists('helpers_helper_responsibility');
         Schema::dropIfExists('helpers_responsibilities');
     }
-}
+};

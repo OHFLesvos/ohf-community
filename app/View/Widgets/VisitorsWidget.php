@@ -2,7 +2,6 @@
 
 namespace App\View\Widgets;
 
-use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
 use Illuminate\Support\Facades\Gate;
 

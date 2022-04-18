@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class DropAccountingSignedTransactionsView extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -41,4 +41,4 @@ union all
 SELECT wallet_id, date, amount, fees, receipt_no, category, project, description, remarks from money_transactions where type = 'income'
 SQL;
     }
-}
+};

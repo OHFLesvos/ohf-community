@@ -2,28 +2,30 @@
     "name": "ohflesvos/community-manager",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": [
-        "framework",
-        "laravel"
-    ],
+    "keywords": ["framework", "laravel"],
     "license": "MIT",
+    "repositories": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/buzzclue/laravel-vue-i18n-generator.git"
+        }
+      ],
     "require": {
-        "php": "^7.4.0|^8.0",
+        "php": "^8.0.2",
         "akaunting/laravel-language": "^1.0",
         "anlutro/l4-settings": "^1.0",
-        "cviebrock/eloquent-sluggable": "^8.0",
+        "cviebrock/eloquent-sluggable": "^9.0",
         "doctrine/dbal": "^3.1",
         "dyrynda/laravel-nullable-fields": "^4.0",
         "endroid/qr-code": "^4.1",
         "exolnet/laravel-sqlite-fluent-drop-foreign": "^1.1",
-        "fideloper/proxy": "^4.4",
-        "fruitcake/laravel-cors": "^2.0",
+        "fruitcake/laravel-cors": "^3.0",
         "gumlet/php-image-resize": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.6",
-        "intervention/validation": "^2.5",
+        "intervention/validation": "^3.1",
         "jeroendesloovere/vcard": "^1.6",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^9.2",
         "laravel/socialite": "^5.0",
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.0",
@@ -31,14 +33,14 @@
         "maatwebsite/excel": "^3.1",
         "maennchen/zipstream-php": "^2.0",
         "monarobase/country-list": "^3.2",
-        "mpdf/mpdf": "^8.0",
-        "mrcage/chf-exchange-rates": "^1.0",
+        "mpdf/mpdf": "^8.0.17",
+        "mrcage/chf-exchange-rates": "^2.0",
         "org_heigl/ghostscript": "^2.3",
-        "owen-it/laravel-auditing": "^12.0",
+        "owen-it/laravel-auditing": "^13.0",
         "petercoles/multilingual-language-list": "^1.1",
         "sentry/sentry-laravel": "^2.3",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
-        "spatie/pdf-to-image": "^2.0",
+        "spatie/pdf-to-image": "^2.1",
         "spomky-labs/otphp": "^10.0",
         "tightenco/ziggy": "^1.0",
         "unisharp/laravel-filemanager": "^2.2",
@@ -47,23 +49,13 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.6",
-        "djedaini/laravel-vue-i18n-generator": "^0.1.47",
-        "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.12",
+        "buzzclue/laravel-vue-i18n-generator": "dev-master",
+        "fakerphp/faker": "^1.9.1",
         "filp/whoops": "~2.0",
-        "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.0"
-    },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
-    "extra": {
-        "laravel": {
-            "dont-discover": []
-        }
+        "mockery/mockery": "^1.4.4",
+        "nunomaduro/collision": "^6.1",
+        "phpunit/phpunit": "^9.5.10",
+        "spatie/laravel-ignition": "^1.0"
     },
     "autoload": {
         "files": [
@@ -80,26 +72,33 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ],
-        "post-install-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postInstall"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta"
         ]
-    }
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

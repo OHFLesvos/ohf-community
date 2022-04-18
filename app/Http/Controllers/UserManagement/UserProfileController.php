@@ -7,7 +7,6 @@ use App\Http\Requests\UserManagement\Store2FA;
 use App\Http\Requests\UserManagement\StoreNewUserPassword;
 use App\Http\Requests\UserManagement\StoreUserProfile;
 use Endroid\QrCode\Builder\Builder;
-use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
