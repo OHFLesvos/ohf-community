@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\View\Widgets\Widget;
 
-class HomeController extends Controller
+class DashboardController extends Controller
 {
     protected $dashboardWidgets = [
         \App\View\Widgets\VisitorsWidget::class,
@@ -14,21 +15,14 @@ class HomeController extends Controller
         \App\View\Widgets\UsersWidget::class,
     ];
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    function __invoke()
     {
-        $widgets = collect($this->dashboardWidgets)
+        $data = collect($this->dashboardWidgets)
             ->map(fn ($clazz) => new $clazz())
             ->filter(fn ($widget) => $widget instanceof Widget)
             ->filter(fn ($widget) => $widget->authorize())
             ->map(fn ($widget) => $widget->render()->render());
 
-        return view('welcome', [
-            'widgets' => $widgets,
-        ]);
+        return response()->json($data);
     }
 }

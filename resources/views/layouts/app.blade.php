@@ -75,6 +75,12 @@
                                 </x-alert>
                             @endif
 
+                            @if (session()->has('login_message'))
+                                <x-alert type="success" icon="hand-paper">
+                                    {!! session('login_message') !!}
+                                </x-alert>
+                            @endif
+
                             {{-- Content --}}
                             @yield('content')
 

@@ -7,7 +7,6 @@ use App\Http\Controllers\ChangelogController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PrivacyPolicy;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
@@ -30,7 +29,7 @@ Route::middleware('language')->group(function () {
     Route::middleware('auth')->group(function () {
 
         // Home (Dashboard)
-        Route::get('/', [HomeController::class, 'index'])
+        Route::view('', 'vue-app')
             ->name('home');
     });
 

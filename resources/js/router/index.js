@@ -3,6 +3,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
+import dashboard from "@/router/dashboard";
 import visitors from "@/router/visitors";
 import accounting from "@/router/accounting";
 import fundraising from "@/router/fundraising";
@@ -15,6 +16,7 @@ import NotFoundPage from "@/pages/NotFoundPage";
 export default new VueRouter({
     mode: "history",
     routes: [
+        ...dashboard,
         ...visitors,
         ...accounting,
         ...fundraising,
