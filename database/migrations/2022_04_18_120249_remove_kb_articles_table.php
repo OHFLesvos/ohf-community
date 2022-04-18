@@ -31,6 +31,9 @@ return new class extends Migration
         });
         Schema::dropIfExists('kb_article_views');
         Schema::dropIfExists('kb_articles');
+        DB::table('taggables')
+            ->where('taggable_type', 'App\Models\Collaboration\WikiArticle')
+            ->delete();
     }
 
     /**
