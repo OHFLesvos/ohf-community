@@ -25,9 +25,4 @@ class VisitorsWidget implements Widget
                 ->count(),
         ];
     }
-
-    public function render()
-    {
-        return null;
-    }
 }

@@ -81,7 +81,7 @@ export default {
         "Role has been removed.": "Rolle wurde entfernt.",
         "Hello {name}!": "Hallo {name}!",
         "Manage": "Verwalten",
-        "The newest user is <a href=\"{href}\">{name}</a>, registered {registered}.": "Der neuste Benutzer ist <a href=\"{href}\">{name}</a>, registriert {registered}.",
+        "The newest user is {name}, registered {registered}.": "Der neuste Benutzer ist {name}, registriert {registered}.",
         "Version": "Version",
         "There is currently no content available for you here.": "Aktuell sind hier keine Inhalte für dich verfügbar.",
         "Report": "Bericht",

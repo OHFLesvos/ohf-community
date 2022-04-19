@@ -5,5 +5,6 @@ return [
         'api.*',
         'accounting.webling.index',
         'cmtyvol.index',
+        'users.show',
     ],
 ];

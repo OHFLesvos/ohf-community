@@ -27,9 +27,4 @@ class FundraisingWidget implements Widget
             'num_donations_total' => Donation::count(),
         ];
     }
-
-    public function render()
-    {
-        return null;
-    }
 }

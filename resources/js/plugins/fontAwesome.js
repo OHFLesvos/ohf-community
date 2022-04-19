@@ -58,7 +58,8 @@ import {
     faCopy,
     faCalendarCheck,
     faChevronCircleRight,
-    faIdBadge
+    faIdBadge,
+    faUserFriends
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -122,7 +123,8 @@ library.add(
     faCalendarCheck,
     faDoorOpen,
     faChevronCircleRight,
-    faIdBadge
+    faIdBadge,
+    faUserFriends
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

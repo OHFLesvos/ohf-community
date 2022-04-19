@@ -21,12 +21,9 @@ class UsersWidget implements Widget
     {
         return [
             'num_users' => User::count(),
-            'latest_user' => User::orderBy('created_at', 'desc')->first(),
+            'latest_user' => User::orderBy('created_at', 'desc')
+                ->first()
+                ->only(['id', 'name', 'created_at']),
         ];
-    }
-
-    public function render()
-    {
-        return view('widgets.users', $this->data());
     }
 }

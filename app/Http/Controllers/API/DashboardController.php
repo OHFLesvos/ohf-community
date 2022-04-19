@@ -18,11 +18,6 @@ class DashboardController extends Controller
     function __invoke()
     {
         return response()->json([
-            'widgets' => collect($this->dashboardWidgets)
-                ->map(fn ($clazz) => new $clazz())
-                ->filter(fn ($widget) => $widget instanceof Widget)
-                ->filter(fn ($widget) => $widget->authorize())
-                ->map(fn ($widget) => $widget->render()?->render()),
             'data' => collect($this->dashboardWidgets)
                 ->map(fn ($clazz) => new $clazz())
                 ->filter(fn ($widget) => $widget instanceof Widget)

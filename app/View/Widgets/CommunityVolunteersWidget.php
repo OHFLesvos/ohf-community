@@ -23,9 +23,4 @@ class CommunityVolunteersWidget implements Widget
             'active' => CommunityVolunteer::workStatus('active')->count(),
         ];
     }
-
-    public function render()
-    {
-        return null;
-    }
 }

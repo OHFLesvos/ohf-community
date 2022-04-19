@@ -33,9 +33,4 @@ class AccountingWidget implements Widget
                 ]),
         ];
     }
-
-    public function render()
-    {
-        return null;
-    }
 }
