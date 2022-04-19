@@ -1,11 +1,7 @@
 <template>
     <b-container v-if="category" class="px-0">
         <h5>{{ category.name }}</h5>
-        <nl2br
-            v-if="category.description"
-            tag="p"
-            :text="category.description"
-        />
+        <p v-if="category.description" class="pre-formatted">{{ category.description }}</p>
 
         <h6>{{ $t('Transactions') }}</h6>
         <p v-if="category.num_transactions">Registered <strong>{{ category.num_transactions }}</strong> transactions in category.</p>
@@ -35,13 +31,9 @@
 
 <script>
 import categoriesApi from "@/api/accounting/categories";
-import Nl2br from "vue-nl2br";
 export default {
     title() {
         return this.$t("View category");
-    },
-    components: {
-        Nl2br
     },
     props: {
         id: {

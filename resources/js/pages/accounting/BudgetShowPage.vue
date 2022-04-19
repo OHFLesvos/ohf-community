@@ -5,9 +5,7 @@
             <dd class="col-sm-9">{{ budget.name }}</dd>
             <template v-if="budget.description">
                 <dt class="col-sm-3">{{ $t("Description") }}</dt>
-                <dd class="col-sm-9">
-                    <nl2br tag="span" :text="budget.description" />
-                </dd>
+                <dd class="col-sm-9 pre-formatted">{{ budget.description }}</dd>
             </template>
             <dt class="col-sm-3">{{ $t("Agreed amount") }}</dt>
             <dd class="col-sm-9">
@@ -186,14 +184,12 @@
 <script>
 import budgetsApi from "@/api/accounting/budgets";
 import BaseTable from "@/components/table/BaseTable";
-import Nl2br from "vue-nl2br";
 export default {
     title() {
         return this.$t("Budget anzeigen");
     },
     components: {
         BaseTable,
-        Nl2br
     },
     props: {
         id: {
