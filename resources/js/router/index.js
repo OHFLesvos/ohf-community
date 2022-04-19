@@ -10,6 +10,7 @@ import fundraising from "@/router/fundraising";
 import reports from "@/router/reports";
 import userManagement from "@/router/user-management";
 import cmtyvol from "@/router/cmtyvol";
+import badges from "@/router/badges";
 
 import NotFoundPage from "@/pages/NotFoundPage";
 
@@ -23,6 +24,7 @@ export default new VueRouter({
         ...reports,
         ...userManagement,
         ...cmtyvol,
+        ...badges,
         {
             path: "*",
             component: NotFoundPage
