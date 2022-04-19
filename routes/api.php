@@ -10,6 +10,7 @@ use App\Http\Controllers\Accounting\API\SummaryController;
 use App\Http\Controllers\Accounting\API\SuppliersController;
 use App\Http\Controllers\Accounting\API\WalletsController;
 use App\Http\Controllers\API\CommentsController;
+use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DataListController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
@@ -46,6 +47,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum', 'language'])
     ->name('api.')
     ->group(function () {
+
+        Route::get('dashboard', DashboardController::class)
+            ->name('dashboard');
 
         //
         // User management

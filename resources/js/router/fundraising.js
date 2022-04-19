@@ -26,7 +26,8 @@ const overviewNavItems = [
 export default [
     {
         path: "/fundraising",
-        redirect: { name: "fundraising.donors.index" }
+        redirect: { name: "fundraising.donors.index" },
+        name: 'fundraising.index'
     },
     {
         path: "/fundraising/donors",

@@ -1,6 +1,7 @@
 export default [
     {
         path: "/visitors",
+        name: "visitors.index",
         redirect: {
                 name: "visitors.check_in"
         }

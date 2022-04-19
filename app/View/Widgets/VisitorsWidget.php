@@ -12,12 +12,17 @@ class VisitorsWidget implements Widget
         return Gate::allows('register-visitors');
     }
 
-    public function render()
+    public function key(): string
     {
-        return view('widgets.visitors', [
+        return 'visitors';
+    }
+
+    public function data(): array
+    {
+        return [
             'todays_visitors' => VisitorCheckin::query()
                 ->whereDate('created_at', today())
                 ->count(),
-        ]);
+        ];
     }
 }
