@@ -35,20 +35,14 @@ class BadgeMakerController extends Controller
             ],
         ]);
 
-        // if ($request->hasFile('picture.'.$i)) {
-        //     $image = new \Gumlet\ImageResize($request->file('picture.'.$i), IMAGETYPE_JPEG);
-        //     $image->resizeToBestFit(800, 800, true);
-        //     $picture = 'data:image/jpeg;base64,' . base64_encode((string) $image);
-        // } else {
-        //     $picture = null;
-        // }
-        // $persons[] = [
-        //     'name' => $request->name[$i],
-        //     'position' => $request->position[$i] ?? null,
-        //     'picture' => $picture,
-        // ];
+        $persons = collect($request->elements, [])
+            ->map(fn ($e, $idx) => [
+                'name' => $e['name'].$idx,
+                'position' => $e['position'] ?? null,
+                'picture' => $this->getResizedPictureFromRequest($request, $idx),
+            ]);
 
-        $badgeCreator = new BadgeCreator($request->elements);
+        $badgeCreator = new BadgeCreator($persons);
         if ($request->hasFile('alt_logo')) {
             $badgeCreator->logo = $request->file('alt_logo');
         } elseif (Setting::has('badges.logo_file')) {
@@ -60,6 +54,16 @@ class BadgeMakerController extends Controller
             return redirect()->route('badges.index')
                 ->with('error', $e->getMessage());
         }
+    }
+
+    private function getResizedPictureFromRequest(Request $request, int $i)
+    {
+        if ($request->hasFile("elements.$i.picture")) {
+            $image = new \Gumlet\ImageResize($request->file("elements.$i.picture"), IMAGETYPE_JPEG);
+            $image->resizeToBestFit(800, 800, true);
+            return 'data:image/jpeg;base64,' . base64_encode((string) $image);
+        }
+        return null;
     }
 
     public function parseSpreadsheet(Request $request)
