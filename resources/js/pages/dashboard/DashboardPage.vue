@@ -4,6 +4,7 @@
             <VisitorsWidget v-if="data.visitors" :data="data.visitors"/>
             <CommunityVolunteersWidget v-if="data.cmtyvol" :data="data.cmtyvol"/>
             <AccountingWidget v-if="data.accounting" :data="data.accounting"/>
+            <FundraisingWidget v-if="data.fundraising" :data="data.fundraising"/>
             <div v-for="(widget, idx) in widgets" :key="idx" v-html="widget">
             </div>
         </div>
@@ -21,6 +22,7 @@ import dashboardApi from "@/api/dashboard";
 import VisitorsWidget from "@/components/dashboard/VisitorsWidget"
 import CommunityVolunteersWidget from "@/components/dashboard/CommunityVolunteersWidget"
 import AccountingWidget from "@/components/dashboard/AccountingWidget"
+import FundraisingWidget from "@/components/dashboard/FundraisingWidget"
 export default {
     title() {
         return this.$t("Dashboard");
@@ -28,7 +30,8 @@ export default {
     components: {
       VisitorsWidget,
       CommunityVolunteersWidget,
-      AccountingWidget
+      AccountingWidget,
+      FundraisingWidget
     },
     data() {
         return {

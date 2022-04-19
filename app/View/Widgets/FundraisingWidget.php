@@ -30,6 +30,6 @@ class FundraisingWidget implements Widget
 
     public function render()
     {
-        return view('widgets.fundraising', $this->data());
+        return null;
     }
 }

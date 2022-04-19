@@ -17,7 +17,7 @@ export default {
     data() {
         return {
             items: [
-                { key: this.$t('Total visitors today'), value: this.data.todays_visitors }
+                { key: this.$t('Total visitors today'), value: this.data.todays_visitors },
             ]
         }
     }
