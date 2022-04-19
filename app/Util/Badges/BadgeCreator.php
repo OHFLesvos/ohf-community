@@ -98,9 +98,6 @@ class BadgeCreator
             text-align: right;
             font-size: 6pt;
         }
-        .code_no {
-            font-size: 8pt;
-        }
         ', 1);
 
         $pageWidth = $mpdf->w;
@@ -138,13 +135,6 @@ class BadgeCreator
             $yp = $y + $this->padding;
             $wp = $this->badgeWidth - (2 * $this->padding);
             $hp = $this->badgeHeight - (2 * $this->padding);
-            // $xpb = $x + $this->badgeWidth + $this->padding;
-            // $ypb = $pageHeight - $yp - $hp;
-            // $rx0 = $pageWidth - ($this->badgeWidth * 2 * $badgesX);
-            // $rx = $rx0 + ($badgeFrontAndBackWidth * ($badgesX - 1- ($i % $badgesX)));
-
-            // Page number
-            // $page = floor($i / $badgesPerPage) + 1;
 
             // Line on the right
             $mpdf->Line($x + $badgeFrontAndBackWidth, $y, $x + $badgeFrontAndBackWidth, $y + $this->badgeHeight);
@@ -193,44 +183,8 @@ class BadgeCreator
 
             // Punch hole
             $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($this->badgeWidth / 2) - ($this->punchHoleSize / 2)) .'mm; top: '. ($y + $this->punchHoleDistanceCenter - ($this->punchHoleSize / 2)) .'mm; width: '. $this->punchHoleSize .'mm; height: ' . $this->punchHoleSize . 'mm; border-radius: ' . ($this->punchHoleSize / 2) .'mm; border: 1px dotted black;"></div>');
-
-            // // QR Code of ID
-            // if (! empty($persons[$i]['code'])) {
-            //     $mpdf->WriteFixedPosHTML('<barcode code="'. $persons[$i]['code'] .'" type="QR" class="barcode" size="0.5" error="M" disableborder="1" /><br><small class="code_no">' . $persons[$i]['code'].'</small>', $xpb - 2, $yp + $hp - 13, 30, 30, 'auto');
-            // }
         }
 
         $mpdf->Output($title . ' ' .Carbon::now()->toDateString() . '.pdf', Destination::DOWNLOAD);
     }
-
-    // private static function fitImage($mpdf, $imageSource, $x, $y, $containerWidth, $containerHeight)
-    // {
-    //     // Get image width
-    //     $imageWidth = getimagesize($imageSource)[0];
-    //     // Get image height
-    //     $imageHeight = getimagesize($imageSource)[1];
-    //     // Get image aspect ratio
-    //     $imageRatio = $imageWidth / $imageHeight;
-    //     // Get container aspect ratio
-    //     $containerRatio = $containerWidth / $containerHeight;
-
-    //     // Decide if image should increase in height or width
-    //     if ($imageRatio > $containerRatio) {
-    //         $width = $containerWidth;
-    //         $height = $containerWidth / $imageRatio;
-    //     } elseif ($imageRatio < $containerRatio) {
-    //         $width = $containerHeight * $imageRatio;
-    //         $height = $containerHeight;
-    //     } else {
-    //         $width = $containerWidth;
-    //         $height = $containerHeight;
-    //     }
-
-    //     // Center image
-    //     $offsetX = ($containerWidth / 2) - ($width / 2);
-    //     $offsetY = ($containerHeight / 2) - ($height / 2);
-
-    //     // Write image to PDF
-    //     $mpdf->Image($imageSource, $x + $offsetX, $y + $offsetY, $width, $height);
-    // }
 }

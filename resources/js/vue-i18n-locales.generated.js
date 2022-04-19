@@ -468,7 +468,7 @@ export default {
         "Contact information": "Kontaktinformationen",
         "Include Portraits": "Inklusive Portraits",
         "Age distribution": "Altersverteilung",
-        "File must be in Excel or CSV format and contain the columns 'Name', 'Position' and optional 'Code'.": "Datei muss im Excel oder CSV Format vorliegen und die Spalten 'Name', 'Position' und optional 'Code' beinhalten.",
+        "File must be in Excel or CSV format and contain the columns 'Name', 'Position'.": "Datei muss im Excel oder CSV Format vorliegen und die Spalten 'Name', 'Position' beinhalten.",
         "No starting date has been set.": "Kein Startdatum gesetzt.",
         "persons": "Personen",
         "Accounting": "Buchhaltung",
@@ -778,6 +778,8 @@ export default {
         "{count} check-ins today": "{count} check-ins heute",
         "Inactive visitor records will be anonymized after {days} days.": "Inaktive Besucherdaten werden nach {days} Tagen gelöscht.",
         "Edit metadata": "Metadaten bearbeiten",
+        "Add row": "Zeile hinzufügen",
+        "Load data": "Daten laden",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

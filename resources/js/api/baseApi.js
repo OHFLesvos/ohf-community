@@ -3,28 +3,38 @@ import ziggyMixin from "@/mixins/ziggyMixin";
 export const route = ziggyMixin.methods.route;
 
 export const getAjaxErrorMessage = function(err) {
-    var msg;
     if (err.response) {
-        if (err.response.data.message) {
-            msg = err.response.data.message;
-        }
-        if (err.response.data.errors) {
-            msg +=
-                "\n" +
-                Object.entries(err.response.data.errors).map(([k, v]) => {
-                    return v.join(". ");
-                });
-        } else if (err.response.data.error) {
-            msg = err.response.data.error;
-        }
+        let msg = parseErrorResponse(err.response.data);
         if (!msg) {
-            msg = `Error ${err.response.status}: ${err.response.statusText}`;
+            return `Error ${err.response.status}: ${err.response.statusText}`;
         }
-    } else {
-        msg = err;
+        return msg
     }
-    return msg;
+    return err
 };
+
+const parseErrorResponse =  function(data) {
+    let msg
+    if (data.message) {
+        msg = data.message;
+    }
+    if (data.errors) {
+        msg += "\n" +
+            Object.entries(data.errors)
+                .map(([, v]) => v.filter(e => !msg.includes(e)).join(", "))
+                .join(' ');
+    } else if (data.error) {
+        msg = data.error;
+    }
+    return msg
+}
+
+const parseBlobDataJson = async function(data) {
+    if (data instanceof Blob && data.type == 'application/json') {
+        return JSON.parse(await data.text());
+    }
+    return data
+}
 
 const handleError = function(err) {
     console.error(err);
@@ -88,11 +98,11 @@ export const api = {
             handleError(err);
         }
     },
-    async download(downloadUrl) {
+    async download(downloadUrl, method="GET") {
         try {
             let response = await axios({
                 url: downloadUrl,
-                method: "GET",
+                method: method,
                 responseType: "blob"
             });
 
@@ -113,7 +123,7 @@ export const api = {
             document.body.appendChild(link);
             link.click();
         } catch (err) {
-            handleError(err);
+            handleError(err.response ? parseErrorResponse(await parseBlobDataJson(err.response.data)) : err);
         }
     }
 };

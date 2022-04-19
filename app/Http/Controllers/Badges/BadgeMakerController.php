@@ -88,7 +88,6 @@ class BadgeMakerController extends Controller
                         $persons[] = [
                             'name' => $row['name'],
                             'position' => $row['position'],
-                            'code' => $row->code ?? null,
                         ];
                     }
                 }
@@ -110,7 +109,6 @@ class BadgeMakerController extends Controller
                         'name' => $request->name[$i],
                         'position' => $request->position[$i] ?? null,
                         'picture' => $picture,
-                        'code' => null,
                     ];
                 }
             }
@@ -183,6 +181,81 @@ class BadgeMakerController extends Controller
             return redirect()->route('badges.index')
                 ->with('error', $e->getMessage());
         }
+    }
+
+    public function make2(Request $request)
+    {
+        $request->validate([
+            'elements' => [
+                'required',
+                'array',
+                'min:1',
+            ],
+            'elements.*.name' => [
+                'string',
+                'filled',
+            ],
+            'elements.*.file' => [
+                'file',
+                'image',
+            ],
+            'alt_logo' => [
+                'file',
+                'image',
+            ],
+        ]);
+
+        $title = __('Badges');
+
+        $badgeCreator = new BadgeCreator($request->elements);
+        if ($request->hasFile('alt_logo')) {
+            $badgeCreator->logo = $request->file('alt_logo');
+        } elseif (Setting::has('badges.logo_file')) {
+            $badgeCreator->logo = Storage::path(Setting::get('badges.logo_file'));
+        }
+        try {
+            $badgeCreator->createPdf($title);
+        } catch (Exception $e) {
+            return redirect()->route('badges.index')
+                ->with('error', $e->getMessage());
+        }
+    }
+
+    public function parseSpreadsheet(Request $request)
+    {
+        $request->validate([
+            'file' => [
+                'required',
+                'file',
+                'mimes:xlsx,xls,csv',
+            ],
+        ]);
+
+        $elements = [];
+        $sheets = (new BadgeImport())->toArray($request->file('file'));
+        foreach ($sheets as $rows) {
+            foreach ($rows as $row) {
+                if (isset($row['name']) && isset($row['position'])) {
+                    $elements[] = [
+                        'name' => $row['name'],
+                        'position' => $row['position'],
+                    ];
+                }
+            }
+        }
+
+        return response()->json($elements);
+    }
+
+    public function fetchCommunityVolunteers()
+    {
+        $this->authorize('viewAny', CommunityVolunteer::class);
+
+        $elements = CommunityVolunteer::workStatus('active')
+            ->get()
+            ->map(fn ($cmtyvol) => self::communityVolunteerToBadgePerson($cmtyvol));
+
+        return response()->json($elements);
     }
 
     private static function addCommunityVolunteerData($person)
