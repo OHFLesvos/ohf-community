@@ -97,13 +97,16 @@
 import badgesApi from "@/api/badges";
 export default {
     data() {
+        const sources = [
+            { value: 'list', text: this.$t('List') },
+            { value: 'file', text: this.$t('File') },
+        ]
+        if (this.can("view-community-volunteers")) {
+            sources.push({ value: 'cmtyvol', text: this.$t('Community Volunteers') })
+        }
         return {
             source: 'list',
-            sources: [
-                { value: 'list', text: this.$t('List') },
-                { value: 'file', text: this.$t('File') },
-                { value: 'cmtyvol', text: this.$t('Community Volunteers') },
-            ],
+            sources: sources,
             elements: [this.createElement()],
             importFile: null,
             isBusy: false,
