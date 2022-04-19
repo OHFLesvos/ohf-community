@@ -125,14 +125,8 @@ Route::middleware(['language', 'auth', 'can:create-badges'])
     ->name('badges.')
     ->prefix('badges')
     ->group(function () {
-        Route::get('/', [BadgeMakerController::class, 'index'])
+        Route::view('', 'vue-app')
             ->name('index');
-        Route::post('selection', [BadgeMakerController::class, 'selection'])
-            ->name('selection');
-        Route::post('make', [BadgeMakerController::class, 'make'])
-            ->name('make');
-        Route::view('vue', 'vue-app')
-            ->name('vue');
     });
 
 //

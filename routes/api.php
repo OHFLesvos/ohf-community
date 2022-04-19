@@ -12,7 +12,7 @@ use App\Http\Controllers\Accounting\API\WalletsController;
 use App\Http\Controllers\API\CommentsController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DataListController;
-use App\Http\Controllers\Badges\BadgeMakerController;
+use App\Http\Controllers\Badges\API\BadgeMakerController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
@@ -347,7 +347,7 @@ Route::middleware(['auth:sanctum', 'language'])
             ->name('badges.')
             ->prefix('badges')
             ->group(function () {
-                Route::post('make', [BadgeMakerController::class, 'make2'])
+                Route::post('make', [BadgeMakerController::class, 'make'])
                     ->name('make');
                 Route::post('parseSpreadsheet', [BadgeMakerController::class, 'parseSpreadsheet'])
                     ->name('parseSpreadsheet');

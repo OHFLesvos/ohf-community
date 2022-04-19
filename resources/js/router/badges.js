@@ -1,6 +1,6 @@
 export default [
     {
-        path: "/badges/vue",
+        path: "/badges",
         name: "badges.index",
         components: {
             default: () =>
