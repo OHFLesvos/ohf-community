@@ -195,7 +195,7 @@ class BadgeMakerController extends Controller
                 'string',
                 'filled',
             ],
-            'elements.*.file' => [
+            'elements.*.picture' => [
                 'file',
                 'image',
             ],

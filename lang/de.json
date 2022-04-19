@@ -778,5 +778,6 @@
     "Inactive visitor records will be anonymized after :days days.": "Inaktive Besucherdaten werden nach :days Tagen gelöscht.",
     "Edit metadata": "Metadaten bearbeiten",
     "Add row": "Zeile hinzufügen",
-    "Load data": "Daten laden"
+    "Load data": "Daten laden",
+    "Optional: Upload an alternative logo file.": "Optional: Alternatives Logo hochladen."
 }

@@ -780,6 +780,7 @@ export default {
         "Edit metadata": "Metadaten bearbeiten",
         "Add row": "Zeile hinzufügen",
         "Load data": "Daten laden",
+        "Optional: Upload an alternative logo file.": "Optional: Alternatives Logo hochladen.",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

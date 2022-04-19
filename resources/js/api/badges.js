@@ -1,8 +1,20 @@
 import { api, route } from "@/api/baseApi";
 export default {
-    async make(params) {
-        const url = route("api.badges.make", params);
-        return await api.download(url, "POST");
+    async make(elements, altLogo) {
+        const formData = new FormData();
+        elements.forEach(function(element, idx) {
+            formData.append(`elements[${idx}][name]`, element.name)
+            formData.append(`elements[${idx}][position]`, element.position)
+            if (element.picture) {
+                formData.append(`elements[${idx}][picture]`, element.picture)
+            }
+        });
+        if (altLogo) {
+            formData.append('alt_logo', altLogo)
+        }
+
+        const url = route("api.badges.make");
+        return await api.download(url, "POST", formData);
     },
     async fetchCommunityVolunteers() {
         const url = route("api.badges.fetchCommunityVolunteers");

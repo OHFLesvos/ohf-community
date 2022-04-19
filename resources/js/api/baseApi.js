@@ -98,12 +98,13 @@ export const api = {
             handleError(err);
         }
     },
-    async download(downloadUrl, method="GET") {
+    async download(downloadUrl, method="GET", formData) {
         try {
             let response = await axios({
                 url: downloadUrl,
                 method: method,
-                responseType: "blob"
+                responseType: "blob",
+                data: formData
             });
 
             let filename = null;

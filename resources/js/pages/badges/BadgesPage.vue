@@ -5,6 +5,7 @@
                 <b-form-group :label="$t('Source')">
                     <b-radio-group v-model="source" :options="sources"/>
                 </b-form-group>
+
                 <template v-if="source == 'list'">
                     <b-form-row v-for="(element, index) in elements" :key="index" class="mb-3">
                         <b-col>
@@ -43,6 +44,7 @@
                         <font-awesome-icon icon="plus-circle"/> {{ $t('Add row') }}
                     </b-button>
                 </template>
+
                 <template v-else-if="source == 'file'">
                     <b-form-group :description="$t('File must be in Excel or CSV format and contain the columns \'Name\', \'Position\'.')">
                         <b-file
@@ -58,6 +60,7 @@
                         <font-awesome-icon icon="upload"/> {{ $t('Upload') }}
                     </b-button>
                 </template>
+
                 <template v-else-if="source == 'cmtyvol'">
                     <b-button
                         :disabled="isBusy"
@@ -67,6 +70,15 @@
                         <font-awesome-icon icon="download"/> {{ $t('Load data') }}
                     </b-button>
                 </template>
+
+                <hr>
+                <b-form-group :description="$t('Optional: Upload an alternative logo file.')" class="mb-0 bt-3">
+                    <b-file
+                        v-model="altLogo"
+                        :placeholder="$t('Choose alternative logo')"
+                        accept="image/*"/>
+                </b-form-group>
+
                 <template #footer>
                     <b-button
                         type="button"
@@ -109,6 +121,7 @@ export default {
             sources: sources,
             elements: [this.createElement()],
             importFile: null,
+            altLogo: null,
             isBusy: false,
             isSubmitting: false
         }
@@ -123,9 +136,7 @@ export default {
             this.isBusy = true;
             this.isSubmitting = true;
             try {
-                await badgesApi.make({
-                    elements: this.elements,
-                })
+                await badgesApi.make(this.elements, this.altLogo)
             } catch (err) {
                 alert(err);
                 console.error(err);
@@ -168,6 +179,7 @@ export default {
             this.isBusy = false;
         },
         reset() {
+            this.altLogo = null;
             this.importFile = null;
             this.source = 'list'
             this.elements = [this.createElement()]
