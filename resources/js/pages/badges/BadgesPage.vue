@@ -25,7 +25,14 @@
                                 autocomplete="off"/>
                         </b-col>
                         <b-col :cols="4">
+                            <template v-if="element.picture_url">
+                                <CloseableThumbnailImage
+                                    :url="element.picture_url"
+                                    @close="removePictureUrl(index)"
+                                />
+                            </template>
                             <b-file
+                                v-else
                                 v-model="element.picture"
                                 :key="`picture.${index}`"
                                 :placeholder="$t('Picture')"
@@ -107,7 +114,11 @@
 
 <script>
 import badgesApi from "@/api/badges";
+import CloseableThumbnailImage from "@/components/CloseableThumbnailImage";
 export default {
+    components: {
+        CloseableThumbnailImage,
+    },
     data() {
         const sources = [
             { value: 'list', text: this.$t('List') },
@@ -150,6 +161,9 @@ export default {
         },
         removeElement(index) {
             this.elements.splice(index, 1)
+        },
+        removePictureUrl(index) {
+            this.elements[index].picture_url = undefined
         },
         async uploadFile() {
             this.isBusy = true;

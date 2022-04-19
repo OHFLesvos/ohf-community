@@ -29,6 +29,9 @@ class BadgeMakerController extends Controller
                 'file',
                 'image',
             ],
+            'elements.*.picture_url' => [
+                'string',
+            ],
             'alt_logo' => [
                 'file',
                 'image',
@@ -37,7 +40,7 @@ class BadgeMakerController extends Controller
 
         $persons = collect($request->elements, [])
             ->map(fn ($e, $idx) => [
-                'name' => $e['name'].$idx,
+                'name' => $e['name'],
                 'position' => $e['position'] ?? null,
                 'picture' => $this->getResizedPictureFromRequest($request, $idx),
             ]);
@@ -62,6 +65,8 @@ class BadgeMakerController extends Controller
             $image = new \Gumlet\ImageResize($request->file("elements.$i.picture"), IMAGETYPE_JPEG);
             $image->resizeToBestFit(800, 800, true);
             return 'data:image/jpeg;base64,' . base64_encode((string) $image);
+        } else if ($request->filled("elements.$i.picture_url")) {
+            return $request->input("elements.$i.picture_url");
         }
         return null;
     }
@@ -101,7 +106,7 @@ class BadgeMakerController extends Controller
             ->map(fn ($cmtyvol) => [
                 'name' => $cmtyvol->nickname ?? $cmtyvol->first_name,
                 'position' => $cmtyvol->responsibilities->unique('name')->implode('name', ', '),
-                // TODO picture
+                'picture_url' => $cmtyvol->portrait_picture != null ? Storage::url($cmtyvol->portrait_picture) : null,
             ]);
 
         return response()->json($elements);

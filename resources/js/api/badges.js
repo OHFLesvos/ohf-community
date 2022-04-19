@@ -7,12 +7,13 @@ export default {
             formData.append(`elements[${idx}][position]`, element.position)
             if (element.picture) {
                 formData.append(`elements[${idx}][picture]`, element.picture)
+            } else if (element.picture_url) {
+                formData.append(`elements[${idx}][picture_url]`, element.picture_url)
             }
         });
         if (altLogo) {
             formData.append('alt_logo', altLogo)
         }
-
         const url = route("api.badges.make");
         return await api.download(url, "POST", formData);
     },
