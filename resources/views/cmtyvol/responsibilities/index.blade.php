@@ -29,7 +29,7 @@
                                 <a href="{{ route('cmtyvol.responsibilities.edit', $responsibility) }}">{{ $responsibility->name }}</a>
                             </td>
                             <td>
-                                <div class="text-formatted long-description collapse" id="description{{ $responsibility->id }}" data-toggle="collapse" data-target="#description{{ $responsibility->id }}" aria-expanded="false">{{ $responsibility->description }}</div>
+                                <div class="pre-formatted long-description collapse" id="description{{ $responsibility->id }}" data-toggle="collapse" data-target="#description{{ $responsibility->id }}" aria-expanded="false">{{ $responsibility->description }}</div>
                             </td>
                             <td class="text-center fit">
                                 <x-icon-status :check="$responsibility->available"/>

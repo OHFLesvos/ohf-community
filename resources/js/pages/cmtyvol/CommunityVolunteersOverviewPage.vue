@@ -34,7 +34,7 @@
                 <font-awesome-icon v-if="data.value=='f'" icon="female" />
             </template>
             <template v-slot:cell(languages)="data">
-                <nl2br tag="span" :text="arrayToString(data.value)" />
+                <span class="pre-formatted">{{ arrayToString(data.value) }}</span>
             </template>
             <template v-slot:cell(responsibilities)="data">
                 <template v-for="(attributes, name) in data.value" >
@@ -82,7 +82,6 @@
 </template>
 
 <script>
-import Nl2br from 'vue-nl2br'
 import BaseTable from '@/components/table/BaseTable'
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
 import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector'
@@ -94,7 +93,6 @@ export default {
     },
     components: {
         BaseTable,
-        Nl2br,
         WorkStatusSelector,
         ViewTypeSelector,
         GridView
