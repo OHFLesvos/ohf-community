@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\UserManagement;
+namespace App\Http\Controllers\UserManagement\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserManagement\Store2FA;
@@ -9,6 +9,7 @@ use App\Http\Requests\UserManagement\StoreUserProfile;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -19,8 +20,12 @@ class UserProfileController extends Controller
 {
     public function index()
     {
-        return view('user_management.userprofile.view', [
-            'user' => Auth::user(),
+        $user = Auth::user()->load('roles');
+
+        return response()->json([
+            'user' => $user,
+            'languages' => language()->allowed(),
+            'locale' => App::getLocale(),
         ]);
     }
 

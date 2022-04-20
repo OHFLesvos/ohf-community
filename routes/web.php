@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Badges\BadgeMakerController;
 use App\Http\Controllers\ChangelogController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
@@ -11,7 +10,6 @@ use App\Http\Controllers\PrivacyPolicy;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
-use App\Http\Controllers\UserManagement\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -89,20 +87,8 @@ Route::middleware(['auth', 'language'])
             });
 
         // User profile
-        Route::get('userprofile', [UserProfileController::class, 'index'])
+        Route::view('userprofile', 'vue-app')
             ->name('userprofile');
-        Route::post('userprofile', [UserProfileController::class, 'update'])
-            ->name('userprofile.update');
-        Route::post('userprofile/updatePassword', [UserProfileController::class, 'updatePassword'])
-            ->name('userprofile.updatePassword');
-        Route::delete('userprofile', [UserProfileController::class, 'delete'])
-            ->name('userprofile.delete');
-        Route::get('userprofile/2FA', [UserProfileController::class, 'view2FA'])
-            ->name('userprofile.view2FA');
-        Route::post('userprofile/2FA', [UserProfileController::class, 'store2FA'])
-            ->name('userprofile.store2FA');
-        Route::delete('userprofile/2FA', [UserProfileController::class, 'disable2FA'])
-            ->name('userprofile.disable2FA');
     });
 
 Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
