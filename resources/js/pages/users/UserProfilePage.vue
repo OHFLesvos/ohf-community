@@ -42,6 +42,7 @@
                                         v-model="user.name"
                                         autocomplete="off"
                                         required
+                                        :disabled="isBusy"
                                         :state="getValidationState(validationContext)"
                                     />
                                 </b-form-group>
@@ -63,7 +64,7 @@
                                         v-model="user.email"
                                         type="email"
                                         autocomplete="off"
-                                        :disabled="isOauthActive"
+                                        :disabled="isOauthActive || isBusy"
                                         :required="!isOauthActive"
                                         :state="getValidationState(validationContext)"
                                     />
@@ -80,12 +81,14 @@
                             >
                                 <b-form-group
                                     :label="$t('Language')"
+                                    label-class="required"
                                     :state="getValidationState(validationContext)"
                                     :invalid-feedback="validationContext.errors[0]"
                                 >
                                     <b-select
                                         v-model="user.locale"
                                         required
+                                        :disabled="isBusy"
                                         :options="languageOptions"
                                         :state="getValidationState(validationContext)"
                                     />
@@ -93,7 +96,11 @@
                             </validation-provider>
 
                             <template #footer>
-                                <b-button type="submit" variant="primary">
+                                <b-button
+                                    type="submit"
+                                    variant="primary"
+                                    :disabled="isBusy"
+                                >
                                     <font-awesome-icon icon="check"/>
                                     {{ $t('Update') }}
                                 </b-button>
@@ -128,10 +135,11 @@
                                         :invalid-feedback="validationContext.errors[0]"
                                     >
                                         <b-form-input
-                                            v-model="user.old_password"
+                                            v-model="old_password"
                                             type="password"
                                             autocomplete="off"
                                             required
+                                            :disabled="isBusy"
                                             :state="getValidationState(validationContext)"
                                         />
                                     </b-form-group>
@@ -150,10 +158,11 @@
                                         :invalid-feedback="validationContext.errors[0]"
                                     >
                                         <b-form-input
-                                            v-model="user.password"
+                                            v-model="password"
                                             type="password"
                                             autocomplete="off"
                                             required
+                                            :disabled="isBusy"
                                             :state="getValidationState(validationContext)"
                                         />
                                     </b-form-group>
@@ -172,17 +181,22 @@
                                         :invalid-feedback="validationContext.errors[0]"
                                     >
                                         <b-form-input
-                                            v-model="user.password_confirmation"
+                                            v-model="password_confirmation"
                                             type="password"
                                             autocomplete="off"
                                             required
+                                            :disabled="isBusy"
                                             :state="getValidationState(validationContext)"
                                         />
                                     </b-form-group>
                                 </validation-provider>
 
                                 <template #footer>
-                                    <b-button type="submit" variant="primary">
+                                    <b-button
+                                        type="submit"
+                                        variant="primary"
+                                        :disabled="isBusy"
+                                    >
                                         <font-awesome-icon icon="check"/>
                                         {{ $t('Update password') }}
                                     </b-button>
@@ -247,10 +261,20 @@
 
             <!-- Account Removal -->
             <b-col sm="6">
-                <b-card class="shadow-sm mb-4" :header="$t('Account Removal')" body-class="pb-1" footer-class="text-right">
+                <b-card
+                    class="shadow-sm mb-4"
+                    :header="$t('Account Removal')"
+                    body-class="pb-1"
+                    footer-class="text-right"
+                >
                     <p>{{ $t('If you no longer plan to use this service, you can remove your account and delete all associated data.') }}</p>
                     <template #footer>
-                        <b-button type="button" variant="danger" @click="confirmDelete">
+                        <b-button
+                            type="button"
+                            variant="danger"
+                            :disabled="isBusy"
+                            @click="confirmDelete"
+                        >
                             <font-awesome-icon icon="user-times"/>
                             {{ $t('Delete account') }}
                         </b-button>
@@ -268,6 +292,8 @@
 <script>
 import UserAvatar from "@/components/user_management/UserAvatar";
 import userprofileApi from "@/api/userprofile";
+import { showSnackbar } from '@/utils'
+import moment from 'moment'
 export default {
     components: {
         UserAvatar
@@ -281,7 +307,8 @@ export default {
             old_password: '',
             password: '',
             password_confirmation: '',
-            languages: {}
+            languages: {},
+            isBusy: false,
         }
     },
     computed: {
@@ -299,11 +326,23 @@ export default {
         let data = await userprofileApi.list();
         this.user = data.user;
         this.languages = data.languages;
-        console.log(data)
     },
     methods: {
-        updateProfile() {
-            console.log('updateProfile', this.user)
+        async updateProfile() {
+            this.isBusy = true
+            try {
+                let data = await userprofileApi.updateProfile({
+                    name: this.user.name,
+                    email: this.user.email,
+                    locale: this.user.locale,
+                })
+                this.$i18n.locale = this.user.locale
+                moment.locale(this.user.locale);
+                showSnackbar(data.message)
+            } catch (err) {
+                alert(err)
+            }
+            this.isBusy = false
         },
         updatePassword() {
             console.log('updatePassword')
@@ -315,7 +354,7 @@ export default {
             if (confirm(this.$t('Do you really want to delete your account and lose access to all data?'))) {
                 console.log('confirmDelete')
             }
-        }
+        },
     }
 }
 </script>

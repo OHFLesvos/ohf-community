@@ -38,6 +38,9 @@ class StoreUserProfile extends FormRequest
                 'max:191',
                 Rule::unique('users')->ignore(Auth::user()->id),
             ],
+            'locale' => [
+                Rule::in(array_keys(language()->allowed())),
+            ],
         ];
     }
 }

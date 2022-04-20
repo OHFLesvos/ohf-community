@@ -36,6 +36,7 @@ class UserProfileController extends Controller
         if (empty($user->provider_name)) {
             $user->email = $request->email;
         }
+        $user->locale = $request->locale;
         if ($user->isDirty()) {
             Log::info('Used updated profile.', [
                 'user_id' => $user->id,
@@ -44,11 +45,16 @@ class UserProfileController extends Controller
                 'client_ip' => request()->ip(),
             ]);
             $user->save();
-            return redirect()->route('userprofile')
-                ->with('success', __('User profile has been updated.'));
+            return response()
+                ->json([
+                    'message' => __('User profile has been updated.'),
+                ]);
         }
-        return redirect()->route('userprofile')
-            ->with('info', __('No changes have been made.'));
+
+        return response()
+            ->json([
+                'message' => __('No changes have been made.'),
+            ]);
     }
 
     public function updatePassword(StoreNewUserPassword $request)
