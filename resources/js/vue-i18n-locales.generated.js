@@ -780,6 +780,7 @@ export default {
         "Add row": "Zeile hinzufügen",
         "Load data": "Daten laden",
         "Optional: Upload an alternative logo file.": "Optional: Alternatives Logo hochladen.",
+        "Account Deletion": "Accountlöschung",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

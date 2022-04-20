@@ -1,5 +1,17 @@
 <template>
-    <b-container v-if="user">
+    <b-container v-if="hasBeenDeleted">
+        <h2 class="display-4 p-0">{{ $t('Account Deletion') }}</h2>
+
+        <b-alert variant="info" show>
+            <font-awesome-icon icon="info-circle"/>
+            {{ $t('Your account has been deleted.') }}
+        </b-alert>
+
+        <div class="text-center mt-4">
+            <a :href="route('login')">{{ $t('Return to login') }}</a>
+        </div>
+    </b-container>
+    <b-container v-else-if="user">
 
         <b-row class="align-items-center">
             <b-col cols="auto">
@@ -309,6 +321,7 @@ export default {
             password_confirmation: '',
             languages: {},
             isBusy: false,
+            hasBeenDeleted: false,
         }
     },
     computed: {
@@ -368,9 +381,17 @@ export default {
         getValidationState ({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;
         },
-        confirmDelete() {
+        async confirmDelete() {
             if (confirm(this.$t('Do you really want to delete your account and lose access to all data?'))) {
-                console.log('confirmDelete')
+                this.isBusy = true
+                try {
+                    let data = await userprofileApi.delete()
+                    showSnackbar(data.message)
+                    this.hasBeenDeleted = true
+                } catch (err) {
+                    alert(err)
+                }
+                this.isBusy = false
             }
         },
     }

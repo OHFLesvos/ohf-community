@@ -365,7 +365,6 @@ Route::middleware(['auth:sanctum', 'language'])
             ->name('userprofile.update');
         Route::post('userprofile/updatePassword', [UserProfileController::class, 'updatePassword'])
             ->name('userprofile.updatePassword');
-
         Route::delete('userprofile', [UserProfileController::class, 'delete'])
             ->name('userprofile.delete');
 

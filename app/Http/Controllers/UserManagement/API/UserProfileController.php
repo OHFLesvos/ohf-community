@@ -83,18 +83,26 @@ class UserProfileController extends Controller
             ]);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
         $user = Auth::user();
-        Auth::logout();
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         $user->delete();
+
         Log::notice('Used deleted account.', [
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,
             'client_ip' => request()->ip(),
         ]);
-        return view('user_management.userprofile.deleted');
+
+        return response()
+            ->json([
+                'message' => __('Your account has been deleted.'),
+            ]);
     }
 
     public function view2FA(Request $request)

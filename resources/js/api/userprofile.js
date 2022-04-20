@@ -12,4 +12,8 @@ export default {
         const url = route('api.userprofile.updatePassword')
         return await api.post(url, data)
     },
+    async delete() {
+        const url = route('api.userprofile.delete')
+        return await api.delete(url)
+    },
 };
