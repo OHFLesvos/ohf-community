@@ -8,7 +8,10 @@
         :items-per-page="25"
     >
         <template v-slot:cell(avatar_url)="data">
-            <UserAvatar :value="data.item.name" :badge-icon="data.item.is_super_admin ? 'shield-alt' : null"/>
+            <UserAvatar
+                :value="data.item.name"
+                :badge-icon="data.item.is_super_admin ? 'shield-alt' : null"
+            />
         </template>
         <template v-slot:cell(name)="data">
             <a :href="data.item.links.show">
