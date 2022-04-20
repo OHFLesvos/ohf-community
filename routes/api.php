@@ -365,8 +365,10 @@ Route::middleware(['auth:sanctum', 'language'])
             ->name('userprofile.update');
         Route::post('userprofile/updatePassword', [UserProfileController::class, 'updatePassword'])
             ->name('userprofile.updatePassword');
+
         Route::delete('userprofile', [UserProfileController::class, 'delete'])
             ->name('userprofile.delete');
+
         Route::get('userprofile/2FA', [UserProfileController::class, 'view2FA'])
             ->name('userprofile.view2FA');
         Route::post('userprofile/2FA', [UserProfileController::class, 'store2FA'])

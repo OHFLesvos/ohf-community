@@ -19,7 +19,7 @@
             <!-- Profile -->
             <b-col sm="6">
                 <validation-observer
-                    ref="observer"
+                    ref="profileForm"
                     v-slot="{ handleSubmit }"
                     slim
                 >
@@ -115,7 +115,7 @@
                 <!-- Change Password -->
                 <b-col sm="6">
                     <validation-observer
-                        ref="observer"
+                        ref="passwordForm"
                         v-slot="{ handleSubmit }"
                         slim
                     >
@@ -339,13 +339,31 @@ export default {
                 this.$i18n.locale = this.user.locale
                 moment.locale(this.user.locale);
                 showSnackbar(data.message)
+                this.$nextTick(() => {
+                    this.$refs.profileForm.reset();
+                });
             } catch (err) {
                 alert(err)
             }
             this.isBusy = false
         },
-        updatePassword() {
-            console.log('updatePassword')
+        async updatePassword() {
+            this.isBusy = true
+            try {
+                let data = await userprofileApi.updatePassword({
+                    old_password: this.old_password,
+                    password: this.password,
+                    password_confirmation: this.password_confirmation,
+                })
+                this.old_password = this.password = this.password_confirmation = ''
+                showSnackbar(data.message)
+                this.$nextTick(() => {
+                    this.$refs.passwordForm.reset();
+                });
+            } catch (err) {
+                alert(err)
+            }
+            this.isBusy = false
         },
         getValidationState ({ dirty, validated, valid = null }) {
             return dirty || validated ? valid : null;

@@ -8,4 +8,8 @@ export default {
         const url = route('api.userprofile.update')
         return await api.post(url, data)
     },
+    async updatePassword(data) {
+        const url = route('api.userprofile.updatePassword')
+        return await api.post(url, data)
+    },
 };

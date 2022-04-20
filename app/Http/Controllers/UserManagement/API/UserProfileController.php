@@ -45,6 +45,7 @@ class UserProfileController extends Controller
                 'client_ip' => request()->ip(),
             ]);
             $user->save();
+
             return response()
                 ->json([
                     'message' => __('User profile has been updated.'),
@@ -69,11 +70,17 @@ class UserProfileController extends Controller
                 'client_ip' => request()->ip(),
             ]);
             $user->save();
-            return redirect()->route('userprofile')
-                ->with('success', __('Password has been updated.'));
+
+            return response()
+                ->json([
+                    'message' => __('Password has been updated.'),
+                ]);
         }
-        return redirect()->route('userprofile')
-            ->with('info', __('No changes have been made.'));
+
+        return response()
+            ->json([
+                'message' => __('No changes have been made.'),
+            ]);
     }
 
     public function delete()
