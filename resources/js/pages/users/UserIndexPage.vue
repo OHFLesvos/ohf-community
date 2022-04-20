@@ -8,7 +8,7 @@
         :items-per-page="25"
     >
         <template v-slot:cell(avatar_url)="data">
-            <user-avatar :url="data.value" size="30" />
+            <UserAvatar :value="data.item.name" :badge-icon="data.item.is_super_admin ? 'shield-alt' : null"/>
         </template>
         <template v-slot:cell(name)="data">
             <a :href="data.item.links.show">
@@ -49,7 +49,7 @@
 <script>
 import BaseTable from "@/components/table/BaseTable";
 import EmailLink from "@/components/common/EmailLink";
-import UserAvatar from "@/components/UserAvatar";
+import UserAvatar from "@/components/user_management/UserAvatar";
 import usersApi from "@/api/user_management/users";
 export default {
     title() {

@@ -4,7 +4,7 @@
         :text="text"
         :style="{ backgroundColor: color }"
     >
-        <!-- <template v-slot:badge><font-awesome-icon icon="shield-alt"/></template> -->
+        <template v-slot:badge v-if="badgeIcon"><font-awesome-icon :icon="badgeIcon"/></template>
     </b-avatar>
 </template>
 
@@ -15,6 +15,10 @@ export default {
     props: {
         value: {
             required: true,
+            type: String
+        },
+        badgeIcon: {
+            required: false,
             type: String
         }
     },
