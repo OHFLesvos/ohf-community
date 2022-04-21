@@ -966,6 +966,7 @@ export default {
         "{count} check-ins today": "{count} check-ins today",
         "Inactive visitor records will be anonymized after {days} days.": "Inactive visitor records will be anonymized after {days} days.",
         "Age {age}": "Age: {age}",
+        "The newest user is {name}, registered {registered}.": "The newest user is {name}, registered {registered}.",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
