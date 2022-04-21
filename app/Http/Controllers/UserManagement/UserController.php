@@ -70,9 +70,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('vue-app', [
-            'user' => $user,
-        ]);
+        return view('vue-app');
     }
 
     /**

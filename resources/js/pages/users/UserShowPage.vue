@@ -163,6 +163,16 @@
                 <font-awesome-icon icon="edit"/>
                 {{  $t('Edit') }}
             </b-button>
+            <b-button
+                v-if="user.can_delete"
+                type="button"
+                variant="danger"
+                :disabled="isBusy"
+                @click="handleDelete"
+            >
+                <font-awesome-icon icon="trash"/>
+                {{  $t('Delete') }}
+            </b-button>
         </p>
 
     </b-container>
@@ -247,6 +257,19 @@ export default {
                 this.isBusy = false
             }
         },
+        async handleDelete() {
+            if (confirm(this.$t('Really delete this user?'))) {
+                this.isBusy = true
+                try {
+                    let data = await usersApi.delete(this.id)
+                    this.$router.push({ name: 'users.index' })
+                    showSnackbar(data.message)
+                } catch (ex) {
+                    alert(ex)
+                }
+                this.isBusy = false
+            }
+        }
     }
 }
 </script>
