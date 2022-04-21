@@ -10,9 +10,11 @@ use Endroid\QrCode\Writer\Result\ResultInterface;
 
 class TOTPService
 {
+    const VERIFY_WINDOW = 1;
+
     public function verify(string $secret, string $otp): bool
     {
-        return TOTP::create($secret)->verify($otp, null, 1);
+        return TOTP::create($secret)->verify($otp, null, self::VERIFY_WINDOW);
     }
 
     public function createProvisionUri(string $secret, string $label): string
