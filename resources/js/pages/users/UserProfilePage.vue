@@ -1,17 +1,5 @@
 <template>
-    <b-container v-if="hasBeenDeleted">
-        <h2 class="display-4 p-0">{{ $t('Account Deletion') }}</h2>
-
-        <b-alert variant="info" show>
-            <font-awesome-icon icon="info-circle"/>
-            {{ $t('Your account has been deleted.') }}
-        </b-alert>
-
-        <div class="text-center mt-4">
-            <a :href="route('login')">{{ $t('Return to login') }}</a>
-        </div>
-    </b-container>
-    <b-container v-else-if="user">
+    <b-container v-if="user">
 
         <b-row class="align-items-center">
             <b-col cols="auto">
@@ -74,25 +62,7 @@
 
             <!-- Account Removal -->
             <b-col sm="6">
-                <b-card
-                    class="shadow-sm mb-4"
-                    :header="$t('Account Removal')"
-                    body-class="pb-1"
-                    footer-class="text-right"
-                >
-                    <p>{{ $t('If you no longer plan to use this service, you can remove your account and delete all associated data.') }}</p>
-                    <template #footer>
-                        <b-button
-                            type="button"
-                            variant="danger"
-                            :disabled="isBusy"
-                            @click="confirmDelete"
-                        >
-                            <font-awesome-icon icon="user-times"/>
-                            {{ $t('Delete account') }}
-                        </b-button>
-                    </template>
-                </b-card>
+                <AcountDeleteDialog @delete="$router.push({ name: 'userprofile.deleted' })"/>
             </b-col>
 
         </b-row>
@@ -107,14 +77,15 @@ import UserAvatar from "@/components/user_management/UserAvatar"
 import UserProfileDialog from "@/components/userprofile/UserProfileDialog"
 import ChangePasswordDialog from "@/components/userprofile/ChangePasswordDialog"
 import TfaConfiguration from "@/components/userprofile/TfaConfiguration"
+import AcountDeleteDialog from "@/components/userprofile/AcountDeleteDialog"
 import userprofileApi from "@/api/userprofile"
-import { showSnackbar } from '@/utils'
 export default {
     components: {
         UserAvatar,
         UserProfileDialog,
         ChangePasswordDialog,
         TfaConfiguration,
+        AcountDeleteDialog
     },
     title() {
         return this.$t('User Profile')
@@ -124,7 +95,6 @@ export default {
             user: null,
             languages: {},
             isBusy: false,
-            hasBeenDeleted: false,
         }
     },
     computed: {
@@ -140,19 +110,6 @@ export default {
             let data = await userprofileApi.list()
             this.user = data.user
             this.languages = data.languages
-        },
-        async confirmDelete() {
-            if (confirm(this.$t('Do you really want to delete your account and lose access to all data?'))) {
-                this.isBusy = true
-                try {
-                    let data = await userprofileApi.delete()
-                    showSnackbar(data.message)
-                    this.hasBeenDeleted = true
-                } catch (err) {
-                    alert(err)
-                }
-                this.isBusy = false
-            }
         },
     }
 }
