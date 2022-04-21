@@ -3,37 +3,29 @@
 namespace App\Http\Controllers\UserManagement\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserManagement\Store2FA;
-use Endroid\QrCode\Builder\Builder;
-use Endroid\QrCode\Writer\PngWriter;
-use Endroid\QrCode\Writer\Result\ResultInterface;
+use App\Services\TOTPService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use OTPHP\TOTP;
-use ParagonIE\ConstantTime\Base32;
 
 class UserProfile2FAController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, TOTPService $totp)
     {
         $user = Auth::user();
         if ($user->tfa_secret === null) {
-            $secret = $this->generateSecret();
+            $secret = $totp->generateSecret();
             $request->session()->put('temp_2fa_secret', $secret);
 
-            $otp = TOTP::create($secret);
-            $otp->setLabel($user->email);
-            $otp->setIssuer(config('app.name'));
-
-            $qrCode = $this->generateQrCode($otp->getProvisioningUri());
+            $uri = $totp->createProvisionUri($secret, $user->email);
+            $qrCode = $totp->generateQrCode($uri);
 
             return response()
                 ->json([
                     'enabled' => false,
                     'image' => base64_encode($qrCode->getString()),
-                    'otp' => $otp->getProvisioningUri(),
+                    'otp' => $uri,
                     'datauri' => $qrCode->getDataUri(),
                 ]);
         }
@@ -44,7 +36,7 @@ class UserProfile2FAController extends Controller
             ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, TOTPService $totp)
     {
         $request->validate([
             'code' => [
@@ -57,8 +49,7 @@ class UserProfile2FAController extends Controller
         if ($user->tfa_secret === null) {
             $secret = $request->session()->pull('temp_2fa_secret');
             if ($secret != null) {
-                $otp = TOTP::create($secret);
-                if ($otp->verify($request->code, null, 1)) {
+                if ($totp->verify($secret, $request->code)) {
                     $user->tfa_secret = $secret;
                     $user->save();
                     Log::notice('User enabled 2FA.', [
@@ -87,8 +78,7 @@ class UserProfile2FAController extends Controller
                 ], Response::HTTP_BAD_REQUEST);
         }
 
-        $otp = TOTP::create($user->tfa_secret);
-        if ($otp->verify($request->code, null, 1)) {
+        if ($totp->verify($user->tfa_secret, $request->code)) {
             $user->tfa_secret = null;
             $user->save();
             Log::notice('Used disabled 2FA.', [
@@ -108,19 +98,5 @@ class UserProfile2FAController extends Controller
             ->json([
                 'message' => __('Invalid code, please repeat.'),
             ], Response::HTTP_BAD_REQUEST);
-    }
-
-    private function generateSecret(): string
-    {
-        return trim(Base32::encodeUpper(random_bytes(64)), '=');
-    }
-
-    private function generateQrCode(string $data): ResultInterface
-    {
-        return Builder::create()
-            ->writer(new PngWriter())
-            ->data($data)
-            ->size(400)
-            ->build();
     }
 }
