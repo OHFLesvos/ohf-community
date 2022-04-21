@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Http\Resources\Role as RoleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class User extends JsonResource
 {
@@ -28,6 +29,9 @@ class User extends JsonResource
             'updated_at' => $this->updated_at,
             'links' => $this->links(),
             'relationships' => $this->relationships(),
+            'is_current_user' => $this->id == Auth::id(),
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
         ];
     }
 
@@ -46,6 +50,13 @@ class User extends JsonResource
         return [
             'roles' => [
                 'data' => RoleResource::collection($this->whenLoaded('roles')),
+                'links' => [
+                    'self' => route('api.users.relationships.roles.index', $this->resource),
+                    'related' => route('api.users.roles.index', $this->resource),
+                ],
+            ],
+            'administeredRoles' => [
+                'data' => RoleResource::collection($this->whenLoaded('administeredRoles')),
                 'links' => [
                     'self' => route('api.users.relationships.roles.index', $this->resource),
                     'related' => route('api.users.roles.index', $this->resource),

@@ -69,10 +69,6 @@ Route::middleware(['auth', 'language'])
                 Route::get('users/permissions', [UserController::class, 'permissions'])
                     ->name('users.permissions')
                     ->middleware('can:viewAny,App\Models\User');
-                Route::put('users/{user}/disable2FA', [UserController::class, 'disable2FA'])
-                    ->name('users.disable2FA');
-                Route::put('users/{user}/disableOAuth', [UserController::class, 'disableOAuth'])
-                    ->name('users.disableOAuth');
                 Route::resource('users', UserController::class);
 
                 // Roles

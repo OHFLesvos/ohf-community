@@ -14,5 +14,18 @@ export default [
                     /* webpackChunkName: "user-management" */ "@/pages/users/UserIndexPage"
                 )
         }
-    }
+    },
+    {
+        path: "/admin/users/:id(\\d+)",
+        name: "users.show",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "user-management" */ "@/pages/users/UserShowPage"
+                )
+        },
+        props: {
+            default: true,
+        }
+    },
 ];

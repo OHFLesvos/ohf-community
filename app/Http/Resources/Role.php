@@ -25,6 +25,8 @@ class Role extends JsonResource
             'updated_at' => $this->updated_at,
             'links' => $this->links(),
             'relationships' => $this->relationships(),
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
         ];
     }
 

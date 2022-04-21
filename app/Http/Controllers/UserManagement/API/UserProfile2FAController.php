@@ -85,7 +85,7 @@ class UserProfile2FAController extends Controller
 
             return response()
                 ->json([
-                    'message' => __('Two-Factor Authentication disabled'),
+                    'message' => __('Two-Factor Authentication disabled.'),
                 ]);
         }
 

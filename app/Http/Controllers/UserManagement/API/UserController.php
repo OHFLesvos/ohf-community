@@ -13,6 +13,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -44,7 +45,12 @@ class UserController extends Controller
         $this->validatePagination();
 
         return new UserCollection(User::filtered($this->getFilter())
-            ->when(in_array('roles', $this->getIncludes()), fn ($qry) => $qry->with(['roles' => fn ($qry) => $qry->orderBy('name')]))
+            ->when(in_array('roles', $this->getIncludes()), fn ($qry) => $qry->with([
+                'roles' => fn ($qry) => $qry->orderBy('name'),
+            ]))
+            ->when(in_array('administeredRoles', $this->getIncludes()), fn ($qry) => $qry->with([
+                'administeredRoles' => fn ($qry) => $qry->orderBy('name'),
+            ]))
             ->orderBy($this->getSortBy('name'), $this->getSortDirection())
             ->paginate($this->getPageSize()));
     }
@@ -78,7 +84,26 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        if (in_array('roles', $this->getIncludes())) {
+            $user->load(['roles' => fn ($q) => $q->orderBy('name')]);
+        }
+        if (in_array('administeredRoles', $this->getIncludes())) {
+            $user->load(['administeredRoles' => fn ($q) => $q->orderBy('name')]);
+        }
+
+        $current_permissions = $user->permissions();
+        $permissions = [];
+        foreach (getCategorizedPermissions() as $title => $elements) {
+            foreach ($elements as $key => $label) {
+                if ($current_permissions->contains($key)) {
+                    $permissions[$title][] = $label;
+                }
+            }
+        }
+
+        return (new UserResource($user))->additional([
+            'permissions' => $permissions,
+        ]);
     }
 
     /**
@@ -100,6 +125,48 @@ class UserController extends Controller
         return response()
             ->json([
                 'message' => __('User has been updated.'),
+            ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function disable2FA(User $user)
+    {
+        $this->authorize('update', $user);
+
+        $user->tfa_secret = null;
+        $user->save();
+
+        return response()
+            ->json([
+                'message' => __('Two-Factor Authentication disabled.'),
+            ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function disableOAuth(User $user)
+    {
+        $this->authorize('update', $user);
+
+        $user->provider_name = null;
+        $user->provider_id = null;
+        $user->avatar = null;
+        $password = Str::random(8);
+        $user->password = Hash::make($password);
+        $user->save();
+
+        return response()
+            ->json([
+                'message' => __('OAuth-Login disabled. A new random password has been set.'),
             ]);
     }
 

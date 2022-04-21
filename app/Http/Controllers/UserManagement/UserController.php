@@ -11,7 +11,6 @@ use App\Util\AutoColorInitialAvatar;
 use App\View\Components\UserAvatar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -27,7 +26,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return view('user_management.users.index');
+        return view('vue-app');
     }
 
     /**
@@ -71,20 +70,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $current_permissions = $user->permissions();
-        $permissions = [];
-        foreach (getCategorizedPermissions() as $title => $elements) {
-            foreach ($elements as $key => $label) {
-                if ($current_permissions->contains($key)) {
-                    $permissions[$title][] = $label;
-                }
-            }
-        }
-
-        return view('user_management.users.show', [
-            'user' => $user,
-            'permissions' => $permissions,
-        ]);
+        return view('vue-app');
     }
 
     /**
@@ -151,46 +137,6 @@ class UserController extends Controller
         return view('user_management.users.list-permissions', [
             'permissions' => getCategorizedPermissions(),
         ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function disable2FA(User $user)
-    {
-        $this->authorize('update', User::class);
-
-        $user->tfa_secret = null;
-        $user->save();
-
-        return redirect()
-            ->route('users.show', $user)
-            ->with('success', __('Two-Factor Authentication disabled'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function disableOAuth(User $user)
-    {
-        $this->authorize('update', User::class);
-
-        $user->provider_name = null;
-        $user->provider_id = null;
-        $user->avatar = null;
-        $password = Str::random(8);
-        $user->password = Hash::make($password);
-        $user->save();
-
-        return redirect()
-            ->route('users.show', $user)
-            ->with('success', __('OAuth-Login disabled. A new random password has been set.'));
     }
 
     /**
