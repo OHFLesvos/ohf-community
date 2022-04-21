@@ -135,7 +135,9 @@
 import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 import userprofileApi from "@/api/userprofile";
 import { showSnackbar } from '@/utils'
+import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
+    mixins: [formValidationMixin],
     components: {
         AlertWithRetry,
     },
@@ -188,9 +190,6 @@ export default {
                 })
             }
             this.isBusy = false
-        },
-        getValidationState ({ dirty, validated, valid = null }) {
-            return dirty || validated ? valid : null;
         },
     }
 }

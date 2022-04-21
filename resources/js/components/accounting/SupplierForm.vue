@@ -361,7 +361,9 @@
 </template>
 
 <script>
+import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
+    mixins: [formValidationMixin],
     props: {
         supplier: {
             type: Object,
@@ -403,9 +405,6 @@ export default {
         }
     },
     methods: {
-        getValidationState ({ dirty, validated, valid = null }) {
-            return dirty || validated ? valid : null;
-        },
         onSubmit () {
             this.$emit('submit', this.form)
         },

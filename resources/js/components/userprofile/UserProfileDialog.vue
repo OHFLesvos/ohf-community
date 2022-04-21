@@ -95,7 +95,9 @@
 import userprofileApi from "@/api/userprofile"
 import { showSnackbar } from '@/utils'
 import moment from 'moment'
+import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
+    mixins: [formValidationMixin],
     props: {
         user: {
             required: true,
@@ -142,9 +144,6 @@ export default {
                 alert(err)
             }
             this.isBusy = false
-        },
-        getValidationState ({ dirty, validated, valid = null }) {
-            return dirty || validated ? valid : null;
         },
     }
 }

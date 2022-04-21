@@ -95,7 +95,9 @@
 <script>
 import userprofileApi from "@/api/userprofile"
 import { showSnackbar } from '@/utils'
+import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
+    mixins: [formValidationMixin],
     data() {
         return {
             old_password: '',
@@ -122,9 +124,6 @@ export default {
                 alert(err)
             }
             this.isBusy = false
-        },
-        getValidationState ({ dirty, validated, valid = null }) {
-            return dirty || validated ? valid : null;
         },
     }
 }
