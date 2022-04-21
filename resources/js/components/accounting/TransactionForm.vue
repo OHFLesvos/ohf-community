@@ -501,7 +501,7 @@ import transactionsApi from "@/api/accounting/transactions";
 import categoriesApi from "@/api/accounting/categories";
 import projectsApi from "@/api/accounting/projects";
 import suppliersApi from "@/api/accounting/suppliers";
-import ThumbnailImage from "@/components/ThumbnailImage";
+import ThumbnailImage from "@/components/images/ThumbnailImage";
 import SupplierInfo from "@/components/accounting/SupplierInfo";
 import BudgetInfo from "@/components/accounting/BudgetInfo";
 import budgetsApi from "@/api/accounting/budgets";

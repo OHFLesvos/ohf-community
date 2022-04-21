@@ -114,7 +114,7 @@
 
 <script>
 import badgesApi from "@/api/badges";
-import CloseableThumbnailImage from "@/components/CloseableThumbnailImage";
+import CloseableThumbnailImage from "@/components/images/CloseableThumbnailImage";
 export default {
     components: {
         CloseableThumbnailImage,
