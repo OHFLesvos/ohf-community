@@ -90,7 +90,7 @@ class UserProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        $user->delete();
+        // $user->delete();
 
         Log::notice('Used deleted account.', [
             'user_id' => $user->id,

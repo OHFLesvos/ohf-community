@@ -68,11 +68,16 @@
         </b-row>
     </b-container>
     <b-container v-else>
-        {{ $t("Loading...") }}
+        <AlertWithRetry
+            :value="errorText"
+            @retry="fetchData"
+        />
+        <p v-if="!errorText">{{ $t("Loading...") }}</p>
     </b-container>
 </template>
 
 <script>
+import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 import UserAvatar from "@/components/user_management/UserAvatar"
 import UserProfileDialog from "@/components/userprofile/UserProfileDialog"
 import ChangePasswordDialog from "@/components/userprofile/ChangePasswordDialog"
@@ -81,6 +86,7 @@ import AcountDeleteDialog from "@/components/userprofile/AcountDeleteDialog"
 import userprofileApi from "@/api/userprofile"
 export default {
     components: {
+        AlertWithRetry,
         UserAvatar,
         UserProfileDialog,
         ChangePasswordDialog,
@@ -95,6 +101,7 @@ export default {
             user: null,
             languages: {},
             isBusy: false,
+            errorText: null,
         }
     },
     computed: {
@@ -107,9 +114,14 @@ export default {
     },
     methods: {
         async fetchData() {
-            let data = await userprofileApi.list()
-            this.user = data.user
-            this.languages = data.languages
+            this.errorText = null
+            try {
+                let data = await userprofileApi.list()
+                this.user = data.user
+                this.languages = data.languages
+            } catch (err) {
+                this.errorText = err
+            }
         },
     }
 }
