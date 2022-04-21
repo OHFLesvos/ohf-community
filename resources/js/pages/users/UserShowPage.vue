@@ -205,9 +205,9 @@ export default {
             try {
                 let data = await usersApi.find(this.id)
                 this.user = data.data
+                this.roles = data.data.relationships.roles?.data ?? []
+                this.administeredRoles = data.data.relationships.administeredRoles?.data ?? []
                 this.permissions = data.permissions
-                this.roles = data.roles
-                this.administeredRoles = data.administeredRoles
             } catch (err) {
                 this.error = err
             }

@@ -44,7 +44,12 @@ class UserController extends Controller
         $this->validatePagination();
 
         return new UserCollection(User::filtered($this->getFilter())
-            ->when(in_array('roles', $this->getIncludes()), fn ($qry) => $qry->with(['roles' => fn ($qry) => $qry->orderBy('name')]))
+            ->when(in_array('roles', $this->getIncludes()), fn ($qry) => $qry->with([
+                'roles' => fn ($qry) => $qry->orderBy('name'),
+            ]))
+            ->when(in_array('administeredRoles', $this->getIncludes()), fn ($qry) => $qry->with([
+                'administeredRoles' => fn ($qry) => $qry->orderBy('name'),
+            ]))
             ->orderBy($this->getSortBy('name'), $this->getSortDirection())
             ->paginate($this->getPageSize()));
     }
@@ -78,6 +83,13 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        if (in_array('roles', $this->getIncludes())) {
+            $user->load(['roles' => fn ($q) => $q->orderBy('name')]);
+        }
+        if (in_array('administeredRoles', $this->getIncludes())) {
+            $user->load(['administeredRoles' => fn ($q) => $q->orderBy('name')]);
+        }
+
         $current_permissions = $user->permissions();
         $permissions = [];
         foreach (getCategorizedPermissions() as $title => $elements) {
@@ -90,8 +102,6 @@ class UserController extends Controller
 
         return (new UserResource($user))->additional([
             'permissions' => $permissions,
-            'roles' => $user->roles->sortBy('name'),
-            'administeredRoles' => $user->administeredRoles->sortBy('name'),
         ]);
     }
 

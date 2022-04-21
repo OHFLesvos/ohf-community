@@ -53,6 +53,13 @@ class User extends JsonResource
                     'related' => route('api.users.roles.index', $this->resource),
                 ],
             ],
+            'administeredRoles' => [
+                'data' => RoleResource::collection($this->whenLoaded('administeredRoles')),
+                'links' => [
+                    'self' => route('api.users.relationships.roles.index', $this->resource),
+                    'related' => route('api.users.roles.index', $this->resource),
+                ],
+            ],
         ];
     }
 }
