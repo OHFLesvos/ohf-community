@@ -970,6 +970,7 @@ export default {
         "Age {age}": "Age: {age}",
         "Your account has been created on {created} and and last updated on {updated}.": "Your account has been created on {created} and and last updated on {updated}.",
         "Save changes": "Änderungen speichern",
+        "The newest user is {name}, registered {registered}.": "The newest user is {name}, registered {registered}.",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
