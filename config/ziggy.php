@@ -6,5 +6,6 @@ return [
         'accounting.webling.index',
         'cmtyvol.index',
         'users.show',
+        'login',
     ],
 ];

@@ -1,6 +1,6 @@
 <template>
     <b-avatar
-        size="2em"
+        :size="size"
         :text="text"
         :style="{ backgroundColor: color }"
     >
@@ -20,6 +20,10 @@ export default {
         badgeIcon: {
             required: false,
             type: String
+        },
+        size: {
+            required: false,
+            default: "2em"
         }
     },
     computed: {

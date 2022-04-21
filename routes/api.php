@@ -30,6 +30,8 @@ use App\Http\Controllers\UserManagement\API\RoleAdministratorRelationshipControl
 use App\Http\Controllers\UserManagement\API\RoleController;
 use App\Http\Controllers\UserManagement\API\RoleUserRelationshipController;
 use App\Http\Controllers\UserManagement\API\UserController;
+use App\Http\Controllers\UserManagement\API\UserProfile2FAController;
+use App\Http\Controllers\UserManagement\API\UserProfileController;
 use App\Http\Controllers\UserManagement\API\UserRoleRelationshipController;
 use App\Http\Controllers\Visitors\API\VisitorController;
 use Illuminate\Support\Facades\Route;
@@ -354,6 +356,23 @@ Route::middleware(['auth:sanctum', 'language'])
                 Route::get('fetchCommunityVolunteers', [BadgeMakerController::class, 'fetchCommunityVolunteers'])
                     ->name('fetchCommunityVolunteers');
             });
+
+        //
+        // Userprofile
+        //
+        Route::get('userprofile', [UserProfileController::class, 'index'])
+            ->name('userprofile');
+        Route::post('userprofile', [UserProfileController::class, 'update'])
+            ->name('userprofile.update');
+        Route::post('userprofile/updatePassword', [UserProfileController::class, 'updatePassword'])
+            ->name('userprofile.updatePassword');
+        Route::delete('userprofile', [UserProfileController::class, 'delete'])
+            ->name('userprofile.delete');
+
+        Route::get('userprofile/2FA', [UserProfile2FAController::class, 'index'])
+            ->name('userprofile.2fa.index');
+        Route::post('userprofile/2FA', [UserProfile2FAController::class, 'store'])
+            ->name('userprofile.2fa.store');
 
         //
         // Comments

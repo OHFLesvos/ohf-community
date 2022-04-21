@@ -396,3 +396,11 @@ img.avatar {
     font-weight: 500;
     color: #343a40;
 }
+
+/**
+* Required marker
+*/
+.required:after {
+    content:" *";
+    color: red;
+}

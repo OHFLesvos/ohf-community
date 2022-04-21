@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Events\UserSelfRegistered;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\TOTPService;
 use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use OTPHP\TOTP;
 use Socialite;
 
 class LoginController extends Controller
@@ -87,7 +87,7 @@ class LoginController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request)
+    public function login(Request $request, TOTPService $totp)
     {
         $this->validateLogin($request);
 
@@ -108,9 +108,8 @@ class LoginController extends Controller
             $validator = Validator::make($request->all(), [
                 'code' => 'required|numeric',
             ])
-                ->after(function ($validator) use ($user, $request) {
-                    $otp = TOTP::create($user->tfa_secret);
-                    if (! $otp->verify($request->code)) {
+                ->after(function ($validator) use ($user, $request, $totp) {
+                    if (!$totp->verify($user->tfa_secret, $request->code, null, 1)) {
                         $validator->errors()->add('code', __('Invalid code, please repeat.'));
                     }
                 });
