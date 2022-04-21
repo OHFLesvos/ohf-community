@@ -13,6 +13,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -124,6 +125,48 @@ class UserController extends Controller
         return response()
             ->json([
                 'message' => __('User has been updated.'),
+            ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function disable2FA(User $user)
+    {
+        $this->authorize('update', $user);
+
+        $user->tfa_secret = null;
+        $user->save();
+
+        return response()
+            ->json([
+                'message' => __('Two-Factor Authentication disabled.'),
+            ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  User $user
+     * @return \Illuminate\Http\Response
+     */
+    public function disableOAuth(User $user)
+    {
+        $this->authorize('update', $user);
+
+        $user->provider_name = null;
+        $user->provider_id = null;
+        $user->avatar = null;
+        $password = Str::random(8);
+        $user->password = Hash::make($password);
+        $user->save();
+
+        return response()
+            ->json([
+                'message' => __('OAuth-Login disabled. A new random password has been set.'),
             ]);
     }
 

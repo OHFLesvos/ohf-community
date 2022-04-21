@@ -669,7 +669,7 @@ export default {
         "Invalid secret, please repeat.": "Ungültiger Schlüssel, bitte wiederholen.",
         "Two-Factor Authentication is enabled.": "Zwei-Faktor-Authentifizierung ist aktiviert.",
         "Enter the code from your authenticator app into the field below.": "Gibt den Code aus deiner Authenticator App in das untenstehende Feld ein.",
-        "Two-Factor Authentication disabled": "Zwei-Faktor-Authentifizierung deaktiviert",
+        "Two-Factor Authentication disabled.": "Zwei-Faktor-Authentifizierung deaktiviert.",
         "OAuth-Login disabled. A new random password has been set.": "OAuth-Login deaktiviert. Ein neues zufälliges Passwort wurde gesetzt.",
         "Improve the security of your account by enabling Two-Factor Authentication.": "Verbessere die Sicherheit deines Accounts, indem du die Zwei-Faktor-Authentifizierung aktivierst.",
         "Do you really want to disable Two-Factor Authentication for {name}?": "Soll die Zwei-Faktor-Authentifizierung für {name} wirklich deaktiviert werden?",

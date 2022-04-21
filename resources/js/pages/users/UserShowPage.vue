@@ -35,41 +35,6 @@
                     <dl class="row mb-0">
                         <dt class="col-sm-4">{{ $t('E-Mail Address') }}</dt>
                         <dd class="col-sm-8"><a :href="`mailto:${user.email}`">{{ user.email }}</a></dd>
-
-                        <template v-if="user.provider_name">
-                            <dt class="col-sm-4">{{ $t('OAuth provider') }}</dt>
-                            <dd class="col-sm-8">
-                                {{ user.provider_name.capitalize() }}<br>
-                                <b-button
-                                    size="sm"
-                                    type="button"
-                                    variant="secondary"
-                                    :disabled="isBusy"
-                                    @click="removeOauth"
-                                >
-                                    <font-awesome-icon icon="unlink"/>
-                                    {{ $t('Remove') }}
-                                </b-button>
-                            </dd>
-                        </template>
-
-                        <template v-if="user.is_2fa_enabled">
-                            <dt class="col-sm-4">{{ $t('Two-Factor Authentication') }}</dt>
-                            <dd class="col-sm-8">
-                                {{ ('Two-Factor Authentication is enabled.') }}<br>
-                                <b-button
-                                    size="sm"
-                                    type="button"
-                                    variant="secondary"
-                                    :disabled="isBusy"
-                                    @click="remove2FA"
-                                >
-                                    <font-awesome-icon icon="unlock"/>
-                                    {{ $t('Disable') }}
-                                </b-button>
-                            </dd>
-                        </template>
-
                         <dt class="col-sm-4">{{ $t('Registered') }}</dt>
                         <dd class="col-sm-8">
                             {{ user.created_at | dateTimeFormat }}
@@ -81,6 +46,48 @@
                             <small class="text-muted pl-2">{{ user.updated_at | timeFromNow }}</small>
                         </dd>
                     </dl>
+                </b-card>
+
+                <!-- OAuth provider -->
+                <b-card
+                    v-if="user.provider_name"
+                    :header="$t('OAuth provider')"
+                    class="shadow-sm mb-4"
+                    footer-class="text-right"
+                >
+                    <b-card-text>{{ user.provider_name.capitalize() }}</b-card-text>
+                    <template #footer>
+                        <b-button
+                            type="button"
+                            variant="secondary"
+                            :disabled="isBusy"
+                            @click="disableOAuth"
+                        >
+                            <font-awesome-icon icon="unlink"/>
+                            {{ $t('Remove') }}
+                        </b-button>
+                    </template>
+                </b-card>
+
+                <!-- Two-Factor Authentication -->
+                <b-card
+                    v-if="user.is_2fa_enabled"
+                    :header="$t('Two-Factor Authentication')"
+                    class="shadow-sm mb-4"
+                    footer-class="text-right"
+                >
+                    <b-card-text>{{ $t('Two-Factor Authentication is enabled.') }}</b-card-text>
+                    <template #footer>
+                        <b-button
+                            type="button"
+                            variant="secondary"
+                            :disabled="isBusy"
+                            @click="disable2FA"
+                        >
+                            <font-awesome-icon icon="unlock"/>
+                            {{ $t('Disable') }}
+                        </b-button>
+                    </template>
                 </b-card>
 
                 <!-- Roles -->
@@ -148,6 +155,7 @@
                 {{  $t('Overview') }}
             </b-button>
             <b-button
+                v-if="user.can_update"
                 type="button"
                 variant="primary"
                 :href="route('users.edit', user.id)"
@@ -167,6 +175,7 @@
 import usersApi from "@/api/user_management/users";
 import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 import UserAvatar from "@/components/user_management/UserAvatar"
+import { showSnackbar } from '@/utils'
 export default {
     title() {
         return this.$t("User");
@@ -212,17 +221,29 @@ export default {
                 this.error = err
             }
         },
-        async removeOauth() {
+        async disableOAuth() {
             if (confirm(this.$t('Do you really want to disable OAuth for {name}?', {name: this.user.name } ))) {
                 this.isBusy = true
-                // ['route' => ['users.disableOAuth', $user], 'method' => 'put']
+                try {
+                    let data = await usersApi.disableOAuth(this.id)
+                    this.user.provider_name = null
+                    showSnackbar(data.message)
+                } catch (ex) {
+                    alert(ex)
+                }
                 this.isBusy = false
             }
         },
-        async remove2FA() {
+        async disable2FA() {
             if (confirm(this.$t('Do you really want to disable Two-Factor Authentication for {name}?', {name: this.user.name } ))) {
                 this.isBusy = true
-                // ['route' => ['users.disable2FA', $user], 'method' => 'put']
+                try {
+                    let data = await usersApi.disable2FA(this.id)
+                    this.user.is_2fa_enabled = false
+                    showSnackbar(data.message)
+                } catch (ex) {
+                    alert(ex)
+                }
                 this.isBusy = false
             }
         },

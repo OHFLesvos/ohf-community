@@ -31,5 +31,13 @@ export default {
     async delete(id) {
         const url = route('api.users.destroy', id)
         return await api.delete(url)
-    }
+    },
+    async disableOAuth(id) {
+        const url = route('api.users.disableOAuth', id)
+        return await api.put(url)
+    },
+    async disable2FA(id) {
+        const url = route('api.users.disable2FA', id)
+        return await api.put(url)
+    },
 }

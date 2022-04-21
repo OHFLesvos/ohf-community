@@ -61,6 +61,10 @@ Route::middleware(['auth:sanctum', 'language'])
         Route::prefix('users/{user}')
             ->name('users.')
             ->group(function () {
+                Route::put('disable2FA', [UserController::class, 'disable2FA'])
+                    ->name('disable2FA');
+                Route::put('disableOAuth', [UserController::class, 'disableOAuth'])
+                    ->name('disableOAuth');
                 Route::get('roles', [UserController::class, 'roles'])
                     ->name('roles.index');
                 Route::prefix('relationships')

@@ -30,6 +30,8 @@ class User extends JsonResource
             'links' => $this->links(),
             'relationships' => $this->relationships(),
             'is_current_user' => $this->id == Auth::id(),
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
         ];
     }
 
