@@ -16,7 +16,7 @@
             </b-alert>
         </template>
         <template v-else>
-            <p>{{ $t('Two-Factor Authentication is enabled') }}</p>
+            <p>{{ $t('Two-Factor Authentication is enabled.') }}</p>
         </template>
 
         <template #footer>

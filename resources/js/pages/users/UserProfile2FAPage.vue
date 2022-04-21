@@ -12,9 +12,19 @@
                     body-class="pb-1"
                     footer-class="d-flex justify-content-between"
                 >
-                    <template v-if="!isEnabled">
-                        <b-row>
-                            <b-col>
+                    <b-row>
+                        <b-col md>
+                            <template v-if="isEnabled">
+                                <b-alert variant="success" show>
+                                    <font-awesome-icon icon="check"/>
+                                    {{ $t('Two-Factor Authentication is enabled.') }}
+                                </b-alert>
+                            </template>
+                            <template v-else>
+                                <b-alert variant="warning" show>
+                                    <font-awesome-icon icon="exclamation-triangle"/>
+                                    {{ $t('Two-Factor Authentication is not enabled.') }}
+                                </b-alert>
                                 <p>{{ $t('Two-Factor Authentication improves the security of your account by requiring an additional code when logging in. This random code is being regenerated every minute on a second device (e.g. your Android or iOS-based smartphone). Therefore, even if your password falls into the wrong hands, a second factor is still required to login successfully into this application.') }}</p>
                                 <p>{{ $t('A mobile app is required to generate the Two-Factor code. Such apps can be found in the app store of your mobile device. We recommend:') }}</p>
                                 <ul>
@@ -22,88 +32,68 @@
                                         <a target="_blank" :href="link.href">{{ link.text }}</a>
                                     </li>
                                 </ul>
-                            </b-col>
-                            <b-col>
-                                <p>{{ $t('Scan the QR code with your authenticator app (e.g. "Google-Authenticator") and enter the numeric code into the field below.') }}</p>
+                            </template>
+                        </b-col>
+                        <b-col md>
+                            <template v-if="isEnabled">
+                                <b-card-title>{{ $t('Disable Two-Factor Authentication') }}</b-card-title>
+                                <p>{{ $t('Enter the code from your authenticator app into the field below.') }}</p>
+                            </template>
+                            <template v-else>
+                                <b-card-title>{{ $t('Enable Two-Factor Authentication') }}</b-card-title>
+                                <p>{{ $t('Scan the QR code with your authenticator app and enter the numeric code into the field below.') }}</p>
                                 <p class="text-center">
                                     <img
                                         :src="`data:image/png;base64,${qrCodeImage}`"
                                         class="img-fluid img-thumbnail"
                                         alt="QR Code">
                                 </p>
-                                <validation-provider
-                                    :name="$t('Code')"
-                                    vid="code"
-                                    :rules="{
-                                        required: true,
-                                        decimal: true
-                                    }"
-                                    v-slot="validationContext"
-                                >
-                                    <b-form-group
-                                        :state="getValidationState(validationContext)"
-                                        :invalid-feedback="validationContext.errors[0]"
-                                    >
-                                        <b-form-input
-                                            v-model="code"
-                                            ref="code"
-                                            autocomplete="off"
-                                            required
-                                            autofocus
-                                            :disabled="isBusy"
-                                            :placeholder="$t('Code')"
-                                            :state="getValidationState(validationContext)"
-                                        />
-                                    </b-form-group>
-                                </validation-provider>
-                            </b-col>
-                        </b-row>
-                    </template>
-                    <template v-else>
-                        <p>{{ $t('Enter the code from your authenticator app into the field below.') }}</p>
-                        <validation-provider
-                            :name="$t('Code')"
-                            vid="code"
-                            :rules="{
-                                required: true,
-                                decimal: true
-                            }"
-                            v-slot="validationContext"
-                        >
-                            <b-form-group
-                                :state="getValidationState(validationContext)"
-                                :invalid-feedback="validationContext.errors[0]"
+                            </template>
+                            <validation-provider
+                                :name="$t('Code')"
+                                vid="code"
+                                :rules="{
+                                    required: true,
+                                    decimal: true
+                                }"
+                                v-slot="validationContext"
                             >
-                                <b-form-input
-                                    v-model="code"
-                                    ref="code"
-                                    autocomplete="off"
-                                    required
-                                    autofocus
-                                    :disabled="isBusy"
-                                    :placeholder="$t('Code')"
+                                <b-form-group
                                     :state="getValidationState(validationContext)"
-                                />
-                            </b-form-group>
-                        </validation-provider>
-                    </template>
+                                    :invalid-feedback="validationContext.errors[0]"
+                                >
+                                    <b-form-input
+                                        v-model="code"
+                                        ref="codeInput"
+                                        autocomplete="off"
+                                        required
+                                        autofocus
+                                        :disabled="isBusy"
+                                        :placeholder="$t('Code')"
+                                        :state="getValidationState(validationContext)"
+                                    />
+                                </b-form-group>
+                            </validation-provider>
+                        </b-col>
+                    </b-row>
 
                     <template #footer>
                         <b-button
                             type="button"
                             variant="secondary"
+                            :disabled="isBusy"
                             @click="$router.push({ name: 'userprofile' })"
                         >
                             {{ $t('Cancel') }}
                         </b-button>
                         <b-button
-                            v-if="!isEnabled"
+                            v-if="isEnabled"
                             type="submit"
                             variant="primary"
                             :disabled="isBusy"
                         >
-                            <font-awesome-icon icon="check"/>
-                            {{ $t('Enable') }}
+                            <font-awesome-icon icon="times"/>
+                            {{ $t('Disable') }}
                         </b-button>
                         <b-button
                             v-else
@@ -111,8 +101,8 @@
                             variant="primary"
                             :disabled="isBusy"
                         >
-                            <font-awesome-icon icon="times"/>
-                            {{ $t('Disable') }}
+                            <font-awesome-icon icon="check"/>
+                            {{ $t('Enable') }}
                         </b-button>
                     </template>
 
@@ -173,17 +163,14 @@ export default {
         async onSubmit() {
             this.isBusy = true
             try {
-                let data
-                if (this.isEnabled) {
-                    data = await userprofileApi.disable2FA(this.code)
-                } else {
-                    data = await userprofileApi.store2FA(this.code)
-                }
+                let data = await userprofileApi.store2FA(this.code)
                 showSnackbar(data.message)
                 this.$router.push({ name: 'userprofile' })
             } catch (err) {
                 alert(err)
-                this.$refs.code.focus()
+                this.$nextTick(() => {
+                    this.$refs.codeInput.focus()
+                })
             }
             this.isBusy = false
         },

@@ -26,10 +26,4 @@ export default {
             code: code
         })
     },
-    async disable2FA(code) {
-        const url = route('api.userprofile.2fa.destroy', {
-            code: code
-        })
-        return await api.delete(url)
-    },
 };

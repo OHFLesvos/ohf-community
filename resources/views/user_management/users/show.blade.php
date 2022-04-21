@@ -51,7 +51,7 @@
                                 <div class="col-sm"><strong>{{ __('Two-Factor Authentication') }}</strong></div>
                                 <div class="col-sm">
                                     {!! Form::open(['route' => ['users.disable2FA', $user], 'method' => 'put']) !!}
-                                    <p>{{ __('Two-Factor Authentication is enabled') }}.</p>
+                                    <p>{{ __('Two-Factor Authentication is enabled.') }}.</p>
                                     <button type="submit" class="btn btn-sm btn-secondary" onclick="return confirm('{{ __('Do you really want to disable Two-Factor Authentication for :name?', [ 'name' => $user->name ]) }}');">
                                         <x-icon icon="unlock"/> {{ __('Disable') }}
                                     </button>

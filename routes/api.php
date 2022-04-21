@@ -373,8 +373,6 @@ Route::middleware(['auth:sanctum', 'language'])
             ->name('userprofile.2fa.index');
         Route::post('userprofile/2FA', [UserProfile2FAController::class, 'store'])
             ->name('userprofile.2fa.store');
-        Route::delete('userprofile/2FA', [UserProfile2FAController::class, 'destroy'])
-            ->name('userprofile.2fa.destroy');
 
         //
         // Comments

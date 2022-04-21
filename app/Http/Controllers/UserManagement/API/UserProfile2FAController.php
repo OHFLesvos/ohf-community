@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserManagement\Store2FA;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Writer\Result\ResultInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -18,24 +19,22 @@ class UserProfile2FAController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        if ($user->tfa_secret == null) {
-            $secret = trim(Base32::encodeUpper(random_bytes(64)), '=');
+        if ($user->tfa_secret === null) {
+            $secret = $this->generateSecret();
             $request->session()->put('temp_2fa_secret', $secret);
 
             $otp = TOTP::create($secret);
             $otp->setLabel($user->email);
             $otp->setIssuer(config('app.name'));
 
-            $qrCode = Builder::create()
-                ->writer(new PngWriter())
-                ->data($otp->getProvisioningUri())
-                ->size(400)
-                ->build();
+            $qrCode = $this->generateQrCode($otp->getProvisioningUri());
 
             return response()
                 ->json([
                     'enabled' => false,
                     'image' => base64_encode($qrCode->getString()),
+                    'otp' => $otp->getProvisioningUri(),
+                    'datauri' => $qrCode->getDataUri(),
                 ]);
         }
 
@@ -45,71 +44,83 @@ class UserProfile2FAController extends Controller
             ]);
     }
 
-    public function store(Store2FA $request)
+    public function store(Request $request)
     {
-        $user = Auth::user();
-        $secret = $request->session()->pull('temp_2fa_secret');
-        if ($secret != null) {
-            $otp = TOTP::create($secret);
-            if ($otp->verify($request->code, null, 1)) {
-                $user->tfa_secret = $secret;
-                $user->save();
-                Log::notice('User enabled 2FA.', [
-                    'user_id' => $user->id,
-                    'user_name' => $user->name,
-                    'email' => $user->email,
-                    'client_ip' => request()->ip(),
-                ]);
+        $request->validate([
+            'code' => [
+                'required',
+                'numeric',
+            ],
+        ]);
 
+        $user = Auth::user();
+        if ($user->tfa_secret === null) {
+            $secret = $request->session()->pull('temp_2fa_secret');
+            if ($secret != null) {
+                $otp = TOTP::create($secret);
+                if ($otp->verify($request->code, null, 1)) {
+                    $user->tfa_secret = $secret;
+                    $user->save();
+                    Log::notice('User enabled 2FA.', [
+                        'user_id' => $user->id,
+                        'user_name' => $user->name,
+                        'email' => $user->email,
+                        'client_ip' => request()->ip(),
+                    ]);
+
+                    return response()
+                        ->json([
+                            'message' => __('Two-Factor Authentication enabled'),
+                        ]);
+                }
+
+                $request->session()->put('temp_2fa_secret', $secret);
                 return response()
                     ->json([
-                        'message' => __('Two-Factor Authentication enabled'),
-                    ]);
+                        'message' => __('Invalid code, please repeat.'),
+                    ], Response::HTTP_BAD_REQUEST);
             }
 
-            $request->session()->put('temp_2fa_secret', $secret);
             return response()
                 ->json([
-                    'message' => __('Invalid code, please repeat.'),
+                    'message' => __('Invalid secret, please repeat.'),
                 ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $otp = TOTP::create($user->tfa_secret);
+        if ($otp->verify($request->code, null, 1)) {
+            $user->tfa_secret = null;
+            $user->save();
+            Log::notice('Used disabled 2FA.', [
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'email' => $user->email,
+                'client_ip' => request()->ip(),
+            ]);
+
+            return response()
+                ->json([
+                    'message' => __('Two-Factor Authentication disabled'),
+                ]);
         }
 
         return response()
             ->json([
-                'message' => __('Invalid secret, please repeat.'),
+                'message' => __('Invalid code, please repeat.'),
             ], Response::HTTP_BAD_REQUEST);
     }
 
-    public function destroy(Store2FA $request)
+    private function generateSecret(): string
     {
-        $user = Auth::user();
-        if ($user->tfa_secret != null) {
-            $otp = TOTP::create($user->tfa_secret);
-            if ($otp->verify($request->code, null, 1)) {
-                $user->tfa_secret = null;
-                $user->save();
-                Log::notice('Used disabled 2FA.', [
-                    'user_id' => $user->id,
-                    'user_name' => $user->name,
-                    'email' => $user->email,
-                    'client_ip' => request()->ip(),
-                ]);
+        return trim(Base32::encodeUpper(random_bytes(64)), '=');
+    }
 
-                return response()
-                    ->json([
-                        'message' => __('Two-Factor Authentication disabled'),
-                    ]);
-            }
-
-            return response()
-                ->json([
-                    'message' => __('Invalid code, please repeat.'),
-                ], Response::HTTP_BAD_REQUEST);
-        }
-
-        return response()
-            ->json([
-                'message' => __('Invalid secret, please repeat.'),
-            ], Response::HTTP_BAD_REQUEST);
+    private function generateQrCode(string $data): ResultInterface
+    {
+        return Builder::create()
+            ->writer(new PngWriter())
+            ->data($data)
+            ->size(400)
+            ->build();
     }
 }
