@@ -20,4 +20,16 @@ export default {
         const url = route('api.userprofile.view2FA')
         return await api.get(url)
     },
+    async store2FA(code) {
+        const url = route('api.userprofile.store2FA')
+        return await api.post(url, {
+            code: code
+        })
+    },
+    async disable2FA(code) {
+        const url = route('api.userprofile.disable2FA', {
+            code: code
+        })
+        return await api.delete(url)
+    },
 };

@@ -34,7 +34,7 @@
 
                 <!-- Two-Factor Authentication -->
                 <b-col sm="6">
-                    <TfaConfiguration :user="user"/>
+                    <TFADialog :user="user"/>
                 </b-col>
 
             </template>
@@ -81,7 +81,7 @@ import AlertWithRetry from '@/components/alerts/AlertWithRetry'
 import UserAvatar from "@/components/user_management/UserAvatar"
 import UserProfileDialog from "@/components/userprofile/UserProfileDialog"
 import ChangePasswordDialog from "@/components/userprofile/ChangePasswordDialog"
-import TfaConfiguration from "@/components/userprofile/TfaConfiguration"
+import TFADialog from "@/components/userprofile/TFADialog"
 import AcountDeleteDialog from "@/components/userprofile/AcountDeleteDialog"
 import userprofileApi from "@/api/userprofile"
 export default {
@@ -90,7 +90,7 @@ export default {
         UserAvatar,
         UserProfileDialog,
         ChangePasswordDialog,
-        TfaConfiguration,
+        TFADialog,
         AcountDeleteDialog
     },
     title() {

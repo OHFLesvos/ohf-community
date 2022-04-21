@@ -1,0 +1,195 @@
+<template>
+    <b-container v-if="isLoaded">
+        <validation-observer
+            ref="form"
+            v-slot="{ handleSubmit }"
+            slim
+        >
+            <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+                <b-card
+                    class="shadow-sm mb-4"
+                    :header="$t('Two-Factor Authentication')"
+                    body-class="pb-1"
+                    footer-class="d-flex justify-content-between"
+                >
+                    <template v-if="!isEnabled">
+                        <b-row>
+                            <b-col>
+                                <p>{{ $t('Two-Factor Authentication improves the security of your account by requiring an additional code when logging in. This random code is being regenerated every minute on a second device (e.g. your Android or iOS-based smartphone). Therefore, even if your password falls into the wrong hands, a second factor is still required to login successfully into this application.') }}</p>
+                                <p>{{ $t('A mobile app is required to generate the Two-Factor code. Such apps can be found in the app store of your mobile device. We recommend:') }}</p>
+                                <ul>
+                                    <li v-for="link in otpApps" :key="link.href">
+                                        <a target="_blank" :href="link.href">{{ link.text }}</a>
+                                    </li>
+                                </ul>
+                            </b-col>
+                            <b-col>
+                                <p>{{ $t('Scan the QR code with your authenticator app (e.g. "Google-Authenticator") and enter the numeric code into the field below.') }}</p>
+                                <p class="text-center">
+                                    <img
+                                        :src="`data:image/png;base64,${qrCodeImage}`"
+                                        class="img-fluid img-thumbnail"
+                                        alt="QR Code">
+                                </p>
+                                <validation-provider
+                                    :name="$t('Code')"
+                                    vid="code"
+                                    :rules="{
+                                        required: true,
+                                        decimal: true
+                                    }"
+                                    v-slot="validationContext"
+                                >
+                                    <b-form-group
+                                        :state="getValidationState(validationContext)"
+                                        :invalid-feedback="validationContext.errors[0]"
+                                    >
+                                        <b-form-input
+                                            v-model="code"
+                                            ref="code"
+                                            autocomplete="off"
+                                            required
+                                            autofocus
+                                            :disabled="isBusy"
+                                            :placeholder="$t('Code')"
+                                            :state="getValidationState(validationContext)"
+                                        />
+                                    </b-form-group>
+                                </validation-provider>
+                            </b-col>
+                        </b-row>
+                    </template>
+                    <template v-else>
+                        <p>{{ $t('Enter the code from your authenticator app into the field below.') }}</p>
+                        <validation-provider
+                            :name="$t('Code')"
+                            vid="code"
+                            :rules="{
+                                required: true,
+                                decimal: true
+                            }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="code"
+                                    ref="code"
+                                    autocomplete="off"
+                                    required
+                                    autofocus
+                                    :disabled="isBusy"
+                                    :placeholder="$t('Code')"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </template>
+
+                    <template #footer>
+                        <b-button
+                            type="button"
+                            variant="secondary"
+                            @click="$router.push({ name: 'userprofile' })"
+                        >
+                            {{ $t('Cancel') }}
+                        </b-button>
+                        <b-button
+                            v-if="!isEnabled"
+                            type="submit"
+                            variant="primary"
+                            :disabled="isBusy"
+                        >
+                            <font-awesome-icon icon="check"/>
+                            {{ $t('Enable') }}
+                        </b-button>
+                        <b-button
+                            v-else
+                            type="submit"
+                            variant="primary"
+                            :disabled="isBusy"
+                        >
+                            <font-awesome-icon icon="times"/>
+                            {{ $t('Disable') }}
+                        </b-button>
+                    </template>
+
+                </b-card>
+            </b-form>
+        </validation-observer>
+    </b-container>
+    <b-container v-else>
+        <AlertWithRetry
+            :value="errorText"
+            @retry="fetchData"
+        />
+        <p v-if="!errorText">{{ $t("Loading...") }}</p>
+    </b-container>
+</template>
+
+<script>
+import AlertWithRetry from '@/components/alerts/AlertWithRetry'
+import userprofileApi from "@/api/userprofile";
+import { showSnackbar } from '@/utils'
+export default {
+    components: {
+        AlertWithRetry,
+    },
+    title() {
+        return this.$t('Two-Factor Authentication')
+    },
+    data() {
+        return {
+            isLoaded: false,
+            errorText: null,
+            isEnabled: false,
+            isBusy: false,
+            otpApps: [
+                { href: "https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2", text: "Google Authenticator" },
+                { href: "https://play.google.com/store/apps/details?id=com.authy.authy", text: "Authy" },
+                { href: "https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp", text: "FreeOTP Authenticator" },
+            ],
+            code: '',
+            qrCodeImage: '',
+        }
+    },
+    created() {
+        this.fetchData()
+    },
+    methods: {
+        async fetchData() {
+            this.errorText = null
+            try {
+                let data = await userprofileApi.view2FA()
+                this.qrCodeImage = data.image
+                this.isEnabled = data.enabled
+                this.isLoaded = true
+            } catch (err) {
+                this.errorText = err
+            }
+        },
+        async onSubmit() {
+            this.isBusy = true
+            try {
+                let data
+                if (this.isEnabled) {
+                    data = await userprofileApi.disable2FA(this.code)
+                } else {
+                    data = await userprofileApi.store2FA(this.code)
+                }
+                showSnackbar(data.message)
+                this.$router.push({ name: 'userprofile' })
+            } catch (err) {
+                alert(err)
+                this.$refs.code.focus()
+            }
+            this.isBusy = false
+        },
+        getValidationState ({ dirty, validated, valid = null }) {
+            return dirty || validated ? valid : null;
+        },
+    }
+}
+</script>

@@ -369,7 +369,6 @@ Route::middleware(['auth:sanctum', 'language'])
             ->name('userprofile.delete');
         Route::get('userprofile/2FA', [UserProfileController::class, 'view2FA'])
             ->name('userprofile.view2FA');
-
         Route::post('userprofile/2FA', [UserProfileController::class, 'store2FA'])
             ->name('userprofile.store2FA');
         Route::delete('userprofile/2FA', [UserProfileController::class, 'disable2FA'])

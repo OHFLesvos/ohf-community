@@ -18,5 +18,15 @@ export default [
                     /* webpackChunkName: "userprofile" */ "@/pages/users/UserProfileDeletedPage"
                 )
         }
-    }
+    },
+    {
+        path: "/userprofile/2FA",
+        name: "userprofile.2FA",
+        components: {
+            default: () =>
+                import(
+                    /* webpackChunkName: "userprofile" */ "@/pages/users/UserProfile2FAPage"
+                )
+        }
+    },
 ];

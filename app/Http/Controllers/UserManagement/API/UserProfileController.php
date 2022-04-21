@@ -9,6 +9,7 @@ use App\Http\Requests\UserManagement\StoreUserProfile;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -124,21 +125,24 @@ class UserProfileController extends Controller
 
             return response()
                 ->json([
+                    'enabled' => false,
                     'image' => base64_encode($qrCode->getString()),
                 ]);
         }
 
         return response()
-            ->json([]);
+            ->json([
+                'enabled' => true,
+            ]);
     }
 
     public function store2FA(Store2FA $request)
     {
         $user = Auth::user();
-        $secret = $request->session()->pull('temp_2fa_secret', null);
+        $secret = $request->session()->pull('temp_2fa_secret');
         if ($secret != null) {
             $otp = TOTP::create($secret);
-            if ($otp->verify($request->code)) {
+            if ($otp->verify($request->code, null, 1)) {
                 $user->tfa_secret = $secret;
                 $user->save();
                 Log::notice('User enabled 2FA.', [
@@ -147,14 +151,24 @@ class UserProfileController extends Controller
                     'email' => $user->email,
                     'client_ip' => request()->ip(),
                 ]);
-                return redirect()->route('userprofile')
-                    ->with('info', __('Two-Factor Authentication enabled'));
+
+                return response()
+                    ->json([
+                        'message' => __('Two-Factor Authentication enabled'),
+                    ]);
             }
-            return redirect()->back()
-                ->with('error', __('Invalid code, please repeat.'));
+
+            $request->session()->put('temp_2fa_secret', $secret);
+            return response()
+                ->json([
+                    'message' => __('Invalid code, please repeat.'),
+                ], Response::HTTP_BAD_REQUEST);
         }
-        return redirect()->back()
-            ->with('error', __('Invalid secret, please repeat.'));
+
+        return response()
+            ->json([
+                'message' => __('Invalid secret, please repeat.'),
+            ], Response::HTTP_BAD_REQUEST);
     }
 
     public function disable2FA(Store2FA $request)
@@ -162,7 +176,7 @@ class UserProfileController extends Controller
         $user = Auth::user();
         if ($user->tfa_secret != null) {
             $otp = TOTP::create($user->tfa_secret);
-            if ($otp->verify($request->code)) {
+            if ($otp->verify($request->code, null, 1)) {
                 $user->tfa_secret = null;
                 $user->save();
                 Log::notice('Used disabled 2FA.', [
@@ -171,13 +185,22 @@ class UserProfileController extends Controller
                     'email' => $user->email,
                     'client_ip' => request()->ip(),
                 ]);
-                return redirect()->route('userprofile')
-                    ->with('info', __('Two-Factor Authentication disabled'));
+
+                return response()
+                    ->json([
+                        'message' => __('Two-Factor Authentication disabled'),
+                    ]);
             }
-            return redirect()->back()
-                ->with('error', __('Invalid code, please repeat.'));
+
+            return response()
+                ->json([
+                    'message' => __('Invalid code, please repeat.'),
+                ], Response::HTTP_BAD_REQUEST);
         }
-        return redirect()->back()
-            ->with('error', __('Invalid secret, please repeat.'));
+
+        return response()
+            ->json([
+                'message' => __('Invalid secret, please repeat.'),
+            ], Response::HTTP_BAD_REQUEST);
     }
 }

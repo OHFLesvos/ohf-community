@@ -110,7 +110,7 @@ class LoginController extends Controller
             ])
                 ->after(function ($validator) use ($user, $request) {
                     $otp = TOTP::create($user->tfa_secret);
-                    if (! $otp->verify($request->code)) {
+                    if (! $otp->verify($request->code, null, 1)) {
                         $validator->errors()->add('code', __('Invalid code, please repeat.'));
                     }
                 });

@@ -89,6 +89,10 @@ Route::middleware(['auth', 'language'])
         // User profile
         Route::view('userprofile', 'vue-app')
             ->name('userprofile');
+        Route::view('userprofile/{any}', 'vue-app')
+            ->where('any', '.*')
+            ->name('userprofile.any');;
+
     });
 
 Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
