@@ -17,17 +17,17 @@ export default {
         return await api.delete(url)
     },
     async view2FA() {
-        const url = route('api.userprofile.view2FA')
+        const url = route('api.userprofile.2fa.index')
         return await api.get(url)
     },
     async store2FA(code) {
-        const url = route('api.userprofile.store2FA')
+        const url = route('api.userprofile.2fa.store')
         return await api.post(url, {
             code: code
         })
     },
     async disable2FA(code) {
-        const url = route('api.userprofile.disable2FA', {
+        const url = route('api.userprofile.2fa.destroy', {
             code: code
         })
         return await api.delete(url)

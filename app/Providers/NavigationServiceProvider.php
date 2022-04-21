@@ -23,8 +23,6 @@ class NavigationServiceProvider extends ServiceProvider
     ];
 
     protected $contextButtons = [
-        'userprofile.view2FA' => \App\Navigation\ContextButtons\UserManagement\UserProfile2FAContextButtons::class,
-
         'users.index'       => \App\Navigation\ContextButtons\UserManagement\UserIndexContextButtons::class,
         'users.create'      => \App\Navigation\ContextButtons\UserManagement\UserCreateContextButtons::class,
         'users.show'        => \App\Navigation\ContextButtons\UserManagement\UserShowContextButtons::class,

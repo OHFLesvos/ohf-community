@@ -30,6 +30,7 @@ use App\Http\Controllers\UserManagement\API\RoleAdministratorRelationshipControl
 use App\Http\Controllers\UserManagement\API\RoleController;
 use App\Http\Controllers\UserManagement\API\RoleUserRelationshipController;
 use App\Http\Controllers\UserManagement\API\UserController;
+use App\Http\Controllers\UserManagement\API\UserProfile2FAController;
 use App\Http\Controllers\UserManagement\API\UserProfileController;
 use App\Http\Controllers\UserManagement\API\UserRoleRelationshipController;
 use App\Http\Controllers\Visitors\API\VisitorController;
@@ -367,12 +368,13 @@ Route::middleware(['auth:sanctum', 'language'])
             ->name('userprofile.updatePassword');
         Route::delete('userprofile', [UserProfileController::class, 'delete'])
             ->name('userprofile.delete');
-        Route::get('userprofile/2FA', [UserProfileController::class, 'view2FA'])
-            ->name('userprofile.view2FA');
-        Route::post('userprofile/2FA', [UserProfileController::class, 'store2FA'])
-            ->name('userprofile.store2FA');
-        Route::delete('userprofile/2FA', [UserProfileController::class, 'disable2FA'])
-            ->name('userprofile.disable2FA');
+
+        Route::get('userprofile/2FA', [UserProfile2FAController::class, 'index'])
+            ->name('userprofile.2fa.index');
+        Route::post('userprofile/2FA', [UserProfile2FAController::class, 'store'])
+            ->name('userprofile.2fa.store');
+        Route::delete('userprofile/2FA', [UserProfile2FAController::class, 'destroy'])
+            ->name('userprofile.2fa.destroy');
 
         //
         // Comments
