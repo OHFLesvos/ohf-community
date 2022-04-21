@@ -78,7 +78,21 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return new UserResource($user);
+        $current_permissions = $user->permissions();
+        $permissions = [];
+        foreach (getCategorizedPermissions() as $title => $elements) {
+            foreach ($elements as $key => $label) {
+                if ($current_permissions->contains($key)) {
+                    $permissions[$title][] = $label;
+                }
+            }
+        }
+
+        return (new UserResource($user))->additional([
+            'permissions' => $permissions,
+            'roles' => $user->roles->sortBy('name'),
+            'administeredRoles' => $user->administeredRoles->sortBy('name'),
+        ]);
     }
 
     /**

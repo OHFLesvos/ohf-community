@@ -781,5 +781,6 @@
     "Optional: Upload an alternative logo file.": "Optional: Alternatives Logo hochladen.",
     "Account Deletion": "Accountlöschung",
     "Enable Two-Factor Authentication": "Zwei-Faktor-Authentifizierung aktivieren",
-    "Disable Two-Factor Authentication": "Zwei-Faktor-Authentifizierung deaktivieren"
+    "Disable Two-Factor Authentication": "Zwei-Faktor-Authentifizierung deaktivieren",
+    "Service": "Dienst"
 }

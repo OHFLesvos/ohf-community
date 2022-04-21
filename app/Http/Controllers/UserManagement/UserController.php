@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return view('user_management.users.index');
+        return view('vue-app');
     }
 
     /**
@@ -71,19 +71,8 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $current_permissions = $user->permissions();
-        $permissions = [];
-        foreach (getCategorizedPermissions() as $title => $elements) {
-            foreach ($elements as $key => $label) {
-                if ($current_permissions->contains($key)) {
-                    $permissions[$title][] = $label;
-                }
-            }
-        }
-
-        return view('user_management.users.show', [
+        return view('vue-app', [
             'user' => $user,
-            'permissions' => $permissions,
         ]);
     }
 

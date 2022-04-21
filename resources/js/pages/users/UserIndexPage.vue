@@ -14,9 +14,9 @@
             />
         </template>
         <template v-slot:cell(name)="data">
-            <a :href="data.item.links.show">
+            <router-link :to="{ name: 'users.show', params: { id: data.item.id } }">
                 {{ data.value }}
-            </a>
+            </router-link>
         </template>
         <template v-slot:cell(email)="data">
             <email-link

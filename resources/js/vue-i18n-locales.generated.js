@@ -783,6 +783,7 @@ export default {
         "Account Deletion": "Accountlöschung",
         "Enable Two-Factor Authentication": "Zwei-Faktor-Authentifizierung aktivieren",
         "Disable Two-Factor Authentication": "Zwei-Faktor-Authentifizierung deaktivieren",
+        "Service": "Dienst",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

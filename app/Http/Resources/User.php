@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Http\Resources\Role as RoleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class User extends JsonResource
 {
@@ -28,6 +29,7 @@ class User extends JsonResource
             'updated_at' => $this->updated_at,
             'links' => $this->links(),
             'relationships' => $this->relationships(),
+            'is_current_user' => $this->id == Auth::id(),
         ];
     }
 

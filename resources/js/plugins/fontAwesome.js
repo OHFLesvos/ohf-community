@@ -62,7 +62,9 @@ import {
     faUserFriends,
     faMinusCircle,
     faUserTimes,
-    faSync
+    faSync,
+    faUnlink,
+    faUnlock
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -130,7 +132,9 @@ library.add(
     faUserFriends,
     faMinusCircle,
     faUserTimes,
-    faSync
+    faSync,
+    faUnlink,
+    faUnlock
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
