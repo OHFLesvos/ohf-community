@@ -16,4 +16,8 @@ export default {
         const url = route('api.userprofile.delete')
         return await api.delete(url)
     },
+    async view2FA() {
+        const url = route('api.userprofile.view2FA')
+        return await api.get(url)
+    },
 };

@@ -122,11 +122,14 @@ class UserProfileController extends Controller
                 ->size(400)
                 ->build();
 
-            return view('user_management.userprofile.enable2FA', [
-                'image' => base64_encode($qrCode->getString()),
-            ]);
+            return response()
+                ->json([
+                    'image' => base64_encode($qrCode->getString()),
+                ]);
         }
-        return view('user_management.userprofile.disable2FA');
+
+        return response()
+            ->json([]);
     }
 
     public function store2FA(Store2FA $request)

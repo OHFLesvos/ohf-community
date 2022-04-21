@@ -221,31 +221,7 @@
 
                 <!-- Two-Factor Authentication -->
                 <b-col sm="6">
-                    <b-card class="shadow-sm mb-4" :header="$t('Two-Factor Authentication')" body-class="pb-1" footer-class="text-right">
-                        <template v-if="!isTfaConfigured">
-                            <b-alert variant="info" show>
-                                <font-awesome-icon icon="info-circle"/>
-                                {{ $t('Improve the security of your account by enabling Two-Factor Authentication.') }}
-                            </b-alert>
-                            <b-alert variant="warning" show>
-                                <font-awesome-icon icon="exclamation-triangle"/>
-                                {{ $t('Two-Factor Authentication is not enabled.') }}
-                            </b-alert>
-                        </template>
-                        <template v-else>
-                            <p>{{ $t('Two-Factor Authentication is enabled') }}</p>
-                        </template>
-                        <template #footer>
-                            <a v-if="!isTfaConfigured" href="route('userprofile.view2FA')" class="btn btn-primary">
-                                <font-awesome-icon icon="check"/>
-                                {{ $t('Enable') }}
-                            </a>
-                            <a v-else href="route('userprofile.view2FA')" class="btn btn-primary">
-                                <font-awesome-icon icon="times"/>
-                                {{ $t('Disable') }}
-                            </a>
-                        </template>
-                    </b-card>
+                    <TfaConfiguration :user="user"/>
                 </b-col>
 
             </template>
@@ -303,12 +279,14 @@
 
 <script>
 import UserAvatar from "@/components/user_management/UserAvatar";
+import TfaConfiguration from "@/components/userprofile/TfaConfiguration";
 import userprofileApi from "@/api/userprofile";
 import { showSnackbar } from '@/utils'
 import moment from 'moment'
 export default {
     components: {
-        UserAvatar
+        UserAvatar,
+        TfaConfiguration
     },
     title() {
         return this.$t('User Profile')
@@ -327,9 +305,6 @@ export default {
     computed: {
         isOauthActive() {
             return !!this.user.provider_name
-        },
-        isTfaConfigured() {
-            return !!this.user.tfa_secret
         },
         languageOptions() {
             return Object.entries(this.languages).map(e => ({ value: e[0], text: e[1]}))
