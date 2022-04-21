@@ -30,193 +30,18 @@
 
             <!-- Profile -->
             <b-col sm="6">
-                <validation-observer
-                    ref="profileForm"
-                    v-slot="{ handleSubmit }"
-                    slim
-                >
-                    <b-form @submit.stop.prevent="handleSubmit(updateProfile)">
-                        <b-card class="shadow-sm mb-4" :header="$t('Profile')" body-class="pb-2" footer-class="text-right">
-
-                            <validation-provider
-                                :name="$t('Name')"
-                                vid="name"
-                                :rules="{ required: true }"
-                                v-slot="validationContext"
-                            >
-                                <b-form-group
-                                    :label="$t('Name')"
-                                    label-class="required"
-                                    :state="getValidationState(validationContext)"
-                                    :invalid-feedback="validationContext.errors[0]"
-                                >
-                                    <b-form-input
-                                        v-model="user.name"
-                                        autocomplete="off"
-                                        required
-                                        :disabled="isBusy"
-                                        :state="getValidationState(validationContext)"
-                                    />
-                                </b-form-group>
-                            </validation-provider>
-
-                            <validation-provider
-                                :name="$t('E-Mail Address')"
-                                vid="email"
-                                :rules="{ email: true }"
-                                v-slot="validationContext"
-                            >
-                                <b-form-group
-                                    :label="$t('E-Mail Address')"
-                                    :label-class="!isOauthActive ? 'required' : null"
-                                    :state="getValidationState(validationContext)"
-                                    :invalid-feedback="validationContext.errors[0]"
-                                >
-                                    <b-form-input
-                                        v-model="user.email"
-                                        type="email"
-                                        autocomplete="off"
-                                        :disabled="isOauthActive || isBusy"
-                                        :required="!isOauthActive"
-                                        :state="getValidationState(validationContext)"
-                                    />
-                                </b-form-group>
-                            </validation-provider>
-                            <p v-if="isOauthActive">
-                                {{ $t('OAuth provider') }}: <strong>{{ user.provider_name.capitalize() }}</strong>
-                            </p>
-                            <validation-provider
-                                :name="$t('Language')"
-                                vid="locale"
-                                :rules="{ required: true }"
-                                v-slot="validationContext"
-                            >
-                                <b-form-group
-                                    :label="$t('Language')"
-                                    label-class="required"
-                                    :state="getValidationState(validationContext)"
-                                    :invalid-feedback="validationContext.errors[0]"
-                                >
-                                    <b-select
-                                        v-model="user.locale"
-                                        required
-                                        :disabled="isBusy"
-                                        :options="languageOptions"
-                                        :state="getValidationState(validationContext)"
-                                    />
-                                </b-form-group>
-                            </validation-provider>
-
-                            <template #footer>
-                                <b-button
-                                    type="submit"
-                                    variant="primary"
-                                    :disabled="isBusy"
-                                >
-                                    <font-awesome-icon icon="check"/>
-                                    {{ $t('Update') }}
-                                </b-button>
-                            </template>
-                        </b-card>
-                    </b-form>
-                </validation-observer>
+                <UserProfileDialog
+                    :user="user"
+                    :languages="languages"
+                    @update="fetchData"
+                />
             </b-col>
 
             <template v-if="!isOauthActive">
 
                 <!-- Change Password -->
                 <b-col sm="6">
-                    <validation-observer
-                        ref="passwordForm"
-                        v-slot="{ handleSubmit }"
-                        slim
-                    >
-                        <b-form @submit.stop.prevent="handleSubmit(updatePassword)">
-                            <b-card class="shadow-sm mb-4" :header="$t('Change Password')" body-class="pb-2" footer-class="text-right">
-
-                                <validation-provider
-                                    :name="$t('Old Password')"
-                                    vid="old_password"
-                                    :rules="{ required: true }"
-                                    v-slot="validationContext"
-                                >
-                                    <b-form-group
-                                        :label="$t('Old Password')"
-                                        label-class="required"
-                                        :state="getValidationState(validationContext)"
-                                        :invalid-feedback="validationContext.errors[0]"
-                                    >
-                                        <b-form-input
-                                            v-model="old_password"
-                                            type="password"
-                                            autocomplete="off"
-                                            required
-                                            :disabled="isBusy"
-                                            :state="getValidationState(validationContext)"
-                                        />
-                                    </b-form-group>
-                                </validation-provider>
-
-                                <validation-provider
-                                    :name="$t('New password')"
-                                    vid="password"
-                                    :rules="{ required: true }"
-                                    v-slot="validationContext"
-                                >
-                                    <b-form-group
-                                        :label="$t('New password')"
-                                        label-class="required"
-                                        :state="getValidationState(validationContext)"
-                                        :invalid-feedback="validationContext.errors[0]"
-                                    >
-                                        <b-form-input
-                                            v-model="password"
-                                            type="password"
-                                            autocomplete="off"
-                                            required
-                                            :disabled="isBusy"
-                                            :state="getValidationState(validationContext)"
-                                        />
-                                    </b-form-group>
-                                </validation-provider>
-
-                                <validation-provider
-                                    :name="$t('Confirm password')"
-                                    vid="password_confirmation"
-                                    :rules="{ required: true }"
-                                    v-slot="validationContext"
-                                >
-                                    <b-form-group
-                                        :label="$t('Confirm password')"
-                                        label-class="required"
-                                        :state="getValidationState(validationContext)"
-                                        :invalid-feedback="validationContext.errors[0]"
-                                    >
-                                        <b-form-input
-                                            v-model="password_confirmation"
-                                            type="password"
-                                            autocomplete="off"
-                                            required
-                                            :disabled="isBusy"
-                                            :state="getValidationState(validationContext)"
-                                        />
-                                    </b-form-group>
-                                </validation-provider>
-
-                                <template #footer>
-                                    <b-button
-                                        type="submit"
-                                        variant="primary"
-                                        :disabled="isBusy"
-                                    >
-                                        <font-awesome-icon icon="check"/>
-                                        {{ $t('Update password') }}
-                                    </b-button>
-                                </template>
-
-                            </b-card>
-                        </b-form>
-                    </validation-observer>
+                    <ChangePasswordDialog/>
                 </b-col>
 
                 <!-- Two-Factor Authentication -->
@@ -278,15 +103,18 @@
 </template>
 
 <script>
-import UserAvatar from "@/components/user_management/UserAvatar";
-import TfaConfiguration from "@/components/userprofile/TfaConfiguration";
-import userprofileApi from "@/api/userprofile";
+import UserAvatar from "@/components/user_management/UserAvatar"
+import UserProfileDialog from "@/components/userprofile/UserProfileDialog"
+import ChangePasswordDialog from "@/components/userprofile/ChangePasswordDialog"
+import TfaConfiguration from "@/components/userprofile/TfaConfiguration"
+import userprofileApi from "@/api/userprofile"
 import { showSnackbar } from '@/utils'
-import moment from 'moment'
 export default {
     components: {
         UserAvatar,
-        TfaConfiguration
+        UserProfileDialog,
+        ChangePasswordDialog,
+        TfaConfiguration,
     },
     title() {
         return this.$t('User Profile')
@@ -294,9 +122,6 @@ export default {
     data() {
         return {
             user: null,
-            old_password: '',
-            password: '',
-            password_confirmation: '',
             languages: {},
             isBusy: false,
             hasBeenDeleted: false,
@@ -306,55 +131,15 @@ export default {
         isOauthActive() {
             return !!this.user.provider_name
         },
-        languageOptions() {
-            return Object.entries(this.languages).map(e => ({ value: e[0], text: e[1]}))
-        }
     },
     async created() {
-        let data = await userprofileApi.list();
-        this.user = data.user;
-        this.languages = data.languages;
+        this.fetchData()
     },
     methods: {
-        async updateProfile() {
-            this.isBusy = true
-            try {
-                let data = await userprofileApi.updateProfile({
-                    name: this.user.name,
-                    email: this.user.email,
-                    locale: this.user.locale,
-                })
-                this.$i18n.locale = this.user.locale
-                moment.locale(this.user.locale);
-                showSnackbar(data.message)
-                this.$nextTick(() => {
-                    this.$refs.profileForm.reset();
-                });
-            } catch (err) {
-                alert(err)
-            }
-            this.isBusy = false
-        },
-        async updatePassword() {
-            this.isBusy = true
-            try {
-                let data = await userprofileApi.updatePassword({
-                    old_password: this.old_password,
-                    password: this.password,
-                    password_confirmation: this.password_confirmation,
-                })
-                this.old_password = this.password = this.password_confirmation = ''
-                showSnackbar(data.message)
-                this.$nextTick(() => {
-                    this.$refs.passwordForm.reset();
-                });
-            } catch (err) {
-                alert(err)
-            }
-            this.isBusy = false
-        },
-        getValidationState ({ dirty, validated, valid = null }) {
-            return dirty || validated ? valid : null;
+        async fetchData() {
+            let data = await userprofileApi.list()
+            this.user = data.user
+            this.languages = data.languages
         },
         async confirmDelete() {
             if (confirm(this.$t('Do you really want to delete your account and lose access to all data?'))) {

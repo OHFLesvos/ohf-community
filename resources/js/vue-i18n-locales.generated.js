@@ -967,6 +967,7 @@ export default {
         "Inactive visitor records will be anonymized after {days} days.": "Inactive visitor records will be anonymized after {days} days.",
         "Age {age}": "Age: {age}",
         "Your account has been created on {created} and and last updated on {updated}.": "Your account has been created on {created} and and last updated on {updated}.",
+        "Save changes": "Änderungen speichern",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
