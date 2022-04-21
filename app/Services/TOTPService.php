@@ -37,4 +37,12 @@ class TOTPService
             ->size(400)
             ->build();
     }
+
+    public function generateProvisionQrCode(string $secret, string $label): string
+    {
+        $uri = $this->createProvisionUri($secret, $label);
+        $qrCode = $this->generateQrCode($uri);
+
+        return $qrCode->getDataUri();
+    }
 }

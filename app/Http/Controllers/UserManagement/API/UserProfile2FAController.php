@@ -18,15 +18,10 @@ class UserProfile2FAController extends Controller
             $secret = $totp->generateSecret();
             $request->session()->put('temp_2fa_secret', $secret);
 
-            $uri = $totp->createProvisionUri($secret, $user->email);
-            $qrCode = $totp->generateQrCode($uri);
-
             return response()
                 ->json([
                     'enabled' => false,
-                    'image' => base64_encode($qrCode->getString()),
-                    'otp' => $uri,
-                    'datauri' => $qrCode->getDataUri(),
+                    'image' => $totp->generateProvisionQrCode($secret, $user->email),
                 ]);
         }
 

@@ -61,7 +61,8 @@ import {
     faIdBadge,
     faUserFriends,
     faMinusCircle,
-    faUserTimes
+    faUserTimes,
+    faSync
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -128,7 +129,8 @@ library.add(
     faIdBadge,
     faUserFriends,
     faMinusCircle,
-    faUserTimes
+    faUserTimes,
+    faSync
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

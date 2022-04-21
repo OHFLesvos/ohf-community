@@ -44,9 +44,11 @@
                                 <p>{{ $t('Scan the QR code with your authenticator app and enter the numeric code into the field below.') }}</p>
                                 <p class="text-center">
                                     <img
-                                        :src="`data:image/png;base64,${qrCodeImage}`"
+                                        v-if="qrCodeImage"
+                                        :src="qrCodeImage"
                                         class="img-fluid img-thumbnail"
                                         alt="QR Code">
+                                    <b-spinner v-else></b-spinner>
                                 </p>
                             </template>
                             <validation-provider
@@ -95,15 +97,25 @@
                             <font-awesome-icon icon="times"/>
                             {{ $t('Disable') }}
                         </b-button>
-                        <b-button
-                            v-else
-                            type="submit"
-                            variant="primary"
-                            :disabled="isBusy"
-                        >
-                            <font-awesome-icon icon="check"/>
-                            {{ $t('Enable') }}
-                        </b-button>
+                        <span v-else>
+                            <b-button
+                                type="button"
+                                variant="outline-primary"
+                                :disabled="isBusy"
+                                @click="fetchData"
+                            >
+                                <font-awesome-icon icon="sync"/>
+                                {{ $t('Refresh') }}
+                            </b-button>
+                            <b-button
+                                type="submit"
+                                variant="primary"
+                                :disabled="isBusy"
+                            >
+                                <font-awesome-icon icon="check"/>
+                                {{ $t('Enable') }}
+                            </b-button>
+                        </span>
                     </template>
 
                 </b-card>
@@ -142,7 +154,7 @@ export default {
                 { href: "https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp", text: "FreeOTP Authenticator" },
             ],
             code: '',
-            qrCodeImage: '',
+            qrCodeImage: null,
         }
     },
     created() {
@@ -151,6 +163,8 @@ export default {
     methods: {
         async fetchData() {
             this.errorText = null
+            this.isBusy = true
+            this.qrCodeImage = null
             try {
                 let data = await userprofileApi.view2FA()
                 this.qrCodeImage = data.image
@@ -159,6 +173,7 @@ export default {
             } catch (err) {
                 this.errorText = err
             }
+            this.isBusy = false
         },
         async onSubmit() {
             this.isBusy = true
