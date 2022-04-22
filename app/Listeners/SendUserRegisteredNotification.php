@@ -8,6 +8,7 @@ use App\Mail\UserRegisteredConfirmation;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class SendUserRegisteredNotification
 {
@@ -39,7 +40,11 @@ class SendUserRegisteredNotification
         ]);
 
         $admins = User::where('is_super_admin', true)->get();
-        Mail::to($admins)->send(new UserRegistered($user));
-        Mail::to($user)->send(new UserRegisteredConfirmation($user));
+        try {
+            Mail::to($admins)->send(new UserRegistered($user));
+            Mail::to($user)->send(new UserRegisteredConfirmation($user));
+        } catch (TransportExceptionInterface $ex) {
+            Log::error("Failed to send email to newly registered user $user->email.", $ex);
+        }
     }
 }
