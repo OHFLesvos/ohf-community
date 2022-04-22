@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::table('visitors')->update(['first_name' => DB::raw("TRIM(CONCAT(first_name, ' ', last_name))")]);
+        DB::table('visitors')->update(['first_name' => DB::raw("TRIM(first_name || ' ' || last_name)")]);
         DB::table('visitors')->whereIn('type', ['staff', 'external'])->delete();
 
         Schema::create('visitor_checkins', function (Blueprint $table) {
@@ -37,13 +37,15 @@ return new class extends Migration
 
         Schema::table('visitors', function (Blueprint $table) {
             $table->renameColumn('first_name', 'name');
-            $table->dropColumn('last_name');
-            $table->dropColumn('type');
+            $table->dropColumn([
+                'last_name',
+                'type',
+                'organization',
+                'activity',
+                'entered_at',
+                'left_at',
+            ]);
             $table->renameColumn('place_of_residence', 'living_situation');
-            $table->dropColumn('organization');
-            $table->dropColumn('activity');
-            $table->dropColumn('entered_at');
-            $table->dropColumn('left_at');
             $table->enum('gender', ['male', 'female', 'other'])->nullable()->after('id_number');
             $table->date('date_of_birth')->nullable()->after('gender');
             $table->string('nationality')->nullable()->after('date_of_birth');
@@ -73,10 +75,12 @@ return new class extends Migration
                 ->nullable();
             $table->dateTime('entered_at');
             $table->dateTime('left_at')->nullable();
-            $table->dropColumn('gender');
-            $table->dropColumn('date_of_birth');
-            $table->dropColumn('nationality');
-            $table->dropColumn('anonymized');
+            $table->dropColumn([
+                'gender',
+                'date_of_birth',
+                'nationality',
+                'anonymized',
+            ]);
         });
 
         DB::table('visitor_checkins')->lazyById()->each(function ($checkin) {

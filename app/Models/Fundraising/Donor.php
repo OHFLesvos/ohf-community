@@ -187,16 +187,16 @@ class Donor extends Model
                 $countries = localized_country_names()
                     ->map(fn ($name) => strtolower($name))
                     ->flip();
-                return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
-                    ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
+                return $wq->where(DB::raw("first_name || ' ' || last_name"), 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw("last_name || ' ' || first_name"), 'LIKE', '%' . $filter . '%')
                     ->orWhere('company', 'LIKE', '%' . $filter . '%')
                     ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('last_name', 'LIKE', '%' . $filter . '%')
                     ->orWhere('street', 'LIKE', '%' . $filter . '%')
                     ->orWhere('zip', $filter)
                     ->orWhere('city', 'LIKE', '%' . $filter . '%')
-                    ->orWhere(DB::raw('CONCAT(street, \' \', city)'), 'LIKE', '%' . $filter . '%')
-                    ->orWhere(DB::raw('CONCAT(street, \' \', zip, \' \', city)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw("street || ' ' || city"), 'LIKE', '%' . $filter . '%')
+                    ->orWhere(DB::raw("street || ' ' || zip || ' ' || city"), 'LIKE', '%' . $filter . '%')
                     // Note: Countries filter only works for complete country code or country name
                     ->orWhere('country_code', $countries[strtolower($filter)] ?? $filter)
                     ->orWhere('email', 'LIKE', '%' . $filter . '%')
@@ -216,8 +216,8 @@ class Donor extends Model
      */
     public function scopeForSimpleFilter($query, string $filter)
     {
-        return $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
-            ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
+        return $query->where(DB::raw("first_name || ' ' || last_name"), 'LIKE', '%' . $filter . '%')
+            ->orWhere(DB::raw("last_name || ' ' || first_name"), 'LIKE', '%' . $filter . '%')
             ->orWhere('company', 'LIKE', '%' . $filter . '%')
             ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
             ->orWhere('last_name', 'LIKE', '%' . $filter . '%');

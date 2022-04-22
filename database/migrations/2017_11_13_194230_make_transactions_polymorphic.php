@@ -33,8 +33,10 @@ return new class extends Migration
             $table->integer('person_id')->unsigned()->after('id');
             $table->foreign('person_id')->references('id')->on('persons')->onDelete('cascade')->onUpdate('cascade');
             $table->dropIndex(['transactionable_id', 'transactionable_type']);
-            $table->dropColumn('transactionable_type');
-            $table->dropColumn('transactionable_id');
+            $table->dropColumn([
+                'transactionable_type',
+                'transactionable_id',
+            ]);
         });
     }
 };

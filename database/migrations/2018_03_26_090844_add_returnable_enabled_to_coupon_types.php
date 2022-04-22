@@ -27,8 +27,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('coupon_types', function (Blueprint $table) {
-            $table->dropColumn('enabled');
-            $table->dropColumn('returnable');
+            $table->dropColumn([
+                'enabled',
+                'returnable',
+            ]);
         });
     }
 };

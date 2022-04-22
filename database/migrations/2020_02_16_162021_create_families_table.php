@@ -26,7 +26,11 @@ return new class extends Migration
             $table->dropForeign(['mother_id']);
             $table->dropForeign(['father_id']);
             $table->dropForeign(['partner_id']);
-            $table->dropColumn(['mother_id', 'father_id', 'partner_id']);
+            $table->dropColumn([
+                'mother_id',
+                'father_id',
+                'partner_id',
+            ]);
         });
     }
 

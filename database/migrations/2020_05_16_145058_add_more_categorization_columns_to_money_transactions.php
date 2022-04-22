@@ -28,9 +28,11 @@ return new class extends Migration
     public function down()
     {
         Schema::table('money_transactions', function (Blueprint $table) {
-            $table->dropColumn('secondary_category');
-            $table->dropColumn('location');
-            $table->dropColumn('cost_center');
+            $table->dropColumn([
+                'secondary_category',
+                'location',
+                'cost_center',
+            ]);
         });
     }
 };

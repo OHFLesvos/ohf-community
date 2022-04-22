@@ -64,7 +64,10 @@ return new class extends Migration
         Schema::table('persons', function (Blueprint $table) {
             $table->string('nickname')->nullable()->after('family_name');
             $table->string('portrait_picture')->nullable()->after('languages');
-            $table->dropColumn(['worker', 'skills']);
+            $table->dropColumn([
+                'worker',
+                'skills',
+            ]);
         });
     }
 
@@ -78,8 +81,10 @@ return new class extends Migration
         Schema::table('persons', function (Blueprint $table) {
             $table->string('skills')->nullable();
             $table->boolean('worker')->default(false);
-            $table->dropColumn('nickname');
-            $table->dropColumn('portrait_picture');
+            $table->dropColumn([
+                'nickname',
+                'portrait_picture',
+            ]);
         });
 
         Schema::dropIfExists('helpers');

@@ -27,8 +27,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('money_transactions', function (Blueprint $table) {
-            $table->dropColumn('booked');
-            $table->dropColumn('external_id');
+            $table->dropColumn([
+                'booked',
+                'external_id',
+            ]);
         });
     }
 };

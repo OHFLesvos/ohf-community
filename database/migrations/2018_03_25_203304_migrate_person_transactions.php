@@ -14,7 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('persons', function (Blueprint $table) {
-            $table->dropColumn(['boutique_coupon', 'diapers_coupon']);
+            $table->dropColumn([
+                'boutique_coupon',
+                'diapers_coupon',
+            ]);
         });
     }
 

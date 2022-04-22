@@ -34,9 +34,11 @@ return new class extends Migration
     public function down()
     {
         Schema::table('visitors', function (Blueprint $table) {
-            $table->dropColumn('activity');
-            $table->dropColumn('organization');
-            $table->dropColumn('type');
+            $table->dropColumn([
+                'activity',
+                'organization',
+                'type',
+            ]);
         });
     }
 };

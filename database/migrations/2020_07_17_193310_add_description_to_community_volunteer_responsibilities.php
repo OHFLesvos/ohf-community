@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('community_volunteer_responsibilities', function (Blueprint $table) {
-            $table->dropColumn(['description']);
+            $table->dropColumn('description');
         });
     }
 };

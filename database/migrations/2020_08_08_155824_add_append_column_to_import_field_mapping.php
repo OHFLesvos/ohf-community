@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('import_field_mappings', function (Blueprint $table) {
-            $table->dropColumn(['append']);
+            $table->dropColumn('append');
         });
     }
 };

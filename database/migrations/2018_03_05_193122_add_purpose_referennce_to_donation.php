@@ -30,8 +30,10 @@ return new class extends Migration
     public function down()
     {
         Schema::table('donations', function (Blueprint $table) {
-            $table->dropColumn('reference');
-            $table->dropColumn('purpose');
+            $table->dropColumn([
+                'reference',
+                'purpose',
+            ]);
         });
         Schema::table('donations', function (Blueprint $table) {
             $table->renameColumn('channel', 'origin');

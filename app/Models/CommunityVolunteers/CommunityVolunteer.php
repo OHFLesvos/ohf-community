@@ -181,8 +181,8 @@ class CommunityVolunteer extends Model implements Auditable
     public function scopeForFilter(Builder $query, string $filter)
     {
         return $query->where(
-            fn (Builder $q) => $q->where(DB::raw('CONCAT(first_name, \' \', family_name)'), 'LIKE', '%' . $filter . '%')
-                ->orWhere(DB::raw('CONCAT(family_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
+            fn (Builder $q) => $q->where(DB::raw("first_name || ' ' || family_name"), 'LIKE', '%' . $filter . '%')
+                ->orWhere(DB::raw("family_name || ' ' || first_name"), 'LIKE', '%' . $filter . '%')
                 ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
                 ->orWhere('nickname', 'LIKE', '%' . $filter . '%')
                 ->orWhere('family_name', 'LIKE', '%' . $filter . '%')

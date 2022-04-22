@@ -19,7 +19,7 @@ return new class extends Migration
 
         DB::table('community_volunteers')
             ->whereNotNull('police_no')
-            ->update(['police_no' => DB::raw("TRIM(CONCAT('05/', police_no))")]);
+            ->update(['police_no' => DB::raw("TRIM('05/' || police_no)")]);
     }
 
     /**

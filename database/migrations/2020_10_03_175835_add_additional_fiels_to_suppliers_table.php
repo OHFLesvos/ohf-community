@@ -29,10 +29,12 @@ return new class extends Migration
     public function down()
     {
         Schema::table('suppliers', function (Blueprint $table) {
-            $table->dropColumn('place_id');
-            $table->dropColumn('website');
-            $table->dropColumn('tax_office');
-            $table->dropColumn('remarks');
+            $table->dropColumn([
+                'place_id',
+                'website',
+                'tax_office',
+                'remarks'
+            ]);
         });
     }
 };

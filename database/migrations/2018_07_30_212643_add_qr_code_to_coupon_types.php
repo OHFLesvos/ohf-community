@@ -33,8 +33,10 @@ return new class extends Migration
             $table->dropColumn('qr_code_enabled');
         });
         Schema::table('coupon_handouts', function (Blueprint $table) {
-            $table->dropColumn('code');
-            $table->dropColumn('code_redeemed');
+            $table->dropColumn([
+                'code',
+                'code_redeemed',
+            ]);
         });
     }
 };

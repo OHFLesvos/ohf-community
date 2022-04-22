@@ -30,10 +30,12 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email_verified_at');
-            $table->dropColumn('provider_name');
-            $table->dropColumn('provider_id');
-            $table->dropColumn('avatar');
+            $table->dropColumn([
+                'email_verified_at',
+                'provider_name',
+                'provider_id',
+                'avatar',
+            ]);
             $table->string('password')->nullable(false)->change();
         });
     }

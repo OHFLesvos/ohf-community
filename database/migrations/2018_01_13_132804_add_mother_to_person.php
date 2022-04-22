@@ -31,8 +31,10 @@ return new class extends Migration
         Schema::table('persons', function (Blueprint $table) {
             $table->dropForeign(['mother_id']);
             $table->dropForeign(['father_id']);
-            $table->dropColumn('mother_id');
-            $table->dropColumn('father_id');
+            $table->dropColumn([
+                'mother_id',
+                'father_id',
+            ]);
         });
     }
 };

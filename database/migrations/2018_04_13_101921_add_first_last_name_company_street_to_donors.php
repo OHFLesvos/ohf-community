@@ -35,7 +35,11 @@ return new class extends Migration
             $donor->save();
         });
         Schema::table('donors', function (Blueprint $table) {
-            $table->dropColumn(['name', 'address', 'country']);
+            $table->dropColumn([
+                'name',
+                'address',
+                'country',
+            ]);
         });
     }
 
@@ -60,12 +64,14 @@ return new class extends Migration
             $donor->save();
         });
         Schema::table('donors', function (Blueprint $table) {
-            $table->dropColumn('first_name');
-            $table->dropColumn('last_name');
-            $table->dropColumn('company');
-            $table->dropColumn('street');
-            $table->dropColumn('country_code');
-            $table->dropColumn('language');
+            $table->dropColumn([
+                'first_name',
+                'last_name',
+                'company',
+                'street',
+                'country_code',
+                'language',
+            ]);
         });
     }
 };

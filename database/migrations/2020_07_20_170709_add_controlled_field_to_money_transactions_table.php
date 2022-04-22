@@ -36,8 +36,10 @@ return new class extends Migration
     {
         Schema::table('money_transactions', function (Blueprint $table) {
             $table->dropForeign(['controlled_by']);
-            $table->dropColumn('controlled_by');
-            $table->dropColumn('controlled_at');
+            $table->dropColumn([
+                'controlled_by',
+                'controlled_at',
+            ]);
         });
     }
 };
