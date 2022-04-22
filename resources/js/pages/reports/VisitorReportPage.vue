@@ -93,13 +93,13 @@ export default {
         numberOfDays: () => numberOfDays
     },
     methods: {
-        async dailyitemProvider(ctx) {
+        async dailyitemProvider() {
             let data = await visitorsApi.dailyVisitors({
                 days: numberOfDays,
             });
             return data || [];
         },
-        async monthlyItemProvider(ctx) {
+        async monthlyItemProvider() {
             let data = await visitorsApi.monthlyVisitors();
             return data || [];
         },

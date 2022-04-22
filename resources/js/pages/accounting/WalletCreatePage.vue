@@ -30,7 +30,7 @@ export default {
         async registerWallet (formData) {
             this.isBusy = true
             try {
-                let data = await walletsApi.store(formData)
+                await walletsApi.store(formData)
                 showSnackbar(this.$t('Wallet added.'))
                 this.$router.push({ name: 'accounting.wallets.index' })
             } catch (err) {

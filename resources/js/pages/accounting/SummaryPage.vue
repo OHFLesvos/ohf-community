@@ -361,19 +361,19 @@ export default {
         }
     },
     watch: {
-        month(val) {
+        month() {
             this.fetchData();
         },
-        year(val) {
+        year() {
             this.fetchData();
         },
-        wallet(val) {
+        wallet() {
             this.fetchData();
         },
-        project(val) {
+        project() {
             this.fetchData();
         },
-        location(val) {
+        location() {
             this.fetchData();
         }
     },

@@ -686,7 +686,7 @@ export default {
     },
     watch: {
         form: {
-            async handler(form, oldForm) {
+            async handler(form) {
                 await this.loadSupplierDetails(form.supplier_id);
                 await this.loadBudgetDetails(form.budget_id);
             },

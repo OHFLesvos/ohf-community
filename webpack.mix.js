@@ -26,8 +26,7 @@ mix.webpackConfig({
 });
 
 mix.eslint({
-    fix: true,
-    extensions: ['js'],
+    extensions: ['js', 'vue'],
     files: 'resources/js',
     exclude: [
         'node_modules',

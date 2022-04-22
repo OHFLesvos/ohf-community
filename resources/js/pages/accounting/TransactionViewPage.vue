@@ -55,7 +55,6 @@
 import transactionsApi from "@/api/accounting/transactions";
 import TransactionDetails from "@/components/accounting/TransactionDetails";
 import TransactionHistory from "@/components/accounting/TransactionHistory";
-import TabNav from "@/components/layout/TabNav";
 export default {
     title() {
         return this.$t("Show transaction");
@@ -63,7 +62,6 @@ export default {
     components: {
         TransactionDetails,
         TransactionHistory,
-        TabNav
     },
     props: {
         id: {
