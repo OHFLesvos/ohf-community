@@ -40,7 +40,7 @@
                 {{ dateOfBirthLabel }}
             </dd>
         </template>
-        <template v-if="visitor.date_of_birth">
+        <template v-if="visitor.living_situation">
             <dt class="col-sm-4">
                 {{ $t("Living situation") }}
             </dt>
