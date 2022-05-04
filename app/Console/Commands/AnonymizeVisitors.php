@@ -49,7 +49,9 @@ class AnonymizeVisitors extends Command
 
         $visitors->each(function (Visitor $visitor) {
             $visitor->name = sha1($visitor->name);
-            $visitor->id_number = sha1($visitor->id_number);
+            if (filled($visitor->id_number)) {
+                $visitor->id_number = sha1($visitor->id_number);
+            }
             if ($visitor->date_of_birth !== null) {
                 $visitor->date_of_birth = $visitor->date_of_birth->startOfYear();
             }

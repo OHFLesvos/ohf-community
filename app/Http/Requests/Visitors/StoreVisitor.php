@@ -30,7 +30,7 @@ class StoreVisitor extends FormRequest
                 'required',
             ],
             'id_number' => [
-                'required',
+                'nullable',
             ],
             'gender' => [
                 'required',

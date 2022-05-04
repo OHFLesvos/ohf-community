@@ -31,7 +31,7 @@
                     <validation-provider
                         :name="$t('ID Number')"
                         vid="id_number"
-                        :rules="{ required: true }"
+                        :rules="{ required: false }"
                         v-slot="validationContext"
                     >
                         <b-form-group
@@ -42,7 +42,6 @@
                             <b-form-input
                                 v-model="formData.id_number"
                                 trim
-                                required
                                 autocomplete="off"
                                 :state="getValidationState(validationContext)"
                                 :disabled="disabled"
