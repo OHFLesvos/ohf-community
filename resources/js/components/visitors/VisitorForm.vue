@@ -79,7 +79,7 @@
                     <validation-provider
                         :name="$t('Date of birth')"
                         vid="date_of_birth"
-                        :rules="{ required: true, date: true }"
+                        :rules="{ required: false, date: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
@@ -90,7 +90,6 @@
                             <DateOfBirthInput
                                 v-model="formData.date_of_birth"
                                 :disabled="disabled"
-                                required
                             />
                         </b-form-group>
                     </validation-provider>
