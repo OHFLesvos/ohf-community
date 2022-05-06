@@ -37,7 +37,7 @@ class StoreVisitor extends FormRequest
                 Rule::in(['male', 'female', 'other']),
             ],
             'date_of_birth' => [
-                'required',
+                'nullable',
                 'date',
                 'before_or_equal:today'
             ],
