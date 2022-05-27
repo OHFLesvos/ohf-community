@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Visitors\API;
 
-use App\Exports\Visitors\VisitorExport;
+use App\Exports\Visitors\VisitorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visitors\StoreVisitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
@@ -128,7 +128,7 @@ class VisitorController extends Controller
 
         $file_name = __('Visitors') . ' as of ' . now()->toDateString();
         $extension = 'xlsx';
-        return (new VisitorExport())->download($file_name . '.' . $extension);
+        return (new VisitorsExport())->download($file_name . '.' . $extension);
     }
 
     public function checkins()
