@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exports\Visitors;
+namespace App\Exports\Visitors\Sheets;
 
 use App\Exports\BaseExport;
 use App\Models\Visitors\VisitorCheckin;
@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class VisitorExport extends BaseExport implements FromQuery, WithHeadings, WithMapping
+class VisitorCheckInsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping
 {
     public function __construct()
     {
@@ -23,7 +23,7 @@ class VisitorExport extends BaseExport implements FromQuery, WithHeadings, WithM
 
     public function title(): string
     {
-        return __('Visitors check-ins');
+        return __('Check-ins');
     }
 
     public function headings(): array
