@@ -52,6 +52,7 @@
         "buzzclue/laravel-vue-i18n-generator": "dev-master",
         "fakerphp/faker": "^1.9.1",
         "filp/whoops": "~2.0",
+        "laravel/sail": "^1.14",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
