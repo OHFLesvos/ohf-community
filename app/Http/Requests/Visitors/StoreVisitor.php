@@ -52,6 +52,9 @@ class StoreVisitor extends FormRequest
             'anonymized' => [
                 'boolean',
             ],
+            'liability_form_signed' => [
+                'boolean',
+            ],
         ];
     }
 }

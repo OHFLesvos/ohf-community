@@ -117,6 +117,11 @@
                     /></b-form-group>
                 </b-col>
             </b-form-row>
+            <p>
+                <b-form-checkbox v-model="formData.liability_form_signed">
+                    {{ $t("Liability form signed") }}
+                </b-form-checkbox>
+            </p>
             <div class="d-flex justify-content-between align-items-start">
                 <span>
                     <b-button
@@ -173,6 +178,7 @@ export default {
                 date_of_birth: search && searchType == "date" ? search : "",
                 nationality: "",
                 living_situation: "",
+                liability_form_signed: false
             },
             genders: [
                 { value: "male", text: this.$t("male") },
