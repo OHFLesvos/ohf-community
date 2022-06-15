@@ -37,6 +37,7 @@ class VisitorCheckInsExport extends BaseExport implements FromQuery, WithHeading
             __('Nationality'),
             __('Date of birth'),
             __('Living situation'),
+            __('Liability form signed'),
             __('Purpose of visit'),
         ];
     }
@@ -55,6 +56,7 @@ class VisitorCheckInsExport extends BaseExport implements FromQuery, WithHeading
             $checkin->visitor->nationality,
             optional($checkin->visitor->date_of_birth)->toDateString(),
             $checkin->visitor->living_situation,
+            $checkin->visitor->liability_form_signed,
             $checkin->purpose_of_visit,
         ];
     }

@@ -48,6 +48,14 @@
                 {{ visitor.living_situation }}
             </dd>
         </template>
+        <template v-if="!visitor.liability_form_signed">
+            <dt class="col-sm-4">
+                {{ $t("Liability form") }}
+            </dt>
+            <dd class="col-sm-8">
+                <span class="text-danger"><font-awesome-icon icon="times"/> {{ $t('Not signed!') }}</span>
+            </dd>
+        </template>
     </dl>
 </template>
 

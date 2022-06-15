@@ -804,5 +804,8 @@
     "Visitor deleted.": "Besucher gelöscht.",
     ":count check-ins today": ":count check-ins heute",
     "Inactive visitor records will be anonymized after :days days.": "Inaktive Besucherdaten werden nach :days Tagen gelöscht.",
-    "Edit metadata": "Metadaten bearbeiten"
+    "Edit metadata": "Metadaten bearbeiten",
+    "Liability form": "Haftungsformular",
+    "Liability form signed": "Haftungsformular unterschrieben",
+    "Not signed!": "Nicht signiert!"
 }

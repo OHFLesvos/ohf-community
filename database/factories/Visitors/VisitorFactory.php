@@ -30,6 +30,7 @@ class VisitorFactory extends Factory
             'date_of_birth' => $this->faker->dateTimeBetween('-50 years', '-1 month'),
             'nationality' => $this->faker->optional(0.95)->country,
             'living_situation' => $this->faker->optional(0.6)->city,
+            'liability_form_signed' => $this->faker->boolean(0.2),
             // 'purpose_of_visit' => $this->faker->bs,
         ];
     }

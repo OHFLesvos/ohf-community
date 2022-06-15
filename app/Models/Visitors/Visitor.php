@@ -20,6 +20,7 @@ class Visitor extends Model
         'nationality',
         'living_situation',
         'anonymized',
+        'liability_form_signed',
     ];
 
     protected $nullable = [
@@ -37,6 +38,7 @@ class Visitor extends Model
 
     protected $casts = [
         'anonymized' => 'boolean',
+        'liability_form_signed' => 'boolean',
     ];
 
     public function checkins()

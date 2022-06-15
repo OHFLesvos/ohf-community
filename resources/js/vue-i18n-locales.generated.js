@@ -806,7 +806,20 @@ export default {
         "{count} check-ins today": "{count} check-ins heute",
         "Inactive visitor records will be anonymized after {days} days.": "Inaktive Besucherdaten werden nach {days} Tagen gelöscht.",
         "Edit metadata": "Metadaten bearbeiten",
-        "app": [],
+        "Liability form": "Haftungsformular",
+        "Liability form signed": "Haftungsformular unterschrieben",
+        "Not signed!": "Nicht signiert!",
+        "pagination": {
+            "previous": "&laquo; Zurück",
+            "next": "Weiter &raquo;"
+        },
+        "passwords": {
+            "password": "Passwörter müssen mindestens 6 Zeichen lang sein und korrekt bestätigt werden.",
+            "reset": "Das Passwort wurde zurückgesetzt!",
+            "sent": "Passworterinnerung wurde gesendet!",
+            "token": "Der Passwort-Wiederherstellungs-Schlüssel ist ungültig oder abgelaufen.",
+            "user": "Es konnte leider kein Nutzer mit dieser E-Mail-Adresse gefunden werden."
+        },
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
             "password": "Das angegebene Passwort ist falsch.",
@@ -841,17 +854,7 @@ export default {
                 "export_visitors": "Besucher: Exportieren"
             }
         },
-        "pagination": {
-            "previous": "&laquo; Zurück",
-            "next": "Weiter &raquo;"
-        },
-        "passwords": {
-            "password": "Passwörter müssen mindestens 6 Zeichen lang sein und korrekt bestätigt werden.",
-            "reset": "Das Passwort wurde zurückgesetzt!",
-            "sent": "Passworterinnerung wurde gesendet!",
-            "token": "Der Passwort-Wiederherstellungs-Schlüssel ist ungültig oder abgelaufen.",
-            "user": "Es konnte leider kein Nutzer mit dieser E-Mail-Adresse gefunden werden."
-        },
+        "app": [],
         "validation": {
             "accepted": "{attribute} muss akzeptiert werden.",
             "active_url": "{attribute} ist keine gültige Internet-Adresse.",
@@ -989,6 +992,17 @@ export default {
         "{count} check-ins today": "{count} check-ins today",
         "Inactive visitor records will be anonymized after {days} days.": "Inactive visitor records will be anonymized after {days} days.",
         "Age {age}": "Age: {age}",
+        "pagination": {
+            "previous": "&laquo; Previous",
+            "next": "Next &raquo;"
+        },
+        "passwords": {
+            "reset": "Your password has been reset!",
+            "sent": "We have emailed your password reset link!",
+            "throttled": "Please wait before retrying.",
+            "token": "This password reset token is invalid.",
+            "user": "We can't find a user with that email address."
+        },
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
@@ -1022,17 +1036,6 @@ export default {
                 "register_visitors": "Visitors: Register",
                 "export_visitors": "Visitors: Export"
             }
-        },
-        "pagination": {
-            "previous": "&laquo; Previous",
-            "next": "Next &raquo;"
-        },
-        "passwords": {
-            "reset": "Your password has been reset!",
-            "sent": "We have emailed your password reset link!",
-            "throttled": "Please wait before retrying.",
-            "token": "This password reset token is invalid.",
-            "user": "We can't find a user with that email address."
         },
         "validation": {
             "accepted": "The {attribute} must be accepted.",
