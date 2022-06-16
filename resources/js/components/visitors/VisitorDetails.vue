@@ -38,6 +38,7 @@
             </dt>
             <dd class="col-sm-8">
                 {{ dateOfBirthLabel }}
+                ({{ $t("Age {age}", { age: age }) }})
             </dd>
         </template>
         <template v-if="visitor.living_situation">
@@ -102,6 +103,15 @@ export default {
                 ).format('DD/MM/YYYY');
             }
             return null;
+        },
+        age() {
+            if (this.visitor.date_of_birth) {
+                let date = moment(this.visitor.date_of_birth, moment.HTML5_FMT.DATE, true);
+                if (date.isValid()) {
+                    return "" + moment().diff(date, "years");
+                }
+            }
+            return undefined;
         },
     },
     methods: {
