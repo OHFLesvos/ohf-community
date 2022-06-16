@@ -3,6 +3,7 @@
 ## 3.8.0
 
 * Add a liability form signed field to visitor records
+* Add remarks field to visitor records
 
 ## 3.7.0
 

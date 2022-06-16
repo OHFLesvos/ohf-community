@@ -30,7 +30,7 @@ class VisitorFactory extends Factory
             'nationality' => $this->faker->optional(0.95)->country,
             'living_situation' => $this->faker->optional(0.6)->city,
             'liability_form_signed' => $this->faker->optional(0.2)->date(),
-            // 'purpose_of_visit' => $this->faker->bs,
+            'remarks' => $this->faker->optional(0.2)->text(),
         ];
     }
 }

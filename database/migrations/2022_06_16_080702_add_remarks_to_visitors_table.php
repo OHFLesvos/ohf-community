@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('visitors', function (Blueprint $table) {
-           $table->date('liability_form_signed')->nullable();
+            $table->text('remarks')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('visitors', function (Blueprint $table) {
-            $table->dropColumn('liability_form_signed');
+            $table->dropColumn('remarks');
         });
     }
 };
