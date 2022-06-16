@@ -122,6 +122,16 @@ class VisitorController extends Controller
             ->json($this->getCheckedInData());
     }
 
+    public function signLiabilityForm(Visitor $visitor)
+    {
+        $this->authorize('update', $visitor);
+
+        $visitor->liability_form_signed = true;
+        $visitor->save();
+
+        return new VisitorResource($visitor);
+    }
+
     public function export()
     {
         $this->authorize('export-visitors');

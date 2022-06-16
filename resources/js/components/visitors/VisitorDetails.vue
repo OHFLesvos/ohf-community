@@ -54,13 +54,16 @@
             </dt>
             <dd class="col-sm-8">
                 <span class="text-danger"><font-awesome-icon icon="times"/> {{ $t('Not signed!') }}</span>
+                <b-button size="sm" @click="signLiabilityForm()" :disabled="isBusy">{{ $t('Mark as signed') }}</b-button>
             </dd>
         </template>
     </dl>
 </template>
 
 <script>
+import visitorsApi from "@/api/visitors";
 import moment from "moment";
+import { showSnackbar } from "@/utils";
 export default {
     props: {
         value: {
@@ -71,6 +74,7 @@ export default {
     data() {
         return {
             visitor: this.value,
+            isBusy: false,
         };
     },
     computed: {
@@ -97,5 +101,18 @@ export default {
             return null;
         },
     },
+    methods: {
+        async signLiabilityForm() {
+            this.isBusy = true;
+            try {
+                let data = await visitorsApi.signLiabilityForm(this.visitor.id);
+                this.visitor = data.data;
+                showSnackbar(this.$t("Visitor updated."));
+            } catch (err) {
+                alert(err);
+            }
+            this.isBusy = false;
+        }
+    }
 };
 </script>

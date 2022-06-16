@@ -343,6 +343,9 @@ Route::middleware(['auth:sanctum', 'language'])
 
                 Route::post('{visitor}/checkins', [VisitorController::class, 'checkin'])
                     ->name('checkin');
+
+        		Route::post('{visitor}/signLiabilityForm', [VisitorController::class, 'signLiabilityForm'])
+            		->name('signLiabilityForm');
             });
 
 
