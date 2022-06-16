@@ -14,7 +14,7 @@ class AddLiabilityFormSignedToVisitorsTable extends Migration
     public function up()
     {
         Schema::table('visitors', function (Blueprint $table) {
-           $table->boolean('liability_form_signed')->default(false);
+           $table->date('liability_form_signed')->nullable();
         });
     }
 

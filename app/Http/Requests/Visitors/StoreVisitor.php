@@ -53,7 +53,8 @@ class StoreVisitor extends FormRequest
                 'boolean',
             ],
             'liability_form_signed' => [
-                'boolean',
+                'nullable',
+                'date',
             ],
         ];
     }

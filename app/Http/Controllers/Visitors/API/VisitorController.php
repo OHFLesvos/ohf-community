@@ -126,7 +126,7 @@ class VisitorController extends Controller
     {
         $this->authorize('update', $visitor);
 
-        $visitor->liability_form_signed = true;
+        $visitor->liability_form_signed = today();
         $visitor->save();
 
         return new VisitorResource($visitor);

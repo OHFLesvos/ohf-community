@@ -48,15 +48,18 @@
                 {{ visitor.living_situation }}
             </dd>
         </template>
-        <template v-if="!visitor.liability_form_signed">
-            <dt class="col-sm-4">
-                {{ $t("Liability form") }}
-            </dt>
-            <dd class="col-sm-8">
+        <dt class="col-sm-4">
+            {{ $t("Liability form signed") }}
+        </dt>
+        <dd class="col-sm-8">
+            <template v-if="visitor.liability_form_signed">
+                {{ visitor.liability_form_signed | dateFormat }}
+            </template>
+            <template v-else>
                 <span class="text-danger"><font-awesome-icon icon="times"/> {{ $t('Not signed!') }}</span>
                 <b-button size="sm" @click="signLiabilityForm()" :disabled="isBusy">{{ $t('Mark as signed') }}</b-button>
-            </dd>
-        </template>
+            </template>
+        </dd>
     </dl>
 </template>
 
