@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.8.0
+
+* Add a liability form signed field to visitor records
+
 ## 3.7.0
 
 * Allow editing of transaction metadata (with specific user permission) for controlled transactions
