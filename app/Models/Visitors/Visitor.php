@@ -30,15 +30,16 @@ class Visitor extends Model
         'date_of_birth',
         'nationality',
         'living_situation',
+        'liability_form_signed',
     ];
 
     protected $dates = [
         'date_of_birth',
+        'liability_form_signed',
     ];
 
     protected $casts = [
         'anonymized' => 'boolean',
-        'liability_form_signed' => 'boolean',
     ];
 
     public function checkins()

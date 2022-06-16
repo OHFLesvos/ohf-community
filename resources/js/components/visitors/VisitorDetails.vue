@@ -38,6 +38,7 @@
             </dt>
             <dd class="col-sm-8">
                 {{ dateOfBirthLabel }}
+                ({{ $t("Age {age}", { age: age }) }})
             </dd>
         </template>
         <template v-if="visitor.living_situation">
@@ -48,15 +49,18 @@
                 {{ visitor.living_situation }}
             </dd>
         </template>
-        <template v-if="!visitor.liability_form_signed">
-            <dt class="col-sm-4">
-                {{ $t("Liability form") }}
-            </dt>
-            <dd class="col-sm-8">
+        <dt class="col-sm-4">
+            {{ $t("Liability form signed") }}
+        </dt>
+        <dd class="col-sm-8">
+            <template v-if="visitor.liability_form_signed">
+                {{ visitor.liability_form_signed | dateFormat }}
+            </template>
+            <template v-else>
                 <span class="text-danger"><font-awesome-icon icon="times"/> {{ $t('Not signed!') }}</span>
                 <b-button size="sm" @click="signLiabilityForm()" :disabled="isBusy">{{ $t('Mark as signed') }}</b-button>
-            </dd>
-        </template>
+            </template>
+        </dd>
     </dl>
 </template>
 
@@ -99,6 +103,15 @@ export default {
                 ).format('DD/MM/YYYY');
             }
             return null;
+        },
+        age() {
+            if (this.visitor.date_of_birth) {
+                let date = moment(this.visitor.date_of_birth, moment.HTML5_FMT.DATE, true);
+                if (date.isValid()) {
+                    return "" + moment().diff(date, "years");
+                }
+            }
+            return undefined;
         },
     },
     methods: {
