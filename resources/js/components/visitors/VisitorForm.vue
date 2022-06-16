@@ -185,7 +185,7 @@ export default {
                 date_of_birth: search && searchType == "date" ? search : "",
                 nationality: "",
                 living_situation: "",
-                liability_form_signed: false
+                liability_form_signed: null
             },
             genders: [
                 { value: "male", text: this.$t("male") },
