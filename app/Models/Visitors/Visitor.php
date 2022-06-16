@@ -21,6 +21,7 @@ class Visitor extends Model
         'living_situation',
         'anonymized',
         'liability_form_signed',
+        'remarks',
     ];
 
     protected $nullable = [
@@ -31,6 +32,7 @@ class Visitor extends Model
         'nationality',
         'living_situation',
         'liability_form_signed',
+        'remarks',
     ];
 
     protected $dates = [

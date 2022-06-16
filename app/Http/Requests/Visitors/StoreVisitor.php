@@ -52,6 +52,10 @@ class StoreVisitor extends FormRequest
             'anonymized' => [
                 'boolean',
             ],
+            'remarks' => [
+                'nullable',
+                'string',
+            ],
             'liability_form_signed' => [
                 'nullable',
                 'date',

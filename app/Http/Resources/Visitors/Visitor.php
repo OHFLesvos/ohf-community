@@ -22,6 +22,7 @@ class Visitor extends JsonResource
             'nationality' => $this->nationality,
             'date_of_birth' => optional($this->date_of_birth)->toDateString(),
             'living_situation' => $this->living_situation,
+            'remarks' => $this->remarks,
             'anonymized' => $this->anonymized,
             'liability_form_signed' => $this->liability_form_signed,
             'checked_in_today' => $this->whenLoaded('checkins', fn () => $this->checkins->contains(fn ($checkin) => $checkin->created_at->isToday())),

@@ -38,6 +38,7 @@ class VisitorDataExport extends BaseExport implements FromQuery, WithHeadings, W
             __('Date of birth'),
             __('Living situation'),
             __('Liability form signed'),
+            __('Remarks'),
             __('Registered'),
             __('Check-ins'),
         ];
@@ -57,6 +58,7 @@ class VisitorDataExport extends BaseExport implements FromQuery, WithHeadings, W
             optional($visitor->date_of_birth)->toDateString(),
             $visitor->living_situation,
             optional($visitor->liability_form_signed)->toDateString(),
+            $visitor->remarks,
             $visitor->created_at->format('Y-m-d'),
             $visitor->checkins->count(),
         ];

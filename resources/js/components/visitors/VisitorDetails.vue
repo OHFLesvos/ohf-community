@@ -49,6 +49,14 @@
                 {{ visitor.living_situation }}
             </dd>
         </template>
+        <template v-if="visitor.remarks">
+            <dt class="col-sm-4">
+                {{ $t("Remarks") }}
+            </dt>
+            <dd class="col-sm-8">
+                {{ visitor.remarks }}
+            </dd>
+        </template>
         <dt class="col-sm-4">
             {{ $t("Liability form signed") }}
         </dt>

@@ -118,7 +118,19 @@
                 </b-col>
             </b-form-row>
             <b-form-row>
-                <b-col sm="6">
+                <b-col sm>
+                    <b-form-group
+                        :label="$t('Remarks')"
+                    >
+                        <b-form-input
+                            v-model="formData.remarks"
+                            trim
+                            autocomplete="off"
+                            :disabled="disabled"
+                        />
+                    </b-form-group>
+                </b-col>
+                <b-col sm>
                     <b-form-group :label="$t('Liability form signed')">
                         <b-form-datepicker
                             v-model="formData.liability_form_signed"
@@ -185,6 +197,7 @@ export default {
                 date_of_birth: search && searchType == "date" ? search : "",
                 nationality: "",
                 living_situation: "",
+                remarks: "",
                 liability_form_signed: null
             },
             genders: [
