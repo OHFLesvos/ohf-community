@@ -809,6 +809,7 @@ export default {
         "Liability form": "Haftungsformular",
         "Liability form signed": "Haftungsformular unterschrieben",
         "Not signed!": "Nicht signiert!",
+        "Mark as signed": "Als signiert markieren",
         "pagination": {
             "previous": "&laquo; Zurück",
             "next": "Weiter &raquo;"
