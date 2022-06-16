@@ -56,7 +56,7 @@ class VisitorDataExport extends BaseExport implements FromQuery, WithHeadings, W
             $visitor->nationality,
             optional($visitor->date_of_birth)->toDateString(),
             $visitor->living_situation,
-            $visitor->liability_form_signed,
+            optional($visitor->liability_form_signed)->toDateString(),
             $visitor->created_at->format('Y-m-d'),
             $visitor->checkins->count(),
         ];

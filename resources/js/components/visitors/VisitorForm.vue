@@ -117,11 +117,18 @@
                     /></b-form-group>
                 </b-col>
             </b-form-row>
-            <p>
-                <b-form-checkbox v-model="formData.liability_form_signed">
-                    {{ $t("Liability form signed") }}
-                </b-form-checkbox>
-            </p>
+            <b-form-row>
+                <b-col sm="6">
+                    <b-form-group :label="$t('Liability form signed')">
+                        <b-form-datepicker
+                            v-model="formData.liability_form_signed"
+                            today-button
+                            reset-button
+                            :max="today">
+                        </b-form-datepicker>
+                    </b-form-group>
+                </b-col>
+            </b-form-row>
             <div class="d-flex justify-content-between align-items-start">
                 <span>
                     <b-button
@@ -195,6 +202,9 @@ export default {
         livingSituations() {
             return ["", ...this.settings["visitors.living_situations"]];
         },
+        today() {
+            return moment().format(moment.HTML5_FMT.DATE);
+        }
     },
     mounted() {
         if (!this.value) {
