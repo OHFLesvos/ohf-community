@@ -132,6 +132,16 @@ class VisitorController extends Controller
         return new VisitorResource($visitor);
     }
 
+    public function giveParentalConsent(Visitor $visitor)
+    {
+        $this->authorize('update', $visitor);
+
+        $visitor->parental_consent_given = today();
+        $visitor->save();
+
+        return new VisitorResource($visitor);
+    }
+
     public function export()
     {
         $this->authorize('export-visitors');

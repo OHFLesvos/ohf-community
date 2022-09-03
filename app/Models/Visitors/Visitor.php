@@ -22,6 +22,7 @@ class Visitor extends Model
         'anonymized',
         'liability_form_signed',
         'remarks',
+        'parental_consent_given',
     ];
 
     protected $nullable = [
@@ -42,6 +43,7 @@ class Visitor extends Model
 
     protected $casts = [
         'anonymized' => 'boolean',
+        'parental_consent_given' => 'boolean',
     ];
 
     public function checkins()

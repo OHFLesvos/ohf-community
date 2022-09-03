@@ -346,6 +346,8 @@ Route::middleware(['auth:sanctum', 'language'])
 
         		Route::post('{visitor}/signLiabilityForm', [VisitorController::class, 'signLiabilityForm'])
             		->name('signLiabilityForm');
+        		Route::post('{visitor}/giveParentalConsent', [VisitorController::class, 'giveParentalConsent'])
+            		->name('giveParentalConsent');
             });
 
 
