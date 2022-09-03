@@ -43,6 +43,7 @@
 
 <script>
 import moment from "moment";
+import { calculateAge } from "@/utils";
 export default {
     props: {
         value: {},
@@ -59,12 +60,9 @@ export default {
     },
     computed: {
         age() {
-            if (this.value) {
-                let date = moment(this.value, moment.HTML5_FMT.DATE, true);
-                if (date.isValid()) {
-                    return "" + moment().diff(date, "years");
-                }
-            }
+            let age = calculateAge(this.value);
+            if (age >= 0)
+                return "" + age;
             return undefined;
         },
     },

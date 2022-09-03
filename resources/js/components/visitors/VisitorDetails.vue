@@ -69,13 +69,27 @@
                 <b-button size="sm" @click="signLiabilityForm()" :disabled="isBusy">{{ $t('Mark as signed') }}</b-button>
             </template>
         </dd>
+        <template v-if="visitor.date_of_birth && age < 18">
+            <dt class="col-sm-4">
+                {{ $t("Parental consent") }}
+            </dt>
+            <dd class="col-sm-8">
+                <template v-if="visitor.parental_consent_given">
+                    {{ $t('Yes') }}
+                </template>
+                <template v-else>
+                    <span class="text-danger"><font-awesome-icon icon="times"/> {{ $t('Not given!') }}</span>
+                    <b-button size="sm" @click="giveParentalConsent()" :disabled="isBusy">{{ $t('Mark as given') }}</b-button>
+                </template>
+            </dd>
+        </template>
     </dl>
 </template>
 
 <script>
 import visitorsApi from "@/api/visitors";
 import moment from "moment";
-import { showSnackbar } from "@/utils";
+import { showSnackbar, calculateAge } from "@/utils";
 export default {
     props: {
         value: {
@@ -113,13 +127,7 @@ export default {
             return null;
         },
         age() {
-            if (this.visitor.date_of_birth) {
-                let date = moment(this.visitor.date_of_birth, moment.HTML5_FMT.DATE, true);
-                if (date.isValid()) {
-                    return "" + moment().diff(date, "years");
-                }
-            }
-            return undefined;
+            return calculateAge(this.visitor.date_of_birth);
         },
     },
     methods: {
@@ -127,6 +135,17 @@ export default {
             this.isBusy = true;
             try {
                 let data = await visitorsApi.signLiabilityForm(this.visitor.id);
+                this.visitor = data.data;
+                showSnackbar(this.$t("Visitor updated."));
+            } catch (err) {
+                alert(err);
+            }
+            this.isBusy = false;
+        },
+        async giveParentalConsent() {
+            this.isBusy = true;
+            try {
+                let data = await visitorsApi.giveParentalConsent(this.visitor.id);
                 this.visitor = data.data;
                 showSnackbar(this.$t("Visitor updated."));
             } catch (err) {

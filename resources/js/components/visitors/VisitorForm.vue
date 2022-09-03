@@ -119,6 +119,25 @@
             </b-form-row>
             <b-form-row>
                 <b-col sm>
+                    <b-form-group :label="$t('Liability form signed')">
+                        <b-form-datepicker
+                            v-model="formData.liability_form_signed"
+                            today-button
+                            reset-button
+                            :max="today">
+                        </b-form-datepicker>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group :label="$t('Parental consent')"  v-if="age < 18">
+                        <b-form-checkbox v-model="formData.parental_consent_given">
+                            {{ $t("Parental consent given") }}
+                        </b-form-checkbox>
+                    </b-form-group>
+                </b-col>
+            </b-form-row>
+            <b-form-row>
+                <b-col>
                     <b-form-group
                         :label="$t('Remarks')"
                     >
@@ -128,16 +147,6 @@
                             autocomplete="off"
                             :disabled="disabled"
                         />
-                    </b-form-group>
-                </b-col>
-                <b-col sm>
-                    <b-form-group :label="$t('Liability form signed')">
-                        <b-form-datepicker
-                            v-model="formData.liability_form_signed"
-                            today-button
-                            reset-button
-                            :max="today">
-                        </b-form-datepicker>
                     </b-form-group>
                 </b-col>
             </b-form-row>
@@ -173,6 +182,7 @@
 <script>
 import formValidationMixin from "@/mixins/formValidationMixin";
 import { mapState } from "vuex";
+import { calculateAge } from "@/utils";
 import moment from "moment";
 import DateOfBirthInput from "@/components/common/DateOfBirthInput";
 export default {
@@ -198,7 +208,8 @@ export default {
                 nationality: "",
                 living_situation: "",
                 remarks: "",
-                liability_form_signed: null
+                liability_form_signed: null,
+                parental_consent_given: false,
             },
             genders: [
                 { value: "male", text: this.$t("male") },
@@ -217,7 +228,10 @@ export default {
         },
         today() {
             return moment().format(moment.HTML5_FMT.DATE);
-        }
+        },
+        age() {
+            return calculateAge(this.formData.date_of_birth)
+        },
     },
     mounted() {
         if (!this.value) {

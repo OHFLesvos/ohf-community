@@ -32,6 +32,10 @@ export default {
         const url = route('api.visitors.signLiabilityForm', visitorId)
         return await api.post(url, {})
     },
+    async giveParentalConsent (visitorId) {
+        const url = route('api.visitors.giveParentalConsent', visitorId)
+        return await api.post(url, {})
+    },
     async dailyVisitors (params = {}) {
         const url = route('api.visitors.dailyVisitors', params)
         return await api.get(url)
