@@ -25,6 +25,7 @@ class Visitor extends JsonResource
             'remarks' => $this->remarks,
             'anonymized' => $this->anonymized,
             'liability_form_signed' => $this->liability_form_signed,
+            'parental_consent_given' => $this->parental_consent_given,
             'checked_in_today' => $this->whenLoaded('checkins', fn () => $this->checkins->contains(fn ($checkin) => $checkin->created_at->isToday())),
         ];
     }

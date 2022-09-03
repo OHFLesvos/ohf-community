@@ -810,6 +810,10 @@ export default {
         "Liability form signed": "Haftungsformular unterschrieben",
         "Not signed!": "Nicht signiert!",
         "Mark as signed": "Als signiert markieren",
+        "Parental consent": "Einwilligung der Eltern",
+        "Parental consent given": "Einwilligung der Eltern erteilt",
+        "Not given!": "Einwilligung der Eltern erteilt",
+        "Mark as given": "Als eingewilligt markieren",
         "pagination": {
             "previous": "&laquo; Zurück",
             "next": "Weiter &raquo;"
