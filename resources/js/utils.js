@@ -1,5 +1,6 @@
 import Snackbar from "node-snackbar";
 import palette from "google-palette";
+import moment from "moment";
 
 export function showSnackbar(text, actionText, actionClass, callback) {
     var args = {
@@ -30,6 +31,21 @@ export function dateOfBirthToAge(dateOfBirth) {
         age--;
     }
     return age;
+}
+
+export function calculateAge(date_of_birth) {
+    if (!date_of_birth) {
+        return undefined;
+    }
+    let date = moment(date_of_birth, moment.HTML5_FMT.DATE, true);
+    if (!date.isValid()) {
+        return undefined
+    }
+    let age = moment().diff(date, "years");
+    if (age < 0) {
+        return undefined
+    }
+    return age
 }
 
 export function todayDate() {
