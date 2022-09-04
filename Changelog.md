@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.9.0
+
+* Add parental consent checkbox to visitor records
+
 ## 3.8.0
 
 * Add a liability form signed field to visitor records
