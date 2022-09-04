@@ -784,12 +784,14 @@ export default {
         "Enable Two-Factor Authentication": "Zwei-Faktor-Authentifizierung aktivieren",
         "Disable Two-Factor Authentication": "Zwei-Faktor-Authentifizierung deaktivieren",
         "Service": "Dienst",
-        "app": [],
-        "auth": {
-            "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
-            "password": "Das angegebene Passwort ist falsch.",
-            "throttle": "Zu viele Loginversuche. Versuchen Sie es bitte in {seconds} Sekunden nochmal."
-        },
+        "Liability form": "Haftungsformular",
+        "Liability form signed": "Haftungsformular unterschrieben",
+        "Not signed!": "Nicht signiert!",
+        "Mark as signed": "Als signiert markieren",
+        "Parental consent": "Einwilligung der Eltern",
+        "Parental consent given": "Einwilligung der Eltern erteilt",
+        "Not given!": "Einwilligung der Eltern erteilt",
+        "Mark as given": "Als eingewilligt markieren",
         "pagination": {
             "previous": "&laquo; Zurück",
             "next": "Weiter &raquo;"
@@ -801,6 +803,12 @@ export default {
             "token": "Der Passwort-Wiederherstellungs-Schlüssel ist ungültig oder abgelaufen.",
             "user": "Es konnte leider kein Nutzer mit dieser E-Mail-Adresse gefunden werden."
         },
+        "auth": {
+            "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
+            "password": "Das angegebene Passwort ist falsch.",
+            "throttle": "Zu viele Loginversuche. Versuchen Sie es bitte in {seconds} Sekunden nochmal."
+        },
+        "app": [],
         "permissions": {
             "view_usermgmt": "Benutzerverwaltung: Benutzer und Rollen betrachten",
             "usermgmt_manage_users": "Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen",
@@ -972,11 +980,6 @@ export default {
         "Your account has been created on {created} and and last updated on {updated}.": "Your account has been created on {created} and and last updated on {updated}.",
         "Save changes": "Änderungen speichern",
         "The newest user is {name}, registered {registered}.": "The newest user is {name}, registered {registered}.",
-        "auth": {
-            "failed": "These credentials do not match our records.",
-            "password": "The provided password is incorrect.",
-            "throttle": "Too many login attempts. Please try again in {seconds} seconds."
-        },
         "pagination": {
             "previous": "&laquo; Previous",
             "next": "Next &raquo;"
@@ -987,6 +990,11 @@ export default {
             "throttled": "Please wait before retrying.",
             "token": "This password reset token is invalid.",
             "user": "We can't find a user with that email address."
+        },
+        "auth": {
+            "failed": "These credentials do not match our records.",
+            "password": "The provided password is incorrect.",
+            "throttle": "Too many login attempts. Please try again in {seconds} seconds."
         },
         "permissions": {
             "view_usermgmt": "User management: View users and roles",
