@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\ChangelogController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
@@ -93,16 +92,6 @@ Route::middleware(['auth', 'language'])
 
 Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
     ->name('users.avatar');
-
-//
-// Changelog
-//
-
-Route::middleware(['language'])
-    ->group(function () {
-        Route::get('changelog', [ChangelogController::class, 'index'])
-            ->name('changelog');
-    });
 
 //
 // Badges
