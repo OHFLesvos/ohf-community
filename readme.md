@@ -93,6 +93,19 @@ It is recommended to execute a production deployment / upgrade as follows:
     php artisan migrate --force
     php artisan up
 
+Code style fixer
+----------------
+
+Run:
+
+   ./vendor/bin/pint
+
+or when using Laravel Sail:
+
+    sail php ./vendor/bin/pint
+
+More information here: https://github.com/laravel/pint
+
 Development notes
 -----------------
 
