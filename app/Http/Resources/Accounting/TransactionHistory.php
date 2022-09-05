@@ -16,13 +16,13 @@ class TransactionHistory extends JsonResource
     public function toArray($request)
     {
         return [
-            "id" => $this->id,
-            "transaction_id" => $this->auditable_id,
-            "event" => $this->event,
-            "changes" => $this->getChanges($this->old_values, $this->new_values),
-            "ip_address" => $this->ip_address,
-            "created_at" => $this->created_at,
-            "user"  => $this->getUserArray($this->user),
+            'id' => $this->id,
+            'transaction_id' => $this->auditable_id,
+            'event' => $this->event,
+            'changes' => $this->getChanges($this->old_values, $this->new_values),
+            'ip_address' => $this->ip_address,
+            'created_at' => $this->created_at,
+            'user' => $this->getUserArray($this->user),
         ];
     }
 
@@ -34,7 +34,7 @@ class TransactionHistory extends JsonResource
             $changes[$key]['new'] = null;
         }
         foreach ($newValues as $key => $val) {
-            if (!isset($changes[$key]['old'])) {
+            if (! isset($changes[$key]['old'])) {
                 $changes[$key]['old'] = null;
             }
             $changes[$key]['new'] = $val;

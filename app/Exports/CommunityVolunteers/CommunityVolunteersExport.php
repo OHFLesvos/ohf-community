@@ -40,7 +40,7 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
     }
 
     /**
-     * @param CommunityVolunteer $communityVolunteer
+     * @param  CommunityVolunteer  $communityVolunteer
      */
     public function map($communityVolunteer): array
     {
@@ -51,7 +51,7 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
 
     private static function mapField($field, $communityVolunteer)
     {
-        if (isset($field['value_export'])  && gettype($field['value_export']) == 'string') {
+        if (isset($field['value_export']) && gettype($field['value_export']) == 'string') {
             $value = $communityVolunteer->{$field['value_export']};
         } elseif (gettype($field['value']) == 'string') {
             $value = $communityVolunteer->{$field['value']};
@@ -63,8 +63,10 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
         if ($value !== null) {
             $prefix = $field['prefix'] ?? '';
             $valueString = is_array($value) ? implode(', ', $value) : $value;
-            return $prefix . $valueString;
+
+            return $prefix.$valueString;
         }
+
         return null;
     }
 

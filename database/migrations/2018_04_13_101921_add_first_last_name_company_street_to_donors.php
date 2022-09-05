@@ -52,7 +52,7 @@ return new class extends Migration
             $table->string('country')->after('city')->nullable();
         });
         Donor::all()->each(function ($donor) {
-            $donor->name = $donor->first_name . ' ' . $donor->last_name;
+            $donor->name = $donor->first_name.' '.$donor->last_name;
             $donor->address = $donor->street;
             if ($donor->country_code != null) {
                 $donor->country = Countries::getList('en')[$donor->country_code] ?? null;

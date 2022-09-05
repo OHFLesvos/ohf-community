@@ -71,6 +71,7 @@ class Role extends Model
         if ($value == '') {
             return $query;
         }
-        return $query->where('name', 'LIKE', '%' . $value . '%');
+
+        return $query->where('name', 'LIKE', '%'.$value.'%');
     }
 }

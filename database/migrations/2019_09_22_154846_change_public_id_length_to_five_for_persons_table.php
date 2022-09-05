@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up()
     {
-        DB::table('persons')->update(['public_id' => DB::raw('SUBSTR(public_id, 1, ' . 10 . ')')]);
+        DB::table('persons')->update(['public_id' => DB::raw('SUBSTR(public_id, 1, '. 10 .')')]);
     }
 
     /**

@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use OTPHP\TOTP;
-use ParagonIE\ConstantTime\Base32;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Writer\PngWriter;
 use Endroid\QrCode\Writer\Result\ResultInterface;
+use OTPHP\TOTP;
+use ParagonIE\ConstantTime\Base32;
 
 class TOTPService
 {

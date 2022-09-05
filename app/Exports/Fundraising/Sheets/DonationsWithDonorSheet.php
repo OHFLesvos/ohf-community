@@ -7,6 +7,7 @@ use App\Models\Fundraising\Donation;
 class DonationsWithDonorSheet extends DonationsSheet
 {
     protected string $currencyColumn = 'H';
+
     protected string $exchangedCurrencyColumn = 'I';
 
     public function headings(): array
@@ -15,11 +16,12 @@ class DonationsWithDonorSheet extends DonationsSheet
         $headings->splice(1, 0, [
             __('Donor'),
         ]);
+
         return $headings->toArray();
     }
 
     /**
-     * @param Donation $donation
+     * @param  Donation  $donation
      */
     public function map($donation): array
     {
@@ -27,6 +29,7 @@ class DonationsWithDonorSheet extends DonationsSheet
         $map->splice(1, 0, [
             $donation->donor->full_name,
         ]);
+
         return $map->toArray();
     }
 }

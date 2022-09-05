@@ -63,10 +63,11 @@ class Project extends Model
     {
         if (! empty($filter)) {
             $query->where(function ($wq) use ($filter) {
-                return $wq->where('name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('description', 'LIKE', '%' . $filter . '%');
+                return $wq->where('name', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('description', 'LIKE', '%'.$filter.'%');
             });
         }
+
         return $query;
     }
 
@@ -78,6 +79,7 @@ class Project extends Model
             $elements->prepend($elem->parent);
             $elem = $elem->parent;
         }
+
         return $elements;
     }
 
@@ -86,11 +88,11 @@ class Project extends Model
         $results = [];
         $items = self::query()
             ->select('id', 'name')
-            ->when($enabledOnly, fn($q) => $q->where('enabled', true))
+            ->when($enabledOnly, fn ($q) => $q->where('enabled', true))
             ->orderBy('name', 'asc')
             ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
             ->get();
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $results[$item['id']] = [
                 'name' => $item['name'],
                 'indentation' => $indentation,
@@ -100,6 +102,7 @@ class Project extends Model
                 $results[$k] = $v;
             }
         }
+
         return $results;
     }
 
@@ -113,6 +116,7 @@ class Project extends Model
             ->get()
             ->map(function ($e) use ($exclude) {
                 $e['children'] = self::queryByParent($e['id'], $exclude);
+
                 return $e;
             });
     }

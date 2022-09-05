@@ -17,6 +17,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
     private Collection $usedCurrenciesChannels;
+
     private array $years;
 
     public function __construct()
@@ -78,17 +79,18 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
         ];
         if (Auth::user()->can('viewAny', Donation::class)) {
             foreach ($this->years as $year) {
-                $headings[] = __('Donations') . ' ' . $year;
+                $headings[] = __('Donations').' '.$year;
             }
             foreach ($this->usedCurrenciesChannels as $cc) {
-                $headings[] = $cc->currency . ' via ' . $cc->channel . ' in ' . $cc->year;
+                $headings[] = $cc->currency.' via '.$cc->channel.' in '.$cc->year;
             }
         }
+
         return $headings;
     }
 
     /**
-     * @param Donor $donor
+     * @param  Donor  $donor
      */
     public function map($donor): array
     {
@@ -120,6 +122,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
                     ->first())->total ?? null;
             }
         }
+
         return $map;
     }
 
@@ -141,6 +144,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
                 $formats[$column] = config('fundraising.currencies_excel_format')[$cc->currency];
             }
         }
+
         return $formats;
     }
 

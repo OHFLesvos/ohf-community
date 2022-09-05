@@ -60,13 +60,14 @@ class Budget extends Model
         $sumTransactions = $this->transactions
             ->map(fn ($transaction) => $transaction->type == 'income' ? $transaction->amount : -$transaction->amount)
             ->sum();
+
         return round($this->initial_amount + $sumTransactions, 2);
     }
 
     /**
      * Scope a query to only include budgets matching the given filter conditions
      *
-     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter($query, ?string $filter)
@@ -76,8 +77,8 @@ class Budget extends Model
         }
 
         return $query->where(function (Builder $qry1) use ($filter) {
-            return $qry1->where('name', 'LIKE', '%' . $filter . '%')
-                ->orWhere('description', 'LIKE', '%' . $filter . '%');
+            return $qry1->where('name', 'LIKE', '%'.$filter.'%')
+                ->orWhere('description', 'LIKE', '%'.$filter.'%');
         });
     }
 }

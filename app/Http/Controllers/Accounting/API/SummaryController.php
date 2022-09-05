@@ -33,27 +33,27 @@ class SummaryController extends Controller
                 'nullable',
                 'integer',
                 'min:2010',
-                'max:' . today()->year,
+                'max:'.today()->year,
             ],
             'wallet' => [
                 'nullable',
-                'exists:accounting_wallets,id'
+                'exists:accounting_wallets,id',
             ],
             'category' => [
                 'nullable',
-                'exists:accounting_categories,id'
+                'exists:accounting_categories,id',
             ],
             'project' => [
                 'nullable',
-                'exists:accounting_projects,id'
+                'exists:accounting_projects,id',
             ],
             'secondary_category' => [
                 'nullable',
-                'exists:accounting_transactions,secondary_category'
+                'exists:accounting_transactions,secondary_category',
             ],
             'location' => [
                 'nullable',
-                'exists:accounting_transactions,location'
+                'exists:accounting_transactions,location',
             ],
         ]);
 
@@ -69,6 +69,7 @@ class SummaryController extends Controller
                 $spending = isset($totals[$wallet->id]) ? $totals[$wallet->id]['spending'] ?? 0 : 0;
                 $amount = $wallet->calculatedSum($dateTo);
                 $fees = isset($totals[$wallet->id]) ? $totals[$wallet->id]['fees'] ?? 0 : 0;
+
                 return [
                     'id' => $wallet->id,
                     'name' => $wallet->name,
@@ -104,6 +105,7 @@ class SummaryController extends Controller
         $totalSpending = $totals->sum('spending');
         $totalFees = $totals->sum('fees');
         $totalAmount = $wallets->sum('amount');
+
         return [
             'years' => Transaction::years(),
             'categories' => $categories,
@@ -127,7 +129,7 @@ class SummaryController extends Controller
             'second_categories' => $useSecondaryCategories
                 ? $this->revenueByField('secondary_category', $request)
                 : null,
-            'use_locations' => $useLocations
+            'use_locations' => $useLocations,
         ];
     }
 
@@ -158,6 +160,7 @@ class SummaryController extends Controller
             $item['total_amount'] = $item['amount'] + $childRevenue;
             $total += $item['total_amount'];
         }
+
         return $total;
     }
 
@@ -170,6 +173,7 @@ class SummaryController extends Controller
                 $filteredItems[] = $item;
             }
         }
+
         return collect($filteredItems);
     }
 
@@ -180,21 +184,23 @@ class SummaryController extends Controller
             $item['amount_formatted'] = $this->formatCurrency($item['amount']);
             $item['total_amount_formatted'] = $this->formatCurrency($item['total_amount']);
         }
+
         return $items;
     }
 
     private function dateRange(Request $request)
     {
         if ($request->filled('year') && $request->filled('month')) {
-            $dateFrom = (new Carbon($request->year . '-' . $request->month . '-01'))->startOfMonth();
+            $dateFrom = (new Carbon($request->year.'-'.$request->month.'-01'))->startOfMonth();
             $dateTo = (clone $dateFrom)->endOfMonth();
         } elseif ($request->filled('year')) {
-            $dateFrom = (new Carbon($request->year . '-01-01'))->startOfYear();
+            $dateFrom = (new Carbon($request->year.'-01-01'))->startOfYear();
             $dateTo = (clone $dateFrom)->endOfYear();
         } else {
             $dateFrom = null;
             $dateTo = null;
         }
+
         return [$dateFrom, $dateTo];
     }
 

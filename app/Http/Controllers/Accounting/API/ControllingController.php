@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesResourceIndex;
-use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
+use App\Models\Accounting\Transaction;
 use Illuminate\Http\Request;
 
 class ControllingController extends Controller
@@ -28,11 +28,11 @@ class ControllingController extends Controller
             ],
             'from' => [
                 'nullable',
-                'date'
+                'date',
             ],
             'to' => [
                 'nullable',
-                'date'
+                'date',
             ],
         ]);
 
@@ -43,7 +43,7 @@ class ControllingController extends Controller
             ->orderBy($this->getSortBy('date'), $this->getSortDirection('asc'))
             ->with('supplier')
             ->get()
-            ->filter(fn(Transaction $transaction) => $request->user()->can('control', $transaction))
+            ->filter(fn (Transaction $transaction) => $request->user()->can('control', $transaction))
             ->paginate($this->getPageSize(25));
 
         return TransactionResource::collection($data);

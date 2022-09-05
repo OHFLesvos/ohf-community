@@ -11,7 +11,9 @@ use Webling\CacheAdapters\FileCacheAdapter;
 class WeblingClient
 {
     private $url;
+
     private $client;
+
     private $cache;
 
     public function __construct(?string $url, ?string $apiKey)
@@ -33,7 +35,7 @@ class WeblingClient
 
     public function createUrl($suffix)
     {
-        return $this->url . $suffix;
+        return $this->url.$suffix;
     }
 
     /**
@@ -66,7 +68,7 @@ class WeblingClient
         if ($filter) {
             $params['filter'] = $filter;
         }
-        $response = $this->client->get($name . '?' . http_build_query($params));
+        $response = $this->client->get($name.'?'.http_build_query($params));
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
             return $response->getData();
         }
@@ -82,11 +84,12 @@ class WeblingClient
         if ($cached) {
             return $this->cache->getObject($name, $id);
         }
-        $response = $this->client->get($name . '/' . $id);
+        $response = $this->client->get($name.'/'.$id);
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
             $data = $response->getData();
             // the single response does not have the id attribute, set it here for consistency
             $data['id'] = $objectId;
+
             return $data;
         }
         // TODO error handling
@@ -109,12 +112,13 @@ class WeblingClient
         $num_ids = count($ids);
         for ($offset = 0; $offset < $num_ids; $offset += $chunk_size) {
             $ids_slice = array_slice($ids, $offset, $chunk_size);
-            $response = $this->client->get($name  . '/' . implode(',', $ids_slice));
+            $response = $this->client->get($name.'/'.implode(',', $ids_slice));
             if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
                 $data = array_merge($data, $response->getData());
             }
             // TODO error handling
         }
+
         return $data;
     }
 
@@ -127,7 +131,7 @@ class WeblingClient
         if ($response->getStatusCode() < 400) {
             return $response->getData();
         }
-        throw new Exception('Server responded with code ' . $response->getStatusCode().': ' . $response->getRawData());
+        throw new Exception('Server responded with code '.$response->getStatusCode().': '.$response->getRawData());
     }
 
     /**

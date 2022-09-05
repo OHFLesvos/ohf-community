@@ -23,6 +23,7 @@ class BuilderMixin
                 default: // days
                     $this->query->selectRaw("DATE(`${column}`) as `${group_by_column_name}`");
             }
+
             return $this->query
                 ->groupBy($group_by_column_name)
                 ->orderBy($column, $orderDirection);

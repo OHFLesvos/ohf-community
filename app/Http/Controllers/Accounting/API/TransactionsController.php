@@ -6,10 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\AuthorizeAny;
 use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\Accounting\StoreTransaction;
-use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
 use App\Http\Resources\Accounting\TransactionCollection;
 use App\Http\Resources\Accounting\TransactionHistory;
+use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use Illuminate\Http\Request;
@@ -68,11 +68,11 @@ class TransactionsController extends Controller
             ->when($request->filled('filter'), fn ($qry) => $qry->forFilter($request->input('filter')))
             ->when(count($advanced_filter) > 0, fn ($qry) => $qry->forAdvancedFilter($advanced_filter))
             ->when(
-                !empty($request->advanced_filter['date_start']),
+                ! empty($request->advanced_filter['date_start']),
                 fn ($qry) => $qry->whereDate('date', '>=', $request->advanced_filter['date_start'])
             )
             ->when(
-                !empty($request->advanced_filter['date_end']),
+                ! empty($request->advanced_filter['date_end']),
                 fn ($qry) => $qry->whereDate('date', '<=', $request->advanced_filter['date_end'])
             )
             ->orderBy($this->getSortBy('created_at'), $this->getSortDirection('desc'))
@@ -88,7 +88,7 @@ class TransactionsController extends Controller
     {
         $advanced_filter = [];
         foreach (Transaction::ADVANCED_FILTER_COLUMNS as $col) {
-            if (!empty($request->advanced_filter[$col])) {
+            if (! empty($request->advanced_filter[$col])) {
                 $advanced_filter[$col] = $request->advanced_filter[$col];
             }
         }
@@ -104,8 +104,8 @@ class TransactionsController extends Controller
         $request->validate([
             'date' => [
                 'nullable',
-                'date'
-            ]
+                'date',
+            ],
         ]);
 
         return TransactionHistory::collection(Audit::where('auditable_type', Transaction::class)
@@ -186,7 +186,7 @@ class TransactionsController extends Controller
             $transaction->fees = $request->fees;
         }
 
-        if ($canUpdate || $canUpdateMetadata ) {
+        if ($canUpdate || $canUpdateMetadata) {
             $transaction->attendee = $request->attendee;
             $transaction->category()->associate($request->category_id);
             if (self::useSecondaryCategories()) {
@@ -251,7 +251,7 @@ class TransactionsController extends Controller
             'direction' => [
                 'nullable',
                 Rule::in(['left', 'right']),
-            ]
+            ],
         ]);
 
         $transaction->rotateReceiptPicture($request->picture, $request->input('direction', 'right'));
@@ -265,7 +265,7 @@ class TransactionsController extends Controller
 
         if ($transaction->external_id != null && Entrygroup::find($transaction->external_id) != null) {
             return response()->json([
-                'message' => __('Transaction not updated; the external record still exists and has to be deleted beforehand.')
+                'message' => __('Transaction not updated; the external record still exists and has to be deleted beforehand.'),
             ], Response::HTTP_CONFLICT);
         }
 

@@ -17,13 +17,14 @@ trait CountryCodeField
         if ($this->country_code != null) {
             return Countries::getOne($this->country_code, App::getLocale());
         }
+
         return null;
     }
 
     /**
      * Set the country code based on the country name
      *
-     * @param string|null $value
+     * @param  string|null  $value
      * @return void
      */
     public function setCountryNameAttribute($value)
@@ -52,7 +53,7 @@ trait CountryCodeField
     /**
      * Gets an array of all countries assigned to donors, grouped and ordered by amount
      *
-     * @param string|\Carbon\Carbon|null $untilDate
+     * @param  string|\Carbon\Carbon|null  $untilDate
      * @return array
      */
     public static function countryDistribution($untilDate = null): array

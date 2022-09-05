@@ -55,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
                     $forPage = $this->forPage($page, $perPage);
                     $count = $this->count();
                     $paginator = new LengthAwarePaginator($forPage, $count, $perPage, $page, $options);
+
                     return $paginator->withPath('');
                 }
             );

@@ -32,7 +32,7 @@ class StoreWallet extends FormRequest
                 isset($this->wallet)
                     ? Rule::unique('accounting_wallets')->ignore($this->wallet->id)
                     : Rule::unique('accounting_wallets'),
-            ]
+            ],
         ];
     }
 }

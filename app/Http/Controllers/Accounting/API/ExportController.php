@@ -47,12 +47,13 @@ class ExportController extends Controller
 
     protected function exportFilename(Request $request): string
     {
-        $str = config('app.name') . ' ' . __('Accounting');
+        $str = config('app.name').' '.__('Accounting');
         $wallet = Wallet::find($request->input('wallet'));
         if ($wallet !== null) {
-            $str .= ' [' . $wallet->name . ']';
+            $str .= ' ['.$wallet->name.']';
         }
-        $str .= ' (' . Carbon::now()->toDateString() . ')';
+        $str .= ' ('.Carbon::now()->toDateString().')';
+
         return $str;
     }
 
@@ -87,6 +88,7 @@ class ExportController extends Controller
         if ($request->grouping == 'monthly') {
             return new TransactionsMonthsExport($wallet, $filter, $advancedFilter);
         }
+
         return new TransactionsExport($wallet, $filter, $advancedFilter, $request->date_start, $request->date_end);
     }
 }

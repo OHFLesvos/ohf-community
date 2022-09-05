@@ -12,6 +12,7 @@ class ResponsibilitiesEditContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $responsibility = $view->getData()['responsibility'];
+
         return [
             'delete' => [
                 'url' => route('cmtyvol.responsibilities.destroy', $responsibility),

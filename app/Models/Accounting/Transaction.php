@@ -2,9 +2,9 @@
 
 namespace App\Models\Accounting;
 
+use App\Models\User;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
-use App\Models\User;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
@@ -22,7 +22,7 @@ class Transaction extends Model implements Auditable
     use \OwenIt\Auditing\Auditable;
     use HasFactory;
 
-    protected $table = "accounting_transactions";
+    protected $table = 'accounting_transactions';
 
     private const RECEIPT_PICTURE_PATH = 'public/accounting/receipts';
 
@@ -122,14 +122,15 @@ class Transaction extends Model implements Auditable
         if ($dateTo !== null) {
             $query->whereDate('date', '<=', $dateTo);
         }
+
         return $query;
     }
 
     /**
      * Scope a query to only include transactions for the given wallet
      *
-     * @param \Illuminate\Database\Eloquent\Builder  $query
-     * @param Wallet $wallet
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  Wallet  $wallet
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForWallet($query, Wallet $wallet)
@@ -140,8 +141,8 @@ class Transaction extends Model implements Auditable
     /**
      * Scope a query to only include transactions matching the given filter conditions
      *
-     * @param \Illuminate\Database\Eloquent\Builder  $query
-     * @param string $filter
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter($query, string $filter)
@@ -154,23 +155,23 @@ class Transaction extends Model implements Auditable
             return $qry1->where('receipt_no', $filter)
                 ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('amount', $filter))
                 ->orWhere('date', $filter)
-                ->orWhere('secondary_category', 'LIKE', '%' . $filter . '%')
-                ->orWhere('location', 'LIKE', '%' . $filter . '%')
-                ->orWhere('cost_center', 'LIKE', '%' . $filter . '%')
-                ->orWhere('location', 'LIKE', '%' . $filter . '%')
-                ->orWhere('attendee', 'LIKE', '%' . $filter . '%')
-                ->orWhere('description', 'LIKE', '%' . $filter . '%')
-                ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
+                ->orWhere('secondary_category', 'LIKE', '%'.$filter.'%')
+                ->orWhere('location', 'LIKE', '%'.$filter.'%')
+                ->orWhere('cost_center', 'LIKE', '%'.$filter.'%')
+                ->orWhere('location', 'LIKE', '%'.$filter.'%')
+                ->orWhere('attendee', 'LIKE', '%'.$filter.'%')
+                ->orWhere('description', 'LIKE', '%'.$filter.'%')
+                ->orWhere('remarks', 'LIKE', '%'.$filter.'%')
                 ->orWhereHas('supplier', function (Builder $qry2) use ($filter) {
                     $qry2->where('id', $filter)
                         ->orWhere('slug', $filter)
-                        ->orWhere('name', 'LIKE', '%' . $filter . '%');
+                        ->orWhere('name', 'LIKE', '%'.$filter.'%');
                 })
                 ->orWhereHas('category', function (Builder $qry2) use ($filter) {
-                    $qry2->where('name', 'LIKE', '%' . $filter . '%');
+                    $qry2->where('name', 'LIKE', '%'.$filter.'%');
                 })
                 ->orWhereHas('project', function (Builder $qry2) use ($filter) {
-                    $qry2->where('name', 'LIKE', '%' . $filter . '%');
+                    $qry2->where('name', 'LIKE', '%'.$filter.'%');
                 });
         });
     }
@@ -178,14 +179,14 @@ class Transaction extends Model implements Auditable
     /**
      * Scope a query to only include transactions matching the given filter conditions
      *
-     * @param \Illuminate\Database\Eloquent\Builder  $query
-     * @param array $filter
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  array  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForAdvancedFilter($query, array $filter)
     {
         foreach (self::ADVANCED_FILTER_COLUMNS as $col) {
-            if (!empty($filter[$col])) {
+            if (! empty($filter[$col])) {
                 if ($col == 'today') {
                     $query->whereDate('created_at', Carbon::today());
                 } elseif ($col == 'controlled') {
@@ -204,10 +205,10 @@ class Transaction extends Model implements Auditable
                     $query->whereHas('supplier', function (Builder $query) use ($filter, $col) {
                         $query->where('id', $filter[$col])
                             ->orWhere('slug', $filter[$col])
-                            ->orWhere('name', 'like', '%' . $filter[$col] . '%');
+                            ->orWhere('name', 'like', '%'.$filter[$col].'%');
                     });
                 } elseif ($col == 'attendee' || $col == 'description' || $col == 'remarks') {
-                    $query->where($col, 'like', '%' . $filter[$col] . '%');
+                    $query->where($col, 'like', '%'.$filter[$col].'%');
                 } else {
                     $query->where($col, $filter[$col]);
                 }
@@ -220,7 +221,7 @@ class Transaction extends Model implements Auditable
     /**
      * Scope a query to only include transactions which have not been booked
      *
-     * @param \Illuminate\Database\Eloquent\Builder  $query
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeNotBooked($query)
@@ -234,9 +235,10 @@ class Transaction extends Model implements Auditable
             try {
                 return optional(Entrygroup::find($this->external_id))->url();
             } catch (ConnectionException $e) {
-                Log::warning('Unable to get external URL: ' . $e->getMessage());
+                Log::warning('Unable to get external URL: '.$e->getMessage());
             }
         }
+
         return null;
     }
 
@@ -264,6 +266,7 @@ class Transaction extends Model implements Auditable
         if (empty($this->receipt_pictures)) {
             return [];
         }
+
         return collect($this->receipt_pictures)
             ->filter(fn ($picture) => Storage::exists($picture))
             ->map(function ($picture) {
@@ -275,6 +278,7 @@ class Transaction extends Model implements Auditable
                     : (Storage::exists(thumb_path($picture, 'jpeg'))
                         ? Storage::url(thumb_path($picture, 'jpeg'))
                         : null);
+
                 return [
                     'name' => $picture,
                     'hash' => md5_file(Storage::path($picture)),
@@ -307,7 +311,7 @@ class Transaction extends Model implements Auditable
 
     private static function createPdfThumbnail($path, $dimensions)
     {
-        $thumbPath = thumb_path($path, "jpeg");
+        $thumbPath = thumb_path($path, 'jpeg');
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             Ghostscript::setGsPath(config('accounting.gs_path'));
         }
@@ -337,7 +341,7 @@ class Transaction extends Model implements Auditable
         Storage::delete(thumb_path($picture));
         Storage::delete(thumb_path($picture, 'jpeg'));
 
-        if (!empty($this->receipt_pictures)) {
+        if (! empty($this->receipt_pictures)) {
             $this->receipt_pictures = collect($this->receipt_pictures)
                 ->reject(fn ($e) => $e == $picture)
                 ->values()
@@ -347,7 +351,7 @@ class Transaction extends Model implements Auditable
 
     public function deleteReceiptPictures()
     {
-        if (!empty($this->receipt_pictures)) {
+        if (! empty($this->receipt_pictures)) {
             foreach ($this->receipt_pictures as $file) {
                 Storage::delete($file);
                 Storage::delete(thumb_path($file));
@@ -400,7 +404,6 @@ class Transaction extends Model implements Auditable
             ->pluck('cost_center')
             ->toArray();
     }
-
 
     public static function years(): array
     {

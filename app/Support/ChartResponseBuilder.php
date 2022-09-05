@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 class ChartResponseBuilder
 {
     private $datasets = [];
+
     private $labels;
 
     public function __construct()
@@ -42,6 +43,7 @@ class ChartResponseBuilder
         for ($i = 0; $i < $num_datasets; $i++) {
             $this->datasets[$i]['data'] = $this->padData($this->datasets[$i]['data']);
         }
+
         return response()->json([
             'labels' => $this->labels,
             'datasets' => $this->datasets,
@@ -54,6 +56,7 @@ class ChartResponseBuilder
         foreach ($this->labels as $label) {
             $newData[] = $data[$label] ?? null;
         }
+
         return $newData;
     }
 }

@@ -47,7 +47,7 @@ class DonorDonationsController extends Controller
             ->additional([
                 'meta' => [
                     'can_create' => $request->user()->can('create', Donation::class),
-                ]
+                ],
             ]);
     }
 
@@ -77,8 +77,9 @@ class DonorDonationsController extends Controller
                     $exchange_rate = EzvExchangeRates::getExchangeRate($request->currency, $date);
                 } catch (Exception $e) {
                     Log::error($e);
+
                     return response()->json([
-                        'message' =>  __('An error happened'). ': ' . $e->getMessage(),
+                        'message' => __('An error happened').': '.$e->getMessage(),
                     ], Response::HTTP_SERVICE_UNAVAILABLE);
                 }
             }
@@ -105,7 +106,7 @@ class DonorDonationsController extends Controller
         $donor->addDonation($donation);
 
         return response()->json([
-            'message' => __('Donation of :currency :amount has been registered', [ 'amount' => $request->amount, 'currency' => $request->currency ]),
+            'message' => __('Donation of :currency :amount has been registered', ['amount' => $request->amount, 'currency' => $request->currency]),
         ]);
     }
 

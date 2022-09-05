@@ -26,6 +26,7 @@ class Wallet extends JsonResource
         $data['roles'] = $this->roles->map(fn ($u) => $u->only(['id', 'name']));
         $data['can_update'] = $request->user()->can('update', $this->resource);
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
+
         return $data;
     }
 }

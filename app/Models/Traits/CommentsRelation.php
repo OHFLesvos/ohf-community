@@ -25,7 +25,7 @@ trait CommentsRelation
     /**
      * Adds the given comment
      *
-     * @param Comment $comment
+     * @param  Comment  $comment
      */
     public function addComment(Comment $comment)
     {
@@ -35,7 +35,7 @@ trait CommentsRelation
     /**
      * Adds the given comments
      *
-     * @param array|Collection $comments
+     * @param  array|Collection  $comments
      */
     public function addComments($comments)
     {

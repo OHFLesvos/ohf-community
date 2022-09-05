@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Accounting\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreWallet;
 use App\Http\Resources\Accounting\SimpleWallet;
-use App\Models\Accounting\Wallet;
-use Illuminate\Http\Request;
 use App\Http\Resources\Accounting\Wallet as WalletResource;
+use App\Models\Accounting\Wallet;
 use App\Models\Role;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 

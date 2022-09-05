@@ -2,8 +2,8 @@
 
 namespace App\Navigation\ContextButtons\UserManagement;
 
-use App\Navigation\ContextButtons\ContextButtons;
 use App\Models\User;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 

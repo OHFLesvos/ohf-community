@@ -25,6 +25,7 @@ class DonorFactory extends Factory
             return ! in_array($cc, ['HM', 'BV']); // not supported by country code library
         };
         $gender = $this->faker->randomElement(['male', 'female']);
+
         return [
             'salutation' => $this->faker->title($gender),
             'first_name' => $this->faker->firstName($gender),

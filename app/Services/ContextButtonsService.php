@@ -18,8 +18,10 @@ class ContextButtonsService
     {
         if (isset($this->buttons[$routeName])) {
             $buttons = new $this->buttons[$routeName]();
+
             return collect($buttons->getItems($view))->filter();
         }
+
         return collect();
     }
 }

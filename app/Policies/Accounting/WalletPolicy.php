@@ -46,6 +46,7 @@ class WalletPolicy
                     ->whereIn('roles.id', $wallet->roles->pluck('id'))
                     ->exists();
         }
+
         return false;
     }
 
@@ -84,6 +85,7 @@ class WalletPolicy
         if ($user->isSuperAdmin() || $user->hasPermission('accounting.configure')) {
             return Wallet::count() > 1;
         }
+
         return false;
     }
 }

@@ -4,10 +4,10 @@ use App\Http\Controllers\Accounting\API\BudgetController;
 use App\Http\Controllers\Accounting\API\CategoriesController;
 use App\Http\Controllers\Accounting\API\ControllingController;
 use App\Http\Controllers\Accounting\API\ExportController;
-use App\Http\Controllers\Accounting\API\TransactionsController;
 use App\Http\Controllers\Accounting\API\ProjectsController;
 use App\Http\Controllers\Accounting\API\SummaryController;
 use App\Http\Controllers\Accounting\API\SuppliersController;
+use App\Http\Controllers\Accounting\API\TransactionsController;
 use App\Http\Controllers\Accounting\API\WalletsController;
 use App\Http\Controllers\API\CommentsController;
 use App\Http\Controllers\API\DashboardController;
@@ -50,7 +50,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum', 'language'])
     ->name('api.')
     ->group(function () {
-
         Route::get('dashboard', DashboardController::class)
             ->name('dashboard');
 
@@ -132,7 +131,6 @@ Route::middleware(['auth:sanctum', 'language'])
         Route::prefix('fundraising')
             ->name('fundraising.')
             ->group(function () {
-
                 // Donor
                 Route::get('donors/export', [DonorController::class, 'export'])
                     ->name('donors.export');
@@ -202,7 +200,6 @@ Route::middleware(['auth:sanctum', 'language'])
         Route::prefix('accounting')
             ->name('accounting.')
             ->group(function () {
-
                 // Wallets
                 Route::get('wallets/names', [WalletsController::class, 'names'])
                     ->name('wallets.names');
@@ -286,7 +283,6 @@ Route::middleware(['auth:sanctum', 'language'])
         Route::name('cmtyvol.')
             ->prefix('cmtyvol')
             ->group(function () {
-
                 // Age distribution
                 Route::get('ageDistribution', [CommunityVolunteersReportController::class, 'ageDistribution'])
                     ->name('ageDistribution')
@@ -344,12 +340,11 @@ Route::middleware(['auth:sanctum', 'language'])
                 Route::post('{visitor}/checkins', [VisitorController::class, 'checkin'])
                     ->name('checkin');
 
-        		Route::post('{visitor}/signLiabilityForm', [VisitorController::class, 'signLiabilityForm'])
-            		->name('signLiabilityForm');
-        		Route::post('{visitor}/giveParentalConsent', [VisitorController::class, 'giveParentalConsent'])
-            		->name('giveParentalConsent');
+                Route::post('{visitor}/signLiabilityForm', [VisitorController::class, 'signLiabilityForm'])
+                    ->name('signLiabilityForm');
+                Route::post('{visitor}/giveParentalConsent', [VisitorController::class, 'giveParentalConsent'])
+                    ->name('giveParentalConsent');
             });
-
 
         //
         // Badges

@@ -4,8 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Role;
 use App\Models\RolePermission;
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
 
 class RoleFactory extends Factory
 {

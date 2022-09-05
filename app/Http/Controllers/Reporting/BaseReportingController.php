@@ -14,6 +14,7 @@ abstract class BaseReportingController extends Controller
         do {
             $dates[$date->toDateString()] = null;
         } while ($date->subDay()->gt($from));
+
         return collect($dates);
     }
 
@@ -25,6 +26,7 @@ abstract class BaseReportingController extends Controller
             // PHP date format: http://php.net/manual/en/function.date.php
             $dates[$date->format('W / Y')] = null;
         } while ($date->subWeek()->gt($from));
+
         return collect($dates);
     }
 
@@ -36,6 +38,7 @@ abstract class BaseReportingController extends Controller
             // PHP date format: http://php.net/manual/en/function.date.php
             $dates[$date->format('F Y')] = null;
         } while ($date->subMonth()->gt($from));
+
         return collect($dates);
     }
 
@@ -44,8 +47,9 @@ abstract class BaseReportingController extends Controller
         $dates = [];
         $date = $to->clone();
         do {
-            $dates['Year ' . $date->year] = null;
+            $dates['Year '.$date->year] = null;
         } while ($date->subYear()->gt($from));
+
         return collect($dates);
     }
 
@@ -57,6 +61,7 @@ abstract class BaseReportingController extends Controller
             // PHP date format: http://php.net/manual/en/function.date.php
             $dates[$date->format('l')] = null;
         } while ($date->addDay()->lte(Carbon::now()->endOfWeek()));
+
         return collect($dates);
     }
 }

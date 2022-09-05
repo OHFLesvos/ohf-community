@@ -20,6 +20,7 @@ class Supplier extends JsonResource
         $data['can_delete'] = $request->user()->can('delete', $this->resource);
         $data['transactions_count'] = $this->transactions()->count();
         $data['spending'] = $this->when($request->has('with_spending'), fn () => $this->transactions()->where('type', 'spending')->sum('amount'));
+
         return $data;
     }
 }

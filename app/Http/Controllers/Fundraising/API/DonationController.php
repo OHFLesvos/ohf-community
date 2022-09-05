@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Fundraising\API;
 use App\Exports\Fundraising\DonationsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Fundraising\StoreDonation;
-use App\Http\Resources\Fundraising\DonationCollection;
 use App\Http\Resources\Fundraising\Donation as DonationResource;
+use App\Http\Resources\Fundraising\DonationCollection;
 use App\Imports\Fundraising\DonationsImport;
 use App\Models\Fundraising\Donation;
 use Carbon\Carbon;
@@ -113,8 +113,9 @@ class DonationController extends Controller
                     $exchange_rate = EzvExchangeRates::getExchangeRate($request->currency, $date);
                 } catch (Exception $e) {
                     Log::error($e);
+
                     return response()->json([
-                        'message' =>  __('An error happened'). ': ' . $e->getMessage(),
+                        'message' => __('An error happened').': '.$e->getMessage(),
                     ], Response::HTTP_SERVICE_UNAVAILABLE);
                 }
             }
@@ -216,7 +217,7 @@ class DonationController extends Controller
     /**
      * Imports donations from uploaded file
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function import(Request $request)
@@ -226,12 +227,12 @@ class DonationController extends Controller
         $request->validate([
             'type' => [
                 'required',
-                Rule::in([ 'stripe' ]),
+                Rule::in(['stripe']),
             ],
             'file' => [
                 'required',
                 'file',
-                'mimes:xlsx,xls,csv'
+                'mimes:xlsx,xls,csv',
             ],
         ]);
 

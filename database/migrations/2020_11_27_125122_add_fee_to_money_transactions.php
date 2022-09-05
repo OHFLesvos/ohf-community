@@ -35,14 +35,14 @@ return new class extends Migration
 
     private function dropView(): string
     {
-        return <<<SQL
+        return <<<'SQL'
 DROP VIEW IF EXISTS `accounting_signed_transactions`;
 SQL;
     }
 
     private function createView(): string
     {
-        return <<<SQL
+        return <<<'SQL'
 CREATE VIEW `accounting_signed_transactions` AS
 SELECT wallet_id, date, -amount as amount, fees, receipt_no, category, project, description, remarks from money_transactions where type = 'spending'
 union all

@@ -29,7 +29,7 @@ return new class extends Migration
             $table->date('work_rejection_date')->nullable();
             $table->date('work_starting_date')->nullable();
             $table->boolean('work_trial_period')->nullable();
-            $table->text('work_background')->nullable()->comment("Profession before, secret talents, ambitions");
+            $table->text('work_background')->nullable()->comment('Profession before, secret talents, ambitions');
             $table->text('work_feedback_wishes')->nullable();
             $table->date('work_leaving_date')->nullable();
             // case number field already in "persons" table

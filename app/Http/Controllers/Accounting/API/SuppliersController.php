@@ -5,10 +5,10 @@ namespace App\Http\Controllers\Accounting\API;
 use App\Exports\Accounting\SuppliersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreSupplier;
-use App\Models\Accounting\Supplier;
-use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Supplier as SupplierResource;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
+use App\Models\Accounting\Supplier;
+use App\Models\Accounting\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
@@ -144,9 +144,10 @@ class SuppliersController extends Controller
     {
         $this->authorize('viewAny', Supplier::class);
 
-        $file_name = __('Suppliers') . ' - ' . now()->toDateString();
+        $file_name = __('Suppliers').' - '.now()->toDateString();
         $extension = 'xlsx';
-        return (new SuppliersExport())->download($file_name . '.' . $extension);
+
+        return (new SuppliersExport())->download($file_name.'.'.$extension);
     }
 
     public function names()

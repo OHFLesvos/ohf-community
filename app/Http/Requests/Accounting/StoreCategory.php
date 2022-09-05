@@ -38,7 +38,7 @@ class StoreCategory extends FormRequest
                 'nullable',
                 Rule::exists('accounting_categories', 'id'),
                 isset($this->category) ? Rule::notIn($this->category->id) : null,
-            ]
+            ],
         ];
     }
 }

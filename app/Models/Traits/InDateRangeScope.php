@@ -20,6 +20,7 @@ trait InDateRangeScope
         if ($dateTo !== null) {
             $query->whereDate($column, '<=', $dateTo);
         }
+
         return $query;
     }
 }

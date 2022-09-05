@@ -23,6 +23,7 @@ class BudgetFactory extends Factory
     public function definition()
     {
         $date = $this->faker->dateTimeBetween('-5 years', 'now');
+
         return [
             'name' => $this->faker->catchPhrase,
             'description' => $this->faker->optional(0.7)->sentence,

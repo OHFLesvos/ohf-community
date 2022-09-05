@@ -51,6 +51,7 @@ abstract class FaviconFile extends BaseSettingsField
         $image = new ImageResize($value->getRealPath());
         $image->resizeToBestFit($dimension, $dimension, true);
         $image->save($value->getRealPath());
+
         return $value;
     }
 

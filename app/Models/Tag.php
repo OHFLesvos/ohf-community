@@ -51,14 +51,15 @@ class Tag extends Model
      * If no filter is specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string|null $filter
+     * @param  string|null  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter($query, ?string $filter = '')
     {
         if (! empty($filter)) {
-            $query->where('name', 'LIKE', '%' . $filter . '%');
+            $query->where('name', 'LIKE', '%'.$filter.'%');
         }
+
         return $query;
     }
 }

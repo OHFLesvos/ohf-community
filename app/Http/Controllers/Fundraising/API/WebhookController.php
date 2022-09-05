@@ -43,7 +43,7 @@ class WebhookController extends Controller
             ],
         ]);
 
-        $street = $request->stored_customer_street . (! empty($request->stored_customer_street_number) ? ' ' . $request->stored_customer_street_number : '');
+        $street = $request->stored_customer_street.(! empty($request->stored_customer_street_number) ? ' '.$request->stored_customer_street_number : '');
         $donor = Donor::where('first_name', $request->stored_customer_firstname)
             ->where('last_name', $request->stored_customer_lastname)
             ->where('street', $street)
@@ -92,7 +92,7 @@ class WebhookController extends Controller
         $donation->amount = $amount;
         $donation->currency = $currency;
         $donation->exchange_amount = $exchange_amount;
-        $donation->channel = 'RaiseNow (' . $payment_method . ')';
+        $donation->channel = 'RaiseNow ('.$payment_method.')';
         $donation->purpose = $request->stored_customer_message; // TODO consider stored_customer_purpose
         $donation->reference = $request->epp_transaction_id;
 

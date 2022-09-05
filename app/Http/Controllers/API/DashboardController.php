@@ -15,7 +15,7 @@ class DashboardController extends Controller
         \App\View\Widgets\UsersWidget::class,
     ];
 
-    function __invoke()
+    public function __invoke()
     {
         return response()->json([
             'data' => collect($this->dashboardWidgets)

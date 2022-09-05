@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Accounting\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreCategory;
-use Illuminate\Http\Request;
 use App\Http\Resources\Accounting\Category as CategoryResource;
 use App\Models\Accounting\Category;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 
@@ -115,6 +115,7 @@ class CategoriesController extends Controller
         return $items->map(function ($e) {
             $e['can_update'] = request()->user()->can('update', $e);
             $e['children'] = $this->addCanUpdate($e['children']);
+
             return $e;
         });
     }

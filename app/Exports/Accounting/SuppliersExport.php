@@ -47,7 +47,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
     }
 
     /**
-     * @param Supplier $supplier
+     * @param  Supplier  $supplier
      */
     public function map($supplier): array
     {
@@ -65,7 +65,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
             $supplier->iban,
             $supplier->transactions()->count(),
             $supplier->transactions()->where('type', 'spending')->sum('amount'),
-            $supplier->remarks
+            $supplier->remarks,
         ];
     }
 }

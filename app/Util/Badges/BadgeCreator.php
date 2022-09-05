@@ -105,10 +105,10 @@ class BadgeCreator
 
         // Validate badge dimensions
         if ($this->badgeWidth > $pageWidth) {
-            throw new Exception('Badge width (' . $this->badgeWidth . ') greater than page width (' . $pageWidth . ')');
+            throw new Exception('Badge width ('.$this->badgeWidth.') greater than page width ('.$pageWidth.')');
         }
         if ($this->badgeHeight > $pageHeight) {
-            throw new Exception('Badge height (' . $this->badgeHeight . ') greater than page height (' . $pageHeight . ')');
+            throw new Exception('Badge height ('.$this->badgeHeight.') greater than page height ('.$pageHeight.')');
         }
 
         // Calculate badges per dimension and page
@@ -120,7 +120,6 @@ class BadgeCreator
         // Iterate over all persons
         $num_persons = count($persons);
         for ($i = 0; $i < $num_persons; $i++) {
-
             // Badge container starting position
             $x = $badgeFrontAndBackWidth * ($i % $badgesX);
             $y = $this->badgeHeight * floor(($i % $badgesPerPage) / $badgesX);
@@ -153,22 +152,22 @@ class BadgeCreator
 
             // Logo
             if ($this->logo !== null) {
-                $content .= '<div style="text-align:center"><img src="'. $this->logo .'" style="height: 15mm; margin-top: 3mm;"></div>';
+                $content .= '<div style="text-align:center"><img src="'.$this->logo.'" style="height: 15mm; margin-top: 3mm;"></div>';
             }
 
             // Picture
             if (isset($persons[$i]['picture'])) {
-                $content .= '<div style="text-align:center; padding-top:2mm; padding-bottom:2mm;"><img src="'. $persons[$i]['picture'] .'" style="height: 50mm;"></div>';
+                $content .= '<div style="text-align:center; padding-top:2mm; padding-bottom:2mm;"><img src="'.$persons[$i]['picture'].'" style="height: 50mm;"></div>';
                 $nameTopMargin = 0;
             } else {
                 $nameTopMargin = 22;
             }
 
             // Name
-            $content .= '<h1 style="font-size: 270%; text-align: center; padding: 0; margin: 0; text-align: center; margin-top: '.$nameTopMargin.'mm">' . $persons[$i]['name'] . '</h1>';
+            $content .= '<h1 style="font-size: 270%; text-align: center; padding: 0; margin: 0; text-align: center; margin-top: '.$nameTopMargin.'mm">'.$persons[$i]['name'].'</h1>';
 
             // Position
-            $content .= '<h2 style="text-align: center; font-weight: normal; padding: 0; margin: 0;">' . $persons[$i]['position'] . '</h2>';
+            $content .= '<h2 style="text-align: center; font-weight: normal; padding: 0; margin: 0;">'.$persons[$i]['position'].'</h2>';
 
             // Write content
             $mpdf->WriteFixedPosHTML($content, $xp, $yp, $wp, $hp, 'auto');
@@ -178,13 +177,13 @@ class BadgeCreator
 
             // Issued
             if ($this->addIssuedDate) {
-                $mpdf->writeHTML('<div class="issued" style="position: absolute; width: '.$wp.'mm; left:'.$xp.'mm; top: '.($yp + $hp).'mm;">Issued: ' . Carbon::today()->toDateString() . '</div>');
+                $mpdf->writeHTML('<div class="issued" style="position: absolute; width: '.$wp.'mm; left:'.$xp.'mm; top: '.($yp + $hp).'mm;">Issued: '.Carbon::today()->toDateString().'</div>');
             }
 
             // Punch hole
-            $mpdf->writeHTML('<div style="position: absolute; left: '. ($x + ($this->badgeWidth / 2) - ($this->punchHoleSize / 2)) .'mm; top: '. ($y + $this->punchHoleDistanceCenter - ($this->punchHoleSize / 2)) .'mm; width: '. $this->punchHoleSize .'mm; height: ' . $this->punchHoleSize . 'mm; border-radius: ' . ($this->punchHoleSize / 2) .'mm; border: 1px dotted black;"></div>');
+            $mpdf->writeHTML('<div style="position: absolute; left: '.($x + ($this->badgeWidth / 2) - ($this->punchHoleSize / 2)).'mm; top: '.($y + $this->punchHoleDistanceCenter - ($this->punchHoleSize / 2)).'mm; width: '.$this->punchHoleSize.'mm; height: '.$this->punchHoleSize.'mm; border-radius: '.($this->punchHoleSize / 2).'mm; border: 1px dotted black;"></div>');
         }
 
-        $mpdf->Output($title . ' ' .Carbon::now()->toDateString() . '.pdf', Destination::DOWNLOAD);
+        $mpdf->Output($title.' '.Carbon::now()->toDateString().'.pdf', Destination::DOWNLOAD);
     }
 }

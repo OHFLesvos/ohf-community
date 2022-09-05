@@ -44,7 +44,7 @@ class StoreDonor extends FormRequest
             'language' => [
                 'nullable',
                 'language_name',
-            ]
+            ],
         ];
     }
 }

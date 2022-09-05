@@ -3,7 +3,7 @@
 if (! function_exists('form_id_string')) {
     function form_id_string(string $value, ?string $suffix = null): string
     {
-        return trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', $value . ($suffix !== null ? '_' . $suffix : '')));
+        return trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', $value.($suffix !== null ? '_'.$suffix : '')));
     }
 }
 
@@ -28,6 +28,7 @@ if (! function_exists('simplified_url')) {
         if (is_array($parsed) && isset($parsed['host'])) {
             return $parsed['host'];
         }
+
         return $value;
     }
 }
@@ -37,6 +38,7 @@ if (! function_exists('emailize')) {
     {
         $regex = '/([a-zA-Z0-9_\-\.]*@\S+\.\w+)/';
         $replace = '<a href="mailto:$1">$1</a>';
+
         return preg_replace($regex, $replace, $text);
     }
 }
@@ -59,8 +61,9 @@ if (! function_exists('whatsapp_link')) {
         } else {
             $prefix = '<a target="_blank" href="https://web.whatsapp.com/send?phone=';
         }
-        $suffix = $text !== null ? '&text=' . urlencode($text) : '';
-        return $prefix . preg_replace('/[^0-9]/', '', $value) . $suffix . '">' . $value . '</a>';
+        $suffix = $text !== null ? '&text='.urlencode($text) : '';
+
+        return $prefix.preg_replace('/[^0-9]/', '', $value).$suffix.'">'.$value.'</a>';
     }
 }
 
@@ -80,8 +83,10 @@ if (! function_exists('format_number_in_k_notation')) {
             if ($number >= 1000000000 && $number < 1000000000000) {
                 return sprintf('%d%s', floor($number / 1000000000), 'B+');
             }
+
             return sprintf('%d%s', floor($number / 1000000000000), 'T+');
         };
+
         return $suffixByNumber();
     }
 }
@@ -95,7 +100,7 @@ if (! function_exists('bytes_to_human')) {
             $bytes /= 1024;
         }
 
-        return round($bytes, 2) . ' ' . $units[$i];
+        return round($bytes, 2).' '.$units[$i];
     }
 }
 
@@ -115,9 +120,9 @@ if (! function_exists('previous_route')) {
 
 if (! function_exists('array_insert')) {
     /**
-     * @param array      $array
-     * @param int|string $position
-     * @param mixed      $insert
+     * @param  array  $array
+     * @param  int|string  $position
+     * @param  mixed  $insert
      */
     function array_insert(&$array, $position, $insert)
     {
@@ -138,9 +143,8 @@ if (! function_exists('array_elements_not_blank')) {
     /**
      * Checks if the array contains non-blank values specified by the given keys.
      *
-     * @param array $array the array to be checked
-     * @param array $keys the keys to be considered
-     *
+     * @param  array  $array the array to be checked
+     * @param  array  $keys the keys to be considered
      * @return bool if all values indicated by the specified keys are not blank
      */
     function array_elements_not_blank(array $array, array $keys): bool
@@ -150,6 +154,7 @@ if (! function_exists('array_elements_not_blank')) {
                 return false;
             }
         }
+
         return true;
     }
 }
@@ -175,6 +180,7 @@ if (! function_exists('randomPercentages')) {
         for ($i = 1; $i < $count; $i++) {
             $percentages[] = $temp[$i] - $temp[$i - 1];
         }
+
         return $percentages;
     }
 }
@@ -193,6 +199,7 @@ if (! function_exists('weightedCountries')) {
                 $data[] = Countries::getOne($country_id);
             }
         }
+
         return $data;
     }
 }
@@ -211,6 +218,7 @@ if (! function_exists('weightedLanguages')) {
                 $data[] = $lang;
             }
         }
+
         return $data;
     }
 }
@@ -230,6 +238,7 @@ if (! function_exists('getCategorizedPermissions')) {
             }
         }
         ksort($permissions);
+
         return $permissions;
     }
 }
@@ -238,10 +247,10 @@ if (! function_exists('localized_country_names')) {
     /**
      * Returns a list of localized country names
      *
-     * @param string|null $locale
+     * @param  string|null  $locale
      * @return \Illuminate\Support\Collection
      */
-    function localized_country_names($locale = null): \Illuminate\Support\Collection
+    function localized_country_names($locale = null): Illuminate\Support\Collection
     {
         return collect(Countries::getList($locale ?? App::getLocale()));
     }
@@ -251,10 +260,10 @@ if (! function_exists('localized_language_names')) {
     /**
      * Returns a list of localized language names
      *
-     * @param string|null $locale
+     * @param  string|null  $locale
      * @return \Illuminate\Support\Collection
      */
-    function localized_language_names($locale = null): \Illuminate\Support\Collection
+    function localized_language_names($locale = null): Illuminate\Support\Collection
     {
         return Languages::lookup(null, $locale ?? App::getLocale());
     }
@@ -271,6 +280,7 @@ if (! function_exists('slice_data_others')) {
         if ($other > 0) {
             $data[__('Others')] = $other;
         }
+
         return $data;
     }
 }
@@ -284,6 +294,7 @@ if (! function_exists('gender_label')) {
         if ($value == 'f') {
             return __('Female');
         }
+
         return $value;
     }
 }
@@ -292,6 +303,7 @@ if (! function_exists('thumb_path')) {
     function thumb_path(string $orig_path, ?string $extension = null): string
     {
         $pi = pathinfo($orig_path);
-        return $pi['dirname'] . DIRECTORY_SEPARATOR . $pi['filename'] . '_thumb.' . ($extension ?? $pi['extension']);
+
+        return $pi['dirname'].DIRECTORY_SEPARATOR.$pi['filename'].'_thumb.'.($extension ?? $pi['extension']);
     }
 }

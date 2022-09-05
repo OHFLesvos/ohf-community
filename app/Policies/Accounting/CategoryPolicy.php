@@ -42,6 +42,7 @@ class CategoryPolicy
         if ($user->isSuperAdmin() || $user->hasPermission('accounting.configure')) {
             return ! $category->transactions()->exists();
         }
+
         return false;
     }
 }

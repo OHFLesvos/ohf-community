@@ -66,6 +66,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
     /**
      * Show the application's login form.
      *
@@ -76,6 +77,7 @@ class LoginController extends Controller
         if (session('errors') !== null && ! empty(session('errors')->get('code'))) {
             return view('auth.tfa');
         }
+
         return view('auth.login');
     }
 
@@ -96,6 +98,7 @@ class LoginController extends Controller
         // the IP address of the client making these requests into this application.
         if ($this->hasTooManyLoginAttempts($request)) {
             $this->fireLockoutEvent($request);
+
             return $this->sendLockoutResponse($request);
         }
 
@@ -109,7 +112,7 @@ class LoginController extends Controller
                 'code' => 'required|numeric',
             ])
                 ->after(function ($validator) use ($user, $request, $totp) {
-                    if (!$totp->verify($user->tfa_secret, $request->code, null, 1)) {
+                    if (! $totp->verify($user->tfa_secret, $request->code, null, 1)) {
                         $validator->errors()->add('code', __('Invalid code, please repeat.'));
                     }
                 });
@@ -126,6 +129,7 @@ class LoginController extends Controller
                 'email' => $user->email,
                 'client_ip' => request()->ip(),
             ]);
+
             return $this->sendLoginResponse($request);
         }
 

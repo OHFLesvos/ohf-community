@@ -30,7 +30,7 @@ trait TagsRelation
      * Sets thgs from the given JSON string which must have the form:
      * [{"value":"Tag 1"},{"value":"Tag 2"}]
      *
-     * @param string|null $json
+     * @param  string|null  $json
      * @return void
      */
     public function setTagsFromJson(?string $json = null)
@@ -45,7 +45,7 @@ trait TagsRelation
      * Set tags from an array of values (tag names).
      * Overrides existing tag relations.
      *
-     * @param Collection<string> $tags
+     * @param  Collection<string>  $tags
      * @return void
      */
     public function setTags(Collection $tags)
@@ -70,7 +70,7 @@ trait TagsRelation
      * If no tags are specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param array<string>|null $tags list of tags (slug values)
+     * @param  array<string>|null  $tags list of tags (slug values)
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithAllTags($query, ?array $tags = [])
@@ -80,6 +80,7 @@ trait TagsRelation
                 $query->whereHas('tags', fn ($query) => $query->where('slug', $tag));
             }
         }
+
         return $query;
     }
 
@@ -88,7 +89,7 @@ trait TagsRelation
      * If no tags are specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param array<string>|null $tags list of tags (slug values)
+     * @param  array<string>|null  $tags list of tags (slug values)
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithTags($query, ?array $tags = [])
@@ -96,6 +97,7 @@ trait TagsRelation
         if (count($tags) > 0) {
             $query->whereHas('tags', fn ($query) => $query->whereIn('slug', $tags));
         }
+
         return $query;
     }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Models\Accounting;
 
-use Dyrynda\Database\Support\NullableFields;
-use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class Supplier extends Model
@@ -83,16 +83,16 @@ class Supplier extends Model
      * If no filter is specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string|null $filter
+     * @param  string|null  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter($query, ?string $filter = '')
     {
         if (! empty($filter)) {
             $query->where(function ($wq) use ($filter) {
-                return $wq->where('name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('category', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('remarks', 'LIKE', '%' . $filter . '%')
+                return $wq->where('name', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('category', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('remarks', 'LIKE', '%'.$filter.'%')
                     ->orWhere('tax_number', $filter)
                     ->orWhere(DB::raw('REPLACE(phone, \' \', \'\')'), str_replace(' ', '', $filter))
                     ->orWhere(DB::raw('REPLACE(mobile, \' \', \'\')'), str_replace(' ', '', $filter))

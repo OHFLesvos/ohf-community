@@ -49,7 +49,7 @@ class StoreBudget extends FormRequest
             'closed_at' => [
                 'nullable',
                 'date',
-            ]
+            ],
         ];
     }
 }

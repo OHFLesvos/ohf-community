@@ -8,10 +8,15 @@ use Illuminate\Validation\Rule;
 trait ExportableActions
 {
     abstract protected function exportAuthorize();
+
     abstract protected function exportView(): string;
+
     abstract protected function exportViewArgs(): array;
+
     abstract protected function exportValidateArgs(): array;
+
     abstract protected function exportFilename(Request $request): string;
+
     abstract protected function exportExportable(Request $request);
 
     private static function getFormats()
@@ -37,13 +42,14 @@ trait ExportableActions
             'formats' => self::getFormats(),
             'format' => array_keys(self::getFormats())[0],
         ];
+
         return view($this->exportView(), array_merge($args, $this->exportViewArgs()));
     }
 
     /**
      * Prepare and download export as file.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function doExport(Request $request)
@@ -70,11 +76,12 @@ trait ExportableActions
         }
 
         $export = $this->exportExportable($request);
+
         return $this->exportDownload($request, $export, $file_name, $file_ext);
     }
 
     protected function exportDownload(Request $request, $export, $file_name, $file_ext)
     {
-        return $export->download($file_name . '.' . $file_ext);
+        return $export->download($file_name.'.'.$file_ext);
     }
 }

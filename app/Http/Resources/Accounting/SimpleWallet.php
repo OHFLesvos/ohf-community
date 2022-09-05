@@ -18,6 +18,7 @@ class SimpleWallet extends JsonResource
     public function toArray($request)
     {
         $amount = $this->amount;
+
         return [
             'id' => $this->id,
             'name' => $this->name,

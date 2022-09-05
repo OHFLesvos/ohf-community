@@ -46,7 +46,7 @@ class Donation extends Model
      * Scope a query to only include donations from the given year, if specified.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  int|null $year
+     * @param  int|null  $year
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForYear($query, ?int $year)
@@ -54,6 +54,7 @@ class Donation extends Model
         if ($year !== null) {
             $query->whereYear('date', $year);
         }
+
         return $query;
     }
 
@@ -62,7 +63,7 @@ class Donation extends Model
      * If no filter is specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string|null $filter
+     * @param  string|null  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter($query, ?string $filter = '')
@@ -73,12 +74,13 @@ class Donation extends Model
                     ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('amount', $filter))
                     ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('exchange_amount', $filter))
                     ->orWhereHas('donor', fn ($query) => $query->forSimpleFilter($filter))
-                    ->orWhere('channel', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('purpose', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('channel', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('purpose', 'LIKE', '%'.$filter.'%')
                     ->orWhere('reference', $filter)
-                    ->orWhere('in_name_of', 'LIKE', '%' . $filter . '%');
+                    ->orWhere('in_name_of', 'LIKE', '%'.$filter.'%');
             });
         }
+
         return $query;
     }
 
@@ -100,7 +102,7 @@ class Donation extends Model
     /**
      * Gets an array of all currencies assigned to donations, grouped and ordered by amount
      *
-     * @param string|\Carbon\Carbon|null $untilDate
+     * @param  string|\Carbon\Carbon|null  $untilDate
      * @return array
      */
     public static function currencyDistribution($untilDate = null): array
@@ -112,14 +114,14 @@ class Donation extends Model
             ->createdUntil($untilDate)
             ->orderBy('currencies_sum', 'desc')
             ->get()
-            ->mapWithKeys(fn ($e) => [ $e->currency => floatVal($e->currencies_sum) ])
+            ->mapWithKeys(fn ($e) => [$e->currency => floatval($e->currencies_sum)])
             ->toArray();
     }
 
     /**
      * Gets an array of all channels assigned to donations, grouped and ordered by amount
      *
-     * @param string|\Carbon\Carbon|null $untilDate
+     * @param  string|\Carbon\Carbon|null  $untilDate
      * @return array
      */
     public static function channelDistribution($untilDate = null): array
@@ -131,7 +133,7 @@ class Donation extends Model
             ->createdUntil($untilDate)
             ->orderBy('channels_count', 'desc')
             ->get()
-            ->mapWithKeys(fn ($e) => [ $e->channel => floatVal($e->channels_count) ])
+            ->mapWithKeys(fn ($e) => [$e->channel => floatval($e->channels_count)])
             ->toArray();
     }
 }

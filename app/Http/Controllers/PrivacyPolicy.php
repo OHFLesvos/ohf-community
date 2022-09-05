@@ -17,12 +17,14 @@ class PrivacyPolicy extends Controller
     private function getContent($locale)
     {
         if ($locale != '') {
-            $file_path = resource_path('lang/' .  $locale . '/user-privacy-policy.md');
+            $file_path = resource_path('lang/'.$locale.'/user-privacy-policy.md');
             if (is_file($file_path)) {
                 $markdown = file_get_contents($file_path);
+
                 return Str::markdown($markdown);
             }
         }
+
         return null;
     }
 }

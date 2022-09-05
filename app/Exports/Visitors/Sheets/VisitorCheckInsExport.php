@@ -43,7 +43,7 @@ class VisitorCheckInsExport extends BaseExport implements FromQuery, WithHeading
     }
 
     /**
-     * @param VisitorCheckin $checkin
+     * @param  VisitorCheckin  $checkin
      */
     public function map($checkin): array
     {

@@ -24,7 +24,7 @@ return [
     'manage_suppliers' => 'Accounting: Manage suppliers',
     'view_budgets' => 'Accounting: View budgets',
     'manage_budgets' => 'Accounting: Manage budgets',
-    'configure_accounting'  => 'Accounting: Configure settings',
+    'configure_accounting' => 'Accounting: Configure settings',
 
     'view_community_volunteers' => 'Community volunteers: View community volunteers',
     'manage_community_volunteers' => 'Community volunteers: Manage community volunteers',

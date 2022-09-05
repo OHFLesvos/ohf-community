@@ -11,6 +11,7 @@ class CommunityVolunteersEditContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $cmtyvol = $view->getData()['cmtyvol'];
+
         return [
             'back' => [
                 'url' => route('cmtyvol.show', $cmtyvol),

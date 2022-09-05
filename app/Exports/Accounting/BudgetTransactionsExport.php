@@ -51,7 +51,7 @@ class BudgetTransactionsExport extends BaseExport implements FromQuery, WithHead
     }
 
     /**
-     * @param Transaction $transaction
+     * @param  Transaction  $transaction
      */
     public function map($transaction): array
     {
@@ -78,7 +78,7 @@ class BudgetTransactionsExport extends BaseExport implements FromQuery, WithHead
     protected function applyStyles(Worksheet $sheet)
     {
         parent::applyStyles($sheet);
-        $sheet->getStyle('C2:C' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
-        $sheet->getStyle('D2:D' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('C2:C'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+        $sheet->getStyle('D2:D'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
     }
 }

@@ -18,6 +18,7 @@ class WeblingApiController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index(Wallet $wallet)
@@ -59,19 +60,21 @@ class WeblingApiController extends Controller
 
         return $monthsWithTransactions->map(function ($e) use ($wallet) {
             $date = Carbon::createFromDate($e->year, $e->month, 1);
+
             return (object) [
-                    'transactions' => Transaction::query()
-                        ->forWallet($wallet)
-                        ->forDateRange($date, $date->clone()->endOfMonth())
-                        ->notBooked()
-                        ->count(),
-                    'date' => $date,
-                ];
+                'transactions' => Transaction::query()
+                    ->forWallet($wallet)
+                    ->forDateRange($date, $date->clone()->endOfMonth())
+                    ->notBooked()
+                    ->count(),
+                'date' => $date,
+            ];
         });
     }
 
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function prepare(Wallet $wallet, Request $request)
@@ -116,7 +119,7 @@ class WeblingApiController extends Controller
         return $accountGroups->where('type', $type)
             ->mapWithKeys(fn ($accountGroup) => [
                 $accountGroup->title => $accountGroup->accounts()
-                    ->mapWithKeys(fn ($account) => [ $account->id => $account->title ])
+                    ->mapWithKeys(fn ($account) => [$account->id => $account->title])
                     ->toArray(),
             ]);
     }
@@ -133,7 +136,7 @@ class WeblingApiController extends Controller
                         return $fail('Period does not exist.');
                     }
                     if ($period->state != 'open') {
-                        return $fail('Period \'' . $period->title . '\' is not open.');
+                        return $fail('Period \''.$period->title.'\' is not open.');
                     }
                 },
             ],
@@ -223,6 +226,7 @@ class WeblingApiController extends Controller
                 ],
             ];
         }
+
         return null;
     }
 
@@ -251,6 +255,7 @@ class WeblingApiController extends Controller
                 // ->slice(0, 3)
                 ->map(function ($entryGroup) {
                     $entryGroup->entries = $entryGroup->entries();
+
                     return $entryGroup;
                 });
 

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('visitors', function (Blueprint $table) {
-           $table->date('liability_form_signed')->nullable();
+            $table->date('liability_form_signed')->nullable();
         });
     }
 
