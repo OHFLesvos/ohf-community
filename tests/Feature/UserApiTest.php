@@ -27,6 +27,7 @@ class UserApiTest extends TestCase
 
     public function testIndexWithoutAuthorization()
     {
+        /** @var User $authUser */
         $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
@@ -38,6 +39,7 @@ class UserApiTest extends TestCase
 
     public function testIndexWithoutRecords()
     {
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -69,6 +71,7 @@ class UserApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -125,6 +128,7 @@ class UserApiTest extends TestCase
             'name' => 'User B',
         ]);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -190,6 +194,7 @@ class UserApiTest extends TestCase
             'email' => 'blacksmith@example.com',
         ]);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -230,6 +235,7 @@ class UserApiTest extends TestCase
 
     public function testStoreWithInsufficientPermissions()
     {
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -244,6 +250,7 @@ class UserApiTest extends TestCase
 
     public function testStoreWithoutRequiredFields()
     {
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -258,6 +265,7 @@ class UserApiTest extends TestCase
     {
         $existingUser = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -273,6 +281,7 @@ class UserApiTest extends TestCase
 
     public function testStoreWithInvalidEmail()
     {
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -288,6 +297,7 @@ class UserApiTest extends TestCase
 
     public function testStoreWithShortPassword()
     {
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -310,6 +320,7 @@ class UserApiTest extends TestCase
             'password' => Str::random(40),
         ];
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -342,6 +353,7 @@ class UserApiTest extends TestCase
             'is_super_admin' => true,
         ];
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -368,6 +380,7 @@ class UserApiTest extends TestCase
     {
         Config::set('Debug', false);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -384,6 +397,7 @@ class UserApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -393,10 +407,13 @@ class UserApiTest extends TestCase
         $response->assertOk()
             ->assertExactJson([
                 'data' => [
+                    'can_update' => false,
+                    'can_delete' => false,
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
                     'locale' => $user->locale,
+                    'is_current_user' => false,
                     'is_super_admin' => $user->is_super_admin,
                     'is_2fa_enabled' => false,
                     'avatar_url' => $user->avatarUrl(),
@@ -410,7 +427,15 @@ class UserApiTest extends TestCase
                         'edit' => route('users.edit', $user),
                     ],
                     'relationships' => [
+                        'administeredRoles' => [
+                            // 'data' => [],
+                            'links' => [
+                                'related' =>route('api.users.roles.index', $user),
+                                'self' => route('api.users.relationships.roles.index', $user),
+                            ],
+                        ],
                         'roles' => [
+                            'data' => [],
                             'links' => [
                                 'related' =>route('api.users.roles.index', $user),
                                 'self' => route('api.users.relationships.roles.index', $user),
@@ -418,6 +443,7 @@ class UserApiTest extends TestCase
                         ],
                     ],
                 ],
+                'permissions' => [],
             ]);
     }
 
@@ -425,6 +451,7 @@ class UserApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -441,6 +468,7 @@ class UserApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -455,6 +483,7 @@ class UserApiTest extends TestCase
     {
         $users = User::factory()->count(2)->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -472,6 +501,7 @@ class UserApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -503,6 +533,7 @@ class UserApiTest extends TestCase
             'email' => $this->faker->safeEmail,
         ];
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -532,6 +563,7 @@ class UserApiTest extends TestCase
             'password' => Str::random(40),
         ];
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -565,6 +597,7 @@ class UserApiTest extends TestCase
             'is_super_admin' => false,
         ];
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -591,6 +624,7 @@ class UserApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -604,6 +638,7 @@ class UserApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -615,9 +650,7 @@ class UserApiTest extends TestCase
                 'message' => __('User has been deleted.'),
             ]);
 
-        $this->assertDeleted('users', [
-            'id' => $user->id,
-        ]);
+        $this->assertModelMissing($user);
     }
 
     public function testDestroyLastSuperAdmin()
@@ -626,6 +659,7 @@ class UserApiTest extends TestCase
             'is_super_admin' => true,
         ]);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -641,6 +675,7 @@ class UserApiTest extends TestCase
             'is_super_admin' => true,
         ]);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
@@ -652,9 +687,7 @@ class UserApiTest extends TestCase
                 'message' => __('User has been deleted.'),
             ]);
 
-        $this->assertDeleted('users', [
-            'id' => $users[0]->id,
-        ]);
+        $this->assertModelMissing($users[0]);
         $this->assertDatabaseHas('users', [
             'name' => $users[1]['name'],
             'email' => $users[1]['email'],
