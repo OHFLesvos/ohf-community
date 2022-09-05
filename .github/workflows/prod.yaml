@@ -2,11 +2,11 @@ name: Production
 
 on:
   push:
-    branches: [ production ]
+    branches: [production]
 
 env:
-  PHP_VERSION: '8.1'
-  NODE_VERSION: '16.x'
+  PHP_VERSION: "8.1"
+  NODE_VERSION: "16.x"
 
 jobs:
   pre-release:
@@ -14,36 +14,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: ${{ env.PHP_VERSION }}
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ env.NODE_VERSION }}
-    - run: npm ci
-    - run: npm run prod
-    - name: Store Git hash
-      shell: bash
-      run: |
-        echo "$(git rev-parse HEAD)" >> storage/githash.cache
-    - name: Archive Release
-      uses: thedoctor0/zip-release@master
-      with:
-        type: 'zip'
-        filename: 'dist.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig .vscode/ .eslintrc.js .styleci.yml'
-    - name: Publish latest release
-      uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "latest"
-        prerelease: true
-        title: "Development Build"
-        files: |
-          *.md
-          *.zip
+      - uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm ci
+      - run: npm run prod
+      - name: Store Git hash
+        shell: bash
+        run: |
+          echo "$(git rev-parse HEAD)" >> storage/githash.cache
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: "zip"
+          filename: "dist.zip"
+          exclusions: "*.git* /*node_modules/* .editorconfig .vscode/ .eslintrc.js .styleci.yml"
+      - name: Publish latest release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            *.md
+            *.zip
