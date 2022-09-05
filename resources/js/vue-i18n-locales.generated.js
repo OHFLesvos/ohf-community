@@ -438,7 +438,6 @@ export default {
         "Mobile": "Mobiltelefon",
         "Place ID": "Place ID",
         "Details": "Details",
-        "Changelog": "Änderungshistorie",
         "Assigned": "Zugewiesen",
         "Conditions": "Umstände",
         "Options": "Optionen",
