@@ -21,7 +21,8 @@ return [
 
     'product_url' => 'https://github.com/OHFLesvos/ohf-community',
 
-    'version' => 'v3.9.1',
+    'changelog_url' => 'https://github.com/OHFLesvos/ohf-community/blob/master/Changelog.md',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

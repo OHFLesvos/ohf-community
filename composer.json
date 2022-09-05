@@ -44,6 +44,7 @@
         "spatie/pdf-to-image": "^2.1",
         "spomky-labs/otphp": "^10.0",
         "tightenco/ziggy": "^1.0",
+        "tjvb/laravel-githash": "^1.2",
         "usystems/webling-api-php": "^1.2"
     },
     "require-dev": {
