@@ -4,6 +4,10 @@ on:
   push:
     branches: [ production ]
 
+env:
+  PHP_VERSION: '8.1'
+  NODE_VERSION: '16.x'
+
 jobs:
   pre-release:
     name: "Pre Release"
@@ -14,13 +18,13 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 8.1
+        php-version: ${{ env.PHP_VERSION }}
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16.x'
+        node-version: ${{ env.NODE_VERSION }}
     - run: npm ci
     - run: npm run prod
     - name: Store Git hash
