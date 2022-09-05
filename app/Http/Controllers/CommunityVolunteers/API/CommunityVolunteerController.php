@@ -58,7 +58,7 @@ class CommunityVolunteerController extends Controller
 
         $sortBy = $request->input('sortBy', 'first_name');
         $sortDirection = $request->input('sortDirection', 'asc');
-        $orderInDB = !in_array($sortBy, ['age']);
+        $orderInDB = ! in_array($sortBy, ['age']);
 
         $pageSize = $request->input('pageSize', 10);
         $filter = $request->input('filter', '');

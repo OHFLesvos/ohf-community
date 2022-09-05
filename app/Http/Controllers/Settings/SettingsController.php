@@ -60,6 +60,7 @@ class SettingsController extends Controller
         $fields = $settings->mapWithKeys(fn (SettingsField $field, $key) => [
             Str::slug($key) => self::mapSettingsField($field, $key),
         ]);
+
         return view('settings.edit', [
             'sections' => collect(self::getSections())
                 ->filter(fn ($sl, $sk) => $fields->where('section', $sk)->count() > 0)
@@ -74,6 +75,7 @@ class SettingsController extends Controller
         if ($value != null) {
             $value = $field->getter($value);
         }
+
         return [
             'value' => $value,
             'type' => $field->formType(),
@@ -143,7 +145,7 @@ class SettingsController extends Controller
     private static function handleFileField(SettingsField $field, Request $request, string $key)
     {
         $req_key = Str::slug($key);
-        if ($request->has($req_key . '_delete') || $request->hasFile($req_key)) {
+        if ($request->has($req_key.'_delete') || $request->hasFile($req_key)) {
             if (Setting::has($key)) {
                 Storage::delete(Setting::get($key));
             }
@@ -151,7 +153,7 @@ class SettingsController extends Controller
         if ($request->hasFile($req_key)) {
             $value = $field->setter($request->file($req_key));
             Setting::set($key, $value->store($field->formFilePath()));
-        } elseif ($request->has($req_key . '_delete')) {
+        } elseif ($request->has($req_key.'_delete')) {
             Setting::forget($key);
         }
     }

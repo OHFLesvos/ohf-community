@@ -16,7 +16,7 @@ class UserRoleApiTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->getJson('api/users/' . $user->id . '/roles', []);
+        $response = $this->getJson('api/users/'.$user->id.'/roles', []);
 
         $this->assertGuest();
         $response->assertUnauthorized();
@@ -29,7 +29,7 @@ class UserRoleApiTest extends TestCase
         $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/roles', []);
+            ->getJson('api/users/'.$user->id.'/roles', []);
 
         $this->assertAuthenticated();
         $response->assertForbidden();
@@ -42,12 +42,12 @@ class UserRoleApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . 1234 . '/roles', []);
+            ->getJson('api/users/'. 1234 .'/roles', []);
 
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [' . User::class . '] 1234',
+                'message' => 'No query results for model ['.User::class.'] 1234',
             ]);
     }
 
@@ -58,12 +58,12 @@ class UserRoleApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/roles', []);
+            ->getJson('api/users/'.$user->id.'/roles', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'data' => [ ],
+                'data' => [],
             ]);
     }
 
@@ -81,7 +81,7 @@ class UserRoleApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/roles', []);
+            ->getJson('api/users/'.$user->id.'/roles', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -107,7 +107,7 @@ class UserRoleApiTest extends TestCase
                             ],
                             'users' => [
                                 'links' => [
-                                    'related' =>route('api.roles.users.index', $role1),
+                                    'related' => route('api.roles.users.index', $role1),
                                     'self' => route('api.roles.relationships.users.index', $role1),
                                 ],
                             ],
@@ -133,12 +133,12 @@ class UserRoleApiTest extends TestCase
                             ],
                             'users' => [
                                 'links' => [
-                                    'related' =>route('api.roles.users.index', $role2),
+                                    'related' => route('api.roles.users.index', $role2),
                                     'self' => route('api.roles.relationships.users.index', $role2),
                                 ],
                             ],
                         ],
-                    ]
+                    ],
                 ],
             ]);
     }

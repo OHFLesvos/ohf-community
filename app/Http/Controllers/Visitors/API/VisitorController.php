@@ -111,7 +111,7 @@ class VisitorController extends Controller
             'purpose_of_visit' => [
                 'nullable',
                 Rule::in(Setting::get('visitors.purposes_of_visit', [])),
-            ]
+            ],
         ]);
 
         $checkin = new VisitorCheckin();
@@ -146,9 +146,10 @@ class VisitorController extends Controller
     {
         $this->authorize('export-visitors');
 
-        $file_name = __('Visitors') . ' as of ' . now()->toDateString();
+        $file_name = __('Visitors').' as of '.now()->toDateString();
         $extension = 'xlsx';
-        return (new VisitorsExport())->download($file_name . '.' . $extension);
+
+        return (new VisitorsExport())->download($file_name.'.'.$extension);
     }
 
     public function checkins()
@@ -173,7 +174,7 @@ class VisitorController extends Controller
                 'nullable',
                 'int',
                 'min:1',
-            ]
+            ],
         ]);
         $maxNumberOfActiveDays = $request->input('days', 10);
 
@@ -184,7 +185,7 @@ class VisitorController extends Controller
                     ->mapWithKeys(fn ($t, $k) => [
                         $t => VisitorCheckin::selectRaw('COUNT(*)')
                             ->whereRaw('DATE(created_at) = day')
-                            ->where('purpose_of_visit', $t)
+                            ->where('purpose_of_visit', $t),
                     ])
                     ->toArray()
             )
@@ -208,7 +209,7 @@ class VisitorController extends Controller
                         $t => VisitorCheckin::selectRaw('COUNT(*)')
                             ->whereRaw('MONTH(created_at) = month')
                             ->whereRaw('YEAR(created_at) = year')
-                            ->where('purpose_of_visit', $t)
+                            ->where('purpose_of_visit', $t),
                     ])
                     ->toArray()
             )

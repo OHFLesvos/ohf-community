@@ -26,7 +26,7 @@ return new class extends Migration
                 'views' => DB::table('kb_article_views')
                     ->where('viewable_type', 'App\Models\Collaboration\WikiArticle')
                     ->where('viewable_id', $article->id)
-                    ->first()?->value ?? 0
+                    ->first()?->value ?? 0,
             ], JSON_PRETTY_PRINT));
         });
         Schema::dropIfExists('kb_article_views');

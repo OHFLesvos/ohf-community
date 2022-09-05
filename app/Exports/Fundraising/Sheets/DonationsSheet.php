@@ -14,9 +14,11 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class DonationsSheet extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
     private Collection $donations;
+
     private ?int $year;
 
     protected string $currencyColumn = 'G';
+
     protected string $exchangedCurrencyColumn = 'H';
 
     public function __construct(Collection $donations, ?int $year = null)
@@ -34,7 +36,7 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
 
     public function title(): string
     {
-        return __('Donations') . ($this->year !== null ? ' ' . $this->year : '');
+        return __('Donations').($this->year !== null ? ' '.$this->year : '');
     }
 
     public function headings(): array
@@ -52,7 +54,7 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
     }
 
     /**
-     * @param Donation $donation
+     * @param  Donation  $donation
      */
     public function map($donation): array
     {
@@ -76,17 +78,17 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
 
         // Set exchange currency format
         for ($i = 0; $i < $cnt; $i++) {
-            $sheet->getStyle($this->currencyColumn . ($i + 2))->getNumberFormat()->setFormatCode(config('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
+            $sheet->getStyle($this->currencyColumn.($i + 2))->getNumberFormat()->setFormatCode(config('fundraising.currencies_excel_format')[$this->donations[$i]->currency]);
         }
 
         if ($cnt > 0) {
-            $sumCell = $this->exchangedCurrencyColumn . ($cnt + 2);
+            $sumCell = $this->exchangedCurrencyColumn.($cnt + 2);
 
             // Set currency format
-            $sheet->getStyle($this->exchangedCurrencyColumn . '1:' . $sumCell)->getNumberFormat()->setFormatCode(config('fundraising.base_currency_excel_format'));
+            $sheet->getStyle($this->exchangedCurrencyColumn.'1:'.$sumCell)->getNumberFormat()->setFormatCode(config('fundraising.base_currency_excel_format'));
 
             // Total sum cell value
-            $sumCell = $this->exchangedCurrencyColumn . ($cnt + 2);
+            $sumCell = $this->exchangedCurrencyColumn.($cnt + 2);
             // $sheet->setCellValue($sumCell, '=SUM(H2:H' . ($cnt + 1) . ')');
             $sheet->setCellValue($sumCell, $this->donations->sum('exchange_amount'));
             $sheet->getStyle($sumCell)->getFont()->setUnderline(Font::UNDERLINE_DOUBLEACCOUNTING);

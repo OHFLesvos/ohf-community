@@ -12,6 +12,7 @@ class WeblingIndexContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $wallet = $view->getData()['wallet'];
+
         return [
             'back' => [
                 'url' => route('accounting.transactions.index', ['wallet' => $wallet->id]),

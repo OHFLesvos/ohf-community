@@ -106,7 +106,7 @@ class BudgetController extends Controller
             ->additional([
                 'meta' => [
                     'total_exchange_amount' => $budget->donations()->sum('exchange_amount'),
-                ]
+                ],
             ]);
     }
 
@@ -116,16 +116,16 @@ class BudgetController extends Controller
 
         $export = new BudgetTransactionsExport($budget);
 
-        $file_name = config('app.name') . ' ' . __('Budget') . ' [' . $budget->name . '] (' . Carbon::now()->toDateString() . ')';
-        $file_ext = "xlsx";
+        $file_name = config('app.name').' '.__('Budget').' ['.$budget->name.'] ('.Carbon::now()->toDateString().')';
+        $file_ext = 'xlsx';
 
         if ($request->has('include_pictures')) {
             $options = new Archive();
             $options->setSendHttpHeaders(true);
-            $zip = new ZipStream($file_name . '.zip', $options);
-            $temp_file = 'temp/' . uniqid() . '.' . $file_ext;
+            $zip = new ZipStream($file_name.'.zip', $options);
+            $temp_file = 'temp/'.uniqid().'.'.$file_ext;
             $export->store($temp_file);
-            $zip->addFileFromPath($file_name . '.' . $file_ext, storage_path('app/' . $temp_file));
+            $zip->addFileFromPath($file_name.'.'.$file_ext, storage_path('app/'.$temp_file));
             Storage::delete($temp_file);
             foreach ($budget->transactions as $transaction) {
                 if (empty($transaction->receipt_pictures)) {
@@ -138,17 +138,18 @@ class BudgetController extends Controller
                         $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
                         $id = (string) $transaction->receipt_no;
                         if ($counter > 0) {
-                            $id .= " (" . ($counter + 1) . ')';
+                            $id .= ' ('.($counter + 1).')';
                         }
-                        $zip->addFileFromPath('receipts/' . $id . '.' . $ext, $picture_path);
+                        $zip->addFileFromPath('receipts/'.$id.'.'.$ext, $picture_path);
                         $counter++;
                     }
                 }
             }
             $zip->finish();
+
             return;
         }
 
-        return $export->download($file_name . '.' . $file_ext);
+        return $export->download($file_name.'.'.$file_ext);
     }
 }

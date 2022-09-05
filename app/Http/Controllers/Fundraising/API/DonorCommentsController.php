@@ -26,8 +26,8 @@ class DonorCommentsController extends Controller
             ->get())
             ->additional([
                 'meta' => [
-                    'can_create' => $request->user()->can('create', Comment::class)
-                ]
+                    'can_create' => $request->user()->can('create', Comment::class),
+                ],
             ]);
     }
 

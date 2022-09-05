@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Gate;
 class LogoFile extends BaseSettingsField
 {
     private const MAX_WIDTH = 1000;
+
     private const MAX_HEIGHT = 1000;
 
     public function section(): string
@@ -61,6 +62,7 @@ class LogoFile extends BaseSettingsField
         $image = new ImageResize($value->getRealPath());
         $image->resizeToBestFit(self::MAX_WIDTH, self::MAX_HEIGHT);
         $image->save($value->getRealPath());
+
         return $value;
     }
 

@@ -74,6 +74,7 @@ return new class extends Migration
                     ->get()
                     ->pluck('name')
                     ->toArray();
+
                 return [$helper->id => count($arr) > 0 ? json_encode($arr) : null];
             });
         Schema::table('helpers_helper_responsibility', function (Blueprint $table) {

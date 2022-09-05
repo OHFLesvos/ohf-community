@@ -75,7 +75,7 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Role $role
+     * @param  Role  $role
      * @return \Illuminate\Http\Response
      */
     public function show(Role $role)
@@ -99,7 +99,7 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Role $role
+     * @param  Role  $role
      * @return \Illuminate\Http\Response
      */
     public function edit(Role $role)
@@ -117,8 +117,8 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UserManagement\StoreRole $request
-     * @param  Role $role
+     * @param  \App\Http\Requests\UserManagement\StoreRole  $request
+     * @param  Role  $role
      * @return \Illuminate\Http\Response
      */
     public function update(StoreRole $request, Role $role)
@@ -158,7 +158,7 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  Role $role
+     * @param  Role  $role
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role)
@@ -185,7 +185,7 @@ class RoleController extends Controller
     /**
      * Show the form for managing the members the specified role.
      *
-     * @param  Role $role
+     * @param  Role  $role
      * @return \Illuminate\Http\Response
      */
     public function manageMembers(Role $role)
@@ -204,8 +204,8 @@ class RoleController extends Controller
     /**
      * Update the members of the specified role.
      *
-     * @param \App\Http\Requests\UserManagement\UpdateMembers $request
-     * @param  Role $role
+     * @param  \App\Http\Requests\UserManagement\UpdateMembers  $request
+     * @param  Role  $role
      * @return \Illuminate\Http\Response
      */
     public function updateMembers(UpdateMembers $request, Role $role)

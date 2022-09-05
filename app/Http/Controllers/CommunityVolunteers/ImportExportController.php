@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\CommunityVolunteers;
 
 use App\Exports\CommunityVolunteers\CommunityVolunteersExport;
+use App\Http\Requests\CommunityVolunteers\ImportCommunityVolunteers;
+use App\Imports\CommunityVolunteers\CommunityVolunteersImport;
+use App\Imports\CommunityVolunteers\HeadingRowImport;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
+use App\Models\ImportFieldMapping;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use JeroenDesloovere\VCard\VCard;
-use ZipStream\ZipStream;
 use ZipStream\Option\Archive;
-use App\Http\Requests\CommunityVolunteers\ImportCommunityVolunteers;
-use App\Imports\CommunityVolunteers\CommunityVolunteersImport;
-use App\Imports\CommunityVolunteers\HeadingRowImport;
-use App\Models\ImportFieldMapping;
+use ZipStream\ZipStream;
 
 class ImportExportController extends BaseController
 {
@@ -26,11 +26,11 @@ class ImportExportController extends BaseController
             'work_statuses' => $this->getWorkStatuses()->toArray(),
             'work_status' => session('cmtyvol.export.workStatus', 'active'),
             'columnt_sets' => $this->getColumnSets()
-                ->mapWithKeys(fn ($s, $k) => [ $k => $s['label'] ])
+                ->mapWithKeys(fn ($s, $k) => [$k => $s['label']])
                 ->toArray(),
             'columnt_set' => session('cmtyvol.export.columnt_set', $this->getColumnSets()->keys()->first()),
             'sorters' => $this->getSorters()
-                ->mapWithKeys(fn ($s, $k) => [ $k => $s['label'] ])
+                ->mapWithKeys(fn ($s, $k) => [$k => $s['label']])
                 ->toArray(),
             'sorting' => session('cmtyvol.export.sorting', $this->getSorters()->keys()->first()),
         ]);
@@ -64,7 +64,7 @@ class ImportExportController extends BaseController
             $fields = collect($request->map)->filter(fn ($m) => $m['to'] != null)
                 ->map(fn ($m) => [
                     'key' => $m['to'],
-                    'labels' => collect([ strtolower($m['from']) ]),
+                    'labels' => collect([strtolower($m['from'])]),
                     'append' => isset($m['append']),
                     'assign' => $fields->firstWhere('key', $m['to'])['assign'],
                     'get' => $fields->firstWhere('key', $m['to'])['get'],
@@ -106,8 +106,7 @@ class ImportExportController extends BaseController
         $fields = self::getImportFields($this->getFields());
 
         $variations = $fields->mapWithKeys(
-            fn ($f) =>
-            $f['labels']->mapWithKeys(fn ($l) => [ $l => $f['key'] ])
+            fn ($f) => $f['labels']->mapWithKeys(fn ($l) => [$l => $f['key']])
         );
 
         $cached_mappings = ImportFieldMapping::model('cmtyvol')
@@ -124,16 +123,16 @@ class ImportExportController extends BaseController
             ],
         ]);
 
-        $available = collect([ null => '-- ' . __("don't import") . ' --' ])
-            ->merge($fields->mapWithKeys(fn ($f) => [ $f['key'] => __($f['key']) ]));
+        $available = collect([null => '-- '.__("don't import").' --'])
+            ->merge($fields->mapWithKeys(fn ($f) => [$f['key'] => __($f['key'])]));
 
-        return [ 'headers' => $table_headers, 'available' => $available, 'defaults' => $defaults ];
+        return ['headers' => $table_headers, 'available' => $available, 'defaults' => $defaults];
     }
 
     /**
      * Prepare and download export as file.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function doExport(Request $request)
@@ -187,6 +186,7 @@ class ImportExportController extends BaseController
             $export->fitToWidth = 1;
             $export->fitToHeight = 1;
         }
+
         return $export;
     }
 
@@ -201,8 +201,10 @@ class ImportExportController extends BaseController
                     if (isset($e['form_name'])) {
                         return in_array($e['form_name'], $columnSet['columns']);
                     }
+
                     return false;
                 }
+
                 return true;
             });
     }
@@ -210,7 +212,8 @@ class ImportExportController extends BaseController
     private function getExportFilename(Request $request): string
     {
         $workStatus = $this->getWorkStatuses()->get($request->work_status);
-        return __('Community Volunteers') . '_' . $workStatus . '_' . Carbon::now()->toDateString();
+
+        return __('Community Volunteers').'_'.$workStatus.'_'.Carbon::now()->toDateString();
     }
 
     private function downloadExportable(Request $request, $export, string $file_name, string $file_ext)
@@ -224,10 +227,10 @@ class ImportExportController extends BaseController
         if ($request->has('include_portraits')) {
             $options = new Archive();
             $options->setSendHttpHeaders(true);
-            $zip = new ZipStream($file_name . '.zip', $options);
-            $temp_file = 'temp/' . uniqid() . '.' . $file_ext;
+            $zip = new ZipStream($file_name.'.zip', $options);
+            $temp_file = 'temp/'.uniqid().'.'.$file_ext;
             $export->store($temp_file);
-            $zip->addFileFromPath($file_name . '.' . $file_ext, storage_path('app/' . $temp_file));
+            $zip->addFileFromPath($file_name.'.'.$file_ext, storage_path('app/'.$temp_file));
             Storage::delete($temp_file);
             $workStatus = $request->work_status;
             $cmtyvols = CommunityVolunteer::workStatus($workStatus)->get();
@@ -236,7 +239,7 @@ class ImportExportController extends BaseController
                     $picture_path = storage_path('app/'.$cmtyvol->portrait_picture);
                     if (is_file($picture_path)) {
                         $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
-                        $zip->addFileFromPath('portraits/' . $cmtyvol->fullName . '.' . $ext, $picture_path);
+                        $zip->addFileFromPath('portraits/'.$cmtyvol->fullName.'.'.$ext, $picture_path);
                     }
                 }
             }
@@ -244,7 +247,7 @@ class ImportExportController extends BaseController
         }
         // Download as simple spreadsheet
         else {
-            return $export->download($file_name . '.' . $file_ext);
+            return $export->download($file_name.'.'.$file_ext);
         }
     }
 

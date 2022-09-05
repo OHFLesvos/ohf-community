@@ -37,7 +37,7 @@ class ReportController extends Controller
             'with_address' => Donor::createdUntil($date)->whereNotNull('city')->count(),
             'with_email' => Donor::createdUntil($date)->whereNotNull('email')->count(),
             'with_phone' => Donor::createdUntil($date)->whereNotNull('phone')->count(),
-            'first' =>Donor::orderBy('created_at', 'asc')
+            'first' => Donor::orderBy('created_at', 'asc')
                 ->value('created_at'),
             'last' => Donor::orderBy('created_at', 'desc')
                 ->value('created_at'),
@@ -87,7 +87,7 @@ class ReportController extends Controller
     /**
      * Gets the number of registration per time unit.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function donorRegistrations(Request $request)
@@ -111,7 +111,7 @@ class ReportController extends Controller
     /**
      * Gets the number of registrations per time unit.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
     public function donationRegistrations(Request $request)
@@ -136,7 +136,7 @@ class ReportController extends Controller
 
         return (new ChartResponseBuilder())
             ->dataset(__('Donations'), $registrations)
-            ->dataset(__('Donation amount') . ' (' . config('fundraising.base_currency').')', $amounts, __('Amount'))
+            ->dataset(__('Donation amount').' ('.config('fundraising.base_currency').')', $amounts, __('Amount'))
             ->build();
     }
 

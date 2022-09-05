@@ -60,7 +60,7 @@ class User extends Authenticatable implements HasLocalePreference
     public function preferredLocale()
     {
         return $this->locale;
-}
+    }
 
     public function isSuperAdmin(): bool
     {
@@ -114,6 +114,7 @@ class User extends Authenticatable implements HasLocalePreference
                 $permissions[] = $permission;
             }
         }
+
         return collect(config('permissions.keys'))
             ->keys()
             ->intersect(collect($permissions)->map(fn ($permission) => $permission->key))
@@ -141,7 +142,8 @@ class User extends Authenticatable implements HasLocalePreference
         if ($value == '') {
             return $query;
         }
-        return $query->where('name', 'LIKE', '%' . $value . '%')
-            ->orWhere('email', 'LIKE', '%' . $value . '%');
+
+        return $query->where('name', 'LIKE', '%'.$value.'%')
+            ->orWhere('email', 'LIKE', '%'.$value.'%');
     }
 }

@@ -23,6 +23,7 @@ class RolePermission extends Model
     public function withKey(string $key): RolePermission
     {
         $this->key = $key;
+
         return $this;
     }
 }

@@ -14,21 +14,21 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        \App\Models\User::class                           => \App\Policies\UserPolicy::class,
-        \App\Models\Role::class                           => \App\Policies\RolePolicy::class,
-        \App\Models\Tag::class                            => \App\Policies\TagPolicy::class,
-        \App\Models\Comment::class                        => \App\Policies\CommentPolicy::class,
-        \App\Models\Fundraising\Donor::class              => \App\Policies\Fundraising\DonorPolicy::class,
-        \App\Models\Fundraising\Donation::class           => \App\Policies\Fundraising\DonationPolicy::class,
-        \App\Models\Accounting\Transaction::class         => \App\Policies\Accounting\TransactionPolicy::class,
-        \App\Models\Accounting\Wallet::class              => \App\Policies\Accounting\WalletPolicy::class,
-        \App\Models\Accounting\Category::class            => \App\Policies\Accounting\CategoryPolicy::class,
-        \App\Models\Accounting\Project::class             => \App\Policies\Accounting\ProjectPolicy::class,
-        \App\Models\Accounting\Supplier::class            => \App\Policies\Accounting\SupplierPolicy::class,
-        \App\Models\Accounting\Budget::class            => \App\Policies\Accounting\BudgetPolicy::class,
+        \App\Models\User::class => \App\Policies\UserPolicy::class,
+        \App\Models\Role::class => \App\Policies\RolePolicy::class,
+        \App\Models\Tag::class => \App\Policies\TagPolicy::class,
+        \App\Models\Comment::class => \App\Policies\CommentPolicy::class,
+        \App\Models\Fundraising\Donor::class => \App\Policies\Fundraising\DonorPolicy::class,
+        \App\Models\Fundraising\Donation::class => \App\Policies\Fundraising\DonationPolicy::class,
+        \App\Models\Accounting\Transaction::class => \App\Policies\Accounting\TransactionPolicy::class,
+        \App\Models\Accounting\Wallet::class => \App\Policies\Accounting\WalletPolicy::class,
+        \App\Models\Accounting\Category::class => \App\Policies\Accounting\CategoryPolicy::class,
+        \App\Models\Accounting\Project::class => \App\Policies\Accounting\ProjectPolicy::class,
+        \App\Models\Accounting\Supplier::class => \App\Policies\Accounting\SupplierPolicy::class,
+        \App\Models\Accounting\Budget::class => \App\Policies\Accounting\BudgetPolicy::class,
         \App\Models\CommunityVolunteers\CommunityVolunteer::class => \App\Policies\CommunityVolunteers\CommunityVolunteerPolicy::class,
         \App\Models\CommunityVolunteers\Responsibility::class => \App\Policies\CommunityVolunteers\ResponsibilityPolicy::class,
-        \App\Models\Visitors\Visitor::class               => \App\Policies\Visitors\VisitorPolicy::class,
+        \App\Models\Visitors\Visitor::class => \App\Policies\Visitors\VisitorPolicy::class,
     ];
 
     /**
@@ -68,8 +68,10 @@ class AuthServiceProvider extends ServiceProvider
                                 return true;
                             }
                         }
+
                         return false;
                     }
+
                     return $user->hasPermission($permission);
                 });
             }

@@ -11,7 +11,7 @@ trait ValidatesResourceIndex
         request()->validate([
             'filter' => [
                 'nullable',
-                'string'
+                'string',
             ],
         ]);
     }
@@ -43,7 +43,7 @@ trait ValidatesResourceIndex
             ],
             'sortDirection' => [
                 'nullable',
-                Rule::in(['asc', 'desc'])
+                Rule::in(['asc', 'desc']),
             ],
         ]);
     }
@@ -73,6 +73,7 @@ trait ValidatesResourceIndex
         if (request()->filled('include')) {
             return preg_split('/,/', request()->input('include'));
         }
+
         return [];
     }
 }

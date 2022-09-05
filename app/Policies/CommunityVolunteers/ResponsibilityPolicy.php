@@ -75,6 +75,7 @@ class ResponsibilityPolicy
         if ($responsibility->communityVolunteers()->count() > 0) {
             return false;
         }
+
         return $user->isSuperAdmin() || $user->hasPermission('cmtyvol.manage');
     }
 }

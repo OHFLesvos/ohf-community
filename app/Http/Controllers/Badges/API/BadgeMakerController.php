@@ -64,10 +64,12 @@ class BadgeMakerController extends Controller
         if ($request->hasFile("elements.$i.picture")) {
             $image = new \Gumlet\ImageResize($request->file("elements.$i.picture"), IMAGETYPE_JPEG);
             $image->resizeToBestFit(800, 800, true);
-            return 'data:image/jpeg;base64,' . base64_encode((string) $image);
-        } else if ($request->filled("elements.$i.picture_url")) {
+
+            return 'data:image/jpeg;base64,'.base64_encode((string) $image);
+        } elseif ($request->filled("elements.$i.picture_url")) {
             return $request->input("elements.$i.picture_url");
         }
+
         return null;
     }
 

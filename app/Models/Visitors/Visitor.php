@@ -53,10 +53,10 @@ class Visitor extends Model
 
     public function scopeForFilter(Builder $query, ?string $filter = ''): Builder
     {
-        if (!empty($filter)) {
+        if (! empty($filter)) {
             $query->where(function ($wq) use ($filter) {
-                return $wq->where('name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('id_number', 'LIKE', '%' . $filter . '%')
+                return $wq->where('name', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('id_number', 'LIKE', '%'.$filter.'%')
                     ->orWhere('date_of_birth', $filter);
             });
         }
@@ -75,6 +75,7 @@ class Visitor extends Model
         if ($this->gender == 'other') {
             return __('other');
         }
+
         return $this->gender;
     }
 }

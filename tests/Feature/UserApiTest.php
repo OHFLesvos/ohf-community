@@ -48,10 +48,10 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'data' => [ ],
+                'data' => [],
                 'links' => [
-                    'first' => route('api.users.index') . '?page=1',
-                    'last' => route('api.users.index') . '?page=1',
+                    'first' => route('api.users.index').'?page=1',
+                    'last' => route('api.users.index').'?page=1',
                     'prev' => null,
                     'next' => null,
                 ],
@@ -101,7 +101,7 @@ class UserApiTest extends TestCase
                         'relationships' => [
                             'roles' => [
                                 'links' => [
-                                    'related' =>route('api.users.roles.index', $user),
+                                    'related' => route('api.users.roles.index', $user),
                                     'self' => route('api.users.relationships.roles.index', $user),
                                 ],
                             ],
@@ -179,7 +179,7 @@ class UserApiTest extends TestCase
     {
         $user1 = User::factory()->create([
             'name' => 'John Doe',
-            'email' => 'jonny@example.con'
+            'email' => 'jonny@example.con',
         ]);
         $user2 = User::factory()->create([
             'name' => 'Paul Smith',
@@ -254,7 +254,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->postJson('api/users', [ ]);
+            ->postJson('api/users', []);
 
         $this->assertAuthenticated();
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -389,7 +389,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [' . User::class . '] 123',
+                'message' => 'No query results for model ['.User::class.'] 123',
             ]);
     }
 
@@ -401,7 +401,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id, []);
+            ->getJson('api/users/'.$user->id, []);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -430,14 +430,14 @@ class UserApiTest extends TestCase
                         'administeredRoles' => [
                             // 'data' => [],
                             'links' => [
-                                'related' =>route('api.users.roles.index', $user),
+                                'related' => route('api.users.roles.index', $user),
                                 'self' => route('api.users.relationships.roles.index', $user),
                             ],
                         ],
                         'roles' => [
                             'data' => [],
                             'links' => [
-                                'related' =>route('api.users.roles.index', $user),
+                                'related' => route('api.users.roles.index', $user),
                                 'self' => route('api.users.relationships.roles.index', $user),
                             ],
                         ],
@@ -455,7 +455,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id, [
+            ->putJson('api/users/'.$user->id, [
                 'name' => $this->faker->name,
                 'email' => $this->faker->safeEmail,
             ]);
@@ -472,7 +472,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id, [ ]);
+            ->putJson('api/users/'.$user->id, []);
 
         $this->assertAuthenticated();
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -487,7 +487,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $users[0]->id, [
+            ->putJson('api/users/'.$users[0]->id, [
                 'name' => $users[1]->name,
                 'email' => $users[1]->email,
             ]);
@@ -505,7 +505,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id, [
+            ->putJson('api/users/'.$user->id, [
                 'name' => $user->name,
                 'email' => $user->email,
             ]);
@@ -537,7 +537,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id, $data);
+            ->putJson('api/users/'.$user->id, $data);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -567,7 +567,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id, $data);
+            ->putJson('api/users/'.$user->id, $data);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -601,7 +601,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id, $data);
+            ->putJson('api/users/'.$user->id, $data);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -628,7 +628,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . $user->id, [ ]);
+            ->deleteJson('api/users/'.$user->id, []);
 
         $this->assertAuthenticated();
         $response->assertForbidden();
@@ -642,7 +642,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . $user->id, [ ]);
+            ->deleteJson('api/users/'.$user->id, []);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -663,7 +663,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . $user->id, [ ]);
+            ->deleteJson('api/users/'.$user->id, []);
 
         $this->assertAuthenticated();
         $response->assertForbidden();
@@ -679,7 +679,7 @@ class UserApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . $users[0]->id, [ ]);
+            ->deleteJson('api/users/'.$users[0]->id, []);
 
         $this->assertAuthenticated();
         $response->assertOk()

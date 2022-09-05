@@ -25,6 +25,7 @@ class Comment extends Model
         if ($this->user != null) {
             return $this->user->name;
         }
+
         return $this->attributes['user_name'];
     }
 

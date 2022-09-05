@@ -29,6 +29,7 @@ class Donor extends JsonResource
         if ($this->extended) {
             $can_view_donations = $request->user()->can('viewAny', Donation::class);
             $can_view_budgets = $request->user()->can('viewAny', Budget::class);
+
             return [
                 'id' => $this->id,
                 'salutation' => $this->salutation,

@@ -10,6 +10,7 @@ class UserAvatar extends Component
     const DEFAULT_SIZE = 48;
 
     public User $user;
+
     public int $size;
 
     /**

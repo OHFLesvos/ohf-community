@@ -3,13 +3,13 @@
 namespace App\Models\Fundraising;
 
 use App\Models\Accounting\Budget;
+use App\Models\Tag;
 use App\Models\Traits\CommentsRelation;
 use App\Models\Traits\CountryCodeField;
 use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\InDateRangeScope;
 use App\Models\Traits\LanguageCodeField;
 use App\Models\Traits\TagsRelation;
-use App\Models\Tag;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -72,7 +72,7 @@ class Donor extends Model
             $str .= $this->first_name;
         }
         if ($this->last_name != null) {
-            $str .= ' ' . $this->last_name;
+            $str .= ' '.$this->last_name;
         }
         if ($this->company != null) {
             if (! empty($str)) {
@@ -80,6 +80,7 @@ class Donor extends Model
             }
             $str .= $this->company;
         }
+
         return trim($str);
     }
 
@@ -103,6 +104,7 @@ class Donor extends Model
         if (isset($this->country_name)) {
             $str .= $this->country_name;
         }
+
         return trim($str);
     }
 
@@ -155,7 +157,7 @@ class Donor extends Model
     /**
      * Adds the given donation
      *
-     * @param Donation $donation
+     * @param  Donation  $donation
      */
     public function addDonation(Donation $donation)
     {
@@ -165,7 +167,7 @@ class Donor extends Model
     /**
      * Adds the given donations
      *
-     * @param array|Collection $donations
+     * @param  array|Collection  $donations
      */
     public function addDonations($donations)
     {
@@ -177,7 +179,7 @@ class Donor extends Model
      * If no filter is specified, all records will be returned.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string|null $filter
+     * @param  string|null  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter($query, ?string $filter = '')
@@ -187,20 +189,21 @@ class Donor extends Model
                 $countries = localized_country_names()
                     ->map(fn ($name) => strtolower($name))
                     ->flip();
-                return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
-                    ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
-                    ->orWhere('company', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('last_name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('street', 'LIKE', '%' . $filter . '%')
+
+                return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%'.$filter.'%')
+                    ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%'.$filter.'%')
+                    ->orWhere('company', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('first_name', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('last_name', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('street', 'LIKE', '%'.$filter.'%')
                     ->orWhere('zip', $filter)
-                    ->orWhere('city', 'LIKE', '%' . $filter . '%')
-                    ->orWhere(DB::raw('CONCAT(street, \' \', city)'), 'LIKE', '%' . $filter . '%')
-                    ->orWhere(DB::raw('CONCAT(street, \' \', zip, \' \', city)'), 'LIKE', '%' . $filter . '%')
+                    ->orWhere('city', 'LIKE', '%'.$filter.'%')
+                    ->orWhere(DB::raw('CONCAT(street, \' \', city)'), 'LIKE', '%'.$filter.'%')
+                    ->orWhere(DB::raw('CONCAT(street, \' \', zip, \' \', city)'), 'LIKE', '%'.$filter.'%')
                     // Note: Countries filter only works for complete country code or country name
                     ->orWhere('country_code', $countries[strtolower($filter)] ?? $filter)
-                    ->orWhere('email', 'LIKE', '%' . $filter . '%')
-                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '+', ''), '(', ''), ')', '')"), 'LIKE', '%' . str_replace(['+', '(', ')', ' '], '', $filter) . '%');
+                    ->orWhere('email', 'LIKE', '%'.$filter.'%')
+                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '+', ''), '(', ''), ')', '')"), 'LIKE', '%'.str_replace(['+', '(', ')', ' '], '', $filter).'%');
             });
         }
 
@@ -211,16 +214,16 @@ class Donor extends Model
      * Scope a query to only include donors matching the given filter
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string $filter
+     * @param  string  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForSimpleFilter($query, string $filter)
     {
-        return $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%' . $filter . '%')
-            ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%' . $filter . '%')
-            ->orWhere('company', 'LIKE', '%' . $filter . '%')
-            ->orWhere('first_name', 'LIKE', '%' . $filter . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $filter . '%');
+        return $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%'.$filter.'%')
+            ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%'.$filter.'%')
+            ->orWhere('company', 'LIKE', '%'.$filter.'%')
+            ->orWhere('first_name', 'LIKE', '%'.$filter.'%')
+            ->orWhere('last_name', 'LIKE', '%'.$filter.'%');
     }
 
     /**

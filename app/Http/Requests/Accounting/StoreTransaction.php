@@ -29,7 +29,7 @@ class StoreTransaction extends FormRequest
     {
         return [
             'wallet' => [
-                !isset($this->transaction) ? 'required' : 'nullable',
+                ! isset($this->transaction) ? 'required' : 'nullable',
                 'exists:accounting_wallets,id',
             ],
             'receipt_no' => [
@@ -54,7 +54,7 @@ class StoreTransaction extends FormRequest
             'date' => [
                 'required',
                 'date',
-                'before_or_equal:' . Carbon::today(),
+                'before_or_equal:'.Carbon::today(),
             ],
             'type' => [
                 'required',
@@ -96,7 +96,7 @@ class StoreTransaction extends FormRequest
             'delete_receipts' => [
                 'nullable',
                 'array',
-            ]
+            ],
         ];
     }
 
@@ -109,7 +109,7 @@ class StoreTransaction extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            if ($this->transaction !== null && $this->transaction->controlled_at !== null && !request()->user()->can('updateMetadata', $this->transaction)) {
+            if ($this->transaction !== null && $this->transaction->controlled_at !== null && ! request()->user()->can('updateMetadata', $this->transaction)) {
                 $validator->errors()->add('controlled_at', __('Cannot update already controlled transaction.'));
             }
             if ($this->budget_id !== null) {

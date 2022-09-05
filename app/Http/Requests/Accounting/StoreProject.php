@@ -38,7 +38,7 @@ class StoreProject extends FormRequest
                 'nullable',
                 Rule::exists('accounting_projects', 'id'),
                 isset($this->project) ? Rule::notIn($this->project->id) : null,
-            ]
+            ],
         ];
     }
 }

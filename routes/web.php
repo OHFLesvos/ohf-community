@@ -24,7 +24,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('language')->group(function () {
     Route::middleware('auth')->group(function () {
-
         // Home (Dashboard)
         Route::view('', 'vue-app')
             ->name('home');
@@ -59,11 +58,9 @@ Route::middleware('language')->group(function () {
 //
 Route::middleware(['auth', 'language'])
     ->group(function () {
-
         // User management
         Route::prefix('admin')
             ->group(function () {
-
                 // Users
                 Route::get('users/permissions', [UserController::class, 'permissions'])
                     ->name('users.permissions')
@@ -86,8 +83,7 @@ Route::middleware(['auth', 'language'])
             ->name('userprofile');
         Route::view('userprofile/{any}', 'vue-app')
             ->where('any', '.*')
-            ->name('userprofile.any');;
-
+            ->name('userprofile.any');
     });
 
 Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
@@ -127,7 +123,6 @@ Route::middleware(['language', 'auth'])
     ->prefix('accounting')
     ->name('accounting.')
     ->group(function () {
-
         // Overview
         Route::view('', 'vue-app')
             ->name('index');
@@ -203,7 +198,6 @@ Route::middleware(['auth', 'language'])
         Route::name('cmtyvol.')
             ->prefix('cmtyvol')
             ->group(function () {
-
                 // Overview
                 Route::view('overview', 'vue-app')
                     ->name('overview')
@@ -262,7 +256,6 @@ Route::prefix('reports')
     ->name('reports.')
     ->middleware(['auth', 'language'])
     ->group(function () {
-
         // Reports overview
         Route::view('', 'vue-app')
             ->name('index')

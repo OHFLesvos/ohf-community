@@ -2,8 +2,8 @@
 
 namespace App\Policies\Visitors;
 
-use App\Models\Visitors\Visitor;
 use App\Models\User;
+use App\Models\Visitors\Visitor;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class VisitorPolicy

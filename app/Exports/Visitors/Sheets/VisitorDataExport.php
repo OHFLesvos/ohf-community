@@ -45,7 +45,7 @@ class VisitorDataExport extends BaseExport implements FromQuery, WithHeadings, W
     }
 
     /**
-     * @param Visitor $visitor
+     * @param  Visitor  $visitor
      */
     public function map($visitor): array
     {

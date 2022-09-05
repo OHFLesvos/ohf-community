@@ -38,7 +38,7 @@ class BackupDatabase extends Command
             config('database.connections.mysql.username'),
             config('database.connections.mysql.password'),
             config('database.connections.mysql.database'),
-            storage_path('backups/backup-' . Str::slug(now()->toDateTimeString()) . '.sql.gz')
+            storage_path('backups/backup-'.Str::slug(now()->toDateTimeString()).'.sql.gz')
         ));
     }
 

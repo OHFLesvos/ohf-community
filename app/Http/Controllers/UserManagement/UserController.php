@@ -65,7 +65,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  User $user
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -76,7 +76,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  User $user
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -91,7 +91,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UserManagement\UpdateUser  $request
-     * @param  User $user
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUser $request, User $user)
@@ -107,6 +107,7 @@ class UserController extends Controller
         $user->roles()->sync($request->roles);
 
         $user->save();
+
         return redirect()
             ->route('users.show', $user)
             ->with('success', __('User has been updated.'));
@@ -115,7 +116,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  User $user
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -142,7 +143,7 @@ class UserController extends Controller
     /**
      * Display the avatar of the user.
      *
-     * @param \App\Models\User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function avatar(User $user, Request $request)
@@ -157,6 +158,7 @@ class UserController extends Controller
         ]);
 
         $avatar = new AutoColorInitialAvatar();
+
         return $avatar->name($user->name)
             ->size($request->input('size', UserAvatar::DEFAULT_SIZE))
             ->autoColor()

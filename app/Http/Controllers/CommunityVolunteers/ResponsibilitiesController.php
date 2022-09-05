@@ -21,6 +21,7 @@ class ResponsibilitiesController extends Controller
 
     /**
      * Display a listing of the resource.
+     *
      * @return Response
      */
     public function index()
@@ -32,6 +33,7 @@ class ResponsibilitiesController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return Response
      */
     public function create()
@@ -41,7 +43,8 @@ class ResponsibilitiesController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param StoreResponsibility $request
+     *
+     * @param  StoreResponsibility  $request
      * @return Response
      */
     public function store(StoreResponsibility $request)
@@ -57,7 +60,8 @@ class ResponsibilitiesController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     * @param Responsibility $responsibility
+     *
+     * @param  Responsibility  $responsibility
      * @return Response
      */
     public function edit(Responsibility $responsibility)
@@ -69,8 +73,9 @@ class ResponsibilitiesController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param StoreResponsibility $request
-     * @param Responsibility $responsibility
+     *
+     * @param  StoreResponsibility  $request
+     * @param  Responsibility  $responsibility
      * @return Response
      */
     public function update(StoreResponsibility $request, Responsibility $responsibility)
@@ -85,7 +90,8 @@ class ResponsibilitiesController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * @param Responsibility $responsibility
+     *
+     * @param  Responsibility  $responsibility
      * @return Response
      */
     public function destroy(Responsibility $responsibility)

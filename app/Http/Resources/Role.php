@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class Role extends JsonResource
 {
     public $includeLinks = false;
+
     public $includeRelationships = false;
 
     /**

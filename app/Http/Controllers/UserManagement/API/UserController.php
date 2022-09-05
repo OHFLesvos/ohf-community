@@ -58,7 +58,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \App\Http\Requests\UserManagement\StoreUser $request
+     * @param  \App\Http\Requests\UserManagement\StoreUser  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUser $request)
@@ -79,7 +79,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -109,8 +109,8 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \App\Http\Requests\UserManagement\UpdateUser $request
-     * @param \App\Models\User $user
+     * @param  \App\Http\Requests\UserManagement\UpdateUser  $request
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUser $request, User $user)
@@ -131,7 +131,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  User $user
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function disable2FA(User $user)
@@ -150,7 +150,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  User $user
+     * @param  User  $user
      * @return \Illuminate\Http\Response
      */
     public function disableOAuth(User $user)
@@ -173,7 +173,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -189,7 +189,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \App\Models\User $user
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function roles(User $user)

@@ -17,13 +17,14 @@ trait LanguageCodeField
         if ($this->language_code !== null) {
             return Languages::lookup([$this->language_code], App::getLocale())->first();
         }
+
         return null;
     }
 
     /**
      * Sets the language code based on the language name
      *
-     * @param string|null $value
+     * @param  string|null  $value
      * @return void
      */
     public function setLanguageAttribute(?string $value)
@@ -57,7 +58,7 @@ trait LanguageCodeField
     /**
      * Gets an array of all languages assigned to donors, grouped and ordered by amount
      *
-     * @param string|\Carbon\Carbon|null $untilDate
+     * @param  string|\Carbon\Carbon|null  $untilDate
      * @return array
      */
     public static function languageDistribution($untilDate = null): array

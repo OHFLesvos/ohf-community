@@ -39,7 +39,7 @@ class StoreVisitor extends FormRequest
             'date_of_birth' => [
                 'nullable',
                 'date',
-                'before_or_equal:today'
+                'before_or_equal:today',
             ],
             'nationality' => [
                 'nullable',

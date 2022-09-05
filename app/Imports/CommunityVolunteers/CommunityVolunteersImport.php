@@ -75,7 +75,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
                             $f['assign']($cmtyvol, $value);
                         }
                     } catch (Exception $e) {
-                        Log::warning('Cannot import community volunteer: ' . $e->getMessage());
+                        Log::warning('Cannot import community volunteer: '.$e->getMessage());
                     }
                 }
             });
@@ -83,10 +83,10 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
 
         if ($assign_responsibilities) {
             foreach ($responsibilities as $responsibility_name) {
-                $responsibility = Responsibility::updateOrCreate([ 'name' => $responsibility_name ]);
+                $responsibility = Responsibility::updateOrCreate(['name' => $responsibility_name]);
                 $from = $this->has_dates ? $row[__('Starting Date')] : null;
                 $to = $this->has_dates ? $row[__('Leaving Date')] : null;
-                if (!$cmtyvol->responsibilities()->wherePivot('start_date', $from)->wherePivot('end_date', $to)->find($responsibility) != null) {
+                if (! $cmtyvol->responsibilities()->wherePivot('start_date', $from)->wherePivot('end_date', $to)->find($responsibility) != null) {
                     $cmtyvol->responsibilities()->attach($responsibility, [
                         'start_date' => $from,
                         'end_date' => $to,
@@ -107,11 +107,11 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
             if (is_array($old_value)) {
                 $assign($cmtyvol, array_merge($old_value, $new_value));
             } elseif (is_string($old_value)) {
-                $assign($cmtyvol, $old_value . ', ' . $new_value);
+                $assign($cmtyvol, $old_value.', '.$new_value);
             } elseif (is_object($old_value) && get_class($old_value) == 'Illuminate\Database\Eloquent\Collection') {
                 $assign($cmtyvol, $old_value->concat($new_value));
             } else {
-                Log::warning('Cannot append value of type: ' . gettype($old_value));
+                Log::warning('Cannot append value of type: '.gettype($old_value));
             }
         }
     }

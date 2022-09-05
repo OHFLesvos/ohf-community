@@ -22,7 +22,7 @@ class ReportController extends Controller
             ->groupBy('gender')
             ->orderBy('total', 'DESC')
             ->get()
-            ->mapWithKeys(fn ($i) => [ gender_label($i['gender']) => $i['total'] ])
+            ->mapWithKeys(fn ($i) => [gender_label($i['gender']) => $i['total']])
             ->toArray();
     }
 
@@ -47,10 +47,11 @@ class ReportController extends Controller
             ->groupBy('nationality')
             ->orderBy('total', 'DESC')
             ->get()
-            ->mapWithKeys(fn ($i) => [ $i['nationality'] => $i['total'] ])
+            ->mapWithKeys(fn ($i) => [$i['nationality'] => $i['total']])
             ->toArray();
 
         $limit = $request->input('limit', 10);
+
         return slice_data_others($nationalities, $limit);
     }
 
@@ -73,14 +74,16 @@ class ReportController extends Controller
             foreach (range($minAge, $maxAge) as $r) {
                 $ages[$r.' '] = null;
             }
+
             return collect($ages)
                 ->merge(
                     self::getPersonAges()
-                        ->mapWithKeys(fn ($i) => [ $i['age'] . ' ' => $i['total'] ])
+                        ->mapWithKeys(fn ($i) => [$i['age'].' ' => $i['total']])
                 )
                 ->mapWithKeys(fn ($v, $k) => [intval($k) => $v])
                 ->toArray();
         }
+
         return [];
     }
 

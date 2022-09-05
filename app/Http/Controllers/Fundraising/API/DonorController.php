@@ -100,6 +100,7 @@ class DonorController extends Controller
                 ->orderBy($sortBy, $sortDirection)
                 ->paginate($pageSize);
         }
+
         return new DonorCollection($donors);
     }
 
@@ -209,7 +210,7 @@ class DonorController extends Controller
         if ($donor->phone != null) {
             $vcard->addPhoneNumber($donor->phone, $donor->company != null ? 'WORK' : 'HOME');
         }
-        $vcard->addAddress(null, null, $donor->street, $donor->city, null, $donor->zip, $donor->country_name, ($donor->company != null ? 'WORK' : 'HOME') . ';POSTAL');
+        $vcard->addAddress(null, null, $donor->street, $donor->city, null, $donor->zip, $donor->country_name, ($donor->company != null ? 'WORK' : 'HOME').';POSTAL');
 
         // return vcard as a download
         return $vcard->download();

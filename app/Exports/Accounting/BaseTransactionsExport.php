@@ -28,7 +28,7 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
             __('Category'),
         ];
         if (self::useSecondaryCategories()) {
-            $headings[] =  __('Secondary Category');
+            $headings[] = __('Secondary Category');
         }
         $headings[] = __('Project');
         if (self::useLocations()) {
@@ -37,6 +37,7 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
         if (self::useCostCenters()) {
             $headings[] = __('Cost Center');
         }
+
         return array_merge($headings, [
             __('Description'),
             __('Supplier'),
@@ -49,7 +50,7 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
     }
 
     /**
-     * @param Transaction $transaction
+     * @param  Transaction  $transaction
      */
     public function map($transaction): array
     {
@@ -73,6 +74,7 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
         if (self::useCostCenters()) {
             $data[] = $transaction->cost_center;
         }
+
         return array_merge($data, [
             $transaction->description,
             optional($transaction->supplier)->name,
@@ -96,9 +98,9 @@ abstract class BaseTransactionsExport extends BaseExport implements FromQuery, W
     protected function applyStyles(Worksheet $sheet)
     {
         parent::applyStyles($sheet);
-        $sheet->getStyle('D2:D' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
-        $sheet->getStyle('E2:E' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
-        $sheet->getStyle('F2:F' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('D2:D'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+        $sheet->getStyle('E2:E'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('F2:F'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
     }
 
     private static function useSecondaryCategories(): bool

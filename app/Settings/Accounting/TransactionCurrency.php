@@ -29,7 +29,7 @@ class TransactionCurrency extends BaseSettingsField
 
     public function formList(): array
     {
-        return collect(config('currencies'))->map(fn($e) => $e[0])->toArray();
+        return collect(config('currencies'))->map(fn ($e) => $e[0])->toArray();
     }
 
     public function formPlaceholder(): string

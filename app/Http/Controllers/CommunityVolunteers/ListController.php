@@ -220,16 +220,18 @@ class ListController extends BaseController
         if ($field['form_type'] == 'checkboxes') {
             return [
                 $field['form_name'] = 'array',
-                $field['form_name'] . '.*' => $rules,
+                $field['form_name'].'.*' => $rules,
             ];
         } elseif (isset($field['form_validate_extra'])) {
             $extra_rules = is_callable($field['form_validate_extra'])
                 ? $field['form_validate_extra']()
                 : $field['form_validate_extra'];
+
             return [
                 $field['form_name'] => $rules,
             ] + $extra_rules;
         }
+
         return [
             $field['form_name'] => $rules,
         ];
@@ -317,7 +319,7 @@ class ListController extends BaseController
                     ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
                     ->filter(fn ($field) => isset($field['form_name']) && isset($field['form_type']))
                     ->map(fn ($f) => self::createFormField($f, is_callable($f['value']) ? $f['value']($cmtyvol) : $cmtyvol->{$f['value']}))
-                    ->toArray()
+                    ->toArray(),
             ]);
 
         return view('cmtyvol.edit', [
@@ -364,8 +366,9 @@ class ListController extends BaseController
             }
         }
         if ($value != null) {
-            $value = ($field['prefix'] ?? '') . $value;
+            $value = ($field['prefix'] ?? '').$value;
         }
+
         return $value;
     }
 
@@ -376,9 +379,9 @@ class ListController extends BaseController
             ->get()
             ->map(function ($responsibility) {
                 return [
-                    "text" => $responsibility->name,
-                    "description" => $responsibility->description,
-                    "hidden" => $responsibility->isCapacityExhausted,
+                    'text' => $responsibility->name,
+                    'description' => $responsibility->description,
+                    'hidden' => $responsibility->isCapacityExhausted,
                 ];
             });
 
@@ -433,7 +436,7 @@ class ListController extends BaseController
                 }
                 collect($value)->map(function ($entry) use ($cmtyvol) {
                     if (! is_array($entry)) {
-                        $entry = [ 'name' => $entry ];
+                        $entry = ['name' => $entry];
                     }
                     $responsibility = Responsibility::where('name', $entry['name'])->first();
                     $cmtyvol->responsibilities()->attach($responsibility, [

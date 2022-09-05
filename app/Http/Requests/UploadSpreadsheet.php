@@ -39,7 +39,7 @@ class UploadSpreadsheet extends FormRequest
             'file' => [
                 'required',
                 'file',
-                'mimes:' . implode(',', self::MIMES),
+                'mimes:'.implode(',', self::MIMES),
             ],
         ];
     }

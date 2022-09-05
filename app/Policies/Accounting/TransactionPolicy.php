@@ -12,7 +12,7 @@ class TransactionPolicy
 
     public function before($user, $ability)
     {
-        if ($user->isSuperAdmin() && !in_array($ability, ['update', 'delete', 'control', 'undoControlling', 'undoBooking'])) {
+        if ($user->isSuperAdmin() && ! in_array($ability, ['update', 'delete', 'control', 'undoControlling', 'undoBooking'])) {
             return true;
         }
     }
@@ -62,7 +62,7 @@ class TransactionPolicy
 
     public function control(User $user, Transaction $transaction)
     {
-        if (!$this->update($user, $transaction)) {
+        if (! $this->update($user, $transaction)) {
             return false;
         }
 
@@ -71,12 +71,12 @@ class TransactionPolicy
             ->where('event', 'created')
             ->exists();
 
-        return !$userHasRegisteredTransaction;
+        return ! $userHasRegisteredTransaction;
     }
 
     public function undoBooking(User $user, Transaction $transaction)
     {
-        if (!$transaction->booked) {
+        if (! $transaction->booked) {
             return false;
         }
 

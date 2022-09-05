@@ -34,7 +34,7 @@ abstract class BaseController extends Controller
                 'label' => __('Portrait Picture'),
                 'icon' => null,
                 'value' => fn ($cmtyvol) => $cmtyvol->portrait_picture,
-                'value_html' => fn ($cmtyvol) => isset($cmtyvol->portrait_picture) ? '<img src="' . Storage::url($cmtyvol->portrait_picture) . '" class="img-fluid img-thumbnail">' : null,
+                'value_html' => fn ($cmtyvol) => isset($cmtyvol->portrait_picture) ? '<img src="'.Storage::url($cmtyvol->portrait_picture).'" class="img-fluid img-thumbnail">' : null,
                 'overview' => false,
                 'exclude_export' => true,
                 'exclude_show' => false,
@@ -174,7 +174,7 @@ abstract class BaseController extends Controller
                 'section' => 'general',
                 'import_labels' => ['DOB'],
                 'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->date_of_birth = !empty($value) ? Carbon::parse($value) : null;
+                    $cmtyvol->date_of_birth = ! empty($value) ? Carbon::parse($value) : null;
                 },
                 'form_type' => 'text',
                 'form_name' => 'date_of_birth',
@@ -196,7 +196,7 @@ abstract class BaseController extends Controller
                 'section' => 'general',
                 'import_labels' => ['Police No.'],
                 'assign' => function ($cmtyvol, $value) {
-                    $cmtyvol->police_no = (!empty($value) ? $value : null);
+                    $cmtyvol->police_no = (! empty($value) ? $value : null);
                 },
                 'form_type' => 'text',
                 'form_name' => 'police_number',
@@ -261,7 +261,7 @@ abstract class BaseController extends Controller
                 'value_html' => fn ($cmtyvol) => $cmtyvol->whatsapp != null
                     ? view('components.links.whatsapp', [
                         'slot' => $cmtyvol->whatsapp,
-                        'message' => 'Hello ' . $cmtyvol->first_name . "\n",
+                        'message' => 'Hello '.$cmtyvol->first_name."\n",
                         'attributes' => new ComponentAttributeBag(),
                     ]) : null,
                 'overview' => false,
@@ -358,17 +358,18 @@ abstract class BaseController extends Controller
                     ->map(function ($r) {
                         $str = htmlspecialchars($r->name);
                         if ($r->description !== null) {
-                            $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="' . htmlspecialchars($r->description) . '"></a>';
+                            $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="'.htmlspecialchars($r->description).'"></a>';
                         }
                         if ($r->pivot->hasDateRange()) {
-                            $str .= ' (' . $r->pivot->date_range_string . ')';
+                            $str .= ' ('.$r->pivot->date_range_string.')';
                         }
                         if ($r->hasAssignedAltoughNotAvailable) {
-                            $str .= ' <span class="text-danger">(' . __('not available') . ')</span>';
+                            $str .= ' <span class="text-danger">('.__('not available').')</span>';
                         }
                         if ($r->isCapacityExhausted) {
-                            $str .= ' <span class="text-danger">(' . __('capacity exhausted') . ')</span>';
+                            $str .= ' <span class="text-danger">('.__('capacity exhausted').')</span>';
                         }
+
                         return $str;
                     })
                     ->implode('<br>'),
@@ -379,7 +380,7 @@ abstract class BaseController extends Controller
                     DB::transaction(function () use ($cmtyvol, $value) {
                         $cmtyvol->responsibilities()->detach();
                         if ($value != null) {
-                            if (!is_array($value)) {
+                            if (! is_array($value)) {
                                 $values = [];
                                 foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
                                     $values[] = $v;
@@ -388,7 +389,7 @@ abstract class BaseController extends Controller
                             }
 
                             collect($value)->map(function ($entry) use ($cmtyvol) {
-                                if (!is_array($entry)) {
+                                if (! is_array($entry)) {
                                     $entry = ['name' => $entry];
                                 }
                                 $responsibility = Responsibility::where('name', $entry['name'])->first();
@@ -406,7 +407,7 @@ abstract class BaseController extends Controller
                 'icon' => null,
                 'value' => fn ($cmtyvol) => optional($cmtyvol->firstWorkStartDate)->toDateString(),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->firstWorkStartDate != null
-                    ? $cmtyvol->firstWorkStartDate->toDateString() . ' (' . $cmtyvol->firstWorkStartDate->diffForHumans() . ')'
+                    ? $cmtyvol->firstWorkStartDate->toDateString().' ('.$cmtyvol->firstWorkStartDate->diffForHumans().')'
                     : null,
                 'overview' => false,
                 'section' => 'occupation',
@@ -416,7 +417,7 @@ abstract class BaseController extends Controller
                 'icon' => null,
                 'value' => fn ($cmtyvol) => optional($cmtyvol->lastWorkEndDate)->toDateString(),
                 'value_html' => fn ($cmtyvol) => $cmtyvol->lastWorkEndDate != null
-                    ? $cmtyvol->lastWorkEndDate->toDateString() . ' (' . $cmtyvol->lastWorkEndDate->diffForHumans() . ')'
+                    ? $cmtyvol->lastWorkEndDate->toDateString().' ('.$cmtyvol->lastWorkEndDate->diffForHumans().')'
                     : null,
                 'overview' => false,
                 'section' => 'occupation',

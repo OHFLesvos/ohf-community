@@ -11,6 +11,7 @@ class RoleEditContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $role = $view->getData()['role'];
+
         return [
             'back' => [
                 'url' => route('roles.show', $role),

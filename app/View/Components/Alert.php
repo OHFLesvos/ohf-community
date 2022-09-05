@@ -7,7 +7,9 @@ use Illuminate\View\Component;
 class Alert extends Component
 {
     public string $type;
+
     public string $icon;
+
     public bool $dismissible;
 
     private array $icons = [
@@ -24,7 +26,7 @@ class Alert extends Component
      */
     public function __construct(string $type, ?string $icon = null, ?bool $dismissible = false)
     {
-        assert(isset($this->icons[$type]), 'Alert parameter $type must be one of [' . implode(', ', array_keys($this->icons)) . ']');
+        assert(isset($this->icons[$type]), 'Alert parameter $type must be one of ['.implode(', ', array_keys($this->icons)).']');
 
         $this->type = $type;
         $this->icon = $icon ?? $this->icons[$this->type];

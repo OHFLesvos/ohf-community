@@ -27,9 +27,9 @@ class TransactionsExport extends BaseTransactionsExport
     private ?Wallet $wallet;
 
     /**
-     * @param string[] $advancedFilter
-     * @param string|Carbon $dateFrom
-     * @param string|Carbon $dateTo
+     * @param  string[]  $advancedFilter
+     * @param  string|Carbon  $dateFrom
+     * @param  string|Carbon  $dateTo
      */
     public function __construct(
         ?Wallet $wallet,
@@ -53,11 +53,11 @@ class TransactionsExport extends BaseTransactionsExport
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
             ->when(
-                !empty($this->dateFrom),
+                ! empty($this->dateFrom),
                 fn ($qry) => $qry->whereDate('date', '>=', $this->dateFrom)
             )
             ->when(
-                !empty($this->dateTo),
+                ! empty($this->dateTo),
                 fn ($qry) => $qry->whereDate('date', '<=', $this->dateTo)
             )
             ->orderBy('date', 'ASC')

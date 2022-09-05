@@ -28,7 +28,7 @@ class StoreDonation extends FormRequest
             'date' => [
                 'required',
                 'date',
-                'max:' . Carbon::today()->toDateString(),
+                'max:'.Carbon::today()->toDateString(),
             ],
             'amount' => [
                 'required',

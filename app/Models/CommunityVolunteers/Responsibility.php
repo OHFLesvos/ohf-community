@@ -74,7 +74,7 @@ class Responsibility extends Model
 
     public function getHasAssignedAltoughNotAvailableAttribute()
     {
-        return !$this->available && $this->countActive > 0;
+        return ! $this->available && $this->countActive > 0;
     }
 
     public function getCountActiveAttribute()
@@ -88,11 +88,11 @@ class Responsibility extends Model
      * Scope a query to only include responsibilities matching the given filter
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string $filter
+     * @param  string  $filter
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeForFilter(Builder $query, string $filter)
     {
-        return $query->where('name', 'LIKE', '%' . $filter . '%');
+        return $query->where('name', 'LIKE', '%'.$filter.'%');
     }
 }

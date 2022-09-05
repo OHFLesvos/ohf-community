@@ -11,6 +11,7 @@ class WeblingPrepareContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $wallet = $view->getData()['wallet'];
+
         return [
             'back' => [
                 'url' => route('accounting.webling.index', $wallet),

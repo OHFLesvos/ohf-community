@@ -24,11 +24,11 @@ return [
     'manage_suppliers' => 'Buchhaltung: Lieferanten verwalten',
     'view_budgets' => 'Buchhaltung: Budgets ansehen',
     'manage_budgets' => 'Buchhaltung: Budgets verwalten',
-    'configure_accounting'  => 'Buchhaltung: Einstellungen bearbeiten',
+    'configure_accounting' => 'Buchhaltung: Einstellungen bearbeiten',
 
     'view_community_volunteers' => 'Community Volunteers: Community Volunteers betrachten',
     'manage_community_volunteers' => 'Community Volunteers: Community Volunteers verwalten',
 
     'register_visitors' => 'Besucher: Registrieren',
-        'export_visitors' => 'Besucher: Exportieren',
+    'export_visitors' => 'Besucher: Exportieren',
 ];

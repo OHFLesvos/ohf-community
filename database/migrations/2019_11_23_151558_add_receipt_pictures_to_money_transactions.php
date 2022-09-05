@@ -21,10 +21,10 @@ return new class extends Migration
             ->get()
             ->each(function ($t) {
                 if (! empty($t->receipt_picture)) {
-                    $t->receipt_pictures = [ $t->receipt_picture ];
+                    $t->receipt_pictures = [$t->receipt_picture];
                     DB::table('money_transactions')
                         ->where('id', $t->id)
-                        ->update(['receipt_picture' => serialize([ $t->receipt_picture ]) ]);
+                        ->update(['receipt_picture' => serialize([$t->receipt_picture])]);
                 }
             });
         Schema::table('money_transactions', function (Blueprint $table) {

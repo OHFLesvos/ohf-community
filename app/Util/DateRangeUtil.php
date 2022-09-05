@@ -28,6 +28,7 @@ class DateRangeUtil
         do {
             $dates->push($date->isoFormat('YYYY'));
         } while ($date->addYear()->lte($to));
+
         return $dates;
     }
 
@@ -38,6 +39,7 @@ class DateRangeUtil
         do {
             $dates->push($date->isoFormat('YYYY-MM'));
         } while ($date->addMonth()->lte($to));
+
         return $dates;
     }
 
@@ -48,6 +50,7 @@ class DateRangeUtil
         do {
             $dates->push($date->isoFormat('GGGG-WW'));
         } while ($date->addWeek()->lte($to));
+
         return $dates;
     }
 
@@ -58,6 +61,7 @@ class DateRangeUtil
         do {
             $dates->push($date->isoFormat('YYYY-MM-DD'));
         } while ($date->addDay()->lte($to));
+
         return $dates;
     }
 }

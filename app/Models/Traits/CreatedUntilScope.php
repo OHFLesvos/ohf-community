@@ -16,6 +16,7 @@ trait CreatedUntilScope
         if ($date !== null) {
             $query->whereDate($column, '<=', $date);
         }
+
         return $query;
     }
 }

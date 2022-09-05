@@ -11,6 +11,7 @@ class UserEditContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $user = $view->getData()['user'];
+
         return [
             'back' => [
                 'url' => route('users.show', $user),

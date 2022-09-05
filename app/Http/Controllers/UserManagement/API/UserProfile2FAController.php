@@ -61,6 +61,7 @@ class UserProfile2FAController extends Controller
                 }
 
                 $request->session()->put('temp_2fa_secret', $secret);
+
                 return response()
                     ->json([
                         'message' => __('Invalid code, please repeat.'),

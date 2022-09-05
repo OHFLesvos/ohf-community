@@ -23,7 +23,7 @@ class TransactionsSummarySheet extends BaseExport implements FromView, WithColum
     /**
      * Constructor.
      *
-     * @param array<Carbon> $months
+     * @param  array<Carbon>  $months
      */
     public function __construct(array $months)
     {
