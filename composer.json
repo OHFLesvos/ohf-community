@@ -28,7 +28,7 @@
         "laravel/framework": "^9.2",
         "laravel/sanctum": "^3.0",
         "laravel/socialite": "^5.0",
-        "laravel/ui": "^3.0",
+        "laravel/ui": "^4.0",
         "laravelcollective/html": "^6.0",
         "lasserafn/php-initial-avatar-generator": "^4.2",
         "maatwebsite/excel": "^3.1",
