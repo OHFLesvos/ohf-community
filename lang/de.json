@@ -320,7 +320,7 @@
     "Manage members": "Mitglieder verwalten",
     "Thanks, <br>\n:name": "Danke, <br>\n:name",
     "or": "oder",
-    "Sign in with Google": "Mit Google anmelden",
+    "Sign in with :service": "Mit :service anmelden",
     "OAuth": "OAuth",
     "OAuth provider": "OAuth provider",
     "Selection": "Auswahl",

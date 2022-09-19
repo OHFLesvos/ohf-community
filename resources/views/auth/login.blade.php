@@ -6,6 +6,22 @@
 
     {{ Form::open(['route' => 'login']) }}
 
+        @if(!empty($oauth_services))
+            @foreach($oauth_services as $service)
+                <div class="text-center mb-2">
+                    <a href="{{ route('login.provider', $service['name']) }}" class="btn btn-secondary btn-block">
+                        <x-icon :icon="$service['icon']" style="fab" class="mr-1"/>
+                        {{ $service['label'] }}
+                    </a>
+                </div>
+            @endforeach
+            <div class="mt-2 mb-3 d-flex">
+                <hr class="flex-fill">
+                <div class="mx-3">{{ __('or') }}</div>
+                <hr class="flex-fill">
+            </div>
+        @endif
+
         <div class="form-group">
             {{-- {{ Form::label('email', __('E-Mail Address')) }} --}}
             {{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'autofocus', 'placeholder' => __('E-Mail Address') ]) }}
@@ -30,23 +46,6 @@
                 {{ __('Login') }}
             </button>
         </p>
-
-        @if(!empty($oauth_services))
-            <p class="text-center">{{ __('or') }}</p>
-            <p class="text-center">
-            <div class="row">
-                @foreach($oauth_services as $driver)
-                    <div class="col-sm text-center mb-2">
-                        <a href="{{ route('login.provider', $driver) }}" class="btn btn-secondary btn-sm btn-block">
-                            <x-icon :icon="$driver" style="fab" class="mr-1"/>
-                            @if($driver == 'google')
-                                {{ __('Sign in with Google') }}
-                            @endif
-                        </a>
-                    </div>
-                @endforeach
-            </div>
-        @endif
 
         <div class="text-center mt-4">
             <span class="d-none d-sm-inline">{{ __('Are you new here?') }} <a href="{{ route('register') }}">{{ __('Create an account') }}</a></span>
