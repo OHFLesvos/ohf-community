@@ -27,7 +27,7 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers{
+    use AuthenticatesUsers {
         redirectPath as laravelRedirectPath;
     }
 
@@ -78,7 +78,17 @@ class LoginController extends Controller
             return view('auth.tfa');
         }
 
-        return view('auth.login');
+        return view('auth.login', [
+            'oauth_services' => $this->getOauthServices(),
+        ]);
+    }
+
+    private function getOauthServices(): array
+    {
+        return collect(config('auth.socialite.drivers'))
+            ->filter(fn (string $driver) => config('services.'.$driver) !== null
+                && array_elements_not_blank(config('services.'.$driver), ['client_id', 'client_secret', 'redirect']))
+            ->toArray();
     }
 
     /**

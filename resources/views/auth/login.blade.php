@@ -31,26 +31,19 @@
             </button>
         </p>
 
-        @php
-            $hasServices = collect(config('auth.socialite.drivers'))
-                ->filter(fn ($driver) => config('services.' . $driver) !== null && array_elements_not_blank(config('services.' . $driver), ['client_id', 'client_secret', 'redirect']))
-                ->isNotEmpty();
-        @endphp
-        @if($hasServices)
+        @if(!empty($oauth_services))
             <p class="text-center">{{ __('or') }}</p>
             <p class="text-center">
             <div class="row">
-                @foreach(config('auth.socialite.drivers') as $driver)
-                    @if(config('services.' . $driver) !== null && array_elements_not_blank(config('services.' . $driver), ['client_id', 'client_secret', 'redirect']))
-                        <div class="col-sm text-center mb-2">
-                            <a href="{{ route('login.provider', $driver) }}" class="btn btn-secondary btn-sm btn-block">
-                                <x-icon :icon="$driver" style="fab" class="mr-1"/>
-                                @if($driver == 'google')
-                                    {{ __('Sign in with Google') }}
-                                @endif
-                            </a>
-                        </div>
-                    @endif
+                @foreach($oauth_services as $driver)
+                    <div class="col-sm text-center mb-2">
+                        <a href="{{ route('login.provider', $driver) }}" class="btn btn-secondary btn-sm btn-block">
+                            <x-icon :icon="$driver" style="fab" class="mr-1"/>
+                            @if($driver == 'google')
+                                {{ __('Sign in with Google') }}
+                            @endif
+                        </a>
+                    </div>
                 @endforeach
             </div>
         @endif
