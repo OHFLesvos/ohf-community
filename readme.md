@@ -114,37 +114,69 @@ In this example, Xampp is located at `c:\devel\xampp`, and the document root is 
 
 The configuration of the file `C:\devel\xampp\apache\conf\extra\httpd-vhosts.conf` should look as follows:
 
-    <VirtualHost *:80>
-        DocumentRoot "C:/devel/web/ohf.test/public"
-        ServerName ohf.test
-        <Directory "C:/devel/web/ohf.test/public">
-            Options Indexes FollowSymLinks Includes ExecCGI
-            AllowOverride All
-            Order allow,deny
-            Allow from all
-            Require all granted
-        </Directory>
-    </VirtualHost>
+```apache
+<VirtualHost *:80>
+    DocumentRoot "C:/devel/web/ohf.test/public"
+    ServerName ohf.test
+    <Directory "C:/devel/web/ohf.test/public">
+        Options Indexes FollowSymLinks Includes ExecCGI
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+</VirtualHost>
 
-    <VirtualHost *:443>
-        DocumentRoot "C:/devel/web/ohf.test/public"
-        ServerName ohf.test
-        SSLEngine on
-        SSLCertificateFile "conf/ssl.crt/ohf.test.crt"
-        SSLCertificateKeyFile "conf/ssl.key/ohf.test.key"
-        <Directory "C:/devel/web/ohf.test/public">
-            Options Indexes FollowSymLinks Includes ExecCGI
-            AllowOverride All
-            Order allow,deny
-            Allow from all
-            Require all granted
-        </Directory>
-    </VirtualHost>
+<VirtualHost *:443>
+    DocumentRoot "C:/devel/web/ohf.test/public"
+    ServerName ohf.test
+    SSLEngine on
+    SSLCertificateFile "conf/ssl.crt/ohf.test.crt"
+    SSLCertificateKeyFile "conf/ssl.key/ohf.test.key"
+    <Directory "C:/devel/web/ohf.test/public">
+        Options Indexes FollowSymLinks Includes ExecCGI
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
 
 The following commands create a custom self-signed TLS certificate:
 
     cd c:\devel\xampp\apache
     bin\openssl.exe req -newkey rsa:2048 -sha256 -nodes -keyout conf\ssl.key\ohf.test.key -x509 -days 365 -out conf\ssl.crt\ohf.test.crt -config conf\openssl.cnf
+
+Development using Laravel Sail
+------------------------------
+
+[Laravel Sail](https://laravel.com/docs/9.x/sail) is a light-weight command-line interface for interacting with Laravel's default Docker development environment. 
+
+Run the following command to install the composer dependencies:
+
+```
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v $(pwd):/var/www/html \
+    -w /var/www/html \
+    laravelsail/php81-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+Configure a Shell alias for sail:
+
+```bash
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
+```
+
+Start the application:
+
+    sail up -d
+
+Stop the application:
+
+    sail down
 
 License
 -------
