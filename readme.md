@@ -180,6 +180,7 @@ Create app key and run migrations
 
     sail artisan key:generate
     sail artisan migrate
+    sail artisan storage:link
 
 Install NPM packages and build javascript assets
 
