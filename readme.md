@@ -148,8 +148,8 @@ The following commands create a custom self-signed TLS certificate:
     cd c:\devel\xampp\apache
     bin\openssl.exe req -newkey rsa:2048 -sha256 -nodes -keyout conf\ssl.key\ohf.test.key -x509 -days 365 -out conf\ssl.crt\ohf.test.crt -config conf\openssl.cnf
 
-Development using Laravel Sail
-------------------------------
+Development using Laravel Sail (Docker)
+---------------------------------------
 
 [Laravel Sail](https://laravel.com/docs/9.x/sail) is a light-weight command-line interface for interacting with Laravel's default Docker development environment. 
 
@@ -170,9 +170,21 @@ Configure a Shell alias for sail:
 alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 ```
 
+Copy the `.env.example` file to `.env` and set `DB_HOST=mysql`
+
 Start the application:
 
     sail up -d
+
+Create app key and run migrations
+
+    sail artisan key:generate
+    sail artisan migrate
+
+Install NPM packages and build javascript assets
+
+    sail npm install
+    sail npm run dev
 
 Stop the application:
 
