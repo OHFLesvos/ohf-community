@@ -15,7 +15,7 @@
                     </a>
                 </div>
             @endforeach
-            <div class="mt-2 mb-3 d-flex">
+            <div class="mt-3 mb-3 d-flex">
                 <hr class="flex-fill">
                 <div class="mx-3">{{ __('or') }}</div>
                 <hr class="flex-fill">
@@ -23,15 +23,13 @@
         @endif
 
         <div class="form-group">
-            {{-- {{ Form::label('email', __('E-Mail Address')) }} --}}
-            {{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'autofocus', 'placeholder' => __('E-Mail Address') ]) }}
+            {{ Form::text('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', empty($oauth_services) ? 'autofocus' : null, 'placeholder' => __('E-Mail Address') ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
             @endif
         </div>
 
         <div class="form-group">
-            {{-- {{ Form::label('password', __('Password')) }} --}}
             {{ Form::password('password', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required', 'placeholder' => __('Password') ]) }}
             @if ($errors->has('password'))
                 <span class="invalid-feedback">{{ $errors->first('password') }}</span>
