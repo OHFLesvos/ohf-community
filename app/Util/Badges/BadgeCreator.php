@@ -4,6 +4,7 @@ namespace App\Util\Badges;
 
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Collection;
 use Mpdf\Mpdf;
 use Mpdf\Output\Destination;
 
@@ -60,15 +61,10 @@ class BadgeCreator
     public bool $mirror = true;
 
     /**
-     * Data of persons to be printed on the badges
-     *
-     * @var array|Collection
+     * @param  array|Collection  $persons Data of persons to be printed on the badges
      */
-    private $persons;
-
-    public function __construct($persons)
+    public function __construct(private readonly array|Collection $persons)
     {
-        $this->persons = $persons;
     }
 
     public function createPdf($title)

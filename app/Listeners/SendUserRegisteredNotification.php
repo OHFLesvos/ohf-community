@@ -12,23 +12,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class SendUserRegisteredNotification
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  UserSelfRegistered  $event
-     * @return void
-     */
-    public function handle(UserSelfRegistered $event)
+    public function handle(UserSelfRegistered $event): void
     {
         $user = $event->user;
 

@@ -6,13 +6,7 @@ use Illuminate\View\Component;
 
 class Alert extends Component
 {
-    public string $type;
-
-    public string $icon;
-
-    public bool $dismissible;
-
-    private array $icons = [
+    private const ICONS = [
         'danger' => 'exclamation-circle',
         'warning' => 'exclamation-triangle',
         'info' => 'info-circle',
@@ -24,13 +18,16 @@ class Alert extends Component
      *
      * @return void
      */
-    public function __construct(string $type, ?string $icon = null, ?bool $dismissible = false)
+    public function __construct(
+        public readonly string $type,
+        public ?string $icon = null,
+        public readonly ?bool $dismissible = false)
     {
-        assert(isset($this->icons[$type]), 'Alert parameter $type must be one of ['.implode(', ', array_keys($this->icons)).']');
+        if (!isset(self::ICONS[$type])) {
+            throw new \Exception('Alert parameter $type must be one of ['.implode(', ', array_keys(self::ICONS)).']');
+        }
 
-        $this->type = $type;
-        $this->icon = $icon ?? $this->icons[$this->type];
-        $this->dismissible = $dismissible;
+        $this->icon = $icon ?? self::ICONS[$type];
     }
 
     /**

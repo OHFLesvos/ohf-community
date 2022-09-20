@@ -12,24 +12,12 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class CommunityVolunteersExport extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
     /**
-     * Field definitions
-     */
-    private Collection $fields;
-
-    /**
-     * Work status
-     */
-    private string $workStatus;
-
-    /**
      * Field to sort by
      */
     public string $sorting = 'first_name';
 
-    public function __construct(Collection $fields, string $workStatus)
+    public function __construct(private Collection $fields, private string $workStatus)
     {
-        $this->fields = $fields;
-        $this->workStatus = $workStatus;
     }
 
     public function collection(): Collection

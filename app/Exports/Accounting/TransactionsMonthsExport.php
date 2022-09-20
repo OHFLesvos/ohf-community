@@ -19,23 +19,16 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
 {
     use Exportable, DefaultFormatting;
 
-    private ?string $filter;
-
     /**
-     * Filter conditions
-     *
-     * @var array<string>
+     * @param  Wallet|null  $wallet Wallet
+     * @param  string|null  $filter Simple filter
+     * @param  array<string>  $advancedFilter Filter conditions
      */
-    private array $advancedFilter;
-
-    private ?Wallet $wallet;
-
-    public function __construct(?Wallet $wallet, ?string $filter = null, array $advancedFilter = [])
+    public function __construct(
+        private ?Wallet $wallet,
+        private ?string $filter = null,
+        private array $advancedFilter = [])
     {
-        $this->filter = $filter;
-        $this->advancedFilter = $advancedFilter;
-        $this->wallet = $wallet;
-
         setlocale(LC_TIME, \App::getLocale());
     }
 

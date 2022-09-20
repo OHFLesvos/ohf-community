@@ -7,16 +7,13 @@ use Illuminate\Support\Facades\Hash;
 
 class OldPassword implements Rule
 {
-    private $currentPasswordHash;
-
     /**
      * Create a new rule instance.
      *
      * @param $currentPasswordHash the hash of the current password
      */
-    public function __construct($currentPasswordHash)
+    public function __construct(private $currentPasswordHash)
     {
-        $this->currentPasswordHash = $currentPasswordHash;
     }
 
     /**

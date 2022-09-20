@@ -16,16 +16,12 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
 {
     use Importable;
 
-    private $fields;
-
-    public function __construct(Collection $fields)
+    public function __construct(private Collection $fields)
     {
         HeadingRowFormatter::default('none');
 
-        $this->fields = $fields;
-
-        $this->has_dates = $this->fields->where('key', 'Starting Date')->first() != null
-            && $this->fields->where('key', 'Leaving Date')->first() != null;
+        $this->has_dates = $fields->where('key', 'Starting Date')->first() != null
+            && $fields->where('key', 'Leaving Date')->first() != null;
     }
 
     public function collection(Collection $rows)

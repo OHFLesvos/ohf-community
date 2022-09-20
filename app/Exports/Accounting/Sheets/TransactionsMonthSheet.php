@@ -10,27 +10,17 @@ use Carbon\Carbon;
 class TransactionsMonthSheet extends BaseTransactionsExport
 {
     /**
-     * Month date
+     * @param  Wallet|null  $wallet Wallet
+     * @param  Carbon  $month Month date
+     * @param  string|null  $filter Simple filter
+     * @param  array<string>|null  $advancedFilter Filter conditions
      */
-    private Carbon $month;
-
-    private ?string $filter;
-
-    /**
-     * Filter conditions
-     *
-     * @var array<string>
-     */
-    private array $advancedFilter;
-
-    private ?Wallet $wallet;
-
-    public function __construct(?Wallet $wallet, Carbon $month, ?string $filter = null, ?array $advancedFilter = [])
+    public function __construct(
+        private ?Wallet $wallet,
+        private Carbon $month,
+        private ?string $filter = null,
+        private ?array $advancedFilter = [])
     {
-        $this->wallet = $wallet;
-        $this->month = $month;
-        $this->filter = $filter;
-        $this->advancedFilter = $advancedFilter;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder

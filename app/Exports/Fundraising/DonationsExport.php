@@ -17,11 +17,8 @@ class DonationsExport implements WithMultipleSheets, WithEvents
 {
     use Exportable, DefaultFormatting;
 
-    private ?Donor $donor;
-
-    public function __construct(?Donor $donor = null)
+    public function __construct(private ?Donor $donor = null)
     {
-        $this->donor = $donor;
     }
 
     private function getDonationsQuery(?int $year = null)

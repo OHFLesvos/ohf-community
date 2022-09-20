@@ -13,19 +13,12 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class DonationsSheet extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
-    private Collection $donations;
-
-    private ?int $year;
-
     protected string $currencyColumn = 'G';
 
     protected string $exchangedCurrencyColumn = 'H';
 
-    public function __construct(Collection $donations, ?int $year = null)
+    public function __construct(private Collection $donations, private ?int $year = null)
     {
-        $this->donations = $donations;
-        $this->year = $year;
-
         $this->orientation = 'landscape';
     }
 

@@ -11,19 +11,8 @@ class UserRegisteredConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * The user instance.
-     */
-    public User $user;
-
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct(User $user)
+    public function __construct(public readonly User $user)
     {
-        $this->user = $user;
     }
 
     /**
