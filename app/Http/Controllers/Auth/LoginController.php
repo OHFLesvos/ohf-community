@@ -151,9 +151,19 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function redirectToProvider($driver)
+    public function redirectToProvider(string $driver)
     {
-        return Socialite::driver($driver)->redirect();
+        $args = [];
+        if ($driver == 'google') {
+            $orgDomain = config('services.google.organization_domain');
+            if (filled($orgDomain)) {
+                $args['hd'] = $orgDomain;
+            }
+        }
+
+        return Socialite::driver($driver)
+            ->with($args)
+            ->redirect();
     }
 
     /**
@@ -161,17 +171,33 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback($driver)
+    public function handleProviderCallback(string $driver)
     {
         try {
             $user = Socialite::driver($driver)->user();
         } catch (Exception $e) {
-            return redirect()->route('login');
+            Log::error('Socialite login with driver '.$driver.' failed. '.$e->getMessage());
+
+            return redirect()
+                ->route('login')
+                ->with('error', __('Login with :service failed. Please try again or inform the administrator.', [
+                    'service' => ucfirst($driver),
+                ]));
+        }
+
+        if ($driver == 'google') {
+            $orgDomain = config('services.google.organization_domain');
+            if (filled($orgDomain) && ! str_ends_with($user->getEmail(), "@$orgDomain")) {
+                return redirect()
+                    ->route('login')
+                    ->with('error', __('Only email addresses of the organization :domain are accepted.', [
+                        'domain' => $orgDomain,
+                    ]));
+            }
         }
 
         // check if they're an existing user
         $existingUser = User::where('email', $user->getEmail())->first();
-
         if ($existingUser) {
             auth()->login($existingUser, true);
         } else {

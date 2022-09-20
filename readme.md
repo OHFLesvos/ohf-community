@@ -53,6 +53,7 @@ In your `.env` file, set the values of the following variables according to the 
 * GOOGLE_CLIENT_ID
 * GOOGLE_CLIENT_SECRET
 * GOOGLE_REDIRECT
+* GOOGLE_ORGANIZATION_DOMAIN (optional)
 
 Once set, a new "Google Login" button should appear on the login view.
 

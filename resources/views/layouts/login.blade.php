@@ -18,6 +18,13 @@
 
                             <h1 class="display-4 text-center mb-4 mb-md-5">@yield('title')</h1>
 
+                            {{-- Error message --}}
+                            @if (session('error'))
+                                <x-alert type="danger" dismissible>
+                                    {{ session('error') }}
+                                </x-alert>
+                            @endif
+
                             @yield('content')
 
                         </div>
