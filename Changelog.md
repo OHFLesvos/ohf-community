@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Added support for specifying email domain for Google Oauth login
+
 ## 3.9.0
 
 * Add parental consent checkbox to visitor records
