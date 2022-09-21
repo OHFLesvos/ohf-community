@@ -4,11 +4,7 @@
 
 @section('content')
 
-    <x-oauth-buttons/>
-
-    <x-alert type="info">
-        {!! __('By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.', [ 'url' => route('userPrivacyPolicy') ]) !!}
-    </x-alert>
+    <x-oauth-buttons signUp/>
 
     {{ Form::open(['route' => 'register']) }}
 

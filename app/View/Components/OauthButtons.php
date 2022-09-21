@@ -7,12 +7,11 @@ use Illuminate\View\Component;
 
 class OauthButtons extends Component
 {
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\Contracts\View\View|\Closure|string
-     */
-    public function render()
+    public function __construct(public bool $signUp = false)
+    {
+    }
+
+    public function render(): \Illuminate\Contracts\View\View|\Closure|string
     {
         return view('components.oauth-buttons', [
             'oauth_services' => $this->getOauthServices(),
@@ -27,9 +26,13 @@ class OauthButtons extends Component
             ->map(fn (string $driver) => [
                 'name' => $driver,
                 'icon' => $driver,
-                'label' => __('Sign in with :service', [
-                    'service' => ucfirst($driver),
-                ]),
+                'label' => $this->signUp
+                    ? __('Sign up with :service', [
+                        'service' => ucfirst($driver),
+                    ])
+                    : __('Sign in with :service', [
+                        'service' => ucfirst($driver),
+                    ]),
             ])
             ->toArray();
     }
