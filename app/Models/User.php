@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Storage;
 
 class User extends Authenticatable implements HasLocalePreference
 {
@@ -30,6 +31,8 @@ class User extends Authenticatable implements HasLocalePreference
         'password',
         'is_super_admin',
         'locale',
+        'provider_name',
+        'provider_id',
     ];
 
     /**
@@ -124,9 +127,15 @@ class User extends Authenticatable implements HasLocalePreference
 
     public function avatarUrl(?int $size = null): string
     {
-        return $this->avatar !== null
-            ? $this->avatar
-            : route('users.avatar', [$this, 'size' => $size]);
+        if (blank($this->avatar)) {
+            return route('users.avatar', [$this, 'size' => $size]);
+        }
+
+        if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
+            return $this->avatar;
+        }
+
+        return Storage::url($this->avatar);
     }
 
     /**

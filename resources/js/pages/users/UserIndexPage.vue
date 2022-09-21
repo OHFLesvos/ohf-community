@@ -10,7 +10,7 @@
         <template v-slot:cell(avatar_url)="data">
             <UserAvatar
                 :value="data.item.name"
-                :src="data.item.avatar"
+                :src="data.item.avatar_url"
                 :badge-icon="data.item.is_super_admin ? 'shield-alt' : null"
             />
         </template>

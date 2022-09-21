@@ -3,6 +3,7 @@
 ## NEXT
 
 * Added support for specifying email domain for Google Oauth login
+* Store avatar images locally
 
 ## 3.9.0
 

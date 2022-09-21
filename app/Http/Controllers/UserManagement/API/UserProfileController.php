@@ -21,6 +21,7 @@ class UserProfileController extends Controller
 
         return response()->json([
             'user' => $user,
+            'avatar_url' => $user->avatarUrl(),
             'languages' => language()->allowed(),
             'locale' => App::getLocale(),
             'can_delete' => ! ($user->is_super_admin && User::where('is_super_admin', true)->count() == 1),

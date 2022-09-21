@@ -11,7 +11,9 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Socialite;
 
 class LoginController extends Controller
@@ -174,7 +176,7 @@ class LoginController extends Controller
     public function handleProviderCallback(string $driver)
     {
         try {
-            $user = Socialite::driver($driver)->user();
+            $socialUser = Socialite::driver($driver)->user();
         } catch (Exception $e) {
             Log::error('Socialite login with driver '.$driver.' failed. '.$e->getMessage());
 
@@ -187,7 +189,7 @@ class LoginController extends Controller
 
         if ($driver == 'google') {
             $orgDomain = config('services.google.organization_domain');
-            if (filled($orgDomain) && ! str_ends_with($user->getEmail(), "@$orgDomain")) {
+            if (filled($orgDomain) && ! str_ends_with($socialUser->getEmail(), "@$orgDomain")) {
                 return redirect()
                     ->route('login')
                     ->with('error', __('Only email addresses of the organization :domain are accepted.', [
@@ -196,21 +198,32 @@ class LoginController extends Controller
             }
         }
 
-        // check if they're an existing user
-        $existingUser = User::where('email', $user->getEmail())->first();
-        if ($existingUser) {
-            auth()->login($existingUser, true);
-        } else {
-            $newUser = new User();
-            $newUser->provider_name = $driver;
-            $newUser->provider_id = $user->getId();
-            $newUser->name = $user->getName();
-            $newUser->email = $user->getEmail();
-            $newUser->email_verified_at = now();
-            $newUser->avatar = $user->getAvatar();
-            $newUser->locale = \App::getLocale();
-            $newUser->save();
+        /** @var User $user */
+        $user = User::firstOrCreate(
+            ['email' => $socialUser->getEmail()],
+            [
+                'name' => $socialUser->getName(),
+                'password' => Str::random(32),
+                'provider_name' => $driver,
+                'provider_id' => $socialUser->getId(),
+                'locale' => \App::getLocale(),
+            ]
+        );
 
+        // Update name, avatar in case they have changed on the provider side
+        $user->name = $socialUser->getName();
+        $user->avatar = $this->getAvatar($socialUser->getAvatar(), $user->avatar);
+
+        // Mark email as verified
+        if ($user->email_verified_at == null) {
+            $user->email_verified_at = now();
+        }
+
+        if ($user->isDirty()) {
+            $user->save();
+        }
+
+        if ($user->wasRecentlyCreated) {
             Log::info('New user registered with Oauth provider.', [
                 'user_id' => $user->id,
                 'user_name' => $user->name,
@@ -219,10 +232,12 @@ class LoginController extends Controller
                 'client_ip' => request()->ip(),
             ]);
 
-            event(new UserSelfRegistered($newUser));
+            event(new UserSelfRegistered($user));
+        }
 
-            auth()->login($newUser, true);
+        Auth::login($user);
 
+        if ($user->wasRecentlyCreated) {
             session()->flash('login_message', __('Hello :name. Thanks for registering with :app_name. Your account has been created, and the administrator has been informed, in order to grand you the appropriate permissions.', [
                 'name' => Auth::user()->name,
                 'app_name' => config('app.name'),
@@ -232,5 +247,24 @@ class LoginController extends Controller
         }
 
         return redirect($this->redirectPath());
+    }
+
+    private function getAvatar(?string $newAvatar, ?string $currentAvatar): ?string
+    {
+        if ($newAvatar === null) {
+            return null;
+        }
+
+        if (! ini_get('allow_url_fopen')) {
+            return $newAvatar;
+        }
+
+        $avatar = 'public/avatars/'.basename($newAvatar);
+        if ($currentAvatar !== null && $avatar != $currentAvatar && Storage::exists($currentAvatar)) {
+            Storage::delete($currentAvatar);
+        }
+        Storage::put($avatar, file_get_contents($newAvatar));
+
+        return $avatar;
     }
 }

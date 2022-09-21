@@ -5,7 +5,7 @@
             <b-col cols="auto">
                 <UserAvatar
                     :value="user.name"
-                    :src="user.avatar"
+                    :src="avatar_url"
                     size="4em"
                 />
             </b-col>
@@ -107,6 +107,7 @@ export default {
             isBusy: false,
             errorText: null,
             canDelete: false,
+            avatar_url: null,
         }
     },
     computed: {
@@ -123,6 +124,7 @@ export default {
             try {
                 let data = await userprofileApi.list()
                 this.user = data.user
+                this.avatar_url = data.avatar_url
                 this.languages = data.languages
                 this.canDelete = data.can_delete
             } catch (err) {

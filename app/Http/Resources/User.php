@@ -23,7 +23,6 @@ class User extends JsonResource
             'locale' => $this->locale,
             'is_super_admin' => $this->is_super_admin,
             'is_2fa_enabled' => $this->tfa_secret !== null,
-            'avatar' => $this->avatar,
             'avatar_url' => $this->avatarUrl(),
             'provider_name' => $this->provider_name,
             'created_at' => $this->created_at,
