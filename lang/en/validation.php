@@ -135,7 +135,6 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
-    'old_password' => 'The :attribute does not match.',
     'country_code' => 'The :attribute is not valid.',
     'country_name' => 'The :attribute is not valid.',
     'language_code' => 'The :attribute is not valid.',

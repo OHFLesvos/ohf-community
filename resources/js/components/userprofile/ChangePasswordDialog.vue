@@ -8,19 +8,19 @@
             <b-card class="shadow-sm mb-4" :header="$t('Change Password')" body-class="pb-2" footer-class="text-right">
 
                 <validation-provider
-                    :name="$t('Old Password')"
-                    vid="old_password"
+                    :name="$t('Current Password')"
+                    vid="current_password"
                     :rules="{ required: true }"
                     v-slot="validationContext"
                 >
                     <b-form-group
-                        :label="$t('Old Password')"
+                        :label="$t('Current Password')"
                         label-class="required"
                         :state="getValidationState(validationContext)"
                         :invalid-feedback="validationContext.errors[0]"
                     >
                         <b-form-input
-                            v-model="old_password"
+                            v-model="current_password"
                             type="password"
                             autocomplete="off"
                             required
@@ -100,7 +100,7 @@ export default {
     mixins: [formValidationMixin],
     data() {
         return {
-            old_password: '',
+            current_password: '',
             password: '',
             password_confirmation: '',
             isBusy: false,
@@ -111,11 +111,11 @@ export default {
             this.isBusy = true
             try {
                 let data = await userprofileApi.updatePassword({
-                    old_password: this.old_password,
+                    current_password: this.current_password,
                     password: this.password,
                     password_confirmation: this.password_confirmation,
                 })
-                this.old_password = this.password = this.password_confirmation = ''
+                this.current_password = this.password = this.password_confirmation = ''
                 showSnackbar(data.message)
                 this.$nextTick(() => {
                     this.$refs.form.reset();
