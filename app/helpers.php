@@ -14,16 +14,6 @@ if (! function_exists('split_by_whitespace')) {
     }
 }
 
-if (! function_exists('emailize')) {
-    function emailize(string $text): string
-    {
-        $regex = '/([a-zA-Z0-9_\-\.]*@\S+\.\w+)/';
-        $replace = '<a href="mailto:$1">$1</a>';
-
-        return preg_replace($regex, $replace, $text);
-    }
-}
-
 if (! function_exists('whatsapp_link')) {
     function whatsapp_link(string $value, ?string $text = null): string
     {
