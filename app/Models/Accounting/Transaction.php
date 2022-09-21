@@ -5,6 +5,7 @@ namespace App\Models\Accounting;
 use App\Models\User;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
+use App\Util\NumberFormatUtil;
 use Carbon\Carbon;
 use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
@@ -285,7 +286,7 @@ class Transaction extends Model implements Auditable
                     'type' => $isImage ? 'image' : 'file',
                     'url' => Storage::url($picture),
                     'mime_type' => Storage::mimeType($picture),
-                    'file_size' => bytes_to_human(Storage::size($picture)),
+                    'file_size' => NumberFormatUtil::bytesToHuman(Storage::size($picture)),
                     'thumbnail_url' => $thumbnail,
                     'thumbnail_size' => $thumbnail !== null ? config('accounting.thumbnail_size') : null,
                 ];
