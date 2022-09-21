@@ -38,20 +38,6 @@ if (! function_exists('whatsapp_link')) {
     }
 }
 
-if (! function_exists('previous_route')) {
-    function previous_route(): string
-    {
-        return optional(
-            app('router')
-                ->getRoutes()
-                ->match(
-                    app('request')
-                        ->create(URL::previous())
-                )
-        )->getName();
-    }
-}
-
 if (! function_exists('array_insert')) {
     /**
      * @param  array  $array
