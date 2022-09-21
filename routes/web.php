@@ -5,7 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
-use App\Http\Controllers\PrivacyPolicy;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
@@ -41,8 +41,8 @@ Route::middleware('language')->group(function () {
         ->where('driver', implode('|', $socialite_drivers));
 
     // Privacy policy
-    Route::get('userPrivacyPolicy', [PrivacyPolicy::class, 'userPolicy'])
-        ->name('userPrivacyPolicy');
+    Route::get('privacyPolicy', PrivacyPolicyController::class)
+        ->name('privacyPolicy');
 
     // Settings
     Route::middleware('auth')->group(function () {

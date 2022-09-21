@@ -36,8 +36,10 @@
                             @endforeach
                         </small>
                     </p>
-                    <p class="text-center">
-                        <small><a href="{{ route('userPrivacyPolicy') }}" target="_blank">{{ __('Privacy Policy') }}</a></small>
+                    <p class="text-center border-top pt-3">
+                        <small>
+                            {!! __('By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.', [ 'url' => route('privacyPolicy') ]) !!}
+                        </small>
                     </p>
                 </div>
             </div>
