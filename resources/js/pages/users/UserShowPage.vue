@@ -10,6 +10,7 @@
             <b-col cols="auto">
                 <UserAvatar
                     :value="user.name"
+                    :src="user.avatar"
                     size="4em"
                 />
             </b-col>
