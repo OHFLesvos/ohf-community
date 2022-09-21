@@ -38,30 +38,6 @@ if (! function_exists('whatsapp_link')) {
     }
 }
 
-if (! function_exists('format_number_in_k_notation')) {
-    function format_number_in_k_notation(int $number): string
-    {
-        $suffixByNumber = function () use ($number) {
-            if ($number < 1000) {
-                return sprintf('%d', $number);
-            }
-            if ($number < 1000000) {
-                return sprintf('%d%s', floor($number / 1000), 'K+');
-            }
-            if ($number >= 1000000 && $number < 1000000000) {
-                return sprintf('%d%s', floor($number / 1000000), 'M+');
-            }
-            if ($number >= 1000000000 && $number < 1000000000000) {
-                return sprintf('%d%s', floor($number / 1000000000), 'B+');
-            }
-
-            return sprintf('%d%s', floor($number / 1000000000000), 'T+');
-        };
-
-        return $suffixByNumber();
-    }
-}
-
 if (! function_exists('bytes_to_human')) {
     function bytes_to_human($bytes)
     {
