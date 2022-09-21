@@ -15,15 +15,15 @@
                 >
                     <b-form-group
                         :label="$t('Name')"
-                        label-class="required"
+                        :label-class="!isOauthActive ? 'required' : null"
                         :state="getValidationState(validationContext)"
                         :invalid-feedback="validationContext.errors[0]"
                     >
                         <b-form-input
                             v-model="name"
                             autocomplete="off"
-                            required
-                            :disabled="isBusy"
+                            :disabled="isOauthActive || isBusy"
+                            :required="!isOauthActive"
                             :state="getValidationState(validationContext)"
                         />
                     </b-form-group>
