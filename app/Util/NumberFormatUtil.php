@@ -6,12 +6,9 @@ class NumberFormatUtil
 {
     public static function bytesToHuman(int $bytes): string
     {
-        $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+        $i = floor(log($bytes) / log(1024));
+        $sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-        for ($i = 0; $bytes > 1024; $i++) {
-            $bytes /= 1024;
-        }
-
-        return round($bytes, 2).' '.$units[$i];
+        return sprintf('%.02F', $bytes / pow(1024, $i)) * 1 .' '.$sizes[$i];
     }
 }
