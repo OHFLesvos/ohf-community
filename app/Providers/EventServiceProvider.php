@@ -21,8 +21,8 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         UserSelfRegistered::class => [
-            PromoteToSuperAdminIfUndefined::class,
             SendUserRegisteredNotification::class,
+            PromoteToSuperAdminIfUndefined::class,
         ],
     ];
 

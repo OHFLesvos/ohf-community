@@ -680,7 +680,7 @@
     "Avatar": "Avatar",
     "Add picture": "Bild hinzufügen",
     "Change picture": "Bild ändern",
-    "New user account registered at :app_name": "Neues Benutzerkonto registriert bei :app_name",
+    "Welcome to :app_name": "Willkommen bei :app_name",
     "New user registered: :name": "Neuer Benutzer registriert: :name",
     "Hello :name. Thanks for registering with :app_name. Your account has been created, and the administrator has been informed, in order to grand you the appropriate permissions.": "Hallo :name. Vielen Dank für deine Registrierung bei :app_name. Dein Konto wurde erstellt, und der Administrator wurde informiert, um dir die nötigen Berechtigungen zuzuweisen.",
     "User registered": "Benutzer registriert",

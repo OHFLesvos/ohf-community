@@ -35,7 +35,7 @@ class UserRegisteredConfirmation extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject(__('New user account registered at :app_name', [
+                    ->subject(__('Welcome to :app_name', [
                         'app_name' => config('app.name'),
                     ]))
                     ->greeting(__('Registration confirmation'))

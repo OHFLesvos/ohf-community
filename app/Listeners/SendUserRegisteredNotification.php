@@ -20,9 +20,7 @@ class SendUserRegisteredNotification
         /** @var Collection $admins */
         $admins = User::where('is_super_admin', true)->get();
         try {
-            if ($admins->isNotEmpty()) {
-                Notification::send($admins, new UserRegistered($user));
-            }
+            Notification::send($admins, new UserRegistered($user));
             $user->notify(new UserRegisteredConfirmation($user));
         } catch (TransportExceptionInterface $ex) {
             Log::error("Failed to send email to newly registered user $user->email.", $ex);
