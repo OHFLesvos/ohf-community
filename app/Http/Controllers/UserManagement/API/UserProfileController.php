@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Storage;
 
 class UserProfileController extends Controller
 {
@@ -96,6 +97,10 @@ class UserProfileController extends Controller
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        if ($user->avatar !== null && Storage::exists($user->avatar)) {
+            Storage::delete($user->avatar);
+        }
 
         $user->delete();
 

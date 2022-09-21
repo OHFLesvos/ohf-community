@@ -12,6 +12,7 @@ use App\View\Components\UserAvatar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Storage;
 
 class UserController extends Controller
 {
@@ -136,6 +137,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        if ($user->avatar !== null && Storage::exists($user->avatar)) {
+            Storage::delete($user->avatar);
+        }
+
         $user->delete();
 
         Log::info('User account has been deleted.', [
