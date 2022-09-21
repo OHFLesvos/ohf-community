@@ -14,7 +14,7 @@ class ArrayUtil
     public static function elementsNotBlank(array $array, array $keys): bool
     {
         foreach ($keys as $key) {
-            if (!filled($array[$key])) {
+            if (! filled($array[$key])) {
                 return false;
             }
         }
