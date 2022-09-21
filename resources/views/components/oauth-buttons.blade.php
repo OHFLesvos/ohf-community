@@ -7,5 +7,5 @@
         </a>
     </div>
 @endforeach
-<x-separator-text>{{ __('or') }}</x-separator-text>
+<x-strike-text>{{ __('or') }}</x-strike-text>
 @endif
