@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\UserSelfRegistered;
+use App\Listeners\PromoteToSuperAdminIfUndefined;
 use App\Listeners\SendUserRegisteredNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -20,6 +21,7 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         UserSelfRegistered::class => [
+            PromoteToSuperAdminIfUndefined::class,
             SendUserRegisteredNotification::class,
         ],
     ];

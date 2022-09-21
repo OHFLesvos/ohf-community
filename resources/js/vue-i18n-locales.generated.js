@@ -321,7 +321,9 @@ export default {
         "Manage members": "Mitglieder verwalten",
         "Thanks, <br>\n{name}": "Danke, <br>\n{name}",
         "or": "oder",
-        "Sign in with Google": "Mit Google anmelden",
+        "Sign in with {service}": "Mit {service} anmelden",
+        "Login with {service} failed. Please try again or inform the administrator.": "Login mit {service} ist fehlgeschlagen. Bitte versuche es nochmals oder informiere den Administrator.",
+        "Only email addresses of the organization {domain} are accepted.": "Es werden nur E-Mailadressen der Organisation {domain} akzeptiert.",
         "OAuth": "OAuth",
         "OAuth provider": "OAuth provider",
         "Selection": "Auswahl",
@@ -791,6 +793,7 @@ export default {
         "Parental consent given": "Einwilligung der Eltern erteilt",
         "Not given!": "Einwilligung der Eltern erteilt",
         "Mark as given": "Als eingewilligt markieren",
+        "Account cannot be deleted as it is the only remaining account with super-admin privileges.": "Der Account kann nicht gelöscht werden da dies der einzig verbleibende Account mit Administratorprivilegien ist.",
         "pagination": {
             "previous": "&laquo; Zurück",
             "next": "Weiter &raquo;"

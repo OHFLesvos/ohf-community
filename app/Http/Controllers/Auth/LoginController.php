@@ -211,6 +211,14 @@ class LoginController extends Controller
             $newUser->locale = \App::getLocale();
             $newUser->save();
 
+            Log::info('New user registered with Oauth provider.', [
+                'user_id' => $user->id,
+                'user_name' => $user->name,
+                'email' => $user->email,
+                'provider' => $driver,
+                'client_ip' => request()->ip(),
+            ]);
+
             event(new UserSelfRegistered($newUser));
 
             auth()->login($newUser, true);

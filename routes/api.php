@@ -362,7 +362,7 @@ Route::middleware(['auth:sanctum', 'language'])
             });
 
         //
-        // Userprofile
+        // User profile
         //
         Route::get('userprofile', [UserProfileController::class, 'index'])
             ->name('userprofile');

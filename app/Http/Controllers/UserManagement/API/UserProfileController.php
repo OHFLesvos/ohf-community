@@ -5,7 +5,9 @@ namespace App\Http\Controllers\UserManagement\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserManagement\StoreNewUserPassword;
 use App\Http\Requests\UserManagement\StoreUserProfile;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +23,7 @@ class UserProfileController extends Controller
             'user' => $user,
             'languages' => language()->allowed(),
             'locale' => App::getLocale(),
+            'can_delete' => ! ($user->is_super_admin && User::where('is_super_admin', true)->count() == 1),
         ]);
     }
 
@@ -81,13 +84,21 @@ class UserProfileController extends Controller
     public function delete(Request $request)
     {
         $user = Auth::user();
+
+        if ($user->is_super_admin && User::where('is_super_admin', true)->count() == 1) {
+            return response()
+                ->json([
+                    'message' => __('Account cannot be deleted as it is the only remaining account with super-admin privileges.'),
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
         Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
         $user->delete();
 
-        Log::notice('Used deleted account.', [
+        Log::info('Used deleted account.', [
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,

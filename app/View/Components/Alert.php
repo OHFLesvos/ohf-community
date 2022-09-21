@@ -23,7 +23,7 @@ class Alert extends Component
         public ?string $icon = null,
         public readonly ?bool $dismissible = false)
     {
-        if (!isset(self::ICONS[$type])) {
+        if (! isset(self::ICONS[$type])) {
             throw new \Exception('Alert parameter $type must be one of ['.implode(', ', array_keys(self::ICONS)).']');
         }
 

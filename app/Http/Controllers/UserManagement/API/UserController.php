@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Log;
 
 class UserController extends Controller
 {
@@ -69,6 +70,13 @@ class UserController extends Controller
 
         $user->save();
 
+        Log::info('User account has been created.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => request()->ip(),
+        ]);
+
         return response()
             ->json([
                 'message' => __('User has been added.'),
@@ -121,6 +129,13 @@ class UserController extends Controller
         }
 
         $user->save();
+
+        Log::info('User account has been updated.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => request()->ip(),
+        ]);
 
         return response()
             ->json([
@@ -179,6 +194,13 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
+        Log::info('User account has been deleted.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => request()->ip(),
+        ]);
 
         return response()
             ->json([

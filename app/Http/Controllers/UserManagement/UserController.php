@@ -11,6 +11,7 @@ use App\Util\AutoColorInitialAvatar;
 use App\View\Components\UserAvatar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -56,6 +57,13 @@ class UserController extends Controller
         $user->is_super_admin = ! empty($request->is_super_admin);
         $user->save();
         $user->roles()->sync($request->roles);
+
+        Log::info('User account has been created.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => request()->ip(),
+        ]);
 
         return redirect()
             ->route('users.index')
@@ -108,6 +116,13 @@ class UserController extends Controller
 
         $user->save();
 
+        Log::info('User account has been updated.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => request()->ip(),
+        ]);
+
         return redirect()
             ->route('users.show', $user)
             ->with('success', __('User has been updated.'));
@@ -122,6 +137,13 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
+        Log::info('User account has been deleted.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => request()->ip(),
+        ]);
 
         return redirect()
             ->route('users.index')

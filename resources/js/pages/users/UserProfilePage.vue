@@ -62,7 +62,10 @@
 
             <!-- Account Removal -->
             <b-col sm="6">
-                <AcountDeleteDialog @delete="$router.push({ name: 'userprofile.deleted' })"/>
+                <AccountDeleteDialog v-if="canDelete" @delete="$router.push({ name: 'userprofile.deleted' })"/>
+                <b-alert v-else show variant="info">
+                    {{ $t('Account cannot be deleted as it is the only remaining account with super-admin privileges.') }}
+                </b-alert>
             </b-col>
 
         </b-row>
@@ -82,7 +85,7 @@ import UserAvatar from "@/components/user_management/UserAvatar"
 import UserProfileDialog from "@/components/userprofile/UserProfileDialog"
 import ChangePasswordDialog from "@/components/userprofile/ChangePasswordDialog"
 import TFADialog from "@/components/userprofile/TFADialog"
-import AcountDeleteDialog from "@/components/userprofile/AcountDeleteDialog"
+import AccountDeleteDialog from "@/components/userprofile/AccountDeleteDialog"
 import userprofileApi from "@/api/userprofile"
 export default {
     components: {
@@ -91,7 +94,7 @@ export default {
         UserProfileDialog,
         ChangePasswordDialog,
         TFADialog,
-        AcountDeleteDialog
+        AccountDeleteDialog
     },
     title() {
         return this.$t('User Profile')
@@ -102,6 +105,7 @@ export default {
             languages: {},
             isBusy: false,
             errorText: null,
+            canDelete: false,
         }
     },
     computed: {
@@ -119,6 +123,7 @@ export default {
                 let data = await userprofileApi.list()
                 this.user = data.user
                 this.languages = data.languages
+                this.canDelete = data.can_delete
             } catch (err) {
                 this.errorText = err
             }
