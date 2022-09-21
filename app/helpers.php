@@ -38,27 +38,6 @@ if (! function_exists('whatsapp_link')) {
     }
 }
 
-if (! function_exists('array_insert')) {
-    /**
-     * @param  array  $array
-     * @param  int|string  $position
-     * @param  mixed  $insert
-     */
-    function array_insert(&$array, $position, $insert)
-    {
-        if (is_int($position)) {
-            array_splice($array, $position, 0, $insert);
-        } else {
-            $pos = array_search($position, array_keys($array));
-            $array = array_merge(
-                array_slice($array, 0, $pos),
-                $insert,
-                array_slice($array, $pos)
-            );
-        }
-    }
-}
-
 if (! function_exists('array_elements_not_blank')) {
     /**
      * Checks if the array contains non-blank values specified by the given keys.
