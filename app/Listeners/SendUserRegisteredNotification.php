@@ -8,7 +8,6 @@ use App\Notifications\UserRegistered;
 use App\Notifications\UserRegisteredConfirmation;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
