@@ -14,18 +14,6 @@ if (! function_exists('split_by_whitespace')) {
     }
 }
 
-if (! function_exists('simplified_url')) {
-    function simplified_url(string $value): string
-    {
-        $parsed = parse_url($value);
-        if (is_array($parsed) && isset($parsed['host'])) {
-            return $parsed['host'];
-        }
-
-        return $value;
-    }
-}
-
 if (! function_exists('emailize')) {
     function emailize(string $text): string
     {
