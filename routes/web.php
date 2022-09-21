@@ -41,7 +41,7 @@ Route::middleware('language')->group(function () {
         ->where('driver', implode('|', $socialite_drivers));
 
     // Privacy policy
-    Route::get('privacyPolicy', PrivacyPolicyController::class)
+    Route::get('privacy', PrivacyPolicyController::class)
         ->name('privacyPolicy');
 
     // Settings

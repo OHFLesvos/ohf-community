@@ -1,4 +1,6 @@
-@extends('layouts.login')
+@extends('layouts.login', [
+    'width' => 600,
+])
 
 @section('title', __('Privacy Policy'))
 
