@@ -5,24 +5,36 @@
 @section('content')
     {!! Form::model($user, ['route' => ['users.update', $user], 'method' => 'put']) !!}
 
-        <!-- The text and password here are to prevent FF from auto filling my login credentials because it ignores autocomplete="off"-->
-        <input type="text" style="display:none">
-        <input type="password" style="display:none">
-
         <div class="card shadow-sm mb-4">
             <div class="card-header">{{ __('User Profile') }}</div>
             <div class="card-body">
                 <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsText('name', null, [ 'required' ], __('Name')) }}
+                        {{ Form::bsText('name', null, [
+                                $user->provider_name !== null ? 'readonly' : 'required'
+                            ],
+                            __('Name'),
+                            $user->provider_name !== null ? __('Managed by :provider', ['provider' => ucfirst($user->provider_name)]) : null
+                        ) }}
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsEmail('email', null, [ ! empty($user->provider_name) ? 'disabled' : 'required' ], __('E-Mail Address')) }}
+                        {{ Form::bsEmail('email', null, [
+                                $user->provider_name !== null ? 'readonly' : 'required'
+                            ],
+                            __('E-Mail Address'),
+                            $user->provider_name !== null ? __('Managed by :provider', ['provider' => ucfirst($user->provider_name)]) : null
+                        ) }}
                     </div>
                     <div class="col-md">
-                        {{ Form::bsPassword('password', [ ! empty($user->provider_name) ? 'disabled' : null ], __('Password'), __('Leave empty to keep current password.')) }}
+                        {{ Form::bsPassword('password', [
+                                $user->provider_name !== null ? 'disabled' : null,
+                                'autocomplete' => 'new-password'
+                            ],
+                            __('Password'),
+                            $user->provider_name !== null ? __('Managed by :provider', ['provider' => ucfirst($user->provider_name)]) : __('Leave empty to keep current password.')
+                        ) }}
                     </div>
                 </div>
             </div>

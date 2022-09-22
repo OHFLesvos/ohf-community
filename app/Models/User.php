@@ -18,6 +18,8 @@ class User extends Authenticatable implements HasLocalePreference
 
     protected $nullable = [
         'tfa_secret',
+        'provider_name',
+        'provider_id',
     ];
 
     /**

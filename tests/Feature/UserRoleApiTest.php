@@ -26,6 +26,7 @@ class UserRoleApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
@@ -41,6 +42,7 @@ class UserRoleApiTest extends TestCase
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
+        /** @var User $authUser */
         $response = $this->actingAs($authUser)
             ->getJson('api/users/'. 1234 .'/roles', []);
 
@@ -57,6 +59,7 @@ class UserRoleApiTest extends TestCase
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
+        /** @var User $authUser */
         $response = $this->actingAs($authUser)
             ->getJson('api/users/'.$user->id.'/roles', []);
 
@@ -80,6 +83,7 @@ class UserRoleApiTest extends TestCase
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
+        /** @var User $authUser */
         $response = $this->actingAs($authUser)
             ->getJson('api/users/'.$user->id.'/roles', []);
 
@@ -90,6 +94,8 @@ class UserRoleApiTest extends TestCase
                     [
                         'id' => $role1->id,
                         'name' => $role1->name,
+                        'can_update' => false,
+                        'can_delete' => false,
                         'created_at' => $role1->created_at,
                         'updated_at' => $role1->updated_at,
                         'links' => [
@@ -116,6 +122,8 @@ class UserRoleApiTest extends TestCase
                     [
                         'id' => $role2->id,
                         'name' => $role2->name,
+                        'can_update' => false,
+                        'can_delete' => false,
                         'created_at' => $role2->created_at,
                         'updated_at' => $role2->updated_at,
                         'links' => [

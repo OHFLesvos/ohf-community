@@ -17,56 +17,55 @@
 
         <b-row>
 
-            <!-- Profile -->
-            <b-col sm="6">
+            <b-col md="6">
+
+                <!-- Profile -->
                 <UserProfileDialog
                     :user="user"
                     :languages="languages"
                     @update="fetchData"
                 />
-            </b-col>
 
-            <template v-if="!isOauthActive">
+                <template v-if="!isOauthActive">
 
-                <!-- Change Password -->
-                <b-col sm="6">
+                    <!-- Change password -->
                     <ChangePasswordDialog/>
-                </b-col>
 
-                <!-- Two-Factor Authentication -->
-                <b-col sm="6">
+                    <!-- Two-factor auth -->
                     <TFADialog :user="user"/>
-                </b-col>
 
-            </template>
+                </template>
 
-            <!-- Roles -->
-            <b-col v-if="user.roles.length > 0" sm="6">
-                <b-card class="shadow-sm mb-4" :header="$t('Your roles')" no-body>
-                    <b-list-group flush>
-                        <b-list-group-item v-for="role in user.roles" :key="role.id">
-                            {{ role.name }}
-                        </b-list-group-item>
-                    </b-list-group>
-                </b-card>
             </b-col>
 
-            <!-- Account Information -->
-            <b-col sm="6">
+            <b-col md="6">
+
+                <!-- Account Information -->
                 <b-card class="shadow-sm mb-4" :header="$t('Account Information')">
                     <b-card-text v-html="$t('Your account has been created on {created} and and last updated on {updated}.', {
                         created: `<strong>${dateTimeFormat(user.created_at)}</strong>`,
                         updated: `<strong>${dateTimeFormat(user.updated_at)}</strong>`,
                     })"></b-card-text>
                 </b-card>
-            </b-col>
 
-            <!-- Account Removal -->
-            <b-col sm="6">
-                <AccountDeleteDialog v-if="canDelete" @delete="$router.push({ name: 'userprofile.deleted' })"/>
-                <b-alert v-else show variant="info">
-                    {{ $t('Account cannot be deleted as it is the only remaining account with super-admin privileges.') }}
-                </b-alert>
+                <!-- Roles -->
+                <b-card v-if="user.roles.length > 0 || user.is_super_admin" md="6" class="shadow-sm mb-4" :header="$t('Your roles')" no-body>
+                    <b-list-group flush>
+                        <b-list-group-item v-if="user.is_super_admin" variant="warning">
+                            {{ $t('This user is an administrator and has therefore all permissions.') }}
+                        </b-list-group-item>
+                        <b-list-group-item v-for="role in user.roles" :key="role.id">
+                            {{ role.name }}
+                        </b-list-group-item>
+                    </b-list-group>
+                </b-card>
+
+                <!-- Account Removal -->
+                <AccountDeleteDialog
+                    :canDelete="canDelete"
+                    @delete="$router.push({ name: 'userprofile.deleted' })"
+                />
+
             </b-col>
 
         </b-row>

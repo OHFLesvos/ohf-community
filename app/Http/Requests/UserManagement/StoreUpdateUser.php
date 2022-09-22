@@ -6,15 +6,16 @@ use App\Models\Role;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules\Unique;
 
-class UpdateUser extends FormRequest
+class StoreUpdateUser extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -24,23 +25,27 @@ class UpdateUser extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
-                'required',
+                Rule::requiredIf($this->user?->provider_name === null),
+                Rule::excludeIf($this->user?->provider_name !== null),
                 'string',
                 'max:191',
             ],
             'email' => [
-                Rule::requiredIf(empty($this->user->provider_name)),
+                Rule::requiredIf($this->user?->provider_name === null),
+                Rule::excludeIf($this->user?->provider_name !== null),
                 'string',
                 'email',
                 'max:191',
-                Rule::unique('users')->ignore($this->user->id),
+                Rule::unique('users')
+                    ->when(isset($this->user), fn (Unique $rule) => $rule->ignore($this->user->id)),
             ],
             'password' => [
-                'nullable',
+                $this->user === null ? 'required' : 'nullable',
+                Rule::excludeIf($this->user?->provider_name !== null),
                 Password::defaults(),
             ],
             'roles' => [

@@ -34,17 +34,19 @@
 
                 <b-card :header="$t('User Profile')" class="shadow-sm mb-4">
                     <dl class="row mb-0">
+                        <dt class="col-sm-4">{{ $t('Name') }}</dt>
+                        <dd class="col-sm-8">{{ user.name }}</dd>
                         <dt class="col-sm-4">{{ $t('E-Mail Address') }}</dt>
                         <dd class="col-sm-8"><a :href="`mailto:${user.email}`">{{ user.email }}</a></dd>
                         <dt class="col-sm-4">{{ $t('Registered') }}</dt>
                         <dd class="col-sm-8">
-                            {{ user.created_at | dateTimeFormat }}
-                            <small class="text-muted pl-2">{{ user.created_at | timeFromNow }}</small>
+                            {{ user.created_at | dateTimeFormat }}<br>
+                            <small class="text-muted">{{ user.created_at | timeFromNow }}</small>
                         </dd>
                         <dt class="col-sm-4">{{ $t('Updated') }}</dt>
                         <dd class="col-sm-8">
-                            {{ user.updated_at | dateTimeFormat }}
-                            <small class="text-muted pl-2">{{ user.updated_at | timeFromNow }}</small>
+                            {{ user.updated_at | dateTimeFormat }}<br>
+                            <small class="text-muted">{{ user.updated_at | timeFromNow }}</small>
                         </dd>
                     </dl>
                 </b-card>
@@ -56,7 +58,7 @@
                     class="shadow-sm mb-4"
                     footer-class="text-right"
                 >
-                    <b-card-text>{{ user.provider_name.capitalize() }}</b-card-text>
+                    <b-card-text>{{ $t('Managed by {provider}', {provider: user.provider_name.capitalize()}) }}</b-card-text>
                     <template #footer>
                         <b-button
                             type="button"
@@ -65,7 +67,7 @@
                             @click="disableOAuth"
                         >
                             <font-awesome-icon icon="unlink"/>
-                            {{ $t('Remove') }}
+                            {{ $t('Unlink') }}
                         </b-button>
                     </template>
                 </b-card>

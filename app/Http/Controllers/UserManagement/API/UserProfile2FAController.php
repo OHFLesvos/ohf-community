@@ -4,6 +4,7 @@ namespace App\Http\Controllers\UserManagement\API;
 
 use App\Http\Controllers\Controller;
 use App\Services\TOTPService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 
 class UserProfile2FAController extends Controller
 {
-    public function index(Request $request, TOTPService $totp)
+    public function index(Request $request, TOTPService $totp): JsonResponse
     {
         $user = Auth::user();
         if ($user->tfa_secret === null) {
@@ -31,7 +32,7 @@ class UserProfile2FAController extends Controller
             ]);
     }
 
-    public function store(Request $request, TOTPService $totp)
+    public function store(Request $request, TOTPService $totp): JsonResponse
     {
         $request->validate([
             'code' => [

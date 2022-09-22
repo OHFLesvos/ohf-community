@@ -48,7 +48,7 @@ return [
             'label' => 'permissions.book_externally',
         ],
         'accounting.summary.view' => [
-            'label' => 'ermissions.view_summary',
+            'label' => 'permissions.view_summary',
         ],
         'accounting.suppliers.manage' => [
             'label' => 'permissions.manage_suppliers',

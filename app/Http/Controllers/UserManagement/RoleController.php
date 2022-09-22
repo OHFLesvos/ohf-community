@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\UserManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserManagement\StoreRole;
+use App\Http\Requests\UserManagement\StoreUpdateRole;
 use App\Http\Requests\UserManagement\UpdateMembers;
 use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
 
 class RoleController extends Controller
 {
@@ -16,12 +20,7 @@ class RoleController extends Controller
         $this->authorizeResource(Role::class);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): View
     {
         return view('user_management.roles.index', [
             'roles' => Role::with(['users', 'permissions'])
@@ -30,12 +29,7 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
         return view('user_management.roles.create', [
             'users' => User::orderBy('name')
@@ -46,17 +40,12 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\UserManagement\StoreRole  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreRole $request)
+    public function store(StoreUpdateRole $request): RedirectResponse
     {
         $role = new Role();
-        $role->name = $request->name;
+        $role->fill($request->validated());
         $role->save();
+
         $role->users()->sync($request->users);
         $role->administrators()->sync($request->role_admins);
 
@@ -67,18 +56,18 @@ class RoleController extends Controller
             $role->permissions()->saveMany($selected_permissions);
         }
 
+        Log::info('User role has been created.', [
+            'role_id' => $role->id,
+            'role_name' => $role->name,
+            'client_ip' => $request->ip(),
+        ]);
+
         return redirect()
             ->route('roles.index')
             ->with('success', __('Role has been added.'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Role $role)
+    public function show(Role $role): View
     {
         $current_permissions = $role->permissions->pluck('key');
         $permissions = [];
@@ -96,13 +85,7 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Role $role)
+    public function edit(Role $role): View
     {
         return view('user_management.roles.edit', [
             'role' => $role,
@@ -114,17 +97,11 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UserManagement\StoreRole  $request
-     * @param  Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreRole $request, Role $role)
+    public function update(StoreUpdateRole $request, Role $role): RedirectResponse
     {
-        $role->name = $request->name;
+        $role->fill($request->validated());
         $role->save();
+
         $role->users()->sync($request->users);
         $role->administrators()->sync($request->role_admins);
 
@@ -150,30 +127,33 @@ class RoleController extends Controller
         $role->permissions()->whereNotIn('key', $valid_keys)
             ->delete();
 
+        Log::info('User role has been updated.', [
+            'role_id' => $role->id,
+            'role_name' => $role->name,
+            'client_ip' => $request->ip(),
+        ]);
+
         return redirect()
             ->route('roles.show', $role)
             ->with('success', __('Role has been updated.'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Role $role)
+    public function destroy(Request $request, Role $role): RedirectResponse
     {
         $role->delete();
+
+        Log::info('User role has been deleted.', [
+            'role_id' => $role->id,
+            'role_name' => $role->name,
+            'client_ip' => $request->ip(),
+        ]);
 
         return redirect()
             ->route('roles.index')
             ->with('success', __('Role has been deleted.'));
     }
 
-    /**
-     * Lists all permissions
-     */
-    public function permissions()
+    public function permissions(): View
     {
         $this->authorize('viewAny', Role::class);
 
@@ -182,13 +162,7 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for managing the members the specified role.
-     *
-     * @param  Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function manageMembers(Role $role)
+    public function manageMembers(Role $role): View
     {
         $this->authorize('manageMembers', $role);
 
@@ -201,14 +175,7 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Update the members of the specified role.
-     *
-     * @param  \App\Http\Requests\UserManagement\UpdateMembers  $request
-     * @param  Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function updateMembers(UpdateMembers $request, Role $role)
+    public function updateMembers(UpdateMembers $request, Role $role): RedirectResponse
     {
         $this->authorize('manageMembers', $role);
 

@@ -4,13 +4,15 @@ namespace App\Http\Controllers\UserManagement\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesResourceIndex;
-use App\Http\Requests\UserManagement\StoreUser;
-use App\Http\Requests\UserManagement\UpdateUser;
+use App\Http\Requests\UserManagement\StoreUpdateUser;
 use App\Http\Resources\RoleCollection;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserCollection;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -26,12 +28,7 @@ class UserController extends Controller
         $this->authorizeResource(User::class);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): JsonResource
     {
         $this->validateFilter();
         $this->validateSorting([
@@ -57,16 +54,10 @@ class UserController extends Controller
             ->paginate($this->getPageSize()));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\UserManagement\StoreUser  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreUser $request)
+    public function store(StoreUpdateUser $request): JsonResponse
     {
         $user = new User();
-        $user->fill($request->all());
+        $user->fill($request->validated());
         $user->password = Hash::make($request->password);
 
         $user->save();
@@ -75,7 +66,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,
-            'client_ip' => request()->ip(),
+            'client_ip' => $request->ip(),
         ]);
 
         return response()
@@ -85,13 +76,7 @@ class UserController extends Controller
             ->header('Location', route('api.users.show', $user));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function show(User $user): JsonResource
     {
         if (in_array('roles', $this->getIncludes())) {
             $user->load(['roles' => fn ($q) => $q->orderBy('name')]);
@@ -115,17 +100,10 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UserManagement\UpdateUser  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateUser $request, User $user)
+    public function update(StoreUpdateUser $request, User $user): JsonResponse
     {
-        $user->fill($request->all());
-        if ($request->password !== null) {
+        $user->fill($request->validated());
+        if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
 
@@ -135,7 +113,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,
-            'client_ip' => request()->ip(),
+            'client_ip' => $request->ip(),
         ]);
 
         return response()
@@ -144,18 +122,19 @@ class UserController extends Controller
             ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function disable2FA(User $user)
+    public function disable2FA(Request $request, User $user): JsonResponse
     {
         $this->authorize('update', $user);
 
         $user->tfa_secret = null;
         $user->save();
+
+        Log::info('Disabled 2FA on user account.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => $request->ip(),
+        ]);
 
         return response()
             ->json([
@@ -163,13 +142,7 @@ class UserController extends Controller
             ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function disableOAuth(User $user)
+    public function disableOAuth(Request $request, User $user): JsonResponse
     {
         $this->authorize('update', $user);
 
@@ -178,7 +151,15 @@ class UserController extends Controller
         $user->avatar = null;
         $password = Str::random(8);
         $user->password = Hash::make($password);
+
         $user->save();
+
+        Log::info('Disabled OAuth on user account.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => $request->ip(),
+        ]);
 
         return response()
             ->json([
@@ -186,13 +167,7 @@ class UserController extends Controller
             ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user): JsonResponse
     {
         if ($user->avatar !== null && Storage::exists($user->avatar)) {
             Storage::delete($user->avatar);
@@ -204,7 +179,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,
-            'client_ip' => request()->ip(),
+            'client_ip' => $request->ip(),
         ]);
 
         return response()
@@ -213,13 +188,7 @@ class UserController extends Controller
             ]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function roles(User $user)
+    public function roles(User $user): JsonResource
     {
         $this->authorize('view', $user);
         $this->authorize('viewAny', Role::class);

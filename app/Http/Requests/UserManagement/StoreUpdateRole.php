@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests\UserManagement;
 
-use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Rules\Unique;
 
-class StoreUser extends FormRequest
+class StoreUpdateRole extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,28 +31,20 @@ class StoreUser extends FormRequest
                 'required',
                 'string',
                 'max:191',
+                Rule::unique('roles')
+                    ->when(isset($this->role), fn (Unique $rule) => $rule->ignore($this->role->id)),
             ],
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:191',
-                Rule::unique('users'),
-            ],
-            'password' => [
-                'required',
-                Password::defaults(),
-            ],
-            'roles' => [
+            'users' => [
                 'array',
-                Rule::in(Role::select('id')->get()->pluck('id')),
+                Rule::in(User::pluck('id')),
             ],
-            'locale' => [
-                'nullable',
-                Rule::in(config('language.allowed')),
+            'role_admins' => [
+                'array',
+                Rule::in(User::pluck('id')),
             ],
-            'is_super_admin' => [
-                'boolean',
+            'permissions' => [
+                'array',
+                Rule::in(array_keys(config('permissions.keys'))),
             ],
         ];
     }

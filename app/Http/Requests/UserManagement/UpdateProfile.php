@@ -6,14 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class StoreUserProfile extends FormRequest
+class UpdateProfile extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -23,16 +23,18 @@ class StoreUserProfile extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
-                'required',
+                Rule::requiredIf(Auth::user()->provider_name === null),
+                Rule::excludeIf(Auth::user()->provider_name !== null),
                 'string',
                 'max:191',
             ],
             'email' => [
-                Rule::requiredIf(empty(Auth::user()->provider_name)),
+                Rule::requiredIf(Auth::user()->provider_name === null),
+                Rule::excludeIf(Auth::user()->provider_name !== null),
                 'string',
                 'email',
                 'max:191',

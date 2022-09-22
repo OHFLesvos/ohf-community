@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class RoleApiTest extends TestCase
@@ -262,12 +263,14 @@ class RoleApiTest extends TestCase
         $response = $this->actingAs($authUser)
             ->postJson('api/roles', $data);
 
+        $id = DB::getPdo()->lastInsertId();
+
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
                 'message' => __('Role has been added.'),
             ])
-            ->assertLocation(route('api.roles.show', 1));
+            ->assertLocation(route('api.roles.show', $id));
 
         $this->assertDatabaseHas('roles', [
             'name' => $data['name'],

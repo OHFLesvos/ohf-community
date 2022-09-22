@@ -797,6 +797,8 @@ export default {
         "Not given!": "Einwilligung der Eltern erteilt",
         "Mark as given": "Als eingewilligt markieren",
         "Account cannot be deleted as it is the only remaining account with super-admin privileges.": "Der Account kann nicht gelöscht werden da dies der einzig verbleibende Account mit Administratorprivilegien ist.",
+        "Update your profile information directly at {provider}": "Aktualisiere deine Profilinformationen direkt bei {provider}",
+        "Managed by {provider}": "Verwaltet von {provider}",
         "pagination": {
             "previous": "&laquo; Zurück",
             "next": "Weiter &raquo;"
@@ -984,6 +986,8 @@ export default {
         "Your account has been created on {created} and and last updated on {updated}.": "Your account has been created on {created} and and last updated on {updated}.",
         "Save changes": "Änderungen speichern",
         "The newest user is {name}, registered {registered}.": "The newest user is {name}, registered {registered}.",
+        "Update your profile information directly at {provider}": "Update your profile information directly at {provider}",
+        "Managed by {provider}": "Managed by {provider}",
         "pagination": {
             "previous": "&laquo; Previous",
             "next": "Next &raquo;"

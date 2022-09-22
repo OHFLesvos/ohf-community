@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\UserManagement\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserManagement\StoreNewUserPassword;
-use App\Http\Requests\UserManagement\StoreUserProfile;
+use App\Http\Requests\UserManagement\UpdatePassword as UpdatePassword;
+use App\Http\Requests\UserManagement\UpdateProfile as UpdateProfile;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
@@ -16,74 +17,75 @@ use Storage;
 
 class UserProfileController extends Controller
 {
-    public function index()
+    public function index(): JsonResponse
     {
         $user = Auth::user()->load('roles');
 
-        return response()->json([
-            'user' => $user,
-            'avatar_url' => $user->avatarUrl(),
-            'languages' => language()->allowed(),
-            'locale' => App::getLocale(),
-            'can_delete' => ! ($user->is_super_admin && User::where('is_super_admin', true)->count() == 1),
-        ]);
+        return response()
+            ->json([
+                'user' => $user,
+                'avatar_url' => $user->avatarUrl(),
+                'languages' => language()->allowed(),
+                'locale' => App::getLocale(),
+                'can_delete' => ! ($user->is_super_admin && User::where('is_super_admin', true)->count() == 1),
+            ]);
     }
 
-    public function update(StoreUserProfile $request)
+    public function update(UpdateProfile $request): JsonResponse
     {
         $user = Auth::user();
-        if (empty($user->provider_name)) {
-            $user->name = $request->name;
-            $user->email = $request->email;
-        }
-        $user->locale = $request->locale;
-        if ($user->isDirty()) {
-            Log::info('Used updated profile.', [
-                'user_id' => $user->id,
-                'user_name' => $user->name,
-                'email' => $user->email,
-                'client_ip' => request()->ip(),
-            ]);
-            $user->save();
+        $user->fill($request->validated());
 
+        if ($user->isClean()) {
             return response()
                 ->json([
-                    'message' => __('User profile has been updated.'),
+                    'message' => __('No changes have been made.'),
                 ]);
         }
 
+        $user->save();
+
+        Log::info('Used updated profile.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => $request->ip(),
+        ]);
+
         return response()
             ->json([
-                'message' => __('No changes have been made.'),
+                'message' => __('User profile has been updated.'),
             ]);
     }
 
-    public function updatePassword(StoreNewUserPassword $request)
+    public function updatePassword(UpdatePassword $request): JsonResponse
     {
         $user = Auth::user();
         $user->password = Hash::make($request->password);
-        if ($user->isDirty()) {
-            Log::notice('Used changed password.', [
-                'user_id' => $user->id,
-                'user_name' => $user->name,
-                'email' => $user->email,
-                'client_ip' => request()->ip(),
-            ]);
-            $user->save();
 
+        if ($user->isClean()) {
             return response()
                 ->json([
-                    'message' => __('Password has been updated.'),
+                    'message' => __('No changes have been made.'),
                 ]);
         }
 
+        $user->save();
+
+        Log::notice('Used changed password.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => $request->ip(),
+        ]);
+
         return response()
             ->json([
-                'message' => __('No changes have been made.'),
+                'message' => __('Password has been updated.'),
             ]);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request): JsonResponse
     {
         $user = Auth::user();
 
@@ -108,7 +110,7 @@ class UserProfileController extends Controller
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,
-            'client_ip' => request()->ip(),
+            'client_ip' => $request->ip(),
         ]);
 
         return response()

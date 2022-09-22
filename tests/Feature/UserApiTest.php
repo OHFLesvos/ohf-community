@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
@@ -63,6 +64,22 @@ class UserApiTest extends TestCase
                     'per_page' => 10,
                     'to' => null,
                     'total' => 0,
+                    'links' => [
+                        [
+                            'active' => false,
+                            'label' => '&laquo; Previous',
+                            'url' => null,
+                        ],
+                        [
+                            'active' => true,
+                            'label' => '1',
+                            'url' => route('api.users.index').'?page=1',
+                        ], [
+                            'active' => false,
+                            'label' => 'Next &raquo;',
+                            'url' => null,
+                        ],
+                    ],
                 ],
             ]);
     }
@@ -326,12 +343,14 @@ class UserApiTest extends TestCase
         $response = $this->actingAs($authUser)
             ->postJson('api/users', $data);
 
+        $id = DB::getPdo()->lastInsertId();
+
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
                 'message' => __('User has been added.'),
             ])
-            ->assertLocation(route('api.users.show', 1));
+            ->assertLocation(route('api.users.show', $id));
 
         $this->assertDatabaseHas('users', [
             'name' => $data['name'],
@@ -340,7 +359,7 @@ class UserApiTest extends TestCase
             'locale' => config('app.locale'),
         ]);
 
-        $this->assertTrue(Hash::check($data['password'], User::find(1)->password));
+        $this->assertTrue(Hash::check($data['password'], User::find($id)->password));
     }
 
     public function testStoreWithValidInputAndAllFields()
@@ -359,12 +378,14 @@ class UserApiTest extends TestCase
         $response = $this->actingAs($authUser)
             ->postJson('api/users', $data);
 
+        $id = DB::getPdo()->lastInsertId();
+
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
                 'message' => __('User has been added.'),
             ])
-            ->assertLocation(route('api.users.show', 1));
+            ->assertLocation(route('api.users.show', $id));
 
         $this->assertDatabaseHas('users', [
             'name' => $data['name'],
@@ -373,7 +394,7 @@ class UserApiTest extends TestCase
             'locale' => $data['locale'],
         ]);
 
-        $this->assertTrue(Hash::check($data['password'], User::find(1)->password));
+        $this->assertTrue(Hash::check($data['password'], User::find($id)->password));
     }
 
     public function testShowNonExisting()

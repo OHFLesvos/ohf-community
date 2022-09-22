@@ -224,7 +224,7 @@ class LoginController extends Controller
         }
 
         if ($user->wasRecentlyCreated) {
-            Log::info('New user registered with Oauth provider.', [
+            Log::info('New user registered with OAuth provider.', [
                 'user_id' => $user->id,
                 'user_name' => $user->name,
                 'email' => $user->email,

@@ -18,6 +18,7 @@
                         :label-class="!isOauthActive ? 'required' : null"
                         :state="getValidationState(validationContext)"
                         :invalid-feedback="validationContext.errors[0]"
+                        :description="profileUpdateDescription"
                     >
                         <b-form-input
                             v-model="name"
@@ -40,6 +41,7 @@
                         :label-class="!isOauthActive ? 'required' : null"
                         :state="getValidationState(validationContext)"
                         :invalid-feedback="validationContext.errors[0]"
+                        :description="profileUpdateDescription"
                     >
                         <b-form-input
                             v-model="email"
@@ -51,9 +53,6 @@
                         />
                     </b-form-group>
                 </validation-provider>
-                <p v-if="isOauthActive">
-                    {{ $t('OAuth provider') }}: <strong>{{ user.provider_name.capitalize() }}</strong>
-                </p>
                 <validation-provider
                     :name="$t('Language')"
                     vid="locale"
@@ -122,6 +121,9 @@ export default {
         },
         languageOptions() {
             return Object.entries(this.languages).map(e => ({ value: e[0], text: e[1]}))
+        },
+        profileUpdateDescription() {
+            return this.isOauthActive ? this.$t('Update your profile information directly at {provider}', {provider: this.user.provider_name.capitalize() }) : null
         }
     },
     methods: {

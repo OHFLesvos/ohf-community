@@ -795,5 +795,7 @@
     "Parental consent given": "Einwilligung der Eltern erteilt",
     "Not given!": "Einwilligung der Eltern erteilt",
     "Mark as given": "Als eingewilligt markieren",
-    "Account cannot be deleted as it is the only remaining account with super-admin privileges.": "Der Account kann nicht gelöscht werden da dies der einzig verbleibende Account mit Administratorprivilegien ist."
+    "Account cannot be deleted as it is the only remaining account with super-admin privileges.": "Der Account kann nicht gelöscht werden da dies der einzig verbleibende Account mit Administratorprivilegien ist.",
+    "Update your profile information directly at :provider": "Aktualisiere deine Profilinformationen direkt bei :provider",
+    "Managed by :provider": "Verwaltet von :provider"
 }
