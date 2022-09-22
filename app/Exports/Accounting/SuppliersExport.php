@@ -34,7 +34,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
             __('Address'),
             __('Phone'),
             __('Mobile'),
-            __('E-Mail Address'),
+            __('Email address'),
             __('Website'),
             __('Tax number'),
             __('Tax office'),

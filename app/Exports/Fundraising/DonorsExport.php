@@ -70,7 +70,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             __('ZIP'),
             __('City'),
             __('Country'),
-            __('E-Mail Address'),
+            __('Email address'),
             __('Phone'),
             __('Correspondence language'),
             __('Registered'),

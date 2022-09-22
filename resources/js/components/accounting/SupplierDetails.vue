@@ -29,7 +29,7 @@
 
         <two-col-list-group-item
             v-if="supplier.email"
-            :title="$t('E-Mail Address')"
+            :title="$t('Email address')"
         >
             <email-link :value="supplier.email" />
         </two-col-list-group-item>

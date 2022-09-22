@@ -33,7 +33,7 @@
             </dd>
         </template>
         <template v-if="supplier.email">
-            <dt class="col-sm-3">{{ $t("E-Mail Address") }}</dt>
+            <dt class="col-sm-3">{{ $t("Email address") }}</dt>
             <dd class="col-sm-9">
                 <email-link :value="supplier.email" />
             </dd>

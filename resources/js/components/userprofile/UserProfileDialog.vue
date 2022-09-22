@@ -31,13 +31,13 @@
                 </validation-provider>
 
                 <validation-provider
-                    :name="$t('E-Mail Address')"
+                    :name="$t('Email address')"
                     vid="email"
                     :rules="{ email: true }"
                     v-slot="validationContext"
                 >
                     <b-form-group
-                        :label="$t('E-Mail Address')"
+                        :label="$t('Email address')"
                         :label-class="!isOauthActive ? 'required' : null"
                         :state="getValidationState(validationContext)"
                         :invalid-feedback="validationContext.errors[0]"

@@ -23,7 +23,7 @@
                         {{ Form::bsEmail('email', null, [
                                 $user->provider_name !== null ? 'readonly' : 'required'
                             ],
-                            __('E-Mail Address'),
+                            __('Email address'),
                             $user->provider_name !== null ? __('Managed by :provider', ['provider' => ucfirst($user->provider_name)]) : null
                         ) }}
                     </div>

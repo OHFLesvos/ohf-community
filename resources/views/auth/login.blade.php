@@ -9,7 +9,7 @@
         <x-oauth-buttons/>
 
         <div class="form-group">
-            {{ Form::email('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'placeholder' => __('E-Mail Address') ]) }}
+            {{ Form::email('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'placeholder' => __('Email address') ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
             @endif

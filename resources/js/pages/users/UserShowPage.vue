@@ -36,7 +36,7 @@
                     <dl class="row mb-0">
                         <dt class="col-sm-4">{{ $t('Name') }}</dt>
                         <dd class="col-sm-8">{{ user.name }}</dd>
-                        <dt class="col-sm-4">{{ $t('E-Mail Address') }}</dt>
+                        <dt class="col-sm-4">{{ $t('Email address') }}</dt>
                         <dd class="col-sm-8"><a :href="`mailto:${user.email}`">{{ user.email }}</a></dd>
                         <dt class="col-sm-4">{{ $t('Registered') }}</dt>
                         <dd class="col-sm-8">

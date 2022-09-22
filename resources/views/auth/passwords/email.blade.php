@@ -10,12 +10,12 @@
         </x-alert>
     @endif
 
-    <p>{{ __('Please enter your e-mail address. We will send you a link which allows you to reset your password.') }}</p>
+    <p>{{ __('Please enter your email address. We will send you a link which allows you to reset your password.') }}</p>
 
     {{ Form::open(['route' => 'password.email']) }}
 
         <div class="form-group">
-            {{ Form::email('email', old('email'), [ 'placeholder' => __('E-Mail Address'), 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required' ]) }}
+            {{ Form::email('email', old('email'), [ 'placeholder' => __('Email address'), 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required' ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>
             @endif

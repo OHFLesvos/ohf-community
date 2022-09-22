@@ -2,7 +2,7 @@ Operating this service requires that we collect certain personal information. Th
 
 To identify you as a legitimate user, we store:
 
-* your e-mail address
+* your email address
 * your name
 * a cryptographically hashed form of your password
 

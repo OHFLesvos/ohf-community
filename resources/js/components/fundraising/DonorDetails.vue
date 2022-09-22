@@ -33,7 +33,7 @@
 
         <two-col-list-group-item
             v-if="donor.email"
-            :title="$t('E-Mail Address')"
+            :title="$t('Email address')"
         >
             <email-link :value="donor.email" />
         </two-col-list-group-item>

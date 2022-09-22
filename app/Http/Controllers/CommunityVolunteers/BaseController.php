@@ -273,7 +273,7 @@ abstract class BaseController extends Controller
                 'form_name' => 'whatsapp',
             ],
             [
-                'label' => __('E-Mail Address'),
+                'label' => __('Email address'),
                 'icon' => 'envelope',
                 'value' => 'email',
                 'value_html' => fn ($cmtyvol) => $cmtyvol->email != null

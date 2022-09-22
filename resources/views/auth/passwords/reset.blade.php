@@ -7,7 +7,7 @@
     {{ Form::open(['route' => 'password.request']) }}
         <input type="hidden" name="token" value="{{ $token }}">
         <div class="form-group">
-            {{ Form::label('email', __('E-Mail Address')) }}
+            {{ Form::label('email', __('Email address')) }}
             {{ Form::email('email', $email ?? old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'readonly' ]) }}
             @if ($errors->has('email'))
                 <span class="invalid-feedback">{{ $errors->first('email') }}</span>

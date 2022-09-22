@@ -42,7 +42,7 @@ class UserRegisteredConfirmation extends Notification
                     ->line(__('Dear :name.', [
                         'name' => $this->user->name,
                     ]))
-                    ->line(__('Thanks for registering an account at :app_name with your e-mail address :email.', [
+                    ->line(__('Thanks for registering an account at :app_name with your email address :email.', [
                         'app_name' => config('app.name'),
                         'email' => $this->user->email,
                     ]))

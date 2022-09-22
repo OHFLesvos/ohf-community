@@ -80,7 +80,7 @@ export default {
                 },
                 {
                     key: "email",
-                    label: this.$t("E-Mail Address"),
+                    label: this.$t("Email address"),
                     class: "align-middle d-none d-sm-table-cell"
                 },
                 {
