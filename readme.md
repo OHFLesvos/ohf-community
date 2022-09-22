@@ -103,9 +103,22 @@ Run:
 
 or when using Laravel Sail:
 
-    sail php ./vendor/bin/pint
+    sail pint
 
 More information here: https://github.com/laravel/pint
+
+Static code analysis
+--------------------
+
+Run:
+
+    ./vendor/bin/phpstan analyse
+
+or when using Laravel Sail:
+
+    sail php ./vendor/bin/phpstan analyse
+
+More information here: https://github.com/nunomaduro/larastan
 
 Development notes
 -----------------
