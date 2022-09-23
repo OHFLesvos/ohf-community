@@ -27,6 +27,8 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress
       - name: Code style check
         run: php ./vendor/bin/pint --test
+      - name: Static code analysis
+        run: php ./vendor/bin/phpstan analyse --no-progress
       - name: Use Node.js
         uses: actions/setup-node@v2
         with:
