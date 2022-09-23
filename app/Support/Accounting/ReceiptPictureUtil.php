@@ -71,4 +71,17 @@ class ReceiptPictureUtil
         $img->rotate($direction == 'left' ? 90 : -90);
         $img->save($path);
     }
+
+    public static function deleteReceiptPictures(?array $pictures): void
+    {
+        if (empty($pictures)) {
+            return;
+        }
+
+        foreach ($pictures as $path) {
+            Storage::delete($path);
+            Storage::delete(thumb_path($path));
+            Storage::delete(thumb_path($path, 'jpeg'));
+        }
+    }
 }

@@ -38,15 +38,6 @@ class Transaction extends Model implements Auditable
         'remarks',
     ];
 
-    public static function boot(): void
-    {
-        static::deleting(function ($model) {
-            $model->deleteReceiptPictures();
-        });
-
-        parent::boot();
-    }
-
     protected $casts = [
         'booked' => 'boolean',
         'receipt_pictures' => 'array',
@@ -238,18 +229,6 @@ class Transaction extends Model implements Auditable
                 ->values()
                 ->toArray();
         }
-    }
-
-    public function deleteReceiptPictures(): void
-    {
-        if (! empty($this->receipt_pictures)) {
-            foreach ($this->receipt_pictures as $file) {
-                Storage::delete($file);
-                Storage::delete(thumb_path($file));
-                Storage::delete(thumb_path($file, 'jpeg'));
-            }
-        }
-        $this->receipt_pictures = [];
     }
 
     public static function attendees(): array
