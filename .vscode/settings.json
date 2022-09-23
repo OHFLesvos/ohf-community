@@ -11,17 +11,32 @@
         "**/storage": true,
         "**/vue-i18n-locales.generated.js": true
     },
-    "namespaceResolver.sortNatural": true,
-    "namespaceResolver.sortAlphabetically": true,
     "files.watcherExclude": {
         "**/vendor/**": true
     },
-    "cSpell.words": [
+    "cSpell.ignoreWords": [
         "Anonymized",
+        "cmtyvol",
+        "Cviebrock",
+        "Dispatchable",
+        "Dyrynda",
+        "Endroid",
+        "fortawesome",
+        "Ghostscript",
+        "Gumlet",
+        "Heigl",
         "iban",
         "laravel",
+        "Lorisleiva",
+        "Maatwebsite",
         "mbstring",
+        "OTPHP",
+        "Queueable",
+        "sluggable",
+        "Sluggable",
+        "Spatie",
         "symlink",
+        "usermgmt",
         "webling",
         "xampp"
     ],
