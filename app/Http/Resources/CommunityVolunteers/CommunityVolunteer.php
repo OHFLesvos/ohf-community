@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\CommunityVolunteers;
 
+use App\Models\CommunityVolunteers\Responsibility;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
@@ -40,7 +41,7 @@ class CommunityVolunteer extends JsonResource
             'skype' => $this->skype,
             'residence' => $this->residence,
             'pickup_location' => $this->pickup_location,
-            'responsibilities' => $this->responsibilities->mapWithKeys(fn ($r) => [
+            'responsibilities' => $this->responsibilities->mapWithKeys(fn (Responsibility $r) => [
                 $r->name => [
                     'description' => $r->description,
                     'start_date' => $r->getRelationValue('pivot')->start_date_string,

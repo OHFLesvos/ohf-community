@@ -220,9 +220,9 @@ class DonorController extends Controller
             ->orderBy('last_name')
             ->orderBy('company')
             ->get()
-            ->map(fn ($donor) => [
+            ->map(fn (Donor $donor) => [
                 'id' => $donor->id,
-                'name' => $donor->fullName,
+                'name' => $donor->full_name,
             ]);
     }
 }

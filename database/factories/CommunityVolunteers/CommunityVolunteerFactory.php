@@ -26,13 +26,20 @@ class CommunityVolunteerFactory extends Factory
     {
         $gender = $this->faker->optional(0.9)->randomElement(['male', 'female']);
 
-        $lc = $this->faker->optional(0.3)->languageCode;
-        $language = $lc != null ? \Languages::lookup([$lc])->first() : null;
-
         if (empty($this->countries)) {
             $this->countries = weightedCountries(10);
         }
         $nationality = $this->faker->optional(0.9)->randomElement($this->countries);
+
+        $languages = collect([
+            $this->faker->optional(0.3)->languageCode,
+            $this->faker->optional(0.3)->languageCode,
+            $this->faker->optional(0.3)->languageCode,
+        ])
+            ->filter(fn ($lc) => $lc != null)
+            ->map(fn ($lc) => \Languages::lookup([$lc])->first())
+            ->filter()
+            ->toArray();
 
         $dob = $this->faker->optional(0.9)->dateTimeBetween('-70 years', 'now');
 
@@ -42,7 +49,7 @@ class CommunityVolunteerFactory extends Factory
             'nickname' => $this->faker->optional(0.05)->firstName($gender),
             'police_no' => $this->faker->optional(0.6)->numberBetween(10000, 99999),
             'nationality' => $nationality,
-            'languages_string' => $language,
+            'languages' => $languages,
             'gender' => $gender != null ? ($gender == 'female' ? 'f' : 'm') : null,
             'date_of_birth' => $dob != null ? Carbon::instance($dob) : null,
             'local_phone' => $this->faker->optional(0.8)->phoneNumber,
