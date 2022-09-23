@@ -6,6 +6,9 @@ use App\Http\Resources\Fundraising\Donor;
 use App\Support\Accounting\FormatsCurrency;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Accounting\Budget
+ */
 class Budget extends JsonResource
 {
     use FormatsCurrency;
@@ -14,9 +17,8 @@ class Budget extends JsonResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         $balance = $this->getBalance();
 

@@ -10,19 +10,17 @@ use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DonorDonationsController extends Controller
 {
-    /**
-     * Display a listing of all donatons of the donor.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Donor $donor, Request $request)
+    public function index(Donor $donor, Request $request): JsonResource
     {
         $this->authorize('viewAny', Donation::class);
         $this->authorize('view', $donor);
@@ -51,14 +49,7 @@ class DonorDonationsController extends Controller
             ]);
     }
 
-    /**
-     * Stores a new donation.
-     *
-     * @param  \App\Http\Requests\Fundraising\StoreDonation  $request
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreDonation $request, Donor $donor)
+    public function store(StoreDonation $request, Donor $donor): JsonResponse
     {
         $this->authorize('create', Donation::class);
 
@@ -78,9 +69,10 @@ class DonorDonationsController extends Controller
                 } catch (Exception $e) {
                     Log::error($e);
 
-                    return response()->json([
-                        'message' => __('An error happened').': '.$e->getMessage(),
-                    ], Response::HTTP_SERVICE_UNAVAILABLE);
+                    return response()
+                        ->json([
+                            'message' => __('An error happened').': '.$e->getMessage(),
+                        ], Response::HTTP_SERVICE_UNAVAILABLE);
                 }
             }
             $exchange_amount = $request->amount * $exchange_rate;
@@ -105,18 +97,13 @@ class DonorDonationsController extends Controller
 
         $donor->addDonation($donation);
 
-        return response()->json([
-            'message' => __('Donation of :currency :amount has been registered', ['amount' => $request->amount, 'currency' => $request->currency]),
-        ]);
+        return response()
+            ->json([
+                'message' => __('Donation of :currency :amount has been registered', ['amount' => $request->amount, 'currency' => $request->currency]),
+            ]);
     }
 
-    /**
-     * Exports the donations of a donor
-     *
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
-    public function export(Donor $donor)
+    public function export(Donor $donor): BinaryFileResponse
     {
         $this->authorize('viewAny', Donation::class);
 

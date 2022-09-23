@@ -3,6 +3,7 @@
 namespace App\Exports\Visitors\Sheets;
 
 use App\Exports\BaseExport;
+use App\Exports\PageOrientation;
 use App\Models\Visitors\Visitor;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,7 +13,7 @@ class VisitorDataExport extends BaseExport implements FromQuery, WithHeadings, W
 {
     public function __construct()
     {
-        $this->orientation = 'portrait';
+        $this->orientation = PageOrientation::Portrait;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
@@ -53,7 +54,7 @@ class VisitorDataExport extends BaseExport implements FromQuery, WithHeadings, W
             $visitor->anonymized ? __('Yes') : __('No'),
             $visitor->name,
             $visitor->id_number,
-            $visitor->genderLabel,
+            gender_label($visitor->gender),
             $visitor->nationality,
             optional($visitor->date_of_birth)->toDateString(),
             $visitor->living_situation,

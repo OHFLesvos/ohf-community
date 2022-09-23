@@ -5,6 +5,7 @@ namespace App\Models\Visitors;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VisitorCheckin extends Model
 {
@@ -19,7 +20,7 @@ class VisitorCheckin extends Model
         'purpose_of_visit',
     ];
 
-    public function visitor()
+    public function visitor(): BelongsTo
     {
         return $this->belongsTo(Visitor::class);
     }

@@ -3,6 +3,7 @@
 namespace App\Exports\Visitors\Sheets;
 
 use App\Exports\BaseExport;
+use App\Exports\PageOrientation;
 use App\Models\Visitors\VisitorCheckin;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,7 +13,7 @@ class VisitorCheckInsExport extends BaseExport implements FromQuery, WithHeading
 {
     public function __construct()
     {
-        $this->orientation = 'portrait';
+        $this->orientation = PageOrientation::Portrait;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
@@ -52,7 +53,7 @@ class VisitorCheckInsExport extends BaseExport implements FromQuery, WithHeading
             $checkin->visitor->anonymized ? __('Yes') : __('No'),
             $checkin->visitor->name,
             $checkin->visitor->id_number,
-            $checkin->visitor->genderLabel,
+            gender_label($checkin->visitor->gender),
             $checkin->visitor->nationality,
             optional($checkin->visitor->date_of_birth)->toDateString(),
             $checkin->visitor->living_situation,

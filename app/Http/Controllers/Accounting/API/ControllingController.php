@@ -6,13 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
 use App\Models\Accounting\Transaction;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Response;
 
 class ControllingController extends Controller
 {
     use ValidatesResourceIndex;
 
-    public function controllable(Request $request)
+    public function controllable(Request $request): JsonResource
     {
         $this->authorize('viewAny', Transaction::class);
 
@@ -49,17 +52,18 @@ class ControllingController extends Controller
         return TransactionResource::collection($data);
     }
 
-    public function controlled(Transaction $transaction)
+    public function controlled(Transaction $transaction): JsonResponse
     {
         $this->authorize('view', $transaction);
 
-        return response()->json([
-            'controlled_at' => $transaction->controlled_at,
-            'controlled_by' => $transaction->controlled_by,
-        ]);
+        return response()
+            ->json([
+                'controlled_at' => $transaction->controlled_at,
+                'controlled_by' => $transaction->controlled_by,
+            ]);
     }
 
-    public function markControlled(Request $request, Transaction $transaction)
+    public function markControlled(Request $request, Transaction $transaction): Response
     {
         $this->authorize('control', $transaction);
 
@@ -70,7 +74,7 @@ class ControllingController extends Controller
         return response(null, 204);
     }
 
-    public function undoControlled(Transaction $transaction)
+    public function undoControlled(Transaction $transaction): Response
     {
         $this->authorize('undoControlling', $transaction);
 

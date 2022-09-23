@@ -6,16 +6,16 @@ use App\Navigation\Drawer\BaseNavigationItem;
 
 class FundraisingNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'fundraising.index';
+    protected string $route = 'fundraising.index';
 
     public function getCaption(): string
     {
         return __('Donation Management');
     }
 
-    protected $icon = 'donate';
+    protected string $icon = 'donate';
 
-    protected $active = 'fundraising*';
+    protected string|array $active = 'fundraising*';
 
     public function isAuthorized(): bool
     {

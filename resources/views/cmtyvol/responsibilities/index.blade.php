@@ -37,7 +37,7 @@
                             @php
                                 if ($responsibility->isCapacityExhausted) {
                                     $cls = 'text-danger';
-                                } elseif ($responsibility->hasAssignedAltoughNotAvailable) {
+                                } elseif ($responsibility->hasAssignedAlthoughNotAvailable) {
                                     $cls = 'text-danger';
                                 } elseif (!$responsibility->available) {
                                     $cls = '';

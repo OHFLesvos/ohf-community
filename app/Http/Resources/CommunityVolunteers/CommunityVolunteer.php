@@ -5,15 +5,17 @@ namespace App\Http\Resources\CommunityVolunteers;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @mixin \App\Models\CommunityVolunteers\CommunityVolunteer
+ */
 class CommunityVolunteer extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -41,14 +43,16 @@ class CommunityVolunteer extends JsonResource
             'responsibilities' => $this->responsibilities->mapWithKeys(fn ($r) => [
                 $r->name => [
                     'description' => $r->description,
-                    'start_date' => $r->pivot->start_date_string,
-                    'end_date' => $r->pivot->end_date_string,
+                    'start_date' => $r->getRelationValue('pivot')->start_date_string,
+                    'end_date' => $r->getRelationValue('pivot')->end_date_string,
                 ],
             ]),
             'notes' => $this->notes,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'url' => $request->user()->can('view', $this->resource) ? route('cmtyvol.show', $this) : null,
+            'url' => $request->user()->can('view', $this->resource)
+                ? route('cmtyvol.show', $this)
+                : null,
         ];
     }
 }

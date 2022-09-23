@@ -6,6 +6,7 @@ use App\Exports\Accounting\BaseTransactionsExport;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class TransactionsMonthSheet extends BaseTransactionsExport
 {
@@ -23,13 +24,13 @@ class TransactionsMonthSheet extends BaseTransactionsExport
     {
     }
 
-    public function query(): \Illuminate\Database\Eloquent\Builder
+    public function query(): Builder
     {
         $dateFrom = $this->month;
         $dateTo = (clone $dateFrom)->endOfMonth();
 
         return Transaction::query()
-            ->when($this->wallet !== null, fn ($qry) => $qry->forWallet($this->wallet))
+            ->forWallet($this->wallet)
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
             ->forDateRange($dateFrom, $dateTo)

@@ -13,11 +13,8 @@ class AppVersionComposer
 
     /**
      * Bind data to the view.
-     *
-     * @param  View  $view
-     * @return void
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $view->with('app_version', $this->gitHashLoader->getGitHash()->short());
     }

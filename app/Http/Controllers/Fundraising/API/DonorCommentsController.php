@@ -8,15 +8,11 @@ use App\Http\Resources\Comment as CommentResource;
 use App\Models\Comment;
 use App\Models\Fundraising\Donor;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class DonorCommentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Donor $donor, Request $request)
+    public function index(Donor $donor, Request $request): JsonResource
     {
         $this->authorize('view', $donor);
         $this->authorize('viewAny', Comment::class);
@@ -31,13 +27,7 @@ class DonorCommentsController extends Controller
             ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Donor $donor, StoreComment $request)
+    public function store(Donor $donor, StoreComment $request): JsonResource
     {
         $this->authorize('view', $donor);
         $this->authorize('create', Comment::class);

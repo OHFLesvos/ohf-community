@@ -6,16 +6,16 @@ use Illuminate\Support\Facades\Gate;
 
 class ReportsNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'reports.index';
+    protected string $route = 'reports.index';
 
     public function getCaption(): string
     {
         return __('Reports');
     }
 
-    protected $icon = 'chart-bar';
+    protected string $icon = 'chart-bar';
 
-    protected $active = 'reports*';
+    protected string|array $active = 'reports*';
 
     public function isAuthorized(): bool
     {

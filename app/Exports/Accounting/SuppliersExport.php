@@ -3,6 +3,7 @@
 namespace App\Exports\Accounting;
 
 use App\Exports\BaseExport;
+use App\Exports\PageOrientation;
 use App\Models\Accounting\Supplier;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,7 +13,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
 {
     public function __construct()
     {
-        $this->orientation = 'landscape';
+        $this->orientation = PageOrientation::Landscape;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder

@@ -16,14 +16,9 @@ class ExportController extends Controller
 {
     use ExportableActions;
 
-    protected function exportAuthorize()
+    protected function exportAuthorize(): void
     {
         $this->authorize('viewAny', Transaction::class);
-    }
-
-    protected function exportView(): string
-    {
-        return '';
     }
 
     protected function exportViewArgs(): array

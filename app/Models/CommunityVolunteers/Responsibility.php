@@ -3,9 +3,9 @@
 namespace App\Models\CommunityVolunteers;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Responsibility extends Model
 {
@@ -21,11 +21,6 @@ class Responsibility extends Model
         'available',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'available' => 'boolean',
     ];
@@ -44,17 +39,12 @@ class Responsibility extends Model
         ];
     }
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    public function communityVolunteers()
+    public function communityVolunteers(): BelongsToMany
     {
         return $this->belongsToMany(
             CommunityVolunteer::class,
@@ -67,32 +57,20 @@ class Responsibility extends Model
             ->withTimestamps();
     }
 
-    public function getIsCapacityExhaustedAttribute()
+    public function getIsCapacityExhaustedAttribute(): bool
     {
         return $this->capacity != null && $this->capacity < $this->countActive;
     }
 
-    public function getHasAssignedAltoughNotAvailableAttribute()
+    public function getHasAssignedAlthoughNotAvailableAttribute(): bool
     {
         return ! $this->available && $this->countActive > 0;
     }
 
-    public function getCountActiveAttribute()
+    public function getCountActiveAttribute(): int
     {
         return $this->communityVolunteers
-            ->filter(fn ($volunteer) => $volunteer->pivot->isInsideDateRange(now()))
+            ->filter(fn ($volunteer) => $volunteer->getRelationValue('pivot')->isInsideDateRange(now()))
             ->count();
-    }
-
-    /**
-     * Scope a query to only include responsibilities matching the given filter
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeForFilter(Builder $query, string $filter)
-    {
-        return $query->where('name', 'LIKE', '%'.$filter.'%');
     }
 }

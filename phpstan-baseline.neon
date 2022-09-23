@@ -1,0 +1,31 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Access to protected property App\\\\Support\\\\Accounting\\\\Webling\\\\Entities\\\\Period\\:\\:\\$id\\.$#"
+			count: 1
+			path: app/Http/Controllers/Accounting/WeblingApiController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\Accounting\\\\TransactionHistory\\:\\:\\$user\\.$#"
+			count: 1
+			path: app/Http/Resources/Accounting/TransactionHistory.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\CommunityVolunteers\\\\CommunityVolunteerResponsibility\\:\\:\\$end_date\\.$#"
+			count: 3
+			path: app/Models/CommunityVolunteers/CommunityVolunteerResponsibility.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\CommunityVolunteers\\\\CommunityVolunteerResponsibility\\:\\:\\$start_date\\.$#"
+			count: 3
+			path: app/Models/CommunityVolunteers/CommunityVolunteerResponsibility.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Support\\\\Accounting\\\\Webling\\\\Entities\\\\Entrygroup\\:\\:\\$parent\\.$#"
+			count: 1
+			path: app/Support/Accounting/Webling/Entities/Entrygroup.php
+
+		-
+			message: "#^Undefined variable\\: \\$objectId$#"
+			count: 1
+			path: app/Support/Accounting/Webling/WeblingClient.php

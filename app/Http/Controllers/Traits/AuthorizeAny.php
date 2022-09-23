@@ -8,7 +8,7 @@ use Illuminate\Contracts\Auth\Access\Gate;
 
 trait AuthorizeAny
 {
-    public function authorizeAny(array $abilities, $arguments = [])
+    public function authorizeAny(array $abilities, $arguments = []): Response
     {
         $authorized = app(Gate::class)
             ->forUser(auth()->user())
@@ -16,8 +16,7 @@ trait AuthorizeAny
 
         if ($authorized) {
             return Response::allow();
-        } else {
-            throw new AuthorizationException();
         }
+        throw new AuthorizationException();
     }
 }

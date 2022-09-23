@@ -78,9 +78,9 @@ class AutoColorInitialAvatar extends InitialAvatar
             }
         }
 
-        $red = round($red * 255, 0);
-        $green = round($green * 255, 0);
-        $blue = round($blue * 255, 0);
+        $red = (int) round($red * 255, 0);
+        $green = (int) round($green * 255, 0);
+        $blue = (int) round($blue * 255, 0);
 
         if ($toHex) {
             $red = ($red < 15) ? '0'.dechex($red) : dechex($red);

@@ -33,7 +33,6 @@ class RoleController extends Controller
     {
         return view('user_management.roles.create', [
             'users' => User::orderBy('name')
-                ->get()
                 ->pluck('name', 'id')
                 ->toArray(),
             'permissions' => getCategorizedPermissions(),
@@ -90,7 +89,6 @@ class RoleController extends Controller
         return view('user_management.roles.edit', [
             'role' => $role,
             'users' => User::orderBy('name')
-                ->get()
                 ->pluck('name', 'id')
                 ->toArray(),
             'permissions' => getCategorizedPermissions(),
@@ -169,7 +167,6 @@ class RoleController extends Controller
         return view('user_management.roles.manage-members', [
             'role' => $role,
             'users' => User::orderBy('name')
-                ->get()
                 ->pluck('name', 'id')
                 ->toArray(),
         ]);

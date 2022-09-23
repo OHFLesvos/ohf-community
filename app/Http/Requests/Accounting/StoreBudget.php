@@ -4,32 +4,22 @@ namespace App\Http\Requests\Accounting;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 
 class StoreBudget extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
                 'required',
-                isset($this->budget)
-                    ? Rule::unique('accounting_budgets')->ignore($this->budget->id)
-                    : Rule::unique('accounting_budgets'),
+                Rule::unique('accounting_budgets')
+                    ->when(isset($this->budget), fn (Unique $rule) => $rule->ignore($this->budget->id)),
             ],
             'description' => [
                 'nullable',

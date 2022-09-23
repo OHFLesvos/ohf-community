@@ -6,6 +6,8 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 class Project extends Model
@@ -29,51 +31,40 @@ class Project extends Model
         'enabled' => 'boolean',
     ];
 
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(Project::class, 'parent_id');
     }
 
-    public function getIsRootAttribute()
+    public function getIsRootAttribute(): bool
     {
         return $this->parent_id == null;
     }
 
-    public function scopeIsRoot(Builder $query)
+    public function scopeIsRoot(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
     }
 
-    public function scopeForParent(Builder $query, int $parentId)
+    public function scopeForParent(Builder $query, int $parentId): Builder
     {
         return $query->where('parent_id', $parentId);
     }
 
-    public function scopeForFilter($query, ?string $filter = '')
-    {
-        if (! empty($filter)) {
-            $query->where(function ($wq) use ($filter) {
-                return $wq->where('name', 'LIKE', '%'.$filter.'%')
-                    ->orWhere('description', 'LIKE', '%'.$filter.'%');
-            });
-        }
-
-        return $query;
-    }
-
     public function getPathElements(): Collection
     {
-        $elements = collect([$this]);
+        $elements = collect();
+        $elements->push($this);
         $elem = $this;
         while ($elem->parent != null) {
             $elements->prepend($elem->parent);
@@ -106,7 +97,7 @@ class Project extends Model
         return $results;
     }
 
-    public static function queryByParent(?int $parent = null, ?int $exclude = null)
+    public static function queryByParent(?int $parent = null, ?int $exclude = null): Collection
     {
         return self::query()
             ->select('id', 'name', 'description', 'enabled')

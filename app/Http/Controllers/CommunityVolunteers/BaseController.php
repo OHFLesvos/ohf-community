@@ -17,7 +17,7 @@ use Illuminate\View\ComponentAttributeBag;
 
 abstract class BaseController extends Controller
 {
-    protected function getSections()
+    protected function getSections(): array
     {
         return [
             'portrait' => __('Portrait'),
@@ -27,7 +27,7 @@ abstract class BaseController extends Controller
         ];
     }
 
-    protected function getFields()
+    protected function getFields(): array
     {
         return [
             [
@@ -363,7 +363,7 @@ abstract class BaseController extends Controller
                         if ($r->pivot->hasDateRange()) {
                             $str .= ' ('.$r->pivot->date_range_string.')';
                         }
-                        if ($r->hasAssignedAltoughNotAvailable) {
+                        if ($r->hasAssignedAlthoughNotAvailable) {
                             $str .= ' <span class="text-danger">('.__('not available').')</span>';
                         }
                         if ($r->isCapacityExhausted) {
@@ -466,23 +466,23 @@ abstract class BaseController extends Controller
         ]);
     }
 
-    protected function getGroupings()
+    protected function getGroupings(): Collection
     {
         return collect([
             'nationalities' => [
                 'label' => __('Nationalities'),
                 'groups' => fn () => CommunityVolunteer::nationalities(true),
-                'query' => fn ($query, $value) => $query->hasNationality($value),
+                'query' => fn (Builder $query, $value) => $query->where('nationality', $value),
             ],
             'languages' => [
                 'label' => __('Languages'),
                 'groups' => fn () => CommunityVolunteer::languages(true),
-                'query' => fn ($query, $value) => $query->speaksLanguage($value),
+                'query' => fn (Builder $query, $value) => $query->where('languages', 'like', '%"'.$value.'"%'),
             ],
             'gender' => [
                 'label' => __('Gender'),
                 'groups' => fn () => CommunityVolunteer::genders(true),
-                'query' => fn ($query, $value) => $query->hasGender($value),
+                'query' => fn (Builder $query, $value) => $query->where('gender', $value),
                 'label_transform' => fn ($groups) => collect($groups)
                     ->map(function ($s) {
                         switch ($s) {
@@ -499,7 +499,6 @@ abstract class BaseController extends Controller
                 'label' => __('Responsibilities'),
                 'groups' => fn () => Responsibility::has('communityVolunteers')
                     ->orderBy('name')
-                    ->get()
                     ->pluck('name')
                     ->toArray(),
                 'query' => fn ($q, $v) => $q->whereHas('responsibilities', fn (Builder $query) => $query->where('name', $v)),
@@ -507,12 +506,12 @@ abstract class BaseController extends Controller
             'pickup_locations' => [
                 'label' => __('Pickup locations'),
                 'groups' => fn () => CommunityVolunteer::pickupLocations(true),
-                'query' => fn ($query, $value) => $query->withPickupLocation($value),
+                'query' => fn (Builder $query, $value) => $query->where('pickup_location', $value),
             ],
         ]);
     }
 
-    protected function getViews()
+    protected function getViews(): Collection
     {
         return collect([
             'list' => [
@@ -526,7 +525,7 @@ abstract class BaseController extends Controller
         ]);
     }
 
-    protected function getColumnSets()
+    protected function getColumnSets(): Collection
     {
         return collect([
             'all' => [
@@ -548,7 +547,7 @@ abstract class BaseController extends Controller
         ]);
     }
 
-    protected function getSorters()
+    protected function getSorters(): Collection
     {
         return collect([
             'first_name' => [

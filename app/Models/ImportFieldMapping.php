@@ -21,7 +21,7 @@ class ImportFieldMapping extends Model
         'append',
     ];
 
-    public function scopeModel(Builder $query, string $model)
+    public function scopeModel(Builder $query, string $model): Builder
     {
         return $query->where('model', $model);
     }

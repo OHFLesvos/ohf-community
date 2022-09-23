@@ -8,15 +8,11 @@ use App\Http\Resources\Comment as CommentResource;
 use App\Models\Comment;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class CommunityVolunteerCommentsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(CommunityVolunteer $cmtyvol, Request $request)
+    public function index(CommunityVolunteer $cmtyvol, Request $request): JsonResource
     {
         $this->authorize('update', $cmtyvol);
         $this->authorize('viewAny', Comment::class);
@@ -31,20 +27,14 @@ class CommunityVolunteerCommentsController extends Controller
             ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(CommunityVolunteer $cmtyvol, StoreComment $request)
+    public function store(CommunityVolunteer $cmtyvol, StoreComment $request): JsonResource
     {
         $this->authorize('update', $cmtyvol);
         $this->authorize('create', Comment::class);
 
         $comment = new Comment();
+        $comment->fill($request->validated());
         $comment->setCurrentUser();
-        $comment->content = $request->content;
         $cmtyvol->addComment($comment);
 
         return (new CommentResource($comment))
