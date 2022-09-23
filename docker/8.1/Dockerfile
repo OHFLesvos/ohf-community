@@ -57,6 +57,7 @@ RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 COPY start-container /usr/local/bin/start-container
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.1/cli/conf.d/99-sail.ini
+COPY ImageMagick-6-policy.xml /etc/ImageMagick-6/policy.xml
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8000
