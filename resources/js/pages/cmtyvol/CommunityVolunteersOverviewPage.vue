@@ -43,13 +43,13 @@
                         <font-awesome-icon :key="name + '-i'" icon="info-circle" />
                     </b-button>
                     <template v-if="attributes.start_date && attributes.end_date">
-                        ({{ $t(':from - :until', { 'from': attributes.start_date, 'until': attributes.end_date }) }})
+                        ({{ $t('{from} - {until}', { 'from': attributes.start_date, 'until': attributes.end_date }) }})
                     </template>
                     <template v-else-if="attributes.start_date">
-                        ({{ $t('from :from', { 'date': attributes.start_date }) }})
+                        ({{ $t('from {from}', { 'from': attributes.start_date }) }})
                     </template>
                     <template v-else-if="attributes.end_date">
-                        ({{ $t('until :until', { 'date': attributes.end_date }) }})
+                        ({{ $t('until {until}', { 'until': attributes.end_date }) }})
                     </template>
                     <br :key="name + '-b'" />
                 </template>

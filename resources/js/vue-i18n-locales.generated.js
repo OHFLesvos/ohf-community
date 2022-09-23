@@ -990,6 +990,9 @@ export default {
         "Managed by {provider}": "Managed by {provider}",
         "Show all {num}": "Show all {num}",
         "Show Top {num}": "Show Top {num}",
+        "from {from}": "from {from}",
+        "until {until}": "until {until}",
+        "{from} - {until}": "{from} - {until}",
         "pagination": {
             "previous": "&laquo; Previous",
             "next": "Next &raquo;"
