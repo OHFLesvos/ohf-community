@@ -25,7 +25,7 @@ class TransactionObserver
             'transaction_type' => $transaction->type,
             'transaction_amount' => $transaction->amount,
             'transaction_wallet_id' => $transaction->wallet_id,
-            'client_ip' => request()?->ip(),
+            'client_ip' => request()->ip(),
         ]);
 
         ReceiptPictureUtil::deleteReceiptPictures($transaction->receipt_pictures);
