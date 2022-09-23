@@ -212,7 +212,7 @@ class TransactionsController extends Controller
             $transaction->budget()->associate($request->input('budget_id'));
 
             foreach ($request->input('delete_receipts', []) as $picture) {
-                $transaction->deleteReceiptPicture($picture);
+                $transaction->removePicturePath($picture);
             }
         }
 

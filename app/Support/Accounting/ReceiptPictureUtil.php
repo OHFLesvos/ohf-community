@@ -79,9 +79,14 @@ class ReceiptPictureUtil
         }
 
         foreach ($pictures as $path) {
-            Storage::delete($path);
-            Storage::delete(thumb_path($path));
-            Storage::delete(thumb_path($path, 'jpeg'));
+            self::deleteReceiptPicture($path);
         }
+    }
+
+    public static function deleteReceiptPicture(string $path): void
+    {
+        Storage::delete($path);
+        Storage::delete(thumb_path($path));
+        Storage::delete(thumb_path($path, 'jpeg'));
     }
 }

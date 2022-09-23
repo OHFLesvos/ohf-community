@@ -217,18 +217,16 @@ class Transaction extends Model implements Auditable
             ->toArray();
     }
 
-    public function deleteReceiptPicture(string $picture): void
+    public function removePicturePath(string $path): void
     {
-        Storage::delete($picture);
-        Storage::delete(thumb_path($picture));
-        Storage::delete(thumb_path($picture, 'jpeg'));
-
-        if (! empty($this->receipt_pictures)) {
-            $this->receipt_pictures = collect($this->receipt_pictures)
-                ->reject(fn ($e) => $e == $picture)
-                ->values()
-                ->toArray();
+        if (empty($this->receipt_pictures)) {
+            return;
         }
+
+        $this->receipt_pictures = collect($this->receipt_pictures)
+            ->reject(fn ($value) => $value == $path)
+            ->values()
+            ->toArray();
     }
 
     public static function attendees(): array

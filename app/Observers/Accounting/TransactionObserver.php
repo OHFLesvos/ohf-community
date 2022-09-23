@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Log;
 
 class TransactionObserver
 {
+    public function updated(Transaction $transaction): void
+    {
+        $removed_pictures = array_diff(
+            $transaction->getOriginal('receipt_pictures', []) ?? [],
+            $transaction->receipt_pictures ?? []
+        );
+        ReceiptPictureUtil::deleteReceiptPictures($removed_pictures);
+    }
+
     public function deleted(Transaction $transaction): void
     {
         Log::info('Deleted accounting transaction', [
