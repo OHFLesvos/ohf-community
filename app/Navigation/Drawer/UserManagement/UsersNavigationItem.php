@@ -9,16 +9,16 @@ use Illuminate\Support\Facades\Auth;
 
 class UsersNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'users.index';
+    protected string $route = 'users.index';
 
     public function getCaption(): string
     {
         return __('Users & Roles');
     }
 
-    protected $icon = 'user-friends';
+    protected string $icon = 'user-friends';
 
-    protected $active = ['admin/users*', 'admin/roles*'];
+    protected string|array $active = ['admin/users*', 'admin/roles*'];
 
     public function isAuthorized(): bool
     {

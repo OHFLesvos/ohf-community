@@ -16,6 +16,8 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
 {
     use Importable;
 
+    private bool $has_dates;
+
     public function __construct(private Collection $fields)
     {
         HeadingRowFormatter::default('none');
@@ -24,7 +26,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
             && $fields->where('key', 'Leaving Date')->first() != null;
     }
 
-    public function collection(Collection $rows)
+    public function collection(Collection $rows): void
     {
         foreach ($rows as $row) {
             $cmtyvol = new CommunityVolunteer();
@@ -49,7 +51,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
         }
     }
 
-    private function assignImportedValues($row, CommunityVolunteer $cmtyvol, bool $assign_responsibilities = true)
+    private function assignImportedValues($row, CommunityVolunteer $cmtyvol, bool $assign_responsibilities = true): void
     {
         $responsibilities = [];
         $row->each(function ($value, $label) use ($cmtyvol, &$responsibilities) {
@@ -92,7 +94,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
         }
     }
 
-    private static function appendToField(CommunityVolunteer $cmtyvol, $get, $assign, $value)
+    private static function appendToField(CommunityVolunteer $cmtyvol, $get, $assign, $value): void
     {
         $old_value = is_callable($get) ? $get($cmtyvol) : $cmtyvol[$get];
         $assign($cmtyvol, $value);

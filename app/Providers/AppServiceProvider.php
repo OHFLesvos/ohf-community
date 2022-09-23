@@ -51,6 +51,7 @@ class AppServiceProvider extends ServiceProvider
             Collection::macro(
                 'paginate',
                 function ($perPage = 15, $page = null, $options = []) {
+                    /** @var Collection $this */
                     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
                     $forPage = $this->forPage($page, $perPage);
                     $count = $this->count();

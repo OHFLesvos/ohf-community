@@ -148,33 +148,15 @@ if (! function_exists('localized_language_names')) {
     }
 }
 
-if (! function_exists('slice_data_others')) {
-    function slice_data_others(array $source, int $limit): array
-    {
-        $source_collection = collect($source);
-        $data = $source_collection->slice(0, $limit)
-            ->toArray();
-        $other = $source_collection->slice($limit)
-            ->reduce(fn ($carry, $item) => $carry + $item);
-        if ($other > 0) {
-            $data[__('Others')] = $other;
-        }
-
-        return $data;
-    }
-}
-
 if (! function_exists('gender_label')) {
-    function gender_label(string $value): string
+    function gender_label(?string $value): ?string
     {
-        if ($value == 'm') {
-            return __('Male');
-        }
-        if ($value == 'f') {
-            return __('Female');
-        }
-
-        return $value;
+        return match ($value) {
+            'm', 'male' => __('Male'),
+            'f', 'female' => __('Female'),
+            'other' => __('other'),
+            default => $value,
+        };
     }
 }
 

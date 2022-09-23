@@ -2,64 +2,34 @@
 
 namespace App\Exports\Accounting;
 
+use App\Exports\PageOrientation;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class TransactionsExport extends BaseTransactionsExport
 {
-    private ?string $filter;
-
-    /**
-     * @var string[]
-     */
-    private array $advancedFilter;
-
-    /**
-     * @var string|Carbon
-     */
-    private $dateFrom;
-
-    /**
-     * @var string|Carbon
-     */
-    private $dateTo;
-
-    private ?Wallet $wallet;
-
     /**
      * @param  string[]  $advancedFilter
-     * @param  string|Carbon  $dateFrom
-     * @param  string|Carbon  $dateTo
      */
     public function __construct(
-        ?Wallet $wallet,
-        ?string $filter = null,
-        array $advancedFilter = [],
-        $dateFrom = null,
-        $dateTo = null
+        private ?Wallet $wallet,
+        private ?string $filter = null,
+        private array $advancedFilter = [],
+        private string|Carbon|null $dateFrom = null,
+        private string|Carbon|null $dateTo = null
     ) {
-        $this->wallet = $wallet;
-        $this->filter = $filter;
-        $this->advancedFilter = $advancedFilter;
-        $this->dateFrom = $dateFrom;
-        $this->dateTo = $dateTo;
-        $this->orientation = 'landscape';
+        $this->orientation = PageOrientation::Landscape;
     }
 
-    public function query(): \Illuminate\Database\Eloquent\Builder
+    public function query(): Builder
     {
         return Transaction::query()
-            ->when($this->wallet !== null, fn ($qry) => $qry->forWallet($this->wallet))
+            ->forWallet($this->wallet)
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
-            ->when(
-                ! empty($this->dateFrom),
-                fn ($qry) => $qry->whereDate('date', '>=', $this->dateFrom)
-            )
-            ->when(
-                ! empty($this->dateTo),
-                fn ($qry) => $qry->whereDate('date', '<=', $this->dateTo)
-            )
+            ->forDateRange($this->dateFrom, $this->dateTo)
             ->orderBy('date', 'ASC')
             ->orderBy('created_at', 'ASC');
     }

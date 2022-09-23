@@ -3,8 +3,10 @@
 namespace App\Exports\Fundraising;
 
 use App\Exports\BaseExport;
+use App\Exports\PageOrientation;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -18,11 +20,14 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
 {
     private Collection $usedCurrenciesChannels;
 
+    /**
+     * @var int[]
+     */
     private array $years;
 
     public function __construct()
     {
-        $this->orientation = 'landscape';
+        $this->orientation = PageOrientation::Landscape;
 
         $this->years = [
             now()->subYear()->year,
@@ -33,9 +38,9 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             ->selectRaw('YEAR(date) as year')
             ->selectRaw('SUM(amount) as amount')
             ->having('amount', '>', 0)
-            ->where(function ($qry) {
+            ->where(function (Builder $qry) {
                 foreach ($this->years as $year) {
-                    $qry->orWhereYear('date', $year);
+                    $qry->orWhereYear('date', '=', $year);
                 }
             })
             ->groupBy('currency')
@@ -47,7 +52,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             ->get();
     }
 
-    public function query(): \Illuminate\Database\Eloquent\Builder
+    public function query(): Builder
     {
         return Donor::orderBy('first_name')
             ->orderBy('last_name')

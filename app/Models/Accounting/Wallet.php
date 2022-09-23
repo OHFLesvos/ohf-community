@@ -6,6 +6,8 @@ use App\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Wallet extends Model
 {
@@ -17,10 +19,7 @@ class Wallet extends Model
         'name',
     ];
 
-    /**
-     * Get the transactions for the wallet.
-     */
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }
@@ -36,7 +35,7 @@ class Wallet extends Model
             ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as amount_sum')
             ->selectRaw('SUM(fees) as fees_sum')
             ->forDateRange(null, $date)
-            ->forWallet($this)
+            ->forWallet($this->id)
             ->first();
 
         return optional($result)->amount_sum - optional($result)->fees_sum;
@@ -54,8 +53,9 @@ class Wallet extends Model
 
     public function getNextFreeReceiptNumber(): int
     {
-        return optional(Transaction::selectRaw('MAX(receipt_no) as val')
-            ->forWallet($this)
+        return optional(Transaction::query()
+            ->selectRaw('MAX(receipt_no) as val')
+            ->forWallet($this->id)
             ->first())
             ->val + 1;
     }
@@ -63,7 +63,7 @@ class Wallet extends Model
     /**
      * The roles that can access the wallet.
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'accounting_wallet_role')
             ->withTimestamps();

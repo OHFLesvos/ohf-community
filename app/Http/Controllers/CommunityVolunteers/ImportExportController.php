@@ -3,22 +3,26 @@
 namespace App\Http\Controllers\CommunityVolunteers;
 
 use App\Exports\CommunityVolunteers\CommunityVolunteersExport;
+use App\Exports\PageOrientation;
 use App\Http\Requests\CommunityVolunteers\ImportCommunityVolunteers;
 use App\Imports\CommunityVolunteers\CommunityVolunteersImport;
 use App\Imports\CommunityVolunteers\HeadingRowImport;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\ImportFieldMapping;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 use JeroenDesloovere\VCard\VCard;
 use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
 
 class ImportExportController extends BaseController
 {
-    public function index()
+    public function index(): View
     {
         return view('cmtyvol.import-export', [
             'formats' => $this->getFormats(),
@@ -36,7 +40,7 @@ class ImportExportController extends BaseController
         ]);
     }
 
-    private function getFormats()
+    private function getFormats(): array
     {
         // File extension => Label
         return [
@@ -46,7 +50,7 @@ class ImportExportController extends BaseController
         ];
     }
 
-    public function doImport(ImportCommunityVolunteers $request)
+    public function doImport(ImportCommunityVolunteers $request): RedirectResponse
     {
         $this->authorize('import', CommunityVolunteer::class);
 
@@ -79,7 +83,7 @@ class ImportExportController extends BaseController
             ->with('success', __('Import successful.'));
     }
 
-    private static function getImportFields($fields)
+    private static function getImportFields($fields): Collection
     {
         return collect($fields)
             ->where('overview_only', false)
@@ -95,7 +99,7 @@ class ImportExportController extends BaseController
             ]);
     }
 
-    public function getHeaderMappings(Request $request)
+    public function getHeaderMappings(Request $request): array
     {
         $request->validate([
             'file' => 'required|file',
@@ -126,14 +130,15 @@ class ImportExportController extends BaseController
         $available = collect([null => '-- '.__("don't import").' --'])
             ->merge($fields->mapWithKeys(fn ($f) => [$f['key'] => __($f['key'])]));
 
-        return ['headers' => $table_headers, 'available' => $available, 'defaults' => $defaults];
+        return [
+            'headers' => $table_headers,
+            'available' => $available,
+            'defaults' => $defaults,
+        ];
     }
 
     /**
      * Prepare and download export as file.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function doExport(Request $request)
     {
@@ -172,15 +177,15 @@ class ImportExportController extends BaseController
         );
     }
 
-    private function createExportable(Request $request)
+    private function createExportable(Request $request): CommunityVolunteersExport
     {
-        $columnSet = $this->getColumnSets()[$request->column_set];
+        $columnSet = $this->getColumnSets()->toArray()[$request->column_set];
         $fields = $this->filterFieldsByColumnSet($this->getFields(), $columnSet);
         $workStatus = $request->work_status;
         $sorting = $this->getSorters()[$request->sorting];
 
         $export = new CommunityVolunteersExport($fields, $workStatus);
-        $export->orientation = $request->orientation;
+        $export->orientation = $request->orientation == 'portrait' ? PageOrientation::Portrait : PageOrientation::Landscape;
         $export->sorting = $sorting['sorting'];
         if ($request->has('fit_to_page')) {
             $export->fitToWidth = 1;
@@ -190,7 +195,7 @@ class ImportExportController extends BaseController
         return $export;
     }
 
-    private function filterFieldsByColumnSet(array $fields, array $columnSet)
+    private function filterFieldsByColumnSet(array $fields, array $columnSet): Collection
     {
         return collect($fields)
             ->where('overview_only', false)
@@ -216,46 +221,48 @@ class ImportExportController extends BaseController
         return __('Community Volunteers').'_'.$workStatus.'_'.Carbon::now()->toDateString();
     }
 
-    private function downloadExportable(Request $request, $export, string $file_name, string $file_ext)
-    {
+    private function downloadExportable(
+        Request $request,
+        CommunityVolunteersExport $export,
+        string $file_name,
+        string $file_ext
+    ) {
         // Remember parameters in session
         session(['cmtyvol.export.work_status' => $request->work_status]);
         session(['cmtyvol.export.columnt_set' => $request->column_set]);
         session(['cmtyvol.export.sorting' => $request->sorting]);
 
-        // Download as ZIP with portraits
-        if ($request->has('include_portraits')) {
-            $options = new Archive();
-            $options->setSendHttpHeaders(true);
-            $zip = new ZipStream($file_name.'.zip', $options);
-            $temp_file = 'temp/'.uniqid().'.'.$file_ext;
-            $export->store($temp_file);
-            $zip->addFileFromPath($file_name.'.'.$file_ext, storage_path('app/'.$temp_file));
-            Storage::delete($temp_file);
-            $workStatus = $request->work_status;
-            $cmtyvols = CommunityVolunteer::workStatus($workStatus)->get();
-            foreach ($cmtyvols as $cmtyvol) {
-                if (isset($cmtyvol->portrait_picture)) {
-                    $picture_path = storage_path('app/'.$cmtyvol->portrait_picture);
-                    if (is_file($picture_path)) {
-                        $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
-                        $zip->addFileFromPath('portraits/'.$cmtyvol->fullName.'.'.$ext, $picture_path);
-                    }
-                }
-            }
-            $zip->finish();
-        }
         // Download as simple spreadsheet
-        else {
+        if ($request->missing('include_portraits')) {
             return $export->download($file_name.'.'.$file_ext);
         }
+
+        \Debugbar::disable(); // Debugbar will inject additional code at end of zip file if enabled
+
+        // Download as ZIP with portraits
+        $options = new Archive();
+        $options->setSendHttpHeaders(true);
+        $zip = new ZipStream($file_name.'.zip', $options);
+        $temp_file = 'temp/'.uniqid().'.'.$file_ext;
+        $export->store($temp_file);
+        $zip->addFileFromPath($file_name.'.'.$file_ext, storage_path('app/'.$temp_file));
+        Storage::delete($temp_file);
+        $workStatus = $request->work_status;
+        $cmtyvols = CommunityVolunteer::workStatus($workStatus)->get();
+        foreach ($cmtyvols as $cmtyvol) {
+            if (isset($cmtyvol->portrait_picture)) {
+                $picture_path = storage_path('app/'.$cmtyvol->portrait_picture);
+                if (is_file($picture_path)) {
+                    $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
+                    $zip->addFileFromPath('portraits/'.$cmtyvol->fullName.'.'.$ext, $picture_path);
+                }
+            }
+        }
+        $zip->finish();
     }
 
     /**
      * Download vcard
-     *
-     * @param  \App\Models\CommunityVolunteers\CommunityVolunteer  $communityVolunteer
-     * @return \Illuminate\Http\Response
      */
     public function vcard(CommunityVolunteer $cmtyvol)
     {

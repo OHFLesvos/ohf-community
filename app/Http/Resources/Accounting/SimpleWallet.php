@@ -5,6 +5,9 @@ namespace App\Http\Resources\Accounting;
 use App\Support\Accounting\FormatsCurrency;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Accounting\Wallet
+ */
 class SimpleWallet extends JsonResource
 {
     use FormatsCurrency;
@@ -13,9 +16,8 @@ class SimpleWallet extends JsonResource
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         $amount = $this->amount;
 

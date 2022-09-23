@@ -24,6 +24,8 @@ class BackupDatabase extends Command
      */
     protected $description = 'Backup the database';
 
+    private Process $process;
+
     /**
      * Create a new command instance.
      *
@@ -52,11 +54,11 @@ class BackupDatabase extends Command
         try {
             $this->process->mustRun();
 
-            $this->info('The backup has been proceed successfully.');
+            $this->info('The backup has been created successfully.');
             Log::info('Created a backup of the database.');
         } catch (ProcessFailedException $exception) {
             Log::error($exception);
-            $this->error('The backup process has been failed.');
+            $this->error('The backup process has failed.');
         }
     }
 }

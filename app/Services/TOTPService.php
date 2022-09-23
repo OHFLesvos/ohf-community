@@ -12,9 +12,9 @@ class TOTPService
 {
     const VERIFY_WINDOW = 1;
 
-    public function verify(string $secret, string $otp): bool
+    public function verify(string $secret, string $otp, int $leeway = self::VERIFY_WINDOW): bool
     {
-        return TOTP::create($secret)->verify($otp, null, self::VERIFY_WINDOW);
+        return TOTP::create($secret)->verify($otp, null, $leeway);
     }
 
     public function createProvisionUri(string $secret, string $label): string

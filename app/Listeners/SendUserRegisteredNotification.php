@@ -23,7 +23,7 @@ class SendUserRegisteredNotification
             Notification::send($admins, new UserRegistered($user));
             $user->notify(new UserRegisteredConfirmation($user));
         } catch (TransportExceptionInterface $ex) {
-            Log::error("Failed to send email to newly registered user $user->email.", $ex);
+            Log::error("Failed to send email to newly registered user $user->email :".$ex->getMessage());
         }
     }
 }

@@ -7,24 +7,22 @@ use App\Models\Fundraising\Donation;
 use App\Models\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Fundraising\Donor
+ */
 class Donor extends JsonResource
 {
-    private ?bool $extended;
-
-    public function __construct($resource, ?bool $extended = false)
+    public function __construct($resource, private ?bool $extended = false)
     {
         parent::__construct($resource);
-
-        $this->extended = $extended;
     }
 
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request
-     * @return array
+     * @param  \Illuminate\Http\Request  $request
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         if ($this->extended) {
             $can_view_donations = $request->user()->can('viewAny', Donation::class);

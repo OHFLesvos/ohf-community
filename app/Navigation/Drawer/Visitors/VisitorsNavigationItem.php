@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Gate;
 
 class VisitorsNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'visitors.index';
+    protected string $route = 'visitors.index';
 
     public function getCaption(): string
     {
         return __('Visitors');
     }
 
-    protected $icon = 'door-open';
+    protected string $icon = 'door-open';
 
-    protected $active = 'visitors*';
+    protected string|array $active = 'visitors*';
 
     public function isAuthorized(): bool
     {

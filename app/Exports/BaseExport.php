@@ -13,26 +13,6 @@ abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
 {
     use Exportable, DefaultFormatting;
 
-    /**
-     * Orientation
-     */
-    public string $orientation = 'portrait';
-
-    /**
-     * Margins
-     */
-    public ?float $margins = null;
-
-    /**
-     * Fit to width
-     */
-    public int $fitToWidth = 0;
-
-    /**
-     * Fit to height
-     */
-    public int $fitToHeight = 0;
-
     public function registerEvents(): array
     {
         return [

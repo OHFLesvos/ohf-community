@@ -3,19 +3,14 @@
 namespace App\Models\Accounting;
 
 use App\Models\User;
-use App\Support\Accounting\Webling\Entities\Entrygroup;
-use App\Support\Accounting\Webling\Exceptions\ConnectionException;
 use App\Util\NumberFormatUtil;
 use Carbon\Carbon;
-use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Intervention\Image\Facades\Image;
-use Org_Heigl\Ghostscript\Ghostscript;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Transaction extends Model implements Auditable
@@ -24,8 +19,6 @@ class Transaction extends Model implements Auditable
     use HasFactory;
 
     protected $table = 'accounting_transactions';
-
-    private const RECEIPT_PICTURE_PATH = 'public/accounting/receipts';
 
     public const ADVANCED_FILTER_COLUMNS = [
         'type',
@@ -45,7 +38,7 @@ class Transaction extends Model implements Auditable
         'remarks',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         static::deleting(function ($model) {
             $model->deleteReceiptPictures();
@@ -71,52 +64,44 @@ class Transaction extends Model implements Auditable
     /**
      * Get the wallet that owns this transaction.
      */
-    public function wallet()
+    public function wallet(): BelongsTo
     {
         return $this->belongsTo(Wallet::class);
     }
 
-    public function category()
+    public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function project()
+    public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
     }
 
-    /**
-     * Get the supplier that owns this transaction.
-     */
-    public function supplier()
+    public function supplier(): BelongsTo
     {
         return $this->belongsTo(Supplier::class);
     }
 
-    public function budget()
+    public function budget(): BelongsTo
     {
         return $this->belongsTo(Budget::class);
     }
 
-    /**
-     * Get the wallet that owns this transaction.
-     */
-    public function controller()
+    public function controller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'controlled_by');
     }
 
     /**
      * Scope a query to only include transactions from a given date range
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|Carbon|null  $dateFrom
-     * @param  string|Carbon|null  $dateTo
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForDateRange($query, $dateFrom = null, $dateTo = null)
-    {
+    public function scopeForDateRange(
+        Builder $query,
+        string|Carbon|null $dateFrom = null,
+        string|Carbon|null $dateTo = null
+    ): Builder {
         if ($dateFrom !== null) {
             $query->whereDate('date', '>=', $dateFrom);
         }
@@ -127,35 +112,28 @@ class Transaction extends Model implements Auditable
         return $query;
     }
 
-    /**
-     * Scope a query to only include transactions for the given wallet
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  Wallet  $wallet
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeForWallet($query, Wallet $wallet)
+    public function scopeForWallet(Builder $query, Wallet|int|null $wallet): Builder
     {
-        return $query->where('wallet_id', $wallet->id);
+        if ($wallet === null) {
+            return $query;
+        }
+
+        return $query->where('wallet_id', $wallet instanceof Wallet ? $wallet->id : $wallet);
     }
 
     /**
      * Scope a query to only include transactions matching the given filter conditions
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForFilter($query, string $filter)
+    public function scopeForFilter(Builder $query, string $filter): Builder
     {
         if (empty($filter)) {
             return $query;
         }
 
-        return $query->where(function (Builder $qry1) use ($filter) {
-            return $qry1->where('receipt_no', $filter)
+        return $query->where(fn (Builder $qry1) => $qry1
+                ->where('receipt_no', $filter)
                 ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('amount', $filter))
-                ->orWhere('date', $filter)
+                ->orWhereDate('date', $filter)
                 ->orWhere('secondary_category', 'LIKE', '%'.$filter.'%')
                 ->orWhere('location', 'LIKE', '%'.$filter.'%')
                 ->orWhere('cost_center', 'LIKE', '%'.$filter.'%')
@@ -173,18 +151,14 @@ class Transaction extends Model implements Auditable
                 })
                 ->orWhereHas('project', function (Builder $qry2) use ($filter) {
                     $qry2->where('name', 'LIKE', '%'.$filter.'%');
-                });
-        });
+                })
+        );
     }
 
     /**
      * Scope a query to only include transactions matching the given filter conditions
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  array  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForAdvancedFilter($query, array $filter)
+    public function scopeForAdvancedFilter(Builder $query, array $filter): Builder
     {
         foreach (self::ADVANCED_FILTER_COLUMNS as $col) {
             if (! empty($filter[$col])) {
@@ -217,49 +191,6 @@ class Transaction extends Model implements Auditable
         }
 
         return $query;
-    }
-
-    /**
-     * Scope a query to only include transactions which have not been booked
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeNotBooked($query)
-    {
-        return $query->where('booked', false);
-    }
-
-    public function getExternalUrlAttribute()
-    {
-        if ($this->external_id != null) {
-            try {
-                return optional(Entrygroup::find($this->external_id))->url();
-            } catch (ConnectionException $e) {
-                Log::warning('Unable to get external URL: '.$e->getMessage());
-            }
-        }
-
-        return null;
-    }
-
-    public function addReceiptPicture($file)
-    {
-        $storedFile = $file->store(self::RECEIPT_PICTURE_PATH);
-        $storedFilePath = Storage::path($storedFile);
-        $thumbSize = config('accounting.thumbnail_size');
-        $maxImageDimension = config('accounting.max_image_size');
-
-        if (Str::startsWith($file->getMimeType(), 'image/')) {
-            self::createThumbnail($storedFilePath, $thumbSize);
-            self::resizeImage($storedFilePath, $maxImageDimension);
-        } elseif ($file->getMimeType() == 'application/pdf') {
-            self::createPdfThumbnail($storedFilePath, $thumbSize);
-        }
-
-        $pictures = $this->receipt_pictures ?? [];
-        $pictures[] = $storedFile;
-        $this->receipt_pictures = $pictures;
     }
 
     public function receiptPictureArray(): array
@@ -295,48 +226,7 @@ class Transaction extends Model implements Auditable
             ->toArray();
     }
 
-    private static function createThumbnail($path, $dimensions)
-    {
-        $thumbPath = thumb_path($path);
-        $image = new ImageResize($path);
-        $image->crop($dimensions, $dimensions);
-        $image->save($thumbPath);
-    }
-
-    private static function resizeImage($path, $dimensions)
-    {
-        $image = new ImageResize($path);
-        $image->resizeToBestFit($dimensions, $dimensions);
-        $image->save($path);
-    }
-
-    private static function createPdfThumbnail($path, $dimensions)
-    {
-        $thumbPath = thumb_path($path, 'jpeg');
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            Ghostscript::setGsPath(config('accounting.gs_path'));
-        }
-        $pdf = new \Spatie\PdfToImage\Pdf($path);
-        $pdf->saveImage($thumbPath);
-        $image = new ImageResize($thumbPath);
-        $image->crop($dimensions, $dimensions);
-        $image->save($thumbPath);
-    }
-
-    public function rotateReceiptPicture(string $picture, string $direction)
-    {
-        self::rotatePicture(Storage::path($picture), $direction);
-        self::rotatePicture(Storage::path(thumb_path($picture)), $direction);
-    }
-
-    private static function rotatePicture(string $path, string $direction)
-    {
-        $img = Image::make($path);
-        $img->rotate($direction == 'left' ? 90 : -90);
-        $img->save($path);
-    }
-
-    public function deleteReceiptPicture(string $picture)
+    public function deleteReceiptPicture(string $picture): void
     {
         Storage::delete($picture);
         Storage::delete(thumb_path($picture));
@@ -350,7 +240,7 @@ class Transaction extends Model implements Auditable
         }
     }
 
-    public function deleteReceiptPictures()
+    public function deleteReceiptPictures(): void
     {
         if (! empty($this->receipt_pictures)) {
             foreach ($this->receipt_pictures as $file) {
@@ -364,44 +254,40 @@ class Transaction extends Model implements Auditable
 
     public static function attendees(): array
     {
-        return self::select('attendee')
+        return self::query()
             ->whereNotNull('attendee')
             ->distinct()
             ->orderBy('attendee')
-            ->get()
             ->pluck('attendee')
             ->toArray();
     }
 
     public static function secondaryCategories(): array
     {
-        return self::select('secondary_category')
+        return self::query()
             ->whereNotNull('secondary_category')
             ->distinct()
             ->orderBy('secondary_category')
-            ->get()
             ->pluck('secondary_category')
             ->toArray();
     }
 
     public static function locations(): array
     {
-        return self::select('location')
+        return self::query()
             ->whereNotNull('location')
             ->distinct()
             ->orderBy('location')
-            ->get()
             ->pluck('location')
             ->toArray();
     }
 
     public static function costCenters(): array
     {
-        return self::select('cost_center')
+        return self::query()
             ->whereNotNull('cost_center')
             ->distinct()
             ->orderBy('cost_center')
-            ->get()
             ->pluck('cost_center')
             ->toArray();
     }
@@ -412,7 +298,6 @@ class Transaction extends Model implements Auditable
             ->selectRaw('YEAR(date) as year')
             ->groupByRaw('YEAR(date)')
             ->orderBy('year', 'desc')
-            ->get()
             ->pluck('year')
             ->unique()
             ->toArray();
@@ -420,12 +305,11 @@ class Transaction extends Model implements Auditable
 
     public function getIntermediateBalance()
     {
-        return Transaction::query()
+        return self::query()
             ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as sum')
-            ->where('wallet_id', $this->wallet_id)
+            ->forWallet($this->wallet_id)
             ->where('receipt_no', '<=', $this->receipt_no)
             ->orderBy('receipt_no', 'ASC')
-            ->pluck('sum')
-            ->first();
+            ->first('sum');
     }
 }

@@ -988,6 +988,8 @@ export default {
         "The newest user is {name}, registered {registered}.": "The newest user is {name}, registered {registered}.",
         "Update your profile information directly at {provider}": "Update your profile information directly at {provider}",
         "Managed by {provider}": "Managed by {provider}",
+        "Show all {num}": "Show all {num}",
+        "Show Top {num}": "Show Top {num}",
         "pagination": {
             "previous": "&laquo; Previous",
             "next": "Next &raquo;"

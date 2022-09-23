@@ -6,7 +6,7 @@ use Illuminate\Validation\Rule;
 
 trait ValidatesResourceIndex
 {
-    protected function validateFilter()
+    protected function validateFilter(): void
     {
         request()->validate([
             'filter' => [
@@ -16,7 +16,7 @@ trait ValidatesResourceIndex
         ]);
     }
 
-    protected function validatePagination()
+    protected function validatePagination(): void
     {
         request()->validate([
             'page' => [
@@ -32,7 +32,7 @@ trait ValidatesResourceIndex
         ]);
     }
 
-    protected function validateSorting(array $sortFields)
+    protected function validateSorting(array $sortFields): void
     {
         request()->validate([
             'sortBy' => [
@@ -50,7 +50,11 @@ trait ValidatesResourceIndex
 
     protected function getFilter(): ?string
     {
-        return request()->input('filter', '');
+        if (request()->filled('filter')) {
+            return trim(request()->input('filter'));
+        }
+
+        return null;
     }
 
     protected function getSortBy(string $defaultField): string

@@ -16,7 +16,7 @@ class DonationsImport implements ToCollection, WithHeadingRow
 {
     use Importable;
 
-    public function collection(Collection $rows)
+    public function collection(Collection $rows): void
     {
         foreach ($rows as $row) {
             Validator::make($rows->toArray(), [

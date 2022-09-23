@@ -4,14 +4,16 @@ namespace App\Http\Controllers\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\CommunityVolunteers\Responsibility;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class ListController extends BaseController
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->authorize('viewAny', CommunityVolunteer::class);
 
@@ -123,7 +125,7 @@ class ListController extends BaseController
         ];
     }
 
-    public function create()
+    public function create(): View
     {
         $this->authorize('create', CommunityVolunteer::class);
 
@@ -139,7 +141,7 @@ class ListController extends BaseController
         ]);
     }
 
-    private static function createFormField($f, $value)
+    private static function createFormField($f, $value): array
     {
         // Calculate required attribute
         $required = false;
@@ -165,7 +167,7 @@ class ListController extends BaseController
         ];
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->authorize('create', CommunityVolunteer::class);
 
@@ -180,7 +182,7 @@ class ListController extends BaseController
             ->with('success', __('Community volunteer registered.'));
     }
 
-    private static function isRequiredField($f)
+    private static function isRequiredField($f): bool
     {
         return isset($f['form_validate']) && (
             (
@@ -191,7 +193,7 @@ class ListController extends BaseController
         );
     }
 
-    private function validateFormData($request)
+    private function validateFormData($request): void
     {
         $request->validate(
             collect($this->getFields())
@@ -237,7 +239,7 @@ class ListController extends BaseController
         ];
     }
 
-    private function applyFormData(Request $request, CommunityVolunteer $cmtyvol)
+    private function applyFormData(Request $request, CommunityVolunteer $cmtyvol): void
     {
         collect($this->getFields())
             ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
@@ -272,7 +274,7 @@ class ListController extends BaseController
         $field['assign']($cmtyvol, $request->{$field['form_name']});
     }
 
-    public function show(CommunityVolunteer $cmtyvol)
+    public function show(CommunityVolunteer $cmtyvol): View
     {
         $this->authorize('view', $cmtyvol);
 
@@ -307,7 +309,7 @@ class ListController extends BaseController
             ->filter(fn ($field) => self::isFieldViewAuthorized($field));
     }
 
-    public function edit(CommunityVolunteer $cmtyvol, Request $request)
+    public function edit(CommunityVolunteer $cmtyvol): View
     {
         $this->authorize('update', $cmtyvol);
 
@@ -329,7 +331,7 @@ class ListController extends BaseController
         ]);
     }
 
-    public function update(CommunityVolunteer $cmtyvol, Request $request)
+    public function update(CommunityVolunteer $cmtyvol, Request $request): RedirectResponse
     {
         $this->authorize('update', $cmtyvol);
 
@@ -343,7 +345,7 @@ class ListController extends BaseController
             ->with('success', __('Community volunteer updated.'));
     }
 
-    public function destroy(CommunityVolunteer $cmtyvol)
+    public function destroy(CommunityVolunteer $cmtyvol): RedirectResponse
     {
         $this->authorize('delete', $cmtyvol);
 
@@ -354,7 +356,7 @@ class ListController extends BaseController
             ->with('success', __('Community volunteer deleted.'));
     }
 
-    private static function getFieldValue($field, $cmtyvol, $with_html = true)
+    private static function getFieldValue(array $field, CommunityVolunteer $cmtyvol, bool $with_html = true): mixed
     {
         $value = null;
         if ($with_html && isset($field['value_html']) && is_callable($field['value_html'])) {
@@ -372,7 +374,7 @@ class ListController extends BaseController
         return $value;
     }
 
-    public function responsibilities(CommunityVolunteer $cmtyvol)
+    public function responsibilities(CommunityVolunteer $cmtyvol): View
     {
         $responsibilities = Responsibility::where('available', true)
             ->orderBy('name')
@@ -391,22 +393,21 @@ class ListController extends BaseController
             'value' => $cmtyvol->responsibilities
                 ->map(fn ($r) => [
                     'value' => $r->name,
-                    'from' => $r->pivot->start_date,
-                    'to' => $r->pivot->end_date,
+                    'from' => $r->getRelationValue('pivot')->start_date,
+                    'to' => $r->getRelationValue('pivot')->end_date,
                 ]),
         ]);
     }
 
-    public function updateResponsibilities(CommunityVolunteer $cmtyvol, Request $request)
+    public function updateResponsibilities(CommunityVolunteer $cmtyvol, Request $request): RedirectResponse
     {
         $request->validate([
             'responsibilities' => 'array',
             'responsibilities.*.name' => [
                 Rule::in(
                     Responsibility::select('name')
-                    ->get()
-                    ->pluck('name')
-                    ->all()
+                        ->pluck('name')
+                        ->all()
                 ),
                 'required_with:responsibilities.*.from,responsibilities.*.to',
             ],

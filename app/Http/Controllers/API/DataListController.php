@@ -4,10 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class DataListController extends Controller
 {
-    public function countries(Request $request)
+    public function countries(Request $request): Collection
     {
         $request->validate([
             'locale' => [
@@ -20,7 +21,7 @@ class DataListController extends Controller
         return localized_country_names($request->input('locale'));
     }
 
-    public function languages(Request $request)
+    public function languages(Request $request): Collection
     {
         $request->validate([
             'locale' => [

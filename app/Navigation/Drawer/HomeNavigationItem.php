@@ -4,16 +4,16 @@ namespace App\Navigation\Drawer;
 
 class HomeNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'home';
+    protected string $route = 'home';
 
     public function getCaption(): string
     {
         return __('Dashboard');
     }
 
-    protected $icon = 'home';
+    protected string $icon = 'home';
 
-    protected $active = '/';
+    protected string|array $active = '/';
 
-    protected $authorized = true;
+    protected bool $authorized = true;
 }

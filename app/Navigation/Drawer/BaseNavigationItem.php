@@ -6,15 +6,15 @@ use Exception;
 
 abstract class BaseNavigationItem implements NavigationItem
 {
-    protected $route;
+    protected string $route;
 
-    protected $caption;
+    protected string $caption;
 
-    protected $icon;
+    protected string $icon;
 
-    protected $active;
+    protected string|array $active;
 
-    protected $authorized;
+    protected bool $authorized;
 
     public function getRoute(): string
     {
@@ -37,7 +37,7 @@ abstract class BaseNavigationItem implements NavigationItem
         return $this->icon;
     }
 
-    public function getActive()
+    public function getActive(): string|array
     {
         $this->assertDefined('active');
 

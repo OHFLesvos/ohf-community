@@ -11,8 +11,10 @@ use App\Models\Traits\InDateRangeScope;
 use App\Models\Traits\LanguageCodeField;
 use App\Models\Traits\TagsRelation;
 use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -57,7 +59,7 @@ class Donor extends Model
         'language_code',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         static::deleting(function ($model) {
             $model->tags()->detach();
@@ -65,7 +67,7 @@ class Donor extends Model
         parent::boot();
     }
 
-    public function getFullNameAttribute()
+    public function getFullNameAttribute(): string
     {
         $str = '';
         if ($this->first_name != null) {
@@ -84,7 +86,7 @@ class Donor extends Model
         return trim($str);
     }
 
-    public function getFullAddressAttribute()
+    public function getFullAddressAttribute(): string
     {
         $str = '';
         if (isset($this->street)) {
@@ -108,12 +110,12 @@ class Donor extends Model
         return trim($str);
     }
 
-    public function donations()
+    public function donations(): HasMany
     {
         return $this->hasMany(Donation::class);
     }
 
-    public function budgets()
+    public function budgets(): HasMany
     {
         return $this->hasMany(Budget::class);
     }
@@ -159,7 +161,7 @@ class Donor extends Model
      *
      * @param  Donation  $donation
      */
-    public function addDonation(Donation $donation)
+    public function addDonation(Donation $donation): void
     {
         $this->donations()->save($donation);
     }
@@ -169,7 +171,7 @@ class Donor extends Model
      *
      * @param  array|Collection  $donations
      */
-    public function addDonations($donations)
+    public function addDonations($donations): void
     {
         $this->donations()->saveMany($donations);
     }
@@ -177,12 +179,8 @@ class Donor extends Model
     /**
      * Scope a query to only include donors matching the given filter
      * If no filter is specified, all records will be returned.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForFilter($query, ?string $filter = '')
+    public function scopeForFilter(Builder $query, ?string $filter = ''): Builder
     {
         if (! empty($filter)) {
             $query->where(function ($wq) use ($filter) {
@@ -212,12 +210,8 @@ class Donor extends Model
 
     /**
      * Scope a query to only include donors matching the given filter
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForSimpleFilter($query, string $filter)
+    public function scopeForSimpleFilter(Builder $query, string $filter): Builder
     {
         return $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%'.$filter.'%')
             ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%'.$filter.'%')
@@ -233,11 +227,10 @@ class Donor extends Model
      */
     public static function salutations(): array
     {
-        return self::select('salutation')
+        return self::query()
             ->distinct()
             ->whereNotNull('salutation')
             ->orderBy('salutation')
-            ->get()
             ->pluck('salutation')
             ->toArray();
     }
@@ -246,7 +239,6 @@ class Donor extends Model
     {
         return Tag::has('donors')
             ->orderBy('name')
-            ->get()
             ->pluck('name')
             ->toArray();
     }

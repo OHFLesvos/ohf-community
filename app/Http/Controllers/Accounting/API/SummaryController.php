@@ -10,6 +10,7 @@ use App\Models\Accounting\Wallet;
 use App\Support\Accounting\FormatsCurrency;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Setting;
@@ -18,7 +19,7 @@ class SummaryController extends Controller
 {
     use FormatsCurrency;
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $this->authorize('view-accounting-summary');
 
@@ -106,31 +107,32 @@ class SummaryController extends Controller
         $totalFees = $totals->sum('fees');
         $totalAmount = $wallets->sum('amount');
 
-        return [
-            'years' => Transaction::years(),
-            'categories' => $categories,
-            'projects' => $projects,
-            'wallets' => $wallets,
-            'totals' => [
-                'income' => $totalIncome,
-                'income_formatted' => $this->formatCurrency($totalIncome),
-                'spending' => $totalSpending,
-                'spending_formatted' => $this->formatCurrency($totalSpending),
-                'difference' => $totalIncome - $totalSpending,
-                'difference_formatted' => $this->formatCurrency($totalIncome - $totalSpending),
-                'fees' => $totalFees,
-                'fees_formatted' => $this->formatCurrency($totalFees),
-                'amount' => $totalAmount,
-                'amount_formatted' => $this->formatCurrency($totalAmount),
-            ],
-            'locations' => $useLocations
-                ? $this->revenueByField('location', $request)
-                : null,
-            'second_categories' => $useSecondaryCategories
-                ? $this->revenueByField('secondary_category', $request)
-                : null,
-            'use_locations' => $useLocations,
-        ];
+        return response()
+            ->json([
+                'years' => Transaction::years(),
+                'categories' => $categories,
+                'projects' => $projects,
+                'wallets' => $wallets,
+                'totals' => [
+                    'income' => $totalIncome,
+                    'income_formatted' => $this->formatCurrency($totalIncome),
+                    'spending' => $totalSpending,
+                    'spending_formatted' => $this->formatCurrency($totalSpending),
+                    'difference' => $totalIncome - $totalSpending,
+                    'difference_formatted' => $this->formatCurrency($totalIncome - $totalSpending),
+                    'fees' => $totalFees,
+                    'fees_formatted' => $this->formatCurrency($totalFees),
+                    'amount' => $totalAmount,
+                    'amount_formatted' => $this->formatCurrency($totalAmount),
+                ],
+                'locations' => $useLocations
+                    ? $this->revenueByField('location', $request)
+                    : null,
+                'second_categories' => $useSecondaryCategories
+                    ? $this->revenueByField('secondary_category', $request)
+                    : null,
+                'use_locations' => $useLocations,
+            ]);
     }
 
     private function totals(Request $request): Collection
@@ -188,7 +190,7 @@ class SummaryController extends Controller
         return $items;
     }
 
-    private function dateRange(Request $request)
+    private function dateRange(Request $request): array
     {
         if ($request->filled('year') && $request->filled('month')) {
             $dateFrom = (new Carbon($request->year.'-'.$request->month.'-01'))->startOfMonth();
@@ -204,32 +206,20 @@ class SummaryController extends Controller
         return [$dateFrom, $dateTo];
     }
 
-    private function filterQuery(Request $request, Builder $query): Builder
+    /**
+     * @param  Builder<Transaction>  $query
+     */
+    private function filterQuery(Request $request, $query): Builder
     {
         [$dateFrom, $dateTo] = $this->dateRange($request);
         $query->forDateRange($dateFrom, $dateTo);
 
-        if ($request->filled('wallet')) {
-            $query->where('wallet_id', $request->wallet);
-        }
-
-        if ($request->filled('category')) {
-            $query->where('category_id', '=', $request->project);
-        }
-
-        if ($request->filled('project')) {
-            $query->where('project_id', '=', $request->project);
-        }
-
-        if ($request->filled('location')) {
-            $query->where('location', '=', $request->location);
-        }
-
-        if ($request->filled('secondary_category')) {
-            $query->where('secondary_category', '=', $request->secondary_category);
-        }
-
-        return $query;
+        return $query
+            ->when($request->filled('wallet'), fn (Builder $qry) => $qry->where('wallet_id', $request->wallet))
+            ->when($request->filled('category'), fn (Builder $qry) => $qry->where('category_id', '=', $request->project))
+            ->when($request->filled('project'), fn (Builder $qry) => $qry->where('project_id', '=', $request->project))
+            ->when($request->filled('location'), fn (Builder $qry) => $qry->where('location', '=', $request->location))
+            ->when($request->filled('secondary_category'), fn (Builder $qry) => $qry->where('secondary_category', '=', $request->secondary_category));
     }
 
     private function revenueByRelationField(string $idField, $relationField, Request $request): Collection

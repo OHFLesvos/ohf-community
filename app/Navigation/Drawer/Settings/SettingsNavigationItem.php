@@ -6,16 +6,16 @@ use App\Navigation\Drawer\BaseNavigationItem;
 
 class SettingsNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'settings.edit';
+    protected string $route = 'settings.edit';
 
     public function getCaption(): string
     {
         return __('Settings');
     }
 
-    protected $icon = 'cogs';
+    protected string $icon = 'cogs';
 
-    protected $active = 'settings';
+    protected string|array $active = 'settings';
 
-    protected $authorized = true;
+    protected bool $authorized = true;
 }

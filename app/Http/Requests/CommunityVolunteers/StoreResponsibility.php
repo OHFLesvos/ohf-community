@@ -4,22 +4,22 @@ namespace App\Http\Requests\CommunityVolunteers;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 
 class StoreResponsibility extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
     {
         return [
             'name' => [
                 'required',
-                isset($this->responsibility)
-                    ? Rule::unique('community_volunteer_responsibilities')->ignore($this->responsibility->id)
-                    : Rule::unique('community_volunteer_responsibilities'),
+                Rule::unique('community_volunteer_responsibilities')
+                    ->when(isset($this->responsibility), fn (Unique $rule) => $rule->ignore($this->responsibility->id)),
             ],
             'capacity' => [
                 'nullable',
@@ -30,15 +30,5 @@ class StoreResponsibility extends FormRequest
                 'boolean',
             ],
         ];
-    }
-
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
     }
 }

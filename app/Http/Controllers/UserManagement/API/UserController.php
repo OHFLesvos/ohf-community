@@ -5,11 +5,12 @@ namespace App\Http\Controllers\UserManagement\API;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\UserManagement\StoreUpdateUser;
-use App\Http\Resources\RoleCollection;
+use App\Http\Resources\Role as RoleResource;
 use App\Http\Resources\User as UserResource;
-use App\Http\Resources\UserCollection;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -43,15 +44,28 @@ class UserController extends Controller
         ]);
         $this->validatePagination();
 
-        return new UserCollection(User::filtered($this->getFilter())
-            ->when(in_array('roles', $this->getIncludes()), fn ($qry) => $qry->with([
-                'roles' => fn ($qry) => $qry->orderBy('name'),
-            ]))
-            ->when(in_array('administeredRoles', $this->getIncludes()), fn ($qry) => $qry->with([
-                'administeredRoles' => fn ($qry) => $qry->orderBy('name'),
-            ]))
+        return UserResource::collection(User::query()
+            ->when($this->getFilter() !== null,
+                fn (Builder $qry) => $this->filterQuery($qry, $this->getFilter()))
+            ->when(in_array('roles', $this->getIncludes()),
+                fn (Builder $qry) => $qry->with([
+                    'roles' => fn (BelongsToMany $innerQuery) => $innerQuery->orderBy('name'),
+                ])
+            )
+            ->when(in_array('administeredRoles', $this->getIncludes()),
+                fn (Builder $qry) => $qry->with([
+                    'administeredRoles' => fn (BelongsToMany $innerQuery) => $innerQuery->orderBy('name'),
+                ])
+            )
             ->orderBy($this->getSortBy('name'), $this->getSortDirection())
             ->paginate($this->getPageSize()));
+    }
+
+    private function filterQuery(Builder $query, string $filter): Builder
+    {
+        return $query
+            ->where('name', 'LIKE', '%'.$filter.'%')
+            ->orWhere('email', 'LIKE', '%'.$filter.'%');
     }
 
     public function store(StoreUpdateUser $request): JsonResponse
@@ -193,7 +207,7 @@ class UserController extends Controller
         $this->authorize('view', $user);
         $this->authorize('viewAny', Role::class);
 
-        return new RoleCollection($user->roles()
+        return RoleResource::collection($user->roles()
             ->orderBy('name', 'asc')
             ->get());
     }

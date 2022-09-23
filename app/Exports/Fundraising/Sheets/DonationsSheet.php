@@ -3,6 +3,7 @@
 namespace App\Exports\Fundraising\Sheets;
 
 use App\Exports\BaseExport;
+use App\Exports\PageOrientation;
 use App\Models\Fundraising\Donation;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
@@ -19,7 +20,7 @@ class DonationsSheet extends BaseExport implements FromCollection, WithHeadings,
 
     public function __construct(private Collection $donations, private ?int $year = null)
     {
-        $this->orientation = 'landscape';
+        $this->orientation = PageOrientation::Landscape;
     }
 
     public function collection(): Collection

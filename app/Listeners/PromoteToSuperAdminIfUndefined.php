@@ -17,7 +17,7 @@ class PromoteToSuperAdminIfUndefined
         $this->promote($event->user);
     }
 
-    private function promote(User $user)
+    private function promote(User $user): void
     {
         $user->is_super_admin = true;
         $user->save();

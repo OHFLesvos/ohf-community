@@ -8,22 +8,7 @@ use Setting;
 
 class BrandingComposer
 {
-    /**
-     * Create the composer.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Bind data to the view.
-     *
-     * @param  View  $view
-     * @return void
-     */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
         $view->with('logo_url', self::fileUrlFromSettings('branding.logo_file'));
         $view->with('signet_url', self::fileUrlFromSettings('branding.signet_file'));
@@ -32,6 +17,9 @@ class BrandingComposer
         $view->with('favicon_192_url', self::fileUrlFromSettings('branding.favicon_192_file'));
     }
 
+    /**
+     * Bind data to the view.
+     */
     private static function fileUrlFromSettings(string $key): ?string
     {
         return Setting::has($key) ? Storage::url(Setting::get($key)) : null;

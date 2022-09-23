@@ -7,7 +7,7 @@ use Exception;
 
 trait RegisterContextButtons
 {
-    protected function registerContextButtons()
+    protected function registerContextButtons(): void
     {
         if (! isset($this->contextButtons)) {
             throw new Exception('$contextButtons not defined in '.__CLASS__);

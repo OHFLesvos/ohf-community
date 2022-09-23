@@ -9,7 +9,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Contracts\Auditable;
 
@@ -22,11 +22,6 @@ class CommunityVolunteer extends Model implements Auditable
 
     protected $table = 'community_volunteers';
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'languages' => 'array',
     ];
@@ -48,7 +43,7 @@ class CommunityVolunteer extends Model implements Auditable
         'notes',
     ];
 
-    public function getFullNameAttribute()
+    public function getFullNameAttribute(): string
     {
         $str = '';
         if ($this->first_name != null) {
@@ -67,7 +62,7 @@ class CommunityVolunteer extends Model implements Auditable
         return trim($str);
     }
 
-    public function getAgeAttribute()
+    public function getAgeAttribute(): ?int
     {
         try {
             return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
@@ -78,17 +73,17 @@ class CommunityVolunteer extends Model implements Auditable
         }
     }
 
-    public function getLanguagesStringAttribute()
+    public function getLanguagesStringAttribute(): string
     {
         return is_array($this->languages) ? implode(', ', $this->languages) : $this->languages;
     }
 
-    public function setLanguagesStringAttribute($value)
+    public function setLanguagesStringAttribute(?string $value): void
     {
         $this->languages = ! empty($value) ? preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value) : null;
     }
 
-    public function responsibilities()
+    public function responsibilities(): BelongsToMany
     {
         return $this->belongsToMany(
             Responsibility::class,
@@ -103,12 +98,8 @@ class CommunityVolunteer extends Model implements Auditable
 
     /**
      * Scope a query to only include community volunteers with a certain work status.
-     *
-     * @param  Builder  $query
-     * @param  string  $status One of [active, alumni, future]
-     * @return Builder
      */
-    public function scopeWorkStatus(Builder $query, string $status)
+    public function scopeWorkStatus(Builder $query, string $status): Builder
     {
         if ($status == 'active') {
             return $query->whereHas(
@@ -144,15 +135,15 @@ class CommunityVolunteer extends Model implements Auditable
 
     public function getFirstWorkStartDateAttribute(): ?Carbon
     {
-        return $this->responsibilities->map(fn ($e) => $e->pivot->start_date)->min() ?? null;
+        return $this->responsibilities->map(fn ($e) => $e->getRelationValue('pivot')->start_date)->min() ?? null;
     }
 
     public function getLastWorkEndDateAttribute(): ?Carbon
     {
-        return $this->responsibilities->map(fn ($e) => $e->pivot->end_date)->max() ?? null;
+        return $this->responsibilities->map(fn ($e) => $e->getRelationValue('pivot')->end_date)->max() ?? null;
     }
 
-    public function getWorkingSinceDaysAttribute()
+    public function getWorkingSinceDaysAttribute(): int
     {
         $start = $this->firstWorkStartDate;
         $end = $this->lastWorkEndDate;
@@ -166,51 +157,8 @@ class CommunityVolunteer extends Model implements Auditable
         return 0;
     }
 
-    public function scopeForFilterTerms($query, array $terms)
-    {
-        foreach ($terms as $term) {
-            $query->where(fn ($wq) => $wq->forFilter($term));
-        }
-
-        return $query;
-    }
-
-    /**
-     * Scope a query to only include community volunteers matching the given filter
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeForFilter(Builder $query, string $filter)
-    {
-        return $query->where(
-            fn (Builder $q) => $q->where(DB::raw('CONCAT(first_name, \' \', family_name)'), 'LIKE', '%'.$filter.'%')
-                ->orWhere(DB::raw('CONCAT(family_name, \' \', first_name)'), 'LIKE', '%'.$filter.'%')
-                ->orWhere('first_name', 'LIKE', '%'.$filter.'%')
-                ->orWhere('nickname', 'LIKE', '%'.$filter.'%')
-                ->orWhere('family_name', 'LIKE', '%'.$filter.'%')
-                ->orWhere('date_of_birth', $filter)
-                ->orWhere('nationality', 'LIKE', '%'.$filter.'%')
-                ->orWhere('police_no', $filter)
-                ->orWhere('languages', 'LIKE', '%'.$filter.'%')
-                ->orWhereHas('responsibilities', fn (Builder $query) => $query->forFilter($filter))
-                ->orWhere('local_phone', 'LIKE', '%'.$filter.'%')
-                ->orWhere('other_phone', 'LIKE', '%'.$filter.'%')
-                ->orWhere('whatsapp', 'LIKE', '%'.$filter.'%')
-                ->orWhere('email', 'LIKE', '%'.$filter.'%')
-                ->orWhere('skype', 'LIKE', '%'.$filter.'%')
-                ->orWhere('residence', 'LIKE', '%'.$filter.'%')
-                ->orWhere('pickup_location', 'LIKE', '%'.$filter.'%')
-                ->orWhere('notes', 'LIKE', '%'.$filter.'%')
-        );
-    }
-
     /**
      * Returns a list of all genders assigned to any record.
-     *
-     * @param  bool|null  $includeEmpty
-     * @return array
      */
     public static function genders(?bool $includeEmpty = false): array
     {
@@ -224,22 +172,7 @@ class CommunityVolunteer extends Model implements Auditable
     }
 
     /**
-     * Scope a query to only include community volunteers having the given gender
-     *
-     * @param  Builder  $query
-     * @param  string|null  $gender
-     * @return Builder
-     */
-    public function scopeHasGender(Builder $query, ?string $gender)
-    {
-        return $query->where('gender', $gender);
-    }
-
-    /**
      * Returns a list of all nationalities assigned to any record.
-     *
-     * @param  bool|null  $includeEmpty
-     * @return array
      */
     public static function nationalities(?bool $includeEmpty = false): array
     {
@@ -253,22 +186,7 @@ class CommunityVolunteer extends Model implements Auditable
     }
 
     /**
-     * Scope a query to only include community volunteers having the given nationality
-     *
-     * @param  Builder  $query
-     * @param  string|null  $nationality
-     * @return Builder
-     */
-    public function scopeHasNationality(Builder $query, ?string $nationality)
-    {
-        return $query->where('nationality', $nationality);
-    }
-
-    /**
      * Returns a list of all languages assigned to any record.
-     *
-     * @param  bool|null  $includeEmpty
-     * @return array
      */
     public static function languages(?bool $includeEmpty = false): array
     {
@@ -286,22 +204,7 @@ class CommunityVolunteer extends Model implements Auditable
     }
 
     /**
-     * Scope a query to only include community volunteers speaking the given language
-     *
-     * @param  Builder  $query
-     * @param  string|null  $language
-     * @return Builder
-     */
-    public function scopeSpeaksLanguage(Builder $query, ?string $language)
-    {
-        return $query->where('languages', 'like', '%"'.$language.'"%');
-    }
-
-    /**
      * Returns a list of all pickup locations assigned to any record.
-     *
-     * @param  bool|null  $includeEmpty
-     * @return array
      */
     public static function pickupLocations(?bool $includeEmpty = false): array
     {
@@ -312,17 +215,5 @@ class CommunityVolunteer extends Model implements Auditable
             ->get()
             ->pluck('pickup_location')
             ->toArray();
-    }
-
-    /**
-     * Scope a query to only include community volunteers having assgined the pickup location specified
-     *
-     * @param  Builder  $query
-     * @param  string|null  $pickupLocation
-     * @return Builder
-     */
-    public function scopeWithPickupLocation(Builder $query, ?string $pickupLocation)
-    {
-        return $query->where('pickup_location', $pickupLocation);
     }
 }

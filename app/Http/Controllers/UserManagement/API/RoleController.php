@@ -6,10 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\UserManagement\StoreUpdateRole;
 use App\Http\Resources\Role as RoleResource;
-use App\Http\Resources\RoleCollection;
-use App\Http\Resources\UserCollection;
+use App\Http\Resources\User as UserResource;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -34,10 +35,20 @@ class RoleController extends Controller
             'updated_at',
         ]);
 
-        return new RoleCollection(Role::filtered($this->getFilter())
-            ->when(in_array('users', $this->getIncludes()), fn ($qry) => $qry->with(['users' => fn ($qry) => $qry->orderBy('name')]))
+        return RoleResource::collection(Role::query()
+            ->when($this->getFilter() !== null,
+                fn (Builder $qry) => $this->filterQuery($qry, $this->getFilter()))
+            ->when(in_array('users', $this->getIncludes()),
+                fn (Builder $qry) => $qry->with([
+                    'users' => fn (BelongsToMany $innerQuery) => $innerQuery->orderBy('name'),
+                ]))
             ->orderBy($this->getSortBy('name'), $this->getSortDirection())
             ->get());
+    }
+
+    private function filterQuery(Builder $query, string $filter): Builder
+    {
+        return $query->where('name', 'LIKE', '%'.$filter.'%');
     }
 
     public function store(StoreUpdateRole $request): JsonResponse
@@ -104,7 +115,7 @@ class RoleController extends Controller
         $this->authorize('view', $role);
         $this->authorize('viewAny', User::class);
 
-        return new UserCollection($role->users()
+        return UserResource::collection($role->users()
             ->orderBy('name', 'asc')
             ->get());
     }
@@ -114,7 +125,7 @@ class RoleController extends Controller
         $this->authorize('view', $role);
         $this->authorize('viewAny', User::class);
 
-        return new UserCollection($role->administrators()
+        return UserResource::collection($role->administrators()
             ->orderBy('name', 'asc')
             ->get());
     }

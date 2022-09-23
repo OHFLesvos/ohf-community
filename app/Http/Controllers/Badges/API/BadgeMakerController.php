@@ -7,6 +7,8 @@ use App\Imports\Badges\BadgeImport;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Util\Badges\BadgeCreator;
 use Exception;
+use Gumlet\ImageResize;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Setting;
@@ -38,7 +40,7 @@ class BadgeMakerController extends Controller
             ],
         ]);
 
-        $persons = collect($request->elements, [])
+        $persons = collect($request->elements)
             ->map(fn ($e, $idx) => [
                 'name' => $e['name'],
                 'position' => $e['position'] ?? null,
@@ -62,18 +64,20 @@ class BadgeMakerController extends Controller
     private function getResizedPictureFromRequest(Request $request, int $i)
     {
         if ($request->hasFile("elements.$i.picture")) {
-            $image = new \Gumlet\ImageResize($request->file("elements.$i.picture"), IMAGETYPE_JPEG);
+            $image = new ImageResize($request->file("elements.$i.picture"));
             $image->resizeToBestFit(800, 800, true);
 
             return 'data:image/jpeg;base64,'.base64_encode((string) $image);
-        } elseif ($request->filled("elements.$i.picture_url")) {
+        }
+
+        if ($request->filled("elements.$i.picture_url")) {
             return $request->input("elements.$i.picture_url");
         }
 
         return null;
     }
 
-    public function parseSpreadsheet(Request $request)
+    public function parseSpreadsheet(Request $request): JsonResponse
     {
         $request->validate([
             'file' => [
@@ -99,7 +103,7 @@ class BadgeMakerController extends Controller
         return response()->json($elements);
     }
 
-    public function fetchCommunityVolunteers()
+    public function fetchCommunityVolunteers(): JsonResponse
     {
         $this->authorize('viewAny', CommunityVolunteer::class);
 

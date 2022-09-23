@@ -5,15 +5,17 @@ namespace App\Http\Resources\Accounting;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \OwenIt\Auditing\Models\Audit
+ */
 class TransactionHistory extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -45,7 +47,7 @@ class TransactionHistory extends JsonResource
             ->toArray();
     }
 
-    private function getUserArray(?User $user)
+    private function getUserArray(?User $user): ?array
     {
         if ($user === null) {
             return null;

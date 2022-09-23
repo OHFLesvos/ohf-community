@@ -8,12 +8,14 @@ use App\Models\User;
 use App\Services\TOTPService;
 use Exception;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Socialite;
 
 class LoginController extends Controller
@@ -72,7 +74,7 @@ class LoginController extends Controller
     /**
      * Show the application's login form.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|View
      */
     public function showLoginForm()
     {
@@ -87,7 +89,7 @@ class LoginController extends Controller
      * Handle a login request to the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     * @return RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Symfony\Component\HttpFoundation\Response|View
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -114,7 +116,7 @@ class LoginController extends Controller
                 'code' => 'required|numeric',
             ])
                 ->after(function ($validator) use ($user, $request, $totp) {
-                    if (! $totp->verify($user->tfa_secret, $request->code, null, 1)) {
+                    if (! $totp->verify($user->tfa_secret, $request->code)) {
                         $validator->errors()->add('code', __('Invalid code, please repeat.'));
                     }
                 });
@@ -171,7 +173,7 @@ class LoginController extends Controller
     /**
      * Obtain the user information from provider.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response|RedirectResponse
      */
     public function handleProviderCallback(string $driver)
     {

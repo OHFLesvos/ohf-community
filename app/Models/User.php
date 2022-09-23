@@ -5,6 +5,7 @@ namespace App\Models;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
@@ -22,11 +23,6 @@ class User extends Authenticatable implements HasLocalePreference
         'provider_id',
     ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -37,32 +33,17 @@ class User extends Authenticatable implements HasLocalePreference
         'provider_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'is_super_admin' => 'boolean',
     ];
 
-    /**
-     * Get the user's preferred locale.
-     *
-     * @return string
-     */
-    public function preferredLocale()
+    public function preferredLocale(): string
     {
         return $this->locale;
     }
@@ -75,7 +56,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * The roles that belong to the user.
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class)
             ->withTimestamps();
@@ -91,13 +72,13 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * The users that belong to the role.
      */
-    public function administeredRoles()
+    public function administeredRoles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_admin')
             ->withTimestamps();
     }
 
-    public function hasPermission($permissionKey)
+    public function hasPermission($permissionKey): bool
     {
         return $this->roles->contains(
             fn ($role) => $role->permissions->contains(
@@ -108,8 +89,6 @@ class User extends Authenticatable implements HasLocalePreference
 
     /**
      * Returns a collection of the keys of all permissions this users possesses
-     *
-     * @return Collection
      */
     public function permissions(): Collection
     {
@@ -138,23 +117,5 @@ class User extends Authenticatable implements HasLocalePreference
         }
 
         return Storage::url($this->avatar);
-    }
-
-    /**
-     * Scope a query to only include records matching the filter.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeFiltered($query, ?string $filter = '')
-    {
-        $value = trim($filter);
-        if ($value == '') {
-            return $query;
-        }
-
-        return $query->where('name', 'LIKE', '%'.$value.'%')
-            ->orWhere('email', 'LIKE', '%'.$value.'%');
     }
 }

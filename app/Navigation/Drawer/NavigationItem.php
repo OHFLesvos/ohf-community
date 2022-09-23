@@ -10,7 +10,7 @@ interface NavigationItem
 
     public function getIcon(): string;
 
-    public function getActive();
+    public function getActive(): string|array;
 
     public function isAuthorized(): bool;
 }

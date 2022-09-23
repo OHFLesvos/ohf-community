@@ -11,20 +11,18 @@ use App\Imports\Fundraising\DonationsImport;
 use App\Models\Fundraising\Donation;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use MrCage\EzvExchangeRates\EzvExchangeRates;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DonationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index(Request $request): JsonResource
     {
         $this->authorize('viewAny', Donation::class);
 
@@ -74,27 +72,14 @@ class DonationController extends Controller
         return new DonationCollection($donations);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Fundraising\Donation  $donation
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Donation $donation)
+    public function show(Donation $donation): JsonResource
     {
         $this->authorize('view', $donation);
 
         return new DonationResource($donation->load('donor'));
     }
 
-    /**
-     * Updates a donation.
-     *
-     * @param  \App\Http\Requests\Fundraising\StoreDonation  $request
-     * @param  \App\Models\Fundraising\Donation  $donation
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreDonation $request, Donation $donation)
+    public function update(StoreDonation $request, Donation $donation): JsonResponse
     {
         $this->authorize('update', $donation);
 
@@ -114,9 +99,10 @@ class DonationController extends Controller
                 } catch (Exception $e) {
                     Log::error($e);
 
-                    return response()->json([
-                        'message' => __('An error happened').': '.$e->getMessage(),
-                    ], Response::HTTP_SERVICE_UNAVAILABLE);
+                    return response()
+                        ->json([
+                            'message' => __('An error happened').': '.$e->getMessage(),
+                        ], Response::HTTP_SERVICE_UNAVAILABLE);
                 }
             }
             $exchange_amount = $request->amount * $exchange_rate;
@@ -140,47 +126,35 @@ class DonationController extends Controller
 
         $donation->save();
 
-        return response()->json([
-            'message' => __('Donation has been updated'),
-        ]);
+        return response()
+            ->json([
+                'message' => __('Donation has been updated'),
+            ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Donation $donation)
+    public function destroy(Donation $donation): JsonResponse
     {
         $this->authorize('delete', $donation);
 
         $donation->delete();
 
-        return response()->json([
-            'message' => __('Donation has been deleted'),
-        ]);
+        return response()
+            ->json([
+                'message' => __('Donation has been deleted'),
+            ]);
     }
 
-    /**
-     * Gets all channels assigned to donations
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function channels()
+    public function channels(): JsonResponse
     {
         $this->authorize('viewAny', Donation::class);
 
-        return response()->json([
-            'data' => Donation::channels(),
-        ]);
+        return response()
+            ->json([
+                'data' => Donation::channels(),
+            ]);
     }
 
-    /**
-     * Gets all currencies
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function currencies()
+    public function currencies(): JsonResponse
     {
         $this->authorize('viewAny', Donation::class);
 
@@ -192,12 +166,7 @@ class DonationController extends Controller
         ]);
     }
 
-    /**
-     * Exports all donations
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function export()
+    public function export(): BinaryFileResponse
     {
         $this->authorize('viewAny', Donation::class);
 
@@ -214,13 +183,7 @@ class DonationController extends Controller
         return (new DonationsExport())->download($file_name);
     }
 
-    /**
-     * Imports donations from uploaded file
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function import(Request $request)
+    public function import(Request $request): JsonResponse
     {
         $this->authorize('create', Donation::class);
 
@@ -238,8 +201,9 @@ class DonationController extends Controller
 
         (new DonationsImport())->import($request->file('file'));
 
-        return response()->json([
-            'message' => __('Import successful.'),
-        ]);
+        return response()
+            ->json([
+                'message' => __('Import successful.'),
+            ]);
     }
 }

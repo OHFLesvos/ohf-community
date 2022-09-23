@@ -7,12 +7,14 @@ use App\Http\Controllers\Traits\AuthorizeAny;
 use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\Accounting\StoreTransaction;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
-use App\Http\Resources\Accounting\TransactionCollection;
 use App\Http\Resources\Accounting\TransactionHistory;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
+use App\Support\Accounting\ReceiptPictureUtil;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use OwenIt\Auditing\Models\Audit;
@@ -23,7 +25,7 @@ class TransactionsController extends Controller
     use ValidatesResourceIndex;
     use AuthorizeAny;
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResource
     {
         $this->authorize('viewAny', Transaction::class);
 
@@ -81,7 +83,7 @@ class TransactionsController extends Controller
             ->paginate($this->getPageSize(25))
             ->appends($appends);
 
-        return new TransactionCollection($transactions);
+        return TransactionResource::collection($transactions);
     }
 
     private function parseAdvancedFilter(Request $request): array
@@ -96,7 +98,7 @@ class TransactionsController extends Controller
         return $advanced_filter;
     }
 
-    public function history(Request $request)
+    public function history(Request $request): JsonResource
     {
         $this->authorize('viewAny', Transaction::class);
 
@@ -114,7 +116,7 @@ class TransactionsController extends Controller
             ->paginate(10));
     }
 
-    public function store(StoreTransaction $request)
+    public function store(StoreTransaction $request): JsonResponse
     {
         $this->authorize('create', Transaction::class);
 
@@ -149,19 +151,20 @@ class TransactionsController extends Controller
 
         $transaction->save();
 
-        return response()->json([
-            'id' => $transaction->id,
-        ], Response::HTTP_CREATED);
+        return response()
+            ->json([
+                'id' => $transaction->id,
+            ], Response::HTTP_CREATED);
     }
 
-    public function show(Transaction $transaction)
+    public function show(Transaction $transaction): JsonResource
     {
         $this->authorize('view', $transaction);
 
         return new TransactionResource($transaction->load('supplier'));
     }
 
-    public function transactionHistory(Transaction $transaction)
+    public function transactionHistory(Transaction $transaction): JsonResource
     {
         $this->authorize('view', $transaction);
 
@@ -171,7 +174,7 @@ class TransactionsController extends Controller
             ->get());
     }
 
-    public function update(StoreTransaction $request, Transaction $transaction)
+    public function update(StoreTransaction $request, Transaction $transaction): Response
     {
         $this->authorizeAny(['update', 'updateMetadata'], $transaction);
 
@@ -218,7 +221,7 @@ class TransactionsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function updateReceipt(Request $request, Transaction $transaction)
+    public function updateReceipt(Request $request, Transaction $transaction): JsonResponse
     {
         $this->authorize('updateReceipt', $transaction);
 
@@ -232,15 +235,18 @@ class TransactionsController extends Controller
             ],
         ]);
 
+        $pictures = $transaction->receipt_pictures ?? [];
         for ($i = 0; $i < count($request->img); $i++) {
-            $transaction->addReceiptPicture($request->file('img')[$i]);
+            $pictures[] = ReceiptPictureUtil::addReceiptPicture($request->file('img')[$i]);
         }
+        $transaction->receipt_pictures = $pictures;
         $transaction->save();
 
-        return response()->json($transaction->receiptPictureArray());
+        return response()
+            ->json($transaction->receiptPictureArray());
     }
 
-    public function rotateReceipt(Request $request, Transaction $transaction)
+    public function rotateReceipt(Request $request, Transaction $transaction): JsonResponse
     {
         $this->authorize('updateReceipt', $transaction);
 
@@ -254,12 +260,13 @@ class TransactionsController extends Controller
             ],
         ]);
 
-        $transaction->rotateReceiptPicture($request->picture, $request->input('direction', 'right'));
+        ReceiptPictureUtil::rotateReceiptPicture($request->picture, $request->input('direction', 'right'));
 
-        return response()->json($transaction->receiptPictureArray());
+        return response()
+            ->json($transaction->receiptPictureArray());
     }
 
-    public function undoBooking(Transaction $transaction)
+    public function undoBooking(Transaction $transaction): Response|JsonResponse
     {
         $this->authorize('undoBooking', $transaction);
 
@@ -276,7 +283,7 @@ class TransactionsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function destroy(Transaction $transaction)
+    public function destroy(Transaction $transaction): Response
     {
         $this->authorize('delete', $transaction);
 
@@ -285,36 +292,37 @@ class TransactionsController extends Controller
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function secondaryCategories()
+    public function secondaryCategories(): array
     {
         return Transaction::secondaryCategories();
     }
 
-    public function locations()
+    public function locations(): array
     {
         return Transaction::locations();
     }
 
-    public function costCenters()
+    public function costCenters(): array
     {
         return Transaction::costCenters();
     }
 
-    public function attendees()
+    public function attendees(): array
     {
         return Transaction::attendees();
     }
 
-    public function taxonomies()
+    public function taxonomies(): JsonResponse
     {
         $this->authorize('viewAny', Transaction::class);
 
-        return response()->json([
-            'secondary_categories' => Setting::get('accounting.transactions.use_secondary_categories') ? Transaction::secondaryCategories() : [],
-            'locations' => Setting::get('accounting.transactions.use_locations') ? Transaction::locations() : [],
-            'cost_centers' => Setting::get('accounting.transactions.use_cost_centers') ? Transaction::costCenters() : [],
-            'attendees' => Transaction::attendees(),
-        ]);
+        return response()
+            ->json([
+                'secondary_categories' => Setting::get('accounting.transactions.use_secondary_categories') ? Transaction::secondaryCategories() : [],
+                'locations' => Setting::get('accounting.transactions.use_locations') ? Transaction::locations() : [],
+                'cost_centers' => Setting::get('accounting.transactions.use_cost_centers') ? Transaction::costCenters() : [],
+                'attendees' => Transaction::attendees(),
+            ]);
     }
 
     private static function useSecondaryCategories(): bool

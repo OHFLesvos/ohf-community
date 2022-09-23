@@ -5,6 +5,7 @@ namespace App\Exports\Accounting;
 use App\Exports\Accounting\Sheets\TransactionsMonthSheet;
 use App\Exports\Accounting\Sheets\TransactionsSummarySheet;
 use App\Exports\DefaultFormatting;
+use App\Exports\PageOrientation;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
@@ -35,7 +36,7 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
     public function sheets(): array
     {
         $months = Transaction::query()
-            ->when($this->wallet !== null, fn ($qry) => $qry->forWallet($this->wallet))
+            ->forWallet($this->wallet)
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
             ->selectRaw('MONTH(date) as month')
@@ -45,7 +46,8 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
             ->orderBy('year', 'asc')
             ->orderBy('month', 'asc')
             ->get()
-            ->map(fn ($e) => (new Carbon($e->year.'-'.$e->month.'-01'))->startOfMonth())
+            ->map(fn ($e) => new Carbon($e['year'].'-'.$e['month'].'-01'))
+            ->map(fn (Carbon $c) => $c->startOfMonth())
             ->toArray();
 
         $sheets = [];
@@ -53,7 +55,7 @@ class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
         // Transactions by month
         foreach ($months as $month) {
             $sheet = new TransactionsMonthSheet($this->wallet, $month, $this->filter, $this->advancedFilter);
-            $sheet->orientation = 'landscape';
+            $sheet->orientation = PageOrientation::Landscape;
             $sheets[] = $sheet;
         }
 

@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Settings\SettingsField;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Setting;
 
 class SettingsController extends Controller
@@ -22,7 +24,7 @@ class SettingsController extends Controller
         ];
     }
 
-    private static $fields = [
+    private const FIELDS = [
         'branding.logo_file' => \App\Settings\Branding\LogoFile::class,
         'branding.signet_file' => \App\Settings\Branding\SignetFile::class,
         'branding.favicon_32_file' => \App\Settings\Branding\Favicon32File::class,
@@ -42,14 +44,20 @@ class SettingsController extends Controller
         'visitors.purposes_of_visit' => \App\Settings\Visitors\VisitorPurposesOfVisit::class,
     ];
 
+    /**
+     * Undocumented function
+     *
+     * @return Collection<string,SettingsField>
+     */
     private static function getSettings(): Collection
     {
-        return collect(self::$fields)
+        return collect(self::FIELDS)
             ->map(fn ($field) => new $field())
+            ->filter(fn (object $obj) => $obj instanceof SettingsField)
             ->filter(fn (SettingsField $field) => $field->authorized());
     }
 
-    public function edit()
+    public function edit(): View
     {
         $settings = self::getSettings();
 
@@ -88,7 +96,7 @@ class SettingsController extends Controller
         ];
     }
 
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         $fields = self::getSettings();
 
@@ -127,7 +135,7 @@ class SettingsController extends Controller
             ->with('success', __('Settings have been updated.'));
     }
 
-    private static function updateFieldValue(SettingsField $field, Request $request, string $key)
+    private static function updateFieldValue(SettingsField $field, Request $request, string $key): void
     {
         if ($field->formType() == 'file') {
             self::handleFileField($field, $request, $key);
@@ -142,7 +150,7 @@ class SettingsController extends Controller
         }
     }
 
-    private static function handleFileField(SettingsField $field, Request $request, string $key)
+    private static function handleFileField(SettingsField $field, Request $request, string $key): void
     {
         $req_key = Str::slug($key);
         if ($request->has($req_key.'_delete') || $request->hasFile($req_key)) {

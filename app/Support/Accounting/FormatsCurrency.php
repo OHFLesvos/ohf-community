@@ -6,7 +6,7 @@ use NumberFormatter;
 
 trait FormatsCurrency
 {
-    protected function formatCurrency($value)
+    protected function formatCurrency(?float $value): ?string
     {
         if ($value === null) {
             return null;

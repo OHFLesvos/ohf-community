@@ -3,10 +3,11 @@
 namespace App\Models\Traits;
 
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait CommentsRelation
 {
-    public static function boot()
+    public static function boot(): void
     {
         static::deleting(function ($model) {
             $model->comments()->delete();
@@ -17,27 +18,23 @@ trait CommentsRelation
     /**
      * Get all of the items's comments.
      */
-    public function comments()
+    public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
 
     /**
      * Adds the given comment
-     *
-     * @param  Comment  $comment
      */
-    public function addComment(Comment $comment)
+    public function addComment(Comment $comment): void
     {
         $this->comments()->save($comment);
     }
 
     /**
      * Adds the given comments
-     *
-     * @param  array|Collection  $comments
      */
-    public function addComments($comments)
+    public function addComments(iterable $comments): void
     {
         $this->comments()->saveMany($comments);
     }
