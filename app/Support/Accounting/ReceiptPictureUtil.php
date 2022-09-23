@@ -18,8 +18,8 @@ class ReceiptPictureUtil
     {
         $storedFile = $file->store(self::RECEIPT_PICTURE_PATH);
         $storedFilePath = Storage::path($storedFile);
-        $thumbSize = config('accounting.thumbnail_size');
-        $maxImageDimension = config('accounting.max_image_size');
+        $thumbSize = (int) config('accounting.thumbnail_size');
+        $maxImageDimension = (int) config('accounting.max_image_size');
 
         if (Str::startsWith($file->getMimeType(), 'image/')) {
             self::createThumbnail($storedFilePath, $thumbSize);
@@ -31,7 +31,7 @@ class ReceiptPictureUtil
         return $storedFile;
     }
 
-    private static function createThumbnail($path, $dimensions): void
+    private static function createThumbnail(string $path, int $dimensions): void
     {
         $thumbPath = thumb_path($path);
         $image = new ImageResize($path);
@@ -39,14 +39,14 @@ class ReceiptPictureUtil
         $image->save($thumbPath);
     }
 
-    private static function resizeImage($path, $dimensions): void
+    private static function resizeImage(string $path, int $dimensions): void
     {
         $image = new ImageResize($path);
         $image->resizeToBestFit($dimensions, $dimensions);
         $image->save($path);
     }
 
-    private static function createPdfThumbnail($path, $dimensions): void
+    private static function createPdfThumbnail(string $path, int $dimensions): void
     {
         $thumbPath = thumb_path($path, 'jpeg');
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {

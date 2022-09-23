@@ -243,7 +243,7 @@ class TransactionsController extends Controller
         $transaction->save();
 
         return response()
-            ->json($transaction->receiptPictureArray());
+            ->json(TransactionResource::receiptPictureArray($transaction->receipt_pictures));
     }
 
     public function rotateReceipt(Request $request, Transaction $transaction): JsonResponse
@@ -263,7 +263,7 @@ class TransactionsController extends Controller
         ReceiptPictureUtil::rotateReceiptPicture($request->picture, $request->input('direction', 'right'));
 
         return response()
-            ->json($transaction->receiptPictureArray());
+            ->json(TransactionResource::receiptPictureArray($transaction->receipt_pictures));
     }
 
     public function undoBooking(Transaction $transaction): Response|JsonResponse

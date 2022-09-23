@@ -5,8 +5,11 @@ namespace App\Http\Resources\Accounting;
 use App\Support\Accounting\FormatsCurrency;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
+use App\Util\NumberFormatUtil;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Setting;
 
 /**
@@ -47,7 +50,7 @@ class Transaction extends JsonResource
             'can_undo_booking' => $request->user()->can('undoBooking', $this->resource),
             'external_url' => $this->when($this->external_id !== null,
                 fn () => $this->getExternalUrl()),
-            'receipt_pictures' => $this->receiptPictureArray(),
+            'receipt_pictures' => self::receiptPictureArray($this->receipt_pictures),
             'intermediate_balance' => Setting::get('accounting.transactions.show_intermediate_balances')
                 ? $this->getIntermediateBalance()
                 : null,
@@ -63,5 +66,38 @@ class Transaction extends JsonResource
         }
 
         return null;
+    }
+
+    public static function receiptPictureArray(?array $paths): array
+    {
+        if (empty($paths)) {
+            return [];
+        }
+
+        return collect($paths)
+            ->filter(fn ($picture) => Storage::exists($picture))
+            ->map(function ($picture) {
+                $isImage = Str::startsWith(Storage::mimeType($picture), 'image/');
+                $thumbnail = $isImage
+                    ? (Storage::exists(thumb_path($picture))
+                        ? Storage::url(thumb_path($picture))
+                        : Storage::url($picture))
+                    : (Storage::exists(thumb_path($picture, 'jpeg'))
+                        ? Storage::url(thumb_path($picture, 'jpeg'))
+                        : null);
+
+                return [
+                    'name' => $picture,
+                    'hash' => md5_file(Storage::path($picture)),
+                    'type' => $isImage ? 'image' : 'file',
+                    'url' => Storage::url($picture),
+                    'mime_type' => Storage::mimeType($picture),
+                    'file_size' => NumberFormatUtil::bytesToHuman(Storage::size($picture)),
+                    'thumbnail_url' => $thumbnail,
+                    'thumbnail_size' => $thumbnail !== null ? config('accounting.thumbnail_size') : null,
+                ];
+            })
+            ->values()
+            ->toArray();
     }
 }

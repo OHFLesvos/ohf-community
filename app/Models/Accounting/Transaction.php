@@ -3,14 +3,11 @@
 namespace App\Models\Accounting;
 
 use App\Models\User;
-use App\Util\NumberFormatUtil;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use OwenIt\Auditing\Contracts\Auditable;
 
 class Transaction extends Model implements Auditable
@@ -182,39 +179,6 @@ class Transaction extends Model implements Auditable
         }
 
         return $query;
-    }
-
-    public function receiptPictureArray(): array
-    {
-        if (empty($this->receipt_pictures)) {
-            return [];
-        }
-
-        return collect($this->receipt_pictures)
-            ->filter(fn ($picture) => Storage::exists($picture))
-            ->map(function ($picture) {
-                $isImage = Str::startsWith(Storage::mimeType($picture), 'image/');
-                $thumbnail = $isImage
-                    ? (Storage::exists(thumb_path($picture))
-                        ? Storage::url(thumb_path($picture))
-                        : Storage::url($picture))
-                    : (Storage::exists(thumb_path($picture, 'jpeg'))
-                        ? Storage::url(thumb_path($picture, 'jpeg'))
-                        : null);
-
-                return [
-                    'name' => $picture,
-                    'hash' => md5_file(Storage::path($picture)),
-                    'type' => $isImage ? 'image' : 'file',
-                    'url' => Storage::url($picture),
-                    'mime_type' => Storage::mimeType($picture),
-                    'file_size' => NumberFormatUtil::bytesToHuman(Storage::size($picture)),
-                    'thumbnail_url' => $thumbnail,
-                    'thumbnail_size' => $thumbnail !== null ? config('accounting.thumbnail_size') : null,
-                ];
-            })
-            ->values()
-            ->toArray();
     }
 
     public function removePicturePath(string $path): void
