@@ -59,7 +59,7 @@
                             <td class="fit">
                                 @if($responsibility->communityVolunteers()->workStatus('active')->count() > 0)
                                     @foreach($responsibility->communityVolunteers()->workStatus('active')->get() as $cmtyvol)
-                                        <a href="{{ route('cmtyvol.show', $cmtyvol) }}" target="_blank">{{ $cmtyvol->fullName }}</a><br>
+                                        <a href="{{ route('cmtyvol.show', $cmtyvol) }}" target="_blank">{{ $cmtyvol->full_name }}</a><br>
                                     @endforeach
                                 @endif
                             </td>

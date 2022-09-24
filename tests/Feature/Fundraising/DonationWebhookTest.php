@@ -22,6 +22,7 @@ class DonationWebhookTest extends TestCase
 
     public function testRequireAuthorization()
     {
+        /** @var User $user */
         $user = User::factory()->make();
 
         $response = $this
@@ -34,6 +35,7 @@ class DonationWebhookTest extends TestCase
 
     public function testValidation()
     {
+        /** @var User $user */
         $user = $this->makeUserWithPermission('fundraising.donations.accept_webhooks');
 
         $response = $this
@@ -49,6 +51,7 @@ class DonationWebhookTest extends TestCase
 
     public function testNewDonorWithDonation()
     {
+        /** @var User $user */
         $user = $this->makeUserWithPermission('fundraising.donations.accept_webhooks');
         $purpose = Str::random(40);
 

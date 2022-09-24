@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Dyrynda\Database\Support\NullableFields;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -43,44 +44,48 @@ class CommunityVolunteer extends Model implements Auditable
         'notes',
     ];
 
-    public function getFullNameAttribute(): string
+    /**
+     * @return Attribute<string,never>
+     */
+    protected function fullName(): Attribute
     {
-        $str = '';
-        if ($this->first_name != null) {
-            $str .= $this->first_name;
-        }
-        if ($this->family_name != null) {
-            $str .= ' '.strtoupper($this->family_name);
-        }
-        if ($this->nickname != null) {
-            if (! empty($str)) {
-                $str .= ' ';
-            }
-            $str .= '«'.$this->nickname.'»';
-        }
+        return Attribute::make(
+            get: function () {
+                $str = '';
+                if ($this->first_name != null) {
+                    $str .= $this->first_name;
+                }
+                if ($this->family_name != null) {
+                    $str .= ' '.strtoupper($this->family_name);
+                }
+                if ($this->nickname != null) {
+                    if (! empty($str)) {
+                        $str .= ' ';
+                    }
+                    $str .= '«'.$this->nickname.'»';
+                }
 
-        return trim($str);
+                return trim($str);
+            },
+        );
     }
 
-    public function getAgeAttribute(): ?int
+    /**
+     * @return Attribute<?int,never>
+     */
+    protected function age(): Attribute
     {
-        try {
-            return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
-        } catch (Exception $e) {
-            Log::error('Error calculating age of '.$this->full_name.' ('.$this->date_of_birth.'): '.$e->getMessage());
+        return Attribute::make(
+            get: function () {
+                try {
+                    return isset($this->date_of_birth) ? (new Carbon($this->date_of_birth))->age : null;
+                } catch (Exception $e) {
+                    Log::error('Error calculating age of '.$this->full_name.' ('.$this->date_of_birth.'): '.$e->getMessage());
 
-            return null;
-        }
-    }
-
-    public function getLanguagesStringAttribute(): string
-    {
-        return is_array($this->languages) ? implode(', ', $this->languages) : $this->languages;
-    }
-
-    public function setLanguagesStringAttribute(?string $value): void
-    {
-        $this->languages = ! empty($value) ? preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $value) : null;
+                    return null;
+                }
+            },
+        );
     }
 
     public function responsibilities(): BelongsToMany
@@ -133,28 +138,51 @@ class CommunityVolunteer extends Model implements Auditable
         throw new Exception('Unknown work status '.$status);
     }
 
-    public function getFirstWorkStartDateAttribute(): ?Carbon
+    /**
+     * @return Attribute<?Carbon,never>
+     */
+    protected function firstWorkStartDate(): Attribute
     {
-        return $this->responsibilities->map(fn ($e) => $e->getRelationValue('pivot')->start_date)->min() ?? null;
+        return Attribute::make(
+            get: function () {
+                return $this->responsibilities
+                    ->map(fn (Responsibility $e) => $e->getRelationValue('pivot')->start_date)->min() ?? null;
+            },
+        );
     }
 
-    public function getLastWorkEndDateAttribute(): ?Carbon
+    /**
+     * @return Attribute<?Carbon,never>
+     */
+    protected function lastWorkEndDate(): Attribute
     {
-        return $this->responsibilities->map(fn ($e) => $e->getRelationValue('pivot')->end_date)->max() ?? null;
+        return Attribute::make(
+            get: function () {
+                return $this->responsibilities
+                    ->map(fn (Responsibility $e) => $e->getRelationValue('pivot')->end_date)->max() ?? null;
+            },
+        );
     }
 
-    public function getWorkingSinceDaysAttribute(): int
+    /**
+     * @return Attribute<int,never>
+     */
+    protected function workingSinceDays(): Attribute
     {
-        $start = $this->firstWorkStartDate;
-        $end = $this->lastWorkEndDate;
-        if ($start != null && $end != null && $end->lte(today())) {
-            return $start->diffInDays($end);
-        }
-        if ($start != null) {
-            return $start->diffInDays(today());
-        }
+        return Attribute::make(
+            get: function () {
+                $start = $this->first_work_start_date;
+                $end = $this->last_work_end_date;
+                if ($start !== null && $end !== null && $end->lte(today())) {
+                    return $start->diffInDays($end);
+                }
+                if ($start !== null) {
+                    return $start->diffInDays(today());
+                }
 
-        return 0;
+                return 0;
+            },
+        );
     }
 
     /**

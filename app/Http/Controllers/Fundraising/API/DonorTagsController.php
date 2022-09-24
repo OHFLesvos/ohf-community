@@ -15,7 +15,7 @@ class DonorTagsController extends Controller
     {
         $this->authorize('viewAny', Tag::class);
 
-        return TagResource::collection($donor->tagsSorted);
+        return TagResource::collection($donor->tags_sorted);
     }
 
     public function store(Donor $donor, StoreTags $request): JsonResource
@@ -24,7 +24,7 @@ class DonorTagsController extends Controller
 
         $donor->setTags($request->input('tags', []));
 
-        return TagResource::collection($donor->tagsSorted)
+        return TagResource::collection($donor->tags_sorted)
             ->additional([
                 'message' => __('Tags updated.'),
             ]);

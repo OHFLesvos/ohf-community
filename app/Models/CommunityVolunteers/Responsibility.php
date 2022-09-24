@@ -3,6 +3,7 @@
 namespace App\Models\CommunityVolunteers;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -57,20 +58,41 @@ class Responsibility extends Model
             ->withTimestamps();
     }
 
-    public function getIsCapacityExhaustedAttribute(): bool
+    /**
+     * @return Attribute<bool,never>
+     */
+    protected function isCapacityExhausted(): Attribute
     {
-        return $this->capacity != null && $this->capacity < $this->countActive;
+        return Attribute::make(
+            get: function () {
+                return $this->capacity !== null && $this->capacity < $this->countActive;
+            },
+        );
     }
 
-    public function getHasAssignedAlthoughNotAvailableAttribute(): bool
+    /**
+     * @return Attribute<bool,never>
+     */
+    protected function hasAssignedAlthoughNotAvailable(): Attribute
     {
-        return ! $this->available && $this->countActive > 0;
+        return Attribute::make(
+            get: function () {
+                ! $this->available && $this->countActive > 0;
+            },
+        );
     }
 
-    public function getCountActiveAttribute(): int
+    /**
+     * @return Attribute<int,never>
+     */
+    protected function countActive(): Attribute
     {
-        return $this->communityVolunteers
-            ->filter(fn ($volunteer) => $volunteer->getRelationValue('pivot')->isInsideDateRange(now()))
-            ->count();
+        return Attribute::make(
+            get: function () {
+                return $this->communityVolunteers
+                    ->filter(fn (CommunityVolunteer $volunteer) => $volunteer->getRelationValue('pivot')->isInsideDateRange(now()))
+                    ->count();
+            },
+        );
     }
 }

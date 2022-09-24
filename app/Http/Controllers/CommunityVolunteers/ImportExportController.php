@@ -248,14 +248,15 @@ class ImportExportController extends BaseController
         $zip->addFileFromPath($file_name.'.'.$file_ext, storage_path('app/'.$temp_file));
         Storage::delete($temp_file);
         $workStatus = $request->work_status;
-        $cmtyvols = CommunityVolunteer::workStatus($workStatus)->get();
+        $cmtyvols = CommunityVolunteer::query()
+            ->workStatus($workStatus)
+            ->whereNotNull('portrait_picture')
+            ->get();
         foreach ($cmtyvols as $cmtyvol) {
-            if (isset($cmtyvol->portrait_picture)) {
-                $picture_path = storage_path('app/'.$cmtyvol->portrait_picture);
-                if (is_file($picture_path)) {
-                    $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
-                    $zip->addFileFromPath('portraits/'.$cmtyvol->fullName.'.'.$ext, $picture_path);
-                }
+            $picture_path = storage_path('app/'.$cmtyvol->portrait_picture);
+            if (is_file($picture_path)) {
+                $ext = pathinfo($picture_path, PATHINFO_EXTENSION);
+                $zip->addFileFromPath('portraits/'.$cmtyvol->full_name.'.'.$ext, $picture_path);
             }
         }
         $zip->finish();

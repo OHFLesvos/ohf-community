@@ -12,6 +12,7 @@ use App\Models\Traits\LanguageCodeField;
 use App\Models\Traits\TagsRelation;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -67,47 +68,61 @@ class Donor extends Model
         parent::boot();
     }
 
-    public function getFullNameAttribute(): string
+    /**
+     * @return Attribute<string,never>
+     */
+    protected function fullName(): Attribute
     {
-        $str = '';
-        if ($this->first_name != null) {
-            $str .= $this->first_name;
-        }
-        if ($this->last_name != null) {
-            $str .= ' '.$this->last_name;
-        }
-        if ($this->company != null) {
-            if (! empty($str)) {
-                $str .= ', ';
-            }
-            $str .= $this->company;
-        }
+        return Attribute::make(
+            get: function () {
+                $str = '';
+                if ($this->first_name != null) {
+                    $str .= $this->first_name;
+                }
+                if ($this->last_name != null) {
+                    $str .= ' '.$this->last_name;
+                }
+                if ($this->company != null) {
+                    if (! empty($str)) {
+                        $str .= ', ';
+                    }
+                    $str .= $this->company;
+                }
 
-        return trim($str);
+                return trim($str);
+            },
+        );
     }
 
-    public function getFullAddressAttribute(): string
+    /**
+     * @return Attribute<string,never>
+     */
+    protected function fullAddress(): Attribute
     {
-        $str = '';
-        if (isset($this->street)) {
-            $str .= $this->street;
-            $str .= "\n";
-        }
-        if (isset($this->zip)) {
-            $str .= $this->zip;
-            $str .= ' ';
-        }
-        if (isset($this->city)) {
-            $str .= $this->city;
-        }
-        if (isset($this->zip) || isset($this->city)) {
-            $str .= "\n";
-        }
-        if (isset($this->country_name)) {
-            $str .= $this->country_name;
-        }
+        return Attribute::make(
+            get: function () {
+                $str = '';
+                if (isset($this->street)) {
+                    $str .= $this->street;
+                    $str .= "\n";
+                }
+                if (isset($this->zip)) {
+                    $str .= $this->zip;
+                    $str .= ' ';
+                }
+                if (isset($this->city)) {
+                    $str .= $this->city;
+                }
+                if (isset($this->zip) || isset($this->city)) {
+                    $str .= "\n";
+                }
+                if (isset($this->country_name)) {
+                    $str .= $this->country_name;
+                }
 
-        return trim($str);
+                return trim($str);
+            },
+        );
     }
 
     public function donations(): HasMany

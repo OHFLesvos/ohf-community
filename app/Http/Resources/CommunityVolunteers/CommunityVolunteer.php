@@ -23,7 +23,7 @@ class CommunityVolunteer extends JsonResource
             'first_name' => $this->first_name,
             'family_name' => $this->family_name,
             'nickname' => $this->nickname,
-            'full_name' => $this->fullName,
+            'full_name' => $this->full_name,
             'date_of_birth' => $this->date_of_birth,
             'age' => $this->age,
             'gender' => $this->gender,

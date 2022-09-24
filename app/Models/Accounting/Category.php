@@ -46,11 +46,6 @@ class Category extends Model
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    public function getIsRootAttribute(): bool
-    {
-        return $this->parent_id == null;
-    }
-
     public function scopeIsRoot(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
@@ -81,7 +76,10 @@ class Category extends Model
             ->select('id', 'name')
             ->when($enabledOnly, fn ($q) => $q->where('enabled', true))
             ->orderBy('name', 'asc')
-            ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
+            ->when($parent !== null,
+                fn ($q) => $q->forParent($parent),
+                fn ($q) => $q->isRoot()
+            )
             ->get();
         foreach ($items as $item) {
             $results[$item['id']] = [
@@ -103,7 +101,10 @@ class Category extends Model
             ->select('id', 'name', 'description', 'enabled')
             ->orderBy('name', 'asc')
             ->when($exclude !== null, fn ($q) => $q->where('id', '!=', $exclude))
-            ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
+            ->when($parent !== null,
+                fn ($q) => $q->forParent($parent),
+                fn ($q) => $q->isRoot()
+            )
             ->get()
             ->map(function ($e) use ($exclude) {
                 $e['children'] = self::queryByParent($e['id'], $exclude);

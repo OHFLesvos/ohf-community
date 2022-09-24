@@ -4,6 +4,7 @@ namespace App\Models\Traits;
 
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
@@ -22,10 +23,14 @@ trait TagsRelation
 
     /**
      * Get the tags sorted by name.
+     *
+     * @return Attribute<Collection,never>
      */
-    public function getTagsSortedAttribute(): Collection
+    protected function tagsSorted(): Attribute
     {
-        return $this->tags->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
+        return Attribute::make(
+            get: fn ($value) => $this->tags->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
+        );
     }
 
     /**

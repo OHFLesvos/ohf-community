@@ -391,7 +391,7 @@ class ListController extends BaseController
             'cmtyvol' => $cmtyvol,
             'responsibilities' => $responsibilities,
             'value' => $cmtyvol->responsibilities
-                ->map(fn ($r) => [
+                ->map(fn (Responsibility $r) => [
                     'value' => $r->name,
                     'from' => $r->getRelationValue('pivot')->start_date,
                     'to' => $r->getRelationValue('pivot')->end_date,

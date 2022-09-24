@@ -33,8 +33,8 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Portrait Picture'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->portrait_picture,
-                'value_html' => fn ($cmtyvol) => isset($cmtyvol->portrait_picture) ? '<img src="'.Storage::url($cmtyvol->portrait_picture).'" class="img-fluid img-thumbnail">' : null,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->portrait_picture,
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => isset($cmtyvol->portrait_picture) ? '<img src="'.Storage::url($cmtyvol->portrait_picture).'" class="img-fluid img-thumbnail">' : null,
                 'overview' => false,
                 'exclude_export' => true,
                 'exclude_show' => false,
@@ -68,7 +68,7 @@ abstract class BaseController extends Controller
             [
                 'label' => __('First Name'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->first_name,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->first_name,
                 'overview' => true,
                 'detail_link' => true,
                 'section' => 'general',
@@ -85,7 +85,7 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Family Name'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->family_name,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->family_name,
                 'overview' => true,
                 'section' => 'general',
                 'import_labels' => ['Surname'],
@@ -102,7 +102,7 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Nickname'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->nickname,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->nickname,
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
@@ -118,7 +118,7 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Nationality'),
                 'icon' => 'globe',
-                'value' => fn ($cmtyvol) => $cmtyvol->nationality,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->nationality,
                 'overview' => true,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
@@ -136,8 +136,8 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Gender'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->gender != null ? ($cmtyvol->gender == 'f' ? __('Female') : __('Male')) : null,
-                'value_html' => fn ($cmtyvol) => $cmtyvol->gender != null
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->gender != null ? ($cmtyvol->gender == 'f' ? __('Female') : __('Male')) : null,
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->gender != null
                     ? view('components.icon-gender', [
                         'gender' => $cmtyvol->gender,
                         'attributes' => new ComponentAttributeBag(),
@@ -169,7 +169,7 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Date of birth'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->date_of_birth,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->date_of_birth,
                 'overview' => false,
                 'section' => 'general',
                 'import_labels' => ['DOB'],
@@ -184,14 +184,14 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Age'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->age,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->age,
                 'overview' => true,
                 'section' => 'general',
             ],
             [
                 'label' => __('Police Number'),
                 'icon' => 'id-card',
-                'value' => fn ($cmtyvol) => $cmtyvol->police_no,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->police_no,
                 'overview' => false,
                 'section' => 'general',
                 'import_labels' => ['Police No.'],
@@ -205,8 +205,8 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Languages'),
                 'icon' => 'language',
-                'value' => fn ($cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode(', ', $cmtyvol->languages) : $cmtyvol->languages) : null,
-                'value_html' => fn ($cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode('<br>', $cmtyvol->languages) : $cmtyvol->languages) : null,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode(', ', $cmtyvol->languages) : $cmtyvol->languages) : null,
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode('<br>', $cmtyvol->languages) : $cmtyvol->languages) : null,
                 'overview' => false,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {
@@ -221,7 +221,7 @@ abstract class BaseController extends Controller
                 'label' => __('Local Phone'),
                 'icon' => 'phone',
                 'value' => 'local_phone',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->local_phone != null
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->local_phone != null
                     ? view('components.links.tel', [
                         'slot' => $cmtyvol->local_phone,
                         'attributes' => new ComponentAttributeBag(),
@@ -239,7 +239,7 @@ abstract class BaseController extends Controller
                 'label' => __('Other Phone'),
                 'icon' => 'phone',
                 'value' => 'other_phone',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->other_phone != null
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->other_phone != null
                     ? view('components.links.tel', [
                         'slot' => $cmtyvol->other_phone,
                         'attributes' => new ComponentAttributeBag(),
@@ -258,7 +258,7 @@ abstract class BaseController extends Controller
                 'icon' => 'whatsapp',
                 'icon_style' => 'fab',
                 'value' => 'whatsapp',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->whatsapp != null
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->whatsapp != null
                     ? view('components.links.whatsapp', [
                         'slot' => $cmtyvol->whatsapp,
                         'message' => 'Hello '.$cmtyvol->first_name."\n",
@@ -276,7 +276,7 @@ abstract class BaseController extends Controller
                 'label' => __('Email address'),
                 'icon' => 'envelope',
                 'value' => 'email',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->email != null
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->email != null
                     ? view('components.links.email', [
                         'slot' => $cmtyvol->email,
                         'attributes' => new ComponentAttributeBag(),
@@ -295,7 +295,7 @@ abstract class BaseController extends Controller
                 'icon' => 'skype',
                 'icon_style' => 'fab',
                 'value' => 'skype',
-                'value_html' => fn ($cmtyvol) => $cmtyvol->skype != null
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->skype != null
                     ? view('components.links.skype', [
                         'slot' => $cmtyvol->skype,
                         'attributes' => new ComponentAttributeBag(),
@@ -312,7 +312,7 @@ abstract class BaseController extends Controller
                 'label' => __('Residence'),
                 'icon' => null,
                 'value' => 'residence',
-                'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->residence),
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => nl2br($cmtyvol->residence),
                 'overview' => false,
                 'section' => 'reachability',
                 'assign' => function ($cmtyvol, $value) {
@@ -325,7 +325,7 @@ abstract class BaseController extends Controller
                 'label' => __('Pickup location'),
                 'icon' => null,
                 'value' => 'pickup_location',
-                'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->pickup_location),
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => nl2br($cmtyvol->pickup_location),
                 'overview' => false,
                 'section' => 'reachability',
                 'assign' => function ($cmtyvol, $value) {
@@ -338,30 +338,30 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Responsibilities'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->responsibilities
-                    ->map(fn ($r) => [
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->responsibilities
+                    ->map(fn (Responsibility $r) => [
                         'value' => $r->name,
-                        'from' => $r->pivot->start_date,
-                        'to' => $r->pivot->end_date,
+                        'from' => $r->getRelationValue('pivot')->start_date,
+                        'to' => $r->getRelationValue('pivot')->end_date,
                     ]),
-                'value_export' => fn ($cmtyvol) => $cmtyvol->responsibilities()
+                'value_export' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->responsibilities()
                     ->orderBy('start_date')
                     ->get()
-                    ->map(fn ($r) => [
+                    ->map(fn (Responsibility $r) => [
                         'value' => $r->name,
-                        'from' => $r->pivot->start_date,
-                        'to' => $r->pivot->end_date,
+                        'from' => $r->getRelationValue('pivot')->start_date,
+                        'to' => $r->getRelationValue('pivot')->end_date,
                     ])
                     ->pluck('value')
                     ->implode('; '),
-                'value_html' => fn ($cmtyvol) => $cmtyvol->responsibilities
-                    ->map(function ($r) {
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->responsibilities
+                    ->map(function (Responsibility $r) {
                         $str = htmlspecialchars($r->name);
                         if ($r->description !== null) {
                             $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="'.htmlspecialchars($r->description).'"></a>';
                         }
-                        if ($r->pivot->hasDateRange()) {
-                            $str .= ' ('.$r->pivot->date_range_string.')';
+                        if ($r->getRelationValue('pivot')->hasDateRange()) {
+                            $str .= ' ('.$r->getRelationValue('pivot')->date_range_string.')';
                         }
                         if ($r->hasAssignedAlthoughNotAvailable) {
                             $str .= ' <span class="text-danger">('.__('not available').')</span>';
@@ -376,7 +376,7 @@ abstract class BaseController extends Controller
                 'overview' => true,
                 'section' => 'occupation',
                 'import_labels' => ['Project'],
-                'assign' => function ($cmtyvol, $value) {
+                'assign' => function (CommunityVolunteer $cmtyvol, $value) {
                     DB::transaction(function () use ($cmtyvol, $value) {
                         $cmtyvol->responsibilities()->detach();
                         if ($value != null) {
@@ -405,9 +405,9 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Starting Date'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => optional($cmtyvol->firstWorkStartDate)->toDateString(),
-                'value_html' => fn ($cmtyvol) => $cmtyvol->firstWorkStartDate != null
-                    ? $cmtyvol->firstWorkStartDate->toDateString().' ('.$cmtyvol->firstWorkStartDate->diffForHumans().')'
+                'value' => fn (CommunityVolunteer $cmtyvol) => optional($cmtyvol->first_work_start_date)->toDateString(),
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->first_work_start_date != null
+                    ? $cmtyvol->first_work_start_date->toDateString().' ('.$cmtyvol->first_work_start_date->diffForHumans().')'
                     : null,
                 'overview' => false,
                 'section' => 'occupation',
@@ -415,9 +415,9 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Leaving Date'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => optional($cmtyvol->lastWorkEndDate)->toDateString(),
-                'value_html' => fn ($cmtyvol) => $cmtyvol->lastWorkEndDate != null
-                    ? $cmtyvol->lastWorkEndDate->toDateString().' ('.$cmtyvol->lastWorkEndDate->diffForHumans().')'
+                'value' => fn (CommunityVolunteer $cmtyvol) => optional($cmtyvol->last_work_end_date)->toDateString(),
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->last_work_end_date != null
+                    ? $cmtyvol->last_work_end_date->toDateString().' ('.$cmtyvol->last_work_end_date->diffForHumans().')'
                     : null,
                 'overview' => false,
                 'section' => 'occupation',
@@ -425,15 +425,15 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Working since (days)'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->workingSinceDays,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->working_since_days,
                 'overview' => false,
                 'section' => 'occupation',
             ],
             [
                 'label' => __('Notes'),
                 'icon' => null,
-                'value' => fn ($cmtyvol) => $cmtyvol->notes,
-                'value_html' => fn ($cmtyvol) => nl2br($cmtyvol->notes),
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->notes,
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => nl2br($cmtyvol->notes),
                 'overview' => false,
                 'section' => 'general',
                 'import_labels' => ['Notes'],
@@ -445,7 +445,7 @@ abstract class BaseController extends Controller
             ],
             [
                 'label' => __('Comments'),
-                'value' => fn ($cmtyvol) => $cmtyvol->comments
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->comments
                     ->sortBy('created_at')
                     ->pluck('content')
                     ->implode('; '),

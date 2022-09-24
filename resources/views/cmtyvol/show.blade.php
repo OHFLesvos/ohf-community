@@ -17,26 +17,26 @@
                     @endif
                 </div>
                 @if($section == 'occupation')
-                    @if($cmtyvol->firstWorkStartDate == null)
+                    @if($cmtyvol->first_work_start_date == null)
                         <div class="card-body p-0">
                             <x-alert type="warning" class="m-0">
                                 {{ __('No starting date has been set.') }}
                             </x-alert>
                         </div>
-                    @elseif($cmtyvol->firstWorkStartDate->gt(today()))
+                    @elseif($cmtyvol->first_work_start_date->gt(today()))
                         <div class="card-body p-0">
                             <x-alert type="warning" class="m-0">
-                                {{ __('This community volunteer will start on :date.', ['date' => $cmtyvol->firstWorkStartDate->toDateString() ]) }}
+                                {{ __('This community volunteer will start on :date.', ['date' => $cmtyvol->first_work_start_date->toDateString() ]) }}
                             </x-alert>
                         </div>
                     @else
-                        @if($cmtyvol->lastWorkEndDate != null)
+                        @if($cmtyvol->last_work_end_date != null)
                             <div class="card-body p-0">
                                 <x-alert type="info" class="m-0">
-                                    @if($cmtyvol->lastWorkEndDate < today())
-                                        {{ __('This community volunteer left on :date.', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ]) }}
+                                    @if($cmtyvol->last_work_end_date < today())
+                                        {{ __('This community volunteer left on :date.', ['date' => $cmtyvol->last_work_end_date->toDateString() ]) }}
                                     @else
-                                        {{ __('This community volunteer will leave on :date.', ['date' => $cmtyvol->lastWorkEndDate->toDateString() ]) }}
+                                        {{ __('This community volunteer will leave on :date.', ['date' => $cmtyvol->last_work_end_date->toDateString() ]) }}
                                     @endif
                                 </x-alert>
                             </div>

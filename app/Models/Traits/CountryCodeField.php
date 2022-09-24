@@ -5,29 +5,29 @@ namespace App\Models\Traits;
 use App;
 use Carbon\Carbon;
 use Countries;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 trait CountryCodeField
 {
     /**
-     * Get the country name based on the country code
+     * Get/set the country name based on the country code
+     *
+     * @return Attribute<?string,never>
      */
-    public function getCountryNameAttribute(): ?string
+    protected function countryName(): Attribute
     {
-        if ($this->country_code != null) {
-            return Countries::getOne($this->country_code, App::getLocale());
-        }
-
-        return null;
-    }
-
-    /**
-     * Set the country code based on the country name
-     */
-    public function setCountryNameAttribute(?string $value): void
-    {
-        $this->attributes['country_code'] = $value != null
-            ? localized_country_names()->flip()[$value] ?? null
-            : null;
+        return Attribute::make(
+            get: function () {
+                return $this->country_code !== null
+                    ? Countries::getOne($this->country_code, App::getLocale())
+                    : null;
+            },
+            set: fn (?string $value) => [
+                'country_code' => $value !== null
+                    ? localized_country_names()->flip()[$value] ?? null
+                    : null,
+            ],
+        );
     }
 
     /**
@@ -40,12 +40,12 @@ trait CountryCodeField
             ->whereNotNull('country_code')
             ->orderBy('country_code')
             ->get()
-            ->map(fn ($e) => $e->countryName)
+            ->map(fn (self $e) => $e->country_name)
             ->toArray();
     }
 
     /**
-     * Gets an array of all countries assigned to records, grouped and ordered by amount
+     * Gets an array of all countries assigned to model records, ordered by amount per country
      */
     public static function countryDistribution(string|Carbon|null $untilDate = null): array
     {
@@ -56,8 +56,8 @@ trait CountryCodeField
             ->createdUntil($untilDate)
             ->orderBy('countries_count', 'desc')
             ->get()
-            ->map(fn ($e) => [
-                'name' => $e['countryName'],
+            ->map(fn (self $e) => [
+                'name' => $e->country_name,
                 'amount' => $e['countries_count'],
             ])
             ->toArray();

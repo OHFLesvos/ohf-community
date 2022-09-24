@@ -4,6 +4,7 @@ namespace App\Models\Accounting;
 
 use App\Models\Role;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -44,11 +45,13 @@ class Wallet extends Model
     /**
      * Gets the current amount (sum of all transactions) in the wallet
      *
-     * @return float the amount in the wallet
+     * @return Attribute<float,never>
      */
-    public function getAmountAttribute(): float
+    protected function amount(): Attribute
     {
-        return $this->calculatedSum() ?? 0;
+        return Attribute::make(
+            get: fn () => $this->calculatedSum() ?? 0.0,
+        );
     }
 
     public function getNextFreeReceiptNumber(): int
