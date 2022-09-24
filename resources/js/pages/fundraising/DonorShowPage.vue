@@ -105,7 +105,7 @@ export default {
         async fetchData () {
             this.error = null
             try {
-                let data = await donorsApi.find(this.id, true)
+                let data = await donorsApi.find(this.id)
                 let donor = data.data
                 this.canViewDonations = donor.can_view_donations
                 this.canViewBudgets = donor.can_view_budgets

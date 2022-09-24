@@ -8,6 +8,7 @@ use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\Fundraising\StoreDonor;
 use App\Http\Resources\Accounting\Budget as BudgetResource;
 use App\Http\Resources\Fundraising\Donor as DonorResource;
+use App\Http\Resources\Fundraising\ExtendedDonor;
 use App\Models\Accounting\Budget;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
@@ -118,11 +119,11 @@ class DonorController extends Controller
             ]);
     }
 
-    public function show(Donor $donor, Request $request): JsonResource
+    public function show(Donor $donor): JsonResource
     {
         $this->authorize('view', $donor);
 
-        return new DonorResource($donor, $request->has('extended'));
+        return new ExtendedDonor($donor);
     }
 
     public function update(StoreDonor $request, Donor $donor): JsonResponse

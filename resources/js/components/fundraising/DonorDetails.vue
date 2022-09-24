@@ -25,10 +25,10 @@
         </two-col-list-group-item>
 
         <two-col-list-group-item
-            v-if="donor.fullAddress"
+            v-if="donor.full_address"
             :title="$t('Address')"
         >
-            <span style="white-space: pre;">{{ donor.fullAddress }}</span>
+            <span style="white-space: pre;">{{ donor.full_address }}</span>
         </two-col-list-group-item>
 
         <two-col-list-group-item
@@ -118,7 +118,7 @@ export default {
     methods: {
         async fetchData () {
             try {
-                let data = await donorsApi.find(this.id, true)
+                let data = await donorsApi.find(this.id)
                 this.donor = data.data
             } catch (err) {
                 alert(err)
