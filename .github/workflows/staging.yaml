@@ -1,0 +1,93 @@
+name: Deploy to Staging
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+    branches:
+      - "master"
+
+env:
+  PHP_BIN: php81
+  PHP_VERSION: '8.1'
+  NODE_VERSION: "16.x"
+
+jobs:
+  check-secret:
+    name: Check repository secrets
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    outputs:
+      remote-data: ${{ steps.remote-data.outputs.defined }}
+    steps:
+      - id: remote-data
+        if: "${{ env.STAGING_REMOTE_HOST != '' && env.STAGING_REMOTE_PORT != '' && env.STAGING_REMOTE_USER != '' && env.STAGING_SERVER_SSH_KEY != ''  && env.STAGING_REMOTE_TARGET != ''}}"
+        run: echo "::set-output name=defined::true"
+        env:
+          STAGING_REMOTE_HOST: ${{ secrets.STAGING_REMOTE_HOST }}
+          STAGING_REMOTE_PORT: ${{ secrets.STAGING_REMOTE_PORT }}
+          STAGING_REMOTE_USER: ${{ secrets.STAGING_REMOTE_USER }}
+          STAGING_SERVER_SSH_KEY: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+          STAGING_REMOTE_TARGET: ${{ secrets.STAGING_REMOTE_TARGET }}
+
+  deploy-to-staging:
+    name: Deploy to staging
+    runs-on: ubuntu-latest
+    needs: [check-secret]
+    if: (github.repository == 'OHFLesvos/ohf-community' && needs.check-secret.outputs.remote-data == 'true')
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Store Git hash
+      shell: bash
+      run: |
+        echo "$(git rev-parse HEAD)" >> storage/githash.cache
+    - name: Setup PHP
+      id: setup-php
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ env.PHP_VERSION }}
+    - name: Install Dependencies
+      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - run: npm ci
+    - run: npm run prod
+    - name: Enable maintenance mode on remote
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.STAGING_REMOTE_HOST }}
+        port: ${{ secrets.STAGING_REMOTE_PORT }}
+        username: ${{ secrets.STAGING_REMOTE_USER }}
+        key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+        script: |
+          cd ${{ secrets.STAGING_REMOTE_TARGET }}
+          if [ -f .env ] && [ -f artisan ]; then ${{ env.PHP_BIN }} artisan down; fi
+    - name: Deploy to remote
+      uses: easingthemes/ssh-deploy@v2.1.5
+      env:
+        ARGS: "-rltgoDzvO --delete --exclude '.env' --exclude '.git' --exclude 'storage/app/' --exclude 'storage/framework/' --exclude 'storage/logs/' --exclude 'node_modules' --exclude '.vscode' --exclude '.github'"
+        REMOTE_HOST: ${{ secrets.STAGING_REMOTE_HOST }}
+        REMOTE_PORT: ${{ secrets.STAGING_REMOTE_PORT }}
+        REMOTE_USER: ${{ secrets.STAGING_REMOTE_USER }}
+        SSH_PRIVATE_KEY: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+        TARGET: ${{ secrets.STAGING_REMOTE_TARGET }}
+    - name: Publish on remote
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.STAGING_REMOTE_HOST }}
+        port: ${{ secrets.STAGING_REMOTE_PORT }}
+        username: ${{ secrets.STAGING_REMOTE_USER }}
+        key: ${{ secrets.STAGING_SERVER_SSH_KEY }}
+        script: |
+          cd ${{ secrets.STAGING_REMOTE_TARGET }}
+          mkdir -p storage/framework/{sessions,views,cache}
+          ${{ env.PHP_BIN }} artisan key:generate -n -q
+          ${{ env.PHP_BIN }} artisan optimize
+          ${{ env.PHP_BIN }} artisan view:clear
+          ${{ env.PHP_BIN }} artisan migrate --force
+          ${{ env.PHP_BIN }} artisan storage:link
+          ${{ env.PHP_BIN }} artisan up
