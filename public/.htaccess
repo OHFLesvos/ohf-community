@@ -19,3 +19,8 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Explicit PHP 8.1 configuration
+<IfFile /home/httpd/cgi-bin/php81-fcgi-starter.fcgi>
+    FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php
+</IfFile>
