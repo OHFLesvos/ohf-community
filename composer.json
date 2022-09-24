@@ -1,15 +1,8 @@
 {
     "name": "ohflesvos/community-manager",
     "type": "project",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
-    "repositories": [
-        {
-          "type": "vcs",
-          "url": "https://github.com/buzzclue/laravel-vue-i18n-generator.git"
-        }
-      ],
+    "description": "NGO management application",
+    "license": "AGPL-3.0-or-later",
     "require": {
         "php": "^8.1.0",
         "akaunting/laravel-language": "^1.0",
@@ -48,9 +41,9 @@
         "usystems/webling-api-php": "^1.2"
     },
     "require-dev": {
+        "adaa/laravel-vue-i18n-generator": "^1.2",
         "barryvdh/laravel-debugbar": "^3.6",
         "barryvdh/laravel-ide-helper": "^2.6",
-        "buzzclue/laravel-vue-i18n-generator": "dev-master",
         "fakerphp/faker": "^1.9.1",
         "filp/whoops": "~2.0",
         "laravel/pint": "^1.1",

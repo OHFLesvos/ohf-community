@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25c952051eed34f8151502f83071394d",
+    "content-hash": "72398e629e6af387eab05c595ba085f9",
     "packages": [
         {
             "name": "akaunting/laravel-language",
@@ -3494,16 +3494,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "3.5.1",
+            "version": "3.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "f14993c6e394450ac4649da35264df0544d0234e"
+                "reference": "c73c4eb31f2e883b3897ab5591aa2dbc48112433"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/f14993c6e394450ac4649da35264df0544d0234e",
-                "reference": "f14993c6e394450ac4649da35264df0544d0234e",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c73c4eb31f2e883b3897ab5591aa2dbc48112433",
+                "reference": "c73c4eb31f2e883b3897ab5591aa2dbc48112433",
                 "shasum": ""
             },
             "require": {
@@ -3565,7 +3565,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/flysystem/issues",
-                "source": "https://github.com/thephpleague/flysystem/tree/3.5.1"
+                "source": "https://github.com/thephpleague/flysystem/tree/3.5.2"
             },
             "funding": [
                 {
@@ -3581,7 +3581,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-09-18T18:23:19+00:00"
+            "time": "2022-09-23T18:59:16+00:00"
         },
         {
             "name": "league/mime-type-detection",
@@ -9723,16 +9723,16 @@
         },
         {
             "name": "tightenco/ziggy",
-            "version": "v1.4.6",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tighten/ziggy.git",
-                "reference": "a9e0e078ae6f0768836bc640a80f4cf99fa3d08f"
+                "reference": "419ac3f71b60795b392ec1ba6ee72e179977afc8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tighten/ziggy/zipball/a9e0e078ae6f0768836bc640a80f4cf99fa3d08f",
-                "reference": "a9e0e078ae6f0768836bc640a80f4cf99fa3d08f",
+                "url": "https://api.github.com/repos/tighten/ziggy/zipball/419ac3f71b60795b392ec1ba6ee72e179977afc8",
+                "reference": "419ac3f71b60795b392ec1ba6ee72e179977afc8",
                 "shasum": ""
             },
             "require": {
@@ -9784,9 +9784,9 @@
             ],
             "support": {
                 "issues": "https://github.com/tighten/ziggy/issues",
-                "source": "https://github.com/tighten/ziggy/tree/v1.4.6"
+                "source": "https://github.com/tighten/ziggy/tree/v1.5.0"
             },
-            "time": "2022-04-08T15:12:23+00:00"
+            "time": "2022-09-23T22:15:05+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -10281,6 +10281,74 @@
     ],
     "packages-dev": [
         {
+            "name": "adaa/laravel-vue-i18n-generator",
+            "version": "1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AdaaSystem/laravel-vue-i18n-generator.git",
+                "reference": "942ad0a0b51315ba6374a662f12fa2b7076b451a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AdaaSystem/laravel-vue-i18n-generator/zipball/942ad0a0b51315ba6374a662f12fa2b7076b451a",
+                "reference": "942ad0a0b51315ba6374a662f12fa2b7076b451a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "illuminate/console": "^5.0|^6.0|^7.0|^8.0|^9.0",
+                "illuminate/support": "^5.0|^6.0|^7.0|^8.0|^9.0",
+                "php": ">=7|>=8|>=8.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.1.*",
+                "phpunit/phpunit": "~4.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Adaa\\VueInternationalizationGenerator\\GeneratorProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Adaa\\VueInternationalizationGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Martin Lindhe",
+                    "email": "martin@ubique.se"
+                },
+                {
+                    "name": "Tony Murray",
+                    "email": "murraytony@gmail.com"
+                },
+                {
+                    "name": "Elteyab Ali",
+                    "email": "elteyab@smart.sd"
+                }
+            ],
+            "description": "Generates a vue-i18n compatible include file from your Laravel translations.",
+            "homepage": "http://github.com/tayeb-ali/laravel-vue-i18n-generator",
+            "keywords": [
+                "laravel",
+                "vue-i18n"
+            ],
+            "support": {
+                "issues": "https://github.com/AdaaSystem/laravel-vue-i18n-generator/issues",
+                "source": "https://github.com/AdaaSystem/laravel-vue-i18n-generator/tree/1.2"
+            },
+            "time": "2022-09-04T20:26:36+00:00"
+        },
+        {
             "name": "barryvdh/laravel-debugbar",
             "version": "v3.7.0",
             "source": {
@@ -10509,64 +10577,6 @@
                 "source": "https://github.com/barryvdh/ReflectionDocBlock/tree/v2.0.6"
             },
             "time": "2018-12-13T10:34:14+00:00"
-        },
-        {
-            "name": "buzzclue/laravel-vue-i18n-generator",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/buzzclue/laravel-vue-i18n-generator.git",
-                "reference": "7919ca721e1ebf6d4b3ddec10d06794e030bb316"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/buzzclue/laravel-vue-i18n-generator/zipball/7919ca721e1ebf6d4b3ddec10d06794e030bb316",
-                "reference": "7919ca721e1ebf6d4b3ddec10d06794e030bb316",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "illuminate/console": "~5.1.0|~5.2.0|~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0|~6.0|~7.0|~8.0|~9.0",
-                "illuminate/support": "~5.1.0|~5.2.0|~5.3.0|~5.4.0|~5.5.0|~5.6.0|~5.7.0|~5.8.0|~6.0|~7.0|~8.0|~9.0",
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.7"
-            },
-            "default-branch": true,
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MartinLindhe\\VueInternationalizationGenerator\\GeneratorProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MartinLindhe\\VueInternationalizationGenerator\\": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Abbas Arif",
-                    "email": "abbasarif@acexlogics.com"
-                }
-            ],
-            "description": "Generates a vue-i18n compatible include file from your Laravel translations.",
-            "homepage": "http://github.com/buzzclue/laravel-vue-i18n-generator",
-            "keywords": [
-                "laravel",
-                "vue-i18n"
-            ],
-            "support": {
-                "source": "https://github.com/buzzclue/laravel-vue-i18n-generator/tree/master"
-            },
-            "time": "2022-03-21T17:06:05+00:00"
         },
         {
             "name": "composer/class-map-generator",
@@ -13808,9 +13818,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "buzzclue/laravel-vue-i18n-generator": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

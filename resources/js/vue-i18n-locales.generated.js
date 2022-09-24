@@ -799,6 +799,12 @@ export default {
         "Account cannot be deleted as it is the only remaining account with super-admin privileges.": "Der Account kann nicht gelöscht werden da dies der einzig verbleibende Account mit Administratorprivilegien ist.",
         "Update your profile information directly at {provider}": "Aktualisiere deine Profilinformationen direkt bei {provider}",
         "Managed by {provider}": "Verwaltet von {provider}",
+        "app": [],
+        "auth": {
+            "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
+            "password": "Das angegebene Passwort ist falsch.",
+            "throttle": "Zu viele Loginversuche. Versuchen Sie es bitte in {seconds} Sekunden nochmal."
+        },
         "pagination": {
             "previous": "&laquo; Zurück",
             "next": "Weiter &raquo;"
@@ -810,12 +816,6 @@ export default {
             "token": "Der Passwort-Wiederherstellungs-Schlüssel ist ungültig oder abgelaufen.",
             "user": "Es konnte leider kein Nutzer mit dieser E-Mail-Adresse gefunden werden."
         },
-        "auth": {
-            "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
-            "password": "Das angegebene Passwort ist falsch.",
-            "throttle": "Zu viele Loginversuche. Versuchen Sie es bitte in {seconds} Sekunden nochmal."
-        },
-        "app": [],
         "permissions": {
             "view_usermgmt": "Benutzerverwaltung: Benutzer und Rollen betrachten",
             "usermgmt_manage_users": "Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen",
@@ -993,6 +993,11 @@ export default {
         "from {from}": "from {from}",
         "until {until}": "until {until}",
         "{from} - {until}": "{from} - {until}",
+        "auth": {
+            "failed": "These credentials do not match our records.",
+            "password": "The provided password is incorrect.",
+            "throttle": "Too many login attempts. Please try again in {seconds} seconds."
+        },
         "pagination": {
             "previous": "&laquo; Previous",
             "next": "Next &raquo;"
@@ -1003,11 +1008,6 @@ export default {
             "throttled": "Please wait before retrying.",
             "token": "This password reset token is invalid.",
             "user": "We can't find a user with that email address."
-        },
-        "auth": {
-            "failed": "These credentials do not match our records.",
-            "password": "The provided password is incorrect.",
-            "throttle": "Too many login attempts. Please try again in {seconds} seconds."
         },
         "permissions": {
             "view_usermgmt": "User management: View users and roles",
