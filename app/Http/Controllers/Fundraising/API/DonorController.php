@@ -51,7 +51,7 @@ class DonorController extends Controller
                     'last_name',
                     'company',
                     'city',
-                    'country',
+                    'country_name',
                     'language',
                     'created_at',
                 ]),
@@ -76,7 +76,7 @@ class DonorController extends Controller
         $filter = trim($request->input('filter', ''));
         $tags = $request->input('tags', []);
 
-        if ($sortBy == 'country') {
+        if ($sortBy == 'country_name') {
             $sortMethod = $sortDirection == 'desc' ? 'sortByDesc' : 'sortBy';
             $donors = Donor::query()
                 ->withAllTags($tags)
