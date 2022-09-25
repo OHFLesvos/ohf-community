@@ -19,8 +19,6 @@ return [
 
     'product_name' => 'Community Center Manager',
 
-    'product_url' => 'https://github.com/OHFLesvos/ohf-community',
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -42,7 +42,8 @@
         <small>
             {!! __('By using this service, you accept our <a href=":url" target="_blank">privacy policy</a>.', [
                 'url' => route('privacyPolicy'),
-            ]) !!}
+            ]) !!}<br>
+            @include('layouts.include.copyright')
         </small>
     </footer>
 
