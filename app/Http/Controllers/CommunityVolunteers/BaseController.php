@@ -256,7 +256,7 @@ abstract class BaseController extends Controller
             [
                 'label' => __('WhatsApp'),
                 'icon' => 'whatsapp',
-                'icon_style' => 'fab',
+                'icon_style' => 'brands',
                 'value' => 'whatsapp',
                 'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->whatsapp != null
                     ? view('components.links.whatsapp', [
@@ -293,7 +293,7 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Skype'),
                 'icon' => 'skype',
-                'icon_style' => 'fab',
+                'icon_style' => 'brands',
                 'value' => 'skype',
                 'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->skype != null
                     ? view('components.links.skype', [
@@ -358,7 +358,7 @@ abstract class BaseController extends Controller
                     ->map(function (Responsibility $r) {
                         $str = htmlspecialchars($r->name);
                         if ($r->description !== null) {
-                            $str .= ' <a tabindex="0" class="description-tooltip fa fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="'.htmlspecialchars($r->description).'"></a>';
+                            $str .= ' <a tabindex="0" class="description-tooltip fa-solid fa-info-circle" data-toggle="popover" data-trigger="focus" data-content="'.htmlspecialchars($r->description).'"></a>';
                         }
                         if ($r->getRelationValue('pivot')->hasDateRange()) {
                             $str .= ' ('.$r->getRelationValue('pivot')->date_range_string.')';
