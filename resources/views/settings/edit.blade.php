@@ -37,7 +37,7 @@
         </div>
         <p class="d-flex justify-content-between mt-3">
             <button class="btn btn-outline-danger" type="submit" name="reset" onclick="return confirm('{{ __('Really reset to default settings?') }}')">
-                <x-icon icon="undo"/> {{ __('Reset to default settings') }}
+                <x-icon icon="arrow-rotate-left"/> {{ __('Reset to default settings') }}
             </button>
             <x-form.bs-submit-button :label="__('Update')"/>
         </p>
