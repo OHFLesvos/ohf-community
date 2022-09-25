@@ -94,15 +94,15 @@
                     </li>
                     <li>
                         <a href="javascript:postRequest('{{ route('logout') }}', {});" class="btn btn-dark btn-block rounded-0">
-                            <x-icon icon="sign-out-alt" class="mr-1"/>
+                            <x-icon icon="right-from-bracket" class="mr-1"/>
                             {{ __('Logout') }}
                         </a>
                     </li>
                 </ul>
             </div>
         @else
-            <a href="{{ route('login') }}" class="btn btn-secondary d-none d-md-inline-block"><x-icon icon="sign-in-alt"/> {{ __('Login') }}</a>
-            <a href="{{ route('login') }}" class="btn text-light d-md-none"><x-icon icon="sign-in-alt"/></a>
+            <a href="{{ route('login') }}" class="btn btn-secondary d-none d-md-inline-block"><x-icon icon="right-to-bracket"/> {{ __('Login') }}</a>
+            <a href="{{ route('login') }}" class="btn text-light d-md-none"><x-icon icon="right-to-bracket"/></a>
         @endauth
 
     </div>

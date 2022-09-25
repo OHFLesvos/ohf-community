@@ -7,9 +7,9 @@ use Illuminate\View\Component;
 class Alert extends Component
 {
     private const ICONS = [
-        'danger' => 'exclamation-circle',
-        'warning' => 'exclamation-triangle',
-        'info' => 'info-circle',
+        'danger' => 'circle-exclamation',
+        'warning' => 'triangle-exclamation',
+        'info' => 'circle-info',
         'success' => 'check',
     ];
 

@@ -16,7 +16,7 @@ class UserEditContextButtons implements ContextButtons
             'back' => [
                 'url' => route('users.show', $user),
                 'caption' => __('Cancel'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('view', $user),
             ],
         ];

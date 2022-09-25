@@ -16,7 +16,7 @@ class CommunityVolunteersEditContextButtons implements ContextButtons
             'back' => [
                 'url' => route('cmtyvol.show', $cmtyvol),
                 'caption' => __('Cancel'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('view', $cmtyvol),
             ],
         ];

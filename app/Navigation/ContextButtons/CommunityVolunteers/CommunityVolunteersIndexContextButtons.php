@@ -16,7 +16,7 @@ class CommunityVolunteersIndexContextButtons implements ContextButtons
             'action' => [
                 'url' => route('cmtyvol.create'),
                 'caption' => __('Register'),
-                'icon' => 'plus-circle',
+                'icon' => 'circle-plus',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', CommunityVolunteer::class),
             ],

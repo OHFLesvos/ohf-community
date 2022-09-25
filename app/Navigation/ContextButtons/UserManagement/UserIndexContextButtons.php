@@ -15,7 +15,7 @@ class UserIndexContextButtons implements ContextButtons
             'action' => [
                 'url' => route('users.create'),
                 'caption' => __('Add'),
-                'icon' => 'plus-circle',
+                'icon' => 'circle-plus',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', User::class),
             ],

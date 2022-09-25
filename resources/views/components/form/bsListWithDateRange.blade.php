@@ -5,7 +5,7 @@
                 <th>{{ $label }}</th>
                 <th>{{ __('From') }}</th>
                 <th>{{ __('To') }}</th>
-                <th class="fit text-center"><x-icon icon="trash-alt"/></th>
+                <th class="fit text-center"><x-icon icon="trash-can"/></th>
             </thead>
         @endif
         <tbody>
@@ -22,7 +22,7 @@
                     <td>{{ Form::date($name . '[' . $loop->index . '][to]', $entry['to'], [ 'class' => 'form-control'.($errors->has($name) ? ' is-invalid' : ''), 'pattern' => '[0-9]{4}-[0-9]{2}-[0-9]{2}' ]) }}</td>
                     <td class="fit text-center">
                         <button type="button" class="btn btn-danger input-list-delete-button">
-                            <x-icon icon="minus-circle"/>
+                            <x-icon icon="circle-minus"/>
                         </button>
                     </td>
                 </tr>
@@ -34,7 +34,7 @@
                 <td>{{ Form::date(null, '', [ 'data-name' => $name . '[$index$][to]', 'class' => 'form-control'.($errors->has($name) ? ' is-invalid' : ''), 'pattern' => '[0-9]{4}-[0-9]{2}-[0-9]{2}' ]) }}</td>
                 <td class="fit text-center">
                     <button type="button" class="btn btn-danger input-list-delete-button">
-                        <x-icon icon="minus-circle"/>
+                        <x-icon icon="circle-minus"/>
                     </button>
                 </td>
             </tr>
@@ -42,7 +42,7 @@
                 <td class="border-top-0">
                     {{-- Put this inside a table row, as Firefox meight page-break after the table an render the button in the next column --}}
                     <button type="button" class="btn btn-success input-list-add-button" data-table="#{{ form_id_string($name) }}">
-                        <x-icon icon="plus-circle"/>
+                        <x-icon icon="circle-plus"/>
                         {{ __('Add') }}
                     </button>
                 </td>

@@ -44,7 +44,7 @@
                             {{-- Success message --}}
                             @if (session('success'))
                                 <div class="snack-message">
-                                    <x-icon icon="check-square" class="pr-1"/>
+                                    <x-icon icon="square-check" class="pr-1"/>
                                     {{ session('success') }}
                                 </div>
                             @endif
