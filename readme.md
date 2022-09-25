@@ -88,7 +88,7 @@ The following list provides links to the documentation pages of the most common 
 * [Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 * [VueJS 2](https://v2.vuejs.org/v2/guide/)
 * [Bootstrap Vue](https://bootstrap-vue.org/docs)
-* [FontAwesome](https://fontawesome.com/v5/search)
+* [FontAwesome 6](https://fontawesome.com/v6/search)
 * [Chart.js 2](https://www.chartjs.org/docs/2.9.4/)
 * [Moment.js](https://momentjs.com/docs/)
 * [Ziggy](https://github.com/tighten/ziggy)

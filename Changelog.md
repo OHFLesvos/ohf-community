@@ -4,6 +4,7 @@
 
 * Added support for specifying email domain for Google OAuth login
 * Store avatar images locally
+* Update icon library (Font Awesome 6).
 
 ## 3.9.0
 
