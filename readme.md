@@ -22,7 +22,7 @@ This program is open-sourced software licensed under the [AGPL license](https://
 
 ### Optional 3rd-party services
 
-* [Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server) for login using a service provider
+* [Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server) for login using a OAuth service provider
 * [Sentry](https://sentry.io/welcome/) for application monitoring
 * [Symfony Mailer](https://symfony.com/doc/current/mailer.html)-compatible mail service
 * [Monolog](https://github.com/Seldaek/monolog)-compatible logging service for log collection and analysis
