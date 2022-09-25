@@ -96,11 +96,12 @@ The following list provides links to the documentation pages of the most common 
 
 ## Releasing
 
+* Ensure tests, code style and static code analysis on `master` branch run without errors
 * Update `Changelog.md` file
-* Set version number of format `major.minor.patch` in property `version` in `config/app.php` file
-* Commit into VCS
-* Create VCS tag
-* Push VCS changes to origin repository
+* Commit into Git
+* Merge `master` branch into `production` branch.
+* On the `production` branch, create Git tag of the form `vX.Y.Z`, where X is the major version, Y is the minor version and Z is the patch version. Example: , e.g `v1.0.0`
+* Push Git changes, including tags, to origin repository
 
 ## Deployment onto production server
 
