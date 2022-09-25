@@ -46,8 +46,8 @@
         <p class="copyright text-muted px-3">
             {{ config('app.name') }}<br>
             Revision: <a href="{{ route('changelog') }}" target="_blank">{{ $app_version }}</a><br>
-            @include('layouts.include.copyright')<br>
-            Page rendered in {{ round((microtime(true) - LARAVEL_START)*1000) }} ms
+            Environment: {{ app()->environment() }}<br><br>
+            @include('layouts.include.copyright')
         </p>
     </footer>
 </div>
