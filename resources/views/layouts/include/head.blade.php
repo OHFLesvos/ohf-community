@@ -23,7 +23,7 @@
         @endisset
 
         {{-- CSS --}}
-        @vite(['resources/js/app.js'])
+        @vite(['resources/js/app.js','resources/sass/app.scss'])
 
         {{-- Scripts --}}
         <script>

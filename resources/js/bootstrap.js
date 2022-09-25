@@ -1,5 +1,4 @@
 import jquery from "jquery";
-import '../sass/app.scss'
 import 'bootstrap'
 import popperJs from "popper.js";
 import bsCustomFileInput from "bs-custom-file-input";
