@@ -44,8 +44,8 @@
 
         <hr>
         <p class="copyright text-muted px-3">
-            <a href="{{ config('app.product_url') }}" target="_blank" class="text-dark">{{ config('app.product_name') }}</a>
-            Revision: <a href="{{ config('app.changelog_url') }}" target="_blank">{{ $app_version }}</a><br>
+            <a href="{{ config('app.product_url') }}" target="_blank" class="text-dark">{{ config('app.product_name') }}</a><br>
+            Revision: <a href="{{ route('changelog') }}" target="_blank">{{ $app_version }}</a><br>
             @include('layouts.include.copyright')<br>
             Page rendered in {{ round((microtime(true) - LARAVEL_START)*1000) }} ms
         </p>

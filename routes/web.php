@@ -288,3 +288,6 @@ Route::prefix('reports')
                     ->name('donations');
             });
     });
+
+Route::get('changelog', fn () => view('changelog', ['content' => file_get_contents(base_path('Changelog.md'))]))
+    ->name('changelog');

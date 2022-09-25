@@ -34,6 +34,7 @@ use App\Http\Controllers\UserManagement\API\UserProfile2FAController;
 use App\Http\Controllers\UserManagement\API\UserProfileController;
 use App\Http\Controllers\UserManagement\API\UserRoleRelationshipController;
 use App\Http\Controllers\Visitors\API\VisitorController;
+use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -407,3 +408,6 @@ Route::get('languages', [DataListController::class, 'languages'])
 
 Route::get('settings', [SettingsController::class, 'list'])
     ->name('api.settings');
+
+Route::get('changelog', fn () => Markdown::convert(file_get_contents(base_path('Changelog.md'))))
+    ->name('api.changelog');

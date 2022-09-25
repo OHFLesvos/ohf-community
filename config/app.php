@@ -21,8 +21,6 @@ return [
 
     'product_url' => 'https://github.com/OHFLesvos/ohf-community',
 
-    'changelog_url' => 'https://github.com/OHFLesvos/ohf-community/blob/master/Changelog.md',
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -223,6 +221,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Setting' => anlutro\LaravelSettings\Facade::class,
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
+        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,
     ])->toArray(),
 
 ];
