@@ -6,7 +6,7 @@
 
         <title>@yield('title') | {{ config('app.name') }}</title>
 
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        @vite(['resources/js/app.js'])
     </head>
     <body class="bg-light h-100 d-flex">
         <main class="container align-self-center">

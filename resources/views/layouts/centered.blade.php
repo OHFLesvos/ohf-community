@@ -5,9 +5,5 @@
         <div class="my-auto mx-auto p-3" style="width: {{ $width ?? 450 }}px">
             @yield('centered-content')
         </div>
-
-        <script src="{{ mix('js/manifest.js') }}"></script>
-        <script src="{{ mix('js/vendor.js') }}"></script>
-        <script src="{{ mix('js/app.js') }}"></script>
     </body>
 </html>
