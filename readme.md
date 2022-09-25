@@ -20,6 +20,13 @@ This program is open-sourced software licensed under the [AGPL license](https://
 * MySQL/MariaDB/PostgreSQL Database
 * [Node.js](https://nodejs.org/en/) 16.x
 
+### Optional 3rd-party services
+
+* [Google OAuth](https://developers.google.com/identity/protocols/oauth2/web-server) for login using a service provider
+* [Sentry](https://sentry.io/welcome/) for application monitoring
+* [Symfony Mailer](https://symfony.com/doc/current/mailer.html)-compatible mail service
+* [Monolog](https://github.com/Seldaek/monolog)-compatible logging service for log collection and analysis
+
 ## Installation
 
 Copy `.env.example` to `.env` and adapt database credentials and other settings accordingly.
@@ -73,6 +80,19 @@ Create assets (CSS/JavaScript) using npm:
     php artisan vue-i18n:generate
     php artisan ziggy:generate
     npm run dev
+
+## Frontend 3rd party libraries
+
+The following list provides links to the documentation pages of the most common frontend libraries used in this project:
+
+* [Bootstrap 4](https://getbootstrap.com/docs/4.3/getting-started/introduction/)
+* [VueJS 2](https://v2.vuejs.org/v2/guide/)
+* [Bootstrap Vue](https://bootstrap-vue.org/docs)
+* [FontAwesome](https://fontawesome.com/v5/search)
+* [Chart.js 2](https://www.chartjs.org/docs/2.9.4/)
+* [Moment.js](https://momentjs.com/docs/)
+* [Ziggy](https://github.com/tighten/ziggy)
+* [VeeValidate](https://vee-validate.logaretm.com/v2/guide/)
 
 ## Releasing
 
