@@ -40,8 +40,8 @@
 
 <script>
 import donorsApi from '@/api/fundraising/donors'
-import AlertWithRetry from '@/components/alerts/AlertWithRetry'
-import TabNav from '@/components/layout/TabNav'
+import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
+import TabNav from '@/components/layout/TabNav.vue'
 export default {
     title() {
         return this.$t("Show donor");

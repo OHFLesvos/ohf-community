@@ -12,7 +12,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorCheckInPage"
+                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorCheckInPage.vue"
                 )
         }
     },
@@ -22,7 +22,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorEditPage"
+                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorEditPage.vue"
                 )
         },
         props: {

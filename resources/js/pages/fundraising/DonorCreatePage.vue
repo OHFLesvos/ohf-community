@@ -11,7 +11,7 @@
 <script>
 import donorsApi from "@/api/fundraising/donors";
 import { showSnackbar } from "@/utils";
-import DonorForm from "@/components/fundraising/DonorForm";
+import DonorForm from "@/components/fundraising/DonorForm.vue";
 export default {
     title() {
         return this.$t("Add donor");

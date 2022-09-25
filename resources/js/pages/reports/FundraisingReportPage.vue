@@ -95,11 +95,11 @@
 </template>
 
 <script>
-import SimpleTwoColumnListCard from "@/components/ui/SimpleTwoColumnListCard";
-import AdvancedTwoColumnListCard from "@/components/ui/AdvancedTwoColumnListCard";
-import TimeBarChart from "@/components/charts/TimeBarChart";
-import DoughnutChartTableDistributionWidget from "@/components/reporting/DoughnutChartTableDistributionWidget";
-import DateRangeSelect from "@/components/common/DateRangeSelect";
+import SimpleTwoColumnListCard from "@/components/ui/SimpleTwoColumnListCard.vue";
+import AdvancedTwoColumnListCard from "@/components/ui/AdvancedTwoColumnListCard.vue";
+import TimeBarChart from "@/components/charts/TimeBarChart.vue";
+import DoughnutChartTableDistributionWidget from "@/components/reporting/DoughnutChartTableDistributionWidget.vue";
+import DateRangeSelect from "@/components/common/DateRangeSelect.vue";
 import moment from "moment";
 import reportApi from "@/api/fundraising/report";
 export default {

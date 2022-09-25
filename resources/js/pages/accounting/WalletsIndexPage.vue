@@ -43,7 +43,7 @@
 
 <script>
 import walletsApi from "@/api/accounting/wallets";
-import BaseTable from "@/components/table/BaseTable";
+import BaseTable from "@/components/table/BaseTable.vue";
 export default {
     title() {
         return this.$t("Wallets");

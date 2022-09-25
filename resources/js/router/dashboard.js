@@ -5,7 +5,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "dashboard" */ "@/pages/dashboard/DashboardPage"
+                    /* webpackChunkName: "dashboard" */ "@/pages/dashboard/DashboardPage.vue"
                 ),
         }
     }

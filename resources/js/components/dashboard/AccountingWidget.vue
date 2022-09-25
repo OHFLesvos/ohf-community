@@ -14,7 +14,7 @@
     </BaseWidget>
 </template>
 <script>
-import BaseWidget from "@/components/dashboard/BaseWidget"
+import BaseWidget from "@/components/dashboard/BaseWidget.vue"
 export default {
     components: {
         BaseWidget,

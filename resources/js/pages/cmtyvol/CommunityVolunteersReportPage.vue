@@ -35,8 +35,8 @@
 
 <script>
 import cmtyvolApi from "@/api/cmtyvol/cmtyvol";
-import BarChart from "@/components/charts/BarChart";
-import DoughnutChart from "@/components/charts/DoughnutChart";
+import BarChart from "@/components/charts/BarChart.vue";
+import DoughnutChart from "@/components/charts/DoughnutChart.vue";
 export default {
     title() {
         return this.$t("Report") + ": " + this.$t("Community Volunteers");

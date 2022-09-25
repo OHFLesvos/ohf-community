@@ -82,11 +82,11 @@
 </template>
 
 <script>
-import BaseTable from '@/components/table/BaseTable'
+import BaseTable from '@/components/table/BaseTable.vue'
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
-import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector'
-import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector'
-import GridView from '@/components/cmtyvol/GridView'
+import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector.vue'
+import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector.vue'
+import GridView from '@/components/cmtyvol/GridView.vue'
 export default {
     title() {
         return this.$t("Community Volunteers");

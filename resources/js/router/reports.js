@@ -1,5 +1,5 @@
 import i18n from "@/plugins/i18n";
-import PageHeader from "@/components/layout/PageHeader";
+import PageHeader from "@/components/layout/PageHeader.vue";
 
 export default [
     {
@@ -8,7 +8,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "reports" */ "@/pages/reports/ReportsIndexPage"
+                    /* webpackChunkName: "reports" */ "@/pages/reports/ReportsIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -25,7 +25,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "reports" */ "@/pages/reports/VisitorReportPage"
+                    /* webpackChunkName: "reports" */ "@/pages/reports/VisitorReportPage.vue"
                 )
         }
     },
@@ -35,7 +35,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "reports" */ "@/pages/reports/FundraisingReportPage"
+                    /* webpackChunkName: "reports" */ "@/pages/reports/FundraisingReportPage.vue"
                 )
         }
     }

@@ -53,8 +53,8 @@
 
 <script>
 import transactionsApi from "@/api/accounting/transactions";
-import TransactionDetails from "@/components/accounting/TransactionDetails";
-import TransactionHistory from "@/components/accounting/TransactionHistory";
+import TransactionDetails from "@/components/accounting/TransactionDetails.vue";
+import TransactionHistory from "@/components/accounting/TransactionHistory.vue";
 export default {
     title() {
         return this.$t("Show transaction");

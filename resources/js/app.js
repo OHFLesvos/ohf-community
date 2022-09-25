@@ -1,5 +1,5 @@
 import "@/bootstrap";
-// import "@/vue"; // TODO
+import "@/vue";
 import "@/navigation";
 import "@/snackbar";
 import "@/inputListDateRange";

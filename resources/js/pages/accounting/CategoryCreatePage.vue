@@ -13,7 +13,7 @@
 <script>
 import { showSnackbar } from '@/utils'
 import categoriesApi from '@/api/accounting/categories'
-import CategoryForm from '@/components/accounting/CategoryForm'
+import CategoryForm from '@/components/accounting/CategoryForm.vue'
 export default {
     title() {
         return this.$t("Create category");

@@ -13,7 +13,7 @@ import cmtyvol from "@/router/cmtyvol";
 import badges from "@/router/badges";
 import userprofile from "@/router/userprofile";
 
-import NotFoundPage from "@/pages/NotFoundPage";
+import NotFoundPage from "@/pages/NotFoundPage.vue";
 
 export default new VueRouter({
     mode: "history",

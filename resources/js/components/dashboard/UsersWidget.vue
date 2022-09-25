@@ -12,8 +12,8 @@
     </BaseWidget>
 </template>
 <script>
-import BaseWidget from "@/components/dashboard/BaseWidget"
-import ValueTable from "@/components/dashboard/ValueTable"
+import BaseWidget from "@/components/dashboard/BaseWidget.vue"
+import ValueTable from "@/components/dashboard/ValueTable.vue"
 import { timeFromNow } from "@/utils/date";
 export default {
     components: {

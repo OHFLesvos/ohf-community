@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import DonorsTable from '@/components/fundraising/DonorsTable'
+import DonorsTable from '@/components/fundraising/DonorsTable.vue'
 import donorsApi from '@/api/fundraising/donors'
 export default {
     title() {

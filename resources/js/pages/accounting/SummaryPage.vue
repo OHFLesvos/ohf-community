@@ -176,8 +176,8 @@ import summaryApi from "@/api/accounting/summary";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
 import projectsApi from "@/api/accounting/projects";
-import AlertWithRetry from "@/components/alerts/AlertWithRetry";
-import SummaryList from "@/components/accounting/SummaryList";
+import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
+import SummaryList from "@/components/accounting/SummaryList.vue";
 export default {
     title() {
         return this.$t("Summary");

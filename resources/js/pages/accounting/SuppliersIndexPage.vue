@@ -53,9 +53,9 @@
 
 <script>
 import suppliersApi from "@/api/accounting/suppliers";
-import BaseTable from "@/components/table/BaseTable";
-import PhoneLink from "@/components/common/PhoneLink";
-import EmailLink from "@/components/common/EmailLink";
+import BaseTable from "@/components/table/BaseTable.vue";
+import PhoneLink from "@/components/common/PhoneLink.vue";
+import EmailLink from "@/components/common/EmailLink.vue";
 export default {
     title() {
         return this.$t("Suppliers");

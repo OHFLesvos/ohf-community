@@ -57,8 +57,8 @@
 const sessionStoragePrefix = "accounting.transactions.controlling";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
-import BaseTable from "@/components/table/BaseTable";
-import TransactionControllingDetails from "@/components/accounting/TransactionControllingDetails";
+import BaseTable from "@/components/table/BaseTable.vue";
+import TransactionControllingDetails from "@/components/accounting/TransactionControllingDetails.vue";
 export default {
     title() {
         return this.$t("Controlling");

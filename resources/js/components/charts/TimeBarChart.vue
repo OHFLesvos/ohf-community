@@ -22,8 +22,8 @@
 <script>
 import moment from 'moment'
 import { applyColorPaletteToDatasets } from '@/utils'
-import ReactiveBarChart from '@/components/charts/ReactiveBarChart'
-import ReactiveLineChart from '@/components/charts/ReactiveLineChart'
+import ReactiveBarChart from '@/components/charts/ReactiveBarChart.vue'
+import ReactiveLineChart from '@/components/charts/ReactiveLineChart.vue'
 import slugify from 'slugify'
 export default {
     components: {

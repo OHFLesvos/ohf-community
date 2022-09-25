@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import TagInput from '@/components/tags/TagInput'
+import TagInput from '@/components/tags/TagInput.vue'
 export default {
     components: {
         TagInput

@@ -19,7 +19,7 @@
 <script>
 import { showSnackbar } from '@/utils'
 import transactionsApi from "@/api/accounting/transactions";
-import TransactionForm from "@/components/accounting/TransactionForm";
+import TransactionForm from "@/components/accounting/TransactionForm.vue";
 import { mapState } from "vuex";
 export default {
     title() {

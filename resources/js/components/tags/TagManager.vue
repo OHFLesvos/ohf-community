@@ -48,7 +48,7 @@
 
 <script>
 import _ from 'lodash'
-import TagEditor from '@/components/tags/TagEditor'
+import TagEditor from '@/components/tags/TagEditor.vue'
 import { showSnackbar } from '@/utils'
 export default {
     components: {

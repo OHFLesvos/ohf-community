@@ -132,7 +132,7 @@
 </template>
 
 <script>
-import AlertWithRetry from '@/components/alerts/AlertWithRetry'
+import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
 import userprofileApi from "@/api/userprofile";
 import { showSnackbar } from '@/utils'
 import formValidationMixin from "@/mixins/formValidationMixin";

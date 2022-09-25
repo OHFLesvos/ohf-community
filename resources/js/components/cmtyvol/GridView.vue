@@ -58,10 +58,10 @@
 </template>
 
 <script>
-import AlertWithRetry from '@/components/alerts/AlertWithRetry'
-import TableFilter from '@/components/table/TableFilter'
-import TablePagination from '@/components/table/TablePagination'
-import GridItem from '@/components/cmtyvol/GridItem'
+import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
+import TableFilter from '@/components/table/TableFilter.vue'
+import TablePagination from '@/components/table/TablePagination.vue'
+import GridItem from '@/components/cmtyvol/GridItem.vue'
 export default {
     components: {
         AlertWithRetry,
