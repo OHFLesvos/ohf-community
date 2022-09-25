@@ -47,7 +47,7 @@ Create/migrate database tables:
 
     php artisan migrate
 
-You have to compile the frontend assets (see below) in order for Javascript and CSS files to be available in the public web folder using `npm run prod` or `npm run dev` (for development).
+You have to compile the frontend assets (see below) in order for Javascript and CSS files to be available in the public web folder using `npm run build` or `npm run dev` (for development).
 
 Configure the desired virtual host / domain your webserver to point to the `public` directory.
 
