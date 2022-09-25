@@ -85,7 +85,7 @@ Create assets (CSS/JavaScript) using npm:
 
 The following list provides links to the documentation pages of the most common frontend libraries used in this project:
 
-* [Bootstrap 4](https://getbootstrap.com/docs/4.3/getting-started/introduction/)
+* [Bootstrap 4](https://getbootstrap.com/docs/4.6/getting-started/introduction/)
 * [VueJS 2](https://v2.vuejs.org/v2/guide/)
 * [Bootstrap Vue](https://bootstrap-vue.org/docs)
 * [FontAwesome](https://fontawesome.com/v5/search)
