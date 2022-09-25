@@ -8,7 +8,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "reports" */ "@/pages/reports/ReportsIndexPage.vue"
+                    "@/pages/reports/ReportsIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -25,7 +25,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "reports" */ "@/pages/reports/VisitorReportPage.vue"
+                    "@/pages/reports/VisitorReportPage.vue"
                 )
         }
     },
@@ -35,7 +35,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "reports" */ "@/pages/reports/FundraisingReportPage.vue"
+                    "@/pages/reports/FundraisingReportPage.vue"
                 )
         }
     }

@@ -35,7 +35,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "fundraising" */ "@/pages/fundraising/DonorsIndexPage.vue"
+                    "@/pages/fundraising/DonorsIndexPage.vue"
                 ),
             header: PageHeader,
             beforeContent: TabNav
@@ -72,7 +72,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "fundraising" */ "@/pages/fundraising/DonorCreatePage.vue"
+                    "@/pages/fundraising/DonorCreatePage.vue"
                 ),
             header: PageHeader
         },
@@ -95,7 +95,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "fundraising" */ "@/pages/fundraising/DonorShowPage.vue"
+                    "@/pages/fundraising/DonorShowPage.vue"
                 ),
             header: PageHeader
         },
@@ -150,7 +150,7 @@ export default [
                 name: "fundraising.donors.show",
                 component: () =>
                     import(
-                        /* webpackChunkName: "fundraising" */ "@/components/fundraising/DonorDetails.vue"
+                        "@/components/fundraising/DonorDetails.vue"
                     ),
                 props: true
             },
@@ -159,7 +159,7 @@ export default [
                 name: "fundraising.donors.show.donations",
                 component: () =>
                     import(
-                        /* webpackChunkName: "fundraising" */ "@/components/fundraising/DonorDonations.vue"
+                        "@/components/fundraising/DonorDonations.vue"
                     ),
                 props: true
             },
@@ -168,7 +168,7 @@ export default [
                 name: "fundraising.donors.show.budgets",
                 component: () =>
                     import(
-                        /* webpackChunkName: "fundraising" */ "@/components/fundraising/DonorBudgets.vue"
+                        "@/components/fundraising/DonorBudgets.vue"
                     ),
                 props: true
             },
@@ -177,7 +177,7 @@ export default [
                 name: "fundraising.donors.show.comments",
                 component: () =>
                     import(
-                        /* webpackChunkName: "fundraising" */ "@/components/fundraising/DonorComments.vue"
+                        "@/components/fundraising/DonorComments.vue"
                     ),
                 props: true
             }
@@ -196,7 +196,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "fundraising" */ "@/pages/fundraising/DonorEditPage.vue"
+                    "@/pages/fundraising/DonorEditPage.vue"
                 ),
             header: PageHeader
         },
@@ -224,7 +224,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "fundraising" */ "@/pages/fundraising/DonationsIndexPage.vue"
+                    "@/pages/fundraising/DonationsIndexPage.vue"
                 ),
             header: PageHeader,
             beforeContent: TabNav
@@ -259,7 +259,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "fundraising" */ "@/pages/fundraising/DonationEditPage.vue"
+                    "@/pages/fundraising/DonationEditPage.vue"
                 ),
             header: PageHeader
         },
@@ -291,7 +291,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "fundraising" */ "@/pages/fundraising/DonationsImportPage.vue"
+                    "@/pages/fundraising/DonationsImportPage.vue"
                 ),
             header: PageHeader
         },

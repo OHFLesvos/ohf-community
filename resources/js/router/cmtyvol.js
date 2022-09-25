@@ -5,7 +5,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "cmtyvol" */ "@/pages/cmtyvol/CommunityVolunteersOverviewPage.vue"
+                    "@/pages/cmtyvol/CommunityVolunteersOverviewPage.vue"
                 )
         }
     },
@@ -15,7 +15,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "cmtyvol" */ "@/pages/cmtyvol/CommunityVolunteersShowPage.vue"
+                    "@/pages/cmtyvol/CommunityVolunteersShowPage.vue"
                 )
         },
         props: {
@@ -28,7 +28,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "cmtyvol" */ "@/pages/cmtyvol/CommunityVolunteersReportPage.vue"
+                    "@/pages/cmtyvol/CommunityVolunteersReportPage.vue"
                 )
         }
     }
