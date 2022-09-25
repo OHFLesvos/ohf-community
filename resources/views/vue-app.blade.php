@@ -33,6 +33,6 @@
     @endphp
     <script>
         window.Laravel.permissions = @json($permissions);
-        window.Laravel.title = "{{ config('app.name') }} - {{ config('app.product_name') }}";
+        window.Laravel.title = "{{ config('app.name') }}";
     </script>
 @endpush

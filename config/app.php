@@ -17,8 +17,6 @@ return [
 
     'name' => env('APP_NAME', 'Community Center'),
 
-    'product_name' => 'Community Center Manager',
-
     /*
     |--------------------------------------------------------------------------
     | Application Environment
