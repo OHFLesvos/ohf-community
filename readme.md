@@ -1,12 +1,14 @@
-Community Center Manager
-========================
+# Community Center Manager
 
-Community center manager based on [Laravel](https://laravel.com/). Laravel is a web application framework with expressive, elegant syntax.
+Community center manager web application based on [Laravel](https://laravel.com/) PHP MVC framework with a VueJS-based frontend.
 
-Requirements
-------------
+## License
 
-* PHP >= 8.1
+This program is open-sourced software licensed under the [AGPL license](https://www.gnu.org/licenses/agpl-3.0.en.html).
+
+## Requirements
+
+* [PHP](https://www.php.net/) >= 8.1
   * OpenSSL PHP Extension
   * PDO PHP Extension
   * Mbstring PHP Extension
@@ -14,16 +16,15 @@ Requirements
   * XML PHP Extension
   * Intl Extension
   * Imagick Extension (ImageMagick)
-* Composer
-* MySQL Database
-* Node.js (for development)
+* [PHP Composer](https://getcomposer.org/)
+* MySQL/MariaDB/PostgreSQL Database
+* [Node.js](https://nodejs.org/en/) 16.x
 
-Installation
-------------
+## Installation
 
 Copy `.env.example` to `.env` and adapt database credentials and other settings accordingly.
 
-Install dependencies:
+Install PHP dependencies:
 
     composer install
 
@@ -39,12 +40,13 @@ Create/migrate database tables:
 
     php artisan migrate
 
+You have to compile the frontend assets (see below) in order for Javascript and CSS files to be available in the public web folder using `npm run prod` or `npm run dev` (for development).
+
+Configure the desired virtual host / domain your webserver to point to the `public` directory.
+
 For more information see https://laravel.com/docs/installation
 
-You have to compile the frontend assets (see below) in order for Javascript and CSS files to be available in the public web folder.
-
-Login with Google OAuth
------------------------
+## Login with Google OAuth
 
 Obtain OAuth 2.0 credentials from the Google API Console. For more info see https://developers.google.com/identity/protocols/oauth2
 
@@ -57,15 +59,13 @@ In your `.env` file, set the values of the following variables according to the 
 
 Once set, a new "Google Login" button should appear on the login view.
 
-Testing
--------
+## Testing
 
 Run tests:
 
     php artisan test
 
-Assets
-------
+## Assets
 
 Create assets (CSS/JavaScript) using npm:
 
@@ -74,8 +74,7 @@ Create assets (CSS/JavaScript) using npm:
     php artisan ziggy:generate
     npm run dev
 
-Releasing
----------
+## Releasing
 
 * Update `Changelog.md` file
 * Set version number of format `major.minor.patch` in property `version` in `config/app.php` file
@@ -83,8 +82,7 @@ Releasing
 * Create VCS tag
 * Push VCS changes to origin repository
 
-Deployment onto production server
----------------------------------
+## Deployment onto production server
 
 It is recommended to execute a production deployment / upgrade as follows:
 
@@ -94,8 +92,7 @@ It is recommended to execute a production deployment / upgrade as follows:
     php artisan migrate --force
     php artisan up
 
-Code style fixer
-----------------
+## Code style fixer
 
 Run:
 
@@ -107,8 +104,7 @@ or when using Laravel Sail:
 
 More information here: https://github.com/laravel/pint
 
-Static code analysis
---------------------
+## Static code analysis
 
 Run:
 
@@ -120,8 +116,7 @@ or when using Laravel Sail:
 
 More information here: https://github.com/nunomaduro/larastan
 
-Development notes
------------------
+## Development notes
 
 The following section assumes you are using Xampp on Windows and your custom virtualhost is `ohf.test`.
 In this example, Xampp is located at `c:\devel\xampp`, and the document root is located at `C:\devel\web`.
@@ -162,8 +157,7 @@ The following commands create a custom self-signed TLS certificate:
     cd c:\devel\xampp\apache
     bin\openssl.exe req -newkey rsa:2048 -sha256 -nodes -keyout conf\ssl.key\ohf.test.key -x509 -days 365 -out conf\ssl.crt\ohf.test.crt -config conf\openssl.cnf
 
-Development using Laravel Sail (Docker)
----------------------------------------
+## Development using Laravel Sail (Docker)
 
 [Laravel Sail](https://laravel.com/docs/9.x/sail) is a light-weight command-line interface for interacting with Laravel's default Docker development environment. 
 
@@ -201,11 +195,8 @@ Install NPM packages and build javascript assets
     sail npm install
     sail npm run dev
 
+Access the databa
+
 Stop the application:
 
     sail down
-
-License
--------
-
-This program is open-sourced software licensed under the [AGPL license](https://www.gnu.org/licenses/agpl-3.0.en.html).

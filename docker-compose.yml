@@ -52,6 +52,20 @@ services:
             - '${FORWARD_MAILHOG_DASHBOARD_PORT:-8025}:8025'
         networks:
             - sail
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - mysql:mysql
+        ports:
+            - 8080:80
+        environment:
+            MYSQL_USERNAME: "${DB_USERNAME}"
+            MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+            PMA_HOST: mysql
+            PMA_USER: "${DB_USERNAME}"
+            PMA_PASSWORD: "${DB_PASSWORD}"
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
