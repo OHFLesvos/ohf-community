@@ -4,7 +4,8 @@
 
 * Added support for specifying email domain for Google OAuth login
 * Store avatar images locally
-* Update icon library (Font Awesome 6).
+* Update icon library (Font Awesome 6)
+* Fix issue with sort by country in donors table
 
 ## 3.9.0
 
