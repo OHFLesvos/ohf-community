@@ -15,7 +15,7 @@ class RoleIndexContextButtons implements ContextButtons
             'action' => [
                 'url' => route('roles.create'),
                 'caption' => __('Add'),
-                'icon' => 'plus-circle',
+                'icon' => 'circle-plus',
                 'icon_floating' => 'plus',
                 'authorized' => Auth::user()->can('create', Role::class),
             ],

@@ -520,7 +520,7 @@ abstract class BaseController extends Controller
             ],
             'grid' => [
                 'label' => __('Grid'),
-                'icon' => 'th-large',
+                'icon' => 'table-cells-large',
             ],
         ]);
     }

@@ -37,7 +37,7 @@ class RoleShowContextButtons implements ContextButtons
             'back' => [
                 'url' => route('roles.index'),
                 'caption' => __('Close'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('viewAny', Role::class),
             ],
         ];

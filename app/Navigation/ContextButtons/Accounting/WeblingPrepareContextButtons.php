@@ -16,7 +16,7 @@ class WeblingPrepareContextButtons implements ContextButtons
             'back' => [
                 'url' => route('accounting.webling.index', $wallet),
                 'caption' => __('Cancel'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('book-accounting-transactions-externally'),
             ],
         ];

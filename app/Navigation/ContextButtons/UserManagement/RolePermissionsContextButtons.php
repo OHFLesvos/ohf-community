@@ -15,7 +15,7 @@ class RolePermissionsContextButtons implements ContextButtons
             'back' => [
                 'url' => url()->previous(),
                 'caption' => __('Close'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-plus',
                 'authorized' => Auth::user()->can('viewAny', Role::class),
             ],
         ];
