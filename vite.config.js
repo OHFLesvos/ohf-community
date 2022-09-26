@@ -12,7 +12,13 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        vue(),
+        vue({
+            template: {
+                compilerOptions: {
+                    whitespace: 'preserve'
+                },
+            }
+        }),
     ],
     resolve: {
         alias: {
