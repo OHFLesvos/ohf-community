@@ -51,9 +51,9 @@
 </template>
 
 <script>
-import BaseTable from "@/components/table/BaseTable";
-import EmailLink from "@/components/common/EmailLink";
-import UserAvatar from "@/components/user_management/UserAvatar";
+import BaseTable from "@/components/table/BaseTable.vue";
+import EmailLink from "@/components/common/EmailLink.vue";
+import UserAvatar from "@/components/user_management/UserAvatar.vue";
 import usersApi from "@/api/user_management/users";
 export default {
     title() {

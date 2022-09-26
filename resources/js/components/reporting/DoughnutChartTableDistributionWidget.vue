@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import DoughnutChart from "@/components/charts/DoughnutChart";
+import DoughnutChart from "@/components/charts/DoughnutChart.vue";
 export default {
     components: {
         DoughnutChart

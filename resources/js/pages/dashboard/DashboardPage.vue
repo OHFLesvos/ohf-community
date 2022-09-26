@@ -18,11 +18,11 @@
 
 <script>
 import dashboardApi from "@/api/dashboard";
-import VisitorsWidget from "@/components/dashboard/VisitorsWidget"
-import CommunityVolunteersWidget from "@/components/dashboard/CommunityVolunteersWidget"
-import AccountingWidget from "@/components/dashboard/AccountingWidget"
-import FundraisingWidget from "@/components/dashboard/FundraisingWidget"
-import UsersWidget from "@/components/dashboard/UsersWidget"
+import VisitorsWidget from "@/components/dashboard/VisitorsWidget.vue"
+import CommunityVolunteersWidget from "@/components/dashboard/CommunityVolunteersWidget.vue"
+import AccountingWidget from "@/components/dashboard/AccountingWidget.vue"
+import FundraisingWidget from "@/components/dashboard/FundraisingWidget.vue"
+import UsersWidget from "@/components/dashboard/UsersWidget.vue"
 export default {
     title() {
         return this.$t("Dashboard");

@@ -11,7 +11,7 @@
 <script>
 import { showSnackbar } from "@/utils";
 import projectsApi from "@/api/accounting/projects";
-import ProjectForm from "@/components/accounting/ProjectForm";
+import ProjectForm from "@/components/accounting/ProjectForm.vue";
 export default {
     title() {
         return this.$t("Create project");

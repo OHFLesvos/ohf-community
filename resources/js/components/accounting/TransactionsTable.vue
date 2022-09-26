@@ -100,10 +100,10 @@ const ADVANCED_FILTER_SESSION_KEY = "accounting.transactions.advancedFilter";
 import qs from "qs";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
-import BaseTable from "@/components/table/BaseTable";
-import ReceiptPictureUpload from "@/components/accounting/ReceiptPictureUpload";
-import TransactionsFilter from "@/components/accounting/TransactionsFilter";
-import TransactionExportDialog from "@/components/accounting/TransactionExportDialog";
+import BaseTable from "@/components/table/BaseTable.vue";
+import ReceiptPictureUpload from "@/components/accounting/ReceiptPictureUpload.vue";
+import TransactionsFilter from "@/components/accounting/TransactionsFilter.vue";
+import TransactionExportDialog from "@/components/accounting/TransactionExportDialog.vue";
 export default {
     components: {
         BaseTable,

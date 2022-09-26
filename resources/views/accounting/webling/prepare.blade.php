@@ -106,15 +106,16 @@
                 }
             }
         }
+        document.addEventListener('DOMContentLoaded', function() {
+            $('#bookings_table input, #bookings_table select').on('change propertychange keyup', function () {
+                var row = $(this).parents('tr');
+                updateStatus(row);
+            });
 
-        $('#bookings_table input, #bookings_table select').on('change propertychange keyup', function () {
-            var row = $(this).parents('tr');
-            updateStatus(row);
-        });
-
-        $('#bookings_table tbody tr').each(function () {
-            var row = $(this);
-            updateStatus(row);
+            $('#bookings_table tbody tr').each(function () {
+                var row = $(this);
+                updateStatus(row);
+            });
         });
     </script>
 @endpush

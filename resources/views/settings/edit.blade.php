@@ -46,7 +46,7 @@
 
 @push('footer')
     <script>
-        $(function(){
+        document.addEventListener('DOMContentLoaded', function() {
             const value = sessionStorage.getItem('settings.tab')
             if (value !== undefined && value != null && value.length > 0) {
                 $('#' + value).tab('show')

@@ -64,8 +64,8 @@
 
 <script>
 import commentsApi from "@/api/comments";
-import CommentEditor from "@/components/comments/CommentEditor";
-import CommentCard from "@/components/comments/CommentCard";
+import CommentEditor from "@/components/comments/CommentEditor.vue";
+import CommentCard from "@/components/comments/CommentCard.vue";
 import { showSnackbar } from "@/utils";
 export default {
     components: {

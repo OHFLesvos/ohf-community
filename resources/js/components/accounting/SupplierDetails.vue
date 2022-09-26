@@ -80,10 +80,10 @@
 
 <script>
 import suppliersApi from "@/api/accounting/suppliers";
-import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
-import PhoneLink from "@/components/common/PhoneLink";
-import EmailLink from "@/components/common/EmailLink";
-import MapsLink from "@/components/common/MapsLink";
+import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem.vue";
+import PhoneLink from "@/components/common/PhoneLink.vue";
+import EmailLink from "@/components/common/EmailLink.vue";
+import MapsLink from "@/components/common/MapsLink.vue";
 export default {
     components: {
         TwoColListGroupItem,

@@ -236,8 +236,8 @@
 
 <script>
 import transactionsApi from "@/api/accounting/transactions";
-import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem";
-import TransactionPictures from "@/components/accounting/TransactionPictures";
+import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem.vue";
+import TransactionPictures from "@/components/accounting/TransactionPictures.vue";
 export default {
     components: {
         TwoColListGroupItem,

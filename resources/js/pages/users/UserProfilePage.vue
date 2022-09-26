@@ -80,12 +80,12 @@
 </template>
 
 <script>
-import AlertWithRetry from '@/components/alerts/AlertWithRetry'
-import UserAvatar from "@/components/user_management/UserAvatar"
-import UserProfileDialog from "@/components/userprofile/UserProfileDialog"
-import ChangePasswordDialog from "@/components/userprofile/ChangePasswordDialog"
-import TFADialog from "@/components/userprofile/TFADialog"
-import AccountDeleteDialog from "@/components/userprofile/AccountDeleteDialog"
+import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
+import UserAvatar from "@/components/user_management/UserAvatar.vue"
+import UserProfileDialog from "@/components/userprofile/UserProfileDialog.vue"
+import ChangePasswordDialog from "@/components/userprofile/ChangePasswordDialog.vue"
+import TFADialog from "@/components/userprofile/TFADialog.vue"
+import AccountDeleteDialog from "@/components/userprofile/AccountDeleteDialog.vue"
 import userprofileApi from "@/api/userprofile"
 export default {
     components: {

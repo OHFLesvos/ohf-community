@@ -11,7 +11,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "user-management" */ "@/pages/users/UserIndexPage"
+                    "@/pages/users/UserIndexPage.vue"
                 )
         }
     },
@@ -21,7 +21,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "user-management" */ "@/pages/users/UserShowPage"
+                    "@/pages/users/UserShowPage.vue"
                 )
         },
         props: {

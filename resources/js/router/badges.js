@@ -5,7 +5,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "badges" */ "@/pages/badges/BadgesPage"
+                    "@/pages/badges/BadgesPage.vue"
                 ),
         }
     }

@@ -186,8 +186,8 @@
 
 <script>
 import usersApi from "@/api/user_management/users";
-import AlertWithRetry from '@/components/alerts/AlertWithRetry'
-import UserAvatar from "@/components/user_management/UserAvatar"
+import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
+import UserAvatar from "@/components/user_management/UserAvatar.vue"
 import { showSnackbar } from '@/utils'
 export default {
     title() {

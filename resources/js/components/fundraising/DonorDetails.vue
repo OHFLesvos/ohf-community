@@ -86,10 +86,10 @@
 
 <script>
 import donorsApi from '@/api/fundraising/donors'
-import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem'
-import PhoneLink from '@/components/common/PhoneLink'
-import EmailLink from '@/components/common/EmailLink'
-import TagManager from '@/components/tags/TagManager'
+import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem.vue'
+import PhoneLink from '@/components/common/PhoneLink.vue'
+import EmailLink from '@/components/common/EmailLink.vue'
+import TagManager from '@/components/tags/TagManager.vue'
 export default {
     components: {
         TwoColListGroupItem,

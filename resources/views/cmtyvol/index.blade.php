@@ -79,8 +79,7 @@
 
 @push('footer')
     <script>
-        $(function () {
-            // Make popovers work
+        document.addEventListener('DOMContentLoaded', function() {
             $('[data-toggle="popover"]').popover();
         });
     </script>

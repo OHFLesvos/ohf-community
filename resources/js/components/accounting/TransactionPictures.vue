@@ -77,7 +77,7 @@
 <script>
 import transactionsApi from "@/api/accounting/transactions";
 import FsLightbox from "fslightbox-vue";
-import ThumbnailImage from "@/components/images/ThumbnailImage";
+import ThumbnailImage from "@/components/images/ThumbnailImage.vue";
 export default {
     components: {
         ThumbnailImage,

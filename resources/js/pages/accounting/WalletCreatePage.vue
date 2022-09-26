@@ -13,7 +13,7 @@
 <script>
 import { showSnackbar } from '@/utils'
 import walletsApi from '@/api/accounting/wallets'
-import WalletForm from '@/components/accounting/WalletForm'
+import WalletForm from '@/components/accounting/WalletForm.vue'
 export default {
     title() {
         return this.$t("Create wallet");

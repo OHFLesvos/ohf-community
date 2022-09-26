@@ -36,7 +36,7 @@
 <script>
 import donationsApi from '@/api/fundraising/donations'
 import { showSnackbar } from '@/utils'
-import DonationForm from '@/components/fundraising/DonationForm'
+import DonationForm from '@/components/fundraising/DonationForm.vue'
 export default {
     title() {
         return this.$t("Edit donation");

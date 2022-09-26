@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import TransactionsTable from "@/components/accounting/TransactionsTable";
+import TransactionsTable from "@/components/accounting/TransactionsTable.vue";
 import { mapState } from "vuex";
 export default {
     title() {

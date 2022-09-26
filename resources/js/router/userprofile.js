@@ -5,7 +5,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "userprofile" */ "@/pages/users/UserProfilePage"
+                    "@/pages/users/UserProfilePage.vue"
                 )
         }
     },
@@ -15,7 +15,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "userprofile" */ "@/pages/users/UserProfileDeletedPage"
+                    "@/pages/users/UserProfileDeletedPage.vue"
                 )
         }
     },
@@ -25,7 +25,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "userprofile" */ "@/pages/users/UserProfile2FAPage"
+                    "@/pages/users/UserProfile2FAPage.vue"
                 )
         }
     },

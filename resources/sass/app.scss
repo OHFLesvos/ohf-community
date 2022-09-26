@@ -1,27 +1,21 @@
-// Fonts
-// @import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
-
 // Variables
 @import "variables";
 
 // Bootstrap
-@import "node_modules/bootstrap/scss/bootstrap.scss";
-@import "node_modules/bootstrap-vue/src/index.scss";
+@import "~bootstrap/scss/bootstrap";
+@import "bootstrap-vue/src/index.scss";
 
 // Font Awesome
-@import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@fortawesome/fontawesome-free/scss/regular";
-@import "~@fortawesome/fontawesome-free/scss/solid";
-@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "@fortawesome/fontawesome-free/css/all.css";
 
 // Snackbar
-@import "node_modules/node-snackbar/src/sass/snackbar";
+@import "node-snackbar/src/sass/snackbar";
 
 // Tagify
-@import "node_modules/@yaireo/tagify/src/tagify";
+@import "@yaireo/tagify/src/tagify";
 
 // Nprogress
-@import "~nprogress/nprogress.css";
+@import "nprogress/nprogress.css";
 
 /*
 * Side navigation

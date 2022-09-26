@@ -60,9 +60,9 @@
 </template>
 
 <script>
-import PhoneLink from "@/components/common/PhoneLink";
-import EmailLink from "@/components/common/EmailLink";
-import MapsLink from "@/components/common/MapsLink";
+import PhoneLink from "@/components/common/PhoneLink.vue";
+import EmailLink from "@/components/common/EmailLink.vue";
+import MapsLink from "@/components/common/MapsLink.vue";
 export default {
     components: {
         EmailLink,

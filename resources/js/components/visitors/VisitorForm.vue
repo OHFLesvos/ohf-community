@@ -184,7 +184,7 @@ import formValidationMixin from "@/mixins/formValidationMixin";
 import { mapState } from "vuex";
 import { calculateAge } from "@/utils";
 import moment from "moment";
-import DateOfBirthInput from "@/components/common/DateOfBirthInput";
+import DateOfBirthInput from "@/components/common/DateOfBirthInput.vue";
 export default {
     mixins: [formValidationMixin],
     components: {
