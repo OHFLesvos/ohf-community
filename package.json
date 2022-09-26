@@ -44,7 +44,6 @@
         "vue-loader": "^15.9.5",
         "vue-router": "^3.4.7",
         "vue-template-compiler": "^2.6.12",
-        "vuex": "^3.5.1",
-        "ziggy-js": "^1.5.0"
+        "vuex": "^3.5.1"
     }
 }
