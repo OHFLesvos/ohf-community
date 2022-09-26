@@ -384,6 +384,16 @@ Route::middleware(['auth:sanctum', 'language'])
         //
         Route::apiResource('comments', CommentsController::class)
             ->except('index', 'store');
+
+        //
+        // Settings
+        //
+        Route::get('settings/fields', [SettingsController::class, 'fields'])
+            ->name('settings.fields');
+        Route::put('settings', [SettingsController::class, 'update'])
+            ->name('settings.update');
+        Route::delete('settings', [SettingsController::class, 'reset'])
+            ->name('settings.reset');
     });
 
 // RaiseNow Webhook

@@ -236,7 +236,7 @@ export default {
         "Grid": "Gitter",
         "Position": "Position",
         "Settings have been updated.": "Einstellungen wurden aktualisiert.",
-        "Settings has been reset.": "Einstellungen wurden zurückgesetzt.",
+        "Settings have been reset.": "Einstellungen wurden zurückgesetzt.",
         "Reset to default settings": "Auf Standardeinstellungen zurücksetzen",
         "Really reset to default settings?": "Wirklich auf Standardeinstellungen zurücksetzen?",
         "Not configured.": "Nicht konfiguriert.",
