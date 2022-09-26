@@ -6,7 +6,9 @@ use App\Events\UserSelfRegistered;
 use App\Listeners\PromoteToSuperAdminIfUndefined;
 use App\Listeners\SendUserRegisteredNotification;
 use App\Models\Accounting\Transaction;
+use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Observers\Accounting\TransactionObserver;
+use App\Observers\CommunityVolunteers\CommunityVolunteerObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -30,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
 
     protected $observers = [
         Transaction::class => [TransactionObserver::class],
+        CommunityVolunteer::class => [CommunityVolunteerObserver::class],
     ];
 
     /**
