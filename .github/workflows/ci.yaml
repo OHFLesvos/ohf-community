@@ -35,7 +35,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - run: npm ci
       - run: npm audit --omit dev
-      - run: npm run dev
+      - run: npm run prod
       - name: Generate key
         run: php artisan key:generate
       - name: Directory Permissions
