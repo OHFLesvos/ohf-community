@@ -14,11 +14,15 @@ class TOTPService
 
     public function verify(string $secret, string $otp, int $leeway = self::VERIFY_WINDOW): bool
     {
+        assert($secret !== '');
+
         return TOTP::create($secret)->verify($otp, null, $leeway);
     }
 
     public function createProvisionUri(string $secret, string $label): string
     {
+        assert($secret !== '');
+
         $otp = TOTP::create($secret);
         $otp->setLabel($label);
         $otp->setIssuer(config('app.name'));
