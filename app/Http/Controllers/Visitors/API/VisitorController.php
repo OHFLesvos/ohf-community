@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Visitors\API;
 
 use App\Exports\Visitors\VisitorsExport;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Http\Requests\Visitors\StoreVisitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
 use App\Models\Visitors\Visitor;
@@ -20,6 +21,8 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class VisitorController extends Controller
 {
+    use ValidatesDateRanges;
+
     public function index(Request $request): JsonResource
     {
         $this->authorize('viewAny', Visitor::class);
@@ -180,61 +183,5 @@ class VisitorController extends Controller
                 ->whereDate('created_at', today()->toDateString())
                 ->count(),
         ];
-    }
-
-    public function dailyVisitors(Request $request): Collection
-    {
-        $this->authorize('viewAny', Visitor::class);
-
-        $request->validate([
-            'days' => [
-                'nullable',
-                'int',
-                'min:1',
-            ],
-        ]);
-        $maxNumberOfActiveDays = $request->input('days', 10);
-
-        return VisitorCheckin::query()
-            ->selectRaw('DATE(created_at) as day')
-            ->addSelect(
-                collect(Setting::get('visitors.purposes_of_visit', []))
-                    ->mapWithKeys(fn ($t, $k) => [
-                        $t => VisitorCheckin::selectRaw('COUNT(*)')
-                            ->whereRaw('DATE(created_at) = day')
-                            ->where('purpose_of_visit', $t),
-                    ])
-                    ->toArray()
-            )
-            ->selectRaw('COUNT(*) as total')
-            ->groupByRaw('DATE(created_at)')
-            ->orderBy('day', 'desc')
-            ->limit($maxNumberOfActiveDays)
-            ->get();
-    }
-
-    public function monthlyVisitors(): Collection
-    {
-        $this->authorize('viewAny', Visitor::class);
-
-        return VisitorCheckin::query()
-            ->selectRaw('MONTH(created_at) as month')
-            ->selectRaw('YEAR(created_at) as year')
-            ->addSelect(
-                collect(Setting::get('visitors.purposes_of_visit', []))
-                    ->mapWithKeys(fn ($t, $k) => [
-                        $t => VisitorCheckin::selectRaw('COUNT(*)')
-                            ->whereRaw('MONTH(created_at) = month')
-                            ->whereRaw('YEAR(created_at) = year')
-                            ->where('purpose_of_visit', $t),
-                    ])
-                    ->toArray()
-            )
-            ->selectRaw('COUNT(*) as total')
-            ->groupByRaw('MONTH(created_at)')
-            ->groupByRaw('YEAR(created_at)')
-            ->orderBy('year', 'desc')
-            ->orderBy('month', 'desc')
-            ->get();
     }
 }
