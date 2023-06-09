@@ -46,8 +46,38 @@ class Visitor extends Model
         'parental_consent_given' => 'boolean',
     ];
 
+    protected $appends = [
+        'parents',
+        'children',
+    ];
+
     public function checkins(): HasMany
     {
         return $this->hasMany(VisitorCheckin::class);
+    }
+
+    public function parents()
+    {
+        //wanted to use hasMany and parent() function in ParentChild model
+        return $this->hasManyThrough(
+            Visitor::class,
+            ParentChild::class, 
+            'child_id',
+            'id',
+            'id',
+            'parent_id'
+        );
+    }
+
+    public function children()
+    {
+        return $this->hasManyThrough(
+            Visitor::class,
+            ParentChild::class, 
+            'parent_id',
+            'id',
+            'id',
+            'child_id'
+        );
     }
 }

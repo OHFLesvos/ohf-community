@@ -8,6 +8,7 @@ use App\Http\Requests\Visitors\StoreVisitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
 use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
+use App\Models\Visitors\ParentChild;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -63,7 +64,7 @@ class VisitorController extends Controller
         $filter = trim($request->input('filter', ''));
 
         return VisitorResource::collection(Visitor::query()
-            ->with('checkins')
+            ->with(['checkins', 'parents', 'children'])
             ->when(! empty($filter), fn (Builder $query) => $this->filterQuery($query, $filter))
             ->where('anonymized', false)
             ->orderBy($sortBy, $sortDirection)
@@ -95,15 +96,92 @@ class VisitorController extends Controller
     {
         $this->authorize('view', $visitor);
 
+        $visitor->load('parents', 'children');
+
         return new VisitorResource($visitor);
+    }
+
+    public function createParentChild($parentId, $childId)
+    {
+        $parent = Visitor::findOrFail($parentId);
+        $child = Visitor::findOrFail($childId);
+
+        $parentChild->parent_id = $parent->id;
+        $parentChild->child_id = $child->id;
+
+        $parentChild->save();
+        return;
+    }
+
+    public function deleteParentChild($parentId, $childId) {
+        logger()->info('Deleting parent-child relationship', [
+            'parent_id' => $parentId,
+            'child_id' => $childId,
+        ]);
+        
+        $parentChild = ParentChild::where('parent_id', $parentId)
+            ->where('child_id', $childId)
+            ->firstOrFail();
+
+        $parentChild->delete();
+        return;
+    }
+
+    public function updateChildren(Visitor $visitor, StoreVisitor $request)
+    {
+        $this->authorize('update', $visitor);
+
+        $childrenIds = collect($request->input('children', []))
+            ->map(fn ($child) => $child['id']);
+        $existingChildrenIds = $visitor->children()->get()
+            ->map(fn ($child) => $child->id);
+
+        $parentId = $visitor->id;
+        $createChildrenIds = $childrenIds->diff($existingChildrenIds);
+        $deleteChildrenIds = $existingChildrenIds->diff($childrenIds);
+
+        foreach ($createChildrenIds as $childId) {
+            $this->createParentChild($parentId, $childId);
+        }
+
+        foreach ($createChildrenIds as $childId) {
+            $this->deleteParentChild($parentId, $childId);
+        }
+        return;
+    }
+
+    public function updateParents(Visitor $visitor, StoreVisitor $request)
+    {
+        $this->authorize('update', $visitor);
+
+        $parentIds = collect($request->input('parents', []))
+            ->map(fn ($parent) => $parent['id']);
+        $existingParentIds = $visitor->children()->get()
+            ->map(fn ($parent) => $parent->id);
+
+        $childId = $visitor->id;
+        $createParentIds = $parentIds->diff($existingParentIds);
+        $deleteParentIds = $existingParentIds->diff($parentIds);
+
+        foreach ($createParentIds as $parentId) {
+            $this->createParentChild($parentId, $childId);
+        }
+
+        foreach ($deleteParentIds as $parentId) {
+            $this->deleteParentChild($parentId, $childId);
+        }
+        return;
     }
 
     public function update(Visitor $visitor, StoreVisitor $request): JsonResource
     {
         $this->authorize('update', $visitor);
 
+        $this->updateChildren($visitor, $request);
+        $this->updateParents($visitor, $request);
+
         $visitor->fill($request->all());
-        $visitor->save();
+            $visitor->save();
 
         return new VisitorResource($visitor);
     }

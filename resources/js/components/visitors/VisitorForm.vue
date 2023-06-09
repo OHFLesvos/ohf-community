@@ -150,6 +150,28 @@
                     </b-form-group>
                 </b-col>
             </b-form-row>
+            <b-form-row>
+                <b-col>
+                    <b-form-group :label="$t('Parents')">
+                        <ul>
+                            <li v-for="(parent, index) in formData.parents" :key="parent.id">
+                                {{ parent.name }}
+                                <button @click="removeParent(index)">Remove</button>"
+                            </li>
+                        </ul>
+                    </b-form-group>
+                </b-col>
+                <b-col>
+                    <b-form-group :label="$t('Children')">
+                        <ul>
+                            <li v-for="(child, index) in formData.children" :key="child.id">
+                                {{ child.name }}
+                                <button @click="removeChild(index)">Remove</button>"
+                            </li>
+                        </ul>
+                    </b-form-group>
+                </b-col>
+            </b-form-row>
             <div class="d-flex justify-content-between align-items-start">
                 <span>
                     <b-button
@@ -199,6 +221,7 @@ export default {
     data() {
         const search = this.$route.query.search;
         const searchType = this.detectValueType(search);
+        console.log(this.value);
         return {
             formData: this.value ?? {
                 name: search && searchType == "string" ? search : "",
@@ -210,6 +233,8 @@ export default {
                 remarks: "",
                 liability_form_signed: null,
                 parental_consent_given: false,
+                parents: [],
+                children: [],
             },
             genders: [
                 { value: "male", text: this.$t("male") },
@@ -232,6 +257,12 @@ export default {
         age() {
             return calculateAge(this.formData.date_of_birth)
         },
+        // children() {
+        //     return this.visitor.children;
+        // },
+        // parents() {
+        //     return this.visitor.parents;
+        // }
     },
     mounted() {
         if (!this.value) {
@@ -263,6 +294,12 @@ export default {
                 this.$emit("delete");
             }
         },
+        removeChild(index) {
+            this.formData.children.splice(index, 1);
+        },
+        removeParent(index) {
+            this.formData.parents.splice(index, 1);
+        }
     },
 };
 </script>
