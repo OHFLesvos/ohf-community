@@ -18,7 +18,7 @@ class ReportController extends Controller
 
     public function dailyVisitors(Request $request): Collection
     {
-        $this->authorize('viewAny', Visitor::class);
+        $this->authorize('view-visitor-reports');
 
         $request->validate([
             'days' => [
@@ -49,7 +49,7 @@ class ReportController extends Controller
 
     public function monthlyVisitors(): Collection
     {
-        $this->authorize('viewAny', Visitor::class);
+        $this->authorize('view-visitor-reports');
 
         return VisitorCheckin::query()
             ->selectRaw('MONTH(created_at) as month')
@@ -74,7 +74,7 @@ class ReportController extends Controller
 
     public function dailyRegistrations(Request $request): JsonResponse
     {
-        $this->authorize('viewAny', Visitor::class);
+        $this->authorize('view-visitor-reports');
 
         $this->validateDateGranularity($request);
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
@@ -92,7 +92,7 @@ class ReportController extends Controller
 
     public function ageDistribution(Request $request): JsonResponse
     {
-        $this->authorize('viewAny', Visitor::class);
+        $this->authorize('view-visitor-reports');
 
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
@@ -124,7 +124,7 @@ class ReportController extends Controller
 
     public function nationalityDistribution(Request $request): JsonResponse
     {
-        $this->authorize('viewAny', Visitor::class);
+        $this->authorize('view-visitor-reports');
 
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
@@ -143,7 +143,7 @@ class ReportController extends Controller
 
     public function checkInsByVisitor(Request $request): JsonResponse
     {
-        $this->authorize('viewAny', Visitor::class);
+        $this->authorize('view-visitor-reports');
 
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
@@ -163,7 +163,7 @@ class ReportController extends Controller
 
     public function checkInsByPurpose(Request $request): JsonResponse
     {        
-        $this->authorize('viewAny', Visitor::class);
+        $this->authorize('view-visitor-reports');
 
         $this->validateDateGranularity($request);
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
