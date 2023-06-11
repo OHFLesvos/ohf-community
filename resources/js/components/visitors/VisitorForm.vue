@@ -154,9 +154,9 @@
                 <b-col>
                     <b-form-group :label="$t('Parents')">
                         <ul>
-                            <li v-for="(parent, index) in formData.parents" :key="parent.id">
+                            <li v-for="(parent, index) in formData.parents" :key="parent.id" class="p3">
                                 {{ parent.name }}
-                                <button @click="removeParent(index)">Remove</button>"
+                                <b-button size="sm" class="text-danger float-right" variant="link" @click="removeParent(index)">Remove</b-button>
                             </li>
                         </ul>
                     </b-form-group>
@@ -164,14 +164,50 @@
                 <b-col>
                     <b-form-group :label="$t('Children')">
                         <ul>
-                            <li v-for="(child, index) in formData.children" :key="child.id">
+                            <li v-for="(child, index) in formData.children" :key="child.id" class="p-1 align-items-center">
                                 {{ child.name }}
-                                <button @click="removeChild(index)">Remove</button>"
+                                <b-button size="sm" class="text-danger float-right" variant="link" @click="removeChild(index)">Remove</b-button>
                             </li>
                         </ul>
                     </b-form-group>
                 </b-col>
             </b-form-row>
+            <b-form-group>
+                <b-form-input
+                    v-model.trim="search"
+                    type="search"
+                    debounce="500"
+                    :placeholder="
+                        $t('Search for child or parent by name, ID number or date of birth…')
+                    "
+                    autofocus
+                    autocomplete="off"
+                />
+            </b-form-group>
+            <template v-if="searched">
+                <b-card
+                    v-for="visitor in visitors"
+                    :key="visitor.id"
+                    class="mb-3 shadow-sm"
+                >
+                    <VisitorDetails :value="visitor" />
+                    <template #footer>
+                        <b-button
+                            variant="primary"
+                            @click="addParent(visitor)"
+                        >
+                            {{ $t("Add Parent") }}
+                        </b-button>
+                        <b-button
+                            class="float-right"
+                            variant="primary"
+                            @click="addChild(visitor)"
+                            >
+                            {{ $t("Add Child") }}
+                        </b-button>
+                    </template>
+                </b-card>
+            </template>
             <div class="d-flex justify-content-between align-items-start">
                 <span>
                     <b-button
@@ -202,6 +238,8 @@
 </template>
 
 <script>
+import visitorsApi from "@/api/visitors";
+import VisitorDetails from "@/components/visitors/VisitorDetails.vue";
 import formValidationMixin from "@/mixins/formValidationMixin";
 import { mapState } from "vuex";
 import { calculateAge } from "@/utils";
@@ -211,6 +249,7 @@ export default {
     mixins: [formValidationMixin],
     components: {
         DateOfBirthInput,
+        VisitorDetails,
     },
     props: {
         value: {
@@ -241,6 +280,9 @@ export default {
                 { value: "female", text: this.$t("female") },
                 { value: "other", text: this.$t("other") },
             ],
+            search: "",
+            searched: false,
+            visitors: [],
         };
     },
     computed: {
@@ -257,12 +299,21 @@ export default {
         age() {
             return calculateAge(this.formData.date_of_birth)
         },
-        // children() {
-        //     return this.visitor.children;
-        // },
-        // parents() {
-        //     return this.visitor.parents;
-        // }
+    },
+    watch: {
+        search: {
+            immediate: true,
+            handler(value) {
+                console.log("search", value)
+                this.searched = false;
+                if (value.length > 0) {
+                    this.searchVisitors();
+                }
+                else {
+                    this.visitors = [];
+                }
+            }
+        },
     },
     mounted() {
         if (!this.value) {
@@ -299,7 +350,27 @@ export default {
         },
         removeParent(index) {
             this.formData.parents.splice(index, 1);
-        }
+        },
+        addChild(visitor) {
+            this.formData.children.push({ name: visitor.name, id: visitor.id });
+        },
+        addParent(visitor) {
+            this.formData.parents.push({ name: visitor.name, id: visitor.id });
+        },
+        async searchVisitors() {
+            this.errorText = null;
+            try {
+                let data = await visitorsApi.list({
+                    filter: this.search,
+                    limit: 3,
+                });
+                this.visitors = data.data;
+                this.totalRows = data.meta.total;
+                this.searched = true;
+            } catch (ex) {
+                this.errorText = ex;
+            }
+        },
     },
 };
 </script>

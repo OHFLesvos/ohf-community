@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ParentChild extends Model
 {
-    protected $table = 'parent_child';
+    protected $table = 'parent_child'; //Visitor
 
     protected $fillable = [
         'parent_id',

@@ -106,6 +106,7 @@ class VisitorController extends Controller
         $parent = Visitor::findOrFail($parentId);
         $child = Visitor::findOrFail($childId);
 
+        $parentChild = new ParentChild();
         $parentChild->parent_id = $parent->id;
         $parentChild->child_id = $child->id;
 
@@ -113,12 +114,8 @@ class VisitorController extends Controller
         return;
     }
 
-    public function deleteParentChild($parentId, $childId) {
-        logger()->info('Deleting parent-child relationship', [
-            'parent_id' => $parentId,
-            'child_id' => $childId,
-        ]);
-        
+    public function deleteParentChild($parentId, $childId) 
+    {   
         $parentChild = ParentChild::where('parent_id', $parentId)
             ->where('child_id', $childId)
             ->firstOrFail();
@@ -144,7 +141,7 @@ class VisitorController extends Controller
             $this->createParentChild($parentId, $childId);
         }
 
-        foreach ($createChildrenIds as $childId) {
+        foreach ($deleteChildrenIds as $childId) {
             $this->deleteParentChild($parentId, $childId);
         }
         return;
@@ -156,12 +153,17 @@ class VisitorController extends Controller
 
         $parentIds = collect($request->input('parents', []))
             ->map(fn ($parent) => $parent['id']);
-        $existingParentIds = $visitor->children()->get()
+        $existingParentIds = $visitor->parents()->get()
             ->map(fn ($parent) => $parent->id);
 
         $childId = $visitor->id;
         $createParentIds = $parentIds->diff($existingParentIds);
-        $deleteParentIds = $existingParentIds->diff($parentIds);
+        logger()->info('Update', [
+            'Request parent ids' => $parentIds,
+            'Existing parent ids' => $existingParentIds,
+        ]);
+        $deleteParentIds = $existingParentIds->diff($parentIds); //Broken line???
+        // Error message: Call to a member function getKey() on int
 
         foreach ($createParentIds as $parentId) {
             $this->createParentChild($parentId, $childId);

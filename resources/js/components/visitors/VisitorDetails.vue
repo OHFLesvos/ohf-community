@@ -128,7 +128,6 @@ export default {
         },
     },
     data() {
-        console.log(this.value)
         return {
             visitor: this.value,
             isBusy: false,
