@@ -114,8 +114,8 @@ class VisitorController extends Controller
         return;
     }
 
-    public function deleteParentChild($parentId, $childId) 
-    {   
+    public function deleteParentChild($parentId, $childId)
+    {
         $parentChild = ParentChild::where('parent_id', $parentId)
             ->where('child_id', $childId)
             ->firstOrFail();
@@ -162,8 +162,7 @@ class VisitorController extends Controller
             'Request parent ids' => $parentIds,
             'Existing parent ids' => $existingParentIds,
         ]);
-        $deleteParentIds = $existingParentIds->diff($parentIds); //Broken line???
-        // Error message: Call to a member function getKey() on int
+        $deleteParentIds = $existingParentIds->diff(Visitor::whereIn('id', $parentIds));
 
         foreach ($createParentIds as $parentId) {
             $this->createParentChild($parentId, $childId);
