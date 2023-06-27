@@ -6,7 +6,7 @@ use App\Exports\Visitors\VisitorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visitors\StoreVisitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
-use App\Models\Visitors\ParentChild;
+use App\Models\Visitors\VisitorParentChild;
 use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
 use Illuminate\Database\Eloquent\Builder;
@@ -106,7 +106,7 @@ class VisitorController extends Controller
         $parent = Visitor::findOrFail($parentId);
         $child = Visitor::findOrFail($childId);
 
-        $parentChild = new ParentChild();
+        $parentChild = new VisitorParentChild();
         $parentChild->parent_id = $parent->id;
         $parentChild->child_id = $child->id;
 
@@ -116,7 +116,7 @@ class VisitorController extends Controller
 
     public function deleteParentChild($parentId, $childId)
     {
-        $parentChild = ParentChild::where('parent_id', $parentId)
+        $parentChild = VisitorParentChild::where('parent_id', $parentId)
             ->where('child_id', $childId)
             ->firstOrFail();
 

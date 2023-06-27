@@ -56,7 +56,7 @@ class Visitor extends Model
     {
         return $this->hasManyThrough(
             Visitor::class,
-            ParentChild::class,
+            VisitorParentChild::class,
             'child_id',
             'id',
             'id',
@@ -68,7 +68,7 @@ class Visitor extends Model
     {
         return $this->hasManyThrough(
             Visitor::class,
-            ParentChild::class,
+            VisitorParentChild::class,
             'parent_id',
             'id',
             'id',
