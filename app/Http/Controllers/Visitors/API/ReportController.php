@@ -116,7 +116,7 @@ class ReportController extends Controller
             ->orderByRaw("FIELD(age_group, 'Under 18', '18-29', '30-64', '65 and above')")
             ->get()
             ->pluck('total_visitors', 'age_group');
-        
+
         return (new ChartResponseBuilder())
             ->dataset(__('Visitors'), $visitors, null, false)
             ->build();
@@ -155,14 +155,14 @@ class ReportController extends Controller
             ->map(function ($visitsGroup) {
                 return $visitsGroup->count();
             });
-            
+
         return (new ChartResponseBuilder())
             ->dataset(__('Visits'), $visits)
             ->build();
     }
 
     public function checkInsByPurpose(Request $request): JsonResponse
-    {        
+    {
         $this->authorize('view-visitors-reports');
 
         $this->validateDateGranularity($request);
@@ -182,7 +182,7 @@ class ReportController extends Controller
             $title = $purpose ? $purpose : 'Unknown Purpose';
             $checkinCounts = $purposeCheckins->pluck('total_checkins', 'date_label');
             $chartResponseBuilder->dataset($title, $checkinCounts);
-        }        
+        }
 
         return $chartResponseBuilder->build();
     }

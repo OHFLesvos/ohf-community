@@ -33,8 +33,8 @@ use App\Http\Controllers\UserManagement\API\UserController;
 use App\Http\Controllers\UserManagement\API\UserProfile2FAController;
 use App\Http\Controllers\UserManagement\API\UserProfileController;
 use App\Http\Controllers\UserManagement\API\UserRoleRelationshipController;
-use App\Http\Controllers\Visitors\API\VisitorController;
 use App\Http\Controllers\Visitors\API\ReportController as VisitorsReportController;
+use App\Http\Controllers\Visitors\API\VisitorController;
 use GrahamCampbell\Markdown\Facades\Markdown;
 use Illuminate\Support\Facades\Route;
 
@@ -332,11 +332,11 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('ageDistribution');
                 Route::get('nationalityDistribution', [VisitorsReportController::class, 'nationalityDistribution'])
                     ->name('nationalityDistribution');
-                Route::get('checkInsByPurpose',  [VisitorsReportController::class, 'checkInsByPurpose'])
+                Route::get('checkInsByPurpose', [VisitorsReportController::class, 'checkInsByPurpose'])
                     ->name('checkInsByPurpose');
                 Route::get('checkInsByVisitor', [VisitorsReportController::class, 'checkInsByVisitor'])
                     ->name('checkInsByVisitor');
-                
+
                 Route::get('checkins', [VisitorController::class, 'checkins'])
                     ->name('checkins');
 
