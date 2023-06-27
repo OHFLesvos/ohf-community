@@ -132,7 +132,7 @@ class ReportController extends Controller
             ->selectRaw('nationality, COUNT(*) AS `total_visitors`')
             ->whereNotNull('nationality')
             ->groupBy('nationality')
-            ->orderByDesc('total_visitors', 'INT')
+            ->orderByDesc('total_visitors')
             ->get()
             ->pluck('total_visitors', 'nationality');
 
