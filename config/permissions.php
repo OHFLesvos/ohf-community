@@ -95,7 +95,7 @@ return [
         'view-fundraising-entities' => 'fundraising.donors_donations.view',
         'manage-fundraising-entities' => 'fundraising.donors_donations.manage',
         'view-fundraising-reports' => 'fundraising.reports.view',
-        'view-visitor-reports' => 'visitors.reports',
+        'view-visitors-reports' => 'visitors.reports',
         'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',
         'view-accounting-summary' => 'accounting.summary.view',
         'book-accounting-transactions-externally' => 'accounting.transactions.book_externally',
