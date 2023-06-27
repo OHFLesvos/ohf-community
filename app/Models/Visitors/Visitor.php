@@ -6,6 +6,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Visitor extends Model
 {
@@ -46,26 +47,16 @@ class Visitor extends Model
         'parental_consent_given' => 'boolean',
     ];
 
-    // protected $appends = [
-    //     'parents',
-    //     'children',
-    // ];
-
     public function checkins(): HasMany
     {
         return $this->hasMany(VisitorCheckin::class);
     }
 
-    // public function getParentsAttribute()
-    // {
-    //     return $this->parents()->get();
-    // }
-
-    public function parents()
+    public function parents(): HasManyThrough
     {
         return $this->hasManyThrough(
             Visitor::class,
-            ParentChild::class, 
+            ParentChild::class,
             'child_id',
             'id',
             'id',
@@ -73,16 +64,11 @@ class Visitor extends Model
         );
     }
 
-    // public function getChildrenAttribute()
-    // {
-    //     return $this->parents()->get();
-    // }
-
-    public function children()
+    public function children(): HasManyThrough
     {
         return $this->hasManyThrough(
             Visitor::class,
-            ParentChild::class, 
+            ParentChild::class,
             'parent_id',
             'id',
             'id',

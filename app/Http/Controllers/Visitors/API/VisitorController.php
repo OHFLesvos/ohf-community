@@ -6,9 +6,9 @@ use App\Exports\Visitors\VisitorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Visitors\StoreVisitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
+use App\Models\Visitors\ParentChild;
 use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
-use App\Models\Visitors\ParentChild;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
@@ -111,7 +111,7 @@ class VisitorController extends Controller
         $parentChild->child_id = $child->id;
 
         $parentChild->save();
-        return;
+
     }
 
     public function deleteParentChild($parentId, $childId)
@@ -121,7 +121,7 @@ class VisitorController extends Controller
             ->firstOrFail();
 
         $parentChild->delete();
-        return;
+
     }
 
     public function updateChildren(Visitor $visitor, StoreVisitor $request)
@@ -145,7 +145,7 @@ class VisitorController extends Controller
         foreach ($deleteChildrenIds as $childId) {
             $this->deleteParentChild($parentId, $childId);
         }
-        return;
+
     }
 
     public function updateParents(Visitor $visitor, StoreVisitor $request)
@@ -169,7 +169,7 @@ class VisitorController extends Controller
         foreach ($deleteParentIds as $parentId) {
             $this->deleteParentChild($parentId, $childId);
         }
-        return;
+
     }
 
     public function update(Visitor $visitor, StoreVisitor $request): JsonResource
@@ -180,7 +180,7 @@ class VisitorController extends Controller
         $this->updateParents($visitor, $request);
 
         $visitor->fill($request->all());
-            $visitor->save();
+        $visitor->save();
 
         return new VisitorResource($visitor);
     }
