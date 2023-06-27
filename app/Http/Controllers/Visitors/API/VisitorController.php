@@ -128,14 +128,15 @@ class VisitorController extends Controller
     {
         $this->authorize('update', $visitor);
 
-        $childrenIds = collect($request->input('children', []))
-            ->map(fn ($child) => $child['id']);
-        $existingChildrenIds = $visitor->children()->get()
-            ->map(fn ($child) => $child->id);
-
         $parentId = $visitor->id;
-        $createChildrenIds = $childrenIds->diff($existingChildrenIds);
-        $deleteChildrenIds = $existingChildrenIds->diff($childrenIds);
+
+        $childrenIds = array_column($request->input('children', []), 'id');
+        $existingChildrenIds = $visitor->children()
+            ->pluck('visitors.id')
+            ->toArray();
+
+        $deleteChildrenIds = array_diff($existingChildrenIds, $childrenIds);
+        $createChildrenIds = array_diff($childrenIds, $existingChildrenIds);
 
         foreach ($createChildrenIds as $childId) {
             $this->createParentChild($parentId, $childId);
@@ -151,18 +152,15 @@ class VisitorController extends Controller
     {
         $this->authorize('update', $visitor);
 
-        $parentIds = collect($request->input('parents', []))
-            ->map(fn ($parent) => $parent['id']);
-        $existingParentIds = $visitor->parents()->get()
-            ->map(fn ($parent) => $parent->id);
-
         $childId = $visitor->id;
-        $createParentIds = $parentIds->diff($existingParentIds);
-        logger()->info('Update', [
-            'Request parent ids' => $parentIds,
-            'Existing parent ids' => $existingParentIds,
-        ]);
-        $deleteParentIds = $existingParentIds->diff(Visitor::whereIn('id', $parentIds));
+
+        $parentIds = array_column($request->input('parents', []), 'id');
+        $existingParentIds = $visitor->parents()
+            ->pluck('visitors.id')
+            ->toArray();
+
+        $deleteParentIds = array_diff($existingParentIds, $parentIds);
+        $createParentIds = array_diff($parentIds, $existingParentIds);
 
         foreach ($createParentIds as $parentId) {
             $this->createParentChild($parentId, $childId);
