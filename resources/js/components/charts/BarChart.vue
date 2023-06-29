@@ -14,6 +14,10 @@ export default {
             type: [Function, Object],
             required: true
         },
+        params: {
+            type: Object,
+            required: false
+        },
         xLabel: {
             type: String,
             required: false
@@ -39,7 +43,7 @@ export default {
             try {
                 let resolvedData;
                 if (typeof this.data === 'function') {
-                    resolvedData = await this.data()
+                    resolvedData = await this.data(this.params ?? {})
                 } else {
                     resolvedData = this.data
                 }

@@ -37,7 +37,7 @@ export default {
                     label: this.$t("Visitor check-ins"),
                     to: { name: "reports.visitors.checkins" },
                     icon: "door-open",
-                    show: this.can("register-visitors")
+                    show: this.can("view-visitors-reports")
                 }
             ]
         };

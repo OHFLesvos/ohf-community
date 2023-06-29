@@ -71,6 +71,9 @@ return [
         'visitors.register' => [
             'label' => 'permissions.register_visitors',
         ],
+        'visitors.reports' => [
+            'label' => 'permissions.view_visitors_reports',
+        ],
         'visitors.export' => [
             'label' => 'permissions.export_visitors',
         ],
@@ -81,6 +84,7 @@ return [
             'cmtyvol.manage',
             'visitors.register',
             'fundraising.reports.view',
+            'visitors.reports',
         ],
         'configure-common-settings' => 'app.settings.commonbr.configure',
         'create-badges' => 'badges.create',
@@ -91,6 +95,7 @@ return [
         'view-fundraising-entities' => 'fundraising.donors_donations.view',
         'manage-fundraising-entities' => 'fundraising.donors_donations.manage',
         'view-fundraising-reports' => 'fundraising.reports.view',
+        'view-visitors-reports' => 'visitors.reports',
         'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',
         'view-accounting-summary' => 'accounting.summary.view',
         'book-accounting-transactions-externally' => 'accounting.transactions.book_externally',
