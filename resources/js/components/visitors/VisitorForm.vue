@@ -158,7 +158,8 @@
                                 {{ parent.name }}
                                 <b-button size="sm" class="text-danger float-right" variant="link" @click="removeParent(index)">Remove</b-button>
                             </li>
-                        </ul>
+                            <p v-if="formData.parents.length == 0">No parent registered.</p>
+                        </ul>                        
                     </b-form-group>
                 </b-col>
                 <b-col>
@@ -168,13 +169,14 @@
                                 {{ child.name }}
                                 <b-button size="sm" class="text-danger float-right" variant="link" @click="removeChild(index)">Remove</b-button>
                             </li>
+                            <p v-if="formData.children.length == 0">No children registered.</p>
                         </ul>
                     </b-form-group>
                 </b-col>
             </b-form-row>
             <b-form-group>
                 <b-form-input
-                    v-model.trim="search"
+                    v-model.trim="familySearch"
                     type="search"
                     debounce="500"
                     :placeholder="
@@ -184,7 +186,7 @@
                     autocomplete="off"
                 />
             </b-form-group>
-            <template v-if="searched">
+            <template v-if="familySearched">
                 <b-card
                     v-for="visitor in visitors"
                     :key="visitor.id"
@@ -207,6 +209,7 @@
                         </b-button>
                     </template>
                 </b-card>
+                <p>Showing top 5 results.</p>
             </template>
             <div class="d-flex justify-content-between align-items-start">
                 <span>
@@ -260,7 +263,6 @@ export default {
     data() {
         const search = this.$route.query.search;
         const searchType = this.detectValueType(search);
-        console.log(this.value);
         return {
             formData: this.value ?? {
                 name: search && searchType == "string" ? search : "",
@@ -280,8 +282,8 @@ export default {
                 { value: "female", text: this.$t("female") },
                 { value: "other", text: this.$t("other") },
             ],
-            search: "",
-            searched: false,
+            familySearch: "",
+            familySearched: false,
             visitors: [],
         };
     },
@@ -301,11 +303,10 @@ export default {
         },
     },
     watch: {
-        search: {
+        familySearch: {
             immediate: true,
             handler(value) {
-                console.log("search", value)
-                this.searched = false;
+                this.familySearched = false;
                 if (value.length > 0) {
                     this.searchVisitors();
                 }
@@ -353,20 +354,22 @@ export default {
         },
         addChild(visitor) {
             this.formData.children.push({ name: visitor.name, id: visitor.id });
+            this.familySearch = "";
         },
         addParent(visitor) {
             this.formData.parents.push({ name: visitor.name, id: visitor.id });
+            this.familySearch = "";
         },
         async searchVisitors() {
             this.errorText = null;
             try {
                 let data = await visitorsApi.list({
-                    filter: this.search,
-                    limit: 3,
+                    filter: this.familySearch,
+                    pageSize: 5,
                 });
                 this.visitors = data.data;
                 this.totalRows = data.meta.total;
-                this.searched = true;
+                this.familySearched = true;
             } catch (ex) {
                 this.errorText = ex;
             }
