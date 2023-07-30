@@ -39,10 +39,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-    - name: Store Git hash
-      shell: bash
-      run: |
-        echo "$(git rev-parse HEAD)" >> storage/githash.cache
     - name: Setup PHP
       id: setup-php
       uses: shivammathur/setup-php@v2
@@ -56,6 +52,10 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
     - run: npm ci
     - run: npm run build
+    - name: Store release version
+      shell: bash
+      run: |
+        echo "${{ github.ref_name }}" >> RELEASE
     - name: Enable maintenance mode on remote
       uses: appleboy/ssh-action@master
       with:
