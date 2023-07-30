@@ -21,7 +21,6 @@
 </IfModule>
 
 # Explicit PHP 8.1 configuration
-AddHandler application/x-httpd-php81 .php
-#<IfFile /home/httpd/cgi-bin/php81-fcgi-starter.fcgi>
-#    FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php
-#</IfFile>
+<IfFile /home/httpd/cgi-bin/php81-fcgi-starter.fcgi>
+    FcgidWrapper "/home/httpd/cgi-bin/php81-fcgi-starter.fcgi" .php
+</IfFile>
