@@ -45,5 +45,6 @@
         "webling",
         "xampp"
     ],
-    "git.pullTags": false
+    "git.pullTags": false,
+    "editor.formatOnSave": false
 }
