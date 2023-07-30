@@ -4883,12 +4883,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "9ae1572d0224eea15eb43aaeb902888b3b967196"
+                "reference": "9124157137da01b1f5a5a22d6486cb975f26db7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/9ae1572d0224eea15eb43aaeb902888b3b967196",
-                "reference": "9ae1572d0224eea15eb43aaeb902888b3b967196",
+                "url": "https://api.github.com/repos/nette/utils/zipball/9124157137da01b1f5a5a22d6486cb975f26db7e",
+                "reference": "9124157137da01b1f5a5a22d6486cb975f26db7e",
                 "shasum": ""
             },
             "require": {
@@ -4962,7 +4962,7 @@
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/v4.0.1"
             },
-            "time": "2023-07-30T13:02:42+00:00"
+            "time": "2023-07-30T15:42:21+00:00"
         },
         {
             "name": "nunomaduro/termwind",
