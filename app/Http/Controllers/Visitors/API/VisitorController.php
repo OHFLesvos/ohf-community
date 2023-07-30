@@ -74,10 +74,14 @@ class VisitorController extends Controller
 
     private function filterQuery(Builder $query, string $filter): Builder
     {
+        $words = array_filter(preg_split('/\s+/', $filter), fn ($w) => preg_match('/\w/', $w));
+
         return $query->where(fn (Builder $wq) => $wq
             ->where('name', 'LIKE', '%'.$filter.'%')
+            ->orWhereRaw('MATCH(name) against (? IN BOOLEAN MODE)', implode(' ', array_map(fn ($w) => '+'.$w, $words)))
             ->orWhere('id_number', 'LIKE', '%'.$filter.'%')
-            ->orWhereDate('date_of_birth', $filter));
+            ->orWhereDate('date_of_birth', $filter)
+        );
     }
 
     public function store(StoreVisitor $request): JsonResponse

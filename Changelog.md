@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.1.0
+
+* Add full-text search to visitor name, improving search usability (searching for LASTNAME SURNAME works the same as SURNAME LASTNAME)
+
 ## 4.0.0
 
 * Require PHP 8.1
