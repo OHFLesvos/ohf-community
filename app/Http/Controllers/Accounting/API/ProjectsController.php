@@ -64,9 +64,10 @@ class ProjectsController extends Controller
 
     private function filterQuery(Builder $query, string $filter): Builder
     {
-        return $query->where(fn (Builder $wq) => $wq
-            ->where('name', 'LIKE', '%'.$filter.'%')
-            ->orWhere('description', 'LIKE', '%'.$filter.'%')
+        return $query->where(
+            fn (Builder $wq) => $wq
+                ->where('name', 'LIKE', '%'.$filter.'%')
+                ->orWhere('description', 'LIKE', '%'.$filter.'%')
         );
     }
 
