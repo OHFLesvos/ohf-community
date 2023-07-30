@@ -75,9 +75,9 @@
 </template>
 
 <script>
-import AlertWithRetry from '@/components/alerts/AlertWithRetry'
-import TableFilter from '@/components/table/TableFilter'
-import TablePagination from '@/components/table/TablePagination'
+import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
+import TableFilter from '@/components/table/TableFilter.vue'
+import TablePagination from '@/components/table/TablePagination.vue'
 export default {
     components: {
         AlertWithRetry,

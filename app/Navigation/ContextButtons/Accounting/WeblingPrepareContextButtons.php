@@ -11,11 +11,12 @@ class WeblingPrepareContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $wallet = $view->getData()['wallet'];
+
         return [
             'back' => [
                 'url' => route('accounting.webling.index', $wallet),
                 'caption' => __('Cancel'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('book-accounting-transactions-externally'),
             ],
         ];

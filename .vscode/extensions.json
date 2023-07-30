@@ -1,0 +1,27 @@
+{
+    "recommendations": [
+        "formulahendry.auto-close-tag",
+        "formulahendry.auto-rename-tag",
+        "mikestead.dotenv",
+        "onecentlin.laravel5-snippets",
+        "kasik96.latte",
+        "ms-vscode-remote.remote-wsl",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "formulahendry.auto-complete-tag",
+        "apility.beautify-blade",
+        "streetsidesoftware.code-spell-checker",
+        "ms-azuretools.vscode-docker",
+        "editorconfig.editorconfig",
+        "ryannaddy.laravel-artisan",
+        "shufo.vscode-blade-formatter",
+        "onecentlin.laravel-blade",
+        "austenc.laravel-blade-spacer",
+        "austenc.laravel-docs",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "codingyu.laravel-goto-view",
+        "open-southeners.laravel-pint",
+        "damianbal.vs-phpclassgen",
+        "bmewburn.vscode-intelephense-client",
+        "octref.vetur"
+    ]
+}

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CmtyvolComments from "@/components/cmtyvol/CmtyvolComments";
+import CmtyvolComments from "@/components/cmtyvol/CmtyvolComments.vue";
 export default {
   components: {
     CmtyvolComments,

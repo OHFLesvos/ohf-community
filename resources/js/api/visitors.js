@@ -43,5 +43,35 @@ export default {
     async monthlyVisitors () {
         const url = route('api.visitors.monthlyVisitors')
         return await api.get(url)
+    },
+    async dailyRegistrations (granularity, dateFrom, dateTo) {
+        const params = {
+            from: dateFrom,
+            to: dateTo,
+            granularity: granularity,
+        }
+        const url = route('api.visitors.dailyRegistrations', params)
+        return await api.get(url)
+    },
+    async ageDistribution (params) {
+        const url = route('api.visitors.ageDistribution', params)
+        return await api.get(url)
+    },
+    async nationalityDistribution (params) {
+        const url = route('api.visitors.nationalityDistribution', params)
+        return await api.get(url)
+    },
+    async checkInsByVisitor (params) {
+        const url = route('api.visitors.checkInsByVisitor', params)
+        return await api.get(url)
+    },
+    async checkInsByPurpose(granularity, dateFrom, dateTo) {
+        const params = {
+            from: dateFrom,
+            to: dateTo,
+            granularity: granularity
+        }
+        const url = route('api.visitors.checkInsByPurpose', params)
+        return await api.get(url)
     }
 }

@@ -3,8 +3,8 @@
 namespace Database\Factories\Fundraising;
 
 use App\Models\Fundraising\Donation;
-use MrCage\EzvExchangeRates\EzvExchangeRates;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use MrCage\EzvExchangeRates\EzvExchangeRates;
 
 class DonationFactory extends Factory
 {
@@ -30,6 +30,7 @@ class DonationFactory extends Factory
         $amount = $this->faker->numberBetween(1, 10000);
         $currency = $this->faker->valid($currencyValidator)->currencyCode;
         $exchAmount = $currency != $baseCurrency ? $this->getExchangeRate($currency) * $amount : $amount;
+
         return [
             'date' => $date,
             'amount' => $amount,

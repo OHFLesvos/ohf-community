@@ -2,20 +2,13 @@
 
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Badges\BadgeMakerController;
-use App\Http\Controllers\ChangelogController;
-use App\Http\Controllers\Collaboration\ArticleController;
-use App\Http\Controllers\Collaboration\SearchController;
-use App\Http\Controllers\Collaboration\TagController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PrivacyPolicy;
+use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
-use App\Http\Controllers\UserManagement\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,9 +24,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('language')->group(function () {
     Route::middleware('auth')->group(function () {
-
         // Home (Dashboard)
-        Route::get('/', [HomeController::class, 'index'])
+        Route::view('', 'vue-app')
             ->name('home');
     });
 
@@ -49,8 +41,8 @@ Route::middleware('language')->group(function () {
         ->where('driver', implode('|', $socialite_drivers));
 
     // Privacy policy
-    Route::get('userPrivacyPolicy', [PrivacyPolicy::class, 'userPolicy'])
-        ->name('userPrivacyPolicy');
+    Route::get('privacy', PrivacyPolicyController::class)
+        ->name('privacyPolicy');
 
     // Settings
     Route::middleware('auth')->group(function () {
@@ -66,19 +58,13 @@ Route::middleware('language')->group(function () {
 //
 Route::middleware(['auth', 'language'])
     ->group(function () {
-
         // User management
         Route::prefix('admin')
             ->group(function () {
-
                 // Users
                 Route::get('users/permissions', [UserController::class, 'permissions'])
                     ->name('users.permissions')
                     ->middleware('can:viewAny,App\Models\User');
-                Route::put('users/{user}/disable2FA', [UserController::class, 'disable2FA'])
-                    ->name('users.disable2FA');
-                Route::put('users/{user}/disableOAuth', [UserController::class, 'disableOAuth'])
-                    ->name('users.disableOAuth');
                 Route::resource('users', UserController::class);
 
                 // Roles
@@ -93,51 +79,25 @@ Route::middleware(['auth', 'language'])
             });
 
         // User profile
-        Route::get('userprofile', [UserProfileController::class, 'index'])
+        Route::view('userprofile', 'vue-app')
             ->name('userprofile');
-        Route::post('userprofile', [UserProfileController::class, 'update'])
-            ->name('userprofile.update');
-        Route::post('userprofile/updatePassword', [UserProfileController::class, 'updatePassword'])
-            ->name('userprofile.updatePassword');
-        Route::delete('userprofile', [UserProfileController::class, 'delete'])
-            ->name('userprofile.delete');
-        Route::get('userprofile/2FA', [UserProfileController::class, 'view2FA'])
-            ->name('userprofile.view2FA');
-        Route::post('userprofile/2FA', [UserProfileController::class, 'store2FA'])
-            ->name('userprofile.store2FA');
-        Route::delete('userprofile/2FA', [UserProfileController::class, 'disable2FA'])
-            ->name('userprofile.disable2FA');
+        Route::view('userprofile/{any}', 'vue-app')
+            ->where('any', '.*')
+            ->name('userprofile.any');
     });
 
 Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
     ->name('users.avatar');
 
 //
-// Changelog
-//
-
-Route::middleware(['language'])
-    ->group(function () {
-        Route::get('changelog', [ChangelogController::class, 'index'])
-            ->name('changelog');
-    });
-
-//
 // Badges
 //
-Route::middleware(['language', 'auth'])
+Route::middleware(['language', 'auth', 'can:create-badges'])
     ->name('badges.')
     ->prefix('badges')
     ->group(function () {
-        Route::middleware(['can:create-badges'])
-            ->group(function () {
-                Route::get('/', [BadgeMakerController::class, 'index'])
-                    ->name('index');
-                Route::post('selection', [BadgeMakerController::class, 'selection'])
-                    ->name('selection');
-                Route::post('make', [BadgeMakerController::class, 'make'])
-                    ->name('make');
-            });
+        Route::view('', 'vue-app')
+            ->name('index');
     });
 
 //
@@ -163,7 +123,6 @@ Route::middleware(['language', 'auth'])
     ->prefix('accounting')
     ->name('accounting.')
     ->group(function () {
-
         // Overview
         Route::view('', 'vue-app')
             ->name('index');
@@ -230,36 +189,6 @@ Route::middleware(['language', 'auth'])
     });
 
 //
-// Collaboration
-//
-
-Route::middleware(['language'])
-    ->prefix('kb')
-    ->name('kb.')
-    ->group(function () {
-        Route::group(['middleware' => ['auth']], function () {
-            Route::get('', [SearchController::class, 'index'])
-                ->name('index');
-            Route::get('latest_changes', [SearchController::class, 'latestChanges'])
-                ->name('latestChanges');
-
-            Route::get('tags', [TagController::class, 'tags'])
-                ->name('tags');
-            Route::get('tags/{tag}/pdf', [TagController::class, 'pdf'])
-                ->name('tags.pdf');
-
-            Route::get('articles/{article}/pdf', [ArticleController::class, 'pdf'])
-                ->name('articles.pdf');
-            Route::resource('articles', ArticleController::class)
-                ->except('show');
-        });
-        Route::get('tags/{tag}', [TagController::class, 'tag'])
-            ->name('tag');
-        Route::resource('articles', ArticleController::class)
-            ->only('show');
-    });
-
-//
 // Community volunteers
 //
 
@@ -269,7 +198,6 @@ Route::middleware(['auth', 'language'])
         Route::name('cmtyvol.')
             ->prefix('cmtyvol')
             ->group(function () {
-
                 // Overview
                 Route::view('overview', 'vue-app')
                     ->name('overview')
@@ -328,7 +256,6 @@ Route::prefix('reports')
     ->name('reports.')
     ->middleware(['auth', 'language'])
     ->group(function () {
-
         // Reports overview
         Route::view('', 'vue-app')
             ->name('index')
@@ -362,6 +289,5 @@ Route::prefix('reports')
             });
     });
 
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-    \UniSharp\LaravelFilemanager\Lfm::routes();
-});
+Route::get('changelog', fn () => view('changelog', ['content' => file_get_contents(base_path('Changelog.md'))]))
+    ->name('changelog');

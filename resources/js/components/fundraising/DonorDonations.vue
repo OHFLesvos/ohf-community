@@ -96,8 +96,8 @@ import moment from 'moment'
 import donationsApi from '@/api/fundraising/donations'
 import donorsApi from '@/api/fundraising/donors'
 import { showSnackbar } from '@/utils'
-import DonationForm from '@/components/fundraising/DonationForm'
-import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable'
+import DonationForm from '@/components/fundraising/DonationForm.vue'
+import IndividualDonationsTable from '@/components/fundraising/IndividualDonationsTable.vue'
 import { roundWithDecimals } from '@/utils'
 export default {
     components: {

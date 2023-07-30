@@ -5,9 +5,12 @@ namespace App\Models\Fundraising;
 use App\Models\Accounting\Budget;
 use App\Models\Traits\CreatedUntilScope;
 use App\Models\Traits\InDateRangeScope;
+use Carbon\Carbon;
 use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Donation extends Model
 {
@@ -32,40 +35,33 @@ class Donation extends Model
         'exchange_amount' => 'float',
     ];
 
-    public function donor()
+    public function donor(): BelongsTo
     {
         return $this->belongsTo(Donor::class);
     }
 
-    public function budget()
+    public function budget(): BelongsTo
     {
         return $this->belongsTo(Budget::class);
     }
 
     /**
      * Scope a query to only include donations from the given year, if specified.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  int|null $year
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForYear($query, ?int $year)
+    public function scopeForYear(Builder $query, ?int $year): Builder
     {
         if ($year !== null) {
-            $query->whereYear('date', $year);
+            $query->whereYear('date', '=', $year);
         }
+
         return $query;
     }
 
     /**
      * Scope a query to only include donations matching the given filter
      * If no filter is specified, all records will be returned.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string|null $filter
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeForFilter($query, ?string $filter = '')
+    public function scopeForFilter(Builder $query, ?string $filter = ''): Builder
     {
         if (! empty($filter)) {
             $query->where(function ($wq) use ($filter) {
@@ -73,65 +69,59 @@ class Donation extends Model
                     ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('amount', $filter))
                     ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('exchange_amount', $filter))
                     ->orWhereHas('donor', fn ($query) => $query->forSimpleFilter($filter))
-                    ->orWhere('channel', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('purpose', 'LIKE', '%' . $filter . '%')
+                    ->orWhere('channel', 'LIKE', '%'.$filter.'%')
+                    ->orWhere('purpose', 'LIKE', '%'.$filter.'%')
                     ->orWhere('reference', $filter)
-                    ->orWhere('in_name_of', 'LIKE', '%' . $filter . '%');
+                    ->orWhere('in_name_of', 'LIKE', '%'.$filter.'%');
             });
         }
+
         return $query;
     }
 
     /**
      * Gets a sorted list of all channels registered for donations
-     *
-     * @return array
      */
     public static function channels(): array
     {
-        return self::select('channel')
+        return self::query()
             ->distinct()
             ->orderBy('channel')
-            ->get()
             ->pluck('channel')
             ->toArray();
     }
 
     /**
-     * Gets an array of all currencies assigned to donations, grouped and ordered by amount
-     *
-     * @param string|\Carbon\Carbon|null $untilDate
-     * @return array
-     */
-    public static function currencyDistribution($untilDate = null): array
-    {
-        return self::select('currency')
-            ->selectRaw('SUM(amount) as currencies_sum')
-            ->groupBy('currency')
-            ->whereNotNull('currency')
-            ->createdUntil($untilDate)
-            ->orderBy('currencies_sum', 'desc')
-            ->get()
-            ->mapWithKeys(fn ($e) => [ $e->currency => floatVal($e->currencies_sum) ])
-            ->toArray();
-    }
-
-    /**
      * Gets an array of all channels assigned to donations, grouped and ordered by amount
-     *
-     * @param string|\Carbon\Carbon|null $untilDate
-     * @return array
      */
-    public static function channelDistribution($untilDate = null): array
+    public static function channelDistribution(Carbon $untilDate = null): array
     {
-        return self::select('channel')
+        return self::query()
+            ->select('channel')
             ->selectRaw('COUNT(*) as channels_count')
             ->groupBy('channel')
             ->whereNotNull('channel')
             ->createdUntil($untilDate)
             ->orderBy('channels_count', 'desc')
-            ->get()
-            ->mapWithKeys(fn ($e) => [ $e->channel => floatVal($e->channels_count) ])
+            ->pluck('channels_count', 'channel')
+            ->map(fn ($value) => floatval($value))
+            ->toArray();
+    }
+
+    /**
+     * Gets an array of all currencies assigned to donations, grouped and ordered by amount
+     */
+    public static function currencyDistribution(Carbon $untilDate = null): array
+    {
+        return self::query()
+            ->select('currency')
+            ->selectRaw('SUM(amount) as currencies_sum')
+            ->groupBy('currency')
+            ->whereNotNull('currency')
+            ->createdUntil($untilDate)
+            ->orderBy('currencies_sum', 'desc')
+            ->pluck('currencies_sum', 'currency')
+            ->map(fn ($value) => floatval($value))
             ->toArray();
     }
 }

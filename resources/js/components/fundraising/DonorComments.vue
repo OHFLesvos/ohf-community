@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import CommentsList from '@/components/comments/CommentsList'
+import CommentsList from '@/components/comments/CommentsList.vue'
 import donorsApi from '@/api/fundraising/donors'
 export default {
     components: {

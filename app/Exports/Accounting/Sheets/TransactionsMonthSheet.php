@@ -6,40 +6,31 @@ use App\Exports\Accounting\BaseTransactionsExport;
 use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 
 class TransactionsMonthSheet extends BaseTransactionsExport
 {
     /**
-     * Month date
+     * @param  Wallet|null  $wallet Wallet
+     * @param  Carbon  $month Month date
+     * @param  string|null  $filter Simple filter
+     * @param  array<string>|null  $advancedFilter Filter conditions
      */
-    private Carbon $month;
-
-    private ?string $filter;
-
-    /**
-     * Filter conditions
-     *
-     * @var array<string>
-     */
-    private array $advancedFilter;
-
-    private ?Wallet $wallet;
-
-    public function __construct(?Wallet $wallet, Carbon $month, ?string $filter = null, ?array $advancedFilter = [])
+    public function __construct(
+        private ?Wallet $wallet,
+        private Carbon $month,
+        private ?string $filter = null,
+        private ?array $advancedFilter = [])
     {
-        $this->wallet = $wallet;
-        $this->month = $month;
-        $this->filter = $filter;
-        $this->advancedFilter = $advancedFilter;
     }
 
-    public function query(): \Illuminate\Database\Eloquent\Builder
+    public function query(): Builder
     {
         $dateFrom = $this->month;
         $dateTo = (clone $dateFrom)->endOfMonth();
 
         return Transaction::query()
-            ->when($this->wallet !== null, fn ($qry) => $qry->forWallet($this->wallet))
+            ->forWallet($this->wallet)
             ->forFilter($this->filter)
             ->forAdvancedFilter($this->advancedFilter)
             ->forDateRange($dateFrom, $dateTo)

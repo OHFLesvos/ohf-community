@@ -1,7 +1,12 @@
-@extends('layouts.app', ['wide_layout' => false])
+@extends('layouts.centered', ['width' => 650])
 
-@section('title', __('Changelog'))
+@section('centered-content')
+<div class="card">
+    <div class="card-body">
+@markdown
+{{ $content }}
+@endmarkdown
+    </div>
+</div>
 
-@section('content')
-    {!! $content !!}
 @endsection

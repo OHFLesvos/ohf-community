@@ -29,7 +29,7 @@
                                 <a href="{{ route('cmtyvol.responsibilities.edit', $responsibility) }}">{{ $responsibility->name }}</a>
                             </td>
                             <td>
-                                <div class="text-formatted long-description collapse" id="description{{ $responsibility->id }}" data-toggle="collapse" data-target="#description{{ $responsibility->id }}" aria-expanded="false">{{ $responsibility->description }}</div>
+                                <div class="pre-formatted long-description collapse" id="description{{ $responsibility->id }}" data-toggle="collapse" data-target="#description{{ $responsibility->id }}" aria-expanded="false">{{ $responsibility->description }}</div>
                             </td>
                             <td class="text-center fit">
                                 <x-icon-status :check="$responsibility->available"/>
@@ -37,7 +37,7 @@
                             @php
                                 if ($responsibility->isCapacityExhausted) {
                                     $cls = 'text-danger';
-                                } elseif ($responsibility->hasAssignedAltoughNotAvailable) {
+                                } elseif ($responsibility->hasAssignedAlthoughNotAvailable) {
                                     $cls = 'text-danger';
                                 } elseif (!$responsibility->available) {
                                     $cls = '';
@@ -59,7 +59,7 @@
                             <td class="fit">
                                 @if($responsibility->communityVolunteers()->workStatus('active')->count() > 0)
                                     @foreach($responsibility->communityVolunteers()->workStatus('active')->get() as $cmtyvol)
-                                        <a href="{{ route('cmtyvol.show', $cmtyvol) }}" target="_blank">{{ $cmtyvol->fullName }}</a><br>
+                                        <a href="{{ route('cmtyvol.show', $cmtyvol) }}" target="_blank">{{ $cmtyvol->full_name }}</a><br>
                                     @endforeach
                                 @endif
                             </td>

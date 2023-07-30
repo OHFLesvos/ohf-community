@@ -5,9 +5,11 @@ namespace App\Models;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Collection;
+use Storage;
 
 class User extends Authenticatable implements HasLocalePreference
 {
@@ -17,49 +19,31 @@ class User extends Authenticatable implements HasLocalePreference
 
     protected $nullable = [
         'tfa_secret',
+        'provider_name',
+        'provider_id',
     ];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'email',
         'password',
         'is_super_admin',
         'locale',
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
         'provider_name',
         'provider_id',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'is_super_admin' => 'boolean',
     ];
 
-    /**
-     * Get the user's preferred locale.
-     *
-     * @return string
-     */
-    public function preferredLocale()
+    public function preferredLocale(): string
     {
         return $this->locale;
     }
@@ -72,7 +56,7 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * The roles that belong to the user.
      */
-    public function roles()
+    public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class)
             ->withTimestamps();
@@ -88,13 +72,13 @@ class User extends Authenticatable implements HasLocalePreference
     /**
      * The users that belong to the role.
      */
-    public function administeredRoles()
+    public function administeredRoles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'role_admin')
             ->withTimestamps();
     }
 
-    public function hasPermission($permissionKey)
+    public function hasPermission($permissionKey): bool
     {
         return $this->roles->contains(
             fn ($role) => $role->permissions->contains(
@@ -105,8 +89,6 @@ class User extends Authenticatable implements HasLocalePreference
 
     /**
      * Returns a collection of the keys of all permissions this users possesses
-     *
-     * @return Collection
      */
     public function permissions(): Collection
     {
@@ -116,6 +98,7 @@ class User extends Authenticatable implements HasLocalePreference
                 $permissions[] = $permission;
             }
         }
+
         return collect(config('permissions.keys'))
             ->keys()
             ->intersect(collect($permissions)->map(fn ($permission) => $permission->key))
@@ -123,27 +106,16 @@ class User extends Authenticatable implements HasLocalePreference
             ->values();
     }
 
-    public function avatarUrl(?int $size = null): string
+    public function avatarUrl(int $size = null): string
     {
-        return $this->avatar !== null
-            ? $this->avatar
-            : route('users.avatar', [$this, 'size' => $size]);
-    }
-
-    /**
-     * Scope a query to only include records matching the filter.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeFiltered($query, ?string $filter = '')
-    {
-        $value = trim($filter);
-        if ($value == '') {
-            return $query;
+        if (blank($this->avatar)) {
+            return route('users.avatar', [$this, 'size' => $size]);
         }
-        return $query->where('name', 'LIKE', '%' . $value . '%')
-            ->orWhere('email', 'LIKE', '%' . $value . '%');
+
+        if (filter_var($this->avatar, FILTER_VALIDATE_URL)) {
+            return $this->avatar;
+        }
+
+        return Storage::url($this->avatar);
     }
 }

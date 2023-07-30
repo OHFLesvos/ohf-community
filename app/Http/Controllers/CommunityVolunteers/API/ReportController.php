@@ -5,14 +5,16 @@ namespace App\Http\Controllers\CommunityVolunteers\API;
 use App\Http\Controllers\Controller;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Support\ChartResponseBuilder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class ReportController extends Controller
 {
     /**
      * Gender distribution
      */
-    public function genderDistribution()
+    public function genderDistribution(): array
     {
         return CommunityVolunteer::query()
             ->select('gender')
@@ -22,14 +24,14 @@ class ReportController extends Controller
             ->groupBy('gender')
             ->orderBy('total', 'DESC')
             ->get()
-            ->mapWithKeys(fn ($i) => [ gender_label($i['gender']) => $i['total'] ])
+            ->mapWithKeys(fn ($i) => [gender_label($i['gender']) => $i['total']])
             ->toArray();
     }
 
     /**
      * Nationality distribution
      */
-    public function nationalityDistribution(Request $request)
+    public function nationalityDistribution(Request $request): array
     {
         $request->validate([
             'limit' => [
@@ -47,24 +49,39 @@ class ReportController extends Controller
             ->groupBy('nationality')
             ->orderBy('total', 'DESC')
             ->get()
-            ->mapWithKeys(fn ($i) => [ $i['nationality'] => $i['total'] ])
+            ->mapWithKeys(fn ($i) => [$i['nationality'] => $i['total']])
             ->toArray();
 
-        $limit = $request->input('limit', 10);
-        return slice_data_others($nationalities, $limit);
+        $limit = $request->input('limit', 3);
+
+        return self::sliceDataOthers($nationalities, $limit);
+    }
+
+    private static function sliceDataOthers(array $source, int $limit): array
+    {
+        $source_collection = collect($source);
+        $data = $source_collection->slice(0, $limit)
+            ->toArray();
+        $other = (float) ($source_collection->slice($limit)
+            ->reduce(fn ($carry, $item) => $carry + $item));
+        if ($other > 0) {
+            $data[__('Others')] = $other;
+        }
+
+        return $data;
     }
 
     /**
      * Age distribution
      */
-    public function ageDistribution()
+    public function ageDistribution(): JsonResponse
     {
         return (new ChartResponseBuilder())
             ->dataset(__('persons'), collect(self::getAges()))
             ->build();
     }
 
-    private static function getAges()
+    private static function getAges(): array
     {
         $ages = [];
         $minAge = optional(self::getYoungestPerson())->age;
@@ -73,18 +90,20 @@ class ReportController extends Controller
             foreach (range($minAge, $maxAge) as $r) {
                 $ages[$r.' '] = null;
             }
+
             return collect($ages)
                 ->merge(
                     self::getPersonAges()
-                        ->mapWithKeys(fn ($i) => [ $i['age'] . ' ' => $i['total'] ])
+                        ->mapWithKeys(fn ($i) => [$i['age'].' ' => $i['total']])
                 )
                 ->mapWithKeys(fn ($v, $k) => [intval($k) => $v])
                 ->toArray();
         }
+
         return [];
     }
 
-    private static function getYoungestPerson()
+    private static function getYoungestPerson(): ?CommunityVolunteer
     {
         return CommunityVolunteer::query()
             ->select('date_of_birth')
@@ -95,7 +114,7 @@ class ReportController extends Controller
             ->first();
     }
 
-    private static function getOldestPerson()
+    private static function getOldestPerson(): ?CommunityVolunteer
     {
         return CommunityVolunteer::query()
             ->select('date_of_birth')
@@ -106,7 +125,7 @@ class ReportController extends Controller
             ->first();
     }
 
-    private static function getPersonAges()
+    private static function getPersonAges(): Collection
     {
         return CommunityVolunteer::query()
             ->select('date_of_birth')

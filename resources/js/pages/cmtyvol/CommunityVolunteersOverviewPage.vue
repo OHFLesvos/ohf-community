@@ -34,7 +34,7 @@
                 <font-awesome-icon v-if="data.value=='f'" icon="female" />
             </template>
             <template v-slot:cell(languages)="data">
-                <nl2br tag="span" :text="arrayToString(data.value)" />
+                <span class="pre-formatted">{{ arrayToString(data.value) }}</span>
             </template>
             <template v-slot:cell(responsibilities)="data">
                 <template v-for="(attributes, name) in data.value" >
@@ -43,13 +43,13 @@
                         <font-awesome-icon :key="name + '-i'" icon="info-circle" />
                     </b-button>
                     <template v-if="attributes.start_date && attributes.end_date">
-                        ({{ $t(':from - :until', { 'from': attributes.start_date, 'until': attributes.end_date }) }})
+                        ({{ $t('{from} - {until}', { 'from': attributes.start_date, 'until': attributes.end_date }) }})
                     </template>
                     <template v-else-if="attributes.start_date">
-                        ({{ $t('from :from', { 'date': attributes.start_date }) }})
+                        ({{ $t('from {from}', { 'from': attributes.start_date }) }})
                     </template>
                     <template v-else-if="attributes.end_date">
-                        ({{ $t('until :until', { 'date': attributes.end_date }) }})
+                        ({{ $t('until {until}', { 'until': attributes.end_date }) }})
                     </template>
                     <br :key="name + '-b'" />
                 </template>
@@ -82,19 +82,17 @@
 </template>
 
 <script>
-import Nl2br from 'vue-nl2br'
-import BaseTable from '@/components/table/BaseTable'
+import BaseTable from '@/components/table/BaseTable.vue'
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
-import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector'
-import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector'
-import GridView from '@/components/cmtyvol/GridView'
+import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector.vue'
+import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector.vue'
+import GridView from '@/components/cmtyvol/GridView.vue'
 export default {
     title() {
         return this.$t("Community Volunteers");
     },
     components: {
         BaseTable,
-        Nl2br,
         WorkStatusSelector,
         ViewTypeSelector,
         GridView

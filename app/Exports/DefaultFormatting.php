@@ -9,6 +9,31 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 trait DefaultFormatting
 {
+    /**
+     * Orientation
+     */
+    public PageOrientation $orientation = PageOrientation::Portrait;
+
+    /**
+     * Margins
+     */
+    public ?float $margins = null;
+
+    /**
+     * Fit to width
+     */
+    public int $fitToWidth = 0;
+
+    /**
+     * Fit to height
+     */
+    public int $fitToHeight = 0;
+
+    /**
+     * Paper size
+     */
+    public PaperSize $paperSize = PaperSize::A4;
+
     protected function setupSpreadsheet(Spreadsheet $spreadsheet)
     {
         // Creator
@@ -21,17 +46,19 @@ trait DefaultFormatting
     protected function setupPage(Worksheet $sheet)
     {
         // Orientation
-        if ($this->orientation == 'landscape') {
-            $sheet->getPageSetup()->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
-        } else {
-            $sheet->getPageSetup()->setOrientation(PageSetup::ORIENTATION_PORTRAIT);
-        }
+        $sheet->getPageSetup()->setOrientation($this->orientation == PageOrientation::Landscape
+            ? PageSetup::ORIENTATION_LANDSCAPE
+            : PageSetup::ORIENTATION_PORTRAIT
+        );
 
         // Paper size
-        $sheet->getPageSetup()->setPaperSize(PageSetup::PAPERSIZE_A4);
+        $sheet->getPageSetup()->setPaperSize(match ($this->paperSize) {
+            PaperSize::Letter => PageSetup::PAPERSIZE_LETTER,
+            default => PageSetup::PAPERSIZE_A4,
+        });
 
         // Margins
-        if ($this->margins != null) {
+        if ($this->margins !== null) {
             $sheet->getPageMargins()->setTop($this->margins);
             $sheet->getPageMargins()->setRight($this->margins);
             $sheet->getPageMargins()->setLeft($this->margins);
@@ -41,10 +68,6 @@ trait DefaultFormatting
         // Fit to page width
         $sheet->getPageSetup()->setFitToWidth($this->fitToWidth);
         $sheet->getPageSetup()->setFitToHeight($this->fitToHeight);
-
-        // Centering
-        //$sheet->getPageSetup()->setHorizontalCentered(true);
-        //$sheet->getPageSetup()->setVerticalCentered(false);
 
         // Header: Centered: sheet name
         $sheet->getHeaderFooter()->setOddHeader('&C&A');

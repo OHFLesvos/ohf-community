@@ -21,7 +21,7 @@ class UserRoleRelationshipApiTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->getJson('api/users/' . $user->id . '/relationships/roles', []);
+        $response = $this->getJson('api/users/'.$user->id.'/relationships/roles', []);
 
         $this->assertGuest();
         $response->assertUnauthorized();
@@ -34,7 +34,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/relationships/roles', []);
+            ->getJson('api/users/'.$user->id.'/relationships/roles', []);
 
         $this->assertAuthenticated();
         $response->assertForbidden();
@@ -47,12 +47,12 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . 1234 . '/relationships/roles', []);
+            ->getJson('api/users/'. 1234 .'/relationships/roles', []);
 
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [' . User::class . '] 1234',
+                'message' => 'No query results for model ['.User::class.'] 1234',
             ]);
     }
 
@@ -63,13 +63,13 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/relationships/roles', []);
+            ->getJson('api/users/'.$user->id.'/relationships/roles', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
                 'data' => [
-                    'id' => [ ],
+                    'id' => [],
                 ],
             ]);
     }
@@ -88,7 +88,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/relationships/roles', []);
+            ->getJson('api/users/'.$user->id.'/relationships/roles', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -114,9 +114,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->postJson('api/users/' . $user->id . '/relationships/roles', [
+            ->postJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -131,9 +131,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->postJson('api/users/' . 1234 . '/relationships/roles', [
+            ->postJson('api/users/'. 1234 .'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -148,9 +148,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->postJson('api/users/' . $user->id . '/relationships/roles', [
+            ->postJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
-                    1234
+                    1234,
                 ],
             ]);
 
@@ -167,9 +167,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->postJson('api/users/' . $user->id . '/relationships/roles', [
+            ->postJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -194,9 +194,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->postJson('api/users/' . $user->id . '/relationships/roles', [
+            ->postJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -225,9 +225,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id . '/relationships/roles', [
+            ->putJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -242,9 +242,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . 1234 . '/relationships/roles', [
+            ->putJson('api/users/'. 1234 .'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -260,10 +260,10 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id . '/relationships/roles', [
+            ->putJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
                     $role1->id,
-                    1234
+                    1234,
                 ],
             ]);
 
@@ -283,7 +283,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id . '/relationships/roles', [
+            ->putJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
                     $role2->id,
                     $role3->id,
@@ -320,8 +320,8 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/users/' . $user->id . '/relationships/roles', [
-                'id' => [ ],
+            ->putJson('api/users/'.$user->id.'/relationships/roles', [
+                'id' => [],
             ]);
 
         $this->assertAuthenticated();
@@ -352,9 +352,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . $user->id . '/relationships/roles', [
+            ->deleteJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -369,9 +369,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . 1234 . '/relationships/roles', [
+            ->deleteJson('api/users/'. 1234 .'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -386,7 +386,7 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . $user->id . '/relationships/roles', [
+            ->deleteJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
                     1234,
                 ],
@@ -405,9 +405,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . $user->id . '/relationships/roles', [
+            ->deleteJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 
@@ -432,9 +432,9 @@ class UserRoleRelationshipApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('app.usermgmt.users.manage');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/users/' . $user->id . '/relationships/roles', [
+            ->deleteJson('api/users/'.$user->id.'/relationships/roles', [
                 'id' => [
-                    $role->id
+                    $role->id,
                 ],
             ]);
 

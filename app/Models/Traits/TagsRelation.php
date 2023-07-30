@@ -3,6 +3,9 @@
 namespace App\Models\Traits;
 
 use App\Models\Tag;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 
 /**
@@ -13,42 +16,28 @@ trait TagsRelation
     /**
      * Get all of the tags of the model.
      */
-    public function tags()
+    public function tags(): MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
     /**
      * Get the tags sorted by name.
-     */
-    public function getTagsSortedAttribute()
-    {
-        return $this->tags->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE);
-    }
-
-    /**
-     * Sets thgs from the given JSON string which must have the form:
-     * [{"value":"Tag 1"},{"value":"Tag 2"}]
      *
-     * @param string|null $json
-     * @return void
+     * @return Attribute<Collection,never>
      */
-    public function setTagsFromJson(?string $json = null)
+    protected function tagsSorted(): Attribute
     {
-        $items = collect(json_decode($json))
-            ->pluck('value')
-            ->unique();
-        $this->setTags($items);
+        return Attribute::make(
+            get: fn ($value) => $this->tags->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
+        );
     }
 
     /**
      * Set tags from an array of values (tag names).
      * Overrides existing tag relations.
-     *
-     * @param Collection<string> $tags
-     * @return void
      */
-    public function setTags(Collection $tags)
+    public function setTags(iterable $tags): void
     {
         $tag_ids = [];
         foreach ($tags as $tag_str) {
@@ -68,34 +57,13 @@ trait TagsRelation
     /**
      * Scope a query to only include records having the given tags.
      * If no tags are specified, all records will be returned.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param array<string>|null $tags list of tags (slug values)
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeWithAllTags($query, ?array $tags = [])
+    public function scopeWithAllTags(Builder $query, iterable $tagSlugs = []): Builder
     {
-        if (count($tags) > 0) {
-            foreach ($tags as $tag) {
-                $query->whereHas('tags', fn ($query) => $query->where('slug', $tag));
-            }
+        foreach ($tagSlugs as $tag) {
+            $query->whereHas('tags', fn (Builder $qry) => $qry->where('slug', $tag));
         }
-        return $query;
-    }
 
-    /**
-     * Scope a query to only include records having any of the given tags.
-     * If no tags are specified, all records will be returned.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param array<string>|null $tags list of tags (slug values)
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithTags($query, ?array $tags = [])
-    {
-        if (count($tags) > 0) {
-            $query->whereHas('tags', fn ($query) => $query->whereIn('slug', $tags));
-        }
         return $query;
     }
 }

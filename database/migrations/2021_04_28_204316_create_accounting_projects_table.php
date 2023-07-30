@@ -1,12 +1,12 @@
 <?php
 
-use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Project;
+use App\Models\Accounting\Transaction;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountingProjectsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -91,4 +91,4 @@ class CreateAccountingProjectsTable extends Migration
 
         Schema::dropIfExists('accounting_projects');
     }
-}
+};

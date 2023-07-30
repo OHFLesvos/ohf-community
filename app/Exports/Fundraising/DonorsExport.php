@@ -3,8 +3,10 @@
 namespace App\Exports\Fundraising;
 
 use App\Exports\BaseExport;
+use App\Exports\PageOrientation;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\FromQuery;
@@ -17,11 +19,15 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
 {
     private Collection $usedCurrenciesChannels;
+
+    /**
+     * @var int[]
+     */
     private array $years;
 
     public function __construct()
     {
-        $this->orientation = 'landscape';
+        $this->orientation = PageOrientation::Landscape;
 
         $this->years = [
             now()->subYear()->year,
@@ -32,9 +38,9 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             ->selectRaw('YEAR(date) as year')
             ->selectRaw('SUM(amount) as amount')
             ->having('amount', '>', 0)
-            ->where(function ($qry) {
+            ->where(function (Builder $qry) {
                 foreach ($this->years as $year) {
-                    $qry->orWhereYear('date', $year);
+                    $qry->orWhereYear('date', '=', $year);
                 }
             })
             ->groupBy('currency')
@@ -46,7 +52,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             ->get();
     }
 
-    public function query(): \Illuminate\Database\Eloquent\Builder
+    public function query(): Builder
     {
         return Donor::orderBy('first_name')
             ->orderBy('last_name')
@@ -69,7 +75,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
             __('ZIP'),
             __('City'),
             __('Country'),
-            __('E-Mail Address'),
+            __('Email address'),
             __('Phone'),
             __('Correspondence language'),
             __('Registered'),
@@ -78,17 +84,18 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
         ];
         if (Auth::user()->can('viewAny', Donation::class)) {
             foreach ($this->years as $year) {
-                $headings[] = __('Donations') . ' ' . $year;
+                $headings[] = __('Donations').' '.$year;
             }
             foreach ($this->usedCurrenciesChannels as $cc) {
-                $headings[] = $cc->currency . ' via ' . $cc->channel . ' in ' . $cc->year;
+                $headings[] = $cc->currency.' via '.$cc->channel.' in '.$cc->year;
             }
         }
+
         return $headings;
     }
 
     /**
-     * @param Donor $donor
+     * @param  Donor  $donor
      */
     public function map($donor): array
     {
@@ -120,12 +127,10 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
                     ->first())->total ?? null;
             }
         }
+
         return $map;
     }
 
-    /**
-     * @return array
-     */
     public function columnFormats(): array
     {
         $formats = [];
@@ -141,6 +146,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
                 $formats[$column] = config('fundraising.currencies_excel_format')[$cc->currency];
             }
         }
+
         return $formats;
     }
 

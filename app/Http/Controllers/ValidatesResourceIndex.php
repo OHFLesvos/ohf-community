@@ -6,17 +6,17 @@ use Illuminate\Validation\Rule;
 
 trait ValidatesResourceIndex
 {
-    protected function validateFilter()
+    protected function validateFilter(): void
     {
         request()->validate([
             'filter' => [
                 'nullable',
-                'string'
+                'string',
             ],
         ]);
     }
 
-    protected function validatePagination()
+    protected function validatePagination(): void
     {
         request()->validate([
             'page' => [
@@ -32,7 +32,7 @@ trait ValidatesResourceIndex
         ]);
     }
 
-    protected function validateSorting(array $sortFields)
+    protected function validateSorting(array $sortFields): void
     {
         request()->validate([
             'sortBy' => [
@@ -43,14 +43,18 @@ trait ValidatesResourceIndex
             ],
             'sortDirection' => [
                 'nullable',
-                Rule::in(['asc', 'desc'])
+                Rule::in(['asc', 'desc']),
             ],
         ]);
     }
 
     protected function getFilter(): ?string
     {
-        return request()->input('filter', '');
+        if (request()->filled('filter')) {
+            return trim(request()->input('filter'));
+        }
+
+        return null;
     }
 
     protected function getSortBy(string $defaultField): string
@@ -73,6 +77,7 @@ trait ValidatesResourceIndex
         if (request()->filled('include')) {
             return preg_split('/,/', request()->input('include'));
         }
+
         return [];
     }
 }

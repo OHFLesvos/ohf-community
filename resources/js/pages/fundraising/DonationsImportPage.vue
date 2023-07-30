@@ -55,7 +55,9 @@
 <script>
 import donationsApi from '@/api/fundraising/donations'
 import { showSnackbar } from '@/utils'
+import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
+    mixins: [formValidationMixin],
     title() {
         return this.$t("Import");
     },
@@ -75,9 +77,6 @@ export default {
         }
     },
     methods: {
-        getValidationState ({ dirty, validated, valid = null }) {
-            return dirty || validated ? valid : null;
-        },
         async onSubmit () {
             this.isBusy = true
             try {

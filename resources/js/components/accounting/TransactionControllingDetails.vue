@@ -127,7 +127,7 @@
 
 <script>
 import transactionsApi from "@/api/accounting/transactions";
-import TransactionPictures from "@/components/accounting/TransactionPictures";
+import TransactionPictures from "@/components/accounting/TransactionPictures.vue";
 export default {
     components: {
         TransactionPictures

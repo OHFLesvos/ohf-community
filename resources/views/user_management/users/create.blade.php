@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-row">
                     <div class="col-md">
-                        {{ Form::bsEmail('email', null, [ 'required' ], __('E-Mail Address')) }}
+                        {{ Form::bsEmail('email', null, [ 'required' ], __('Email address')) }}
                     </div>
                     <div class="col-md">
                         {{ Form::bsPassword('password', [ 'required', 'autocomplete' => 'new-password' ], __('Password')) }}

@@ -29,7 +29,7 @@
 
 <script>
 import budgetsApi from "@/api/accounting/budgets";
-import BaseTable from "@/components/table/BaseTable";
+import BaseTable from "@/components/table/BaseTable.vue";
 export default {
     title() {
         return this.$t("Budgets");

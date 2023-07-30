@@ -4,13 +4,18 @@ namespace App\Http\Controllers\UserManagement\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesResourceIndex;
-use App\Http\Requests\UserManagement\StoreRole;
+use App\Http\Requests\UserManagement\StoreUpdateRole;
 use App\Http\Resources\Role as RoleResource;
-use App\Http\Resources\RoleCollection;
-use App\Http\Resources\UserCollection;
+use App\Http\Resources\User as UserResource;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class RoleController extends Controller
 {
@@ -21,12 +26,7 @@ class RoleController extends Controller
         $this->authorizeResource(Role::class);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index(): JsonResource
     {
         $this->validateFilter();
         $this->validateSorting([
@@ -35,24 +35,34 @@ class RoleController extends Controller
             'updated_at',
         ]);
 
-        return new RoleCollection(Role::filtered($this->getFilter())
-            ->when(in_array('users', $this->getIncludes()), fn ($qry) => $qry->with(['users' => fn ($qry) => $qry->orderBy('name')]))
+        return RoleResource::collection(Role::query()
+            ->when($this->getFilter() !== null,
+                fn (Builder $qry) => $this->filterQuery($qry, $this->getFilter()))
+            ->when(in_array('users', $this->getIncludes()),
+                fn (Builder $qry) => $qry->with([
+                    'users' => fn (BelongsToMany $innerQuery) => $innerQuery->orderBy('name'),
+                ]))
             ->orderBy($this->getSortBy('name'), $this->getSortDirection())
             ->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreRole $request)
+    private function filterQuery(Builder $query, string $filter): Builder
+    {
+        return $query->where('name', 'LIKE', '%'.$filter.'%');
+    }
+
+    public function store(StoreUpdateRole $request): JsonResponse
     {
         $role = new Role();
-        $role->fill($request->all());
+        $role->fill($request->validated());
 
         $role->save();
+
+        Log::info('User role has been created.', [
+            'role_id' => $role->id,
+            'role_name' => $role->name,
+            'client_ip' => $request->ip(),
+        ]);
 
         return response()
             ->json([
@@ -61,29 +71,22 @@ class RoleController extends Controller
             ->header('Location', route('api.roles.show', $role));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Role $role)
+    public function show(Role $role): JsonResource
     {
         return new RoleResource($role);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreRole $request, Role $role)
+    public function update(StoreUpdateRole $request, Role $role): JsonResponse
     {
-        $role->fill($request->all());
+        $role->fill($request->validated());
 
         $role->save();
+
+        Log::info('User role has been updated.', [
+            'role_id' => $role->id,
+            'role_name' => $role->name,
+            'client_ip' => $request->ip(),
+        ]);
 
         return response()
             ->json([
@@ -91,15 +94,15 @@ class RoleController extends Controller
             ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Role $role)
+    public function destroy(Request $request, Role $role): JsonResponse
     {
         $role->delete();
+
+        Log::info('User role has been deleted.', [
+            'role_id' => $role->id,
+            'role_name' => $role->name,
+            'client_ip' => $request->ip(),
+        ]);
 
         return response()
             ->json([
@@ -107,32 +110,22 @@ class RoleController extends Controller
             ]);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function users(Role $role)
+    public function users(Role $role): JsonResource
     {
         $this->authorize('view', $role);
         $this->authorize('viewAny', User::class);
 
-        return new UserCollection($role->users()
+        return UserResource::collection($role->users()
             ->orderBy('name', 'asc')
             ->get());
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function administrators(Role $role)
+    public function administrators(Role $role): JsonResource
     {
         $this->authorize('view', $role);
         $this->authorize('viewAny', User::class);
 
-        return new UserCollection($role->administrators()
+        return UserResource::collection($role->administrators()
             ->orderBy('name', 'asc')
             ->get());
     }

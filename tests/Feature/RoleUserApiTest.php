@@ -16,7 +16,7 @@ class RoleUserApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
-        $response = $this->getJson('api/roles/' . $role->id . '/users', []);
+        $response = $this->getJson('api/roles/'.$role->id.'/users', []);
 
         $this->assertGuest();
         $response->assertUnauthorized();
@@ -26,10 +26,11 @@ class RoleUserApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/roles/' . $role->id . '/users', []);
+            ->getJson('api/roles/'.$role->id.'/users', []);
 
         $this->assertAuthenticated();
         $response->assertForbidden();
@@ -41,13 +42,14 @@ class RoleUserApiTest extends TestCase
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
+        /** @var User $authUser */
         $response = $this->actingAs($authUser)
-            ->getJson('api/roles/' . 1234 .'/users', []);
+            ->getJson('api/roles/'. 1234 .'/users', []);
 
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [' . Role::class . '] 1234',
+                'message' => 'No query results for model ['.Role::class.'] 1234',
             ]);
     }
 
@@ -55,15 +57,16 @@ class RoleUserApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/roles/' . $role->id . '/users', []);
+            ->getJson('api/roles/'.$role->id.'/users', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'data' => [ ],
+                'data' => [],
             ]);
     }
 
@@ -80,8 +83,9 @@ class RoleUserApiTest extends TestCase
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
+        /** @var User $authUser */
         $response = $this->actingAs($authUser)
-            ->getJson('api/roles/' . $role->id . '/users', []);
+            ->getJson('api/roles/'.$role->id.'/users', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -94,7 +98,10 @@ class RoleUserApiTest extends TestCase
                         'locale' => $user1->locale,
                         'is_super_admin' => $user1->is_super_admin,
                         'is_2fa_enabled' => false,
+                        'is_current_user' => false,
                         'avatar_url' => $user1->avatarUrl(),
+                        'can_update' => false,
+                        'can_delete' => false,
                         'provider_name' => $user1->provider_name,
                         'created_at' => $user1->created_at->toJSON(),
                         'updated_at' => $user1->updated_at->toJSON(),
@@ -105,9 +112,15 @@ class RoleUserApiTest extends TestCase
                             'edit' => route('users.edit', $user1),
                         ],
                         'relationships' => [
+                            'administeredRoles' => [
+                                'links' => [
+                                    'related' => route('api.users.roles.index', $user1),
+                                    'self' => route('api.users.relationships.roles.index', $user1),
+                                ],
+                            ],
                             'roles' => [
                                 'links' => [
-                                    'related' =>route('api.users.roles.index', $user1),
+                                    'related' => route('api.users.roles.index', $user1),
                                     'self' => route('api.users.relationships.roles.index', $user1),
                                 ],
                             ],
@@ -120,7 +133,10 @@ class RoleUserApiTest extends TestCase
                         'locale' => $user2->locale,
                         'is_super_admin' => $user2->is_super_admin,
                         'is_2fa_enabled' => false,
+                        'is_current_user' => false,
                         'avatar_url' => $user2->avatarUrl(),
+                        'can_update' => false,
+                        'can_delete' => false,
                         'provider_name' => $user2->provider_name,
                         'created_at' => $user2->created_at->toJSON(),
                         'updated_at' => $user2->updated_at->toJSON(),
@@ -131,14 +147,20 @@ class RoleUserApiTest extends TestCase
                             'edit' => route('users.edit', $user2),
                         ],
                         'relationships' => [
+                            'administeredRoles' => [
+                                'links' => [
+                                    'related' => route('api.users.roles.index', $user2),
+                                    'self' => route('api.users.relationships.roles.index', $user2),
+                                ],
+                            ],
                             'roles' => [
                                 'links' => [
-                                    'related' =>route('api.users.roles.index', $user2),
+                                    'related' => route('api.users.roles.index', $user2),
                                     'self' => route('api.users.relationships.roles.index', $user2),
                                 ],
                             ],
                         ],
-                    ]
+                    ],
                 ],
             ]);
     }

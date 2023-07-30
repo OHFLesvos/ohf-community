@@ -7,7 +7,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         {{-- Title --}}
-        <title>@if(View::hasSection('site-title'))@yield('site-title') - @elseif(View::hasSection('title'))@yield('title') - @endif{{ config('app.name') }} - {{ config('app.product_name') }}</title>
+        <title>@if(View::hasSection('site-title'))@yield('site-title') - @elseif(View::hasSection('title'))@yield('title') - @endif{{ config('app.name') }}</title>
 
         {{-- Favicon --}}
         @isset($favicon_32_url)
@@ -23,7 +23,7 @@
         @endisset
 
         {{-- CSS --}}
-        <link href="{{ mix('css/app.css') }}" rel="stylesheet" type="text/css">
+        @vite(['resources/js/app.js','resources/sass/app.scss'])
 
         {{-- Scripts --}}
         <script>

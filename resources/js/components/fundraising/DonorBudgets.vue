@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import BaseTable from "@/components/table/BaseTable";
+import BaseTable from "@/components/table/BaseTable.vue";
 import donorsApi from "@/api/fundraising/donors";
 export default {
     components: {

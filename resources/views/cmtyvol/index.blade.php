@@ -23,7 +23,7 @@
                     <a href="{{ $grouping['url'] }}" class="btn @if($grouping['active']) btn-dark @else btn-secondary @endif">{{ $grouping['label'] }}</a>
                 @endforeach
                 @if($groupings->where('active', true)->count() > 0)
-                    <a href="{{ route('cmtyvol.index') }}?grouping=" class="btn btn-secondary"><x-icon icon="times"/></a>
+                    <a href="{{ route('cmtyvol.index') }}?grouping=" class="btn btn-secondary"><x-icon icon="xmark"/></a>
                 @endif
             </div>
         </div>
@@ -79,8 +79,7 @@
 
 @push('footer')
     <script>
-        $(function () {
-            // Make popovers work
+        document.addEventListener('DOMContentLoaded', function() {
             $('[data-toggle="popover"]').popover();
         });
     </script>

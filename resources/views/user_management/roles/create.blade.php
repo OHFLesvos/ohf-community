@@ -31,7 +31,7 @@
 
             {{-- Permissions --}}
             <div class="card shadow-sm">
-                <div class="card-header">{{ __('Permissions') }}</div>
+                <div class="card-header">{{ __('Assign Permissions') }}</div>
                 <div class="card-body columns-2">
                     @forelse($permissions as $title => $elements)
                         <div class="column-break-avoid">

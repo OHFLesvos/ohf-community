@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class CommunityVolunteersNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'cmtyvol.index';
+    protected string $route = 'cmtyvol.index';
 
     public function getCaption(): string
     {
         return __('Community Volunteers');
     }
 
-    protected $icon = 'id-badge';
+    protected string $icon = 'id-badge';
 
-    protected $active = 'cmtyvol*';
+    protected string|array $active = 'cmtyvol*';
 
     public function isAuthorized(): bool
     {

@@ -4,14 +4,16 @@ namespace App\Http\Controllers\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\CommunityVolunteers\Responsibility;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class ListController extends BaseController
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $this->authorize('viewAny', CommunityVolunteer::class);
 
@@ -50,15 +52,15 @@ class ListController extends BaseController
                 $groupings->get($grouping)['query']($q, $value);
                 $data->push(
                     $q->orderBy('first_name')
-                    ->get()
-                    ->mapWithKeys(fn ($cmtyvol) => [
-                        $cmtyvol->id => [
-                            'model' => $cmtyvol,
-                            'fields' => $fields
-                                ->map(fn ($field) => self::overviewFieldMap($field, $cmtyvol))
-                                ->toArray(),
-                        ],
-                    ])
+                        ->get()
+                        ->mapWithKeys(fn ($cmtyvol) => [
+                            $cmtyvol->id => [
+                                'model' => $cmtyvol,
+                                'fields' => $fields
+                                    ->map(fn ($field) => self::overviewFieldMap($field, $cmtyvol))
+                                    ->toArray(),
+                            ],
+                        ])
                 );
             }
             if (isset($groupings->get($grouping)['label_transform']) && is_callable($groupings->get($grouping)['label_transform'])) {
@@ -123,7 +125,7 @@ class ListController extends BaseController
         ];
     }
 
-    public function create()
+    public function create(): View
     {
         $this->authorize('create', CommunityVolunteer::class);
 
@@ -139,7 +141,7 @@ class ListController extends BaseController
         ]);
     }
 
-    private static function createFormField($f, $value)
+    private static function createFormField($f, $value): array
     {
         // Calculate required attribute
         $required = false;
@@ -165,7 +167,7 @@ class ListController extends BaseController
         ];
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->authorize('create', CommunityVolunteer::class);
 
@@ -180,7 +182,7 @@ class ListController extends BaseController
             ->with('success', __('Community volunteer registered.'));
     }
 
-    private static function isRequiredField($f)
+    private static function isRequiredField($f): bool
     {
         return isset($f['form_validate']) && (
             (
@@ -191,7 +193,7 @@ class ListController extends BaseController
         );
     }
 
-    private function validateFormData($request)
+    private function validateFormData($request): void
     {
         $request->validate(
             collect($this->getFields())
@@ -220,22 +222,24 @@ class ListController extends BaseController
         if ($field['form_type'] == 'checkboxes') {
             return [
                 $field['form_name'] = 'array',
-                $field['form_name'] . '.*' => $rules,
+                $field['form_name'].'.*' => $rules,
             ];
         } elseif (isset($field['form_validate_extra'])) {
             $extra_rules = is_callable($field['form_validate_extra'])
                 ? $field['form_validate_extra']()
                 : $field['form_validate_extra'];
+
             return [
                 $field['form_name'] => $rules,
             ] + $extra_rules;
         }
+
         return [
             $field['form_name'] => $rules,
         ];
     }
 
-    private function applyFormData(Request $request, CommunityVolunteer $cmtyvol)
+    private function applyFormData(Request $request, CommunityVolunteer $cmtyvol): void
     {
         collect($this->getFields())
             ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
@@ -270,7 +274,7 @@ class ListController extends BaseController
         $field['assign']($cmtyvol, $request->{$field['form_name']});
     }
 
-    public function show(CommunityVolunteer $cmtyvol)
+    public function show(CommunityVolunteer $cmtyvol): View
     {
         $this->authorize('view', $cmtyvol);
 
@@ -305,7 +309,7 @@ class ListController extends BaseController
             ->filter(fn ($field) => self::isFieldViewAuthorized($field));
     }
 
-    public function edit(CommunityVolunteer $cmtyvol, Request $request)
+    public function edit(CommunityVolunteer $cmtyvol): View
     {
         $this->authorize('update', $cmtyvol);
 
@@ -317,7 +321,7 @@ class ListController extends BaseController
                     ->filter(fn ($field) => self::isFieldChangeAuthorized($field))
                     ->filter(fn ($field) => isset($field['form_name']) && isset($field['form_type']))
                     ->map(fn ($f) => self::createFormField($f, is_callable($f['value']) ? $f['value']($cmtyvol) : $cmtyvol->{$f['value']}))
-                    ->toArray()
+                    ->toArray(),
             ]);
 
         return view('cmtyvol.edit', [
@@ -327,7 +331,7 @@ class ListController extends BaseController
         ]);
     }
 
-    public function update(CommunityVolunteer $cmtyvol, Request $request)
+    public function update(CommunityVolunteer $cmtyvol, Request $request): RedirectResponse
     {
         $this->authorize('update', $cmtyvol);
 
@@ -341,7 +345,7 @@ class ListController extends BaseController
             ->with('success', __('Community volunteer updated.'));
     }
 
-    public function destroy(CommunityVolunteer $cmtyvol)
+    public function destroy(CommunityVolunteer $cmtyvol): RedirectResponse
     {
         $this->authorize('delete', $cmtyvol);
 
@@ -352,7 +356,7 @@ class ListController extends BaseController
             ->with('success', __('Community volunteer deleted.'));
     }
 
-    private static function getFieldValue($field, $cmtyvol, $with_html = true)
+    private static function getFieldValue(array $field, CommunityVolunteer $cmtyvol, bool $with_html = true): mixed
     {
         $value = null;
         if ($with_html && isset($field['value_html']) && is_callable($field['value_html'])) {
@@ -364,21 +368,22 @@ class ListController extends BaseController
             }
         }
         if ($value != null) {
-            $value = ($field['prefix'] ?? '') . $value;
+            $value = ($field['prefix'] ?? '').$value;
         }
+
         return $value;
     }
 
-    public function responsibilities(CommunityVolunteer $cmtyvol)
+    public function responsibilities(CommunityVolunteer $cmtyvol): View
     {
         $responsibilities = Responsibility::where('available', true)
             ->orderBy('name')
             ->get()
             ->map(function ($responsibility) {
                 return [
-                    "text" => $responsibility->name,
-                    "description" => $responsibility->description,
-                    "hidden" => $responsibility->isCapacityExhausted,
+                    'text' => $responsibility->name,
+                    'description' => $responsibility->description,
+                    'hidden' => $responsibility->isCapacityExhausted,
                 ];
             });
 
@@ -386,24 +391,23 @@ class ListController extends BaseController
             'cmtyvol' => $cmtyvol,
             'responsibilities' => $responsibilities,
             'value' => $cmtyvol->responsibilities
-                ->map(fn ($r) => [
+                ->map(fn (Responsibility $r) => [
                     'value' => $r->name,
-                    'from' => $r->pivot->start_date,
-                    'to' => $r->pivot->end_date,
+                    'from' => $r->getRelationValue('pivot')->start_date,
+                    'to' => $r->getRelationValue('pivot')->end_date,
                 ]),
         ]);
     }
 
-    public function updateResponsibilities(CommunityVolunteer $cmtyvol, Request $request)
+    public function updateResponsibilities(CommunityVolunteer $cmtyvol, Request $request): RedirectResponse
     {
         $request->validate([
             'responsibilities' => 'array',
             'responsibilities.*.name' => [
                 Rule::in(
                     Responsibility::select('name')
-                    ->get()
-                    ->pluck('name')
-                    ->all()
+                        ->pluck('name')
+                        ->all()
                 ),
                 'required_with:responsibilities.*.from,responsibilities.*.to',
             ],
@@ -433,7 +437,7 @@ class ListController extends BaseController
                 }
                 collect($value)->map(function ($entry) use ($cmtyvol) {
                     if (! is_array($entry)) {
-                        $entry = [ 'name' => $entry ];
+                        $entry = ['name' => $entry];
                     }
                     $responsibility = Responsibility::where('name', $entry['name'])->first();
                     $cmtyvol->responsibilities()->attach($responsibility, [

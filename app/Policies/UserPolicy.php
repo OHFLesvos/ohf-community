@@ -19,8 +19,6 @@ class UserPolicy
     /**
      * Determine whether the user can list models.
      *
-     * @param  \App\Models\User  $user
-     *
      * @return mixed
      */
     public function viewAny(User $user)
@@ -30,9 +28,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
      *
      * @return mixed
      */
@@ -44,8 +39,6 @@ class UserPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     *
      * @return mixed
      */
     public function create(User $user)
@@ -56,9 +49,6 @@ class UserPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
-     *
      * @return mixed
      */
     public function update(User $user, User $model)
@@ -68,9 +58,6 @@ class UserPolicy
 
     /**
      * Determine whether the user can delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
      *
      * @return mixed
      */
@@ -84,6 +71,7 @@ class UserPolicy
                 return ! $model->isSuperAdmin() || User::where('is_super_admin', true)->count() > 1;
             }
         }
+
         return false;
     }
 }

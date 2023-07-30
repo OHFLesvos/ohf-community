@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Accounting\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreWallet;
 use App\Http\Resources\Accounting\SimpleWallet;
-use App\Models\Accounting\Wallet;
-use Illuminate\Http\Request;
 use App\Http\Resources\Accounting\Wallet as WalletResource;
+use App\Models\Accounting\Wallet;
 use App\Models\Role;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 
 class WalletsController extends Controller
@@ -19,12 +21,7 @@ class WalletsController extends Controller
         $this->authorizeResource(Wallet::class);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index(Request $request): JsonResource
     {
         $request->validate([
             'page' => [
@@ -62,13 +59,7 @@ class WalletsController extends Controller
             ->paginate($pageSize));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\Accounting\StoreWallet  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreWallet $request)
+    public function store(StoreWallet $request): JsonResource
     {
         $wallet = new Wallet();
         $wallet->fill($request->all());
@@ -81,25 +72,12 @@ class WalletsController extends Controller
         return new WalletResource($wallet);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Accounting\Wallet  $wallet
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Wallet $wallet)
+    public function show(Wallet $wallet): JsonResource
     {
         return new WalletResource($wallet);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\Accounting\StoreWallet  $request
-     * @param  \App\Models\Accounting\Wallet  $wallet
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreWallet $request, Wallet $wallet)
+    public function update(StoreWallet $request, Wallet $wallet): JsonResource
     {
         $wallet->fill($request->all());
         $wallet->save();
@@ -111,20 +89,14 @@ class WalletsController extends Controller
         return new WalletResource($wallet);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Accounting\Wallet  $wallet
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Wallet $wallet)
+    public function destroy(Wallet $wallet): Response
     {
         $wallet->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function names(Request $request)
+    public function names(Request $request): Collection
     {
         return Wallet::orderBy('name')
             ->get()

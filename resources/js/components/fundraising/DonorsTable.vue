@@ -56,11 +56,11 @@
 </template>
 
 <script>
-import PhoneLink from '@/components/common/PhoneLink'
-import EmailLink from '@/components/common/EmailLink'
-import BaseTable from '@/components/table/BaseTable'
+import PhoneLink from '@/components/common/PhoneLink.vue'
+import EmailLink from '@/components/common/EmailLink.vue'
+import BaseTable from '@/components/table/BaseTable.vue'
 import donorsApi from '@/api/fundraising/donors'
-import TagSelectButton from '@/components/tags/TagSelectButton'
+import TagSelectButton from '@/components/tags/TagSelectButton.vue'
 export default {
     components: {
         BaseTable,

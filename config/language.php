@@ -10,7 +10,7 @@ return [
     | This option enable language route.
     |
     */
-    'route'         => true,
+    'route' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ return [
     | to url('/')
     |
     */
-    'home'          => true,
+    'home' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ return [
     | This option the language of carbon library.
     |
     */
-    'carbon'        => true,
+    'carbon' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ return [
     | This option the language of jenssegers/date library.
     |
     */
-    'date'          => false,
+    'date' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     | browser language.
     |
     */
-    'auto'          => true,
+    'auto' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ return [
     | This option indicates the prefix for language routes.
     |
     */
-    'prefix'        => 'languages',
+    'prefix' => 'languages',
 
     /*
     |--------------------------------------------------------------------------
@@ -72,7 +72,7 @@ return [
     | This option indicates the middleware to change language.
     |
     */
-    'middleware'    => 'Akaunting\Language\Middleware\SetLocale',
+    'middleware' => 'Akaunting\Language\Middleware\SetLocale',
 
     /*
     |--------------------------------------------------------------------------
@@ -82,7 +82,7 @@ return [
     | This option indicates the controller to be used.
     |
     */
-    'controller'    => 'Akaunting\Language\Controllers\Language',
+    'controller' => 'Akaunting\Language\Controllers\Language',
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +93,7 @@ return [
     |
     */
 
-    'flags'         => ['width' => '22px', 'ul_class' => '', 'li_class' => '', 'img_class' => ''],
+    'flags' => ['width' => '22px', 'ul_class' => '', 'li_class' => '', 'img_class' => ''],
 
     /*
     |--------------------------------------------------------------------------
@@ -107,7 +107,7 @@ return [
     |
     */
 
-    'mode'          => ['code' => 'short', 'name' => 'native'],
+    'mode' => ['code' => 'short', 'name' => 'native'],
 
     /*
     |--------------------------------------------------------------------------
@@ -118,7 +118,7 @@ return [
     |
     */
 
-    'allowed'       => ['en', 'de'],
+    'allowed' => ['en', 'de'],
 
     /*
     |--------------------------------------------------------------------------

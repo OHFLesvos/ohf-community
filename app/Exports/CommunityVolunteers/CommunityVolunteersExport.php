@@ -12,24 +12,12 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class CommunityVolunteersExport extends BaseExport implements FromCollection, WithHeadings, WithMapping
 {
     /**
-     * Field definitions
-     */
-    private Collection $fields;
-
-    /**
-     * Work status
-     */
-    private string $workStatus;
-
-    /**
      * Field to sort by
      */
     public string $sorting = 'first_name';
 
-    public function __construct(Collection $fields, string $workStatus)
+    public function __construct(private Collection $fields, private string $workStatus)
     {
-        $this->fields = $fields;
-        $this->workStatus = $workStatus;
     }
 
     public function collection(): Collection
@@ -40,7 +28,7 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
     }
 
     /**
-     * @param CommunityVolunteer $communityVolunteer
+     * @param  CommunityVolunteer  $communityVolunteer
      */
     public function map($communityVolunteer): array
     {
@@ -51,7 +39,7 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
 
     private static function mapField($field, $communityVolunteer)
     {
-        if (isset($field['value_export'])  && gettype($field['value_export']) == 'string') {
+        if (isset($field['value_export']) && gettype($field['value_export']) == 'string') {
             $value = $communityVolunteer->{$field['value_export']};
         } elseif (gettype($field['value']) == 'string') {
             $value = $communityVolunteer->{$field['value']};
@@ -63,8 +51,10 @@ class CommunityVolunteersExport extends BaseExport implements FromCollection, Wi
         if ($value !== null) {
             $prefix = $field['prefix'] ?? '';
             $valueString = is_array($value) ? implode(', ', $value) : $value;
-            return $prefix . $valueString;
+
+            return $prefix.$valueString;
         }
+
         return null;
     }
 

@@ -1,6 +1,7 @@
 export default [
     {
         path: "/visitors",
+        name: "visitors.index",
         redirect: {
                 name: "visitors.check_in"
         }
@@ -11,7 +12,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorCheckInPage"
+                    "@/pages/visitors/VisitorCheckInPage.vue"
                 )
         }
     },
@@ -21,7 +22,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "visitors" */ "@/pages/visitors/VisitorEditPage"
+                    "@/pages/visitors/VisitorEditPage.vue"
                 )
         },
         props: {

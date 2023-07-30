@@ -3,7 +3,6 @@
 namespace Database\Factories\Visitors;
 
 use App\Models\Visitors\Visitor;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class VisitorFactory extends Factory
@@ -23,6 +22,7 @@ class VisitorFactory extends Factory
     public function definition()
     {
         $gender = $this->faker->optional(0.9)->randomElement(['male', 'female']);
+
         return [
             'name' => $this->faker->name($gender),
             'id_number' => $this->faker->optional(0.6)->numberBetween(10000, 99999),

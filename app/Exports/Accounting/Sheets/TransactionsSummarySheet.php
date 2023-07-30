@@ -14,20 +14,10 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class TransactionsSummarySheet extends BaseExport implements FromView, WithColumnFormatting
 {
     /**
-     * Months
-     *
-     * @var array<Carbon>
+     * @param  array<Carbon>  $months Months
      */
-    private array $months;
-
-    /**
-     * Constructor.
-     *
-     * @param array<Carbon> $months
-     */
-    public function __construct(array $months)
+    public function __construct(private array $months)
     {
-        $this->months = $months;
     }
 
     public function view(): View

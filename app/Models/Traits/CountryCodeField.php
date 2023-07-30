@@ -3,40 +3,35 @@
 namespace App\Models\Traits;
 
 use App;
+use Carbon\Carbon;
 use Countries;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 trait CountryCodeField
 {
     /**
-     * Get the country name based on the country code
+     * Get/set the country name based on the country code
      *
-     * @return string|null
+     * @return Attribute<?string,never>
      */
-    public function getCountryNameAttribute()
+    protected function countryName(): Attribute
     {
-        if ($this->country_code != null) {
-            return Countries::getOne($this->country_code, App::getLocale());
-        }
-        return null;
-    }
-
-    /**
-     * Set the country code based on the country name
-     *
-     * @param string|null $value
-     * @return void
-     */
-    public function setCountryNameAttribute($value)
-    {
-        $this->attributes['country_code'] = $value != null
-            ? localized_country_names()->flip()[$value] ?? null
-            : null;
+        return Attribute::make(
+            get: function () {
+                return $this->country_code !== null
+                    ? Countries::getOne($this->country_code, App::getLocale())
+                    : null;
+            },
+            set: fn (?string $value) => [
+                'country_code' => $value !== null
+                    ? localized_country_names()->flip()[$value] ?? null
+                    : null,
+            ],
+        );
     }
 
     /**
      * Gets a sorted list of all countries used by the model type.
-     *
-     * @return array
      */
     public static function countries(): array
     {
@@ -45,17 +40,14 @@ trait CountryCodeField
             ->whereNotNull('country_code')
             ->orderBy('country_code')
             ->get()
-            ->map(fn ($e) => $e->countryName)
+            ->map(fn (self $e) => $e->country_name)
             ->toArray();
     }
 
     /**
-     * Gets an array of all countries assigned to donors, grouped and ordered by amount
-     *
-     * @param string|\Carbon\Carbon|null $untilDate
-     * @return array
+     * Gets an array of all countries assigned to model records, ordered by amount per country
      */
-    public static function countryDistribution($untilDate = null): array
+    public static function countryDistribution(string|Carbon $untilDate = null): array
     {
         return self::select('country_code')
             ->selectRaw('COUNT(*) as countries_count')
@@ -64,9 +56,9 @@ trait CountryCodeField
             ->createdUntil($untilDate)
             ->orderBy('countries_count', 'desc')
             ->get()
-            ->map(fn ($e) => [
-                'name' => $e->countryName,
-                'amount' => $e->countries_count,
+            ->map(fn (self $e) => [
+                'name' => $e->country_name,
+                'amount' => $e['countries_count'],
             ])
             ->toArray();
     }

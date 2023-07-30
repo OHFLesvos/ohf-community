@@ -3,19 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RolePermission extends Model
 {
-    /**
-     * All of the relationships to be touched.
-     *
-     * @var array
-     */
     protected $touches = ['role'];
 
     protected $fillable = ['key'];
 
-    public function role()
+    public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
     }
@@ -23,6 +19,7 @@ class RolePermission extends Model
     public function withKey(string $key): RolePermission
     {
         $this->key = $key;
+
         return $this;
     }
 }

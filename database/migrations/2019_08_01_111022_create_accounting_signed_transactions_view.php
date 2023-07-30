@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountingSignedTransactionsView extends Migration
+return new class extends Migration
 {
     public function __construct()
     {
@@ -39,18 +39,18 @@ class CreateAccountingSignedTransactionsView extends Migration
 
     private function dropView(): string
     {
-        return <<<SQL
+        return <<<'SQL'
 DROP VIEW IF EXISTS `accounting_signed_transactions`;
 SQL;
     }
 
     private function createView(): string
     {
-        return <<<SQL
+        return <<<'SQL'
 CREATE VIEW `accounting_signed_transactions` AS
 SELECT date, -amount as amount, receipt_no, category, project, description, remarks from money_transactions where type = 'spending'
 union all
 SELECT date, amount, receipt_no, category, project, description, remarks from money_transactions where type = 'income'
 SQL;
     }
-}
+};

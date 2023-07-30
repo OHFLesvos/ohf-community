@@ -3,7 +3,9 @@
 namespace App\Exports\Accounting;
 
 use App\Exports\BaseExport;
+use App\Exports\PageOrientation;
 use App\Models\Accounting\Budget;
+use App\Models\Accounting\Transaction;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -20,7 +22,7 @@ class BudgetTransactionsExport extends BaseExport implements FromQuery, WithHead
         Budget $budget
     ) {
         $this->budget = $budget;
-        $this->orientation = 'landscape';
+        $this->orientation = PageOrientation::Landscape;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
@@ -51,7 +53,7 @@ class BudgetTransactionsExport extends BaseExport implements FromQuery, WithHead
     }
 
     /**
-     * @param Transaction $transaction
+     * @param  Transaction  $transaction
      */
     public function map($transaction): array
     {
@@ -78,7 +80,7 @@ class BudgetTransactionsExport extends BaseExport implements FromQuery, WithHead
     protected function applyStyles(Worksheet $sheet)
     {
         parent::applyStyles($sheet);
-        $sheet->getStyle('C2:C' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
-        $sheet->getStyle('D2:D' . $sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
+        $sheet->getStyle('C2:C'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKGREEN));
+        $sheet->getStyle('D2:D'.$sheet->getHighestRow())->getFont()->setColor(new Color(Color::COLOR_DARKRED));
     }
 }

@@ -10,20 +10,16 @@ class StoreVisitor extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
-     *
-     * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
-     *
-     * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'name' => [
@@ -39,7 +35,7 @@ class StoreVisitor extends FormRequest
             'date_of_birth' => [
                 'nullable',
                 'date',
-                'before_or_equal:today'
+                'before_or_equal:today',
             ],
             'nationality' => [
                 'nullable',

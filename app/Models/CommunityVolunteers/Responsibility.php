@@ -3,10 +3,10 @@
 namespace App\Models\CommunityVolunteers;
 
 use Cviebrock\EloquentSluggable\Sluggable;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Responsibility extends Model
 {
@@ -22,19 +22,12 @@ class Responsibility extends Model
         'available',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'available' => 'boolean',
     ];
 
     /**
      * Return the sluggable configuration array for this model.
-     *
-     * @return array
      */
     public function sluggable(): array
     {
@@ -45,17 +38,12 @@ class Responsibility extends Model
         ];
     }
 
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    public function communityVolunteers()
+    public function communityVolunteers(): BelongsToMany
     {
         return $this->belongsToMany(
             CommunityVolunteer::class,
@@ -68,32 +56,41 @@ class Responsibility extends Model
             ->withTimestamps();
     }
 
-    public function getIsCapacityExhaustedAttribute()
+    /**
+     * @return Attribute<bool,never>
+     */
+    protected function isCapacityExhausted(): Attribute
     {
-        return $this->capacity != null && $this->capacity < $this->countActive;
-    }
-
-    public function getHasAssignedAltoughNotAvailableAttribute()
-    {
-        return !$this->available && $this->countActive > 0;
-    }
-
-    public function getCountActiveAttribute()
-    {
-        return $this->communityVolunteers
-            ->filter(fn ($volunteer) => $volunteer->pivot->isInsideDateRange(now()))
-            ->count();
+        return Attribute::make(
+            get: function () {
+                return $this->capacity !== null && $this->capacity < $this->countActive;
+            },
+        );
     }
 
     /**
-     * Scope a query to only include responsibilities matching the given filter
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param string $filter
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Attribute<bool,never>
      */
-    public function scopeForFilter(Builder $query, string $filter)
+    protected function hasAssignedAlthoughNotAvailable(): Attribute
     {
-        return $query->where('name', 'LIKE', '%' . $filter . '%');
+        return Attribute::make(
+            get: function () {
+                ! $this->available && $this->countActive > 0;
+            },
+        );
+    }
+
+    /**
+     * @return Attribute<int,never>
+     */
+    protected function countActive(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                return $this->communityVolunteers
+                    ->filter(fn (CommunityVolunteer $volunteer) => $volunteer->getRelationValue('pivot')->isInsideDateRange(now()))
+                    ->count();
+            },
+        );
     }
 }

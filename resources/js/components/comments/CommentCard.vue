@@ -3,9 +3,7 @@
         class="mb-3"
         footer-class="d-flex justify-content-between align-items-center py-1"
     >
-        <b-card-text>
-            <nl2br tag="span" :text="comment.content" />
-        </b-card-text>
+        <b-card-text class="pre-formatted">{{ comment.content }}</b-card-text>
         <template v-slot:footer>
             <small>
                 <a
@@ -42,11 +40,7 @@
 </template>
 
 <script>
-import Nl2br from 'vue-nl2br'
 export default {
-    components: {
-        Nl2br,
-    },
     props: {
         comment: {
             required: true,

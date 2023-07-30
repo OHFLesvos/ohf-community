@@ -11,19 +11,40 @@
         "**/storage": true,
         "**/vue-i18n-locales.generated.js": true
     },
-    "namespaceResolver.sortNatural": true,
-    "namespaceResolver.sortAlphabetically": true,
     "files.watcherExclude": {
         "**/vendor/**": true
     },
-    "cSpell.words": [
+    "cSpell.ignoreWords": [
         "Anonymized",
+        "Cviebrock",
+        "Desloovere",
+        "Dispatchable",
+        "Dyrynda",
+        "Endroid",
+        "Ghostscript",
+        "Gumlet",
+        "Heigl",
+        "Lorisleiva",
+        "Maatwebsite",
+        "Monarobase",
+        "OTPHP",
+        "Queueable",
+        "Sluggable",
+        "Spatie",
+        "TJVB",
+        "Twint",
+        "anlutro",
+        "cmtyvol",
+        "fortawesome",
         "iban",
         "laravel",
         "mbstring",
+        "sluggable",
         "symlink",
+        "usermgmt",
         "webling",
         "xampp"
     ],
-    "git.pullTags": false
+    "git.pullTags": false,
+    "editor.formatOnSave": false
 }

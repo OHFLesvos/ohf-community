@@ -44,7 +44,7 @@
                             {{-- Success message --}}
                             @if (session('success'))
                                 <div class="snack-message">
-                                    <x-icon icon="check-square" class="pr-1"/>
+                                    <x-icon icon="square-check" class="pr-1"/>
                                     {{ session('success') }}
                                 </div>
                             @endif
@@ -75,6 +75,12 @@
                                 </x-alert>
                             @endif
 
+                            @if (session()->has('login_message'))
+                                <x-alert type="success" icon="hand-paper">
+                                    {!! session('login_message') !!}
+                                </x-alert>
+                            @endif
+
                             {{-- Content --}}
                             @yield('content')
 
@@ -101,10 +107,6 @@
             </div>
 
         </div>
-
-        <script src="{{ mix('js/manifest.js') }}"></script>
-        <script src="{{ mix('js/vendor.js') }}"></script>
-        <script src="{{ mix('js/app.js') }}"></script>
 
         {{-- Stack for additional scripts --}}
         @stack('footer')

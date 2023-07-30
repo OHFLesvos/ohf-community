@@ -20,7 +20,6 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can list responsibilities.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,8 +30,6 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can view the responsibility.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\CommunityVolunteers\Responsibility  $responsibility
      * @return mixed
      */
     public function view(User $user, Responsibility $responsibility)
@@ -43,7 +40,6 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can create responsibilities.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -54,8 +50,6 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can update the responsibility.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\CommunityVolunteers\Responsibility  $responsibility
      * @return mixed
      */
     public function update(User $user, Responsibility $responsibility)
@@ -66,8 +60,6 @@ class ResponsibilityPolicy
     /**
      * Determine whether the user can delete the responsibility.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\CommunityVolunteers\Responsibility  $responsibility
      * @return mixed
      */
     public function delete(User $user, Responsibility $responsibility)
@@ -75,6 +67,7 @@ class ResponsibilityPolicy
         if ($responsibility->communityVolunteers()->count() > 0) {
             return false;
         }
+
         return $user->isSuperAdmin() || $user->hasPermission('cmtyvol.manage');
     }
 }

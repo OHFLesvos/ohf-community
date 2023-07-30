@@ -180,12 +180,13 @@
 </template>
 
 <script>
-import formInputMixin from "@/mixins/formInputMixin";
+import formValidationMixin from "@/mixins/formValidationMixin";
 import { mapState } from "vuex";
 import { calculateAge } from "@/utils";
 import moment from "moment";
-import DateOfBirthInput from "@/components/common/DateOfBirthInput";
+import DateOfBirthInput from "@/components/common/DateOfBirthInput.vue";
 export default {
+    mixins: [formValidationMixin],
     components: {
         DateOfBirthInput,
     },
@@ -195,7 +196,6 @@ export default {
         },
         disabled: Boolean,
     },
-    mixins: [formInputMixin],
     data() {
         const search = this.$route.query.search;
         const searchType = this.detectValueType(search);

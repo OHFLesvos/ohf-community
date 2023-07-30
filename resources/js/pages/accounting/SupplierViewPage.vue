@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import TabNav from "@/components/layout/TabNav";
+import TabNav from "@/components/layout/TabNav.vue";
 import suppliersApi from "@/api/accounting/suppliers";
 export default {
     title() {

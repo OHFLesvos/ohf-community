@@ -62,7 +62,7 @@
 </template>
 
 <script>
-import BaseTable from "@/components/table/BaseTable";
+import BaseTable from "@/components/table/BaseTable.vue";
 import donationsApi from "@/api/fundraising/donations";
 export default {
     components: {

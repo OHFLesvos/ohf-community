@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TextColumsForEncInMoneyTransactions extends Migration
+return new class extends Migration
 {
     public function __construct()
     {
@@ -39,4 +39,4 @@ class TextColumsForEncInMoneyTransactions extends Migration
             $table->string('description')->change();
         });
     }
-}
+};

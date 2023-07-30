@@ -15,17 +15,22 @@ class AccountingWidget implements Widget
         return Gate::allows('view-accounting-summary');
     }
 
-    public function render()
+    public function key(): string
     {
-        return view('widgets.accounting', [
+        return 'accounting';
+    }
+
+    public function data(): array
+    {
+        return [
             'wallets' => Wallet::orderBy('name')
                 ->get()
                 ->filter(fn (Wallet $wallet) => request()->user()->can('view', $wallet))
                 ->map(fn (Wallet $wallet) => [
+                    'id' => $wallet->id,
                     'name' => $wallet->name,
-                    'url' => route('accounting.transactions.index', ['wallet' => $wallet->id]),
                     'amount_formatted' => $this->formatCurrency($wallet->amount),
                 ]),
-        ]);
+        ];
     }
 }

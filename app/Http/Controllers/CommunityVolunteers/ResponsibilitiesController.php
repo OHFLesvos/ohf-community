@@ -5,7 +5,8 @@ namespace App\Http\Controllers\CommunityVolunteers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommunityVolunteers\StoreResponsibility;
 use App\Models\CommunityVolunteers\Responsibility;
-use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ResponsibilitiesController extends Controller
 {
@@ -19,32 +20,19 @@ class ResponsibilitiesController extends Controller
         $this->authorizeResource(Responsibility::class);
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
+    public function index(): View
     {
         return view('cmtyvol.responsibilities.index', [
             'responsibilities' => Responsibility::orderBy('name')->get(),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
+    public function create(): View
     {
         return view('cmtyvol.responsibilities.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param StoreResponsibility $request
-     * @return Response
-     */
-    public function store(StoreResponsibility $request)
+    public function store(StoreResponsibility $request): RedirectResponse
     {
         $responsibility = new Responsibility();
         $responsibility->fill($request->all());
@@ -55,25 +43,14 @@ class ResponsibilitiesController extends Controller
             ->with('success', __('Responsibility added.'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param Responsibility $responsibility
-     * @return Response
-     */
-    public function edit(Responsibility $responsibility)
+    public function edit(Responsibility $responsibility): View
     {
         return view('cmtyvol.responsibilities.edit', [
             'responsibility' => $responsibility,
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param StoreResponsibility $request
-     * @param Responsibility $responsibility
-     * @return Response
-     */
-    public function update(StoreResponsibility $request, Responsibility $responsibility)
+    public function update(StoreResponsibility $request, Responsibility $responsibility): RedirectResponse
     {
         $responsibility->fill($request->all());
         $responsibility->available = $request->has('available');
@@ -83,12 +60,7 @@ class ResponsibilitiesController extends Controller
             ->with('info', __('Responsibility updated.'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param Responsibility $responsibility
-     * @return Response
-     */
-    public function destroy(Responsibility $responsibility)
+    public function destroy(Responsibility $responsibility): RedirectResponse
     {
         $responsibility->delete();
 

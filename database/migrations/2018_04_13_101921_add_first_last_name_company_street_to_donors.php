@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddFirstLastNameCompanyStreetToDonors extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -52,7 +52,7 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->string('country')->after('city')->nullable();
         });
         Donor::all()->each(function ($donor) {
-            $donor->name = $donor->first_name . ' ' . $donor->last_name;
+            $donor->name = $donor->first_name.' '.$donor->last_name;
             $donor->address = $donor->street;
             if ($donor->country_code != null) {
                 $donor->country = Countries::getList('en')[$donor->country_code] ?? null;
@@ -68,4 +68,4 @@ class AddFirstLastNameCompanyStreetToDonors extends Migration
             $table->dropColumn('language');
         });
     }
-}
+};

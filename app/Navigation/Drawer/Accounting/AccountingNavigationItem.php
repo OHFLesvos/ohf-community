@@ -19,9 +19,9 @@ class AccountingNavigationItem extends BaseNavigationItem
         return __('Accounting');
     }
 
-    protected $icon = 'money-bill-alt';
+    protected string $icon = 'money-bill-alt';
 
-    protected $active = 'accounting*';
+    protected string|array $active = 'accounting*';
 
     public function isAuthorized(): bool
     {

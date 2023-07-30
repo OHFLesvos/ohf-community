@@ -56,7 +56,15 @@ import {
     faHistory,
     faSyncAlt,
     faCopy,
-    faCalendarCheck
+    faCalendarCheck,
+    faChevronCircleRight,
+    faIdBadge,
+    faUserFriends,
+    faMinusCircle,
+    faUserTimes,
+    faSync,
+    faUnlink,
+    faUnlock
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -117,7 +125,16 @@ library.add(
     faHistory,
     faSyncAlt,
     faCopy,
-    faCalendarCheck
+    faCalendarCheck,
+    faDoorOpen,
+    faChevronCircleRight,
+    faIdBadge,
+    faUserFriends,
+    faMinusCircle,
+    faUserTimes,
+    faSync,
+    faUnlink,
+    faUnlock
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

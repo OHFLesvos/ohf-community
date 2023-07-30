@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
 
-class ChangePublicIdLengthToFiveForPersonsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class ChangePublicIdLengthToFiveForPersonsTable extends Migration
      */
     public function up()
     {
-        DB::table('persons')->update(['public_id' => DB::raw('SUBSTR(public_id, 1, ' . 10 . ')')]);
+        DB::table('persons')->update(['public_id' => DB::raw('SUBSTR(public_id, 1, '. 10 .')')]);
     }
 
     /**
@@ -23,4 +23,4 @@ class ChangePublicIdLengthToFiveForPersonsTable extends Migration
     public function down()
     {
     }
-}
+};

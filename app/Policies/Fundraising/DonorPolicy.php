@@ -20,7 +20,6 @@ class DonorPolicy
     /**
      * Determine whether the user can list donors.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,8 +30,6 @@ class DonorPolicy
     /**
      * Determine whether the user can view the donor.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Fundraising\Donor  $donor
      * @return mixed
      */
     public function view(User $user, Donor $donor)
@@ -43,7 +40,6 @@ class DonorPolicy
     /**
      * Determine whether the user can create donors.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -54,8 +50,6 @@ class DonorPolicy
     /**
      * Determine whether the user can update the donor.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Fundraising\Donor  $donor
      * @return mixed
      */
     public function update(User $user, Donor $donor)
@@ -66,8 +60,6 @@ class DonorPolicy
     /**
      * Determine whether the user can delete the donor.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Fundraising\Donor  $donor
      * @return mixed
      */
     public function delete(User $user, Donor $donor)

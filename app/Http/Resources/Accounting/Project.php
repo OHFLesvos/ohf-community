@@ -4,20 +4,23 @@ namespace App\Http\Resources\Accounting;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Accounting\Project
+ */
 class Project extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
-        $data = parent::toArray($request);
-        $data['num_transactions'] = $this->transactions()->count();
-        $data['can_update'] = $request->user()->can('update', $this->resource);
-        $data['can_delete'] = $request->user()->can('delete', $this->resource);
-        return $data;
+        return [
+            ...parent::toArray($request),
+            'num_transactions' => $this->transactions()->count(),
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
+        ];
     }
 }

@@ -11,11 +11,12 @@ class UserEditContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $user = $view->getData()['user'];
+
         return [
             'back' => [
                 'url' => route('users.show', $user),
                 'caption' => __('Cancel'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('view', $user),
             ],
         ];

@@ -9,9 +9,6 @@ class AutoColorInitialAvatar extends InitialAvatar
     /**
      * Automatically set a font and/or background color based on the supplied name.
      *
-     * @param bool $foreground
-     * @param bool $background
-     *
      * @return $this
      */
     public function autoColor(bool $foreground = true, bool $background = true, int $saturation = 85, int $luminance = 60)
@@ -79,9 +76,9 @@ class AutoColorInitialAvatar extends InitialAvatar
             }
         }
 
-        $red = round($red * 255, 0);
-        $green = round($green * 255, 0);
-        $blue = round($blue * 255, 0);
+        $red = (int) round($red * 255, 0);
+        $green = (int) round($green * 255, 0);
+        $blue = (int) round($blue * 255, 0);
 
         if ($toHex) {
             $red = ($red < 15) ? '0'.dechex($red) : dechex($red);
@@ -99,7 +96,6 @@ class AutoColorInitialAvatar extends InitialAvatar
      */
     protected function getContrastColor($hexColor)
     {
-
         // hexColor RGB
         $R1 = hexdec(substr($hexColor, 1, 2));
         $G1 = hexdec(substr($hexColor, 3, 2));

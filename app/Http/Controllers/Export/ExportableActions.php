@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers\Export;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 trait ExportableActions
 {
-    abstract protected function exportAuthorize();
-    abstract protected function exportView(): string;
+    abstract protected function exportAuthorize(): void;
+
     abstract protected function exportViewArgs(): array;
+
     abstract protected function exportValidateArgs(): array;
+
     abstract protected function exportFilename(Request $request): string;
+
     abstract protected function exportExportable(Request $request);
 
-    private static function getFormats()
+    /**
+     * @return array<string,string>
+     */
+    private static function getFormats(): array
     {
         return [
             'xlsx' => __('Excel (.xlsx)'),
@@ -24,12 +32,7 @@ trait ExportableActions
         ];
     }
 
-    /**
-     * Display a form for setting export options.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function export()
+    public function export(): JsonResponse
     {
         $this->exportAuthorize();
 
@@ -37,16 +40,15 @@ trait ExportableActions
             'formats' => self::getFormats(),
             'format' => array_keys(self::getFormats())[0],
         ];
-        return view($this->exportView(), array_merge($args, $this->exportViewArgs()));
+
+        return response()
+            ->json(array_merge($args, $this->exportViewArgs()));
     }
 
     /**
      * Prepare and download export as file.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
      */
-    public function doExport(Request $request)
+    public function doExport(Request $request): BinaryFileResponse
     {
         $this->exportAuthorize();
 
@@ -58,23 +60,20 @@ trait ExportableActions
         ];
         $request->validate(array_merge($args, $this->exportValidateArgs()));
 
-        $file_name = $this->exportFilename($request);
-        if ($request->format == 'csv') {
-            $file_ext = 'csv';
-        } elseif ($request->format == 'tsv') {
-            $file_ext = 'tsv';
-        } elseif ($request->format == 'pdf') {
-            $file_ext = 'pdf';
-        } else {
-            $file_ext = 'xlsx';
-        }
-
         $export = $this->exportExportable($request);
-        return $this->exportDownload($request, $export, $file_name, $file_ext);
+        $file_name = $this->exportFilename($request);
+        $file_ext = match ($request->format) {
+            'csv' => 'csv',
+            'tsv' => 'tsv',
+            'pdf' => 'pdf',
+            default => 'xlsx',
+        };
+
+        return $this->exportDownload($export, $file_name, $file_ext);
     }
 
-    protected function exportDownload(Request $request, $export, $file_name, $file_ext)
+    protected function exportDownload($export, string $file_name, string $file_ext): BinaryFileResponse
     {
-        return $export->download($file_name . '.' . $file_ext);
+        return $export->download($file_name.'.'.$file_ext);
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class RoleApiTest extends TestCase
@@ -25,6 +26,7 @@ class RoleApiTest extends TestCase
 
     public function testIndexWithoutAuthorization()
     {
+        /** @var User $authUser */
         $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
@@ -36,6 +38,7 @@ class RoleApiTest extends TestCase
 
     public function testIndexWithoutRecords()
     {
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -44,7 +47,7 @@ class RoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'data' => [ ],
+                'data' => [],
             ]);
     }
 
@@ -52,6 +55,7 @@ class RoleApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -64,6 +68,8 @@ class RoleApiTest extends TestCase
                     [
                         'id' => $role->id,
                         'name' => $role->name,
+                        'can_update' => false,
+                        'can_delete' => false,
                         'created_at' => $role->created_at,
                         'updated_at' => $role->updated_at,
                         'links' => [
@@ -81,7 +87,7 @@ class RoleApiTest extends TestCase
                             ],
                             'users' => [
                                 'links' => [
-                                    'related' =>route('api.roles.users.index', $role),
+                                    'related' => route('api.roles.users.index', $role),
                                     'self' => route('api.roles.relationships.users.index', $role),
                                 ],
                             ],
@@ -103,6 +109,7 @@ class RoleApiTest extends TestCase
             'name' => 'Role B',
         ]);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -164,6 +171,7 @@ class RoleApiTest extends TestCase
             'name' => 'Security Guard',
         ]);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -199,6 +207,7 @@ class RoleApiTest extends TestCase
 
     public function testStoreWithInsufficientPermissions()
     {
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -212,10 +221,11 @@ class RoleApiTest extends TestCase
 
     public function testStoreWithoutRequiredFields()
     {
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
         $response = $this->actingAs($authUser)
-            ->postJson('api/roles', [ ]);
+            ->postJson('api/roles', []);
 
         $this->assertAuthenticated();
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -228,6 +238,7 @@ class RoleApiTest extends TestCase
             'name' => $this->faker->jobTitle,
         ]);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
         $response = $this->actingAs($authUser)
@@ -246,17 +257,20 @@ class RoleApiTest extends TestCase
             'name' => $this->faker->jobTitle,
         ];
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
         $response = $this->actingAs($authUser)
             ->postJson('api/roles', $data);
+
+        $id = DB::getPdo()->lastInsertId();
 
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
                 'message' => __('Role has been added.'),
             ])
-            ->assertLocation(route('api.roles.show', 1));
+            ->assertLocation(route('api.roles.show', $id));
 
         $this->assertDatabaseHas('roles', [
             'name' => $data['name'],
@@ -267,6 +281,7 @@ class RoleApiTest extends TestCase
     {
         Config::set('Debug', false);
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
@@ -275,7 +290,7 @@ class RoleApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [' . Role::class . '] 123',
+                'message' => 'No query results for model ['.Role::class.'] 123',
             ]);
     }
 
@@ -283,10 +298,11 @@ class RoleApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/roles/' . $role->id, []);
+            ->getJson('api/roles/'.$role->id, []);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -294,6 +310,8 @@ class RoleApiTest extends TestCase
                 'data' => [
                     'id' => $role->id,
                     'name' => $role->name,
+                    'can_update' => false,
+                    'can_delete' => false,
                     'created_at' => $role->created_at,
                     'updated_at' => $role->updated_at,
                     'links' => [
@@ -311,7 +329,7 @@ class RoleApiTest extends TestCase
                         ],
                         'users' => [
                             'links' => [
-                                'related' =>route('api.roles.users.index', $role),
+                                'related' => route('api.roles.users.index', $role),
                                 'self' => route('api.roles.relationships.users.index', $role),
                             ],
                         ],
@@ -324,10 +342,11 @@ class RoleApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/roles/' . $role->id, [
+            ->putJson('api/roles/'.$role->id, [
                 'name' => $this->faker->jobTitle,
             ]);
 
@@ -339,10 +358,11 @@ class RoleApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/roles/' . $role->id, [ ]);
+            ->putJson('api/roles/'.$role->id, []);
 
         $this->assertAuthenticated();
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
@@ -353,10 +373,11 @@ class RoleApiTest extends TestCase
     {
         $roles = Role::factory()->count(2)->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/roles/' . $roles[0]->id, [
+            ->putJson('api/roles/'.$roles[0]->id, [
                 'name' => $roles[1]->name,
             ]);
 
@@ -369,10 +390,11 @@ class RoleApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/roles/' . $role->id, [
+            ->putJson('api/roles/'.$role->id, [
                 'name' => $role->name,
             ]);
 
@@ -394,10 +416,11 @@ class RoleApiTest extends TestCase
             'name' => $this->faker->jobTitle,
         ];
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
         $response = $this->actingAs($authUser)
-            ->putJson('api/roles/' . $role->id, $data);
+            ->putJson('api/roles/'.$role->id, $data);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -414,10 +437,11 @@ class RoleApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/roles/' . $role->id, [ ]);
+            ->deleteJson('api/roles/'.$role->id, []);
 
         $this->assertAuthenticated();
         $response->assertForbidden();
@@ -427,10 +451,11 @@ class RoleApiTest extends TestCase
     {
         $role = Role::factory()->create();
 
+        /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('app.usermgmt.roles.manage');
 
         $response = $this->actingAs($authUser)
-            ->deleteJson('api/roles/' . $role->id, [ ]);
+            ->deleteJson('api/roles/'.$role->id, []);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -438,8 +463,6 @@ class RoleApiTest extends TestCase
                 'message' => __('Role has been deleted.'),
             ]);
 
-        $this->assertDeleted('roles', [
-            'id' => $role->id,
-        ]);
+        $this->assertModelMissing($role);
     }
 }

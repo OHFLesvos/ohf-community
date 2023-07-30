@@ -3,6 +3,7 @@
 namespace App\Models\CommunityVolunteers;
 
 use Dyrynda\Database\Support\NullableFields;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Support\Carbon;
 
@@ -12,11 +13,6 @@ class CommunityVolunteerResponsibility extends Pivot
 
     protected $table = 'community_volunteers_responsibility';
 
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
     protected $dates = [
         'start_date',
         'end_date',
@@ -38,28 +34,52 @@ class CommunityVolunteerResponsibility extends Pivot
             && ($this->end_date == null || $date <= $this->end_date);
     }
 
-    public function getStartDateStringAttribute()
+    /**
+     * @return Attribute<?string,never>
+     */
+    protected function startDateString(): Attribute
     {
-        return $this->start_date != null ? $this->start_date->toDateString() : null;
+        return Attribute::make(
+            get: function () {
+                return $this->start_date?->toDateString();
+            },
+        );
     }
 
-    public function getEndDateStringAttribute()
+    /**
+     * @return Attribute<?string,never>
+     */
+    protected function endDateString(): Attribute
     {
-        return $this->end_date != null ? $this->end_date->toDateString() : null;
+        return Attribute::make(
+            get: function () {
+                return $this->end_date?->toDateString();
+            },
+        );
     }
 
-    public function getDateRangeStringAttribute()
+    /**
+     * @return Attribute<string,never>
+     */
+    protected function dateRangeString(): Attribute
     {
-        $date_strings = [
-            'from' => $this->start_date_string,
-            'until' => $this->end_date_string,
-        ];
-        if ($date_strings['from'] != null && $date_strings['until'] != null) {
-            return __(':from - :until', $date_strings);
-        } elseif ($date_strings['from'] != null) {
-            return __('from :from', $date_strings);
-        } else {
-            return __('until :until', $date_strings);
-        }
+        return Attribute::make(
+            get: function () {
+                $date_strings = [
+                    'from' => $this->startDateString,
+                    'until' => $this->endDateString,
+                ];
+
+                if ($date_strings['from'] != null && $date_strings['until'] != null) {
+                    return __(':from - :until', $date_strings);
+                }
+
+                if ($date_strings['from'] != null) {
+                    return __('from :from', $date_strings);
+                }
+
+                return __('until :until', $date_strings);
+            },
+        );
     }
 }

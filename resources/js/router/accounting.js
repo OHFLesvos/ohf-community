@@ -3,7 +3,7 @@ import ziggyRoute from "@/plugins/ziggy";
 
 import { can } from "@/plugins/laravel";
 
-import PageHeader from "@/components/layout/PageHeader";
+import PageHeader from "@/components/layout/PageHeader.vue";
 
 export default [
     {
@@ -12,7 +12,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/AccountingIndexPage"
+                    "@/pages/accounting/AccountingIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -29,7 +29,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/WalletsIndexPage"
+                    "@/pages/accounting/WalletsIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -63,7 +63,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/WalletCreatePage"
+                    "@/pages/accounting/WalletCreatePage.vue"
                 ),
             header: PageHeader
         },
@@ -80,7 +80,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/WalletEditPage"
+                    "@/pages/accounting/WalletEditPage.vue"
                 ),
             header: PageHeader
         },
@@ -98,7 +98,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryIndexPage"
+                    "@/pages/accounting/CategoryIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -132,7 +132,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryCreatePage"
+                    "@/pages/accounting/CategoryCreatePage.vue"
                 ),
             header: PageHeader
         },
@@ -149,7 +149,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryViewPage"
+                    "@/pages/accounting/CategoryViewPage.vue"
                 ),
             header: PageHeader
         },
@@ -167,7 +167,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/CategoryEditPage"
+                    "@/pages/accounting/CategoryEditPage.vue"
                 ),
             header: PageHeader
         },
@@ -185,7 +185,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectIndexPage"
+                    "@/pages/accounting/ProjectIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -219,7 +219,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectCreatePage"
+                    "@/pages/accounting/ProjectCreatePage.vue"
                 ),
             header: PageHeader
         },
@@ -236,7 +236,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/ProjectEditPage"
+                    "@/pages/accounting/ProjectEditPage.vue"
                 ),
             header: PageHeader
         },
@@ -254,7 +254,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/SuppliersIndexPage"
+                    "@/pages/accounting/SuppliersIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -287,7 +287,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/SupplierCreatePage"
+                    "@/pages/accounting/SupplierCreatePage.vue"
                 ),
             header: PageHeader
         },
@@ -302,7 +302,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/SupplierViewPage"
+                    "@/pages/accounting/SupplierViewPage.vue"
                 ),
             header: PageHeader
         },
@@ -337,7 +337,7 @@ export default [
                 name: "accounting.suppliers.show",
                 component: () =>
                     import(
-                        /* webpackChunkName: "accounting" */ "@/components/accounting/SupplierDetails"
+                        "@/components/accounting/SupplierDetails.vue"
                     ),
                 props: true
             },
@@ -346,7 +346,7 @@ export default [
                 name: "accounting.suppliers.show.transactions",
                 component: () =>
                     import(
-                        /* webpackChunkName: "accounting" */ "@/components/accounting/SupplierTransactions"
+                        "@/components/accounting/SupplierTransactions.vue"
                     ),
                 props: true
             }
@@ -358,7 +358,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/SupplierEditPage"
+                    "@/pages/accounting/SupplierEditPage.vue"
                 ),
             header: PageHeader
         },
@@ -375,7 +375,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/SummaryPage"
+                    "@/pages/accounting/SummaryPage.vue"
                 ),
             header: PageHeader
         },
@@ -398,7 +398,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionsHistoryPage"
+                    "@/pages/accounting/TransactionsHistoryPage.vue"
                 ),
             header: PageHeader
         },
@@ -421,7 +421,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionsControllingPage"
+                    "@/pages/accounting/TransactionsControllingPage.vue"
                 ),
             header: PageHeader
         },
@@ -444,7 +444,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionsIndexPage"
+                    "@/pages/accounting/TransactionsIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -499,7 +499,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionCreatePage"
+                    "@/pages/accounting/TransactionCreatePage.vue"
                 ),
             header: PageHeader
         },
@@ -517,7 +517,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionViewPage"
+                    "@/pages/accounting/TransactionViewPage.vue"
                 ),
             header: PageHeader
         },
@@ -535,7 +535,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/TransactionEditPage"
+                    "@/pages/accounting/TransactionEditPage.vue"
                 ),
             header: PageHeader
         },
@@ -553,7 +553,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetsIndexPage"
+                    "@/pages/accounting/BudgetsIndexPage.vue"
                 ),
             header: PageHeader
         },
@@ -587,7 +587,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetCreatePage"
+                    "@/pages/accounting/BudgetCreatePage.vue"
                 ),
             header: PageHeader
         },
@@ -604,7 +604,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetShowPage"
+                    "@/pages/accounting/BudgetShowPage.vue"
                 ),
             header: PageHeader
         },
@@ -622,7 +622,7 @@ export default [
         components: {
             default: () =>
                 import(
-                    /* webpackChunkName: "accounting" */ "@/pages/accounting/BudgetEditPage"
+                    "@/pages/accounting/BudgetEditPage.vue"
                 ),
             header: PageHeader
         },

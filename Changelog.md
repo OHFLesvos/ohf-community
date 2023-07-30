@@ -1,5 +1,12 @@
 # Changelog
 
+## NEXT
+
+* Added support for specifying email domain for Google OAuth login
+* Store avatar images locally
+* Update icon library (Font Awesome 6)
+* Fix issue with sort by country in donors table
+
 ## 3.9.0
 
 * Add parental consent checkbox to visitor records

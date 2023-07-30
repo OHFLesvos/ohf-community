@@ -6,6 +6,8 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
 class Category extends Model
@@ -29,68 +31,57 @@ class Category extends Model
         'enabled' => 'boolean',
     ];
 
-    public function transactions()
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }
 
-    public function parent()
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
-    public function children()
+    public function children(): HasMany
     {
         return $this->hasMany(Category::class, 'parent_id');
     }
 
-    public function getIsRootAttribute()
-    {
-        return $this->parent_id == null;
-    }
-
-    public function scopeIsRoot(Builder $query)
+    public function scopeIsRoot(Builder $query): Builder
     {
         return $query->whereNull('parent_id');
     }
 
-    public function scopeForParent(Builder $query, int $parentId)
+    public function scopeForParent(Builder $query, int $parentId): Builder
     {
         return $query->where('parent_id', $parentId);
     }
 
-    public function scopeForFilter($query, ?string $filter = '')
-    {
-        if (!empty($filter)) {
-            $query->where(function ($wq) use ($filter) {
-                return $wq->where('name', 'LIKE', '%' . $filter . '%')
-                    ->orWhere('description', 'LIKE', '%' . $filter . '%');
-            });
-        }
-        return $query;
-    }
-
     public function getPathElements(): Collection
     {
-        $elements = collect([$this]);
+        $elements = collect();
+        $elements->push($this);
         $elem = $this;
         while ($elem->parent != null) {
             $elements->prepend($elem->parent);
             $elem = $elem->parent;
         }
+
         return $elements;
     }
 
-    public static function getNested(?int $parent = null, int $indentation = 0, bool $enabledOnly = false): array
+    public static function getNested(int $parent = null, int $indentation = 0, bool $enabledOnly = false): array
     {
         $results = [];
         $items = self::query()
             ->select('id', 'name')
-            ->when($enabledOnly, fn($q) => $q->where('enabled', true))
+            ->when($enabledOnly, fn ($q) => $q->where('enabled', true))
             ->orderBy('name', 'asc')
-            ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
+            ->when($parent !== null,
+                fn ($q) => $q->forParent($parent),
+                fn ($q) => $q->isRoot()
+            )
             ->get();
-        foreach($items as $item) {
+        foreach ($items as $item) {
             $results[$item['id']] = [
                 'name' => $item['name'],
                 'indentation' => $indentation,
@@ -100,19 +91,24 @@ class Category extends Model
                 $results[$k] = $v;
             }
         }
+
         return $results;
     }
 
-    public static function queryByParent(?int $parent = null, ?int $exclude = null): Collection
+    public static function queryByParent(int $parent = null, int $exclude = null): Collection
     {
         return self::query()
             ->select('id', 'name', 'description', 'enabled')
             ->orderBy('name', 'asc')
             ->when($exclude !== null, fn ($q) => $q->where('id', '!=', $exclude))
-            ->when($parent !== null, fn ($q) => $q->forParent($parent), fn ($q) => $q->isRoot())
+            ->when($parent !== null,
+                fn ($q) => $q->forParent($parent),
+                fn ($q) => $q->isRoot()
+            )
             ->get()
             ->map(function ($e) use ($exclude) {
                 $e['children'] = self::queryByParent($e['id'], $exclude);
+
                 return $e;
             });
     }

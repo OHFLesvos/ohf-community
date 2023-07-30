@@ -23,7 +23,7 @@
 <script>
 import { showSnackbar } from "@/utils";
 import suppliersApi from "@/api/accounting/suppliers";
-import SupplierForm from "@/components/accounting/SupplierForm";
+import SupplierForm from "@/components/accounting/SupplierForm.vue";
 export default {
     title() {
         return this.$t("Edit supplier");

@@ -94,7 +94,9 @@
 
 <script>
 import rolesApi from '@/api/user_management/roles'
+import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
+    mixins: [formValidationMixin],
     props: {
         wallet: {
             type: Object,
@@ -118,9 +120,6 @@ export default {
         this.fetchRoles()
     },
     methods: {
-        getValidationState ({ dirty, validated, valid = null }) {
-            return dirty || validated ? valid : null;
-        },
         onSubmit () {
             this.$emit('submit', this.form)
         },

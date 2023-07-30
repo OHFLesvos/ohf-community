@@ -33,6 +33,7 @@ class CommunityVolunteersDatabaseSeeder extends Seeder
                     ->pluck('id')
                     ->mapWithKeys(function ($e) use ($faker) {
                         $start_date = $faker->dateTimeBetween('-24 months', 'now');
+
                         return [$e => [
                             'start_date' => $start_date,
                             'end_date' => $faker->optional()->dateTimeBetween($start_date, 'now'),

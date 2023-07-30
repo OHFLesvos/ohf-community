@@ -99,11 +99,11 @@
 
 <script>
 import visitorsApi from "@/api/visitors";
-import AlertWithRetry from "@/components/alerts/AlertWithRetry";
-import TablePagination from "@/components/table/TablePagination";
-import VisitorDetails from "@/components/visitors/VisitorDetails";
-import VisitorForm from "@/components/visitors/VisitorForm";
-import VisitorCheckinButton from "@/components/visitors/VisitorCheckinButton";
+import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
+import TablePagination from "@/components/table/TablePagination.vue";
+import VisitorDetails from "@/components/visitors/VisitorDetails.vue";
+import VisitorForm from "@/components/visitors/VisitorForm.vue";
+import VisitorCheckinButton from "@/components/visitors/VisitorCheckinButton.vue";
 import { showSnackbar } from "@/utils";
 import { mapState } from "vuex";
 export default {

@@ -1,5 +1,6 @@
 <?php
-return array(
+
+return [
     // which type of store to use.
     // valid options: 'json', 'database'
     'store' => 'json',
@@ -18,5 +19,5 @@ return array(
     // If you want to use custom column names in database store you could
     // set them in this configuration
     'keyColumn' => 'key',
-    'valueColumn' => 'value'
-);
+    'valueColumn' => 'value',
+];

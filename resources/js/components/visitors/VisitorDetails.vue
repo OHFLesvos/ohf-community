@@ -105,14 +105,13 @@ export default {
     },
     computed: {
         genderLabel() {
-            if (this.visitor.gender == "male") {
-                return this.$t("male");
-            }
-            if (this.visitor.gender == "female") {
-                return this.$t("female");
-            }
-            if (this.visitor.gender == "other") {
-                return this.$t("other");
+            switch (this.visitor.gender) {
+                case "male":
+                    return this.$t("male");
+                case "female":
+                    return this.$t("female");
+                case "other":
+                    return this.$t("other");
             }
             return this.visitor.gender;
         },

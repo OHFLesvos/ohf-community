@@ -6,12 +6,14 @@ use NumberFormatter;
 
 trait FormatsCurrency
 {
-    protected function formatCurrency($value) {
+    protected function formatCurrency(?float $value): ?string
+    {
         if ($value === null) {
             return null;
         }
         $currency = setting('accounting.transactions.currency');
         $fmt = new NumberFormatter(app()->getLocale(), $currency !== null ? NumberFormatter::CURRENCY : NumberFormatter::DECIMAL);
+
         return $fmt->formatCurrency($value, $currency);
     }
 }

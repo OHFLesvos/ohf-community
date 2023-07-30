@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Log;
 
 class RegisterController extends Controller
 {
@@ -67,7 +68,6 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -96,7 +96,6 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
      * @return User
      */
     protected function create(array $data)
@@ -105,8 +104,14 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'is_super_admin' => User::where('is_super_admin', true)->count() == 0,
             'locale' => \App::getLocale(),
+        ]);
+
+        Log::info('New user registered.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => request()->ip(),
         ]);
 
         event(new UserSelfRegistered($user));

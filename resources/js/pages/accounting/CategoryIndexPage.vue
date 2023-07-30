@@ -18,8 +18,8 @@
 
 <script>
 import categoriesApi from "@/api/accounting/categories";
-import NestedListGroup from "@/components/ui/NestedListGroup";
-import AlertWithRetry from "@/components/alerts/AlertWithRetry";
+import NestedListGroup from "@/components/ui/NestedListGroup.vue";
+import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
 export default {
     title() {
         return this.$t("Categories");

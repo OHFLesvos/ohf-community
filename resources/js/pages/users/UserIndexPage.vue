@@ -8,12 +8,16 @@
         :items-per-page="25"
     >
         <template v-slot:cell(avatar_url)="data">
-            <user-avatar :url="data.value" size="30" />
+            <UserAvatar
+                :value="data.item.name"
+                :src="data.item.avatar_url"
+                :badge-icon="data.item.is_super_admin ? 'shield-alt' : null"
+            />
         </template>
         <template v-slot:cell(name)="data">
-            <a :href="data.item.links.show">
+            <router-link :to="{ name: 'users.show', params: { id: data.item.id } }">
                 {{ data.value }}
-            </a>
+            </router-link>
         </template>
         <template v-slot:cell(email)="data">
             <email-link
@@ -47,9 +51,9 @@
 </template>
 
 <script>
-import BaseTable from "@/components/table/BaseTable";
-import EmailLink from "@/components/common/EmailLink";
-import UserAvatar from "@/components/UserAvatar";
+import BaseTable from "@/components/table/BaseTable.vue";
+import EmailLink from "@/components/common/EmailLink.vue";
+import UserAvatar from "@/components/user_management/UserAvatar.vue";
 import usersApi from "@/api/user_management/users";
 export default {
     title() {
@@ -76,7 +80,7 @@ export default {
                 },
                 {
                     key: "email",
-                    label: this.$t("E-Mail Address"),
+                    label: this.$t("Email address"),
                     class: "align-middle d-none d-sm-table-cell"
                 },
                 {

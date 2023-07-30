@@ -2,8 +2,8 @@
 
 namespace App\Navigation\ContextButtons\UserManagement;
 
-use App\Navigation\ContextButtons\ContextButtons;
 use App\Models\Role;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -12,6 +12,7 @@ class RoleShowContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $role = $view->getData()['role'];
+
         return [
             'action' => [
                 'url' => route('roles.edit', $role),
@@ -36,7 +37,7 @@ class RoleShowContextButtons implements ContextButtons
             'back' => [
                 'url' => route('roles.index'),
                 'caption' => __('Close'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('viewAny', Role::class),
             ],
         ];

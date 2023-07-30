@@ -13,7 +13,7 @@
 <script>
 import { showSnackbar } from '@/utils'
 import walletsApi from '@/api/accounting/wallets'
-import WalletForm from '@/components/accounting/WalletForm'
+import WalletForm from '@/components/accounting/WalletForm.vue'
 export default {
     title() {
         return this.$t("Create wallet");
@@ -30,7 +30,7 @@ export default {
         async registerWallet (formData) {
             this.isBusy = true
             try {
-                let data = await walletsApi.store(formData)
+                await walletsApi.store(formData)
                 showSnackbar(this.$t('Wallet added.'))
                 this.$router.push({ name: 'accounting.wallets.index' })
             } catch (err) {

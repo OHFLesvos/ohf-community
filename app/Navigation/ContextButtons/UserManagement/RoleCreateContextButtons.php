@@ -2,8 +2,8 @@
 
 namespace App\Navigation\ContextButtons\UserManagement;
 
-use App\Navigation\ContextButtons\ContextButtons;
 use App\Models\Role;
+use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -15,7 +15,7 @@ class RoleCreateContextButtons implements ContextButtons
             'back' => [
                 'url' => route('roles.index'),
                 'caption' => __('Cancel'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('viewAny', Role::class),
             ],
         ];

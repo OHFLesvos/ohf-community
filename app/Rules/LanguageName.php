@@ -24,6 +24,7 @@ class LanguageName implements Rule
             ->map(fn ($l) => strtolower($l))
             ->flip()
             ->get(strtolower($value));
+
         return $languageName !== null;
     }
 

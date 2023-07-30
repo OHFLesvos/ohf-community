@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import CommentsList from '@/components/comments/CommentsList'
+import CommentsList from '@/components/comments/CommentsList.vue'
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
 export default {
     components: {

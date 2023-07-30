@@ -5,18 +5,21 @@ namespace App\Http\Resources;
 use App\Http\Resources\User as UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Role
+ */
 class Role extends JsonResource
 {
     public $includeLinks = false;
+
     public $includeRelationships = false;
 
     /**
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,
@@ -25,6 +28,8 @@ class Role extends JsonResource
             'updated_at' => $this->updated_at,
             'links' => $this->links(),
             'relationships' => $this->relationships(),
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
         ];
     }
 

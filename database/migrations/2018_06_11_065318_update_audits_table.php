@@ -6,7 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateAuditsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -21,7 +21,7 @@ class UpdateAuditsTable extends Migration
 
         // Set the user_type value and keep the timestamp values.
         DB::table('audits')->update([
-            'user_type'  => User::class,
+            'user_type' => User::class,
             'created_at' => DB::raw('created_at'),
             'updated_at' => DB::raw('updated_at'),
         ]);
@@ -36,4 +36,4 @@ class UpdateAuditsTable extends Migration
     {
         // There's no turning back
     }
-}
+};

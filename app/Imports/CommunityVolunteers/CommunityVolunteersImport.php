@@ -16,19 +16,17 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
 {
     use Importable;
 
-    private $fields;
+    private bool $has_dates;
 
-    public function __construct(Collection $fields)
+    public function __construct(private Collection $fields)
     {
         HeadingRowFormatter::default('none');
 
-        $this->fields = $fields;
-
-        $this->has_dates = $this->fields->where('key', 'Starting Date')->first() != null
-            && $this->fields->where('key', 'Leaving Date')->first() != null;
+        $this->has_dates = $fields->where('key', 'Starting Date')->first() != null
+            && $fields->where('key', 'Leaving Date')->first() != null;
     }
 
-    public function collection(Collection $rows)
+    public function collection(Collection $rows): void
     {
         foreach ($rows as $row) {
             $cmtyvol = new CommunityVolunteer();
@@ -53,7 +51,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
         }
     }
 
-    private function assignImportedValues($row, CommunityVolunteer $cmtyvol, bool $assign_responsibilities = true)
+    private function assignImportedValues($row, CommunityVolunteer $cmtyvol, bool $assign_responsibilities = true): void
     {
         $responsibilities = [];
         $row->each(function ($value, $label) use ($cmtyvol, &$responsibilities) {
@@ -75,7 +73,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
                             $f['assign']($cmtyvol, $value);
                         }
                     } catch (Exception $e) {
-                        Log::warning('Cannot import community volunteer: ' . $e->getMessage());
+                        Log::warning('Cannot import community volunteer: '.$e->getMessage());
                     }
                 }
             });
@@ -83,10 +81,10 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
 
         if ($assign_responsibilities) {
             foreach ($responsibilities as $responsibility_name) {
-                $responsibility = Responsibility::updateOrCreate([ 'name' => $responsibility_name ]);
+                $responsibility = Responsibility::updateOrCreate(['name' => $responsibility_name]);
                 $from = $this->has_dates ? $row[__('Starting Date')] : null;
                 $to = $this->has_dates ? $row[__('Leaving Date')] : null;
-                if (!$cmtyvol->responsibilities()->wherePivot('start_date', $from)->wherePivot('end_date', $to)->find($responsibility) != null) {
+                if (! $cmtyvol->responsibilities()->wherePivot('start_date', $from)->wherePivot('end_date', $to)->find($responsibility) != null) {
                     $cmtyvol->responsibilities()->attach($responsibility, [
                         'start_date' => $from,
                         'end_date' => $to,
@@ -96,7 +94,7 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
         }
     }
 
-    private static function appendToField(CommunityVolunteer $cmtyvol, $get, $assign, $value)
+    private static function appendToField(CommunityVolunteer $cmtyvol, $get, $assign, $value): void
     {
         $old_value = is_callable($get) ? $get($cmtyvol) : $cmtyvol[$get];
         $assign($cmtyvol, $value);
@@ -107,11 +105,11 @@ class CommunityVolunteersImport implements ToCollection, WithHeadingRow
             if (is_array($old_value)) {
                 $assign($cmtyvol, array_merge($old_value, $new_value));
             } elseif (is_string($old_value)) {
-                $assign($cmtyvol, $old_value . ', ' . $new_value);
+                $assign($cmtyvol, $old_value.', '.$new_value);
             } elseif (is_object($old_value) && get_class($old_value) == 'Illuminate\Database\Eloquent\Collection') {
                 $assign($cmtyvol, $old_value->concat($new_value));
             } else {
-                Log::warning('Cannot append value of type: ' . gettype($old_value));
+                Log::warning('Cannot append value of type: '.gettype($old_value));
             }
         }
     }

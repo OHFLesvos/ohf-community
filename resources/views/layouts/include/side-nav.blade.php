@@ -4,8 +4,9 @@
 
         {{-- Logo --}}
         <div class="px-3 pt-3">
-            <span class="navbar-brand">
-                @isset($signet_url)<img src="{{ $signet_url }}" alt="Brand"/>@endisset {{ config('app.name') }}
+            <span class="navbar-brand text-wrap">
+                @isset($signet_url)<img src="{{ $signet_url }}" alt="Brand"/>@endisset
+                {{ config('app.name') }}
             </span>
         </div>
 
@@ -14,7 +15,7 @@
             @foreach ($nav as $n)
                 <li class="nav-item">
                     <a class="nav-link rounded-0 {{ Request::is($n->getActive()) ? 'active' : '' }}" href="{{ $n->getRoute() }}">
-                        <x-icon :icon="$n->getIcon()" class="fa-fw"/>
+                        <x-icon :icon="$n->getIcon()" fixed-width />
                         {{ $n->getCaption() }}
                     </a>
                 </li>
@@ -38,16 +39,16 @@
         <div class="px-3 mt-3">
             <form class="form-inline" action="{{ route('logout') }}" method="POST">
                 @csrf
-                <button type="submit" class="btn btn-block btn-secondary"><x-icon icon="sign-out-alt"/> {{ __('Logout') }}</button>
+                <button type="submit" class="btn btn-block btn-secondary"><x-icon icon="right-from-bracket"/> {{ __('Logout') }}</button>
             </form>
         </div>
 
         <hr>
         <p class="copyright text-muted px-3">
-            <a href="{{ config('app.product_url') }}" target="_blank" class="text-dark">{{ config('app.product_name') }}</a>
-            <a href="{{ route('changelog') }}">{{ $app_version }}</a><br>
-            @include('layouts.include.copyright')<br>
-            Page rendered in {{ round((microtime(true) - LARAVEL_START)*1000) }} ms
+            {{ config('app.name') }}<br>
+            Revision: <a href="{{ route('changelog') }}" target="_blank">{{ $app_version }}</a><br>
+            Environment: {{ app()->environment() }}<br><br>
+            @include('layouts.include.copyright')
         </p>
     </footer>
 </div>

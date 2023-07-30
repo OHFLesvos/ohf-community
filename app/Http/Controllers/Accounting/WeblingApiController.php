@@ -10,17 +10,14 @@ use App\Support\Accounting\Webling\Entities\Period;
 use App\Support\Accounting\Webling\Exceptions\ConnectionException;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\View\View;
 
 class WeblingApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index(Wallet $wallet)
+    public function index(Wallet $wallet): View
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -45,10 +42,11 @@ class WeblingApiController extends Controller
 
     private static function getMonthsForPeriod(Wallet $wallet, $from, $to): Collection
     {
+        /** @var Collection $monthsWithTransactions */
         $monthsWithTransactions = Transaction::query()
             ->forWallet($wallet)
             ->forDateRange($from, $to)
-            ->notBooked()
+            ->where('booked', false)
             ->selectRaw('MONTH(date) as month')
             ->selectRaw('YEAR(date) as year')
             ->groupByRaw('MONTH(date)')
@@ -59,22 +57,19 @@ class WeblingApiController extends Controller
 
         return $monthsWithTransactions->map(function ($e) use ($wallet) {
             $date = Carbon::createFromDate($e->year, $e->month, 1);
+
             return (object) [
-                    'transactions' => Transaction::query()
-                        ->forWallet($wallet)
-                        ->forDateRange($date, $date->clone()->endOfMonth())
-                        ->notBooked()
-                        ->count(),
-                    'date' => $date,
-                ];
+                'transactions' => Transaction::query()
+                    ->forWallet($wallet)
+                    ->forDateRange($date, $date->clone()->endOfMonth())
+                    ->where('booked', false)
+                    ->count(),
+                'date' => $date,
+            ];
         });
     }
 
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function prepare(Wallet $wallet, Request $request)
+    public function prepare(Wallet $wallet, Request $request): View
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -86,7 +81,7 @@ class WeblingApiController extends Controller
             ->forWallet($wallet)
             ->forDateRange($request->from, $request->to)
             ->forDateRange($period->from, $period->to)
-            ->notBooked()
+            ->where('booked', false)
             ->orderBy('date', 'asc')
             ->get();
         $hasTransactions = ! $transactions->isEmpty();
@@ -116,12 +111,12 @@ class WeblingApiController extends Controller
         return $accountGroups->where('type', $type)
             ->mapWithKeys(fn ($accountGroup) => [
                 $accountGroup->title => $accountGroup->accounts()
-                    ->mapWithKeys(fn ($account) => [ $account->id => $account->title ])
+                    ->mapWithKeys(fn ($account) => [$account->id => $account->title])
                     ->toArray(),
             ]);
     }
 
-    private function validateRequest($request)
+    private function validateRequest(Request $request): void
     {
         $request->validate([
             'period' => [
@@ -133,7 +128,7 @@ class WeblingApiController extends Controller
                         return $fail('Period does not exist.');
                     }
                     if ($period->state != 'open') {
-                        return $fail('Period \'' . $period->title . '\' is not open.');
+                        return $fail('Period \''.$period->title.'\' is not open.');
                     }
                 },
             ],
@@ -148,7 +143,7 @@ class WeblingApiController extends Controller
         ]);
     }
 
-    public function store(Wallet $wallet, Request $request)
+    public function store(Wallet $wallet, Request $request): RedirectResponse
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -178,8 +173,8 @@ class WeblingApiController extends Controller
                 $bookedTransactions[] = $transaction->id;
             } catch (Exception $e) {
                 return redirect()->back()
-                        ->withInput()
-                        ->with('error', $e->getMessage());
+                    ->withInput()
+                    ->with('error', $e->getMessage());
             }
         }
 
@@ -188,7 +183,7 @@ class WeblingApiController extends Controller
             ->with('info', __(':num transactions have been booked.', ['num' => count($bookedTransactions)]));
     }
 
-    private static function mapTransactionById(int $id, Request $request, Period $period)
+    private static function mapTransactionById(int $id, Request $request, Period $period): ?array
     {
         $transaction = Transaction::find($id);
         if ($transaction != null) {
@@ -223,10 +218,11 @@ class WeblingApiController extends Controller
                 ],
             ];
         }
+
         return null;
     }
 
-    public function sync(Wallet $wallet, Request $request)
+    public function sync(Wallet $wallet, Request $request): RedirectResponse
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -251,6 +247,7 @@ class WeblingApiController extends Controller
                 // ->slice(0, 3)
                 ->map(function ($entryGroup) {
                     $entryGroup->entries = $entryGroup->entries();
+
                     return $entryGroup;
                 });
 
@@ -259,7 +256,7 @@ class WeblingApiController extends Controller
                     $transaction = Transaction::query()
                         ->whereDate('date', $entryGroup->date)
                         ->forWallet($wallet)
-                        ->notBooked()
+                        ->where('booked', false)
                         ->where('receipt_no', $entry->receipt)
                         ->first();
                     if ($transaction != null) {

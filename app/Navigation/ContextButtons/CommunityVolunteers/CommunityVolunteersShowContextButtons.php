@@ -12,6 +12,7 @@ class CommunityVolunteersShowContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $cmtyvol = $view->getData()['cmtyvol'];
+
         return [
             'action' => [
                 'url' => route('cmtyvol.edit', $cmtyvol),
@@ -36,7 +37,7 @@ class CommunityVolunteersShowContextButtons implements ContextButtons
             'back' => [
                 'url' => route('cmtyvol.index'),
                 'caption' => __('Close'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('viewAny', CommunityVolunteer::class),
             ],
         ];

@@ -3,6 +3,7 @@
 namespace App\Exports\Accounting;
 
 use App\Exports\BaseExport;
+use App\Exports\PageOrientation;
 use App\Models\Accounting\Supplier;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -12,7 +13,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
 {
     public function __construct()
     {
-        $this->orientation = 'landscape';
+        $this->orientation = PageOrientation::Landscape;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
@@ -34,7 +35,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
             __('Address'),
             __('Phone'),
             __('Mobile'),
-            __('E-Mail Address'),
+            __('Email address'),
             __('Website'),
             __('Tax number'),
             __('Tax office'),
@@ -47,7 +48,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
     }
 
     /**
-     * @param Supplier $supplier
+     * @param  Supplier  $supplier
      */
     public function map($supplier): array
     {
@@ -65,7 +66,7 @@ class SuppliersExport extends BaseExport implements FromQuery, WithHeadings, Wit
             $supplier->iban,
             $supplier->transactions()->count(),
             $supplier->transactions()->where('type', 'spending')->sum('amount'),
-            $supplier->remarks
+            $supplier->remarks,
         ];
     }
 }

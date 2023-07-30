@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import AlertWithRetry from "@/components/alerts/AlertWithRetry";
+import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
 import walletsApi from "@/api/accounting/wallets";
 export default {
     title() {

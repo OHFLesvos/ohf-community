@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RemoveCaseworkFieldsFromHelpersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -25,7 +25,7 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
                     'no' => 'No',
                     'applied' => 'Applied',
                 ]);
-                $notes .= "Tax number: " .  $tax_number_states->get($helper->has_tax_number, $helper->has_tax_number) . "\n";
+                $notes .= 'Tax number: '.$tax_number_states->get($helper->has_tax_number, $helper->has_tax_number)."\n";
             }
             if (filled($helper->endorses_casework)) {
                 $value = $helper->has_tax_number ? 'Yes' : 'No';
@@ -43,7 +43,7 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
                     'subsidiary_protection' => 'Subsidiary protection',
                     'refugee_status' => 'Refugee status',
                 ]);
-                $notes .= "Asylum Request Status: " . $asylum_request_states->get($helper->casework_asylum_request_status, $helper->casework_asylum_request_status) . "\n";
+                $notes .= 'Asylum Request Status: '.$asylum_request_states->get($helper->casework_asylum_request_status, $helper->casework_asylum_request_status)."\n";
             }
             if (filled($helper->casework_has_geo_restriction)) {
                 $value = $helper->casework_has_geo_restriction ? 'Yes' : 'No';
@@ -65,7 +65,7 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
                 DB::table('helpers')
                     ->where('id', $helper->id)
                     ->update([
-                        'notes' => trim($helper->notes . "\n\n" . $notes),
+                        'notes' => trim($helper->notes."\n\n".$notes),
                     ]);
             }
         });
@@ -93,7 +93,7 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
     public function down()
     {
         Schema::table('helpers', function (Blueprint $table) {
-            $table->text('work_background')->nullable()->comment("Profession before, secret talents, ambitions");
+            $table->text('work_background')->nullable()->comment('Profession before, secret talents, ambitions');
             $table->enum('has_tax_number', ['yes', 'no', 'applied'])->nullable()->default(null)->after('work_leaving_date');
             $table->boolean('endorses_casework')->nullable();
             $table->string('casework_case_number')->nullable()->after('endorses_casework');
@@ -104,4 +104,4 @@ class RemoveCaseworkFieldsFromHelpersTable extends Migration
             $table->string('casework_vulnerability')->nullable();
         });
     }
-}
+};

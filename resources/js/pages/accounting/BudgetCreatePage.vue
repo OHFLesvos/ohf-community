@@ -13,7 +13,7 @@
 <script>
 import { showSnackbar } from '@/utils'
 import budgetsApi from "@/api/accounting/budgets";
-import BudgetForm from "@/components/accounting/BudgetForm";
+import BudgetForm from "@/components/accounting/BudgetForm.vue";
 export default {
     title() {
         return this.$t("Create budget");

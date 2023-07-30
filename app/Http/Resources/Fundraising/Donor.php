@@ -7,49 +7,23 @@ use App\Models\Fundraising\Donation;
 use App\Models\Tag;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin \App\Models\Fundraising\Donor
+ *
+ * @property int $donations_count
+ * @property int $budgets_count
+ */
 class Donor extends JsonResource
 {
-    private ?bool $extended;
-
-    public function __construct($resource, ?bool $extended = false)
-    {
-        parent::__construct($resource);
-
-        $this->extended = $extended;
-    }
-
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request
-     * @return array
+     * @param  \Illuminate\Http\Request  $request
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
-        if ($this->extended) {
-            $can_view_donations = $request->user()->can('viewAny', Donation::class);
-            $can_view_budgets = $request->user()->can('viewAny', Budget::class);
-            return [
-                'id' => $this->id,
-                'salutation' => $this->salutation,
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name,
-                'company' => $this->company,
-                'full_name' => $this->fullName,
-                'fullAddress' => $this->fullAddress,
-                'email' => $this->email,
-                'phone' => $this->phone,
-                'language' => $this->language,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at,
-                'can_create_tag' => $request->user()->can('create', Tag::class),
-                'can_view_donations' => $can_view_donations,
-                'donations_count' => $can_view_donations ? $this->donations()->count() : null,
-                'can_view_budgets' => $can_view_budgets,
-                'budgets_count' => $can_view_budgets ? $this->budgets()->count() : null,
-                'comments_count' => $this->comments()->count(),
-            ];
-        }
+        $can_view_donations = $request->user()->can('viewAny', Donation::class);
+        $can_view_budgets = $request->user()->can('viewAny', Budget::class);
 
         return [
             'id' => $this->id,
@@ -57,18 +31,25 @@ class Donor extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'company' => $this->company,
-            'full_name' => $this->fullName,
+            'full_name' => $this->full_name,
             'street' => $this->street,
             'zip' => $this->zip,
             'city' => $this->city,
             'country_name' => $this->country_name,
+            'full_address' => $this->full_address,
             'email' => $this->email,
             'phone' => $this->phone,
             'language' => $this->language,
-            'can_update' => $request->user()->can('update', $this->resource),
-            'can_delete' => $request->user()->can('delete', $this->resource),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
+            'can_create_tag' => $request->user()->can('create', Tag::class),
+            'can_view_donations' => $can_view_donations,
+            'donations_count' => $this->when($can_view_donations, $this->donations_count),
+            'can_view_budgets' => $can_view_budgets,
+            'budgets_count' => $this->when($can_view_budgets, $this->budgets_count),
+            'comments_count' => $this->comments()->count(),
         ];
     }
 }

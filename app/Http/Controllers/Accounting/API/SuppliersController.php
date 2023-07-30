@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Accounting\API;
 use App\Exports\Accounting\SuppliersExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Accounting\StoreSupplier;
-use App\Models\Accounting\Supplier;
-use App\Models\Accounting\Transaction;
 use App\Http\Resources\Accounting\Supplier as SupplierResource;
 use App\Http\Resources\Accounting\Transaction as TransactionResource;
+use App\Models\Accounting\Supplier;
+use App\Models\Accounting\Transaction;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class SuppliersController extends Controller
@@ -60,9 +62,22 @@ class SuppliersController extends Controller
         $filter = trim($request->input('filter', ''));
 
         return SupplierResource::collection(Supplier::query()
-            ->when($filter != '', fn ($q) => $q->forFilter($filter))
+            ->when(filled($filter), fn (Builder $query) => $this->filterQuery($query, $filter))
             ->orderBy($sortBy, $sortDirection)
             ->paginate($pageSize));
+    }
+
+    private function filterQuery(Builder $query, string $filter): Builder
+    {
+        return $query->where(fn (Builder $wq) => $wq
+            ->where('name', 'LIKE', '%'.$filter.'%')
+            ->orWhere('category', 'LIKE', '%'.$filter.'%')
+            ->orWhere('remarks', 'LIKE', '%'.$filter.'%')
+            ->orWhere('tax_number', $filter)
+            ->orWhere(DB::raw('REPLACE(phone, \' \', \'\')'), str_replace(' ', '', $filter))
+            ->orWhere(DB::raw('REPLACE(mobile, \' \', \'\')'), str_replace(' ', '', $filter))
+            ->orWhere(DB::raw('REPLACE(iban, \' \', \'\')'), str_replace(' ', '', $filter))
+        );
     }
 
     public function store(StoreSupplier $request)
@@ -144,9 +159,10 @@ class SuppliersController extends Controller
     {
         $this->authorize('viewAny', Supplier::class);
 
-        $file_name = __('Suppliers') . ' - ' . now()->toDateString();
+        $file_name = __('Suppliers').' - '.now()->toDateString();
         $extension = 'xlsx';
-        return (new SuppliersExport())->download($file_name . '.' . $extension);
+
+        return (new SuppliersExport())->download($file_name.'.'.$extension);
     }
 
     public function names()

@@ -3,15 +3,18 @@
 namespace App\Http\Controllers\UserManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserManagement\StoreUser;
-use App\Http\Requests\UserManagement\UpdateUser;
+use App\Http\Requests\UserManagement\StoreUpdateUser;
 use App\Models\Role;
 use App\Models\User;
 use App\Util\AutoColorInitialAvatar;
 use App\View\Components\UserAvatar;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
+use Storage;
 
 class UserController extends Controller
 {
@@ -20,80 +23,44 @@ class UserController extends Controller
         $this->authorizeResource(User::class);
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         return view('user_management.users.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function create(): View
     {
         return view('user_management.users.create', [
             'roles' => Role::orderBy('name')->get(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\UserManagement\StoreUser  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreUser $request)
+    public function store(StoreUpdateUser $request): RedirectResponse
     {
         $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $user->fill($request->validated());
         $user->password = Hash::make($request->password);
-        $user->is_super_admin = ! empty($request->is_super_admin);
         $user->save();
         $user->roles()->sync($request->roles);
+
+        Log::info('User account has been created.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => $request->ip(),
+        ]);
 
         return redirect()
             ->route('users.index')
             ->with('success', __('User has been added.'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function show(User $user): View
     {
-        $current_permissions = $user->permissions();
-        $permissions = [];
-        foreach (getCategorizedPermissions() as $title => $elements) {
-            foreach ($elements as $key => $label) {
-                if ($current_permissions->contains($key)) {
-                    $permissions[$title][] = $label;
-                }
-            }
-        }
-
-        return view('user_management.users.show', [
-            'user' => $user,
-            'permissions' => $permissions,
-        ]);
+        return view('vue-app');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
+    public function edit(User $user): View
     {
         return view('user_management.users.edit', [
             'user' => $user,
@@ -101,50 +68,50 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UserManagement\UpdateUser  $request
-     * @param  User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateUser $request, User $user)
+    public function update(StoreUpdateUser $request, User $user): RedirectResponse
     {
-        $user->name = $request->name;
-        if (empty($user->provider_name)) {
-            $user->email = $request->email;
-        }
-        if ($request->password !== null) {
+        $user->fill($request->validated());
+        if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
         $user->is_super_admin = ! empty($request->is_super_admin) || User::count() == 1;
         $user->roles()->sync($request->roles);
 
         $user->save();
+
+        Log::info('User account has been updated.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => $request->ip(),
+        ]);
+
         return redirect()
             ->route('users.show', $user)
             ->with('success', __('User has been updated.'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user): RedirectResponse
     {
+        if ($user->avatar !== null && Storage::exists($user->avatar)) {
+            Storage::delete($user->avatar);
+        }
+
         $user->delete();
+
+        Log::info('User account has been deleted.', [
+            'user_id' => $user->id,
+            'user_name' => $user->name,
+            'email' => $user->email,
+            'client_ip' => $request->ip(),
+        ]);
 
         return redirect()
             ->route('users.index')
             ->with('success', __('User has been deleted.'));
     }
 
-    /**
-     * Lists all permissions
-     */
-    public function permissions()
+    public function permissions(): View
     {
         $this->authorize('viewAny', User::class);
 
@@ -153,53 +120,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function disable2FA(User $user)
-    {
-        $this->authorize('update', User::class);
-
-        $user->tfa_secret = null;
-        $user->save();
-
-        return redirect()
-            ->route('users.show', $user)
-            ->with('success', __('Two-Factor Authentication disabled'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function disableOAuth(User $user)
-    {
-        $this->authorize('update', User::class);
-
-        $user->provider_name = null;
-        $user->provider_id = null;
-        $user->avatar = null;
-        $password = Str::random(8);
-        $user->password = Hash::make($password);
-        $user->save();
-
-        return redirect()
-            ->route('users.show', $user)
-            ->with('success', __('OAuth-Login disabled. A new random password has been set.'));
-    }
-
-    /**
-     * Display the avatar of the user.
-     *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function avatar(User $user, Request $request)
+    public function avatar(User $user, Request $request): Response
     {
         $request->validate([
             'size' => [
@@ -211,6 +132,7 @@ class UserController extends Controller
         ]);
 
         $avatar = new AutoColorInitialAvatar();
+
         return $avatar->name($user->name)
             ->size($request->input('size', UserAvatar::DEFAULT_SIZE))
             ->autoColor()

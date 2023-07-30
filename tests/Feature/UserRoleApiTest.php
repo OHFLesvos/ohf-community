@@ -16,7 +16,7 @@ class UserRoleApiTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->getJson('api/users/' . $user->id . '/roles', []);
+        $response = $this->getJson('api/users/'.$user->id.'/roles', []);
 
         $this->assertGuest();
         $response->assertUnauthorized();
@@ -26,10 +26,11 @@ class UserRoleApiTest extends TestCase
     {
         $user = User::factory()->create();
 
+        /** @var User $authUser */
         $authUser = User::factory()->make();
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/roles', []);
+            ->getJson('api/users/'.$user->id.'/roles', []);
 
         $this->assertAuthenticated();
         $response->assertForbidden();
@@ -41,13 +42,14 @@ class UserRoleApiTest extends TestCase
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
+        /** @var User $authUser */
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . 1234 . '/roles', []);
+            ->getJson('api/users/'. 1234 .'/roles', []);
 
         $this->assertAuthenticated();
         $response->assertNotFound()
             ->assertExactJson([
-                'message' => 'No query results for model [' . User::class . '] 1234',
+                'message' => 'No query results for model ['.User::class.'] 1234',
             ]);
     }
 
@@ -57,13 +59,14 @@ class UserRoleApiTest extends TestCase
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
+        /** @var User $authUser */
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/roles', []);
+            ->getJson('api/users/'.$user->id.'/roles', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'data' => [ ],
+                'data' => [],
             ]);
     }
 
@@ -80,8 +83,9 @@ class UserRoleApiTest extends TestCase
 
         $authUser = $this->makeUserWithPermission('app.usermgmt.view');
 
+        /** @var User $authUser */
         $response = $this->actingAs($authUser)
-            ->getJson('api/users/' . $user->id . '/roles', []);
+            ->getJson('api/users/'.$user->id.'/roles', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
@@ -90,6 +94,8 @@ class UserRoleApiTest extends TestCase
                     [
                         'id' => $role1->id,
                         'name' => $role1->name,
+                        'can_update' => false,
+                        'can_delete' => false,
                         'created_at' => $role1->created_at,
                         'updated_at' => $role1->updated_at,
                         'links' => [
@@ -107,7 +113,7 @@ class UserRoleApiTest extends TestCase
                             ],
                             'users' => [
                                 'links' => [
-                                    'related' =>route('api.roles.users.index', $role1),
+                                    'related' => route('api.roles.users.index', $role1),
                                     'self' => route('api.roles.relationships.users.index', $role1),
                                 ],
                             ],
@@ -116,6 +122,8 @@ class UserRoleApiTest extends TestCase
                     [
                         'id' => $role2->id,
                         'name' => $role2->name,
+                        'can_update' => false,
+                        'can_delete' => false,
                         'created_at' => $role2->created_at,
                         'updated_at' => $role2->updated_at,
                         'links' => [
@@ -133,12 +141,12 @@ class UserRoleApiTest extends TestCase
                             ],
                             'users' => [
                                 'links' => [
-                                    'related' =>route('api.roles.users.index', $role2),
+                                    'related' => route('api.roles.users.index', $role2),
                                     'self' => route('api.roles.relationships.users.index', $role2),
                                 ],
                             ],
                         ],
-                    ]
+                    ],
                 ],
             ]);
     }

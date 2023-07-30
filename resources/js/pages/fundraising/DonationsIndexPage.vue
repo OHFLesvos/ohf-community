@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import DonationsTable from '@/components/fundraising/DonationsTable'
+import DonationsTable from '@/components/fundraising/DonationsTable.vue'
 export default {
     title() {
         return this.$t("Donations");

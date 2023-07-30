@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Gate;
 
 class BadgesNavigationItem extends BaseNavigationItem
 {
-    protected $route = 'badges.index';
+    protected string $route = 'badges.index';
 
     public function getCaption(): string
     {
         return __('Badges');
     }
 
-    protected $icon = 'id-card';
+    protected string $icon = 'id-card';
 
-    protected $active = 'badges*';
+    protected string|array $active = 'badges*';
 
     public function isAuthorized(): bool
     {

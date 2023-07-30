@@ -12,6 +12,7 @@ class ResponsibilitiesEditContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         $responsibility = $view->getData()['responsibility'];
+
         return [
             'delete' => [
                 'url' => route('cmtyvol.responsibilities.destroy', $responsibility),
@@ -23,7 +24,7 @@ class ResponsibilitiesEditContextButtons implements ContextButtons
             'back' => [
                 'url' => route('cmtyvol.responsibilities.index'),
                 'caption' => __('Cancel'),
-                'icon' => 'times-circle',
+                'icon' => 'circle-xmark',
                 'authorized' => Auth::user()->can('viewAny', Responsibility::class),
             ],
         ];

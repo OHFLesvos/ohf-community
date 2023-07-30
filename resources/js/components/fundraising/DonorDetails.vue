@@ -25,15 +25,15 @@
         </two-col-list-group-item>
 
         <two-col-list-group-item
-            v-if="donor.fullAddress"
+            v-if="donor.full_address"
             :title="$t('Address')"
         >
-            <span style="white-space: pre;">{{ donor.fullAddress }}</span>
+            <span style="white-space: pre;">{{ donor.full_address }}</span>
         </two-col-list-group-item>
 
         <two-col-list-group-item
             v-if="donor.email"
-            :title="$t('E-Mail Address')"
+            :title="$t('Email address')"
         >
             <email-link :value="donor.email" />
         </two-col-list-group-item>
@@ -86,10 +86,10 @@
 
 <script>
 import donorsApi from '@/api/fundraising/donors'
-import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem'
-import PhoneLink from '@/components/common/PhoneLink'
-import EmailLink from '@/components/common/EmailLink'
-import TagManager from '@/components/tags/TagManager'
+import TwoColListGroupItem from '@/components/ui/TwoColListGroupItem.vue'
+import PhoneLink from '@/components/common/PhoneLink.vue'
+import EmailLink from '@/components/common/EmailLink.vue'
+import TagManager from '@/components/tags/TagManager.vue'
 export default {
     components: {
         TwoColListGroupItem,
@@ -118,7 +118,7 @@ export default {
     methods: {
         async fetchData () {
             try {
-                let data = await donorsApi.find(this.id, true)
+                let data = await donorsApi.find(this.id)
                 this.donor = data.data
             } catch (err) {
                 alert(err)

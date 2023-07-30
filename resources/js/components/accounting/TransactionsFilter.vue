@@ -323,7 +323,7 @@ export default {
         cleanObject(value) {
             return Object.fromEntries(
                 Object.entries(value).filter(
-                    ([_, v]) => !(v == null || v === false || v == "")
+                    ([, v]) => !(v == null || v === false || v == "")
                 )
             );
         },

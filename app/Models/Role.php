@@ -4,24 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Role extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
     ];
 
-    /**
-     * The users that belong to the role.
-     */
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
             ->withTimestamps();
@@ -34,10 +28,7 @@ class Role extends Model
             ->exists();
     }
 
-    /**
-     * The users that belong to the role.
-     */
-    public function administrators()
+    public function administrators(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'role_admin')
             ->withTimestamps();
@@ -50,27 +41,8 @@ class Role extends Model
             ->exists();
     }
 
-    /**
-     * The users that belong to the role.
-     */
-    public function permissions()
+    public function permissions(): HasMany
     {
         return $this->hasMany(RolePermission::class);
-    }
-
-    /**
-     * Scope a query to only include records matching the filter.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string|null  $filter
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeFiltered($query, ?string $filter = '')
-    {
-        $value = trim($filter);
-        if ($value == '') {
-            return $query;
-        }
-        return $query->where('name', 'LIKE', '%' . $value . '%');
     }
 }

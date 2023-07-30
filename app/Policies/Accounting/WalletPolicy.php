@@ -20,7 +20,6 @@ class WalletPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function viewAny(User $user)
@@ -31,8 +30,6 @@ class WalletPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Accounting\Wallet  $wallet
      * @return mixed
      */
     public function view(User $user, Wallet $wallet)
@@ -46,13 +43,13 @@ class WalletPolicy
                     ->whereIn('roles.id', $wallet->roles->pluck('id'))
                     ->exists();
         }
+
         return false;
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
      * @return mixed
      */
     public function create(User $user)
@@ -63,8 +60,6 @@ class WalletPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Accounting\Wallet  $wallet
      * @return mixed
      */
     public function update(User $user, Wallet $wallet)
@@ -75,8 +70,6 @@ class WalletPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Accounting\Wallet  $wallet
      * @return mixed
      */
     public function delete(User $user, Wallet $wallet)
@@ -84,6 +77,7 @@ class WalletPolicy
         if ($user->isSuperAdmin() || $user->hasPermission('accounting.configure')) {
             return Wallet::count() > 1;
         }
+
         return false;
     }
 }

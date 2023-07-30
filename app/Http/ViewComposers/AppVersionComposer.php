@@ -3,26 +3,19 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
+use TJVB\LaravelGitHash\Contracts\GitHashLoader;
 
 class AppVersionComposer
 {
-    /**
-     * Create the composer.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function __construct(private GitHashLoader $gitHashLoader)
     {
     }
 
     /**
      * Bind data to the view.
-     *
-     * @param  View  $view
-     * @return void
      */
-    public function compose(View $view)
+    public function compose(View $view): void
     {
-        $view->with('app_version', config('app.version'));
+        $view->with('app_version', $this->gitHashLoader->getGitHash()->short());
     }
 }

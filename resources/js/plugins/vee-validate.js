@@ -20,7 +20,7 @@ localize({
 });
 localize(i18n.locale);
 
-const IBAN = require("iban");
+import IBAN from "iban"
 extend("iban", (value) => {
     if (IBAN.isValid(value)) {
         return true;

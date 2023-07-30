@@ -8,24 +8,22 @@ use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\Fundraising\StoreDonor;
 use App\Http\Resources\Accounting\Budget as BudgetResource;
 use App\Http\Resources\Fundraising\Donor as DonorResource;
-use App\Http\Resources\Fundraising\DonorCollection;
 use App\Models\Accounting\Budget;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use JeroenDesloovere\VCard\VCard;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DonorController extends Controller
 {
     use ValidatesResourceIndex;
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public function index(Request $request): JsonResource
     {
         $this->authorize('viewAny', Donor::class);
 
@@ -52,7 +50,7 @@ class DonorController extends Controller
                     'last_name',
                     'company',
                     'city',
-                    'country',
+                    'country_name',
                     'language',
                     'created_at',
                 ]),
@@ -77,7 +75,7 @@ class DonorController extends Controller
         $filter = trim($request->input('filter', ''));
         $tags = $request->input('tags', []);
 
-        if ($sortBy == 'country') {
+        if ($sortBy == 'country_name') {
             $sortMethod = $sortDirection == 'desc' ? 'sortByDesc' : 'sortBy';
             $donors = Donor::query()
                 ->withAllTags($tags)
@@ -100,16 +98,11 @@ class DonorController extends Controller
                 ->orderBy($sortBy, $sortDirection)
                 ->paginate($pageSize);
         }
-        return new DonorCollection($donors);
+
+        return DonorResource::collection($donors);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\Fundraising\StoreDonor  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreDonor $request)
+    public function store(StoreDonor $request): JsonResponse
     {
         $this->authorize('create', Donor::class);
 
@@ -118,79 +111,53 @@ class DonorController extends Controller
 
         $donor->save();
 
-        return response()->json([
-            'message' => __('Donor added'),
-            'id' => $donor->id,
-        ]);
+        return response()
+            ->json([
+                'message' => __('Donor added'),
+                'id' => $donor->id,
+            ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Donor $donor, Request $request)
+    public function show(Donor $donor): JsonResource
     {
         $this->authorize('view', $donor);
 
-        return new DonorResource($donor, $request->has('extended'));
+        return new DonorResource($donor->loadCount('donations')->loadCount('budgets'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\Fundraising\StoreDonor  $request
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
-    public function update(StoreDonor $request, Donor $donor)
+    public function update(StoreDonor $request, Donor $donor): JsonResponse
     {
         $this->authorize('update', $donor);
 
         $donor->fill($request->all());
         $donor->save();
 
-        return response()->json([
-            'message' => __('Donor updated'),
-        ]);
+        return response()
+            ->json([
+                'message' => __('Donor updated'),
+            ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Donor $donor)
+    public function destroy(Donor $donor): JsonResponse
     {
         $this->authorize('delete', $donor);
 
         $donor->delete();
 
-        return response()->json([
-            'message' => __('Donor deleted'),
-        ]);
+        return response()
+            ->json([
+                'message' => __('Donor deleted'),
+            ]);
     }
 
-    /**
-     * Gets all salutations assigned to donors
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function salutations()
+    public function salutations(): JsonResponse
     {
-        return response()->json([
-            'data' => Donor::salutations(),
-        ]);
+        return response()
+            ->json([
+                'data' => Donor::salutations(),
+            ]);
     }
 
-    /**
-     * Download vcard
-     *
-     * @param  \App\Models\Fundraising\Donor  $donor
-     * @return \Illuminate\Http\Response
-     */
     public function vcard(Donor $donor)
     {
         $this->authorize('view', $donor);
@@ -209,18 +176,19 @@ class DonorController extends Controller
         if ($donor->phone != null) {
             $vcard->addPhoneNumber($donor->phone, $donor->company != null ? 'WORK' : 'HOME');
         }
-        $vcard->addAddress(null, null, $donor->street, $donor->city, null, $donor->zip, $donor->country_name, ($donor->company != null ? 'WORK' : 'HOME') . ';POSTAL');
+        $vcard->addAddress(
+            street: $donor->street,
+            city: $donor->city,
+            zip: $donor->zip,
+            country: $donor->country_name,
+            type: ($donor->company != null ? 'WORK' : 'HOME').';POSTAL',
+        );
 
         // return vcard as a download
         return $vcard->download();
     }
 
-    /**
-     * Exports a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function export()
+    public function export(): BinaryFileResponse
     {
         $this->authorize('viewAny', Donor::class);
 
@@ -237,7 +205,7 @@ class DonorController extends Controller
         return (new DonorsExport())->download($file_name);
     }
 
-    public function budgets(Donor $donor)
+    public function budgets(Donor $donor): JsonResource
     {
         $this->authorize('view', $donor);
         $this->authorize('viewAny', Budget::class);
@@ -249,17 +217,18 @@ class DonorController extends Controller
         return BudgetResource::collection($data);
     }
 
-    public function names()
+    public function names(): Collection
     {
         $this->authorize('viewAny', Donor::class);
 
-        return Donor::orderBy('first_name')
+        return Donor::query()
+            ->orderBy('first_name')
             ->orderBy('last_name')
             ->orderBy('company')
             ->get()
-            ->map(fn ($donor) => [
+            ->map(fn (Donor $donor) => [
                 'id' => $donor->id,
-                'name' => $donor->fullName,
+                'name' => $donor->full_name,
             ]);
     }
 }

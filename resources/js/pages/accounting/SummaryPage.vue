@@ -176,8 +176,8 @@ import summaryApi from "@/api/accounting/summary";
 import walletsApi from "@/api/accounting/wallets";
 import transactionsApi from "@/api/accounting/transactions";
 import projectsApi from "@/api/accounting/projects";
-import AlertWithRetry from "@/components/alerts/AlertWithRetry";
-import SummaryList from "@/components/accounting/SummaryList";
+import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
+import SummaryList from "@/components/accounting/SummaryList.vue";
 export default {
     title() {
         return this.$t("Summary");
@@ -361,19 +361,19 @@ export default {
         }
     },
     watch: {
-        month(val) {
+        month() {
             this.fetchData();
         },
-        year(val) {
+        year() {
             this.fetchData();
         },
-        wallet(val) {
+        wallet() {
             this.fetchData();
         },
-        project(val) {
+        project() {
             this.fetchData();
         },
-        location(val) {
+        location() {
             this.fetchData();
         }
     },

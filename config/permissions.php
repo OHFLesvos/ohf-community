@@ -3,85 +3,79 @@
 return [
     'keys' => [
         'app.usermgmt.view' => [
-            'label' => 'auth.permissions.view_usermgmt',
+            'label' => 'permissions.view_usermgmt',
         ],
         'app.usermgmt.users.manage' => [
-            'label' => 'auth.permissions.usermgmt_manage_users',
+            'label' => 'permissions.usermgmt_manage_users',
         ],
         'app.usermgmt.roles.manage' => [
-            'label' => 'auth.permissions.usermgmt_manage_roles',
+            'label' => 'permissions.usermgmt_manage_roles',
         ],
         'app.settings.common.configure' => [
-            'label' => 'auth.permissions.configure_common_settings',
+            'label' => 'permissions.configure_common_settings',
         ],
         'badges.create' => [
-            'label' => 'auth.permissions.create_badges',
+            'label' => 'permissions.create_badges',
         ],
         'fundraising.donors_donations.view' => [
-            'label' => 'auth.permissions.view_fundraising_donors_donations',
+            'label' => 'permissions.view_fundraising_donors_donations',
         ],
         'fundraising.donors_donations.manage' => [
-            'label' => 'auth.permissions.manage_fundraising_donors_donations',
+            'label' => 'permissions.manage_fundraising_donors_donations',
         ],
         'fundraising.reports.view' => [
-            'label' => 'auth.permissions.view_fundraising_reports',
+            'label' => 'permissions.view_fundraising_reports',
         ],
         'fundraising.donations.accept_webhooks' => [
-            'label' => 'auth.permissions.accept_fundraising_donations_webhooks',
+            'label' => 'permissions.accept_fundraising_donations_webhooks',
         ],
         'accounting.transactions.view' => [
-            'label' => 'auth.permissions.view_transactions',
+            'label' => 'permissions.view_transactions',
         ],
         'accounting.transactions.create' => [
-            'label' => 'auth.permissions.create_transactions',
+            'label' => 'permissions.create_transactions',
         ],
         'accounting.transactions.update' => [
-            'label' => 'auth.permissions.update_transactions',
+            'label' => 'permissions.update_transactions',
         ],
         'accounting.transactions.update_metadata' => [
-            'label' => 'auth.permissions.update_transaction_metadata',
+            'label' => 'permissions.update_transaction_metadata',
         ],
         'accounting.transactions.delete' => [
-            'label' => 'auth.permissions.delete_transactions',
+            'label' => 'permissions.delete_transactions',
         ],
         'accounting.transactions.book_externally' => [
-            'label' => 'auth.permissions.book_externally',
+            'label' => 'permissions.book_externally',
         ],
         'accounting.summary.view' => [
-            'label' => 'auth.permissions.view_summary',
+            'label' => 'permissions.view_summary',
         ],
         'accounting.suppliers.manage' => [
-            'label' => 'auth.permissions.manage_suppliers',
+            'label' => 'permissions.manage_suppliers',
         ],
         'accounting.budgets.view' => [
-            'label' => 'auth.permissions.view_budgets',
+            'label' => 'permissions.view_budgets',
         ],
         'accounting.budgets.manage' => [
-            'label' => 'auth.permissions.manage_budgets',
+            'label' => 'permissions.manage_budgets',
         ],
         'accounting.configure' => [
-            'label' => 'auth.permissions.configure_accounting',
-        ],
-        'wiki.view' => [
-            'label' => 'auth.permissions.view_wiki',
-        ],
-        'wiki.edit' => [
-            'label' => 'auth.permissions.edit_wiki',
-        ],
-        'wiki.delete' => [
-            'label' => 'auth.permissions.delete_wiki',
+            'label' => 'permissions.configure_accounting',
         ],
         'cmtyvol.view' => [
-            'label' => 'auth.permissions.view_community_volunteers',
+            'label' => 'permissions.view_community_volunteers',
         ],
         'cmtyvol.manage' => [
-            'label' => 'auth.permissions.manage_community_volunteers',
+            'label' => 'permissions.manage_community_volunteers',
         ],
         'visitors.register' => [
-            'label' => 'auth.permissions.register_visitors',
+            'label' => 'permissions.register_visitors',
+        ],
+        'visitors.reports' => [
+            'label' => 'permissions.view_visitors_reports',
         ],
         'visitors.export' => [
-            'label' => 'auth.permissions.export_visitors',
+            'label' => 'permissions.export_visitors',
         ],
     ],
     'gate_mapping' => [
@@ -90,16 +84,18 @@ return [
             'cmtyvol.manage',
             'visitors.register',
             'fundraising.reports.view',
+            'visitors.reports',
         ],
         'configure-common-settings' => 'app.settings.commonbr.configure',
-        'create-badges'=> 'badges.create',
+        'create-badges' => 'badges.create',
         'view-fundraising' => [
             'fundraising.donors_donations.view',
             'fundraising.reports.view',
         ],
         'view-fundraising-entities' => 'fundraising.donors_donations.view',
         'manage-fundraising-entities' => 'fundraising.donors_donations.manage',
-        'view-fundraising-reports'=> 'fundraising.reports.view',
+        'view-fundraising-reports' => 'fundraising.reports.view',
+        'view-visitors-reports' => 'visitors.reports',
         'accept-fundraising-webhooks' => 'fundraising.donations.accept_webhooks',
         'view-accounting-summary' => 'accounting.summary.view',
         'book-accounting-transactions-externally' => 'accounting.transactions.book_externally',

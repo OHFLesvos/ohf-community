@@ -197,13 +197,13 @@
                 <!-- E-Mail -->
                 <b-col md>
                     <validation-provider
-                        :name="$t('E-Mail Address')"
+                        :name="$t('Email address')"
                         vid="email"
                         :rules="{ email: true }"
                         v-slot="validationContext"
                     >
                         <b-form-group
-                            :label="$t('E-Mail Address')"
+                            :label="$t('Email address')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
                         >
@@ -306,7 +306,9 @@
 <script>
 import commonApi from '@/api/common'
 import donorsApi from '@/api/fundraising/donors'
+import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
+    mixins: [formValidationMixin],
     props: {
         donor: {
             type: Object,
@@ -363,9 +365,6 @@ export default {
         async fetchLanguages () {
             let data = await commonApi.listLanguages()
             this.languages = Object.values(data)
-        },
-        getValidationState ({ dirty, validated, valid = null }) {
-            return dirty || validated ? valid : null;
         },
         onSubmit () {
             this.$emit('submit', this.form)

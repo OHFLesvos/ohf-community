@@ -7,10 +7,10 @@ use Exception;
 
 trait RegistersNavigationItems
 {
-    protected function registerNavigationItems()
+    protected function registerNavigationItems(): void
     {
         if (! isset($this->navigationItems)) {
-            throw new Exception('$navigationItems not defined in ' . __CLASS__);
+            throw new Exception('$navigationItems not defined in '.__CLASS__);
         }
 
         $position = 0;

@@ -21,7 +21,7 @@ Vue.config.productionTip = false;
 
 import router from "@/router";
 import store from "@/store";
-import DefaultApp from "@/DefaultApp";
+import DefaultApp from "@/DefaultApp.vue";
 import "@/plugins/filters";
 
 import numberFormatMixin from "@/mixins/numberFormatMixin";

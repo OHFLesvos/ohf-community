@@ -17,7 +17,7 @@
 
 <script>
 import transactionsApi from "@/api/accounting/transactions";
-import TransactionHistory from "@/components/accounting/TransactionHistory";
+import TransactionHistory from "@/components/accounting/TransactionHistory.vue";
 export default {
     title() {
         return this.$t("History");

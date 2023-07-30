@@ -7,12 +7,14 @@ use App\Http\Resources\CommunityVolunteers\CommunityVolunteer as CommunityVolunt
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class CommunityVolunteerController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): JsonResource
     {
         $this->authorize('viewAny', CommunityVolunteer::class);
 
@@ -58,7 +60,7 @@ class CommunityVolunteerController extends Controller
 
         $sortBy = $request->input('sortBy', 'first_name');
         $sortDirection = $request->input('sortDirection', 'asc');
-        $orderInDB = !in_array($sortBy, ['age']);
+        $orderInDB = ! in_array($sortBy, ['age']);
 
         $pageSize = $request->input('pageSize', 10);
         $filter = $request->input('filter', '');
@@ -66,7 +68,7 @@ class CommunityVolunteerController extends Controller
 
         $query = CommunityVolunteer::query()
             ->workStatus($workStatus)
-            ->when(filled($filter), fn (Builder $qry) => $qry->forFilterTerms(split_by_whitespace(trim($filter))))
+            ->when(filled($filter), fn (Builder $qry) => $this->filterTerms($qry, split_by_whitespace(trim($filter))))
             ->with(['responsibilities:name,description']);
 
         if ($orderInDB) {
@@ -83,7 +85,40 @@ class CommunityVolunteerController extends Controller
         return CommunityVolunteerResource::collection($data);
     }
 
-    public function show(CommunityVolunteer $cmtyvol)
+    private function filterTerms(Builder $query, array $terms): Builder
+    {
+        foreach ($terms as $term) {
+            $query->where(fn (Builder $wq) => $this->filterQuery($wq, $term));
+        }
+
+        return $query;
+    }
+
+    private function filterQuery(Builder $query, string $filter): Builder
+    {
+        return $query->where(
+            fn (Builder $q) => $q->where(DB::raw('CONCAT(first_name, \' \', family_name)'), 'LIKE', '%'.$filter.'%')
+                ->orWhere(DB::raw('CONCAT(family_name, \' \', first_name)'), 'LIKE', '%'.$filter.'%')
+                ->orWhere('first_name', 'LIKE', '%'.$filter.'%')
+                ->orWhere('nickname', 'LIKE', '%'.$filter.'%')
+                ->orWhere('family_name', 'LIKE', '%'.$filter.'%')
+                ->orWhere('date_of_birth', $filter)
+                ->orWhere('nationality', 'LIKE', '%'.$filter.'%')
+                ->orWhere('police_no', $filter)
+                ->orWhere('languages', 'LIKE', '%'.$filter.'%')
+                ->orWhereHas('responsibilities', fn (Builder $query) => $query->where('name', 'LIKE', '%'.$filter.'%'))
+                ->orWhere('local_phone', 'LIKE', '%'.$filter.'%')
+                ->orWhere('other_phone', 'LIKE', '%'.$filter.'%')
+                ->orWhere('whatsapp', 'LIKE', '%'.$filter.'%')
+                ->orWhere('email', 'LIKE', '%'.$filter.'%')
+                ->orWhere('skype', 'LIKE', '%'.$filter.'%')
+                ->orWhere('residence', 'LIKE', '%'.$filter.'%')
+                ->orWhere('pickup_location', 'LIKE', '%'.$filter.'%')
+                ->orWhere('notes', 'LIKE', '%'.$filter.'%')
+        );
+    }
+
+    public function show(CommunityVolunteer $cmtyvol): JsonResource
     {
         $this->authorize('view', $cmtyvol);
 
