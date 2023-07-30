@@ -69,7 +69,7 @@ class Category extends Model
         return $elements;
     }
 
-    public static function getNested(?int $parent = null, int $indentation = 0, bool $enabledOnly = false): array
+    public static function getNested(int $parent = null, int $indentation = 0, bool $enabledOnly = false): array
     {
         $results = [];
         $items = self::query()
@@ -95,7 +95,7 @@ class Category extends Model
         return $results;
     }
 
-    public static function queryByParent(?int $parent = null, ?int $exclude = null): Collection
+    public static function queryByParent(int $parent = null, int $exclude = null): Collection
     {
         return self::query()
             ->select('id', 'name', 'description', 'enabled')

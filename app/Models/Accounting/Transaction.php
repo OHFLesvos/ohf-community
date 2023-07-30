@@ -87,8 +87,8 @@ class Transaction extends Model implements Auditable
      */
     public function scopeForDateRange(
         Builder $query,
-        string|Carbon|null $dateFrom = null,
-        string|Carbon|null $dateTo = null
+        string|Carbon $dateFrom = null,
+        string|Carbon $dateTo = null
     ): Builder {
         if ($dateFrom !== null) {
             $query->whereDate('date', '>=', $dateFrom);
@@ -119,27 +119,27 @@ class Transaction extends Model implements Auditable
         }
 
         return $query->where(fn (Builder $qry1) => $qry1
-                ->where('receipt_no', $filter)
-                ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('amount', $filter))
-                ->orWhereDate('date', $filter)
-                ->orWhere('secondary_category', 'LIKE', '%'.$filter.'%')
-                ->orWhere('location', 'LIKE', '%'.$filter.'%')
-                ->orWhere('cost_center', 'LIKE', '%'.$filter.'%')
-                ->orWhere('location', 'LIKE', '%'.$filter.'%')
-                ->orWhere('attendee', 'LIKE', '%'.$filter.'%')
-                ->orWhere('description', 'LIKE', '%'.$filter.'%')
-                ->orWhere('remarks', 'LIKE', '%'.$filter.'%')
-                ->orWhereHas('supplier', function (Builder $qry2) use ($filter) {
-                    $qry2->where('id', $filter)
-                        ->orWhere('slug', $filter)
-                        ->orWhere('name', 'LIKE', '%'.$filter.'%');
-                })
-                ->orWhereHas('category', function (Builder $qry2) use ($filter) {
-                    $qry2->where('name', 'LIKE', '%'.$filter.'%');
-                })
-                ->orWhereHas('project', function (Builder $qry2) use ($filter) {
-                    $qry2->where('name', 'LIKE', '%'.$filter.'%');
-                })
+            ->where('receipt_no', $filter)
+            ->when(is_numeric($filter), fn ($qi) => $qi->orWhere('amount', $filter))
+            ->orWhereDate('date', $filter)
+            ->orWhere('secondary_category', 'LIKE', '%'.$filter.'%')
+            ->orWhere('location', 'LIKE', '%'.$filter.'%')
+            ->orWhere('cost_center', 'LIKE', '%'.$filter.'%')
+            ->orWhere('location', 'LIKE', '%'.$filter.'%')
+            ->orWhere('attendee', 'LIKE', '%'.$filter.'%')
+            ->orWhere('description', 'LIKE', '%'.$filter.'%')
+            ->orWhere('remarks', 'LIKE', '%'.$filter.'%')
+            ->orWhereHas('supplier', function (Builder $qry2) use ($filter) {
+                $qry2->where('id', $filter)
+                    ->orWhere('slug', $filter)
+                    ->orWhere('name', 'LIKE', '%'.$filter.'%');
+            })
+            ->orWhereHas('category', function (Builder $qry2) use ($filter) {
+                $qry2->where('name', 'LIKE', '%'.$filter.'%');
+            })
+            ->orWhereHas('project', function (Builder $qry2) use ($filter) {
+                $qry2->where('name', 'LIKE', '%'.$filter.'%');
+            })
         );
     }
 

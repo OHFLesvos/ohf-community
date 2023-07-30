@@ -43,7 +43,7 @@ trait LanguageCodeField
     /**
      * Gets an array of all languages assigned to records, grouped and ordered by amount
      */
-    public static function languageDistribution(string|\Carbon\Carbon|null $untilDate = null): array
+    public static function languageDistribution(string|\Carbon\Carbon $untilDate = null): array
     {
         return self::select('language_code')
             ->selectRaw('COUNT(*) as languages_count')

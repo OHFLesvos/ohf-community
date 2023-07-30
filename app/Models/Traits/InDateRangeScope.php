@@ -12,8 +12,8 @@ trait InDateRangeScope
      */
     public function scopeInDateRange(
         Builder $query,
-        string|Carbon|null $dateFrom = null,
-        string|Carbon|null $dateTo = null,
+        string|Carbon $dateFrom = null,
+        string|Carbon $dateTo = null,
         string $column = 'created_at'
     ): Builder {
         if ($dateFrom !== null) {

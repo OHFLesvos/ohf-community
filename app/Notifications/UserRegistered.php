@@ -29,14 +29,14 @@ class UserRegistered extends Notification
     public function toMail(mixed $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject(__('New user registered: :name', [
-                        'name' => $this->user->name,
-                    ]))
-                    ->greeting(__('User registered'))
-                    ->line(__('The user :name (:email) has created a new account.', [
-                        'name' => $this->user->name,
-                        'email' => $this->user->email,
-                    ]))
-                    ->action(__('View User'), route('users.show', $this->user));
+            ->subject(__('New user registered: :name', [
+                'name' => $this->user->name,
+            ]))
+            ->greeting(__('User registered'))
+            ->line(__('The user :name (:email) has created a new account.', [
+                'name' => $this->user->name,
+                'email' => $this->user->email,
+            ]))
+            ->action(__('View User'), route('users.show', $this->user));
     }
 }
