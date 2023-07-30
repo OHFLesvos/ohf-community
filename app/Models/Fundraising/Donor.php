@@ -159,8 +159,6 @@ class Donor extends Model
 
     /**
      * Gets a collection of donations per year
-     *
-     * @return Collection
      */
     public function donationsPerYear(): Collection
     {
@@ -173,8 +171,6 @@ class Donor extends Model
 
     /**
      * Adds the given donation
-     *
-     * @param  Donation  $donation
      */
     public function addDonation(Donation $donation): void
     {
@@ -237,8 +233,6 @@ class Donor extends Model
 
     /**
      * Gets a sorted list of all salutations used by donors
-     *
-     * @return array
      */
     public static function salutations(): array
     {

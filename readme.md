@@ -53,6 +53,14 @@ Configure the desired virtual host / domain your webserver to point to the `publ
 
 For more information see https://laravel.com/docs/installation
 
+### Cron job
+
+In order to run schedule commands, configure your cron service with the following cron job:
+
+```
+* * * * * cd PATH/TO/YOUR/APP/ROOT && php artisan schedule:run >> /dev/null 2>&1
+```
+
 ## Login with Google OAuth
 
 Obtain OAuth 2.0 credentials from the Google API Console. For more info see https://developers.google.com/identity/protocols/oauth2
@@ -180,7 +188,7 @@ The following commands create a custom self-signed TLS certificate:
 
 ## Development using Laravel Sail (Docker)
 
-[Laravel Sail](https://laravel.com/docs/9.x/sail) is a light-weight command-line interface for interacting with Laravel's default Docker development environment. 
+[Laravel Sail](https://laravel.com/docs/9.x/sail) is a light-weight command-line interface for interacting with Laravel's default Docker development environment.
 
 Run the following command to install the composer dependencies:
 

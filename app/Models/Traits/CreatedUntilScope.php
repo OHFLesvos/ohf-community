@@ -12,7 +12,7 @@ trait CreatedUntilScope
      */
     public function scopeCreatedUntil(
         Builder $query,
-        string|Carbon|null $date = null,
+        string|Carbon $date = null,
         string $column = 'created_at'
     ): Builder {
         if ($date !== null) {

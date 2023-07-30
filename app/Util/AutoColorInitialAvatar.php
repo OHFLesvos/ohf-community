@@ -9,8 +9,6 @@ class AutoColorInitialAvatar extends InitialAvatar
     /**
      * Automatically set a font and/or background color based on the supplied name.
      *
-     * @param  bool  $foreground
-     * @param  bool  $background
      * @return $this
      */
     public function autoColor(bool $foreground = true, bool $background = true, int $saturation = 85, int $luminance = 60)

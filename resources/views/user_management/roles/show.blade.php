@@ -38,7 +38,7 @@
             {{-- Permissions --}}
             <div class="card shadow-sm mb-4">
                 <div class="card-header">
-                    {{ __('Permissions') }}
+                    {{ __('Assign Permissions') }}
                     <span class="badge badge-secondary">{{ $role->permissions->count() }}</span>
                 </div>
                 <ul class="list-group list-group-flush">

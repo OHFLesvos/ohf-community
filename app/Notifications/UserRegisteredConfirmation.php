@@ -29,17 +29,17 @@ class UserRegisteredConfirmation extends Notification
     public function toMail(mixed $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->subject(__('Welcome to :app_name', [
-                        'app_name' => config('app.name'),
-                    ]))
-                    ->greeting(__('Registration confirmation'))
-                    ->line(__('Dear :name.', [
-                        'name' => $this->user->name,
-                    ]))
-                    ->line(__('Thanks for registering an account at :app_name with your email address :email.', [
-                        'app_name' => config('app.name'),
-                        'email' => $this->user->email,
-                    ]))
-                    ->action(__('View your profile'), route('userprofile'));
+            ->subject(__('Welcome to :app_name', [
+                'app_name' => config('app.name'),
+            ]))
+            ->greeting(__('Registration confirmation'))
+            ->line(__('Dear :name.', [
+                'name' => $this->user->name,
+            ]))
+            ->line(__('Thanks for registering an account at :app_name with your email address :email.', [
+                'app_name' => config('app.name'),
+                'email' => $this->user->email,
+            ]))
+            ->action(__('View your profile'), route('userprofile'));
     }
 }

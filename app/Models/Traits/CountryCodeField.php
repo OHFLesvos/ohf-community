@@ -47,7 +47,7 @@ trait CountryCodeField
     /**
      * Gets an array of all countries assigned to model records, ordered by amount per country
      */
-    public static function countryDistribution(string|Carbon|null $untilDate = null): array
+    public static function countryDistribution(string|Carbon $untilDate = null): array
     {
         return self::select('country_code')
             ->selectRaw('COUNT(*) as countries_count')

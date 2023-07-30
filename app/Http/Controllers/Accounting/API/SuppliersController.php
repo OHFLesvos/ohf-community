@@ -70,13 +70,13 @@ class SuppliersController extends Controller
     private function filterQuery(Builder $query, string $filter): Builder
     {
         return $query->where(fn (Builder $wq) => $wq
-                ->where('name', 'LIKE', '%'.$filter.'%')
-                ->orWhere('category', 'LIKE', '%'.$filter.'%')
-                ->orWhere('remarks', 'LIKE', '%'.$filter.'%')
-                ->orWhere('tax_number', $filter)
-                ->orWhere(DB::raw('REPLACE(phone, \' \', \'\')'), str_replace(' ', '', $filter))
-                ->orWhere(DB::raw('REPLACE(mobile, \' \', \'\')'), str_replace(' ', '', $filter))
-                ->orWhere(DB::raw('REPLACE(iban, \' \', \'\')'), str_replace(' ', '', $filter))
+            ->where('name', 'LIKE', '%'.$filter.'%')
+            ->orWhere('category', 'LIKE', '%'.$filter.'%')
+            ->orWhere('remarks', 'LIKE', '%'.$filter.'%')
+            ->orWhere('tax_number', $filter)
+            ->orWhere(DB::raw('REPLACE(phone, \' \', \'\')'), str_replace(' ', '', $filter))
+            ->orWhere(DB::raw('REPLACE(mobile, \' \', \'\')'), str_replace(' ', '', $filter))
+            ->orWhere(DB::raw('REPLACE(iban, \' \', \'\')'), str_replace(' ', '', $filter))
         );
     }
 

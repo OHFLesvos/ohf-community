@@ -2,6 +2,7 @@
 
 namespace App\Models\Visitors;
 
+use App\Models\Traits\InDateRangeScope;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +13,7 @@ class Visitor extends Model
 {
     use HasFactory;
     use NullableFields;
+    use InDateRangeScope;
 
     protected $fillable = [
         'name',

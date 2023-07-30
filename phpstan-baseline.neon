@@ -6,6 +6,11 @@ parameters:
 			path: app/Http/Controllers/Accounting/WeblingApiController.php
 
 		-
+			message: "#^Call to an undefined method Laravel\\\\Socialite\\\\Contracts\\\\Provider\\:\\:with\\(\\)\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/LoginController.php
+
+		-
 			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\Accounting\\\\TransactionHistory\\:\\:\\$user\\.$#"
 			count: 1
 			path: app/Http/Resources/Accounting/TransactionHistory.php

@@ -1,7 +1,10 @@
 # Changelog
 
-## NEXT
+## 4.0.0
 
+* Require PHP 8.1
+* Extended visitor report
+* Removed knowledge base
 * Added support for specifying email domain for Google OAuth login
 * Store avatar images locally
 * Update icon library (Font Awesome 6)
@@ -15,6 +18,18 @@
 
 * Add a liability form signed field to visitor records
 * Add remarks field to visitor records
+
+## 3.7.3
+
+* Added visitor data to export file
+
+## 3.7.2
+
+* Make visitor date of birth non-mandatory
+
+## 3.7.1
+
+* Make ID number not required anymore for visitor registration
 
 ## 3.7.0
 

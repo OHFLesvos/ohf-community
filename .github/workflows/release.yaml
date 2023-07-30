@@ -28,10 +28,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - run: npm ci
       - run: npm run build
-      - name: Store Git hash
+      - name: Store release version
         shell: bash
         run: |
-          echo "$(git rev-parse HEAD)" >> storage/githash.cache
+          echo "${{ github.ref_name }}" >> RELEASE
       - name: Archive Release
         uses: thedoctor0/zip-release@master
         with:

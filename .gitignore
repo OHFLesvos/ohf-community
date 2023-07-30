@@ -20,3 +20,5 @@ _ide_helper.php
 .phpstorm.meta.php
 .php-cs-fixer.cache
 storage/githash.cache
+.DS_Store
+app/RELEASE

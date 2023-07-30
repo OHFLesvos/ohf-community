@@ -26,8 +26,8 @@ class UserRolesSeeder extends Seeder
                 $user->roles()
                     ->attach(
                         $roles->random(mt_rand(0, 5))
-                        ->unique()
-                        ->values()
+                            ->unique()
+                            ->values()
                     );
             });
 

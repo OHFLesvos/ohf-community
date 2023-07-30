@@ -21,7 +21,7 @@ class UserIndexContextButtons implements ContextButtons
             ],
             'permissions' => [
                 'url' => route('users.permissions'),
-                'caption' => __('Permissions'),
+                'caption' => __('View Permissions'),
                 'icon' => 'key',
                 'authorized' => Auth::user()->can('viewAny', User::class),
             ],
