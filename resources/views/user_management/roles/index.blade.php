@@ -10,7 +10,7 @@
                     <th>{{ __('Name') }}</th>
                     <th class="text-right fit">{{ __('Users') }}</th>
                     <th class="text-right fit d-none d-sm-table-cell">{{ __('Role Administrators') }}</th>
-                    <th class="text-right fit d-none d-sm-table-cell">{{ __('Permissions') }}</th>
+                    <th class="text-right fit d-none d-sm-table-cell">{{ __('Assign Permissions') }}</th>
                 </tr>
             </thead>
             <tbody>

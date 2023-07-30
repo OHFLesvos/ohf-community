@@ -21,7 +21,7 @@ class RoleIndexContextButtons implements ContextButtons
             ],
             'permissions' => [
                 'url' => route('roles.permissions'),
-                'caption' => __('Permissions'),
+                'caption' => __('View Permissions'),
                 'icon' => 'key',
                 'authorized' => Auth::user()->can('viewAny', Role::class),
             ],

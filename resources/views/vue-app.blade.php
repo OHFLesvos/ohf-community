@@ -26,6 +26,7 @@
             'view-community-volunteer-reports' => Gate::allows('view-community-volunteer-reports'),
             'view-fundraising-reports' => Gate::allows('view-fundraising-reports'),
             'register-visitors' => Gate::allows('register-visitors'),
+            'view-visitors-reports' => Gate::allows('view-visitors-reports'),
             'view-budgets' => Auth::user()->can('viewAny',  App\Models\Accounting\Budget::class),
             'manage-budgets' => Gate::allows('manage-budgets'),
             'view-community-volunteers' => Auth::user()->can('viewAny', App\Models\CommunityVolunteers\CommunityVolunteer::class),
