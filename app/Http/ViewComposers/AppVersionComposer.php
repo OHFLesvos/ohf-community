@@ -11,7 +11,7 @@ class AppVersionComposer
      */
     public function compose(View $view): void
     {
-        $releaseFile = app_path('RELEASE');
+        $releaseFile = base_path('RELEASE');
         if (is_file($releaseFile)) {
             $version = trim(file_get_contents($releaseFile));
             $view->with('app_version', $version);
