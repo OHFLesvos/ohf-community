@@ -3,6 +3,7 @@
 ## 4.2.0
 
 * Add parent-child relations to visitors
+* Updated settings form (Vue)
 
 ## 4.1.0
 
