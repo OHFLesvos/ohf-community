@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0
+
+* Add parent-child relations to visitors
+
 ## 4.1.0
 
 * Add full-text search to visitor name, improving search usability (searching for LASTNAME SURNAME works the same as SURNAME LASTNAME)
