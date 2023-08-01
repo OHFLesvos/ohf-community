@@ -34,7 +34,7 @@ class VisitorPurposesOfVisit extends BaseSettingsField
 
     public function setter($value)
     {
-        return preg_split('/(\s*[,\/|]\s*)|(\s*\n\s*)/', $value);
+        return array_unique(array_map(fn ($v) => trim($v),  preg_split('/(\s*[,\/|]\s*)|(\s*\n\s*)/', $value)));
     }
 
     public function getter($value)

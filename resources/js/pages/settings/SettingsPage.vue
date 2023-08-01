@@ -87,6 +87,7 @@ export default {
             try {
                 let data = await settingsApi.update(this.formData);
                 showSnackbar(data.message);
+                await this.fetchSettings();
             } catch (err) {
                 alert(err);
             }
