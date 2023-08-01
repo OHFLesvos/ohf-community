@@ -147,11 +147,13 @@ abstract class BaseController extends Controller
                 'assign' => function ($cmtyvol, $value) {
                     if (collect([__('Female'), 'f', 'w', 'Frau', 'Fräulein', 'Fr.', 'Fr', 'Frl.', 'Frl', 'Missus', 'Missis', 'Miss', 'Mrs.', 'Mrs', 'Ms.', 'Ms'])
                         ->map(fn ($t) => strtolower($t))
-                        ->contains(strtolower($value))) {
+                        ->contains(strtolower($value))
+                    ) {
                         $cmtyvol->gender = 'f';
                     } elseif (collect([__('Male'), 'm', 'Herr', 'Hr.', 'Hr', 'Mister', 'Mr.', 'Mr'])
                         ->map(fn ($t) => strtolower($t))
-                        ->contains(strtolower($value))) {
+                        ->contains(strtolower($value))
+                    ) {
                         $cmtyvol->gender = 'm';
                     } else {
                         $cmtyvol->gender = null;
@@ -205,8 +207,8 @@ abstract class BaseController extends Controller
             [
                 'label' => __('Languages'),
                 'icon' => 'language',
-                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode(', ', $cmtyvol->languages) : $cmtyvol->languages) : null,
-                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->languages != null ? (is_array($cmtyvol->languages) ? implode('<br>', $cmtyvol->languages) : $cmtyvol->languages) : null,
+                'value' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->languages != null ? implode(', ', $cmtyvol->languages) : null,
+                'value_html' => fn (CommunityVolunteer $cmtyvol) => $cmtyvol->languages != null ? implode('<br>', $cmtyvol->languages) : null,
                 'overview' => false,
                 'section' => 'general',
                 'assign' => function ($cmtyvol, $value) {

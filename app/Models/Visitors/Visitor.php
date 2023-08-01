@@ -2,15 +2,18 @@
 
 namespace App\Models\Visitors;
 
+use App\Models\Traits\InDateRangeScope;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Visitor extends Model
 {
     use HasFactory;
     use NullableFields;
+    use InDateRangeScope;
 
     protected $fillable = [
         'name',
@@ -49,5 +52,29 @@ class Visitor extends Model
     public function checkins(): HasMany
     {
         return $this->hasMany(VisitorCheckin::class);
+    }
+
+    public function parents(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Visitor::class,
+            VisitorParentChild::class,
+            'child_id',
+            'id',
+            'id',
+            'parent_id'
+        );
+    }
+
+    public function children(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            Visitor::class,
+            VisitorParentChild::class,
+            'parent_id',
+            'id',
+            'id',
+            'child_id'
+        );
     }
 }

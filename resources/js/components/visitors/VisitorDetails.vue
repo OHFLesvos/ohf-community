@@ -83,6 +83,36 @@
                 </template>
             </dd>
         </template>
+        <dt class="col-sm-4">
+            {{ $t("Parents") }}
+        </dt>
+        <dd class="col-sm-8">
+            <template v-if="visitor.parents && visitor.parents.length > 0">
+                <ul>
+                    <li v-for="parent in parents" :key="parent.id">
+                        {{ parent.name }}
+                    </li>
+                </ul>
+            </template>
+            <template v-else> 
+                <dd>No parent registered.</dd>
+            </template>
+        </dd>
+        <dt class="col-sm-4">
+            {{ $t("Children") }}
+        </dt>
+        <dd class="col-sm-8">
+            <template v-if="visitor.children && visitor.children.length > 0">
+                <ul>
+                    <li v-for="child in children" :key="child.id">
+                        {{ child.name }}
+                    </li>
+                </ul>
+            </template>
+            <template v-else> 
+                <dd>No children registered.</dd>
+            </template>
+        </dd>
     </dl>
 </template>
 
@@ -128,6 +158,12 @@ export default {
         age() {
             return calculateAge(this.visitor.date_of_birth);
         },
+        children() {
+            return this.visitor.children;
+        },
+        parents() {
+            return this.visitor.parents;
+        }
     },
     methods: {
         async signLiabilityForm() {

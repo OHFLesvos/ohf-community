@@ -6,7 +6,7 @@ class NavigationItemsService
 {
     private $items = [];
 
-    public function define($itemClass, ?int $position = null): void
+    public function define($itemClass, int $position = null): void
     {
         $item = new $itemClass();
         $this->items[] = [

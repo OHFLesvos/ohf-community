@@ -16,7 +16,7 @@ class ChartResponseBuilder
         $this->labels = collect();
     }
 
-    public function dataset(string $title, Collection $data, ?string $unit = null, $sort = true): self
+    public function dataset(string $title, Collection $data, string $unit = null, $sort = true): self
     {
         $labels = $data->keys()
             ->map(fn ($v) => strval($v));

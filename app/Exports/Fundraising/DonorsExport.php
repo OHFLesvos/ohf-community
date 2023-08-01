@@ -131,9 +131,6 @@ class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMa
         return $map;
     }
 
-    /**
-     * @return array
-     */
     public function columnFormats(): array
     {
         $formats = [];

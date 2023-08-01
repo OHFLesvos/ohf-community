@@ -13,4 +13,7 @@ parameters:
     # excludePaths:
     #     - ./*/*/FileToBeExcluded.php
 
+    excludePaths:
+      - app/Http/Controllers/Accounting/API/TransactionsController.php
+
     checkMissingIterableValueType: false

@@ -173,8 +173,8 @@ class WeblingApiController extends Controller
                 $bookedTransactions[] = $transaction->id;
             } catch (Exception $e) {
                 return redirect()->back()
-                        ->withInput()
-                        ->with('error', $e->getMessage());
+                    ->withInput()
+                    ->with('error', $e->getMessage());
             }
         }
 

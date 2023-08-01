@@ -30,6 +30,16 @@ class Visitor extends JsonResource
             'parental_consent_given' => $this->parental_consent_given,
             'checked_in_today' => $this->whenLoaded('checkins',
                 fn () => $this->checkins->contains(fn ($checkin) => $checkin->created_at->isToday())),
+            'parents' => $this->whenLoaded('parents',
+                fn () => $this->parents->map(fn ($parent) => [
+                    'id' => $parent->id,
+                    'name' => $parent->name,
+                ])),
+            'children' => $this->whenLoaded('children',
+                fn () => $this->children->map(fn ($child) => [
+                    'id' => $child->id,
+                    'name' => $child->name,
+                ])),
         ];
     }
 }

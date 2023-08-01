@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function index(Request $request): View
     {
-        return view('vue-app');
+        return view('user_management.users.index');
     }
 
     public function create(): View

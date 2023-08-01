@@ -52,15 +52,15 @@ class ListController extends BaseController
                 $groupings->get($grouping)['query']($q, $value);
                 $data->push(
                     $q->orderBy('first_name')
-                    ->get()
-                    ->mapWithKeys(fn ($cmtyvol) => [
-                        $cmtyvol->id => [
-                            'model' => $cmtyvol,
-                            'fields' => $fields
-                                ->map(fn ($field) => self::overviewFieldMap($field, $cmtyvol))
-                                ->toArray(),
-                        ],
-                    ])
+                        ->get()
+                        ->mapWithKeys(fn ($cmtyvol) => [
+                            $cmtyvol->id => [
+                                'model' => $cmtyvol,
+                                'fields' => $fields
+                                    ->map(fn ($field) => self::overviewFieldMap($field, $cmtyvol))
+                                    ->toArray(),
+                            ],
+                        ])
                 );
             }
             if (isset($groupings->get($grouping)['label_transform']) && is_callable($groupings->get($grouping)['label_transform'])) {

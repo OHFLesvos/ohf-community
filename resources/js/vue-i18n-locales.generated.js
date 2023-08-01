@@ -1033,7 +1033,8 @@ export default {
             "view_community_volunteers": "Community volunteers: View community volunteers",
             "manage_community_volunteers": "Community volunteers: Manage community volunteers",
             "register_visitors": "Visitors: Register",
-            "export_visitors": "Visitors: Export"
+            "export_visitors": "Visitors: Export",
+            "view_visitors_reports": "Visitors: View reports"
         },
         "validation": {
             "accepted": "The {attribute} must be accepted.",

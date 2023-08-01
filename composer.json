@@ -12,7 +12,6 @@
         "dyrynda/laravel-nullable-fields": "^4.0",
         "endroid/qr-code": "^4.1",
         "exolnet/laravel-sqlite-fluent-drop-foreign": "^1.1",
-        "fruitcake/laravel-cors": "^3.0",
         "graham-campbell/markdown": "^14.0",
         "gumlet/php-image-resize": "^2.0",
         "guzzlehttp/guzzle": "^7.2",
@@ -33,13 +32,11 @@
         "org_heigl/ghostscript": "^2.3",
         "owen-it/laravel-auditing": "^13.0",
         "petercoles/multilingual-language-list": "^1.1",
-        "psr/simple-cache": "^2.0",
-        "sentry/sentry-laravel": "^2.3",
+        "sentry/sentry-laravel": "^3.0.1",
         "shiftonelabs/laravel-cascade-deletes": "^1.0",
         "spatie/pdf-to-image": "^2.1",
         "spomky-labs/otphp": "^11.0",
         "tightenco/ziggy": "^1.0",
-        "tjvb/laravel-githash": "^1.2",
         "usystems/webling-api-php": "^1.2"
     },
     "require-dev": {
@@ -100,7 +97,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "dev",

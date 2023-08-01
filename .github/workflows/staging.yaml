@@ -11,7 +11,7 @@ on:
 env:
   PHP_BIN: php81
   PHP_VERSION: '8.1'
-  NODE_VERSION: "16.x"
+  NODE_VERSION: "16"
 
 jobs:
   check-secret:
@@ -38,11 +38,7 @@ jobs:
     if: (github.repository == 'OHFLesvos/ohf-community' && needs.check-secret.outputs.remote-data == 'true')
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
-    - name: Store Git hash
-      shell: bash
-      run: |
-        echo "$(git rev-parse HEAD)" >> storage/githash.cache
+      uses: actions/checkout@v3
     - name: Setup PHP
       id: setup-php
       uses: shivammathur/setup-php@v2
@@ -51,11 +47,15 @@ jobs:
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist  --optimize-autoloader --no-dev
     - name: Use Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ env.NODE_VERSION }}
     - run: npm ci
     - run: npm run build
+    - name: Store release version
+      shell: bash
+      run: |
+        echo "${{ github.ref_name }}" >> RELEASE
     - name: Enable maintenance mode on remote
       uses: appleboy/ssh-action@master
       with:

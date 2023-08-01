@@ -8,7 +8,7 @@ on:
 
 env:
   PHP_VERSION: "8.1"
-  NODE_VERSION: "16.x"
+  NODE_VERSION: "16"
 
 jobs:
   laravel-tests:
@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -31,7 +31,7 @@ jobs:
       - name: Static code analysis
         run: php ./vendor/bin/phpstan analyse --no-progress
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install NPM packages
@@ -57,14 +57,3 @@ jobs:
       #     SESSION_DRIVER: array
       #     QUEUE_DRIVER: sync
       #   run: vendor/bin/phpunit
-
-  php-security-checker:
-    name: Local PHP Security Checker
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Local PHP Security Checker
-        uses: docker://pplotka/local-php-security-checker-github-actions

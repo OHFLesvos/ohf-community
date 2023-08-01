@@ -59,7 +59,7 @@ class WeblingClient
         return null;
     }
 
-    public function listObjectsUncached(string $name, ?bool $full = false, ?string $filter = null)
+    public function listObjectsUncached(string $name, ?bool $full = false, string $filter = null)
     {
         $params = [];
         if ($full) {

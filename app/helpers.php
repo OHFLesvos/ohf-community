@@ -1,7 +1,7 @@
 <?php
 
 if (! function_exists('form_id_string')) {
-    function form_id_string(string $value, ?string $suffix = null): string
+    function form_id_string(string $value, string $suffix = null): string
     {
         return trim(preg_replace('/[^A-Za-z0-9-_]+/', '-', $value.($suffix !== null ? '_'.$suffix : '')));
     }
@@ -15,7 +15,7 @@ if (! function_exists('split_by_whitespace')) {
 }
 
 if (! function_exists('whatsapp_link')) {
-    function whatsapp_link(string $value, ?string $text = null): string
+    function whatsapp_link(string $value, string $text = null): string
     {
         // See https://medium.com/@jeanlivino/how-to-fix-whatsapp-api-in-desktop-browsers-fc661b513dc
         $user_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -161,7 +161,7 @@ if (! function_exists('gender_label')) {
 }
 
 if (! function_exists('thumb_path')) {
-    function thumb_path(string $orig_path, ?string $extension = null): string
+    function thumb_path(string $orig_path, string $extension = null): string
     {
         $pi = pathinfo($orig_path);
 
