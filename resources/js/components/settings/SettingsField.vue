@@ -40,26 +40,29 @@
             />
             <b-form-file
                 v-else-if="field.type == 'file'"
+                v-model="modelValue"
                 v-bind="field.args"
                 :placeholder="field.placeholder ?? $t('Choose file...')"
                 :disabled="disabled"
             />
         </b-form-group>
         <template v-if="field.type == 'file' && field.file_url">
-            <a :href="field.file_url" target="_blank">
-                <img
-                    v-if="field.file_is_image"
-                    :src="field.file_url"
-                    class="img-fluid img-thumbnail mb-2"
-                    style="max-height: 200px"
-                />
-                <template v-else>{{ $t("View file") }}</template>
-            </a>
-            <div class="mb-3">
-                <b-form-checkbox :disabled="disabled">{{
-                    $t("Remove file")
-                }}</b-form-checkbox>
-            </div>
+                <a :href="field.file_url" target="_blank">
+                    <img
+                        v-if="field.file_is_image"
+                        :src="field.file_url"
+                        class="img-fluid img-thumbnail mb-2"
+                        style="max-height: 200px"
+                    />
+                    <template v-else>{{ $t("View file") }}</template>
+                </a>
+                <br>
+                <b-button
+                    :disabled="disabled"
+                    variant="outline-danger"
+                    size="sm"
+                    @click="$emit('reset', fieldKey)">{{ $t("Remove file") }}
+                </b-button>
         </template>
     </div>
 </template>
@@ -74,6 +77,10 @@ export default {
         disabled: Boolean,
         value: {
             required: true
+        },
+        fieldKey: {
+            required: true,
+            type: String
         }
     },
     computed: {

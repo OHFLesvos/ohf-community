@@ -403,10 +403,12 @@ Route::middleware(['auth:sanctum', 'language'])
         //
         Route::get('settings/fields', [SettingsController::class, 'fields'])
             ->name('settings.fields');
-        Route::put('settings', [SettingsController::class, 'update'])
+        Route::post('settings', [SettingsController::class, 'update'])
             ->name('settings.update');
         Route::delete('settings', [SettingsController::class, 'reset'])
             ->name('settings.reset');
+        Route::delete('settings/{key}', [SettingsController::class, 'resetField'])
+            ->name('settings.resetField');
     });
 
 // RaiseNow Webhook

@@ -17,8 +17,10 @@
                             <SettingsField
                                 v-if="field.section == sectionKey"
                                 v-model="formData[fieldKey]"
+                                :fieldKey="fieldKey"
                                 :field="field"
                                 :disabled="isBusy"
+                                @reset="resetField"
                             />
                         </div>
                     </b-tab>
@@ -70,22 +72,25 @@ export default {
         this.fetchSettings();
     },
     methods: {
-        async fetchSettings() {
+        async fetchSettings(field) {
             let data = await settingsApi.fields();
-            this.sections = data.sections;
-            this.fields = data.fields;
-            this.formData = Object.fromEntries(
-                Object.entries(this.fields).map(([key, { value }]) => [
-                    key,
-                    value,
-                ])
-            );
-            this.loaded = true;
+            if (field) {
+                this.fields[field] = data.fields[field]
+                this.formData[field] = this.fields[field].type == 'file' ? null : this.fields[field].value
+            } else {
+                this.sections = data.sections;
+                this.fields = data.fields;
+                this.formData = Object.fromEntries(
+                    Object.entries(this.fields).map(([key, field]) => [key, field.type == 'file' ? null : field.value])
+                );
+                this.loaded = true;
+            }
         },
         async updateSettings() {
             this.isBusy = true;
             try {
-                let data = await settingsApi.update(this.formData);
+                let dataForUpdate = Object.fromEntries(Object.entries(this.formData).filter(e => this.fields[e[0]].type == 'file' ? e[1] != null : true))
+                let data = await settingsApi.update(dataForUpdate);
                 showSnackbar(data.message);
                 await this.fetchSettings();
             } catch (err) {
@@ -107,6 +112,20 @@ export default {
             }
             this.isBusy = false;
         },
+        async resetField(field) {
+            if (!confirm(this.$t(`Really reset ${this.fields[field].label}?`))) {
+                return;
+            }
+            this.isBusy = true;
+            try {
+                let data = await settingsApi.resetField(field);
+                await this.fetchSettings(field);
+                showSnackbar(data.message);
+            } catch (err) {
+                alert(err);
+            }
+            this.isBusy = false;
+        }
     },
 };
 </script>

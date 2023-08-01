@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Settings\SettingsField;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Setting;
 
 class SettingsController extends Controller
@@ -143,6 +145,30 @@ class SettingsController extends Controller
         return response()
             ->json([
                 'message' => __('Settings have been reset.'),
+            ]);
+    }
+
+    public function resetField(string $key): JsonResponse
+    {
+        $fields = self::getSettings();
+        if (!$fields->keys()->map(fn ($k) => Str::slug($k))->contains($key)) {
+            return response()
+            ->json([
+                'message' => __("Invalid field."),
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $settingsKey = $fields->filter(fn ($v, $k) => Str::slug($k) == $key)->map(fn ($v, $k) => $k)->first();
+        $field = $fields[$settingsKey];
+        if ($field->formType() == 'file' && Setting::has($settingsKey)) {
+            Storage::delete(Setting::get($settingsKey));
+        }
+        Setting::forget($settingsKey);
+        Setting::save();
+
+        return response()
+            ->json([
+                'message' => __($field->label().' has been reset.'),
             ]);
     }
 
