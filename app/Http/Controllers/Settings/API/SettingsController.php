@@ -10,7 +10,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Setting;
 
 class SettingsController extends Controller
@@ -151,11 +150,11 @@ class SettingsController extends Controller
     public function resetField(string $key): JsonResponse
     {
         $fields = self::getSettings();
-        if (!$fields->keys()->map(fn ($k) => Str::slug($k))->contains($key)) {
+        if (! $fields->keys()->map(fn ($k) => Str::slug($k))->contains($key)) {
             return response()
-            ->json([
-                'message' => __("Invalid field."),
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                ->json([
+                    'message' => __('Invalid field.'),
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $settingsKey = $fields->filter(fn ($v, $k) => Str::slug($k) == $key)->map(fn ($v, $k) => $k)->first();
