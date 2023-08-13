@@ -1,5 +1,11 @@
 <template>
     <b-list-group flush class="shawow-sm mb-4">
+        <b-list-group-item class="d-none d-print-block">
+            <b-col>
+                <h2>{{ $t("Trasaction") }} {{ transaction.receipt_no }}</h2>
+            </b-col>
+        </b-list-group-item>
+
         <!-- Wallet -->
         <two-col-list-group-item :title="$t('Wallet')">
             <router-link
@@ -168,6 +174,7 @@
                         variant="secondary"
                         size="sm"
                         :disabled="isBusy || disabled"
+                        class="d-print-none"
                         @click="undoControlled()"
                     >
                         {{ $t("Undo") }}
@@ -179,6 +186,7 @@
                 variant="primary"
                 size="sm"
                 :disabled="isBusy || disabled"
+                class="d-print-none"
                 @click="markControlled()"
             >
                 {{ $t("Mark as controlled") }}
@@ -211,7 +219,7 @@
             <template v-else>
                 {{ $t("Yes") }}
             </template>
-            <p v-if="transaction.can_undo_booking" class="mb-0 mt-2">
+            <p v-if="transaction.can_undo_booking" class="mb-0 mt-2 d-print-none">
                 <button
                     type="submit"
                     class="btn btn-sm btn-outline-danger"
@@ -228,9 +236,11 @@
                 this.transaction.receipt_pictures.length > 0 ||
                     transaction.can_update_receipt
             "
+            class="d-print-none"
         >
             <TransactionPictures :transaction="transaction" allowUpload />
         </b-list-group-item>
+        <TransactionPicturesPrint :transaction="transaction" />
     </b-list-group>
 </template>
 
@@ -238,10 +248,12 @@
 import transactionsApi from "@/api/accounting/transactions";
 import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem.vue";
 import TransactionPictures from "@/components/accounting/TransactionPictures.vue";
+import TransactionPicturesPrint from "@/components/accounting/TransactionPicturesPrint.vue";
 export default {
     components: {
         TwoColListGroupItem,
-        TransactionPictures
+        TransactionPictures,
+        TransactionPicturesPrint
     },
     props: {
         transaction: {

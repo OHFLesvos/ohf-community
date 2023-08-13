@@ -3,6 +3,7 @@
         <b-tabs justified>
             <b-tab :title="$t('Details')" active>
                 <TransactionDetails
+                    id="transaction-details-table"
                     :transaction="transaction"
                     :disabled="isBusy"
                     @update="fetch"
@@ -34,6 +35,13 @@
             >
                 <font-awesome-icon icon="edit" /> {{ $t("Edit metadata") }}</router-link
             >
+            <b-button
+                variant="primary"
+                @click="print()"
+            >
+                <font-awesome-icon :icon="['fa', 'print']" />
+                {{ $t("Print") }}
+            </b-button>
             <router-link
                 :to="{
                     name: 'accounting.transactions.index',
@@ -96,6 +104,13 @@ export default {
         },
         async fetchHistory() {
             return await transactionsApi.transactionHistory(this.id);
+        },
+        async print() {
+            await this.$htmlToPaper("transaction-details-table", {
+                // There seems to be no way of obtaining urls of compiled resources in vite,
+                // so the style sheet urls are just copied from the main document
+                styles: [...document.styleSheets].map(css => css.href).filter(url => url),
+            })
         }
     }
 };

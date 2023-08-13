@@ -16,6 +16,10 @@ Vue.mixin(ziggyMixin);
 // Form validation
 import "@/plugins/vee-validate";
 
+// Printing library
+import VueHtmlToPaper from 'vue-html-to-paper';
+Vue.use(VueHtmlToPaper);
+
 // Hide prod tooltip
 Vue.config.productionTip = false;
 
