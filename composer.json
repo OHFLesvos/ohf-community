@@ -46,6 +46,7 @@
         "filp/whoops": "~2.0",
         "laravel/pint": "^1.1",
         "laravel/sail": "^1.14",
+        "librenms/laravel-vue-i18n-generator": "dev-master",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.8",
         "nunomaduro/larastan": "^2.2",
