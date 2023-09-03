@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class CommunityVolunteerController extends Controller
@@ -97,8 +96,8 @@ class CommunityVolunteerController extends Controller
     private function filterQuery(Builder $query, string $filter): Builder
     {
         return $query->where(
-            fn (Builder $q) => $q->where(DB::raw('CONCAT(first_name, \' \', family_name)'), 'LIKE', '%'.$filter.'%')
-                ->orWhere(DB::raw('CONCAT(family_name, \' \', first_name)'), 'LIKE', '%'.$filter.'%')
+            fn (Builder $q) => $q->whereRaw('CONCAT(first_name, \' \', family_name) LIKE ?', ['%'.$filter.'%'])
+                ->orWhereRaw('CONCAT(family_name, \' \', first_name) LIKE ?', ['%'.$filter.'%'])
                 ->orWhere('first_name', 'LIKE', '%'.$filter.'%')
                 ->orWhere('nickname', 'LIKE', '%'.$filter.'%')
                 ->orWhere('family_name', 'LIKE', '%'.$filter.'%')

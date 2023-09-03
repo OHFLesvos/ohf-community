@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 use JeroenDesloovere\VCard\VCard;
-use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
 
 class ImportExportController extends BaseController
@@ -240,9 +239,7 @@ class ImportExportController extends BaseController
         \Debugbar::disable(); // Debugbar will inject additional code at end of zip file if enabled
 
         // Download as ZIP with portraits
-        $options = new Archive();
-        $options->setSendHttpHeaders(true);
-        $zip = new ZipStream($file_name.'.zip', $options);
+        $zip = new ZipStream(outputName: $file_name.'.zip', sendHttpHeaders: true);
         $temp_file = 'temp/'.uniqid().'.'.$file_ext;
         $export->store($temp_file);
         $zip->addFileFromPath($file_name.'.'.$file_ext, storage_path('app/'.$temp_file));

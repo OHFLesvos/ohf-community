@@ -12,7 +12,6 @@ use App\Models\Accounting\Transaction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class SuppliersController extends Controller
@@ -74,9 +73,9 @@ class SuppliersController extends Controller
             ->orWhere('category', 'LIKE', '%'.$filter.'%')
             ->orWhere('remarks', 'LIKE', '%'.$filter.'%')
             ->orWhere('tax_number', $filter)
-            ->orWhere(DB::raw('REPLACE(phone, \' \', \'\')'), str_replace(' ', '', $filter))
-            ->orWhere(DB::raw('REPLACE(mobile, \' \', \'\')'), str_replace(' ', '', $filter))
-            ->orWhere(DB::raw('REPLACE(iban, \' \', \'\')'), str_replace(' ', '', $filter))
+            ->orWhereRaw('REPLACE(phone, \' \', \'\') = ?', [str_replace(' ', '', $filter)])
+            ->orWhereRaw('REPLACE(mobile, \' \', \'\') = ?', [str_replace(' ', '', $filter)])
+            ->orWhereRaw('REPLACE(iban, \' \', \'\') = ?', [str_replace(' ', '', $filter)])
         );
     }
 

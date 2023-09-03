@@ -17,7 +17,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class Donor extends Model
 {
@@ -199,20 +198,20 @@ class Donor extends Model
                     ->map(fn ($name) => strtolower($name))
                     ->flip();
 
-                return $wq->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%'.$filter.'%')
-                    ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%'.$filter.'%')
+                return $wq->whereRaw('CONCAT(first_name, \' \', last_name) LIKE ?', ['%'.$filter.'%'])
+                    ->orWhereRaw('CONCAT(last_name, \' \', first_name) LIKE ?', ['%'.$filter.'%'])
                     ->orWhere('company', 'LIKE', '%'.$filter.'%')
                     ->orWhere('first_name', 'LIKE', '%'.$filter.'%')
                     ->orWhere('last_name', 'LIKE', '%'.$filter.'%')
                     ->orWhere('street', 'LIKE', '%'.$filter.'%')
                     ->orWhere('zip', $filter)
                     ->orWhere('city', 'LIKE', '%'.$filter.'%')
-                    ->orWhere(DB::raw('CONCAT(street, \' \', city)'), 'LIKE', '%'.$filter.'%')
-                    ->orWhere(DB::raw('CONCAT(street, \' \', zip, \' \', city)'), 'LIKE', '%'.$filter.'%')
+                    ->orWhereRaw('CONCAT(street, \' \', city) LIKE ?', ['%'.$filter.'%'])
+                    ->orWhereRaw('CONCAT(street, \' \', zip, \' \', city) LIKE ?', ['%'.$filter.'%'])
                     // Note: Countries filter only works for complete country code or country name
                     ->orWhere('country_code', $countries[strtolower($filter)] ?? $filter)
                     ->orWhere('email', 'LIKE', '%'.$filter.'%')
-                    ->orWhere(DB::raw("REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '+', ''), '(', ''), ')', '')"), 'LIKE', '%'.str_replace(['+', '(', ')', ' '], '', $filter).'%');
+                    ->orWhereRaw("REPLACE(REPLACE(REPLACE(REPLACE(phone, ' ', ''), '+', ''), '(', ''), ')', '') LIKE ?", ['%'.str_replace(['+', '(', ')', ' '], '', $filter).'%']);
             });
         }
 
@@ -224,8 +223,8 @@ class Donor extends Model
      */
     public function scopeForSimpleFilter(Builder $query, string $filter): Builder
     {
-        return $query->where(DB::raw('CONCAT(first_name, \' \', last_name)'), 'LIKE', '%'.$filter.'%')
-            ->orWhere(DB::raw('CONCAT(last_name, \' \', first_name)'), 'LIKE', '%'.$filter.'%')
+        return $query->whereRaw('CONCAT(first_name, \' \', last_name) LIKE ?', ['%'.$filter.'%'])
+            ->orWhereRaw('CONCAT(last_name, \' \', first_name) LIKE ?', ['%'.$filter.'%'])
             ->orWhere('company', 'LIKE', '%'.$filter.'%')
             ->orWhere('first_name', 'LIKE', '%'.$filter.'%')
             ->orWhere('last_name', 'LIKE', '%'.$filter.'%');

@@ -19,7 +19,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use ZipStream\Option\Archive;
 use ZipStream\ZipStream;
 
 class BudgetController extends Controller
@@ -137,9 +136,7 @@ class BudgetController extends Controller
             return $export->download($file_name.'.'.$file_ext);
         }
 
-        $options = new Archive();
-        $options->setSendHttpHeaders(true);
-        $zip = new ZipStream($file_name.'.zip', $options);
+        $zip = new ZipStream(outputName: $file_name.'.zip', sendHttpHeaders: true);
         $temp_file = 'temp/'.uniqid().'.'.$file_ext;
         $export->store($temp_file);
         $zip->addFileFromPath($file_name.'.'.$file_ext, storage_path('app/'.$temp_file));
