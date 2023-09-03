@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class NavigationServiceProvider extends ServiceProvider
 {
-    use RegistersNavigationItems, RegisterContextButtons;
+    use RegisterContextButtons, RegistersNavigationItems;
 
     protected $navigationItems = [
         \App\Navigation\Drawer\HomeNavigationItem::class,

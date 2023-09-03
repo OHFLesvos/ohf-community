@@ -12,8 +12,8 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 class Visitor extends Model
 {
     use HasFactory;
-    use NullableFields;
     use InDateRangeScope;
+    use NullableFields;
 
     protected $fillable = [
         'name',

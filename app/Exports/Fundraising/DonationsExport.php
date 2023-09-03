@@ -13,9 +13,9 @@ use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\BeforeWriting;
 
-class DonationsExport implements WithMultipleSheets, WithEvents
+class DonationsExport implements WithEvents, WithMultipleSheets
 {
-    use Exportable, DefaultFormatting;
+    use DefaultFormatting, Exportable;
 
     public function __construct(private ?Donor $donor = null)
     {

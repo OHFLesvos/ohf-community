@@ -11,9 +11,9 @@ use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\BeforeWriting;
 
-class VisitorsExport implements WithMultipleSheets, WithEvents
+class VisitorsExport implements WithEvents, WithMultipleSheets
 {
-    use Exportable, DefaultFormatting;
+    use DefaultFormatting, Exportable;
 
     public function sheets(): array
     {

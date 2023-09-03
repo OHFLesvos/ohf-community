@@ -21,14 +21,14 @@ use Illuminate\Support\Facades\DB;
 
 class Donor extends Model
 {
-    use HasFactory;
-    use TagsRelation;
     use CommentsRelation;
-    use LanguageCodeField;
     use CountryCodeField;
-    use InDateRangeScope;
     use CreatedUntilScope;
+    use HasFactory;
+    use InDateRangeScope;
+    use LanguageCodeField;
     use NullableFields;
+    use TagsRelation;
 
     protected $nullable = [
         'salutation',

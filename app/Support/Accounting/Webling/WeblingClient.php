@@ -55,6 +55,7 @@ class WeblingClient
         if ($data != null && isset($data['objects'])) {
             return $data['objects'];
         }
+
         // TODO error handling
         return null;
     }
@@ -72,6 +73,7 @@ class WeblingClient
         if ($response->getStatusCode() >= 200 && $response->getStatusCode() < 300) {
             return $response->getData();
         }
+
         // TODO error handling
         return null;
     }
@@ -92,6 +94,7 @@ class WeblingClient
 
             return $data;
         }
+
         // TODO error handling
         return null;
     }

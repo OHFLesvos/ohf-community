@@ -11,8 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class VisitorCheckin extends Model
 {
     use HasFactory;
-    use NullableFields;
     use InDateRangeScope;
+    use NullableFields;
 
     protected $fillable = [
         'purpose_of_visit',
