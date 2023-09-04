@@ -14,7 +14,7 @@ use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class BudgetTransactionsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
+class BudgetTransactionsExport extends BaseExport implements FromQuery, WithColumnFormatting, WithHeadings, WithMapping
 {
     private Budget $budget;
 

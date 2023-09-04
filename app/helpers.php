@@ -127,7 +127,6 @@ if (! function_exists('localized_country_names')) {
      * Returns a list of localized country names
      *
      * @param  string|null  $locale
-     * @return \Illuminate\Support\Collection
      */
     function localized_country_names($locale = null): Illuminate\Support\Collection
     {
@@ -140,7 +139,6 @@ if (! function_exists('localized_language_names')) {
      * Returns a list of localized language names
      *
      * @param  string|null  $locale
-     * @return \Illuminate\Support\Collection
      */
     function localized_language_names($locale = null): Illuminate\Support\Collection
     {

@@ -13,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Setting;
 
-abstract class BaseTransactionsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
+abstract class BaseTransactionsExport extends BaseExport implements FromQuery, WithColumnFormatting, WithHeadings, WithMapping
 {
     public function headings(): array
     {

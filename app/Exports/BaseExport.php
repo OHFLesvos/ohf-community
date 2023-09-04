@@ -9,9 +9,9 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Events\BeforeExport;
 
-abstract class BaseExport implements WithTitle, ShouldAutoSize, WithEvents
+abstract class BaseExport implements ShouldAutoSize, WithEvents, WithTitle
 {
-    use Exportable, DefaultFormatting;
+    use DefaultFormatting, Exportable;
 
     public function registerEvents(): array
     {

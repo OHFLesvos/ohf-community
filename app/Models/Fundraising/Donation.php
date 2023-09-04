@@ -14,10 +14,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Donation extends Model
 {
-    use HasFactory;
-    use NullableFields;
-    use InDateRangeScope;
     use CreatedUntilScope;
+    use HasFactory;
+    use InDateRangeScope;
+    use NullableFields;
 
     protected $nullable = [
         'purpose',

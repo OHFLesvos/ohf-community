@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class DonorsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping, WithColumnFormatting
+class DonorsExport extends BaseExport implements FromQuery, WithColumnFormatting, WithHeadings, WithMapping
 {
     private Collection $usedCurrenciesChannels;
 

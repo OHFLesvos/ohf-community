@@ -16,9 +16,9 @@ use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 use Maatwebsite\Excel\Events\BeforeExport;
 use Maatwebsite\Excel\Events\BeforeWriting;
 
-class TransactionsMonthsExport implements WithMultipleSheets, WithEvents
+class TransactionsMonthsExport implements WithEvents, WithMultipleSheets
 {
-    use Exportable, DefaultFormatting;
+    use DefaultFormatting, Exportable;
 
     /**
      * @param  Wallet|null  $wallet Wallet

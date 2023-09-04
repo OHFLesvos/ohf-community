@@ -16,10 +16,10 @@ use OwenIt\Auditing\Contracts\Auditable;
 
 class CommunityVolunteer extends Model implements Auditable
 {
+    use CommentsRelation;
     use HasFactory;
     use NullableFields;
     use \OwenIt\Auditing\Auditable;
-    use CommentsRelation;
 
     protected $table = 'community_volunteers';
 

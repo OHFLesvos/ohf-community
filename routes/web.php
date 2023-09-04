@@ -6,7 +6,6 @@ use App\Http\Controllers\CommunityVolunteers\ImportExportController as Community
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\PrivacyPolicyController;
-use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
@@ -46,10 +45,8 @@ Route::middleware('language')->group(function () {
 
     // Settings
     Route::middleware('auth')->group(function () {
-        Route::get('settings', [SettingsController::class, 'edit'])
+        Route::view('settings', 'vue-app')
             ->name('settings.edit');
-        Route::put('settings', [SettingsController::class, 'update'])
-            ->name('settings.update');
     });
 });
 

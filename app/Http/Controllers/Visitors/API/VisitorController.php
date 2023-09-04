@@ -9,6 +9,7 @@ use App\Http\Requests\Visitors\StoreVisitor;
 use App\Http\Resources\Visitors\Visitor as VisitorResource;
 use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
+use App\Models\Visitors\VisitorParentChild;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -65,7 +66,7 @@ class VisitorController extends Controller
         $filter = trim($request->input('filter', ''));
 
         return VisitorResource::collection(Visitor::query()
-            ->with('checkins')
+            ->with(['checkins', 'parents', 'children'])
             ->when(! empty($filter), fn (Builder $query) => $this->filterQuery($query, $filter))
             ->where('anonymized', false)
             ->orderBy($sortBy, $sortDirection)
@@ -74,10 +75,14 @@ class VisitorController extends Controller
 
     private function filterQuery(Builder $query, string $filter): Builder
     {
+        $words = array_filter(preg_split('/\s+/', $filter), fn ($w) => preg_match('/\w/', $w));
+
         return $query->where(fn (Builder $wq) => $wq
             ->where('name', 'LIKE', '%'.$filter.'%')
+            ->orWhereRaw('MATCH(name) against (? IN BOOLEAN MODE)', implode(' ', array_map(fn ($w) => '+'.$w, $words)))
             ->orWhere('id_number', 'LIKE', '%'.$filter.'%')
-            ->orWhereDate('date_of_birth', $filter));
+            ->orWhereDate('date_of_birth', $filter)
+        );
     }
 
     public function store(StoreVisitor $request): JsonResponse
@@ -97,12 +102,84 @@ class VisitorController extends Controller
     {
         $this->authorize('view', $visitor);
 
+        $visitor->load('parents', 'children');
+
         return new VisitorResource($visitor);
+    }
+
+    public function createParentChild($parentId, $childId)
+    {
+        $parent = Visitor::findOrFail($parentId);
+        $child = Visitor::findOrFail($childId);
+
+        $parentChild = new VisitorParentChild();
+        $parentChild->parent_id = $parent->id;
+        $parentChild->child_id = $child->id;
+
+        $parentChild->save();
+    }
+
+    public function deleteParentChild($parentId, $childId)
+    {
+        $parentChild = VisitorParentChild::where('parent_id', $parentId)
+            ->where('child_id', $childId)
+            ->firstOrFail();
+
+        $parentChild->delete();
+    }
+
+    public function updateChildren(Visitor $visitor, StoreVisitor $request)
+    {
+        $this->authorize('update', $visitor);
+
+        $parentId = $visitor->id;
+
+        $childrenIds = array_column($request->input('children', []), 'id');
+        $existingChildrenIds = $visitor->children()
+            ->pluck('visitors.id')
+            ->toArray();
+
+        $deleteChildrenIds = array_diff($existingChildrenIds, $childrenIds);
+        $createChildrenIds = array_diff($childrenIds, $existingChildrenIds);
+
+        foreach ($createChildrenIds as $childId) {
+            $this->createParentChild($parentId, $childId);
+        }
+
+        foreach ($deleteChildrenIds as $childId) {
+            $this->deleteParentChild($parentId, $childId);
+        }
+    }
+
+    public function updateParents(Visitor $visitor, StoreVisitor $request)
+    {
+        $this->authorize('update', $visitor);
+
+        $childId = $visitor->id;
+
+        $parentIds = array_column($request->input('parents', []), 'id');
+        $existingParentIds = $visitor->parents()
+            ->pluck('visitors.id')
+            ->toArray();
+
+        $deleteParentIds = array_diff($existingParentIds, $parentIds);
+        $createParentIds = array_diff($parentIds, $existingParentIds);
+
+        foreach ($createParentIds as $parentId) {
+            $this->createParentChild($parentId, $childId);
+        }
+
+        foreach ($deleteParentIds as $parentId) {
+            $this->deleteParentChild($parentId, $childId);
+        }
     }
 
     public function update(Visitor $visitor, StoreVisitor $request): JsonResource
     {
         $this->authorize('update', $visitor);
+
+        $this->updateChildren($visitor, $request);
+        $this->updateParents($visitor, $request);
 
         $visitor->fill($request->all());
         $visitor->save();

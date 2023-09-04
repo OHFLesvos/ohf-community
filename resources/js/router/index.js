@@ -12,6 +12,7 @@ import userManagement from "@/router/user-management";
 import cmtyvol from "@/router/cmtyvol";
 import badges from "@/router/badges";
 import userprofile from "@/router/userprofile";
+import settings from "@/router/settings";
 
 import NotFoundPage from "@/pages/NotFoundPage.vue";
 
@@ -27,6 +28,7 @@ export default new VueRouter({
         ...cmtyvol,
         ...badges,
         ...userprofile,
+        ...settings,
         {
             path: "*",
             component: NotFoundPage

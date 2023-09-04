@@ -22,8 +22,8 @@ use Setting;
 
 class TransactionsController extends Controller
 {
-    use ValidatesResourceIndex;
     use AuthorizeAny;
+    use ValidatesResourceIndex;
 
     public function index(Request $request): JsonResource
     {
