@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.3.0
+
+* Update to Laravel 10 Framework
+* Fixed a date validation issue when trying to store a donation
+
 ## 4.2.0
 
 * Add parent-child relations to visitors
