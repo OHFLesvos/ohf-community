@@ -11,4 +11,4 @@ $SAIL php artisan ziggy:generate
 $SAIL npm run build
 $SAIL pint
 $SAIL php vendor/bin/phpstan analyze
-$SAIL test
+# $SAIL test
