@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Visitors\API;
 
-use App\Exports\Visitors\VisitorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Http\Requests\Visitors\StoreVisitor;
@@ -17,7 +16,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Setting;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class VisitorController extends Controller
 {
@@ -234,16 +232,6 @@ class VisitorController extends Controller
         $visitor->save();
 
         return new VisitorResource($visitor);
-    }
-
-    public function export(): BinaryFileResponse
-    {
-        $this->authorize('export-visitors');
-
-        $file_name = __('Visitors').' as of '.now()->toDateString();
-        $extension = 'xlsx';
-
-        return (new VisitorsExport())->download($file_name.'.'.$extension);
     }
 
     public function checkins(): JsonResponse

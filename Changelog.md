@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.4.0
+
+* Added file export dialog to visitors page allowing to select format and type (visitors or check-ins)
+
 ## 4.3.0
 
 * Update to Laravel 10 Framework

@@ -33,6 +33,7 @@ use App\Http\Controllers\UserManagement\API\UserController;
 use App\Http\Controllers\UserManagement\API\UserProfile2FAController;
 use App\Http\Controllers\UserManagement\API\UserProfileController;
 use App\Http\Controllers\UserManagement\API\UserRoleRelationshipController;
+use App\Http\Controllers\Visitors\API\ExportController as VisitorsExportController;
 use App\Http\Controllers\Visitors\API\ReportController as VisitorsReportController;
 use App\Http\Controllers\Visitors\API\VisitorController;
 use GrahamCampbell\Markdown\Facades\Markdown;
@@ -318,7 +319,7 @@ Route::middleware(['auth:sanctum', 'language'])
         Route::prefix('visitors')
             ->name('visitors.')
             ->group(function () {
-                Route::get('export', [VisitorController::class, 'export'])
+                Route::get('export', [VisitorsExportController::class, 'doExport'])
                     ->name('export');
 
                 // Report
