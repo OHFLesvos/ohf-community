@@ -2,8 +2,8 @@
     <b-container>
         <div class="d-flex justify-content-between align-items-center">
             <h2 class="display-4 mb-3">{{ $t("Visitor check-in") }}</h2>
-            <span v-if="checkedInToday !== null"
-                >{{ $t("{count} check-ins today", { count: checkedInToday }) }}
+            <span v-if="checkedInToday !== null">
+                {{ $t("{count} check-ins today", { count: checkedInToday }) }}
             </span>
         </div>
 
@@ -94,6 +94,10 @@
                 }}
             </small>
         </p>
+        <hr>
+        <div class="d-flex justify-content-end">
+            <VisitorsExportDialog v-if="can('export-visitors')"/>
+        </div>
     </b-container>
 </template>
 
@@ -106,6 +110,7 @@ import VisitorForm from "@/components/visitors/VisitorForm.vue";
 import VisitorCheckinButton from "@/components/visitors/VisitorCheckinButton.vue";
 import { showSnackbar } from "@/utils";
 import { mapState } from "vuex";
+import VisitorsExportDialog from "@/components/visitors/VisitorsExportDialog.vue";
 export default {
     components: {
         AlertWithRetry,
@@ -113,6 +118,7 @@ export default {
         VisitorDetails,
         VisitorForm,
         VisitorCheckinButton,
+        VisitorsExportDialog,
     },
     data() {
         return {

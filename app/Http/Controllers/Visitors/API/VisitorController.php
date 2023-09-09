@@ -236,16 +236,6 @@ class VisitorController extends Controller
         return new VisitorResource($visitor);
     }
 
-    public function export(): BinaryFileResponse
-    {
-        $this->authorize('export-visitors');
-
-        $file_name = __('Visitors').' as of '.now()->toDateString();
-        $extension = 'xlsx';
-
-        return (new VisitorsExport())->download($file_name.'.'.$extension);
-    }
-
     public function checkins(): JsonResponse
     {
         return response()

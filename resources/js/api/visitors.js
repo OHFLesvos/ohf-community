@@ -73,5 +73,9 @@ export default {
         }
         const url = route('api.visitors.checkInsByPurpose', params)
         return await api.get(url)
+    },
+    async export(params) {
+        const url = route("api.visitors.export", params);
+        return await api.download(url);
     }
 }
