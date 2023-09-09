@@ -25,7 +25,7 @@ class AutoColorInitialAvatar extends InitialAvatar
 
     protected function convertHSLtoRGB($h, $s, $l, $toHex = true)
     {
-        assert((0 <= $h) && ($h <= 1));
+        assert(($h >= 0) && ($h <= 1));
 
         $red = $l;
         $green = $l;
