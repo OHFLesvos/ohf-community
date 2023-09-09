@@ -5,20 +5,24 @@ namespace App\Exports\Visitors\Sheets;
 use App\Exports\BaseExport;
 use App\Exports\PageOrientation;
 use App\Models\Visitors\VisitorCheckin;
+use Carbon\Carbon;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
 class VisitorCheckInsExport extends BaseExport implements FromQuery, WithHeadings, WithMapping
 {
-    public function __construct()
+    public function __construct(private readonly Carbon $dateFrom, private readonly Carbon $dateTo)
     {
         $this->orientation = PageOrientation::Portrait;
     }
 
     public function query(): \Illuminate\Database\Eloquent\Builder
     {
-        return VisitorCheckin::orderBy('created_at', 'desc')
+        return VisitorCheckin::query()
+            ->whereDate('created_at', '>=', $this->dateFrom)
+            ->whereDate('created_at', '<=', $this->dateTo)
+            ->orderBy('created_at', 'desc')
             ->with('visitor');
     }
 

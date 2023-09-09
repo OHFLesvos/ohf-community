@@ -1,7 +1,7 @@
 <template>
     <div class="form-row">
         <div :class="[ noGranularity ? 'col-md' : 'col-md-8' ]">
-            <b-input-group :prepend="$t('Date range')" class="mb-2">
+            <b-input-group :prepend="prepend" class="mb-2">
                 <b-form-datepicker
                     v-model="from"
                     :placeholder="$t('From')"
@@ -32,7 +32,7 @@
                 />
             </b-input-group>
         </div>
-        <div class="col-auto">
+        <div v-if="!noReset" class="col-auto">
             <b-button
                 variant="secondary"
                 class="mb-2"
@@ -56,7 +56,15 @@ export default {
                 return obj.from && obj.to
             }
         },
+        prepend: {
+            type: String,
+            required: false,
+            default: function (obj) {
+                return this.$t('Date range')
+            }
+        },
         noGranularity: Boolean,
+        noReset: Boolean,
         min: {
             type: String,
             required: false,

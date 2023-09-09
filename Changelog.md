@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.5.0
+
+* Added date range selector to visitor checkins export
+
 ## 4.4.0
 
 * Added file export dialog to visitors page allowing to select format and type (visitors or check-ins)
