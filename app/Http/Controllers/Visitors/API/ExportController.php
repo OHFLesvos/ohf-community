@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Visitors\API;
 
-use App\Exports\Visitors\VisitorsExport;
+use App\Exports\Visitors\Sheets\VisitorCheckInsExport;
+use App\Exports\Visitors\Sheets\VisitorDataExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ExportController extends Controller
 {
@@ -24,19 +26,30 @@ class ExportController extends Controller
     protected function exportValidateArgs(): array
     {
         return [
+            'type' => [
+                'required',
+                Rule::in(['visitors', 'checkins']),
+            ],
         ];
     }
 
     protected function exportFilename(Request $request): string
     {
-        return  __('Visitors').' as of '.now()->toDateString();
+        if ($request->type == 'checkins') {
+            $prefix = __('Check-ins');
+        } else {
+            $prefix = __('Visitors');
+        }
+
+        return $prefix.' as of '.now()->toDateString();
     }
 
     protected function exportExportable(Request $request)
     {
-        $request->validate([
-        ]);
+        if ($request->type == 'checkins') {
+            return new VisitorCheckInsExport();
+        }
 
-        return new VisitorsExport();
+        return new VisitorDataExport();
     }
 }

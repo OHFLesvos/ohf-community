@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Visitors\API;
 
-use App\Exports\Visitors\VisitorsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Http\Requests\Visitors\StoreVisitor;
@@ -17,7 +16,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
 use Setting;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class VisitorController extends Controller
 {

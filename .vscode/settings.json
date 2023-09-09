@@ -46,5 +46,8 @@
         "xampp"
     ],
     "git.pullTags": false,
-    "editor.formatOnSave": false
+    "editor.formatOnSave": false,
+    "cSpell.words": [
+        "checkins"
+    ]
 }
