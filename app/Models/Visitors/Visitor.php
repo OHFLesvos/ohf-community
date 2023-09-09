@@ -39,14 +39,25 @@ class Visitor extends Model
         'remarks',
     ];
 
-    protected $dates = [
-        'date_of_birth',
-        'liability_form_signed',
-    ];
-
     protected $casts = [
         'anonymized' => 'boolean',
         'parental_consent_given' => 'boolean',
+        'date_of_birth' => 'datetime:Y-m-d',
+        'liability_form_signed' => 'datetime:Y-m-d',
+    ];
+
+    protected $visible = [
+        'id',
+        'name',
+        'id_number',
+        'gender',
+        'date_of_birth',
+        'nationality',
+        'living_situation',
+        'anonymized',
+        'liability_form_signed',
+        'remarks',
+        'parental_consent_given',
     ];
 
     public function checkins(): HasMany

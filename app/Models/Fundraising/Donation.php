@@ -25,14 +25,11 @@ class Donation extends Model
         'in_name_of',
     ];
 
-    protected $dates = [
-        'deleted_at',
-        'thanked',
-    ];
-
     protected $casts = [
         'amount' => 'float',
         'exchange_amount' => 'float',
+        'deleted_at' => 'datetime',
+        'thanked' => 'datetime:Y-m-d',
     ];
 
     public function donor(): BelongsTo

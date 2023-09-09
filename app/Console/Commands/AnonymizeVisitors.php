@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Models\Visitors\Visitor;
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
@@ -44,7 +43,7 @@ class AnonymizeVisitors extends Command
                 $visitor->id_number = sha1($visitor->id_number);
             }
             if ($visitor->date_of_birth !== null) {
-                $visitor->date_of_birth = (new Carbon($visitor->date_of_birth))->startOfYear();
+                $visitor->date_of_birth = $visitor->date_of_birth->startOfYear();
             }
             $visitor->anonymized = true;
             $visitor->save();

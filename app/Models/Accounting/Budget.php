@@ -35,10 +35,7 @@ class Budget extends Model
 
     protected $casts = [
         'is_completed' => 'boolean',
-    ];
-
-    protected $dates = [
-        'closed_at',
+        'closed_at' => 'datetime',
     ];
 
     public function transactions(): HasMany

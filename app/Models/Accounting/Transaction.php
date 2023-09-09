@@ -38,15 +38,7 @@ class Transaction extends Model implements Auditable
     protected $casts = [
         'booked' => 'boolean',
         'receipt_pictures' => 'array',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'controlled_at',
+        'controlled_at' => 'datetime',
     ];
 
     /**
