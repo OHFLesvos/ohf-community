@@ -22,6 +22,9 @@
                         stacked
                     />
                 </b-form-group>
+                <b-form-group v-if="type == 'checkins'" :label="$t('Date range')">
+                    <DateRangeSelect v-model="dateRange" noGranularity noReset :prepend="null"/>
+                </b-form-group>
 
                 <template #modal-footer="{ ok, cancel }">
                     <template v-if="isBusy">
@@ -44,8 +47,11 @@
 
 <script>
 import visitorsApi from "@/api/visitors";
+import moment from "moment";
+import DateRangeSelect from "@/components/common/DateRangeSelect.vue";
 export default {
-    props: {
+    components: {
+        DateRangeSelect,
     },
     data() {
         return {
@@ -63,6 +69,12 @@ export default {
                 visitors: this.$t("Visitors"),
                 checkins: this.$t("Check-ins")
             },
+            dateRange: {
+                from: moment()
+                    .startOf('month')
+                    .format(moment.HTML5_FMT.DATE),
+                to: moment().format(moment.HTML5_FMT.DATE),
+            },
         };
     },
     computed: {
@@ -78,6 +90,9 @@ export default {
                 text: e[1]
             }));
         },
+        today() {
+            return moment().format(moment.HTML5_FMT.DATE);
+        },
     },
     methods: {
         handleOk(bvModalEvt) {
@@ -87,7 +102,9 @@ export default {
         async handleSubmit() {
             const params = {
                 format: this.format,
-                type: this.type
+                type: this.type,
+                date_from: this.dateRange.from,
+                date_to: this.dateRange.to,
             };
 
             this.isBusy = true;

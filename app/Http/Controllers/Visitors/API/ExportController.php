@@ -6,6 +6,7 @@ use App\Exports\Visitors\Sheets\VisitorCheckInsExport;
 use App\Exports\Visitors\Sheets\VisitorDataExport;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Export\ExportableActions;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -30,24 +31,32 @@ class ExportController extends Controller
                 'required',
                 Rule::in(['visitors', 'checkins']),
             ],
+            'date_from' => [
+                'required_if:type,checkins',
+                'date',
+                'before_or_equal:date_to',
+            ],
+            'date_to' => [
+                'required_if:type,checkins',
+                'date',
+                'after_or_equal:date_from',
+            ],
         ];
     }
 
     protected function exportFilename(Request $request): string
     {
         if ($request->type == 'checkins') {
-            $prefix = __('Check-ins');
-        } else {
-            $prefix = __('Visitors');
+            return __('Check-ins :from - :to', ['from' => $request->date_from, 'to' => $request->date_to]);
         }
 
-        return $prefix.' as of '.now()->toDateString();
+        return __('Visitor as of :date', ['date' => now()->toDateString()]);
     }
 
     protected function exportExportable(Request $request)
     {
         if ($request->type == 'checkins') {
-            return new VisitorCheckInsExport();
+            return new VisitorCheckInsExport(new Carbon($request->date_from), new Carbon($request->date_to));
         }
 
         return new VisitorDataExport();
