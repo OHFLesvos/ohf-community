@@ -1,5 +1,9 @@
 # Changelog
 
+## NEXT
+
+* Add system info widget to dashboard
+
 ## 4.5.0
 
 * Added date range selector to visitor checkins export
