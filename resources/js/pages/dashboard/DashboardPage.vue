@@ -6,6 +6,7 @@
             <AccountingWidget v-if="data.accounting" :data="data.accounting"/>
             <FundraisingWidget v-if="data.fundraising" :data="data.fundraising"/>
             <UsersWidget v-if="data.users" :data="data.users"/>
+            <SystemInfoWidget v-if="data.system" :data="data.system"/>
         </div>
         <b-alert v-else variant="info" show>
             {{ $t('There is currently no content available for you here.')  }}
@@ -23,6 +24,7 @@ import CommunityVolunteersWidget from "@/components/dashboard/CommunityVolunteer
 import AccountingWidget from "@/components/dashboard/AccountingWidget.vue"
 import FundraisingWidget from "@/components/dashboard/FundraisingWidget.vue"
 import UsersWidget from "@/components/dashboard/UsersWidget.vue"
+import SystemInfoWidget from "@/components/dashboard/SystemInfoWidget.vue"
 export default {
     title() {
         return this.$t("Dashboard");
@@ -32,7 +34,8 @@ export default {
       CommunityVolunteersWidget,
       AccountingWidget,
       FundraisingWidget,
-      UsersWidget
+      UsersWidget,
+      SystemInfoWidget,
     },
     data() {
         return {

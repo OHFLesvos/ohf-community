@@ -2,6 +2,9 @@
 
 return [
     'keys' => [
+        'app.system.view' => [
+            'label' => 'permissions.view_system_info',
+        ],
         'app.usermgmt.view' => [
             'label' => 'permissions.view_usermgmt',
         ],
@@ -79,6 +82,7 @@ return [
         ],
     ],
     'gate_mapping' => [
+        'view-system-information' => 'app.system.view',
         'view-reports' => [  // TODO
             'app.usermgmt.view',
             'cmtyvol.manage',

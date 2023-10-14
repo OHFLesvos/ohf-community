@@ -64,7 +64,8 @@ import {
     faUserTimes,
     faSync,
     faUnlink,
-    faUnlock
+    faUnlock,
+    faMicrochip
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -134,7 +135,8 @@ library.add(
     faUserTimes,
     faSync,
     faUnlink,
-    faUnlock
+    faUnlock,
+    faMicrochip
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

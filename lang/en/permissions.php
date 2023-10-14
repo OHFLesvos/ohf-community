@@ -6,6 +6,7 @@ return [
     'usermgmt_manage_roles' => 'User management: Create, edit and delete roles',
 
     'configure_common_settings' => 'Configure common settings',
+    'view_system_info' => 'View system information',
 
     'create_badges' => 'Badges: Create badges',
 
