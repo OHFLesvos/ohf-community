@@ -1014,6 +1014,7 @@ export default {
             "usermgmt_manage_users": "User management: Create, edit and delete users",
             "usermgmt_manage_roles": "User management: Create, edit and delete roles",
             "configure_common_settings": "Configure common settings",
+            "view_system_info": "View system information",
             "create_badges": "Badges: Create badges",
             "view_fundraising_donors_donations": "Donation management: View donors & donations",
             "manage_fundraising_donors_donations": "Donation management: Manage donors & donations",
