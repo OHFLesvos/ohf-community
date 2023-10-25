@@ -42,6 +42,8 @@ class SettingsController extends Controller
         'visitors.nationalities' => \App\Settings\Visitors\VisitorNationalities::class,
         'visitors.living_situations' => \App\Settings\Visitors\VisitorLivingSituations::class,
         'visitors.purposes_of_visit' => \App\Settings\Visitors\VisitorPurposesOfVisit::class,
+        'visitors.id.digits' => \App\Settings\Visitors\VisitorIdDigits::class,
+        'visitors.id.prefix' => \App\Settings\Visitors\VisitorIdPrefix::class,
     ];
 
     /**

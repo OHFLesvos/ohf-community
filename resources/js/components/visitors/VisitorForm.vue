@@ -38,6 +38,7 @@
                             :label="$t('ID Number')"
                             :state="getValidationState(validationContext)"
                             :invalid-feedback="validationContext.errors[0]"
+                            :description="settings['visitors.id.digits'] ? $t('Leave empty to generate random number') : undefined"
                         >
                             <b-form-input
                                 v-model="formData.id_number"
@@ -159,7 +160,7 @@
                                 <b-button size="sm" class="text-danger float-right" variant="link" @click="removeParent(index)">Remove</b-button>
                             </li>
                             <p v-if="formData.parents.length == 0">No parent registered.</p>
-                        </ul>                        
+                        </ul>
                     </b-form-group>
                 </b-col>
                 <b-col>
@@ -182,7 +183,6 @@
                     :placeholder="
                         $t('Search for child or parent by name, ID number or date of birth…')
                     "
-                    autofocus
                     autocomplete="off"
                 />
             </b-form-group>

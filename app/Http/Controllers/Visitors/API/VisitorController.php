@@ -89,11 +89,30 @@ class VisitorController extends Controller
 
         $visitor = new Visitor();
         $visitor->fill($request->all());
+        if (! $request->filled('id_number')) {
+            $digits = intval(Setting::get('visitors.id.digits', 0));
+            $prefix = Setting::get('visitors.id.prefix', '');
+            if ($digits > 0) {
+                $visitor->id_number = $this->generateUniqueCode($digits, $prefix);
+            }
+        }
         $visitor->save();
 
         return (new VisitorResource($visitor))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function generateUniqueCode(int $digits, string $prefix = ''): ?string
+    {
+        if ($digits < 1) {
+            return null;
+        }
+        do {
+            $code = $prefix.random_int(pow(10, $digits - 1), 9 * pow(10, $digits - 1));
+        } while (Visitor::where('id_number', '=', $code)->first());
+
+        return $code;
     }
 
     public function show(Visitor $visitor): JsonResource
