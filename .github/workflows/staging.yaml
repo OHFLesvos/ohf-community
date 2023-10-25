@@ -9,7 +9,7 @@ on:
       - "master"
 
 env:
-  PHP_BIN: php81
+  PHP_BIN: php82
   PHP_VERSION: '8.2'
   NODE_VERSION: "20"
 
