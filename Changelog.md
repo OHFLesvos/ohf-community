@@ -2,6 +2,7 @@
 
 ## NEXT
 
+* Requires PHP 8.2
 * Add system info widget to dashboard
 
 ## 4.5.0
@@ -28,7 +29,7 @@
 
 ## 4.0.0
 
-* Require PHP 8.1
+* Require PHP 8.2
 * Extended visitor report
 * Removed knowledge base
 * Added support for specifying email domain for Google OAuth login

@@ -8,7 +8,7 @@ This program is open-sourced software licensed under the [AGPL license](https://
 
 ## Requirements
 
-* [PHP](https://www.php.net/) >= 8.1
+* [PHP](https://www.php.net/) >= 8.2
   * OpenSSL PHP Extension
   * PDO PHP Extension
   * Mbstring PHP Extension
@@ -33,37 +33,45 @@ Copy `.env.example` to `.env` and adapt database credentials and other settings 
 
 Install PHP dependencies:
 
-    composer install
+```bash
+composer install
+```
 
 Generate application key:
 
-    php artisan key:generate
+```bash
+php artisan key:generate
+```
 
 Create symlink for public storage disk:
 
-    php artisan storage:link
+```bash
+php artisan storage:link
+```
 
 Create/migrate database tables:
 
-    php artisan migrate
+```bash
+php artisan migrate
+```
 
 You have to compile the frontend assets (see below) in order for Javascript and CSS files to be available in the public web folder using `npm run build` or `npm run dev` (for development).
 
 Configure the desired virtual host / domain your webserver to point to the `public` directory.
 
-For more information see https://laravel.com/docs/installation
+For more information see [Laravel Docs](https://laravel.com/docs/installation)
 
 ### Cron job
 
 In order to run schedule commands, configure your cron service with the following cron job:
 
-```
+```cron
 * * * * * cd PATH/TO/YOUR/APP/ROOT && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 ## Login with Google OAuth
 
-Obtain OAuth 2.0 credentials from the Google API Console. For more info see https://developers.google.com/identity/protocols/oauth2
+Obtain OAuth 2.0 credentials from the Google API Console. For more info see [https://developers.google.com/identity/protocols/oauth2](Google OAuth doc)
 
 In your `.env` file, set the values of the following variables according to the information from Google.
 
@@ -78,16 +86,20 @@ Once set, a new "Google Login" button should appear on the login view.
 
 Run tests:
 
-    php artisan test
+```bash
+php artisan test
+```
 
 ## Assets
 
 Create assets (CSS/JavaScript) using npm:
 
-    npm install
-    php artisan vue-i18n:generate
-    php artisan ziggy:generate
-    npm run dev
+```bash
+npm install
+php artisan vue-i18n:generate
+php artisan ziggy:generate
+npm run dev
+```
 
 ## Frontend 3rd party libraries
 
@@ -115,35 +127,45 @@ The following list provides links to the documentation pages of the most common 
 
 It is recommended to execute a production deployment / upgrade as follows:
 
-    php artisan down --retry=60
-    php composer install --optimize-autoloader --no-dev
-    php artisan optimize
-    php artisan migrate --force
-    php artisan up
+```bash
+php artisan down --retry=60
+php composer install --optimize-autoloader --no-dev
+php artisan optimize
+php artisan migrate --force
+php artisan up
+```
 
 ## Code style fixer
 
 Run:
 
-   ./vendor/bin/pint
+```bash
+./vendor/bin/pint
+```
 
 or when using Laravel Sail:
 
-    sail pint
+```bash
+sail pint
+```
 
-More information here: https://github.com/laravel/pint
+More information here: [Laravel Pint](https://github.com/laravel/pint)
 
 ## Static code analysis
 
 Run:
 
-    ./vendor/bin/phpstan analyse
+```bash
+./vendor/bin/phpstan analyse
+```
 
 or when using Laravel Sail:
 
-    sail php ./vendor/bin/phpstan analyse
+```bash
+sail php ./vendor/bin/phpstan analyse
+```
 
-More information here: https://github.com/nunomaduro/larastan
+More information here: [Larastan](https://github.com/nunomaduro/larastan)
 
 ## Development notes
 
@@ -183,8 +205,10 @@ The configuration of the file `C:\devel\xampp\apache\conf\extra\httpd-vhosts.con
 
 The following commands create a custom self-signed TLS certificate:
 
-    cd c:\devel\xampp\apache
-    bin\openssl.exe req -newkey rsa:2048 -sha256 -nodes -keyout conf\ssl.key\ohf.test.key -x509 -days 365 -out conf\ssl.crt\ohf.test.crt -config conf\openssl.cnf
+```bash
+cd c:\devel\xampp\apache
+bin\openssl.exe req -newkey rsa:2048 -sha256 -nodes -keyout conf\ssl.key\ohf.test.key -x509 -days 365 -out conf\ssl.crt\ohf.test.crt -config conf\openssl.cnf
+```
 
 ## Development using Laravel Sail (Docker)
 
@@ -192,7 +216,7 @@ The following commands create a custom self-signed TLS certificate:
 
 Run the following command to install the composer dependencies:
 
-```
+```bash
 docker run --rm \
     -u "$(id -u):$(id -g)" \
     -v $(pwd):/var/www/html \
@@ -211,21 +235,29 @@ Copy the `.env.example` file to `.env` and set `DB_HOST=mysql`
 
 Start the application:
 
-    sail up -d
+```bash
+sail up -d
+```
 
 Create app key and run migrations
 
-    sail artisan key:generate
-    sail artisan migrate
-    sail artisan storage:link
+```bash
+sail artisan key:generate
+sail artisan migrate
+sail artisan storage:link
+```
 
 Install NPM packages and build javascript assets
 
-    sail npm install
-    sail npm run dev
+```bash
+sail npm install
+sail npm run dev
+```
 
-Access the databa
+Access the database via [http://localhost:8080](http://localhost:8080)
 
 Stop the application:
 
-    sail down
+```bash
+sail down
+```

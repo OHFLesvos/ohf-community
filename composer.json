@@ -4,7 +4,7 @@
     "description": "NGO management application",
     "license": "AGPL-3.0-or-later",
     "require": {
-        "php": "^8.1.0",
+        "php": "^8.2.0",
         "akaunting/laravel-language": "^1.0",
         "anlutro/l4-settings": "^1.0",
         "cviebrock/eloquent-sluggable": "^10.0",
