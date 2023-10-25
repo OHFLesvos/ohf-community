@@ -31,6 +31,16 @@ parameters:
 			path: app/Support/Accounting/Webling/Entities/Entrygroup.php
 
 		-
+			message: "#^Access to an undefined static property static\\(App\\\\Support\\\\Accounting\\\\Webling\\\\Entities\\\\WeblingEntity\\)\\:\\:\\$dates\\.$#"
+			count: 1
+			path: app/Support/Accounting/Webling/Entities/WeblingEntity.php
+
+		-
+			message: "#^Access to an undefined static property static\\(App\\\\Support\\\\Accounting\\\\Webling\\\\Entities\\\\WeblingEntity\\)\\:\\:\\$objectName\\.$#"
+			count: 1
+			path: app/Support/Accounting/Webling/Entities/WeblingEntity.php
+
+		-
 			message: "#^Undefined variable\\: \\$objectId$#"
 			count: 1
 			path: app/Support/Accounting/Webling/WeblingClient.php

@@ -15,16 +15,16 @@ class BuilderMixin
         return function (?string $granularity = 'days', ?string $column = 'created_at', ?string $orderDirection = 'asc', ?string $group_by_column_name = 'date_label') {
             switch ($granularity) {
                 case 'years':
-                    $this->getQuery()->selectRaw("YEAR(`${column}`) as `${group_by_column_name}`");
+                    $this->getQuery()->selectRaw("YEAR(`{$column}`) as `{$group_by_column_name}`");
                     break;
                 case 'months':
-                    $this->getQuery()->selectRaw("DATE_FORMAT(`${column}`, '%Y-%m') as `${group_by_column_name}`");
+                    $this->getQuery()->selectRaw("DATE_FORMAT(`{$column}`, '%Y-%m') as `{$group_by_column_name}`");
                     break;
                 case 'weeks':
-                    $this->getQuery()->selectRaw("DATE_FORMAT(`${column}`, '%x-W%v') as `${group_by_column_name}`");
+                    $this->getQuery()->selectRaw("DATE_FORMAT(`{$column}`, '%x-W%v') as `{$group_by_column_name}`");
                     break;
                 default: // days
-                    $this->getQuery()->selectRaw("DATE(`${column}`) as `${group_by_column_name}`");
+                    $this->getQuery()->selectRaw("DATE(`{$column}`) as `{$group_by_column_name}`");
             }
 
             return $this->getQuery()
