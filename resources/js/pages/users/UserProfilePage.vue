@@ -1,5 +1,5 @@
 <template>
-    <b-container v-if="user">
+    <b-container v-if="user" class="mt-3">
 
         <b-row class="align-items-center">
             <b-col cols="auto">

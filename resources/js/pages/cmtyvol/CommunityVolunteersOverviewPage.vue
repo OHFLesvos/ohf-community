@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container fluid>
 
         <!-- Table -->
         <base-table
@@ -78,7 +78,7 @@
             </template>
         </grid-view>
 
-    </div>
+    </b-container>
 </template>
 
 <script>

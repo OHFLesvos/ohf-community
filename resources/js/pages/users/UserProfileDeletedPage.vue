@@ -1,5 +1,5 @@
 <template>
-    <b-container>
+    <b-container class="mt-3">
         <b-alert variant="info" show>
             <font-awesome-icon icon="info-circle"/>
             {{ $t('Your account has been deleted.') }}

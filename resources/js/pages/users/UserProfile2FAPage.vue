@@ -1,5 +1,5 @@
 <template>
-    <b-container v-if="isLoaded">
+    <b-container v-if="isLoaded" class="mt-3">
         <validation-observer
             ref="form"
             v-slot="{ handleSubmit }"
