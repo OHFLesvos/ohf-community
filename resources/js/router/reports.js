@@ -7,10 +7,7 @@ export default [
         path: "/reports",
         name: "reports.index",
         components: {
-            default: () =>
-                import(
-                    "@/pages/reports/ReportsIndexPage.vue"
-                ),
+            default: () => import("@/pages/reports/ReportsIndexPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
@@ -27,10 +24,7 @@ export default [
         path: "/reports/visitors/checkins",
         name: "reports.visitors.checkins",
         components: {
-            default: () =>
-                import(
-                    "@/pages/reports/VisitorReportPage.vue"
-                ),
+            default: () => import("@/pages/reports/VisitorReportPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
@@ -51,10 +45,7 @@ export default [
         path: "/reports/fundraising/donations",
         name: "reports.fundraising.donations",
         components: {
-            default: () =>
-                import(
-                    "@/pages/reports/FundraisingReportPage.vue"
-                ),
+            default: () => import("@/pages/reports/FundraisingReportPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
@@ -70,5 +61,26 @@ export default [
                 ]
             }
         },
-    }
+    },
+    {
+        path: "/reports/cmtyvol/report",
+        name: "reports.cmtyvol",
+        components: {
+            default: () => import("@/pages/cmtyvol/CommunityVolunteersReportPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Reports'),
+                        to: { name: 'reports.index' }
+                    },
+                    {
+                        text: i18n.t('Community Volunteers'),
+                    }
+                ]
+            }
+        },
+    },
 ];

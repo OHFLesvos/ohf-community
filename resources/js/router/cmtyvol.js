@@ -22,14 +22,4 @@ export default [
             default: true
         }
     },
-    {
-        path: "/reports/cmtyvol/report",
-        name: "cmtyvol.report",
-        components: {
-            default: () =>
-                import(
-                    "@/pages/cmtyvol/CommunityVolunteersReportPage.vue"
-                )
-        }
-    }
 ];

@@ -51,10 +51,6 @@ class NavigationServiceProvider extends ServiceProvider
         'cmtyvol.responsibilities.index' => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesIndexContextButtons::class,
         'cmtyvol.responsibilities.create' => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesCreateContextButtons::class,
         'cmtyvol.responsibilities.edit' => \App\Navigation\ContextButtons\CommunityVolunteers\ResponsibilitiesEditContextButtons::class,
-
-        'reports.cmtyvol.report' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.visitors.checkins' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
-        'reports.fundraising.donations' => \App\Navigation\ContextButtons\ReportingReturnToIndexContextButtons::class,
     ];
 
     /**

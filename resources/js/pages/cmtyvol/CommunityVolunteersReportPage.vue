@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container fluid>
         <bar-chart
             :title="$t('Age distribution')"
             :x-label="$t('Age')"
@@ -30,7 +30,7 @@
                 </doughnut-chart>
             </div>
         </div>
-    </div>
+    </b-container>
 </template>
 
 <script>

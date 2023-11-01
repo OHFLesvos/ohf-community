@@ -23,7 +23,7 @@ export default {
             reports: [
                 {
                     label: this.$t("Community Volunteers"),
-                    to: { name: "cmtyvol.report" },
+                    to: { name: "reports.cmtyvol" },
                     icon: "chart-bar",
                     show: this.can("view-community-volunteer-reports")
                 },
