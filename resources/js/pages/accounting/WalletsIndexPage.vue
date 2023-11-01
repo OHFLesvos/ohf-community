@@ -38,22 +38,29 @@
                 <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
             </template>
         </base-table>
-        <b-button v-if="can('configure-accounting')" :to="{ name: 'accounting.wallets.create' }" variant="primary">
-            <font-awesome-icon icon="plus-circle"/>
-            {{ $t("Add") }}
-        </b-button>
+        <ButtonGroup :items="[
+            {
+                to: { name: 'accounting.wallets.create' },
+                variant: 'primary',
+                icon: 'plus-circle',
+                text: $t('Add'),
+                show: can('configure-accounting')
+            },
+        ]"/>
     </b-container>
 </template>
 
 <script>
 import walletsApi from "@/api/accounting/wallets";
 import BaseTable from "@/components/table/BaseTable.vue";
+import ButtonGroup from "@/components/common/ButtonGroup.vue";
 export default {
     title() {
         return this.$t("Wallets");
     },
     components: {
-        BaseTable
+        BaseTable,
+        ButtonGroup
     },
     data() {
         return {

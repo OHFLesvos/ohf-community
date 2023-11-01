@@ -1,13 +1,13 @@
 <template>
-    <b-container v-if="category" class="px-0">
-        <h5>{{ category.name }}</h5>
-        <p v-if="category.description" class="pre-formatted">{{ category.description }}</p>
+    <b-container v-if="category">
+        <b-card :title="`${$t('Category')} ${category.name}`" body-class="pb-0">
+            <b-card-text v-if="category.description" class="pre-formatted">{{ category.description }}</b-card-text>
 
-        <h6>{{ $t('Transactions') }}</h6>
-        <p v-if="category.num_transactions">Registered <strong>{{ category.num_transactions }}</strong> transactions in category.</p>
-        <p v-else>{{ $t('No transactions found.') }}</p>
-
-        <p>
+            <h5>{{ $t('Transactions') }}</h5>
+            <p v-if="category.num_transactions">Registered <strong>{{ category.num_transactions }}</strong> transactions in category.</p>
+            <p v-else>{{ $t('No transactions found.') }}</p>
+        </b-card>
+        <p class="mt-3">
             <router-link
                 v-if="category.can_update"
                 :to="{ name: 'accounting.categories.edit', params: { id: id } }"
@@ -15,18 +15,11 @@
             >
                 <font-awesome-icon icon="edit" /> {{ $t("Edit") }}</router-link
             >
-            <router-link
-                :to="{ name: 'accounting.categories.index' }"
-                class="btn btn-secondary"
-            >
-                <font-awesome-icon icon="times-circle" />
-                {{ $t("Overview") }}
-            </router-link>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t("Loading...") }}
-    </p>
+    </b-container>
 </template>
 
 <script>

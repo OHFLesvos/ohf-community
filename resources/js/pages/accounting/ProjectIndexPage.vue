@@ -1,15 +1,27 @@
 <template>
-    <b-container class="px-0">
+    <b-container>
         <alert-with-retry :value="errorText" @retry="fetchData" />
-        <nested-list-group
-            v-if="tree.length > 0"
-            :items="tree"
-            class="mb-4"
-            @itemClick="navigateToEdit"
-        />
-        <b-alert v-else-if="loaded" variant="info" show>{{
-            $t("No entries registered.")
-        }}</b-alert>
+        <div v-if="loaded">
+            <NestedListGroup
+                v-if="tree.length > 0"
+                :items="tree"
+                :header="$t('Projects')"
+                class="mb-4"
+                @itemClick="navigateToEdit"
+            />
+            <b-alert v-else variant="info" show>{{
+                $t("No entries registered.")
+            }}</b-alert>
+            <ButtonGroup :items="[
+                {
+                    to: { name: 'accounting.projects.create' },
+                    variant: 'primary',
+                    icon: 'plus-circle',
+                    text: $t('Add'),
+                    show: can('configure-accounting')
+                },
+            ]"/>
+        </div>
         <template v-else>
             {{ $t('Loading...') }}
         </template>
@@ -20,13 +32,15 @@
 import projectsApi from "@/api/accounting/projects";
 import NestedListGroup from "@/components/ui/NestedListGroup.vue";
 import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
+import ButtonGroup from "@/components/common/ButtonGroup.vue";
 export default {
     title() {
         return this.$t("Projects");
     },
     components: {
         NestedListGroup,
-        AlertWithRetry
+        AlertWithRetry,
+        ButtonGroup
     },
     data() {
         return {

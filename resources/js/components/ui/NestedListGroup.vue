@@ -1,4 +1,5 @@
 <template>
+    <b-card no-body :header="header">
     <b-list-group :class="root ? 'list-group-root' : null">
         <template v-for="item in items">
             <b-list-group-item
@@ -23,6 +24,7 @@
             />
         </template>
     </b-list-group>
+</b-card>
 </template>
 
 <script>
@@ -43,6 +45,9 @@ export default {
         itemPaddingLeft: {
             type: Number,
             default: 25
+        },
+        header: {
+            required: false
         }
     },
     methods: {

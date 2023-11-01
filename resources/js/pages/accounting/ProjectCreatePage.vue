@@ -1,6 +1,7 @@
 <template>
-    <b-container class="px-0">
-        <project-form
+    <b-container>
+        <ProjectForm
+            :title="$t('Create project')"
             :disabled="isBusy"
             @submit="handleRegister"
             @cancel="handleCancel"

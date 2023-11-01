@@ -1,13 +1,13 @@
 <template>
-    <b-container v-if="project" class="px-0">
-        <project-form
+    <b-container v-if="project">
+        <ProjectForm
             :project="project"
+            :title="$t('Edit project')"
             :disabled="isBusy"
             @submit="handleUpdate"
             @cancel="handleCancel"
             @delete="handleDelete"
         />
-        <hr />
         <p class="d-flex justify-content-between">
             <small>
                 {{
@@ -22,9 +22,9 @@
             </small>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t("Loading...") }}
-    </p>
+    </b-container>
 </template>
 
 <script>

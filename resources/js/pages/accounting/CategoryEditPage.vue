@@ -1,16 +1,13 @@
 <template>
-    <b-container
-        v-if="category"
-        class="px-0"
-    >
-        <category-form
+    <b-container v-if="category">
+        <CategoryForm
             :category="category"
+            :title="$t('Edit category')"
             :disabled="isBusy"
             @submit="handleUpdate"
             @cancel="handleCancel"
             @delete="handleDelete"
         />
-        <hr>
         <p class="d-flex justify-content-between">
             <small>
                 {{
@@ -25,9 +22,9 @@
             </small>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t('Loading...') }}
-    </p>
+    </b-container>
 </template>
 
 <script>

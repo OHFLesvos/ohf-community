@@ -1,8 +1,7 @@
 <template>
-    <b-container
-        class="px-0"
-    >
-        <category-form
+    <b-container>
+        <CategoryForm
+            :title="$t('Create category')"
             :disabled="isBusy"
             @submit="handleRegister"
             @cancel="handleCancel"

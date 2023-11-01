@@ -1,6 +1,6 @@
 <template>
     <b-container v-if="wallet">
-        <wallet-form
+        <WalletForm
             :wallet="wallet"
             :title="$t('Edit wallet')"
             :disabled="isBusy"
@@ -8,7 +8,7 @@
             @cancel="handleCancel"
             @delete="deleteWallet"
         />
-        <p class="text-right mt-2">
+        <p class="text-right">
             <small>
                 {{ $t("Created") }}:
                 {{ wallet.created_at | dateTimeFormat }} </small

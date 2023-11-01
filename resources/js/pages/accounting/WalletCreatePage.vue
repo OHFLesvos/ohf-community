@@ -1,5 +1,5 @@
 <template>
-    <b-container class="mb-3">
+    <b-container>
         <WalletForm
             :title="$t('Create wallet')"
             :disabled="isBusy"

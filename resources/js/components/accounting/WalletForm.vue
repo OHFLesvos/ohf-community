@@ -1,13 +1,8 @@
 <template>
-    <validation-observer
-        ref="observer"
-        v-slot="{ handleSubmit }"
-        slim
-    >
+    <validation-observer ref="observer" v-slot="{ handleSubmit }" slim>
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-            <b-card :title="title" body-class="pb-1" footer-class="d-flex justify-content-between align-items-start">
+            <b-card :title="title" body-class="pb-1" footer-class="d-flex justify-content-between align-items-start" class="mb-3">
                 <b-form-row>
-
                     <!-- Name -->
                     <b-col md>
                         <validation-provider

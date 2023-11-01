@@ -1,5 +1,5 @@
 <template>
-    <b-container class="px-0">
+    <b-container>
         <alert-with-retry :value="errorText" @retry="refresh" />
         <b-card :header="$t('Wallets')" class="shadow-sm mb-4" no-body>
             <b-table
