@@ -1,14 +1,14 @@
 <template>
-    <b-container v-if="wallet" class="px-0">
+    <b-container v-if="wallet">
         <wallet-form
             :wallet="wallet"
+            :title="$t('Edit wallet')"
             :disabled="isBusy"
             @submit="updateWallet"
             @cancel="handleCancel"
             @delete="deleteWallet"
         />
-        <hr />
-        <p class="text-right">
+        <p class="text-right mt-2">
             <small>
                 {{ $t("Created") }}:
                 {{ wallet.created_at | dateTimeFormat }} </small
@@ -19,9 +19,9 @@
             </small>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t("Loading...") }}
-    </p>
+    </b-container>
 </template>
 
 <script>

@@ -1,8 +1,7 @@
 <template>
     <validation-observer ref="observer" v-slot="{ handleSubmit }">
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-            <b-card>
-                <b-card-title v-if="header">{{ header }}</b-card-title>
+            <b-card :title="title">
                 <b-form-row>
                     <b-col sm>
                         <validation-provider
@@ -262,7 +261,7 @@ export default {
         value: {
             required: false,
         },
-        header: {
+        title: {
             required: false,
             default: undefined,
         },

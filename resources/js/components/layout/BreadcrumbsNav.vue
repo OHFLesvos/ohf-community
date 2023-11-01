@@ -3,10 +3,12 @@
         <b-breadcrumb-item :to="{name: 'dashboard'}">
             <font-awesome-icon icon="home" :title="$t('Dashboard')"/>
         </b-breadcrumb-item>
-        <b-breadcrumb-item v-for="(item,index) in items" :key="item.text" :to="item.to" :active="index == items.length - 1">
-            <font-awesome-icon v-if="item.icon" :icon="item.icon"/>
-            {{ item.text }}
-        </b-breadcrumb-item>
+        <template v-for="(item,index) in items" >
+            <b-breadcrumb-item v-if="typeof item.show === 'undefined' || item.show" :key="item.text" :to="item.to" :active="index == items.length - 1">
+                <font-awesome-icon v-if="item.icon" :icon="item.icon"/>
+                {{ item.text }}
+            </b-breadcrumb-item>
+        </template>
     </b-breadcrumb>
 </template>
 

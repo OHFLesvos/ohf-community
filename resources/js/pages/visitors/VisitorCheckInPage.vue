@@ -75,7 +75,7 @@
 
             <div v-if="showRegistrationForm" class="pb-3">
                 <VisitorForm
-                    :header="$t('Register new visitor')"
+                    :title="$t('Register new visitor')"
                     :disabled="isBusy"
                     @submit="handleCreate"
                     @cancel="showRegistrationForm = false"

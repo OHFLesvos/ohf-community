@@ -3,10 +3,11 @@
         class="d-flex justify-content-between mb-2"
         :class="{ container: container, 'px-0': container }"
     >
-        <h1 class="display-4">
+        <h1 v-if="title" class="display-4">
             {{ title }}
             <small v-if="subtitle">{{ subtitle }}</small>
         </h1>
+        <span v-else></span>
         <span class="text-right pt-2">
             <span v-for="(button, idx) in availableButtons" :key="idx">
                 <b-button

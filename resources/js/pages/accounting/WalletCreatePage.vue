@@ -1,8 +1,7 @@
 <template>
-    <b-container
-        class="px-0"
-    >
-        <wallet-form
+    <b-container class="mb-3">
+        <WalletForm
+            :title="$t('Create wallet')"
             :disabled="isBusy"
             @submit="registerWallet"
             @cancel="handleCancel"

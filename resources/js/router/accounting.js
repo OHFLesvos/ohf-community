@@ -4,6 +4,7 @@ import ziggyRoute from "@/plugins/ziggy";
 import { can } from "@/plugins/laravel";
 
 import PageHeader from "@/components/layout/PageHeader.vue";
+import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
 
 export default [
     {
@@ -14,12 +15,15 @@ export default [
                 import(
                     "@/pages/accounting/AccountingIndexPage.vue"
                 ),
-            header: PageHeader
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Overview"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                    }
+                ]
             }
         }
     },
@@ -31,29 +35,20 @@ export default [
                 import(
                     "@/pages/accounting/WalletsIndexPage.vue"
                 ),
-            header: PageHeader
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Wallets"),
-                buttons: [
+            breadcrumbs: {
+                items: [
                     {
-                        to: { name: "accounting.wallets.create" },
-                        variant: "primary",
-                        icon: "plus-circle",
-                        text: i18n.t("Add"),
-                        show: can("configure-accounting")
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
                     },
                     {
-                        to: { name: "accounting.index" },
-                        icon: "home",
-                        text: i18n.t("Overview"),
-                        show:
-                            can("view-accounting-summary") ||
-                            can("view-transactions")
+                        text: i18n.t('Manage wallets'),
                     }
-                ],
-                container: true
+                ]
             }
         }
     },
@@ -65,12 +60,24 @@ export default [
                 import(
                     "@/pages/accounting/WalletCreatePage.vue"
                 ),
-            header: PageHeader
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Create wallet"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t('Manage wallets'),
+                        to: { name: "accounting.wallets.index" }
+                    },
+                    {
+                        text: i18n.t("Create wallet"),
+                    }
+                ]
             }
         }
     },
@@ -82,13 +89,25 @@ export default [
                 import(
                     "@/pages/accounting/WalletEditPage.vue"
                 ),
-            header: PageHeader
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: {
-                title: i18n.t("Edit wallet"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t('Manage wallets'),
+                        to: { name: "accounting.wallets.index" }
+                    },
+                    {
+                        text: i18n.t("Edit wallet"),
+                    }
+                ]
             }
         }
     },

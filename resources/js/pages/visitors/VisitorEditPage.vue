@@ -6,7 +6,7 @@
         <VisitorForm
             :value="visitor"
             :disabled="isBusy || visitor.anonymized"
-            :header="$t('Edit visitor')"
+            :title="$t('Edit visitor')"
             @submit="handleUpdate"
             @delete="handleDelete"
             @cancel="handleCancel"

@@ -1,5 +1,5 @@
 <template>
-    <b-container class="px-0">
+    <b-container>
         <base-table
             ref="table"
             id="wallets-table"
@@ -38,6 +38,10 @@
                 <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
             </template>
         </base-table>
+        <b-button v-if="can('configure-accounting')" :to="{ name: 'accounting.wallets.create' }" variant="primary">
+            <font-awesome-icon icon="plus-circle"/>
+            {{ $t("Add") }}
+        </b-button>
     </b-container>
 </template>
 

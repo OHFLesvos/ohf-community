@@ -5,43 +5,36 @@
         slim
     >
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+            <b-card :title="title" body-class="pb-1" footer-class="d-flex justify-content-between align-items-start">
+                <b-form-row>
 
-            <b-form-row>
-
-                <!-- Name -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('Name')"
-                        vid="name"
-                        :rules="{ required: true }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Name')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                    <!-- Name -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Name')"
+                            vid="name"
+                            :rules="{ required: true }"
+                            v-slot="validationContext"
                         >
-                            <b-form-input
-                                v-model="form.name"
-                                autocomplete="off"
-                                :autofocus="!wallet"
+                            <b-form-group
+                                :label="$t('Name')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.name"
+                                    autocomplete="off"
+                                    :autofocus="!wallet"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                </b-form-row>
 
-            </b-form-row>
-
-            <b-card
-                :header="$t('User roles with access (Whitelist)')"
-                class="mb-4"
-                body-class="pb-0"
-            >
-                <p><em>{{ $t('Specifying no role will allow access by all roles.') }}</em></p>
                 <b-form-group
                     v-if="roles.length > 0"
-                    :label="$t('Roles')"
+                    :label="$t('User roles with access (Whitelist)')"
                 >
                     <b-form-checkbox-group
                         v-model="form.roles"
@@ -52,42 +45,42 @@
                 <template v-else>
                     <p><em>{{ $t('No roles defined.') }}</em></p>
                 </template>
-            </b-card>
+                <b-alert variant="info" :show="!form.roles.length">{{ $t('Specifying no role will allow access by all roles.') }}</b-alert>
 
-            <p class="d-flex justify-content-between align-items-start">
-                <span>
-                    <!-- Submit -->
-                    <b-button
-                        type="submit"
-                        variant="primary"
-                        :disabled="disabled"
-                    >
-                        <font-awesome-icon icon="check" />
-                        {{ wallet ? $t('Update') : $t('Add') }}
-                    </b-button>
+                <template #footer>
+                    <span>
+                        <!-- Submit -->
+                        <b-button
+                            type="submit"
+                            variant="primary"
+                            :disabled="disabled"
+                        >
+                            <font-awesome-icon icon="check" />
+                            {{ wallet ? $t('Update') : $t('Add') }}
+                        </b-button>
 
-                    <!-- Cancel -->
+                        <!-- Cancel -->
+                        <b-button
+                            variant="link"
+                            :disabled="disabled"
+                            @click="$emit('cancel')"
+                        >
+                            {{ $t('Cancel') }}
+                        </b-button>
+                    </span>
+
+                    <!-- Delete -->
                     <b-button
+                        v-if="wallet && wallet.can_delete"
                         variant="link"
                         :disabled="disabled"
-                        @click="$emit('cancel')"
+                        class="text-danger"
+                        @click="onDelete"
                     >
-                        {{ $t('Cancel') }}
+                        {{ $t('Delete') }}
                     </b-button>
-                </span>
-
-                <!-- Delete -->
-                <b-button
-                    v-if="wallet && wallet.can_delete"
-                    variant="link"
-                    :disabled="disabled"
-                    class="text-danger"
-                    @click="onDelete"
-                >
-                    {{ $t('Delete') }}
-                </b-button>
-
-            </p>
+                </template>
+            </b-card>
         </b-form>
     </validation-observer>
 </template>
@@ -101,6 +94,10 @@ export default {
         wallet: {
             type: Object,
             required: false
+        },
+        title: {
+            required: false,
+            default: undefined
         },
         disabled: Boolean
     },
