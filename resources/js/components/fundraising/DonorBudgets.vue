@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="py-3">
         <base-table
             id="donor-budgets-table"
             :fields="fields"

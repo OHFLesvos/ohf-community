@@ -4,7 +4,15 @@
         :value="error"
         @retry="fetchData"
     />
-    <div v-else-if="loaded">
+    <b-container fluid v-else-if="loaded">
+
+        <b-card no-body class="mb-3">
+            <b-card-body class="pb-0">
+                <b-card-title>Card Title</b-card-title>
+            </b-card-body>
+            <DonorDetails :id="id"/>
+        </b-card>
+
         <tab-nav :items="tabNavItems">
             <template v-slot:after(donations)>
                 <b-badge
@@ -32,7 +40,7 @@
             </template>
         </tab-nav>
         <router-view @count="updateCount" />
-    </div>
+    </b-container>
     <p v-else>
         {{ $t('Loading...') }}
     </p>
@@ -42,13 +50,15 @@
 import donorsApi from '@/api/fundraising/donors'
 import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
 import TabNav from '@/components/layout/TabNav.vue'
+import DonorDetails from "@/components/fundraising/DonorDetails.vue"
 export default {
     title() {
         return this.$t("Show donor");
     },
     components: {
         AlertWithRetry,
-        TabNav
+        TabNav,
+        DonorDetails
     },
     props: {
         id: {
@@ -65,11 +75,11 @@ export default {
             budgetsCount: null,
             commentCount: null,
             tabNavItems: [
-                {
-                    to: { name: 'fundraising.donors.show' },
-                    icon: 'user',
-                    text: this.$t('Donor')
-                },
+                // {
+                //     to: { name: 'fundraising.donors.show' },
+                //     icon: 'user',
+                //     text: this.$t('Donor')
+                // },
                 {
                     to: { name: 'fundraising.donors.show.donations' },
                     icon: 'donate',

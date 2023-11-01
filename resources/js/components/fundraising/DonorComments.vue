@@ -1,12 +1,12 @@
 <template>
-    <div class="mt-3">
+    <b-container class="mt-3 px-0">
         <comments-list
             :key="id"
             :api-list-method="listComments"
             :api-create-method="canCreate ? storeComment : null"
             @count="$emit('count', { type: 'comments', value: $event })"
         />
-    </div>
+    </b-container>
 </template>
 
 <script>

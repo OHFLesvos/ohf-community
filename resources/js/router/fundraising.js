@@ -107,46 +107,47 @@ export default [
     },
     {
         path: "/fundraising/donors/:id(\\d+)",
+        name: "fundraising.donors.show",
         components: {
             default: () => import("@/pages/fundraising/DonorShowPage.vue"),
-            header: PageHeader,
+            // header: PageHeader,
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: route => ({
-                title: i18n.t("Donor"),
-                buttons: [
-                    {
-                        to: {
-                            name: "fundraising.donors.edit",
-                            params: { id: route.params.id }
-                        },
-                        variant: "primary",
-                        icon: "pencil-alt",
-                        text: i18n.t("Edit"),
-                        show: can("manage-fundraising-entities")
-                    },
-                    {
-                        href: ziggyRoute(
-                            "api.fundraising.donors.donations.export",
-                            route.params.id
-                        ),
-                        icon: "download",
-                        text: i18n.t("Export"),
-                        show: can("view-fundraising-entities")
-                    },
-                    {
-                        href: ziggyRoute(
-                            "api.fundraising.donors.vcard",
-                            route.params.id
-                        ),
-                        icon: "address-card",
-                        text: i18n.t("vCard"),
-                        show: can("view-fundraising-entities")
-                    },
-                ]
-            }),
+            // header: route => ({
+            //     title: i18n.t("Donor"),
+            //     buttons: [
+            //         {
+            //             to: {
+            //                 name: "fundraising.donors.edit",
+            //                 params: { id: route.params.id }
+            //             },
+            //             variant: "primary",
+            //             icon: "pencil-alt",
+            //             text: i18n.t("Edit"),
+            //             show: can("manage-fundraising-entities")
+            //         },
+            //         {
+            //             href: ziggyRoute(
+            //                 "api.fundraising.donors.donations.export",
+            //                 route.params.id
+            //             ),
+            //             icon: "download",
+            //             text: i18n.t("Export"),
+            //             show: can("view-fundraising-entities")
+            //         },
+            //         {
+            //             href: ziggyRoute(
+            //                 "api.fundraising.donors.vcard",
+            //                 route.params.id
+            //             ),
+            //             icon: "address-card",
+            //             text: i18n.t("vCard"),
+            //             show: can("view-fundraising-entities")
+            //         },
+            //     ]
+            // }),
             breadcrumbs: {
                 items: [
                     {
@@ -164,12 +165,12 @@ export default [
             }
         },
         children: [
-            {
-                path: "",
-                name: "fundraising.donors.show",
-                component: () => import("@/components/fundraising/DonorDetails.vue"),
-                props: true
-            },
+            // {
+            //     path: "",
+            //     name: "fundraising.donors.show",
+            //     component: () => import("@/components/fundraising/DonorDetails.vue"),
+            //     props: true
+            // },
             {
                 path: "donations",
                 name: "fundraising.donors.show.donations",

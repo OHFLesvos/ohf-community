@@ -1,84 +1,89 @@
 <template>
-    <b-list-group
-        v-if="donor"
-        flush
-    >
-        <two-col-list-group-item
-            v-if="donor.salutation"
-            :title="$t('Salutation')"
-        >
-            {{ donor.salutation }}
-        </two-col-list-group-item>
+    <b-row v-if="donor">
+        <b-col>
+            <b-list-group v-if="donor" flush>
+                <two-col-list-group-item
+                    v-if="donor.first_name || donor.last_name"
+                    :title="$t('Name')"
+                >
+                    {{ donor.salutation }} {{ donor.first_name }} {{ donor.last_name }}
+                </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="donor.first_name || donor.last_name"
-            :title="$t('Name')"
-        >
-            {{ donor.first_name }} {{ donor.last_name }}
-        </two-col-list-group-item>
+                <two-col-list-group-item
+                    v-if="donor.company"
+                    :title="$t('Company')"
+                >
+                    {{ donor.company }}
+                </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="donor.company"
-            :title="$t('Company')"
-        >
-            {{ donor.company }}
-        </two-col-list-group-item>
+                <two-col-list-group-item
+                    v-if="donor.full_address"
+                    :title="$t('Address')"
+                >
+                    <span style="white-space: pre;">{{ donor.full_address }}</span>
+                </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="donor.full_address"
-            :title="$t('Address')"
-        >
-            <span style="white-space: pre;">{{ donor.full_address }}</span>
-        </two-col-list-group-item>
+                <two-col-list-group-item
+                    v-if="donor.email"
+                    :title="$t('Email address')"
+                >
+                    <email-link :value="donor.email" />
+                </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="donor.email"
-            :title="$t('Email address')"
-        >
-            <email-link :value="donor.email" />
-        </two-col-list-group-item>
+                <two-col-list-group-item
+                    v-if="donor.phone"
+                    :title="$t('Phone')"
+                >
+                    <phone-link :value="donor.phone" />
+                </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="donor.phone"
-            :title="$t('Phone')"
-        >
-            <phone-link :value="donor.phone" />
-        </two-col-list-group-item>
+                <two-col-list-group-item
+                    v-if="donor.language"
+                    :title="$t('Correspondence language')"
+                >
+                    {{ donor.language }}
+                </two-col-list-group-item>
+            </b-list-group>
+        </b-col>
+        <b-col>
+            <b-list-group v-if="donor" flush>
+                <two-col-list-group-item
+                    v-if="donor.language"
+                    :title="$t('Correspondence language')"
+                >
+                    {{ donor.language }}
+                </two-col-list-group-item>
 
-        <two-col-list-group-item
-            v-if="donor.language"
-            :title="$t('Correspondence language')"
-        >
-            {{ donor.language }}
-        </two-col-list-group-item>
+                <two-col-list-group-item
+                    :title="$t('Registered')"
+                >
+                    {{ donor.created_at | dateTimeFormat }}
+                    <small class="text-muted pl-2">{{  donor.created_at | timeFromNow }}</small>
+                </two-col-list-group-item>
 
-        <two-col-list-group-item
-            :title="$t('Registered')"
-        >
-            {{ donor.created_at | dateTimeFormat }}
-            <small class="text-muted pl-2">{{  donor.created_at | timeFromNow }}</small>
-        </two-col-list-group-item>
+                <two-col-list-group-item
+                    :title="$t('Last updated')"
+                >
+                    {{ donor.updated_at | dateTimeFormat }}
+                    <small class="text-muted pl-2">{{  donor.updated_at | timeFromNow }}</small>
+                </two-col-list-group-item>
 
-        <two-col-list-group-item
-            :title="$t('Last updated')"
-        >
-            {{ donor.updated_at | dateTimeFormat }}
-            <small class="text-muted pl-2">{{  donor.updated_at | timeFromNow }}</small>
-        </two-col-list-group-item>
+                <two-col-list-group-item :title="$t('Tags')">
+                    <tag-manager
+                        :key="id"
+                        :list-provider="listTags"
+                        :store-provider="donor.can_create_tag ? storeTags : null"
+                        :suggestions-provider="listAllTags"
+                        preload
+                        @tag-click="$router.push({ name: 'fundraising.donors.index', query: { tag: $event } })"
+                    >
+                        {{ $t('Loading...') }}
+                    </tag-manager>
+                </two-col-list-group-item>
+            </b-list-group>
+        </b-col>
+    </b-row>
 
-        <two-col-list-group-item :title="$t('Tags')">
-            <tag-manager
-                :key="id"
-                :list-provider="listTags"
-                :store-provider="donor.can_create_tag ? storeTags : null"
-                :suggestions-provider="listAllTags"
-                preload
-                @tag-click="$router.push({ name: 'fundraising.donors.index', query: { tag: $event } })"
-            >
-                {{ $t('Loading...') }}
-            </tag-manager>
-        </two-col-list-group-item>
-    </b-list-group>
     <p v-else>
         {{ $t('Loading...') }}
     </p>
