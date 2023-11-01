@@ -1,7 +1,7 @@
 <template>
-    <b-container>
+    <b-container class="mt-3">
         <b-form @submit.prevent="submit">
-            <b-card :header="$t('Data source')" class="shadow-sm mb-4" footer-class="d-flex justify-content-between">
+            <b-card :title="$t('Badge Creator')" class="shadow-sm mb-4" footer-class="d-flex justify-content-between">
                 <b-form-group :label="$t('Source')">
                     <b-radio-group v-model="source" :options="sources"/>
                 </b-form-group>
@@ -116,6 +116,9 @@
 import badgesApi from "@/api/badges";
 import CloseableThumbnailImage from "@/components/images/CloseableThumbnailImage.vue";
 export default {
+    title() {
+        return this.$t("Badge Creator");
+    },
     components: {
         CloseableThumbnailImage,
     },

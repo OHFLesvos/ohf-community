@@ -1,53 +1,62 @@
 <template>
-    <base-table
-        id="usersTable"
-        :fields="fields"
-        :api-method="list"
-        default-sort-by="name"
-        :empty-text="$t('No users found.')"
-        :items-per-page="25"
-    >
-        <template v-slot:cell(avatar_url)="data">
-            <UserAvatar
-                :value="data.item.name"
-                :src="data.item.avatar_url"
-                :badge-icon="data.item.is_super_admin ? 'shield-alt' : null"
-            />
-        </template>
-        <template v-slot:cell(name)="data">
-            <router-link :to="{ name: 'users.show', params: { id: data.item.id } }">
-                {{ data.value }}
-            </router-link>
-        </template>
-        <template v-slot:cell(email)="data">
-            <email-link
-                v-if="data.item.email"
-                :value="data.item.email"
-                label-only
-            />
-        </template>
-        <template v-slot:cell(roles)="data">
-            <span
-                v-for="role in data.item.relationships.roles.data"
-                :key="role.id"
-            >
-                <a :href="role.links.show">
-                    {{ role.name }}
-                </a>
-                <br />
-            </span>
-        </template>
-        <template v-slot:cell(is_2fa_enabled)="data">
-            <span :class="data.value ? 'text-success' : 'text-muted'">
-                <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
-            </span>
-        </template>
-        <template v-slot:cell(is_super_admin)="data">
-            <span :class="data.value ? 'text-info' : 'text-muted'">
-                <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
-            </span>
-        </template>
-    </base-table>
+    <b-container fluid>
+        <base-table
+            id="usersTable"
+            :fields="fields"
+            :api-method="list"
+            default-sort-by="name"
+            :empty-text="$t('No users found.')"
+            :items-per-page="25"
+        >
+            <template #filter-append>
+                <b-button :href="route('roles.index')">
+                    <font-awesome-icon icon="tags"/>
+                    {{ $t('Roles') }}
+                </b-button>
+            </template>
+
+            <template v-slot:cell(avatar_url)="data">
+                <UserAvatar
+                    :value="data.item.name"
+                    :src="data.item.avatar_url"
+                    :badge-icon="data.item.is_super_admin ? 'shield-alt' : null"
+                />
+            </template>
+            <template v-slot:cell(name)="data">
+                <router-link :to="{ name: 'users.show', params: { id: data.item.id } }">
+                    {{ data.value }}
+                </router-link>
+            </template>
+            <template v-slot:cell(email)="data">
+                <email-link
+                    v-if="data.item.email"
+                    :value="data.item.email"
+                    label-only
+                />
+            </template>
+            <template v-slot:cell(roles)="data">
+                <span
+                    v-for="role in data.item.relationships.roles.data"
+                    :key="role.id"
+                >
+                    <a :href="role.links.show">
+                        {{ role.name }}
+                    </a>
+                    <br />
+                </span>
+            </template>
+            <template v-slot:cell(is_2fa_enabled)="data">
+                <span :class="data.value ? 'text-success' : 'text-muted'">
+                    <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
+                </span>
+            </template>
+            <template v-slot:cell(is_super_admin)="data">
+                <span :class="data.value ? 'text-info' : 'text-muted'">
+                    <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
+                </span>
+            </template>
+        </base-table>
+    </b-container>
 </template>
 
 <script>

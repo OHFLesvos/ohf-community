@@ -150,14 +150,6 @@
         <hr>
         <p>
             <b-button
-                type="button"
-                variant="secondary"
-                :to="{ name: 'users.index' }"
-            >
-                <font-awesome-icon icon="list"/>
-                {{  $t('Overview') }}
-            </b-button>
-            <b-button
                 v-if="user.can_update"
                 type="button"
                 variant="primary"
@@ -179,9 +171,9 @@
         </p>
 
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t('Loading...') }}
-    </p>
+    </b-container>
 </template>
 
 <script>

@@ -14,10 +14,7 @@ export default [
         path: "/visitors/check-in",
         name: "visitors.check_in",
         components: {
-            default: () =>
-                import(
-                    "@/pages/visitors/VisitorCheckInPage.vue"
-                ),
+            default: () => import("@/pages/visitors/VisitorCheckInPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
@@ -34,10 +31,7 @@ export default [
         path: "/visitors/report",
         name: "visitors.report",
         components: {
-            default: () =>
-                import(
-                    "@/pages/reports/VisitorReportPage.vue"
-                ),
+            default: () => import("@/pages/reports/VisitorReportPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
@@ -59,10 +53,7 @@ export default [
         path: "/visitors/:id/edit",
         name: "visitors.edit",
         components: {
-            default: () =>
-                import(
-                    "@/pages/visitors/VisitorEditPage.vue"
-                ),
+            default: () => import("@/pages/visitors/VisitorEditPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {

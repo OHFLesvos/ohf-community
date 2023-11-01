@@ -1,6 +1,5 @@
 <template>
     <b-container class="mb-3">
-        <h1 class="display-4">{{ $t("Settings") }}</h1>
         <template v-if="loaded">
             <template v-if="Object.keys(fields).length">
                 <b-tabs content-class="">

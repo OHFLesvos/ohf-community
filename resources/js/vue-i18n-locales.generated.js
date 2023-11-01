@@ -565,6 +565,7 @@ export default {
         "Transaction fees": "Transaktionsgebühren",
         "Badge": "Badge",
         "Badges": "Badges",
+        "Badges Creator": "Badges Creator",
         "Community Volunteer": "Community Volunteer",
         "Community Volunteers": "Community Volunteers",
         "Working since (days)": "Arbeitet seit (Tage)",

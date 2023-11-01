@@ -62,7 +62,13 @@ Route::middleware(['auth', 'language'])
                 Route::get('users/permissions', [UserController::class, 'permissions'])
                     ->name('users.permissions')
                     ->middleware('can:viewAny,App\Models\User');
-                Route::resource('users', UserController::class);
+                Route::resource('users', UserController::class)
+                    ->except(['index', 'show']);
+
+                Route::view('users', 'vue-app')
+                    ->name('users.index');
+                Route::view('users/{user}', 'vue-app')
+                    ->name('users.show');
 
                 // Roles
                 Route::get('roles/permissions', [RoleController::class, 'permissions'])
