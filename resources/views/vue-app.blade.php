@@ -2,7 +2,10 @@
 
 @section('content')
     <div id="app">
-        <x-spinner />
+        <div class="container-fluid py-2">
+            {{-- <x-spinner /> --}}
+            {{ __('Loading...') }}
+        </div>
     </div>
 @endsection
 

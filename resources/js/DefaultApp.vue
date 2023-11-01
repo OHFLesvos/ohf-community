@@ -5,9 +5,10 @@
         <router-view name="beforeContent" />
         <router-view />
     </div>
-    <div v-else>
-        {{ $t("Loading...") }}
-    </div>
+    <b-container v-else fluid class="pt-2">
+        <!-- <b-spinner/> -->
+        {{ $t('Loading...') }}
+    </b-container>
 </template>
 
 <script>
