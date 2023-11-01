@@ -21,8 +21,6 @@
                     {{ $t('Reports') }}
                 </b-button>
                 <VisitorsExportDialog v-if="can('export-visitors')"/>
-
-
             </b-col>
         </b-row>
 

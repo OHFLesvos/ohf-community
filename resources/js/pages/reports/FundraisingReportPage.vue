@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container fluid>
         <!-- Date range selector -->
         <date-range-select v-model="dateRange" />
 
@@ -91,7 +91,7 @@
                 />
             </b-col>
         </b-row>
-    </div>
+    </b-container>
 </template>
 
 <script>

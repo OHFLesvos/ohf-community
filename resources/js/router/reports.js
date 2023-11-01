@@ -1,5 +1,6 @@
 import i18n from "@/plugins/i18n";
-import PageHeader from "@/components/layout/PageHeader.vue";
+
+import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
 
 export default [
     {
@@ -10,12 +11,15 @@ export default [
                 import(
                     "@/pages/reports/ReportsIndexPage.vue"
                 ),
-            header: PageHeader
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Reports"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Reports'),
+                    }
+                ]
             }
         }
     },
@@ -26,8 +30,22 @@ export default [
             default: () =>
                 import(
                     "@/pages/reports/VisitorReportPage.vue"
-                )
-        }
+                ),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Reports'),
+                        to: { name: 'reports.index' }
+                    },
+                    {
+                        text: i18n.t('Visitor check-ins'),
+                    }
+                ]
+            }
+        },
     },
     {
         path: "/reports/fundraising/donations",
@@ -36,7 +54,21 @@ export default [
             default: () =>
                 import(
                     "@/pages/reports/FundraisingReportPage.vue"
-                )
-        }
+                ),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Reports'),
+                        to: { name: 'reports.index' }
+                    },
+                    {
+                        text: i18n.t('Fundraising'),
+                    }
+                ]
+            }
+        },
     }
 ];
