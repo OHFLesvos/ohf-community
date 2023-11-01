@@ -5,6 +5,7 @@ import { rememberRoute, previouslyRememberedRoute } from "@/utils/router";
 
 import PageHeader from "@/components/layout/PageHeader.vue";
 import TabNav from "@/components/layout/TabNav.vue";
+import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
 
 import { can } from "@/plugins/laravel";
 
@@ -33,11 +34,9 @@ export default [
         path: "/fundraising/donors",
         name: "fundraising.donors.index",
         components: {
-            default: () =>
-                import(
-                    "@/pages/fundraising/DonorsIndexPage.vue"
-                ),
+            default: () => import("@/pages/fundraising/DonorsIndexPage.vue"),
             header: PageHeader,
+            breadcrumbs: BreadcrumbsNav,
             beforeContent: TabNav
         },
         props: {
@@ -60,6 +59,13 @@ export default [
                     }
                 ]
             },
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Donors'),
+                    },
+                ]
+            },
             beforeContent: {
                 items: overviewNavItems,
                 exact: false
@@ -70,11 +76,8 @@ export default [
         path: "/fundraising/donors/create",
         name: "fundraising.donors.create",
         components: {
-            default: () =>
-                import(
-                    "@/pages/fundraising/DonorCreatePage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/fundraising/DonorCreatePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             header: {
@@ -87,17 +90,27 @@ export default [
                         show: can("view-fundraising-entities")
                     }
                 ]
+            },
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Donors'),
+                        to: { name: 'fundraising.donors.index' },
+                        show: can('view-fundraising-entities')
+                    },
+                    {
+                        text: i18n.t('Add donor'),
+                    }
+                ]
             }
         }
     },
     {
         path: "/fundraising/donors/:id(\\d+)",
         components: {
-            default: () =>
-                import(
-                    "@/pages/fundraising/DonorShowPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/fundraising/DonorShowPage.vue"),
+            header: PageHeader,
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
@@ -132,53 +145,47 @@ export default [
                         text: i18n.t("vCard"),
                         show: can("view-fundraising-entities")
                     },
+                ]
+            }),
+            breadcrumbs: {
+                items: [
                     {
+                        text: i18n.t('Donors'),
                         to: previouslyRememberedRoute(
                             "fundraising.donors.show",
                             { name: "fundraising.donors.index" }
                         ),
-                        icon: "times-circle",
-                        text: i18n.t("Close"),
-                        show: can("view-fundraising-entities")
+                        show: can('view-fundraising-entities')
+                    },
+                    {
+                        text: i18n.t('Donor'),
                     }
                 ]
-            })
+            }
         },
         children: [
             {
                 path: "",
                 name: "fundraising.donors.show",
-                component: () =>
-                    import(
-                        "@/components/fundraising/DonorDetails.vue"
-                    ),
+                component: () => import("@/components/fundraising/DonorDetails.vue"),
                 props: true
             },
             {
                 path: "donations",
                 name: "fundraising.donors.show.donations",
-                component: () =>
-                    import(
-                        "@/components/fundraising/DonorDonations.vue"
-                    ),
+                component: () => import("@/components/fundraising/DonorDonations.vue"),
                 props: true
             },
             {
                 path: "budgets",
                 name: "fundraising.donors.show.budgets",
-                component: () =>
-                    import(
-                        "@/components/fundraising/DonorBudgets.vue"
-                    ),
+                component: () => import("@/components/fundraising/DonorBudgets.vue"),
                 props: true
             },
             {
                 path: "comments",
                 name: "fundraising.donors.show.comments",
-                component: () =>
-                    import(
-                        "@/components/fundraising/DonorComments.vue"
-                    ),
+                component: () => import("@/components/fundraising/DonorComments.vue"),
                 props: true
             }
         ],
@@ -194,25 +201,28 @@ export default [
         path: "/fundraising/donors/:id(\\d+)/edit",
         name: "fundraising.donors.edit",
         components: {
-            default: () =>
-                import(
-                    "@/pages/fundraising/DonorEditPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/fundraising/DonorEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: route => ({
-                title: i18n.t("Edit donor"),
-                buttons: [
+            breadcrumbs: route => ({
+                items: [
+                    {
+                        text: i18n.t('Donors'),
+                        to: { name: 'fundraising.donors.index' },
+                        show: can('view-fundraising-entities')
+                    },
                     {
                         to: {
                             name: "fundraising.donors.show",
                             params: { id: route.params.id }
                         },
-                        icon: "times-circle",
-                        text: i18n.t("Cancel"),
+                        text: i18n.t("Donor"),
                         show: can("view-fundraising-entities")
+                    },
+                    {
+                        text: i18n.t('Edit donor'),
                     }
                 ]
             })
@@ -222,12 +232,10 @@ export default [
         path: "/fundraising/donations",
         name: "fundraising.donations.index",
         components: {
-            default: () =>
-                import(
-                    "@/pages/fundraising/DonationsIndexPage.vue"
-                ),
+            default: () => import("@/pages/fundraising/DonationsIndexPage.vue"),
             header: PageHeader,
-            beforeContent: TabNav
+            beforeContent: TabNav,
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
@@ -248,6 +256,13 @@ export default [
                     }
                 ]
             },
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Donations'),
+                    },
+                ]
+            },
             beforeContent: {
                 items: overviewNavItems
             }
@@ -257,28 +272,26 @@ export default [
         path: "/fundraising/donations/:id(\\d+)/edit",
         name: "fundraising.donations.edit",
         components: {
-            default: () =>
-                import(
-                    "@/pages/fundraising/DonationEditPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/fundraising/DonationEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: () => ({
-                title: i18n.t("Edit donation"),
-                buttons: [
+            breadcrumbs: () => ({
+                items: [
                     {
+                        text: i18n.t('Donations'),
                         to: previouslyRememberedRoute(
                             "fundraising.donors.show",
                             { name: "fundraising.donations.index" }
                         ),
-                        icon: "times-circle",
-                        text: i18n.t("Cancel"),
                         show: can("view-fundraising-entities")
+                    },
+                    {
+                        text: i18n.t('Edit donation'),
                     }
                 ]
-            })
+            }),
         },
         beforeEnter: (to, from, next) => {
             rememberRoute(to, from);
@@ -289,10 +302,7 @@ export default [
         path: "/fundraising/donations/import",
         name: "fundraising.donations.import",
         components: {
-            default: () =>
-                import(
-                    "@/pages/fundraising/DonationsImportPage.vue"
-                ),
+            default: () => import("@/pages/fundraising/DonationsImportPage.vue"),
             header: PageHeader
         },
         props: {

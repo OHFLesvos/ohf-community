@@ -1,55 +1,47 @@
 <template>
     <div class="mt-3">
         <!-- Edit donation form -->
-        <b-container
-            v-if="selectedDonation"
-            class="px-0"
-        >
-            <b-card
+        <b-container v-if="selectedDonation">
+            <!-- <b-card
                 class="mb-4"
                 body-class="pb-0"
                 header-class="d-flex justify-content-between align-items-center"
-            >
-                <template v-slot:header>
+            > -->
+                <!-- <template v-slot:header>
                     {{ $t('Edit donation') }}
                     <small class="d-none d-sm-inline">
                         {{ $t('Last updated') }}:
                         {{ selectedDonation.updated_at | dateTimeFormat }}
                     </small>
-                </template>
+                </template> -->
 
-                <donation-form
+                <DonationForm
                     :donation="selectedDonation"
                     :currencies="currencies"
                     :channels="channels"
                     :base-currency="baseCurrency"
                     :disabled="isBusy"
+                    :title="$t('Edit donation')"
                     @submit="updateDonation"
                     @cancel="selectedDonation = false"
                     @delete="deleteDonation"
                 />
-            </b-card>
+            <!-- </b-card> -->
         </b-container>
 
         <!-- Create new donation form -->
         <b-container
             v-else-if="newDonationForm"
-            class="px-0"
         >
-            <b-card
-                :header="$t('Register new donation')"
-                class="mb-4"
-                body-class="pb-0"
-            >
-                <donation-form
+                <DonationForm
                     :currencies="currencies"
                     :channels="channels"
                     :base-currency="baseCurrency"
+                    :title="$t('Register new donation')"
                     :disabled="isBusy"
                     @submit="registerDonation"
                     @cancel="newDonationForm = false"
                 />
-            </b-card>
         </b-container>
 
         <template v-else>

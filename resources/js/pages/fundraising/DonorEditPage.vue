@@ -1,17 +1,13 @@
 <template>
-    <b-container
-        v-if="donor"
-        fluid
-        class="px-0"
-    >
-        <donor-form
+    <b-container v-if="donor">
+        <DonorForm
             :donor="donor"
+            :title="$t('Edit donor')"
             :disabled="isBusy"
             @submit="updateDonor"
             @cancel="$router.push({ name: 'fundraising.donors.show', params: { id: id }})"
             @delete="deleteDonor"
         />
-        <hr>
         <p class="text-right">
             <small>
                 {{ $t('Last updated') }}:
@@ -19,9 +15,9 @@
             </small>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t('Loading...') }}
-    </p>
+    </b-container>
 </template>
 
 <script>

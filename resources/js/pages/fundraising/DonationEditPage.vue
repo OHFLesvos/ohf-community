@@ -1,26 +1,16 @@
 <template>
-    <b-container
-        v-if="donation"
-        class="px-0"
-    >
-        <b-form-row class="mb-3">
-            <b-col sm="auto">
-                <strong>{{ $t('Donor') }}:</strong>
-            </b-col>
-            <b-col>{{ donation.donor }}</b-col>
-        </b-form-row>
-
-        <donation-form
+    <b-container v-if="donation">
+        <DonationForm
             :donation="donation"
             :currencies="currencies"
             :channels="channels"
             :base-currency="baseCurrency"
             :disabled="isBusy"
+            :title="$t('Edit donation of {name}', { name: donation.donor })"
             @submit="updateDonation"
             @cancel="$router.push({ name: 'fundraising.donations.index' })"
             @delete="deleteDonation"
         />
-        <hr>
         <p class="text-right">
             <small>
                 {{ $t('Last updated') }}:
@@ -28,9 +18,9 @@
             </small>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t('Loading...') }}
-    </p>
+    </b-container>
 </template>
 
 <script>

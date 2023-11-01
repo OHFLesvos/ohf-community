@@ -1,7 +1,8 @@
 <template>
-    <b-container fluid class="px-0">
+    <b-container>
         <donor-form
             :disabled="isBusy"
+            :title="$t('Add donor')"
             @submit="registerDonor"
             @cancel="handleCancel"
         />

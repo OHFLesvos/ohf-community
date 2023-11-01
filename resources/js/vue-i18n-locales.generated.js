@@ -994,6 +994,7 @@ export default {
         "from {from}": "from {from}",
         "until {until}": "until {until}",
         "{from} - {until}": "{from} - {until}",
+        "Edit donation of {name}": "Edit donation of {name}",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",

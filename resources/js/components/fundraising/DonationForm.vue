@@ -1,266 +1,270 @@
 <template>
     <validation-observer ref="observer" v-slot="{ handleSubmit, invalid }" slim>
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-            <b-form-row>
-                <!-- Date -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('Date')"
-                        vid="date"
-                        :rules="{ required: true }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Date')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+            <b-card :title="title" body-class="pb-1" footer-class="d-flex justify-content-between align-items-start" class="mb-3">
+                <b-form-row>
+                    <!-- Date -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Date')"
+                            vid="date"
+                            :rules="{ required: true }"
+                            v-slot="validationContext"
                         >
-                            <b-form-datepicker
-                                v-model="form.date"
-                                :max="maxDate"
-                                required
+                            <b-form-group
+                                :label="$t('Date')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-datepicker
+                                    v-model="form.date"
+                                    :max="maxDate"
+                                    required
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                </b-form-row>
 
-                <!-- Currency -->
-                <b-col md="auto">
-                    <validation-provider
-                        :name="$t('Currency')"
-                        vid="currency"
-                        :rules="{ required: true }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Currency')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                <b-form-row>
+                    <!-- Currency -->
+                    <b-col md="auto">
+                        <validation-provider
+                            :name="$t('Currency')"
+                            vid="currency"
+                            :rules="{ required: true }"
+                            v-slot="validationContext"
                         >
-                            <b-select
-                                v-model="form.currency"
-                                :options="currencyOptions"
-                                required
+                            <b-form-group
+                                :label="$t('Currency')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-select
+                                    v-model="form.currency"
+                                    :options="currencyOptions"
+                                    required
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
 
-                <!-- Amount -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('Amount')"
-                        vid="amount"
-                        :rules="{ required: true, decimal: true }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Amount')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                    <!-- Amount -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Amount')"
+                            vid="amount"
+                            :rules="{ required: true, decimal: true }"
+                            v-slot="validationContext"
                         >
-                            <b-form-input
-                                ref="amount"
-                                v-model="form.amount"
-                                type="number"
-                                min="1"
-                                required
-                                step="any"
-                                autocomplete="off"
+                            <b-form-group
+                                :label="$t('Amount')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    ref="amount"
+                                    v-model="form.amount"
+                                    type="number"
+                                    min="1"
+                                    required
+                                    step="any"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
 
-                <!-- Exchange rate -->
-                <b-col v-if="form.currency != baseCurrency" md>
-                    <validation-provider
-                        :name="$t('Exchange rate')"
-                        vid="exchange_rate"
-                        :rules="{ decimal: true }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Exchange rate')"
-                            :description="
-                                $t('Leave empty for automatic calculation')
-                            "
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                    <!-- Exchange rate -->
+                    <b-col v-if="form.currency != baseCurrency" md>
+                        <validation-provider
+                            :name="$t('Exchange rate')"
+                            vid="exchange_rate"
+                            :rules="{ decimal: true }"
+                            v-slot="validationContext"
                         >
-                            <b-form-input
-                                v-model="form.exchange_rate"
-                                type="number"
-                                min="0"
-                                step="any"
-                                autocomplete="off"
+                            <b-form-group
+                                :label="$t('Exchange rate')"
+                                :description="
+                                    $t('Leave empty for automatic calculation')
+                                "
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-            </b-form-row>
-            <b-form-row>
-                <!-- Channel -->
-                <b-col md="4">
-                    <validation-provider
-                        :name="$t('Channel')"
-                        vid="channel"
-                        :rules="{ required: true }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Channel')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.exchange_rate"
+                                    type="number"
+                                    min="0"
+                                    step="any"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                </b-form-row>
+                <b-form-row>
+                    <!-- Channel -->
+                    <b-col md="4">
+                        <validation-provider
+                            :name="$t('Channel')"
+                            vid="channel"
+                            :rules="{ required: true }"
+                            v-slot="validationContext"
                         >
-                            <b-form-input
-                                v-model="form.channel"
-                                required
-                                list="channel-list"
-                                autocomplete="off"
+                            <b-form-group
+                                :label="$t('Channel')"
                                 :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.channel"
+                                    required
+                                    list="channel-list"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                            <b-form-datalist
+                                id="channel-list"
+                                :options="channels"
                             />
-                        </b-form-group>
-                        <b-form-datalist
-                            id="channel-list"
-                            :options="channels"
-                        />
-                    </validation-provider>
-                </b-col>
+                        </validation-provider>
+                    </b-col>
 
-                <!-- Purpose -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('Purpose')"
-                        vid="purpose"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Purpose')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                    <!-- Purpose -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Purpose')"
+                            vid="purpose"
+                            :rules="{}"
+                            v-slot="validationContext"
                         >
-                            <b-form-input
-                                v-model="form.purpose"
+                            <b-form-group
+                                :label="$t('Purpose')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.purpose"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
 
-                <!-- Budget -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('Budget')"
-                        vid="budget_id"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Budget')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                    <!-- Budget -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Budget')"
+                            vid="budget_id"
+                            :rules="{}"
+                            v-slot="validationContext"
                         >
-                            <b-select
-                                v-model="form.budget_id"
-                                :options="budgetOptions"
-                                :disabled="!loaded"
+                            <b-form-group
+                                :label="$t('Budget')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-            </b-form-row>
-            <b-form-row>
-                <!-- Reference -->
-                <b-col md="4">
-                    <validation-provider
-                        :name="$t('Reference')"
-                        vid="reference"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Reference')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-select
+                                    v-model="form.budget_id"
+                                    :options="budgetOptions"
+                                    :disabled="!loaded"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                </b-form-row>
+                <b-form-row>
+                    <!-- Reference -->
+                    <b-col md="4">
+                        <validation-provider
+                            :name="$t('Reference')"
+                            vid="reference"
+                            :rules="{}"
+                            v-slot="validationContext"
                         >
-                            <b-form-input
-                                v-model="form.reference"
-                                autocomplete="off"
+                            <b-form-group
+                                :label="$t('Reference')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.reference"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
 
-                <!-- In name of -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('In the name of')"
-                        vid="in_name_of"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="`${$t('In the name of')}...`"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                    <!-- In name of -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('In the name of')"
+                            vid="in_name_of"
+                            :rules="{}"
+                            v-slot="validationContext"
                         >
-                            <b-form-input
-                                v-model="form.in_name_of"
-                                autocomplete="off"
+                            <b-form-group
+                                :label="`${$t('In the name of')}...`"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-            </b-form-row>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.in_name_of"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                </b-form-row>
 
-            <p>
-                <b-form-checkbox v-model="form.thanked">
-                    {{ $t("Donor has been thanked") }}
-                </b-form-checkbox>
-            </p>
+                <p>
+                    <b-form-checkbox v-model="form.thanked">
+                        {{ $t("Donor has been thanked") }}
+                    </b-form-checkbox>
+                </p>
 
-            <p class="d-flex justify-content-between align-items-start">
-                <span>
-                    <!-- Submit -->
+                <template #footer>
+                    <span>
+                        <!-- Submit -->
+                        <b-button
+                            type="submit"
+                            variant="primary"
+                            :disabled="disabled || invalid"
+                        >
+                            <font-awesome-icon icon="check" />
+                            {{ donation ? $t("Update") : $t("Add") }}
+                        </b-button>
+
+                        <!-- Cancel -->
+                        <b-button
+                            variant="link"
+                            :disabled="disabled"
+                            @click="$emit('cancel')"
+                        >
+                            {{ $t("Cancel") }}
+                        </b-button>
+                    </span>
+
+                    <!-- Delete -->
                     <b-button
-                        type="submit"
-                        variant="primary"
-                        :disabled="disabled || invalid"
-                    >
-                        <font-awesome-icon icon="check" />
-                        {{ donation ? $t("Update") : $t("Add") }}
-                    </b-button>
-
-                    <!-- Cancel -->
-                    <b-button
+                        v-if="donation && donation.can_delete"
                         variant="link"
                         :disabled="disabled"
-                        @click="$emit('cancel')"
+                        class="text-danger"
+                        @click="onDelete"
                     >
-                        {{ $t("Cancel") }}
+                        {{ $t("Delete") }}
                     </b-button>
-                </span>
-
-                <!-- Delete -->
-                <b-button
-                    v-if="donation && donation.can_delete"
-                    variant="link"
-                    :disabled="disabled"
-                    class="text-danger"
-                    @click="onDelete"
-                >
-                    {{ $t("Delete") }}
-                </b-button>
-            </p>
+                </template>
+            </b-card>
         </b-form>
     </validation-observer>
 </template>
@@ -284,6 +288,10 @@ export default {
         },
         baseCurrency: {
             required: true
+        },
+        title: {
+            required: false,
+            default: undefined
         },
         disabled: Boolean
     },

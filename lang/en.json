@@ -22,5 +22,6 @@
     "Show Top :num": "Show Top :num",
     "from :from": "from :from",
     "until :until": "until :until",
-    ":from - :until": ":from - :until"
+    ":from - :until": ":from - :until",
+    "Edit donation of :name": "Edit donation of :name"
 }
