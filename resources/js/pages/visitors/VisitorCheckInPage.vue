@@ -63,17 +63,13 @@
                 }}</b-alert>
             </template>
 
-            <b-card
+            <VisitorForm
                 v-if="showRegistrationForm"
-                class="mb-3"
                 :header="$t('Register new visitor')"
-            >
-                <VisitorForm
-                    :disabled="isBusy"
-                    @submit="handleCreate"
-                    @cancel="showRegistrationForm = false"
-                />
-            </b-card>
+                :disabled="isBusy"
+                @submit="handleCreate"
+                @cancel="showRegistrationForm = false"
+            />
             <p v-else>
                 <b-button
                     variant="primary"
