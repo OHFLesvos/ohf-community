@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container fluid>
         <TransactionsTable
             :use-secondary-categories="
                 settings['accounting.transactions.use_secondary_categories']
@@ -13,7 +13,7 @@
             "
             @change="updateQueryString"
         />
-    </div>
+    </b-container>
 </template>
 
 <script>

@@ -1,8 +1,9 @@
 <template>
-    <b-container v-if="transaction" class="px-0">
+    <b-container v-if="transaction">
         <TransactionForm
             :transaction="transaction"
             :disabled="isBusy"
+            :title="$t('Edit transaction')"
             :use-secondary-categories="settings['accounting.transactions.use_secondary_categories']"
             :use-locations="settings['accounting.transactions.use_locations']"
             :use-cost-centers="settings['accounting.transactions.use_cost_centers']"
@@ -11,9 +12,9 @@
             @cancel="handleCancel"
         />
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t("Loading...") }}
-    </p>
+    </b-container>
 </template>
 
 <script>

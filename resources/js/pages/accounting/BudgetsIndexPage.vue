@@ -1,5 +1,5 @@
 <template>
-    <b-container class="px-0">
+    <b-container fluid>
         <base-table
             ref="table"
             id="budgets-table"
@@ -24,18 +24,28 @@
                 <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
             </template>
         </base-table>
+        <ButtonGroup :items="[
+            {
+                to: { name: 'accounting.budgets.create' },
+                variant: 'primary',
+                icon: 'plus-circle',
+                text: $t('Add'),
+            },
+        ]"/>
     </b-container>
 </template>
 
 <script>
 import budgetsApi from "@/api/accounting/budgets";
 import BaseTable from "@/components/table/BaseTable.vue";
+import ButtonGroup from "@/components/common/ButtonGroup.vue";
 export default {
     title() {
         return this.$t("Budgets");
     },
     components: {
-        BaseTable
+        BaseTable,
+        ButtonGroup
     },
     data() {
         return {

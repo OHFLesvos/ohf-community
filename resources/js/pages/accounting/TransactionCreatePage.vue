@@ -1,7 +1,8 @@
 <template>
-    <b-container class="px-0">
+    <b-container>
         <TransactionForm
             :disabled="isBusy"
+            :title="$t('Register new transaction')"
             :use-secondary-categories="
                 settings['accounting.transactions.use_secondary_categories']
             "

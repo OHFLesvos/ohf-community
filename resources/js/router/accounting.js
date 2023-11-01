@@ -353,19 +353,13 @@ export default [
             {
                 path: "",
                 name: "accounting.suppliers.show",
-                component: () =>
-                    import(
-                        "@/components/accounting/SupplierDetails.vue"
-                    ),
+                component: () => import("@/components/accounting/SupplierDetails.vue"),
                 props: true
             },
             {
                 path: "transactions",
                 name: "accounting.suppliers.show.transactions",
-                component: () =>
-                    import(
-                        "@/components/accounting/SupplierTransactions.vue"
-                    ),
+                component: () => import("@/components/accounting/SupplierTransactions.vue"),
                 props: true
             }
         ]
@@ -423,20 +417,19 @@ export default [
         path: "/accounting/transactions/history",
         name: "accounting.transactions.history",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/TransactionsHistoryPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/TransactionsHistoryPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("History"),
-                buttons: [
+            breadcrumbs: {
+                items: [
                     {
-                        to: { name: "accounting.index" },
-                        icon: "home",
-                        text: i18n.t("Overview")
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("History"),
                     }
                 ]
             }
@@ -446,20 +439,19 @@ export default [
         path: "/accounting/transactions/controlling",
         name: "accounting.transactions.controlling",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/TransactionsControllingPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/TransactionsControllingPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Controlling"),
-                buttons: [
+            breadcrumbs: {
+                items: [
                     {
-                        to: { name: "accounting.index" },
-                        icon: "home",
-                        text: i18n.t("Overview")
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Controlling"),
                     }
                 ]
             }
@@ -469,16 +461,14 @@ export default [
         path: "/accounting/transactions",
         name: "accounting.transactions.index",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/TransactionsIndexPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/TransactionsIndexPage.vue"),
+            header: PageHeader,
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
             header: route => ({
-                title: i18n.t("Transactions"),
+                containerFluid: true,
                 buttons: [
                     {
                         to: {
@@ -508,33 +498,46 @@ export default [
                         text: i18n.t("Webling"),
                         show: can("export-to-webling")
                     } : null,
+                ]
+            }),
+            breadcrumbs: {
+                items: [
                     {
-                        to: { name: "accounting.index" },
-                        icon: "home",
-                        text: i18n.t("Overview"),
-                        show:
-                            can("view-accounting-summary") ||
-                            can("view-transactions")
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Transactions"),
                     }
                 ]
-            })
+            }
         }
     },
     {
         path: "/accounting/transactions/create",
         name: "accounting.transactions.create",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/TransactionCreatePage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/TransactionCreatePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: {
-                title: i18n.t("Register new transaction"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Transactions"),
+                        to: { name: 'accounting.transactions.index' },
+                    },
+                    {
+                        text: i18n.t("Register new transaction"),
+                    }
+                ]
             }
         }
     },
@@ -542,17 +545,26 @@ export default [
         path: "/accounting/transactions/:id",
         name: "accounting.transactions.show",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/TransactionViewPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/TransactionViewPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: {
-                title: i18n.t("Show transaction"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Transactions"),
+                        to: { name: 'accounting.transactions.index' },
+                    },
+                    {
+                        text: i18n.t("Details"),
+                    }
+                ]
             }
         }
     },
@@ -560,17 +572,26 @@ export default [
         path: "/accounting/transactions/:id/edit",
         name: "accounting.transactions.edit",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/TransactionEditPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/TransactionEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: {
-                title: i18n.t("Edit transaction"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Transactions"),
+                        to: { name: 'accounting.transactions.index' },
+                    },
+                    {
+                        text: i18n.t("Edit transaction"),
+                    }
+                ]
             }
         }
     },
@@ -578,33 +599,21 @@ export default [
         path: "/accounting/budgets",
         name: "accounting.budgets.index",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/BudgetsIndexPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/BudgetsIndexPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Budgets"),
-                buttons: [
+            breadcrumbs: {
+                items: [
                     {
-                        to: { name: "accounting.budgets.create" },
-                        variant: "primary",
-                        icon: "plus-circle",
-                        text: i18n.t("Add"),
-                        // show: can("configure-accounting")
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
                     },
                     {
-                        to: { name: "accounting.index" },
-                        icon: "home",
-                        text: i18n.t("Overview"),
-                        show:
-                            can("view-accounting-summary") ||
-                            can("view-transactions")
+                        text: i18n.t("Budgets"),
                     }
-                ],
-                container: true
+                ]
             }
         },
     },
@@ -612,16 +621,25 @@ export default [
         path: "/accounting/budgets/create",
         name: "accounting.budgets.create",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/BudgetCreatePage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/BudgetCreatePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Create budget"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Budgets"),
+                        to: { name: 'accounting.budgets.index' },
+                    },
+                    {
+                        text: i18n.t("Create budget"),
+                    }
+                ]
             }
         }
     },
@@ -629,17 +647,26 @@ export default [
         path: "/accounting/budgets/:id",
         name: "accounting.budgets.show",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/BudgetShowPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/BudgetShowPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: {
-                title: i18n.t("Show budget"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Budgets"),
+                        to: { name: 'accounting.budgets.index' },
+                    },
+                    {
+                        text: i18n.t("Details"),
+                    }
+                ]
             }
         }
     },
@@ -647,17 +674,26 @@ export default [
         path: "/accounting/budgets/:id/edit",
         name: "accounting.budgets.edit",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/BudgetEditPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/BudgetEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: {
-                title: i18n.t("Edit budget"),
-                container: true
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Budgets"),
+                        to: { name: 'accounting.budgets.index' },
+                    },
+                    {
+                        text: i18n.t("Edit budget"),
+                    }
+                ]
             }
         }
     },

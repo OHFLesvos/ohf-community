@@ -1,7 +1,7 @@
 <template>
     <header
         class="d-flex justify-content-between mb-2"
-        :class="{ container: container, 'px-0': container }"
+        :class="{ container: container, 'container-fluid': containerFluid, 'px-0': container }"
     >
         <h1 v-if="title" class="display-4">
             {{ title }}
@@ -31,7 +31,7 @@
 export default {
     props: {
         title: {
-            required: true,
+            required: false,
             type: String
         },
         subtitle: {
@@ -46,7 +46,8 @@ export default {
                 return [];
             }
         },
-        container: Boolean
+        container: Boolean,
+        containerFluid: Boolean
     },
     computed: {
         availableButtons() {

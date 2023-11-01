@@ -1,9 +1,8 @@
 <template>
-    <b-container
-        class="px-0"
-    >
-        <budget-form
+    <b-container>
+        <BudgetForm
             :disabled="isBusy"
+            :title="$t('Create budget')"
             @submit="handleCreate"
             @cancel="handleCancel"
         />

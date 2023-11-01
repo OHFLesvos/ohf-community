@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container fluid>
         <b-row class="mb-3">
             <b-col cols="auto">
                 <b-input-group :prepend="$t('Date')">
@@ -12,7 +12,7 @@
             </b-col>
         </b-row>
         <TransactionHistory ref="history" :entries="fetchHistory" showId />
-    </div>
+    </b-container>
 </template>
 
 <script>

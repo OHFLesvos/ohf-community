@@ -1,13 +1,13 @@
 <template>
-    <b-container v-if="budget" class="px-0">
-        <budget-form
+    <b-container v-if="budget">
+        <BudgetForm
             :budget="budget"
+            :title="$t('Edit budget')"
             :disabled="isBusy"
             @submit="updateWallet"
             @cancel="handleCancel"
             @delete="deleteWallet"
         />
-        <hr />
         <p class="text-right">
             <small>
                 {{ $t("Last updated") }}:
@@ -15,9 +15,9 @@
             </small>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t("Loading...") }}
-    </p>
+    </b-container>
 </template>
 
 <script>

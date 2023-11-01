@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container fluid>
         <b-form-row class="mb-3">
             <b-col cols="auto">
                 <b-input-group :prepend="$t('Wallet')">
@@ -50,7 +50,7 @@
                 <TransactionControllingDetails :transaction="data.item" />
             </template>
         </base-table>
-    </div>
+    </b-container>
 </template>
 
 <script>

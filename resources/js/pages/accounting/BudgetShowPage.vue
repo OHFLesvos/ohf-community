@@ -1,50 +1,52 @@
 <template>
-    <b-container v-if="budget" class="px-0">
-        <dl class="row">
-            <dt class="col-sm-3">{{ $t("Name") }}</dt>
-            <dd class="col-sm-9">{{ budget.name }}</dd>
-            <template v-if="budget.description">
-                <dt class="col-sm-3">{{ $t("Description") }}</dt>
-                <dd class="col-sm-9 pre-formatted">{{ budget.description }}</dd>
-            </template>
-            <dt class="col-sm-3">{{ $t("Agreed amount") }}</dt>
-            <dd class="col-sm-9">
-                {{ budget.agreed_amount_formatted }}
-            </dd>
-            <template v-if="budget.initial_amount">
-                <dt class="col-sm-3">{{ $t("Initial amount") }}</dt>
+    <b-container v-if="budget">
+        <b-card class="mb-3" body-class="pb-0">
+            <dl class="row">
+                <dt class="col-sm-3">{{ $t("Name") }}</dt>
+                <dd class="col-sm-9">{{ budget.name }}</dd>
+                <template v-if="budget.description">
+                    <dt class="col-sm-3">{{ $t("Description") }}</dt>
+                    <dd class="col-sm-9 pre-formatted">{{ budget.description }}</dd>
+                </template>
+                <dt class="col-sm-3">{{ $t("Agreed amount") }}</dt>
                 <dd class="col-sm-9">
-                    {{ budget.initial_amount_formatted }}
+                    {{ budget.agreed_amount_formatted }}
                 </dd>
-            </template>
-            <dt class="col-sm-3">{{ $t("Balance") }}</dt>
-            <dd class="col-sm-9">{{ budget.balance_formatted }}</dd>
-            <template v-if="budget.donor">
-                <dt class="col-sm-3">{{ $t("Donor") }}</dt>
-                <dd class="col-sm-9">
-                    <router-link
-                        v-if="can('view-fundraising-entities')"
-                        :to="{
-                            name: 'fundraising.donors.show',
-                            params: { id: budget.donor_id }
-                        }"
-                    >
-                        {{ budget.donor.full_name }}
-                    </router-link>
-                    <template v-else>
-                        {{ budget.donor.full_name }}
-                    </template>
-                </dd>
-            </template>
-            <template v-if="budget.closed_at">
-                <dt class="col-sm-3">{{ $t("Closing date") }}</dt>
-                <dd class="col-sm-9">{{ budget.closed_at | dateFormat }}</dd>
-            </template>
-            <template v-if="budget.is_completed">
-                <dt class="col-sm-3">{{ $t("Completed") }}</dt>
-                <dd class="col-sm-9">{{ $t("Yes") }}</dd>
-            </template>
-        </dl>
+                <template v-if="budget.initial_amount">
+                    <dt class="col-sm-3">{{ $t("Initial amount") }}</dt>
+                    <dd class="col-sm-9">
+                        {{ budget.initial_amount_formatted }}
+                    </dd>
+                </template>
+                <dt class="col-sm-3">{{ $t("Balance") }}</dt>
+                <dd class="col-sm-9">{{ budget.balance_formatted }}</dd>
+                <template v-if="budget.donor">
+                    <dt class="col-sm-3">{{ $t("Donor") }}</dt>
+                    <dd class="col-sm-9">
+                        <router-link
+                            v-if="can('view-fundraising-entities')"
+                            :to="{
+                                name: 'fundraising.donors.show',
+                                params: { id: budget.donor_id }
+                            }"
+                        >
+                            {{ budget.donor.full_name }}
+                        </router-link>
+                        <template v-else>
+                            {{ budget.donor.full_name }}
+                        </template>
+                    </dd>
+                </template>
+                <template v-if="budget.closed_at">
+                    <dt class="col-sm-3">{{ $t("Closing date") }}</dt>
+                    <dd class="col-sm-9">{{ budget.closed_at | dateFormat }}</dd>
+                </template>
+                <template v-if="budget.is_completed">
+                    <dt class="col-sm-3">{{ $t("Completed") }}</dt>
+                    <dd class="col-sm-9">{{ $t("Yes") }}</dd>
+                </template>
+            </dl>
+        </b-card>
 
         <!-- Transactions -->
         <template v-if="can('view-transactions')">
@@ -165,20 +167,11 @@
                     >{{ $t("Spreadsheet and pictures") }}</b-dropdown-item
                 >
             </b-dropdown>
-            <router-link
-                :to="{
-                    name: 'accounting.budgets.index'
-                }"
-                class="btn btn-secondary"
-            >
-                <font-awesome-icon icon="times-circle" />
-                {{ $t("Overview") }}
-            </router-link>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t("Loading...") }}
-    </p>
+    </b-container>
 </template>
 
 <script>

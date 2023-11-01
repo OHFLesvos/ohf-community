@@ -1,216 +1,218 @@
 <template>
     <validation-observer ref="observer" v-slot="{ handleSubmit }" slim>
         <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-            <b-form-row>
-                <!-- Name -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('Name')"
-                        vid="name"
-                        :rules="{ required: true }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Name')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+            <b-card :title="title" body-class="pb-1" footer-class="d-flex justify-content-between align-items-start" class="mb-3">
+                <b-form-row>
+                    <!-- Name -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Name')"
+                            vid="name"
+                            :rules="{ required: true }"
+                            v-slot="validationContext"
                         >
-                            <b-form-input
-                                v-model="form.name"
-                                autocomplete="off"
-                                reqired
-                                :autofocus="!budget"
+                            <b-form-group
+                                :label="$t('Name')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-
-                <!-- Agreed amount -->
-                <b-col md="3">
-                    <validation-provider
-                        :name="$t('Agreed amount')"
-                        vid="agreed_amount"
-                        :rules="{ required: true, decimal: true, min_value: 0 }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Agreed amount')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
-                            :description="
-                                $t('Write decimal point as comma (,)')
-                            "
-                        >
-                            <b-input-group
-                                :append="
-                                    settings['accounting.transactions.currency']
-                                "
+                                :invalid-feedback="validationContext.errors[0]"
                             >
                                 <b-form-input
-                                    v-model="form.agreed_amount"
+                                    v-model="form.name"
                                     autocomplete="off"
-                                    type="number"
-                                    required
-                                    step=".01"
-                                    min="0"
-                                    :state="
-                                        getValidationState(validationContext)
-                                    "
+                                    reqired
+                                    :autofocus="!budget"
+                                    :state="getValidationState(validationContext)"
                                 />
-                            </b-input-group>
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
 
-                <!-- Initial amount -->
-                <b-col md="3">
-                    <validation-provider
-                        :name="$t('Initial amount')"
-                        vid="initial_amount"
-                        :rules="{ required: true, decimal: true, min_value: 0 }"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Initial amount')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
-                            :description="
-                                $t('Write decimal point as comma (,)')
-                            "
+                    <!-- Agreed amount -->
+                    <b-col md="3">
+                        <validation-provider
+                            :name="$t('Agreed amount')"
+                            vid="agreed_amount"
+                            :rules="{ required: true, decimal: true, min_value: 0 }"
+                            v-slot="validationContext"
                         >
-                            <b-input-group
-                                :append="
-                                    settings['accounting.transactions.currency']
+                            <b-form-group
+                                :label="$t('Agreed amount')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                                :description="
+                                    $t('Write decimal point as comma (,)')
                                 "
                             >
-                                <b-form-input
-                                    v-model="form.initial_amount"
-                                    autocomplete="off"
-                                    type="number"
-                                    required
-                                    step=".01"
-                                    min="0"
-                                    :state="
-                                        getValidationState(validationContext)
+                                <b-input-group
+                                    :append="
+                                        settings['accounting.transactions.currency']
                                     "
+                                >
+                                    <b-form-input
+                                        v-model="form.agreed_amount"
+                                        autocomplete="off"
+                                        type="number"
+                                        required
+                                        step=".01"
+                                        min="0"
+                                        :state="
+                                            getValidationState(validationContext)
+                                        "
+                                    />
+                                </b-input-group>
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+
+                    <!-- Initial amount -->
+                    <b-col md="3">
+                        <validation-provider
+                            :name="$t('Initial amount')"
+                            vid="initial_amount"
+                            :rules="{ required: true, decimal: true, min_value: 0 }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Initial amount')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                                :description="
+                                    $t('Write decimal point as comma (,)')
+                                "
+                            >
+                                <b-input-group
+                                    :append="
+                                        settings['accounting.transactions.currency']
+                                    "
+                                >
+                                    <b-form-input
+                                        v-model="form.initial_amount"
+                                        autocomplete="off"
+                                        type="number"
+                                        required
+                                        step=".01"
+                                        min="0"
+                                        :state="
+                                            getValidationState(validationContext)
+                                        "
+                                    />
+                                </b-input-group>
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                </b-form-row>
+
+                <b-form-row>
+                    <!-- Description -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Description')"
+                            vid="description"
+                            :rules="{}"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Description')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-textarea
+                                    v-model="form.description"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
                                 />
-                            </b-input-group>
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-            </b-form-row>
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                </b-form-row>
 
-            <b-form-row>
-                <!-- Description -->
-                <b-col md>
-                    <validation-provider
-                        :name="$t('Description')"
-                        vid="description"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Description')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                <b-form-row>
+                    <!-- Donor -->
+                    <b-col sm>
+                        <validation-provider
+                            :name="$t('Donor')"
+                            vid="donor_id"
+                            :rules="{}"
+                            v-slot="validationContext"
                         >
-                            <b-form-textarea
-                                v-model="form.description"
-                                autocomplete="off"
+                            <b-form-group
+                                :label="$t('Donor')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-            </b-form-row>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-select
+                                    v-model="form.donor_id"
+                                    :options="donors"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
 
-            <b-form-row>
-                <!-- Donor -->
-                <b-col sm>
-                    <validation-provider
-                        :name="$t('Donor')"
-                        vid="donor_id"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Donor')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                    <!-- Closing date -->
+                    <b-col sm>
+                        <validation-provider
+                            :name="$t('Closing date')"
+                            vid="closed_at"
+                            :rules="{}"
+                            v-slot="validationContext"
                         >
-                            <b-select
-                                v-model="form.donor_id"
-                                :options="donors"
+                            <b-form-group
+                                :label="$t('Closing date')"
                                 :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-datepicker
+                                    v-model="form.closed_at"
+                                    autocomplete="off"
+                                    reset-button
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                </b-form-row>
 
-                <!-- Closing date -->
-                <b-col sm>
-                    <validation-provider
-                        :name="$t('Closing date')"
-                        vid="closed_at"
-                        :rules="{}"
-                        v-slot="validationContext"
-                    >
-                        <b-form-group
-                            :label="$t('Closing date')"
-                            :state="getValidationState(validationContext)"
-                            :invalid-feedback="validationContext.errors[0]"
+                <p>
+                    <b-form-checkbox v-model="form.is_completed">
+                        {{ $t("Completed") }}
+                    </b-form-checkbox>
+                </p>
+
+                <template #footer>
+                    <span>
+                        <!-- Submit -->
+                        <b-button
+                            type="submit"
+                            variant="primary"
+                            :disabled="disabled"
                         >
-                            <b-form-datepicker
-                                v-model="form.closed_at"
-                                autocomplete="off"
-                                reset-button
-                                :state="getValidationState(validationContext)"
-                            />
-                        </b-form-group>
-                    </validation-provider>
-                </b-col>
-            </b-form-row>
+                            <font-awesome-icon icon="check" />
+                            {{ budget ? $t("Update") : $t("Add") }}
+                        </b-button>
 
-            <p>
-                <b-form-checkbox v-model="form.is_completed">
-                    {{ $t("Completed") }}
-                </b-form-checkbox>
-            </p>
+                        <!-- Cancel -->
+                        <b-button
+                            variant="link"
+                            :disabled="disabled"
+                            @click="$emit('cancel')"
+                        >
+                            {{ $t("Cancel") }}
+                        </b-button>
+                    </span>
 
-            <p class="d-flex justify-content-between align-items-start">
-                <span>
-                    <!-- Submit -->
+                    <!-- Delete -->
                     <b-button
-                        type="submit"
-                        variant="primary"
-                        :disabled="disabled"
-                    >
-                        <font-awesome-icon icon="check" />
-                        {{ budget ? $t("Update") : $t("Add") }}
-                    </b-button>
-
-                    <!-- Cancel -->
-                    <b-button
+                        v-if="budget && budget.can_delete"
                         variant="link"
                         :disabled="disabled"
-                        @click="$emit('cancel')"
+                        class="text-danger"
+                        @click="onDelete"
                     >
-                        {{ $t("Cancel") }}
+                        {{ $t("Delete") }}
                     </b-button>
-                </span>
-
-                <!-- Delete -->
-                <b-button
-                    v-if="budget && budget.can_delete"
-                    variant="link"
-                    :disabled="disabled"
-                    class="text-danger"
-                    @click="onDelete"
-                >
-                    {{ $t("Delete") }}
-                </b-button>
-            </p>
+                </template>
+            </b-card>
         </b-form>
     </validation-observer>
 </template>
@@ -223,6 +225,10 @@ export default {
         budget: {
             type: Object,
             required: false
+        },
+        title: {
+            required: false,
+            default: undefined
         },
         disabled: Boolean
     },
