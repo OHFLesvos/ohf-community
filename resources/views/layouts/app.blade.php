@@ -39,7 +39,7 @@
                     {{-- Content --}}
                     <article class="site-content bg-light">
 
-                        <div class="@if(! isset($wide_layout) || $wide_layout) container-fluid @else container @endif {{ $content_padding ?? 'pt-3' }}">
+                        <div class="@unless(isset($no_container)) @if(! isset($wide_layout) || $wide_layout) container-fluid @else container @endif {{ $content_padding ?? 'pt-3' }} @endunless">
 
                             {{-- Success message --}}
                             @if (session('success'))

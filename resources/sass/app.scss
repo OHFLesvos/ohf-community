@@ -440,3 +440,10 @@ img.avatar {
     color: theme-color("secondary");
     background: theme-color("secondary");
 }
+
+/* Breadcrumbs item separator */
+.breadcrumb-item + .breadcrumb-item::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f105";
+    font-weight: 900;
+}

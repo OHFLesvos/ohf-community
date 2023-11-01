@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app', ['no_container' => true])
 
 @section('content')
     <div id="app">

@@ -1,29 +1,42 @@
 <template>
-    <b-container v-if="visitor" class="mb-3">
-        <b-alert v-if="visitor.anonymized" show variant="warning">{{
-            $t("This record has been anonymized.")
-        }}</b-alert>
-        <VisitorForm
-            :value="visitor"
-            :disabled="isBusy || visitor.anonymized"
-            :header="$t('Edit visitor')"
-            @submit="handleUpdate"
-            @delete="handleDelete"
-            @cancel="handleCancel"
-        />
-    </b-container>
-    <p v-else>
-        {{ $t("Loading...") }}
-    </p>
+    <div>
+        <BreadcrumbsNav :items="[
+            {
+                text: $t('Visitor check-in'),
+                to: {name: 'visitors.check_in'}
+            },
+            {
+                text: $t('Edit visitor'),
+            }
+        ]"/>
+        <b-container v-if="visitor" class="mb-3">
+            <b-alert v-if="visitor.anonymized" show variant="warning">{{
+                $t("This record has been anonymized.")
+            }}</b-alert>
+            <VisitorForm
+                :value="visitor"
+                :disabled="isBusy || visitor.anonymized"
+                :header="$t('Edit visitor')"
+                @submit="handleUpdate"
+                @delete="handleDelete"
+                @cancel="handleCancel"
+            />
+        </b-container>
+        <p v-else>
+            {{ $t("Loading...") }}
+        </p>
+    </div>
 </template>
 
 <script>
 import visitorsApi from "@/api/visitors";
 import VisitorForm from "@/components/visitors/VisitorForm.vue";
 import { showSnackbar } from "@/utils";
+import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
 export default {
     components: {
         VisitorForm,
+        BreadcrumbsNav
     },
     props: {
         id: {

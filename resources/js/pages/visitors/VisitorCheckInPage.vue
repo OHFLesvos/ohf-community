@@ -1,100 +1,111 @@
 <template>
-    <b-container>
-        <div class="d-flex justify-content-between align-items-center">
-            <h2 class="display-4 mb-3">{{ $t("Visitor check-in") }}</h2>
-            <span v-if="checkedInToday !== null">
-                {{ $t("{count} check-ins today", { count: checkedInToday }) }}
-            </span>
-        </div>
+    <div>
+        <BreadcrumbsNav :items="[
+            {
+                text: $t('Visitor check-in'),
+            }
+        ]">
+        </BreadcrumbsNav>
+        <b-container>
+            <b-row>
+                <b-col>
+                    <b-form-group>
+                        <b-form-input
+                            v-model.trim="search"
+                            type="search"
+                            debounce="500"
+                            :placeholder="
+                                $t('Search visitor name, ID number or date of birth…')
+                            "
+                            autofocus
+                            autocomplete="off"
+                        />
+                    </b-form-group>
+                </b-col>
+                <b-col cols="auto" v-if="can('view-visitors-reports') || can('export-visitors')">
+                    <b-button v-if="can('view-visitors-reports')" :to="{ name: 'reports.visitors.checkins' }">
+                        <font-awesome-icon icon="bar-chart"></font-awesome-icon>
+                        {{ $t('Reports') }}
+                    </b-button>
+                    <VisitorsExportDialog v-if="can('export-visitors')"/>
 
-        <b-form-group>
-            <b-form-input
-                v-model.trim="search"
-                type="search"
-                debounce="500"
-                :placeholder="
-                    $t('Search visitor name, ID number or date of birth…')
-                "
-                autofocus
-                autocomplete="off"
-            />
-        </b-form-group>
 
-        <alert-with-retry :value="errorText" @retry="searchVisitors()" />
+                </b-col>
+            </b-row>
 
-        <template v-if="searched">
-            <template v-if="visitors.length > 0">
-                <b-card
-                    v-for="visitor in visitors"
-                    :key="visitor.id"
-                    class="mb-3 shadow-sm"
-                >
-                    <VisitorDetails :value="visitor" />
-                    <template #footer>
-                        <VisitorCheckinButton
-                            :value="visitor"
-                            @checkin="checkedInToday = $event"
-                        >
-                            <template #append>
-                                <b-button
-                                    variant="secondary"
-                                    :to="{
-                                        name: 'visitors.edit',
-                                        params: { id: visitor.id },
-                                    }"
-                                    ><font-awesome-icon icon="edit" />
-                                    {{ $t("Edit") }}</b-button
-                                >
-                            </template>
-                        </VisitorCheckinButton>
-                    </template>
-                </b-card>
-                <table-pagination
-                    v-if="totalRows > perPage"
-                    v-model="currentPage"
-                    :total-rows="totalRows"
-                    :per-page="perPage"
-                    :disabled="isBusy"
-                />
+            <alert-with-retry :value="errorText" @retry="searchVisitors()" />
+
+            <template v-if="searched">
+                <template v-if="visitors.length > 0">
+                    <b-card
+                        v-for="visitor in visitors"
+                        :key="visitor.id"
+                        class="mb-3 shadow-sm"
+                    >
+                        <VisitorDetails :value="visitor" />
+                        <template #footer>
+                            <VisitorCheckinButton
+                                :value="visitor"
+                                @checkin="checkedInToday = $event"
+                            >
+                                <template #append>
+                                    <b-button
+                                        variant="secondary"
+                                        :to="{
+                                            name: 'visitors.edit',
+                                            params: { id: visitor.id },
+                                        }"
+                                        ><font-awesome-icon icon="edit" />
+                                        {{ $t("Edit") }}</b-button
+                                    >
+                                </template>
+                            </VisitorCheckinButton>
+                        </template>
+                    </b-card>
+                    <table-pagination
+                        v-if="totalRows > perPage"
+                        v-model="currentPage"
+                        :total-rows="totalRows"
+                        :per-page="perPage"
+                        :disabled="isBusy"
+                    />
+                </template>
+                <template v-else>
+                    <b-alert variant="warning" show>{{
+                        $t("No results.")
+                    }}</b-alert>
+                    <b-alert v-if="settings['visitors.retention_days']" variant="info" show>
+                        {{ $t(
+                            "Note: Inactive visitor records will be anonymized after {days} days.",
+                            { days: settings["visitors.retention_days"] }
+                        ) }}
+                    </b-alert>
+                </template>
+
+                <div v-if="showRegistrationForm" class="pb-3">
+                    <VisitorForm
+                        :header="$t('Register new visitor')"
+                        :disabled="isBusy"
+                        @submit="handleCreate"
+                        @cancel="showRegistrationForm = false"
+                    />
+                </div>
+                <p v-else>
+                    <b-button
+                        variant="primary"
+                        @click="showRegistrationForm = true"
+                    >
+                        <font-awesome-icon icon="plus-circle" />
+                        {{ $t("Register new visitor") }}</b-button
+                    >
+                </p>
             </template>
-            <template v-else>
-                <b-alert variant="warning" show>{{
-                    $t("No results.")
-                }}</b-alert>
-            </template>
 
-            <VisitorForm
-                v-if="showRegistrationForm"
-                :header="$t('Register new visitor')"
-                :disabled="isBusy"
-                @submit="handleCreate"
-                @cancel="showRegistrationForm = false"
-            />
-            <p v-else>
-                <b-button
-                    variant="primary"
-                    @click="showRegistrationForm = true"
-                >
-                    <font-awesome-icon icon="plus-circle" />
-                    {{ $t("Register new visitor") }}</b-button
-                >
-            </p>
-        </template>
-        <p v-else class="text-muted text-center">
-            <small>
-                {{
-                    $t(
-                        "Inactive visitor records will be anonymized after {days} days.",
-                        { days: settings["visitors.retention_days"] }
-                    )
-                }}
-            </small>
-        </p>
-        <hr>
-        <div class="d-flex justify-content-end">
-            <VisitorsExportDialog v-if="can('export-visitors')"/>
-        </div>
-    </b-container>
+            <b-alert variant="info" show v-else-if="checkedInToday !== null">
+                {{ $t("{count} check-ins today.", { count: checkedInToday }) }}
+            </b-alert>
+        </b-container>
+    </div>
 </template>
 
 <script>
@@ -107,6 +118,7 @@ import VisitorCheckinButton from "@/components/visitors/VisitorCheckinButton.vue
 import { showSnackbar } from "@/utils";
 import { mapState } from "vuex";
 import VisitorsExportDialog from "@/components/visitors/VisitorsExportDialog.vue";
+import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
 export default {
     components: {
         AlertWithRetry,
@@ -115,6 +127,7 @@ export default {
         VisitorForm,
         VisitorCheckinButton,
         VisitorsExportDialog,
+        BreadcrumbsNav
     },
     data() {
         return {

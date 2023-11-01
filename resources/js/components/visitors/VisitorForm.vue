@@ -184,7 +184,6 @@
                         :placeholder="
                             $t('Search for child or parent by name, ID number or date of birth…')
                         "
-                        autofocus
                         autocomplete="off"
                     />
                 </b-form-group>

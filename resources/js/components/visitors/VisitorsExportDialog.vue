@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="d-inline">
         <b-button variant="secondary" @click="modalShow = !modalShow">
             <font-awesome-icon icon="download" />
             {{ $t("Export") }}
