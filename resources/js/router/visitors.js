@@ -1,3 +1,7 @@
+import i18n from "@/plugins/i18n";
+
+import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
+
 export default [
     {
         path: "/visitors",
@@ -13,7 +17,42 @@ export default [
             default: () =>
                 import(
                     "@/pages/visitors/VisitorCheckInPage.vue"
-                )
+                ),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Visitor check-in'),
+                    }
+                ]
+            }
+        }
+    },
+    {
+        path: "/visitors/report",
+        name: "visitors.report",
+        components: {
+            default: () =>
+                import(
+                    "@/pages/reports/VisitorReportPage.vue"
+                ),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Visitor check-in'),
+                        to: { name: 'visitors.check_in' }
+                    },
+                    {
+                        text: i18n.t('Reports'),
+                    }
+                ]
+            }
         }
     },
     {
@@ -23,10 +62,22 @@ export default [
             default: () =>
                 import(
                     "@/pages/visitors/VisitorEditPage.vue"
-                )
+                ),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Visitor check-in'),
+                        to: { name: 'visitors.check_in' }
+                    },
+                    {
+                        text: i18n.t('Edit visitor'),
+                    }
+                ]
+            }
         }
     }
 ];
