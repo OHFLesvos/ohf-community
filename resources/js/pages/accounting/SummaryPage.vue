@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <b-container fluid>
         <alert-with-retry :value="errorText" @retry="fetchData" />
         <div class="row mb-2">
             <div class="col-sm">
@@ -167,7 +167,7 @@
                 </b-col>
             </b-row>
         </template>
-    </div>
+    </b-container>
 </template>
 
 <script>

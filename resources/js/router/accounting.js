@@ -280,30 +280,19 @@ export default [
         path: "/accounting/suppliers",
         name: "accounting.suppliers.index",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/SuppliersIndexPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/SuppliersIndexPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Suppliers"),
-                buttons: [
+            breadcrumbs: {
+                items: [
                     {
-                        to: { name: "accounting.suppliers.create" },
-                        variant: "primary",
-                        icon: "plus-circle",
-                        text: i18n.t("Add"),
-                        show: can("manage-suppliers")
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
                     },
                     {
-                        to: { name: "accounting.index" },
-                        icon: "money-bill-alt",
-                        text: i18n.t("Accounting"),
-                        show:
-                            can("view-accounting-summary") ||
-                            can("view-transactions")
+                        text: i18n.t("Suppliers"),
                     }
                 ]
             }
@@ -313,51 +302,52 @@ export default [
         path: "/accounting/suppliers/create",
         name: "accounting.suppliers.create",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/SupplierCreatePage.vue"
-                ),
-            header: PageHeader
+            default: () =>import("@/pages/accounting/SupplierCreatePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Register supplier")
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Suppliers"),
+                        to: { name: 'accounting.suppliers.index' },
+                    },
+                    {
+                        text: i18n.t("Register supplier"),
+                    }
+                ]
             }
         }
     },
     {
         path: "/accounting/suppliers/:id",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/SupplierViewPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/SupplierViewPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: route => ({
-                title: i18n.t("Supplier"),
-                buttons: [
+            breadcrumbs: {
+                items: [
                     {
-                        to: { name: "accounting.suppliers.index" },
-                        variant: "secondary",
-                        icon: "arrow-left",
-                        text: i18n.t("Overview"),
-                        show: true
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
                     },
                     {
-                        to: {
-                            name: "accounting.suppliers.edit",
-                            params: { id: route.params.id }
-                        },
-                        variant: "primary",
-                        icon: "edit",
-                        text: i18n.t("Edit"),
-                        show: can("manage-suppliers")
+                        text: i18n.t("Suppliers"),
+                        to: { name: 'accounting.suppliers.index' },
+                    },
+                    {
+                        text: i18n.t("Supplier"),
                     }
                 ]
-            })
+            }
         },
         children: [
             {
@@ -384,16 +374,26 @@ export default [
         path: "/accounting/suppliers/:id/edit",
         name: "accounting.suppliers.edit",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/SupplierEditPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/SupplierEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: {
-                title: i18n.t("Edit supplier")
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Suppliers"),
+                        to: { name: 'accounting.suppliers.index' },
+                    },
+                    {
+                        text: i18n.t("Edit supplier"),
+                    }
+                ]
             }
         }
     },
@@ -401,20 +401,19 @@ export default [
         path: "/accounting/transactions/summary",
         name: "accounting.transactions.summary",
         components: {
-            default: () =>
-                import(
-                    "@/pages/accounting/SummaryPage.vue"
-                ),
-            header: PageHeader
+            default: () => import("@/pages/accounting/SummaryPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Summary"),
-                buttons: [
+            breadcrumbs: {
+                items: [
                     {
-                        to: { name: "accounting.index" },
-                        icon: "home",
-                        text: i18n.t("Overview")
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Summary"),
                     }
                 ]
             }

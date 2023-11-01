@@ -1,7 +1,8 @@
 <template>
-    <b-container fluid class="px-0">
-        <supplier-form
+    <b-container>
+        <SupplierForm
             :disabled="isBusy"
+            :title="$t('Register supplier')"
             @submit="registerSupplier"
             @cancel="handleCancel"
         />

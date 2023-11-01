@@ -1,14 +1,14 @@
 <template>
-    <div>
-        <tab-nav :items="tabNavItems">
+    <b-container fluid>
+        <TabNav :items="tabNavItems">
             <template v-slot:after(transactions)>
                 <b-badge v-if="transactionsCount > 0" class="ml-1">
                     {{ transactionsCount }}
                 </b-badge>
             </template>
-        </tab-nav>
+        </TabNav>
         <router-view />
-    </div>
+    </b-container>
 </template>
 
 <script>
@@ -19,7 +19,7 @@ export default {
         return this.$t("View supplier");
     },
     components: {
-        TabNav
+        TabNav,
     },
     props: {
         id: {

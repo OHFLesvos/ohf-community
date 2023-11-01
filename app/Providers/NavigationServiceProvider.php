@@ -38,9 +38,6 @@ class NavigationServiceProvider extends ServiceProvider
 
         'accounting.webling.index' => \App\Navigation\ContextButtons\Accounting\WeblingIndexContextButtons::class,
         'accounting.webling.prepare' => \App\Navigation\ContextButtons\Accounting\WeblingPrepareContextButtons::class,
-        'accounting.suppliers' => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
-        'accounting.suppliers.show' => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
-        'accounting.suppliers.any' => \App\Navigation\ContextButtons\Accounting\SuppliersContextButtons::class,
 
         'cmtyvol.index' => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersIndexContextButtons::class,
         'cmtyvol.show' => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersShowContextButtons::class,

@@ -1,13 +1,13 @@
 <template>
-    <b-container v-if="supplier" fluid class="px-0">
-        <supplier-form
+    <b-container v-if="supplier">
+        <SupplierForm
             :supplier="supplier"
+            :title="$t('Edit supplier')"
             :disabled="isBusy"
             @submit="updateSupplier"
             @cancel="handleCancel"
             @delete="deleteSupplier"
         />
-        <hr />
         <p class="text-right">
             <small>
                 {{ $t("Last updated") }}:
@@ -15,9 +15,9 @@
             </small>
         </p>
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t("Loading...") }}
-    </p>
+    </b-container>
 </template>
 
 <script>

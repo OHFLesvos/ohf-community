@@ -1,7 +1,7 @@
 <template>
     <p v-if="items.filter(i => i.show).length">
         <template v-for="item in items">
-            <b-button :key="item.text" v-if="item.show" :to="item.to" :variant="item.variant">
+            <b-button :key="item.text" v-if="item.show" :to="item.to" :href="item.href" :variant="item.variant" class="mr-2">
                 <font-awesome-icon v-if="item.icon" :icon="item.icon"/>
                 {{ item.text }}
             </b-button>
