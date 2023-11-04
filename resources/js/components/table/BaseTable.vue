@@ -33,6 +33,7 @@
             :id="id"
             hover
             responsive
+            small
             :items="itemProvider"
             :fields="fields"
             :primary-key="'id'"
