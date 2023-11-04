@@ -96,7 +96,7 @@ export default [
         path: "/admin/roles",
         name: "roles.index",
         components: {
-            default: () => import("@/pages/users/TestIndexPage.vue"),
+            default: () => import("@/pages/users/RoleIndexPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
