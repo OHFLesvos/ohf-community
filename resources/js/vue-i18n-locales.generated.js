@@ -808,6 +808,7 @@ export default {
         "Update your profile information directly at {provider}": "Aktualisiere deine Profilinformationen direkt bei {provider}",
         "Managed by {provider}": "Verwaltet von {provider}",
         "View Permissions": "Berechtigungen anzeigen",
+        "Member": "Mitglied",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

@@ -60,6 +60,7 @@ class RoleController extends Controller
         $role->save();
 
         $role->users()->sync($request->users);
+        $role->administrators()->sync($request->administrators);
 
         Log::info('User role has been created.', [
             'role_id' => $role->id,
@@ -113,6 +114,7 @@ class RoleController extends Controller
         $role->save();
 
         $role->users()->sync($request->users);
+        $role->administrators()->sync($request->administrators);
 
         Log::info('User role has been updated.', [
             'role_id' => $role->id,

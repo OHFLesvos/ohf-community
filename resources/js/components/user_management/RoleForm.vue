@@ -30,22 +30,28 @@
 
                 </b-form-row>
 
-                <!-- Users -->
-                <b-form-group
-                    v-if="users.length > 0"
-                    :label="$t('Users')"
-                >
-                    <div class="columns-2">
-                        <b-form-checkbox-group
-                            v-model="form.users"
-                            :options="users"
-                            stacked
-                        />
-                    </div>
-                </b-form-group>
-                <template v-else>
-                    <p><em>{{ $t('No users defined.') }}</em></p>
-                </template>
+                <b-card :header="`${$t('Users')} (${form.users.length})`" body-class="pb-0" class="mb-2">
+                    <BaseTable
+                        id="roleUsers"
+                        :fields="userTableFields"
+                        :api-method="fetchUsers"
+                        default-sort-by="name"
+                        :empty-text="$t('No users found.')"
+                        :items-per-page="10"
+                    >
+                        <template v-slot:cell(member)="data">
+                            <b-form-checkbox
+                                :checked="form.users.includes(data.item.id)" @change="userAssignmentChanged(data.item.id, $event)"
+                            />
+                        </template>
+                        <template v-slot:cell(administrator)="data">
+                            <b-form-checkbox
+                                :disabled="!form.users.includes(data.item.id) && !form.administrators.includes(data.item.id)"
+                                :checked="form.administrators.includes(data.item.id)" @change="administratorAssignmentChanged(data.item.id, $event)"
+                            />
+                        </template>
+                    </BaseTable>
+                </b-card>
 
                 <template #footer>
                     <span>
@@ -89,7 +95,11 @@
 <script>
 import formValidationMixin from "@/mixins/formValidationMixin";
 import usersApi from '@/api/user_management/users'
+import BaseTable from "@/components/table/BaseTable.vue";
 export default {
+    components: {
+        BaseTable
+    },
     mixins: [formValidationMixin],
     props: {
         role: {
@@ -97,6 +107,10 @@ export default {
             required: false
         },
         roleUsers: {
+            type: Array,
+            default: () => [],
+        },
+        roleAdministrators: {
             type: Array,
             default: () => [],
         },
@@ -110,28 +124,40 @@ export default {
         return {
             form: this.role ? {
                 name: this.role.name,
-                // users: [], //this.role.relationships.users.data.map(r => r.id),
                 users: this.roleUsers.map(r => r.id),
+                administrators: this.roleAdministrators.map(r => r.id),
             } : {
                 name: null,
                 users: [],
+                administrators: [],
             },
-            users: []
+            userTableFields: [
+                {
+                    key: "name",
+                    label: this.$t("Name"),
+                    sortable: true,
+                    class: "align-middle"
+                },
+                {
+                    key: "email",
+                    label: this.$t("Email address"),
+                    class: "align-middle d-none d-sm-table-cell"
+                },
+                {
+                    key: "member",
+                    label: this.$t("Member"),
+                    class: 'text-center',
+                },
+                {
+                    key: "administrator",
+                    label: this.$t("Administrator"),
+                    class: 'text-center',
+                },
+            ]
         }
     },
-    created () {
-        this.fetchUsers()
-    },
     methods: {
-        async fetchUsers () {
-            let data = await usersApi.names()
-            this.users = data.map(e => {
-                return {
-                    text: e.name,
-                    value: e.id
-                }
-            })
-        },
+        fetchUsers: usersApi.list,
         onSubmit () {
             this.$emit('submit', this.form)
         },
@@ -139,7 +165,24 @@ export default {
             if (confirm(this.$t('Really delete this role?'))) {
                 this.$emit('delete')
             }
-        }
+        },
+        userAssignmentChanged(userId, checked) {
+            if (checked && !this.form.users.includes(userId)) {
+                this.form.users.push(userId)
+            } else if (!checked && this.form.users.includes(userId)) {
+                this.form.users.splice(this.form.users.indexOf(userId), 1)
+                if (this.form.administrators.includes(userId)) {
+                    this.form.administrators.splice(this.form.administrators.indexOf(userId), 1)
+                }
+            }
+        },
+        administratorAssignmentChanged(userId, checked) {
+            if (checked && !this.form.administrators.includes(userId)) {
+                this.form.administrators.push(userId)
+            } else if (!checked && this.form.administrators.includes(userId)) {
+                this.form.administrators.splice(this.form.administrators.indexOf(userId), 1)
+            }
+        },
     }
 }
 </script>

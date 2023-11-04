@@ -6,13 +6,10 @@
             @retry="fetchData"
         />
         <template v-else-if="role">
-            <!-- <pre>{{ role }}</pre>
-            <pre>{{ permissions }}</pre>
-            <pre>{{ users }}</pre>
-            <pre>{{ administrators }}</pre> -->
             <RoleForm
                 :role="role"
                 :roleUsers="users"
+                :roleAdministrators="administrators"
                 :title="$t('Edit Role')"
                 :disabled="isBusy"
                 @submit="handleUpdate"
