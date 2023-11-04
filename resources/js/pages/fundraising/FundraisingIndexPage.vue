@@ -1,0 +1,103 @@
+<template>
+    <b-container>
+        <alert-with-retry
+            v-if="error"
+            :value="error"
+            @retry="fetchData"
+        />
+        <b-row v-if="data">
+            <b-col sm="6">
+                <BaseWidget :title="$t('Donors')" icon="users" :to="{name: 'fundraising.donors.index'}">
+                    <ValueTable :items="donorsData" :alignAllItemsRight="true"/>
+                </BaseWidget>
+            </b-col>
+            <b-col sm="6">
+                <BaseWidget :title="$t('Donations')" icon="donate" :to="{name: 'fundraising.donations.index'}">
+                    <ValueTable :items="donationsData" :alignAllItemsRight="true"/>
+                </BaseWidget>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col
+                v-for="(button, idx) in buttons.filter(btn => btn.show)" :key="idx"
+                sm="6" md="6" lg="6" class="mb-4"
+            >
+                <b-button :key="button.text" :to="button.to" class="d-block">
+                    <font-awesome-icon :icon="button.icon"/>
+                    {{ button.text }}
+                </b-button>
+            </b-col>
+        </b-row>
+    </b-container>
+</template>
+<script>
+import reportApi from '@/api/fundraising/report'
+import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
+import BaseWidget from "@/components/dashboard/BaseWidget.vue"
+import ValueTable from "@/components/dashboard/ValueTable.vue"
+export default {
+    components: {
+        AlertWithRetry,
+        BaseWidget,
+        ValueTable,
+    },
+    data() {
+        return {
+            buttons: [
+                {
+                    to: { name: "fundraising.donors.index" },
+                    icon: "users",
+                    text: this.$t("Manage donors"),
+                    show: this.can("view-fundraising-entities")
+                },
+                {
+                    to: { name: "fundraising.donations.index" },
+                    icon: "donate",
+                    text: this.$t("Manage donations"),
+                    show: this.can("view-fundraising-entities")
+                }
+            ],
+            error: null,
+            data: null
+        }
+    },
+    computed: {
+        donorsData() {
+            const last_registered_donor = this.data.last_registered_donor
+                ? `${this.data.last_registered_donor.full_name}<br>${this.dateFormat(this.data.last_registered_donor.created_at)}`
+                : '-';
+            return [
+                { key: this.$t('New donors this month'), value: this.data.num_new_donors_month },
+                { key: this.$t('New donors this year'), value: this.data.num_new_donors_year },
+                { key: this.$t('Registered donors'), value: this.data.num_donors },
+                { key: this.$t('Last registered donor'), value: last_registered_donor },
+            ];
+        },
+        donationsData() {
+            const last_registered_donation = this.data.last_registered_donation
+                ? `${this.data.last_registered_donation.amount} ${this.data.last_registered_donation.currency}<br>${this.data.last_registered_donation.donor}<br>${this.dateFormat(this.data.last_registered_donation.created_at)}`
+                : '-';
+            return [
+                { key: this.$t('Donations this month'), value: this.data.num_donations_month },
+                { key: this.$t('Donations this year'), value: this.data.num_donations_year },
+                { key: this.$t('Donations in total'), value: this.data.num_donations_total },
+                { key: this.$t('Last registered donation'), value: last_registered_donation },
+            ];
+        }
+    },
+    async created () {
+        this.fetchData()
+    },
+    methods: {
+        async fetchData () {
+            this.error = null
+            try {
+                let data = await reportApi.summary()
+                this.data =data;
+            } catch (err) {
+                this.error = err
+            }
+        },
+    }
+}
+</script>

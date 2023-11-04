@@ -58,7 +58,7 @@ export default {
                     text: this.$t("Import"),
                     show: this.can("manage-fundraising-entities")
                 }
-        ],
+            ],
         }
     }
 }

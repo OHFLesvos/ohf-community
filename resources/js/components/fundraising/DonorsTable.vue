@@ -7,7 +7,7 @@
         default-sort-by="first_name"
         :empty-text="$t('No donors found.')"
         :filter-placeholder="`${$t('Search for name, address, e-mail, phone')}...`"
-        :items-per-page="25"
+        :items-per-page="itemsPerPage"
     >
         <!-- Name -->
         <template v-slot:cell(first_name)="data">
@@ -80,6 +80,10 @@ export default {
             require: false,
             type: String,
             default: null
+        },
+        itemsPerPage: {
+            required: false,
+            default: 25
         }
     },
     data() {

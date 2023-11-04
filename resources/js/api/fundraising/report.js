@@ -1,5 +1,9 @@
 import { api, route } from '@/api/baseApi'
 export default {
+    async summary () {
+        const url = `${route('api.fundraising.report.summary')}`
+        return await api.get(url)
+    },
     async getCount (date) {
         const url = `${route('api.fundraising.report.donors.count')}?date=${date}`
         return await api.get(url)

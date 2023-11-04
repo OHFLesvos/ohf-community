@@ -1,5 +1,6 @@
 <template>
     <b-container fluid>
+        <PageHeader :title="supplier?.name ?? '...'"/>
         <TabNav :items="tabNavItems">
             <template v-slot:after(transactions)>
                 <b-badge v-if="transactionsCount > 0" class="ml-1">
@@ -13,6 +14,7 @@
 
 <script>
 import TabNav from "@/components/layout/TabNav.vue";
+import PageHeader from "@/components/layout/PageHeader.vue";
 import suppliersApi from "@/api/accounting/suppliers";
 export default {
     title() {
@@ -20,6 +22,7 @@ export default {
     },
     components: {
         TabNav,
+        PageHeader,
     },
     props: {
         id: {
@@ -41,7 +44,8 @@ export default {
                     text: this.$t("Transactions"),
                     key: "transactions"
                 }
-            ]
+            ],
+            supplier: null
         };
     },
     watch: {
@@ -57,6 +61,7 @@ export default {
             try {
                 let data = await suppliersApi.find(this.id);
                 this.transactionsCount = data.data.transactions_count;
+                this.supplier = data.data;
             } catch (err) {
                 this.error = err;
             }

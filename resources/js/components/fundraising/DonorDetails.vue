@@ -51,13 +51,6 @@
             </two-col-list-group-item>
 
             <two-col-list-group-item
-                v-if="donor.language"
-                :title="$t('Correspondence language')"
-            >
-                {{ donor.language }}
-            </two-col-list-group-item>
-
-            <two-col-list-group-item
                 :title="$t('Registered')"
             >
                 {{ donor.created_at | dateTimeFormat }}

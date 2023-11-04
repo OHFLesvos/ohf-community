@@ -7,7 +7,7 @@
         default-sort-desc
         :empty-text="$t('No donations found.')"
         :filter-placeholder="$t('Search...')"
-        :items-per-page="25"
+        :items-per-page="itemsPerPage"
     >
         <!-- Date / Link to edit -->
         <template v-slot:cell(date)="data">
@@ -67,6 +67,12 @@ import donationsApi from "@/api/fundraising/donations";
 export default {
     components: {
         BaseTable
+    },
+    props: {
+        itemsPerPage: {
+            required: false,
+            default: 25
+        }
     },
     data() {
         return {

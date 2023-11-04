@@ -180,6 +180,8 @@ Route::middleware(['auth:sanctum', 'language'])
                 Route::prefix('report')
                     ->name('report.')
                     ->group(function () {
+                        Route::get('summary', [ReportController::class, 'summary'])
+                            ->name('summary');
                         Route::get('donors/count', [ReportController::class, 'count'])
                             ->name('donors.count');
                         Route::get('donors/languages', [ReportController::class, 'languages'])

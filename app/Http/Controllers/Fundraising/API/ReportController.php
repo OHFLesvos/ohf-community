@@ -6,13 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
+use App\Http\Resources\Fundraising\Donor as DonorResource;
+use App\Http\Resources\Fundraising\Donation as DonationResource;
 use App\Support\ChartResponseBuilder;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
     use ValidatesDateRanges;
+
+    public function summary(): JsonResponse
+    {
+        $lastRegisteredDonor = Donor::query()->orderBy('created_at', 'desc')->first();
+        $lastRegisteredDonation = Donation::query()->orderBy('created_at', 'desc')->with('donor')->first();
+        return response()->json([
+            'num_donors' => Donor::count(),
+            'num_new_donors_month' => Donor::whereDate('created_at', '>', Carbon::now()->startOfMonth())->count(),
+            'num_new_donors_year' => Donor::whereDate('created_at', '>', Carbon::now()->startOfYear())->count(),
+            'last_registered_donor' => $lastRegisteredDonor != null ? new DonorResource($lastRegisteredDonor) : null,
+            'last_registered_donation' => $lastRegisteredDonation != null ? new DonationResource($lastRegisteredDonation) : null,
+            'num_donations_month' => Donation::whereDate('date', '>', Carbon::now()->startOfMonth())->count(),
+            'num_donations_year' => Donation::whereDate('date', '>', Carbon::now()->startOfYear())->count(),
+            'num_donations_total' => Donation::count(),
+        ]);
+    }
 
     public function count(Request $request): JsonResponse
     {

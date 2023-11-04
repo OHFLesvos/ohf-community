@@ -5,10 +5,8 @@
         @retry="fetchData"
     />
     <b-container fluid v-else-if="loaded">
-
         <PageHeader :title="donor.full_name" :buttons="pageHeaderButtons"/>
-
-        <tab-nav :items="tabNavItems">
+        <TabNav :items="tabNavItems">
             <template v-slot:after(donations)>
                 <b-badge
                     v-if="donationsCount > 0"
@@ -33,7 +31,7 @@
                     {{ commentCount }}
                 </b-badge>
             </template>
-        </tab-nav>
+        </TabNav>
         <router-view @count="updateCount" />
     </b-container>
     <b-container v-else>

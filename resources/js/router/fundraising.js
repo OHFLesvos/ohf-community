@@ -2,32 +2,28 @@ import i18n from "@/plugins/i18n";
 
 import { rememberRoute, previouslyRememberedRoute } from "@/utils/router";
 
-import PageHeader from "@/components/layout/PageHeader.vue";
-import TabNav from "@/components/layout/TabNav.vue";
 import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
 
 import { can } from "@/plugins/laravel";
 
-const overviewNavItems = [
-    {
-        to: { name: "fundraising.donors.index" },
-        icon: "users",
-        text: i18n.t("Donors"),
-        show: can("view-fundraising-entities")
-    },
-    {
-        to: { name: "fundraising.donations.index" },
-        icon: "donate",
-        text: i18n.t("Donations"),
-        show: can("view-fundraising-entities")
-    }
-];
-
 export default [
     {
         path: "/fundraising",
-        redirect: { name: "fundraising.donors.index" },
-        name: 'fundraising.index'
+        name: 'fundraising.index',
+        components: {
+            default: () => import("@/pages/fundraising/FundraisingIndexPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: route => ({ tag: route.query.tag }),
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Donation Management'),
+                    },
+                ]
+            },
+        }
     },
     {
         path: "/fundraising/donors",
@@ -35,21 +31,20 @@ export default [
         components: {
             default: () => import("@/pages/fundraising/DonorsIndexPage.vue"),
             breadcrumbs: BreadcrumbsNav,
-            beforeContent: TabNav
         },
         props: {
             default: route => ({ tag: route.query.tag }),
             breadcrumbs: {
                 items: [
                     {
+                        text: i18n.t('Donation Management'),
+                        to: { name: 'fundraising.index' }
+                    },
+                    {
                         text: i18n.t('Donors'),
                     },
                 ]
             },
-            beforeContent: {
-                items: overviewNavItems,
-                exact: false
-            }
         }
     },
     {
@@ -74,6 +69,10 @@ export default [
             breadcrumbs: {
                 items: [
                     {
+                        text: i18n.t('Donation Management'),
+                        to: { name: 'fundraising.index' }
+                    },
+                    {
                         text: i18n.t('Donors'),
                         to: { name: 'fundraising.donors.index' },
                         show: can('view-fundraising-entities')
@@ -95,6 +94,10 @@ export default [
             default: true,
             breadcrumbs: {
                 items: [
+                    {
+                        text: i18n.t('Donation Management'),
+                        to: { name: 'fundraising.index' }
+                    },
                     {
                         text: i18n.t('Donors'),
                         to: previouslyRememberedRoute(
@@ -155,6 +158,10 @@ export default [
             breadcrumbs: route => ({
                 items: [
                     {
+                        text: i18n.t('Donation Management'),
+                        to: { name: 'fundraising.index' }
+                    },
+                    {
                         text: i18n.t('Donors'),
                         to: { name: 'fundraising.donors.index' },
                         show: can('view-fundraising-entities')
@@ -179,7 +186,6 @@ export default [
         name: "fundraising.donations.index",
         components: {
             default: () => import("@/pages/fundraising/DonationsIndexPage.vue"),
-            beforeContent: TabNav,
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
@@ -187,13 +193,14 @@ export default [
             breadcrumbs: {
                 items: [
                     {
+                        text: i18n.t('Donation Management'),
+                        to: { name: 'fundraising.index' }
+                    },
+                    {
                         text: i18n.t('Donations'),
                     },
                 ]
             },
-            beforeContent: {
-                items: overviewNavItems
-            }
         }
     },
     {
@@ -207,6 +214,10 @@ export default [
             default: true,
             breadcrumbs: () => ({
                 items: [
+                    {
+                        text: i18n.t('Donation Management'),
+                        to: { name: 'fundraising.index' }
+                    },
                     {
                         text: i18n.t('Donations'),
                         to: previouslyRememberedRoute(
@@ -231,20 +242,25 @@ export default [
         name: "fundraising.donations.import",
         components: {
             default: () => import("@/pages/fundraising/DonationsImportPage.vue"),
-            header: PageHeader
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Import"),
-                buttons: [
+            breadcrumbs: () => ({
+                items: [
                     {
+                        text: i18n.t('Donation Management'),
+                        to: { name: 'fundraising.index' }
+                    },
+                    {
+                        text: i18n.t('Donations'),
                         to: { name: "fundraising.donations.index" },
-                        icon: "times-circle",
-                        text: i18n.t("Cancel"),
                         show: can("view-fundraising-entities")
+                    },
+                    {
+                        text: i18n.t('Import'),
                     }
                 ]
-            }
+            }),
         }
     }
 ];
