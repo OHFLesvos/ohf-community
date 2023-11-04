@@ -20,8 +20,10 @@
                             >
                                 <b-form-input
                                     v-model="form.name"
+                                    required
                                     autocomplete="off"
-                                    :disabled="!!user.provider_name"
+                                    :autofocus="!user"
+                                    :disabled="!!user?.provider_name"
                                     :state="getValidationState(validationContext)"
                                 />
                             </b-form-group>
@@ -48,8 +50,9 @@
                                 <b-form-input
                                     v-model="form.email"
                                     type="email"
+                                    :required="!user"
                                     autocomplete="off"
-                                    :disabled="!!user.provider_name"
+                                    :disabled="!!user?.provider_name"
                                     :state="getValidationState(validationContext)"
                                 />
                             </b-form-group>
@@ -73,8 +76,9 @@
                                 <b-form-input
                                     v-model="form.password"
                                     type="password"
+                                    :required="!user"
                                     autocomplete="new-password"
-                                    :disabled="!!user.provider_name"
+                                    :disabled="!!user?.provider_name"
                                     :state="getValidationState(validationContext)"
                                 />
                             </b-form-group>
@@ -183,7 +187,7 @@ export default {
     },
     computed: {
         managedByProvider() {
-            return this.user.provider_name != null
+            return this.user?.provider_name != null
                 ? this.$t('Managed by {provider}', { provider: this.user.provider_name.charAt(0).toUpperCase() + this.user.provider_name.slice(1) } )
                 : null
         }

@@ -62,11 +62,11 @@ Route::middleware(['auth', 'language'])
                 Route::get('users/permissions', [UserController::class, 'permissions'])
                     ->name('users.permissions')
                     ->middleware('can:viewAny,App\Models\User');
-                Route::resource('users', UserController::class)
-                    ->except(['index', 'show', 'edit', 'update', 'destroy']);
 
                 Route::view('users', 'vue-app')
                     ->name('users.index');
+                Route::view('users/create', 'vue-app')
+                    ->name('users.create');
                 Route::view('users/{user}', 'vue-app')
                     ->name('users.show');
                 Route::view('users/{user}/edit', 'vue-app')

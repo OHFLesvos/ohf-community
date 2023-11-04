@@ -12,20 +12,6 @@ class UserIndexContextButtons implements ContextButtons
     public function getItems(View $view): array
     {
         return [
-            'action' => [
-                'url' => route('users.create'),
-                'caption' => __('Add'),
-                'icon' => 'circle-plus',
-                'icon_floating' => 'plus',
-                'authorized' => Auth::user()->can('create', User::class),
-            ],
-            'roles' => [
-                'url' => route('roles.index'),
-                'caption' => __('Roles'),
-                'icon' => 'tags',
-                'active' => 'admin/roles*',
-                'authorized' => Auth::user()->can('viewAny', App\Models\Role::class),
-            ],
             'permissions' => [
                 'url' => route('users.permissions'),
                 'caption' => __('View Permissions'),

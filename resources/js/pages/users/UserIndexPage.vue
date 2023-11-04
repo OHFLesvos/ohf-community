@@ -1,12 +1,12 @@
 <template>
     <b-container fluid>
-        <base-table
+        <BaseTable
             id="usersTable"
             :fields="fields"
             :api-method="list"
             default-sort-by="name"
             :empty-text="$t('No users found.')"
-            :items-per-page="25"
+            :items-per-page="10"
         >
             <template #filter-append>
                 <b-button :href="route('roles.index')">
@@ -55,7 +55,16 @@
                     <font-awesome-icon :icon="data.value ? 'check' : 'times'" />
                 </span>
             </template>
-        </base-table>
+        </BaseTable>
+        <ButtonGroup :items="[
+            {
+                to: { name: 'users.create' },
+                variant: 'primary',
+                icon: 'plus-circle',
+                text: $t('Add'),
+                show: can('create-user')
+            },
+        ]"/>
     </b-container>
 </template>
 
@@ -63,6 +72,7 @@
 import BaseTable from "@/components/table/BaseTable.vue";
 import EmailLink from "@/components/common/EmailLink.vue";
 import UserAvatar from "@/components/user_management/UserAvatar.vue";
+import ButtonGroup from "@/components/common/ButtonGroup.vue";
 import usersApi from "@/api/user_management/users";
 export default {
     title() {
@@ -71,7 +81,8 @@ export default {
     components: {
         BaseTable,
         EmailLink,
-        UserAvatar
+        UserAvatar,
+        ButtonGroup
     },
     data() {
         return {

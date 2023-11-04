@@ -73,8 +73,9 @@ class UserController extends Controller
         $user = new User();
         $user->fill($request->validated());
         $user->password = Hash::make($request->password);
-// TODO
+        $user->is_super_admin = ! empty($request->is_super_admin) || User::where('is_super_admin', true)->count() == 1;
         $user->save();
+        $user->roles()->sync($request->roles);
 
         Log::info('User account has been created.', [
             'user_id' => $user->id,
@@ -86,6 +87,7 @@ class UserController extends Controller
         return response()
             ->json([
                 'message' => __('User has been added.'),
+                'id' => $user->id,
             ], Response::HTTP_CREATED)
             ->header('Location', route('api.users.show', $user));
     }
@@ -122,7 +124,6 @@ class UserController extends Controller
             $user->password = Hash::make($request->password);
             $passwordMessage = ' '.__('A new password has been set.');
         }
-
         $user->is_super_admin = ! empty($request->is_super_admin) || User::where('is_super_admin', true)->count() == 1;
 
         if ($request->has('roles')) {

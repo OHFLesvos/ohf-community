@@ -3,61 +3,18 @@
 namespace App\Http\Controllers\UserManagement;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserManagement\StoreUpdateUser;
-use App\Models\Role;
 use App\Models\User;
 use App\Util\AutoColorInitialAvatar;
 use App\View\Components\UserAvatar;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
-use Storage;
 
 class UserController extends Controller
 {
     public function __construct()
     {
         $this->authorizeResource(User::class);
-    }
-
-    public function index(Request $request): View
-    {
-        return view('user_management.users.index');
-    }
-
-    public function create(): View
-    {
-        return view('user_management.users.create', [
-            'roles' => Role::orderBy('name')->get(),
-        ]);
-    }
-
-    public function store(StoreUpdateUser $request): RedirectResponse
-    {
-        $user = new User();
-        $user->fill($request->validated());
-        $user->password = Hash::make($request->password);
-        $user->save();
-        $user->roles()->sync($request->roles);
-
-        Log::info('User account has been created.', [
-            'user_id' => $user->id,
-            'user_name' => $user->name,
-            'email' => $user->email,
-            'client_ip' => $request->ip(),
-        ]);
-
-        return redirect()
-            ->route('users.index')
-            ->with('success', __('User has been added.'));
-    }
-
-    public function show(User $user): View
-    {
-        return view('vue-app');
     }
 
     public function permissions(): View

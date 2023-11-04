@@ -27,6 +27,28 @@ export default [
         }
     },
     {
+        path: "/admin/users/create",
+        name: "users.create",
+        components: {
+            default: () => import("@/pages/users/UserCreatePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Users'),
+                        to: { name: 'users.index' }
+                    },
+                    {
+                        text: i18n.t('Create User'),
+                    }
+                ]
+            },
+        }
+    },
+    {
         path: "/admin/users/:id(\\d+)",
         name: "users.show",
         components: {
