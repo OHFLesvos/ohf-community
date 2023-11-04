@@ -8,7 +8,7 @@
                         :href="button.href"
                         variant="outline-primary"
                         class="dashboard-button mr-4 mb-3 d-flex flex-column align-items-center justify-content-center">
-                        <font-awesome-icon :icon="button.icon" style="font-size: 32px;" class="mb-2" />
+                        <font-awesome-icon :icon="button.icon" style="font-size: 24px;" class="mb-2" />
                         {{ button.text }}
                     </b-button>
                 </div>
