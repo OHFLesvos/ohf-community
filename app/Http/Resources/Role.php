@@ -24,6 +24,9 @@ class Role extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'num_users' => $this->users->count(),
+            'num_administrators' => $this->administrators->count(),
+            'num_permissions' => $this->permissions->count(),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'links' => $this->links(),

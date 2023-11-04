@@ -39,6 +39,7 @@
             'view-community-volunteers' => Auth::user()->can('viewAny', App\Models\CommunityVolunteers\CommunityVolunteer::class),
             'view-user-management' => Auth::user()->can('viewAny', App\Models\User::class) || Auth::user()->can('viewAny', App\Models\Role::class),
             'create-user' => Auth::user()->can('create',  App\Models\User::class),
+            'create-role' => Auth::user()->can('create',  App\Models\Role::class),
         ];
     @endphp
     <script>

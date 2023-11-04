@@ -92,4 +92,51 @@ export default [
             },
         }
     },
+    {
+        path: "/admin/roles",
+        name: "roles.index",
+        components: {
+            default: () => import("@/pages/users/TestIndexPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Users'),
+                        to: { name: 'users.index' }
+                    },
+                    {
+                        text: i18n.t('Roles'),
+                    }
+                ]
+            }
+        }
+    },
+    {
+        path: "/admin/roles/:id(\\d+)",
+        name: "roles.show",
+        components: {
+            default: () => import("@/pages/users/RoleShowPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Users'),
+                        to: { name: 'users.index' }
+                    },
+                    {
+                        text: i18n.t('Roles'),
+                        to: { name: 'roles.index' }
+                    },
+                    {
+                        text: i18n.t('Details'),
+                    }
+                ]
+            },
+        }
+    },
 ];

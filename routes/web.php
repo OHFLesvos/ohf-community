@@ -80,7 +80,16 @@ Route::middleware(['auth', 'language'])
                     ->name('roles.manageMembers');
                 Route::put('roles/{role}/members', [RoleController::class, 'updateMembers'])
                     ->name('roles.updateMembers');
-                Route::resource('roles', RoleController::class);
+                Route::resource('roles', RoleController::class)->except('index', 'show');
+                Route::view('roles', 'vue-app')
+                    ->name('roles.index');
+                // Route::view('roles/create', 'vue-app')
+                //     ->name('roles.create');
+                Route::view('roles/{user}', 'vue-app')
+                    ->name('roles.show');
+                // Route::view('roles/{user}/edit', 'vue-app')
+                //     ->name('roles.edit');
+
             });
 
         // User profile

@@ -9,7 +9,7 @@
             :items-per-page="10"
         >
             <template #filter-append>
-                <b-button :href="route('roles.index')">
+                <b-button :to="{ name: 'roles.index' }">
                     <font-awesome-icon icon="tags"/>
                     {{ $t('Roles') }}
                 </b-button>

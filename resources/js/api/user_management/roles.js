@@ -4,6 +4,14 @@ export default {
         const url = route('api.roles.index', params)
         return await api.get(url)
     },
+    async listWithUsers(params) {
+        if (!params) {
+            params = {}
+        }
+        params.include = 'users'
+        const url = route('api.roles.index', params)
+        return await api.get(url)
+    },
     async store (data) {
         const url = route('api.roles.store')
         return await api.post(url, data)

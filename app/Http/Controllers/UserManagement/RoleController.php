@@ -20,15 +20,6 @@ class RoleController extends Controller
         $this->authorizeResource(Role::class);
     }
 
-    public function index(): View
-    {
-        return view('user_management.roles.index', [
-            'roles' => Role::with(['users', 'permissions'])
-                ->orderBy('name')
-                ->paginate(100),
-        ]);
-    }
-
     public function create(): View
     {
         return view('user_management.roles.create', [
