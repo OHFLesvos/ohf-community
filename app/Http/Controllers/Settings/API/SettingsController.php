@@ -207,10 +207,10 @@ class SettingsController extends Controller
         return response()
             ->json([
                 'accounting.transactions.currency' => Setting::get('accounting.transactions.currency'),
-                'accounting.transactions.use_locations' => (bool) Setting::get('accounting.transactions.use_locations', false),
-                'accounting.transactions.use_secondary_categories' => (bool) Setting::get('accounting.transactions.use_secondary_categories', false),
-                'accounting.transactions.use_cost_centers' => (bool) Setting::get('accounting.transactions.use_cost_centers', false),
-                'accounting.transactions.show_intermediate_balances' => (bool) Setting::get('accounting.transactions.show_intermediate_balances', false),
+                'accounting.transactions.use_locations' => filter_var(Setting::get('accounting.transactions.use_locations', false), FILTER_VALIDATE_BOOLEAN),
+                'accounting.transactions.use_secondary_categories' => filter_var(Setting::get('accounting.transactions.use_secondary_categories', false), FILTER_VALIDATE_BOOLEAN),
+                'accounting.transactions.use_cost_centers' => filter_var(Setting::get('accounting.transactions.use_cost_centers', false), FILTER_VALIDATE_BOOLEAN),
+                'accounting.transactions.show_intermediate_balances' => filter_var(Setting::get('accounting.transactions.show_intermediate_balances', false), FILTER_VALIDATE_BOOLEAN),
                 'visitors.nationalities' => Setting::get('visitors.nationalities', []),
                 'visitors.living_situations' => Setting::get('visitors.living_situations', []),
                 'visitors.purposes_of_visit' => Setting::get('visitors.purposes_of_visit', []),

@@ -1,5 +1,7 @@
 <template>
     <b-container fluid>
+        <PageHeader :buttons="navButtons"/>
+        ${{  settings['accounting.transactions.show_intermediate_balances'] }}$
         <TransactionsTable
             :use-secondary-categories="
                 settings['accounting.transactions.use_secondary_categories']
@@ -18,15 +20,51 @@
 
 <script>
 import TransactionsTable from "@/components/accounting/TransactionsTable.vue";
+import PageHeader from "@/components/layout/PageHeader.vue";
 import { mapState } from "vuex";
 export default {
     title() {
         return this.$t("Transactions");
     },
     components: {
-        TransactionsTable
+        TransactionsTable,
+        PageHeader,
     },
-    computed: mapState(["settings"]),
+    computed: {
+        navButtons() {
+            return [
+                {
+                    to: {
+                        name: "accounting.transactions.create",
+                        query: { wallet: this.$route.query.wallet ?? null }
+                    },
+                    icon: "plus-circle",
+                    text: this.$t("Add"),
+                    variant: "primary",
+                    show: this.can("create-transactions")
+                },
+                {
+                    to: {
+                        name: "accounting.transactions.summary",
+                        query: { wallet: this.$route.query.wallet ?? null }
+                    },
+                    icon: "calculator",
+                    text: this.$t("Summary"),
+                    show: this.can("view-accounting-summary")
+                },
+                this.$route.query.wallet ? {
+                    href: this.route(
+                        "accounting.webling.index",
+                        this.$route.query.wallet
+                    ),
+                    icon: "cloud-upload-alt",
+                    text: this.$t("Webling"),
+                    show: this.can("export-to-webling")
+                } : null,
+            ]
+        },
+        ...mapState(["settings"]),
+    },
     methods: {
         updateQueryString(params) {
             this.$router.push(

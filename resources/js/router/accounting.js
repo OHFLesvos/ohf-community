@@ -1,9 +1,7 @@
 import i18n from "@/plugins/i18n";
-import ziggyRoute from "@/plugins/ziggy";
 
 import { can } from "@/plugins/laravel";
 
-import PageHeader from "@/components/layout/PageHeader.vue";
 import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
 
 export default [
@@ -462,44 +460,10 @@ export default [
         name: "accounting.transactions.index",
         components: {
             default: () => import("@/pages/accounting/TransactionsIndexPage.vue"),
-            header: PageHeader,
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: route => ({
-                containerFluid: true,
-                buttons: [
-                    {
-                        to: {
-                            name: "accounting.transactions.create",
-                            query: { wallet: route.query.wallet ?? null }
-                        },
-                        icon: "plus-circle",
-                        text: i18n.t("Add"),
-                        variant: "primary",
-                        show: can("create-transactions")
-                    },
-                    {
-                        to: {
-                            name: "accounting.transactions.summary",
-                            query: { wallet: route.query.wallet ?? null }
-                        },
-                        icon: "calculator",
-                        text: i18n.t("Summary"),
-                        show: can("view-accounting-summary")
-                    },
-                    route.query.wallet ? {
-                        href: ziggyRoute(
-                            "accounting.webling.index",
-                            route.query.wallet
-                        ),
-                        icon: "cloud-upload-alt",
-                        text: i18n.t("Webling"),
-                        show: can("export-to-webling")
-                    } : null,
-                ]
-            }),
             breadcrumbs: {
                 items: [
                     {

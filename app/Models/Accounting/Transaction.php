@@ -243,6 +243,7 @@ class Transaction extends Model implements Auditable
             ->forWallet($this->wallet_id)
             ->where('receipt_no', '<=', $this->receipt_no)
             ->orderBy('receipt_no', 'ASC')
-            ->first('sum');
+            ->first('sum')
+            ->sum;
     }
 }

@@ -55,17 +55,6 @@ export default [
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            header: {
-                title: i18n.t("Add donor"),
-                buttons: [
-                    {
-                        to: { name: "fundraising.donors.index" },
-                        icon: "times-circle",
-                        text: i18n.t("Cancel"),
-                        show: can("view-fundraising-entities")
-                    }
-                ]
-            },
             breadcrumbs: {
                 items: [
                     {
