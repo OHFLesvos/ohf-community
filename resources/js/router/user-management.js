@@ -42,6 +42,28 @@ export default [
                         to: { name: 'users.index' }
                     },
                     {
+                        text: i18n.t('Details'),
+                    }
+                ]
+            },
+        }
+    },
+    {
+        path: "/admin/users/:id(\\d+)/edit",
+        name: "users.edit",
+        components: {
+            default: () => import("@/pages/users/UserEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Users'),
+                        to: { name: 'users.index' }
+                    },
+                    {
                         text: i18n.t('Edit User'),
                     }
                 ]

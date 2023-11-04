@@ -60,57 +60,6 @@ class UserController extends Controller
         return view('vue-app');
     }
 
-    public function edit(User $user): View
-    {
-        return view('user_management.users.edit', [
-            'user' => $user,
-            'roles' => Role::orderBy('name')->get(),
-        ]);
-    }
-
-    public function update(StoreUpdateUser $request, User $user): RedirectResponse
-    {
-        $user->fill($request->validated());
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->is_super_admin = ! empty($request->is_super_admin) || User::count() == 1;
-        $user->roles()->sync($request->roles);
-
-        $user->save();
-
-        Log::info('User account has been updated.', [
-            'user_id' => $user->id,
-            'user_name' => $user->name,
-            'email' => $user->email,
-            'client_ip' => $request->ip(),
-        ]);
-
-        return redirect()
-            ->route('users.show', $user)
-            ->with('success', __('User has been updated.'));
-    }
-
-    public function destroy(Request $request, User $user): RedirectResponse
-    {
-        if ($user->avatar !== null && Storage::exists($user->avatar)) {
-            Storage::delete($user->avatar);
-        }
-
-        $user->delete();
-
-        Log::info('User account has been deleted.', [
-            'user_id' => $user->id,
-            'user_name' => $user->name,
-            'email' => $user->email,
-            'client_ip' => $request->ip(),
-        ]);
-
-        return redirect()
-            ->route('users.index')
-            ->with('success', __('User has been deleted.'));
-    }
-
     public function permissions(): View
     {
         $this->authorize('viewAny', User::class);

@@ -73,7 +73,7 @@ class UserController extends Controller
         $user = new User();
         $user->fill($request->validated());
         $user->password = Hash::make($request->password);
-
+// TODO
         $user->save();
 
         Log::info('User account has been created.', [
@@ -117,13 +117,21 @@ class UserController extends Controller
     public function update(StoreUpdateUser $request, User $user): JsonResponse
     {
         $user->fill($request->validated());
+        $passwordMessage = '';
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
+            $passwordMessage = ' '.__('A new password has been set.');
+        }
+
+        $user->is_super_admin = ! empty($request->is_super_admin) || User::where('is_super_admin', true)->count() == 1;
+
+        if ($request->has('roles')) {
+            $user->roles()->sync($request->roles);
         }
 
         $user->save();
 
-        Log::info('User account has been updated.', [
+        Log::info('User account has been updated.'.$passwordMessage, [
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,
@@ -132,7 +140,7 @@ class UserController extends Controller
 
         return response()
             ->json([
-                'message' => __('User has been updated.'),
+                'message' => __('User has been updated.').$passwordMessage,
             ]);
     }
 

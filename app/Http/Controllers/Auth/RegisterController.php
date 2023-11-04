@@ -46,7 +46,7 @@ class RegisterController extends Controller
     public function redirectPath()
     {
         // Do your logic to flash data to session...
-        session()->flash('login_message', __('Hello :name. Thanks for registering with :app_name. Your account has been created, and the administrator has been informed, in order to grand you the appropriate permissions.', [
+        session()->flash('login_message', __('Hello :name. Thanks for registering with :app_name. Your account has been created, and the administrator has been informed, in order to grant you the appropriate permissions.', [
             'name' => Auth::user()->name,
             'app_name' => config('app.name'),
         ]));

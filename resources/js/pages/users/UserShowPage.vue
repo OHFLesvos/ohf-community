@@ -6,7 +6,7 @@
     />
     <b-container v-else-if="user">
 
-        <b-row class="align-items-center">
+        <b-row class="align-items-center mb-3">
             <b-col cols="auto">
                 <UserAvatar
                     :value="user.name"
@@ -18,7 +18,6 @@
                 <h2 class="display-4 p-0">{{ user.name }}</h2>
             </b-col>
         </b-row>
-        <hr>
 
         <b-alert
             v-if="user.is_current_user"
@@ -146,27 +145,16 @@
 
             </b-col>
         </b-row>
-
         <hr>
         <p>
             <b-button
                 v-if="user.can_update"
                 type="button"
                 variant="primary"
-                :href="route('users.edit', user.id)"
+                :to="{ name: 'users.edit', params: { id: user.id }}"
             >
                 <font-awesome-icon icon="edit"/>
                 {{  $t('Edit') }}
-            </b-button>
-            <b-button
-                v-if="user.can_delete"
-                type="button"
-                variant="danger"
-                :disabled="isBusy"
-                @click="handleDelete"
-            >
-                <font-awesome-icon icon="trash"/>
-                {{  $t('Delete') }}
             </b-button>
         </p>
 
@@ -252,19 +240,6 @@ export default {
                 this.isBusy = false
             }
         },
-        async handleDelete() {
-            if (confirm(this.$t('Really delete this user?'))) {
-                this.isBusy = true
-                try {
-                    let data = await usersApi.delete(this.id)
-                    this.$router.push({ name: 'users.index' })
-                    showSnackbar(data.message)
-                } catch (ex) {
-                    alert(ex)
-                }
-                this.isBusy = false
-            }
-        }
     }
 }
 </script>
