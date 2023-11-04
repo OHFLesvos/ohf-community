@@ -40,19 +40,21 @@
                     <b-card no-body class="mb-3">
                         <b-card-header>
                             {{ $t('Permissions') }}
-                            <b-badge>{{ Object.values(permissions).reduce((a,b) => a + Object.keys(b).length , 0) }}</b-badge>
+                            <b-badge>{{ numPermissions }}</b-badge>
                         </b-card-header>
-                        <b-table-simple class="mb-0">
+                        <b-table-simple v-if="numPermissions > 0" class="mb-0">
                             <b-tr v-for="(p,k) in permissions" :key="k">
                                 <b-td>{{ k == '' ? $t('General') : k }}</b-td>
                                 <b-td>
                                     <div v-for="e in p" :key="e">{{ e }}</div>
                                 </b-td>
                             </b-tr>
-                            <b-tr v-if="Object.values(permissions).length == 0">
-                                <em>{{ $t('No permissions assigned.') }}</em>
-                            </b-tr>
                         </b-table-simple>
+                        <b-list-group flush v-else>
+                            <b-list-group-item>
+                                <em>{{ $t('No permissions assigned.') }}</em>
+                            </b-list-group-item>
+                        </b-list-group>
                     </b-card>
                     <b-card no-body class="mb-3">
                         <b-card-header>
@@ -96,14 +98,12 @@
 <script>
 import rolesApi from "@/api/user_management/roles";
 import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
-import TwoColListGroupItem from "@/components/ui/TwoColListGroupItem.vue";
 export default {
     title() {
         return this.$t("Role");
     },
     components: {
         AlertWithRetry,
-        TwoColListGroupItem,
     },
     props: {
         id: {
@@ -119,6 +119,11 @@ export default {
             permissions: {},
             users: [],
             administrators: [],
+        }
+    },
+    computed: {
+        numPermissions() {
+            return Object.values(this.permissions).reduce((a,b) => a + Object.keys(b).length , 0)
         }
     },
     watch: {

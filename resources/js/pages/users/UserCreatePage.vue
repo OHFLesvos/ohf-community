@@ -3,7 +3,7 @@
         <UserForm
             :title="$t('Create User')"
             :disabled="isBusy"
-            @submit="registerUser"
+            @submit="handleStore"
             @cancel="handleCancel"
         />
 
@@ -27,7 +27,7 @@ export default {
         }
     },
     methods: {
-        async registerUser (formData) {
+        async handleStore (formData) {
             this.isBusy = true
             try {
                 let data = await usersApi.store(formData)

@@ -47,7 +47,7 @@
             <!-- Users -->
             <b-card :header="`${$t('Users')} (${form.users.length})`" body-class="pb-0" class="mb-2">
                 <BaseTable
-                    :id="`roleUsers${role.id}`"
+                    :id="`roleUsers${role?.id}`"
                     :fields="userTableFields"
                     :api-method="fetchUsers"
                     default-sort-by="name"

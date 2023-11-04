@@ -63,6 +63,13 @@ class RoleController extends Controller
         $role->users()->sync($request->users);
         $role->administrators()->sync($request->administrators);
 
+        $requested_keys = collect($request->input('permissions', []));
+        if ($requested_keys->isNotEmpty()) {
+            $selected_permissions = $requested_keys
+                ->map(fn ($key) => (new RolePermission())->withKey($key));
+            $role->permissions()->saveMany($selected_permissions);
+        }
+
         Log::info('User role has been created.', [
             'role_id' => $role->id,
             'role_name' => $role->name,
@@ -72,6 +79,7 @@ class RoleController extends Controller
         return response()
             ->json([
                 'message' => __('Role has been added.'),
+                'id' => $role->id,
             ], Response::HTTP_CREATED)
             ->header('Location', route('api.roles.show', $role));
     }
