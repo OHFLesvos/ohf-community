@@ -34,8 +34,6 @@ class NavigationServiceProvider extends ServiceProvider
         'roles.edit' => \App\Navigation\ContextButtons\UserManagement\RoleEditContextButtons::class,
         'roles.permissions' => \App\Navigation\ContextButtons\UserManagement\RolePermissionsContextButtons::class,
 
-        'badges.selection' => \App\Navigation\ContextButtons\Badges\BadgeSelectionContextButtons::class,
-
         'accounting.webling.index' => \App\Navigation\ContextButtons\Accounting\WeblingIndexContextButtons::class,
         'accounting.webling.prepare' => \App\Navigation\ContextButtons\Accounting\WeblingPrepareContextButtons::class,
 
