@@ -6,18 +6,32 @@
     />
     <b-container v-else-if="user">
 
-        <b-row class="align-items-center mb-3">
-            <b-col cols="auto">
-                <UserAvatar
-                    :value="user.name"
-                    :src="user.avatar_url"
-                    size="4em"
-                />
-            </b-col>
-            <b-col>
-                <h2 class="display-4 p-0">{{ user.name }}</h2>
-            </b-col>
-        </b-row>
+        <div class="d-sm-flex justify-content-between align-items-center">
+            <b-row class="align-items-center mb-3">
+                <b-col cols="auto">
+                    <UserAvatar
+                        :value="user.name"
+                        :src="user.avatar_url"
+                        size="4em"
+                    />
+                </b-col>
+                <b-col>
+                    <h2 class="display-4 p-0">{{ user.name }}</h2>
+                </b-col>
+            </b-row>
+            <div class="mb-3">
+                <b-button
+                    v-if="user.can_update"
+                    type="button"
+                    variant="primary"
+                    :to="{ name: 'users.edit', params: { id: user.id }}"
+                >
+                    <font-awesome-icon icon="edit"/>
+                    {{  $t('Edit') }}
+                </b-button>
+            </div>
+        </div>
+
 
         <b-alert
             v-if="user.is_current_user"
@@ -95,7 +109,7 @@
                 <!-- Roles -->
                 <b-card :header="$t('Roles')" class="shadow-sm mb-4" no-body>
                     <b-list-group flush>
-                        <b-list-group-item v-for="role in roles" :key="role.id" :href="route('roles.show', role)">
+                        <b-list-group-item v-for="role in roles" :key="role.id" :to="{ name: 'roles.show', params: { id: role.id } }">
                             {{ role.name }}
                         </b-list-group-item>
                         <b-list-group-item v-if="roles.length == 0">
@@ -112,7 +126,7 @@
                     no-body
                 >
                     <b-list-group flush>
-                        <b-list-group-item v-for="role in administeredRoles" :key="role.id" :href="route('roles.show', role)">
+                        <b-list-group-item v-for="role in administeredRoles" :key="role.id" :to="{ name: 'roles.show', params: { id: role.id } }">
                             {{ role.name }}
                         </b-list-group-item>
                     </b-list-group>
@@ -145,19 +159,6 @@
 
             </b-col>
         </b-row>
-        <hr>
-        <p>
-            <b-button
-                v-if="user.can_update"
-                type="button"
-                variant="primary"
-                :to="{ name: 'users.edit', params: { id: user.id }}"
-            >
-                <font-awesome-icon icon="edit"/>
-                {{  $t('Edit') }}
-            </b-button>
-        </p>
-
     </b-container>
     <b-container v-else>
         {{ $t('Loading...') }}

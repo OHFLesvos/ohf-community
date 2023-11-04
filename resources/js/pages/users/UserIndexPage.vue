@@ -39,9 +39,9 @@
                     v-for="role in data.item.relationships.roles.data"
                     :key="role.id"
                 >
-                    <a :href="role.links.show">
+                    <router-link :to="{ name: 'roles.show', params: { id: role.id } }">
                         {{ role.name }}
-                    </a>
+                    </router-link>
                     <br />
                 </span>
             </template>

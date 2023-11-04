@@ -31,4 +31,5 @@ return [
 
     'register_visitors' => 'Besucher: Registrieren',
     'export_visitors' => 'Besucher: Exportieren',
+    'view_visitors_reports' => 'Besucher: Berichte betrachten',
 ];

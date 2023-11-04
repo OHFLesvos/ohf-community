@@ -15,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class RoleController extends Controller
@@ -73,7 +74,35 @@ class RoleController extends Controller
 
     public function show(Role $role): JsonResource
     {
-        return new RoleResource($role);
+        if (in_array('users', $this->getIncludes())) {
+            $role->load(['users' => fn ($q) => $q->orderBy('name')]);
+        }
+        if (in_array('administrators', $this->getIncludes())) {
+            $role->load(['administrators' => fn ($q) => $q->orderBy('name')]);
+        }
+
+        $current_permissions = $role->permissions->pluck('key');
+        $permissions = [];
+        foreach (getCategorizedPermissions() as $title => $elements) {
+            foreach ($elements as $key => $label) {
+                if ($current_permissions->contains($key)) {
+                    $permissions[$title][] = $label;
+                }
+            }
+        }
+
+        return (new RoleResource($role))->additional([
+            'permissions' => $permissions,
+            'users' => $role->users()->orderBy('name')->select('users.name', 'users.id')->get()->map(fn ($u) => [
+                'id' => $u->id,
+                'name' => $u->name,
+            ]),
+            'administrators' => $role->administrators()->orderBy('name')->select('users.name', 'users.id')->get()->map(fn ($u) => [
+                'id' => $u->id,
+                'name' => $u->name,
+            ]),
+            'is_administrator' => $role->administrators()->find(Auth::id()) != null,
+        ]);
     }
 
     public function update(StoreUpdateRole $request, Role $role): JsonResponse

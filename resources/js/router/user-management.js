@@ -79,17 +79,24 @@ export default [
         },
         props: {
             default: true,
-            breadcrumbs: {
+            breadcrumbs: route => ({
                 items: [
                     {
                         text: i18n.t('Users'),
                         to: { name: 'users.index' }
                     },
                     {
+                        text: i18n.t('Details'),
+                        to: {
+                            name: "users.show",
+                            params: { id: route.params.id }
+                        },
+                    },
+                    {
                         text: i18n.t('Edit User'),
                     }
                 ]
-            },
+            }),
         }
     },
     {
@@ -174,7 +181,7 @@ export default [
         },
         props: {
             default: true,
-            breadcrumbs: {
+            breadcrumbs: route => ({
                 items: [
                     {
                         text: i18n.t('Users'),
@@ -185,10 +192,17 @@ export default [
                         to: { name: 'roles.index' }
                     },
                     {
+                        text: i18n.t('Details'),
+                        to: {
+                            name: "roles.show",
+                            params: { id: route.params.id }
+                        },
+                    },
+                    {
                         text: i18n.t('Edit Role'),
                     }
                 ]
-            },
+            }),
         }
     },
 ];

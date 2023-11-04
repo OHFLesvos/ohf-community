@@ -807,6 +807,7 @@ export default {
         "Account cannot be deleted as it is the only remaining account with super-admin privileges.": "Der Account kann nicht gelöscht werden da dies der einzig verbleibende Account mit Administratorprivilegien ist.",
         "Update your profile information directly at {provider}": "Aktualisiere deine Profilinformationen direkt bei {provider}",
         "Managed by {provider}": "Verwaltet von {provider}",
+        "View Permissions": "Berechtigungen anzeigen",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -848,7 +849,8 @@ export default {
             "view_community_volunteers": "Community Volunteers: Community Volunteers betrachten",
             "manage_community_volunteers": "Community Volunteers: Community Volunteers verwalten",
             "register_visitors": "Besucher: Registrieren",
-            "export_visitors": "Besucher: Exportieren"
+            "export_visitors": "Besucher: Exportieren",
+            "view_visitors_reports": "Besucher: Berichte betrachten"
         },
         "validation": {
             "accepted": "{attribute} muss akzeptiert werden.",
