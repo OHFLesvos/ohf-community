@@ -7,7 +7,7 @@
         default-sort-desc
         :empty-text="$t('No donations found.')"
         :filter-placeholder="$t('Search...')"
-        :items-per-page="100"
+        :items-per-page="25"
     >
         <!-- Date / Link to edit -->
         <template v-slot:cell(date)="data">

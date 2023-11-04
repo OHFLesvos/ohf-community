@@ -1,6 +1,6 @@
 <template>
-    <div class="mt-3">
-        <donors-table
+    <b-container fluid class="mt-3">
+        <DonorsTable
             v-if="tags != null"
             :tags="tags"
             :tag="tag"
@@ -10,22 +10,25 @@
                     {{ data.value }}
                 </router-link>
             </template>
-        </donors-table>
+        </DonorsTable>
         <p v-else>
             {{ $t('Loading...') }}
         </p>
-    </div>
+        <ButtonGroup :items="navButtons"/>
+    </b-container>
 </template>
 
 <script>
 import DonorsTable from '@/components/fundraising/DonorsTable.vue'
 import donorsApi from '@/api/fundraising/donors'
+import ButtonGroup from "@/components/common/ButtonGroup.vue";
 export default {
     title() {
         return this.$t("Donors");
     },
     components: {
-        DonorsTable
+        DonorsTable,
+        ButtonGroup
     },
     props: {
         tag: {
@@ -36,7 +39,22 @@ export default {
     },
     data () {
         return {
-            tags: null
+            tags: null,
+            navButtons: [
+                {
+                    to: { name: "fundraising.donors.create" },
+                    variant: "primary",
+                    icon: "plus-circle",
+                    text: this.$t("Add"),
+                    show: this.can("manage-fundraising-entities")
+                },
+                {
+                    href: this.route("api.fundraising.donors.export"),
+                    icon: "download",
+                    text: this.$t("Export"),
+                    show: this.can("view-fundraising-entities")
+                }
+            ]
         }
     },
     async created () {

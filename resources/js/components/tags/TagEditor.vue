@@ -1,6 +1,6 @@
 <template>
-    <form @submit.prevent="submit" class="form-row align-items-center">
-        <div class="col">
+    <form @submit.prevent="submit" class="form-row align-items-center d-flex">
+        <div>
             <tag-input
                 v-model="value"
                 :suggestions="suggestions"
@@ -9,7 +9,7 @@
                 :disabled="disabled"
             />
         </div>
-        <div class="col-auto">
+        <div class="ml-2">
             <b-button
                 variant="primary"
                 size="sm"

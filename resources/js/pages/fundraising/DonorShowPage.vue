@@ -6,12 +6,7 @@
     />
     <b-container fluid v-else-if="loaded">
 
-        <b-card no-body class="mb-3">
-            <b-card-body class="pb-0">
-                <b-card-title>Card Title</b-card-title>
-            </b-card-body>
-            <DonorDetails :id="id"/>
-        </b-card>
+        <PageHeader :title="donor.full_name" :buttons="pageHeaderButtons"/>
 
         <tab-nav :items="tabNavItems">
             <template v-slot:after(donations)>
@@ -41,16 +36,16 @@
         </tab-nav>
         <router-view @count="updateCount" />
     </b-container>
-    <p v-else>
+    <b-container v-else>
         {{ $t('Loading...') }}
-    </p>
+    </b-container>
 </template>
 
 <script>
 import donorsApi from '@/api/fundraising/donors'
 import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
 import TabNav from '@/components/layout/TabNav.vue'
-import DonorDetails from "@/components/fundraising/DonorDetails.vue"
+import PageHeader from "@/components/layout/PageHeader.vue";
 export default {
     title() {
         return this.$t("Show donor");
@@ -58,7 +53,7 @@ export default {
     components: {
         AlertWithRetry,
         TabNav,
-        DonorDetails
+        PageHeader
     },
     props: {
         id: {
@@ -75,11 +70,11 @@ export default {
             budgetsCount: null,
             commentCount: null,
             tabNavItems: [
-                // {
-                //     to: { name: 'fundraising.donors.show' },
-                //     icon: 'user',
-                //     text: this.$t('Donor')
-                // },
+                {
+                    to: { name: 'fundraising.donors.show' },
+                    icon: 'user',
+                    text: this.$t('Donor')
+                },
                 {
                     to: { name: 'fundraising.donors.show.donations' },
                     icon: 'donate',
@@ -100,7 +95,38 @@ export default {
                     text: this.$t('Comments'),
                     key: 'comments'
                 },
-            ]
+            ],
+            donor: null,
+            pageHeaderButtons: [
+                {
+                    to: {
+                        name: "fundraising.donors.edit",
+                        params: { id: this.id }
+                    },
+                    variant: "primary",
+                    icon: "pencil-alt",
+                    text: this.$t("Edit"),
+                    show: this.can("manage-fundraising-entities")
+                },
+                {
+                    href: this.route(
+                        "api.fundraising.donors.donations.export",
+                        this.id
+                    ),
+                    icon: "download",
+                    text: this.$t("Export"),
+                    show: this.can("view-fundraising-entities")
+                },
+                {
+                    href: this.route(
+                        "api.fundraising.donors.vcard",
+                        this.id
+                    ),
+                    icon: "address-card",
+                    text: this.$t("vCard"),
+                    show: this.can("view-fundraising-entities")
+                },
+            ],
         }
     },
     watch: {
@@ -123,6 +149,7 @@ export default {
                 this.budgetsCount = donor.budgets_count
                 this.commentCount = donor.comments_count
                 this.loaded = true
+                this.donor = donor
             } catch (err) {
                 this.error = err
             }

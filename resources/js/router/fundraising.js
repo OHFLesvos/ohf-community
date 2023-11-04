@@ -1,5 +1,4 @@
 import i18n from "@/plugins/i18n";
-import ziggyRoute from "@/plugins/ziggy";
 
 import { rememberRoute, previouslyRememberedRoute } from "@/utils/router";
 
@@ -35,30 +34,11 @@ export default [
         name: "fundraising.donors.index",
         components: {
             default: () => import("@/pages/fundraising/DonorsIndexPage.vue"),
-            header: PageHeader,
             breadcrumbs: BreadcrumbsNav,
             beforeContent: TabNav
         },
         props: {
             default: route => ({ tag: route.query.tag }),
-            header: {
-                title: i18n.t("Overview"),
-                buttons: [
-                    {
-                        to: { name: "fundraising.donors.create" },
-                        variant: "primary",
-                        icon: "plus-circle",
-                        text: i18n.t("Add"),
-                        show: can("manage-fundraising-entities")
-                    },
-                    {
-                        href: ziggyRoute("api.fundraising.donors.export"),
-                        icon: "download",
-                        text: i18n.t("Export"),
-                        show: can("view-fundraising-entities")
-                    }
-                ]
-            },
             breadcrumbs: {
                 items: [
                     {
@@ -107,47 +87,12 @@ export default [
     },
     {
         path: "/fundraising/donors/:id(\\d+)",
-        name: "fundraising.donors.show",
         components: {
             default: () => import("@/pages/fundraising/DonorShowPage.vue"),
-            // header: PageHeader,
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            // header: route => ({
-            //     title: i18n.t("Donor"),
-            //     buttons: [
-            //         {
-            //             to: {
-            //                 name: "fundraising.donors.edit",
-            //                 params: { id: route.params.id }
-            //             },
-            //             variant: "primary",
-            //             icon: "pencil-alt",
-            //             text: i18n.t("Edit"),
-            //             show: can("manage-fundraising-entities")
-            //         },
-            //         {
-            //             href: ziggyRoute(
-            //                 "api.fundraising.donors.donations.export",
-            //                 route.params.id
-            //             ),
-            //             icon: "download",
-            //             text: i18n.t("Export"),
-            //             show: can("view-fundraising-entities")
-            //         },
-            //         {
-            //             href: ziggyRoute(
-            //                 "api.fundraising.donors.vcard",
-            //                 route.params.id
-            //             ),
-            //             icon: "address-card",
-            //             text: i18n.t("vCard"),
-            //             show: can("view-fundraising-entities")
-            //         },
-            //     ]
-            // }),
             breadcrumbs: {
                 items: [
                     {
@@ -165,12 +110,12 @@ export default [
             }
         },
         children: [
-            // {
-            //     path: "",
-            //     name: "fundraising.donors.show",
-            //     component: () => import("@/components/fundraising/DonorDetails.vue"),
-            //     props: true
-            // },
+            {
+                path: "",
+                name: "fundraising.donors.show",
+                component: () => import("@/components/fundraising/DonorDetails.vue"),
+                props: true
+            },
             {
                 path: "donations",
                 name: "fundraising.donors.show.donations",
@@ -234,29 +179,11 @@ export default [
         name: "fundraising.donations.index",
         components: {
             default: () => import("@/pages/fundraising/DonationsIndexPage.vue"),
-            header: PageHeader,
             beforeContent: TabNav,
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
             default: true,
-            header: {
-                title: i18n.t("Overview"),
-                buttons: [
-                    {
-                        href: ziggyRoute("api.fundraising.donations.export"),
-                        icon: "download",
-                        text: i18n.t("Export"),
-                        show: can("view-fundraising-entities")
-                    },
-                    {
-                        to: { name: "fundraising.donations.import" },
-                        icon: "upload",
-                        text: i18n.t("Import"),
-                        show: can("manage-fundraising-entities")
-                    }
-                ]
-            },
             breadcrumbs: {
                 items: [
                     {

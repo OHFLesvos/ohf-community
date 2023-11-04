@@ -1,6 +1,6 @@
 <template>
-    <div class="mt-3">
-        <donations-table>
+    <b-container fluid class="mt-3">
+        <DonationsTable>
             <template v-slot:primary-cell="data">
                 <router-link
                     v-if="data.value != '' && data.item.can_update"
@@ -12,7 +12,6 @@
                     {{ data.value }}
                 </template>
             </template>
-
             <template v-slot:donor-cell="data">
                 <router-link
                     v-if="data.value !='' && data.item.donor_id"
@@ -24,25 +23,42 @@
                     {{ data.value }}
                 </template>
             </template>
-        </donations-table>
-    </div>
+        </DonationsTable>
+        <ButtonGroup :items="navButtons"/>
+    </b-container>
 </template>
 
 <script>
 import DonationsTable from '@/components/fundraising/DonationsTable.vue'
+import ButtonGroup from "@/components/common/ButtonGroup.vue";
 export default {
     title() {
         return this.$t("Donations");
     },
     components: {
-        DonationsTable
+        DonationsTable,
+        ButtonGroup
     },
     data () {
         return {
             baseCurrency: null,
             currencies: {},
             channels: [],
-            isBusy: false
+            isBusy: false,
+            navButtons: [
+                {
+                    href: this.route("api.fundraising.donations.export"),
+                    icon: "download",
+                    text: this.$t("Export"),
+                    show: this.can("view-fundraising-entities")
+                },
+                {
+                    to: { name: "fundraising.donations.import" },
+                    icon: "upload",
+                    text: this.$t("Import"),
+                    show: this.can("manage-fundraising-entities")
+                }
+        ],
         }
     }
 }
