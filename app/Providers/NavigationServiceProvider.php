@@ -23,10 +23,8 @@ class NavigationServiceProvider extends ServiceProvider
     ];
 
     protected $contextButtons = [
-        'users.index' => \App\Navigation\ContextButtons\UserManagement\UserIndexContextButtons::class,
         'users.permissions' => \App\Navigation\ContextButtons\UserManagement\UserPermissionsContextButtons::class,
 
-        'roles.index' => \App\Navigation\ContextButtons\UserManagement\RoleIndexContextButtons::class,
         'roles.create' => \App\Navigation\ContextButtons\UserManagement\RoleCreateContextButtons::class,
         'roles.show' => \App\Navigation\ContextButtons\UserManagement\RoleShowContextButtons::class,
         'roles.edit' => \App\Navigation\ContextButtons\UserManagement\RoleEditContextButtons::class,

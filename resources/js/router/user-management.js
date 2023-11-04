@@ -114,6 +114,32 @@ export default [
         }
     },
     {
+        path: "/admin/roles/create",
+        name: "roles.create",
+        components: {
+            default: () => import("@/pages/users/RoleCreatePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Users'),
+                        to: { name: 'users.index' }
+                    },
+                    {
+                        text: i18n.t('Roles'),
+                        to: { name: 'roles.index' }
+                    },
+                    {
+                        text: i18n.t('Create Role'),
+                    }
+                ]
+            },
+        }
+    },
+    {
         path: "/admin/roles/:id(\\d+)",
         name: "roles.show",
         components: {
@@ -134,6 +160,32 @@ export default [
                     },
                     {
                         text: i18n.t('Details'),
+                    }
+                ]
+            },
+        }
+    },
+    {
+        path: "/admin/roles/:id(\\d+)/edit",
+        name: "roles.edit",
+        components: {
+            default: () => import("@/pages/users/RoleEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Users'),
+                        to: { name: 'users.index' }
+                    },
+                    {
+                        text: i18n.t('Roles'),
+                        to: { name: 'roles.index' }
+                    },
+                    {
+                        text: i18n.t('Edit Role'),
                     }
                 ]
             },

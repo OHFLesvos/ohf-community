@@ -69,7 +69,8 @@ import {
     faTags,
     faIdCard,
     faChartPie,
-    faCogs
+    faCogs,
+    faKey
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -145,6 +146,7 @@ library.add(
     faIdCard,
     faChartPie,
     faCogs,
+    faKey
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

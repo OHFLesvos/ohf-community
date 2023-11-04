@@ -7,6 +7,7 @@
             default-sort-by="name"
             :empty-text="$t('No roles found.')"
             :items-per-page="10"
+            :noFilter="true"
         >
             <template v-slot:cell(name)="data">
                 <router-link :to="{ name: 'roles.show', params: { id: data.item.id } }">
@@ -20,8 +21,14 @@
                 variant: 'primary',
                 icon: 'plus-circle',
                 text: $t('Add'),
-                show: can('create-roles')
+                show: can('create-role')
             },
+            {
+                href: route('roles.permissions'),
+                text: $t('View Permissions'),
+                icon: 'key',
+                show: can('view-user-management'),
+            }
         ]"/>
     </b-container>
 </template>
