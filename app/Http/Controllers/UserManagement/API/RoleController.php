@@ -8,6 +8,7 @@ use App\Http\Requests\UserManagement\StoreUpdateRole;
 use App\Http\Resources\Role as RoleResource;
 use App\Http\Resources\User as UserResource;
 use App\Models\Role;
+use App\Models\RolePermission;
 use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -89,7 +90,7 @@ class RoleController extends Controller
         foreach (getCategorizedPermissions() as $title => $elements) {
             foreach ($elements as $key => $label) {
                 if ($current_permissions->contains($key)) {
-                    $permissions[$title][] = $label;
+                    $permissions[$title][$key] = $label;
                 }
             }
         }
@@ -115,6 +116,28 @@ class RoleController extends Controller
 
         $role->users()->sync($request->users);
         $role->administrators()->sync($request->administrators);
+
+        // Save requested permissions
+        $requested_keys = collect($request->input('permissions', []));
+        if ($requested_keys->isNotEmpty()) {
+            $selected_permissions = $requested_keys
+                ->filter(fn ($key) => ! $role->permissions->contains('key', $key))
+                ->map(fn ($key) => (new RolePermission())->withKey($key));
+            $role->permissions()->saveMany($selected_permissions);
+        }
+
+        // Remove non-requested permissions
+        $valid_keys = array_keys(config('permissions.keys'));
+        $not_requested_keys = collect($valid_keys)
+            ->filter(fn ($key) => ! $requested_keys->contains($key))
+            ->toArray();
+        RolePermission::whereIn('key', $not_requested_keys)
+            ->where('role_id', $role->id)
+            ->delete();
+
+        // Remove invalid permissions
+        $role->permissions()->whereNotIn('key', $valid_keys)
+            ->delete();
 
         Log::info('User role has been updated.', [
             'role_id' => $role->id,
@@ -162,5 +185,13 @@ class RoleController extends Controller
         return UserResource::collection($role->administrators()
             ->orderBy('name', 'asc')
             ->get());
+    }
+
+
+    public function permissions(): JsonResponse
+    {
+        $this->authorize('viewAny', Role::class);
+
+        return response()->json(getCategorizedPermissions());
     }
 }

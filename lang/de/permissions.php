@@ -6,6 +6,7 @@ return [
     'usermgmt_manage_roles' => 'Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen',
 
     'configure_common_settings' => 'Allgemeine Einstellungen konfigurieren',
+    'view_system_info' => 'System informationen anzeigen',
 
     'create_badges' => 'Badges: Badges erstellen',
 

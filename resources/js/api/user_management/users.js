@@ -40,8 +40,4 @@ export default {
         const url = route('api.users.disable2FA', id)
         return await api.put(url)
     },
-    async names() {
-        const url = route('api.users.names')
-        return await api.get(url)
-    },
 }

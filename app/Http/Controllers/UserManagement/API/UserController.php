@@ -220,10 +220,4 @@ class UserController extends Controller
             ->orderBy('name', 'asc')
             ->get());
     }
-
-    public function names() {
-        return response()->json(
-            User::orderBy('name')->select('id', 'name')->get(),
-        );
-    }
 }

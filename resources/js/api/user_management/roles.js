@@ -27,5 +27,9 @@ export default {
     async delete (id) {
         const url = route('api.roles.destroy', id)
         return await api.delete(url)
-    }
+    },
+    async permissions() {
+        const url = route('api.roles.permissions')
+        return await api.get(url)
+    },
 }

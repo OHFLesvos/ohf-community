@@ -831,6 +831,7 @@ export default {
             "usermgmt_manage_users": "Benutzerverwaltung: Benutzer erstellen, bearbeiten und löschen",
             "usermgmt_manage_roles": "Benutzerverwaltung: Rollen erstellen, bearbeiten und löschen",
             "configure_common_settings": "Allgemeine Einstellungen konfigurieren",
+            "view_system_info": "System informationen anzeigen",
             "create_badges": "Badges: Badges erstellen",
             "view_fundraising_donors_donations": "Spendenverwaltung: Spender & Spenden betrachten",
             "manage_fundraising_donors_donations": "Spendenverwaltung: Spender & Spenden verwalten",

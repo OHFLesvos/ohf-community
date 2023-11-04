@@ -40,16 +40,19 @@
                     <b-card no-body class="mb-3">
                         <b-card-header>
                             {{ $t('Permissions') }}
-                            <b-badge>{{ Object.values(permissions).reduce((a,b) => a + b.length , 0) }}</b-badge>
+                            <b-badge>{{ Object.values(permissions).reduce((a,b) => a + Object.keys(b).length , 0) }}</b-badge>
                         </b-card-header>
-                        <b-list-group flush>
-                            <TwoColListGroupItem v-for="(p,k) in permissions" :key="k" :title="k">
-                                <div v-for="e in p" :key="e">{{ e }}</div>
-                            </TwoColListGroupItem>
-                            <b-list-group-item v-if="Object.values(permissions).length == 0">
+                        <b-table-simple class="mb-0">
+                            <b-tr v-for="(p,k) in permissions" :key="k">
+                                <b-td>{{ k == '' ? $t('General') : k }}</b-td>
+                                <b-td>
+                                    <div v-for="e in p" :key="e">{{ e }}</div>
+                                </b-td>
+                            </b-tr>
+                            <b-tr v-if="Object.values(permissions).length == 0">
                                 <em>{{ $t('No permissions assigned.') }}</em>
-                            </b-list-group-item>
-                        </b-list-group>
+                            </b-tr>
+                        </b-table-simple>
                     </b-card>
                     <b-card no-body class="mb-3">
                         <b-card-header>

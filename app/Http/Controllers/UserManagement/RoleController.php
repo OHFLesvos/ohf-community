@@ -9,7 +9,6 @@ use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
@@ -55,24 +54,6 @@ class RoleController extends Controller
         return redirect()
             ->route('roles.index')
             ->with('success', __('Role has been added.'));
-    }
-
-    public function show(Role $role): View
-    {
-        $current_permissions = $role->permissions->pluck('key');
-        $permissions = [];
-        foreach (getCategorizedPermissions() as $title => $elements) {
-            foreach ($elements as $key => $label) {
-                if ($current_permissions->contains($key)) {
-                    $permissions[$title][] = $label;
-                }
-            }
-        }
-
-        return view('user_management.roles.show', [
-            'role' => $role,
-            'permissions' => $permissions,
-        ]);
     }
 
     public function edit(Role $role): View
@@ -125,21 +106,6 @@ class RoleController extends Controller
         return redirect()
             ->route('roles.show', $role)
             ->with('success', __('Role has been updated.'));
-    }
-
-    public function destroy(Request $request, Role $role): RedirectResponse
-    {
-        $role->delete();
-
-        Log::info('User role has been deleted.', [
-            'role_id' => $role->id,
-            'role_name' => $role->name,
-            'client_ip' => $request->ip(),
-        ]);
-
-        return redirect()
-            ->route('roles.index')
-            ->with('success', __('Role has been deleted.'));
     }
 
     public function permissions(): View

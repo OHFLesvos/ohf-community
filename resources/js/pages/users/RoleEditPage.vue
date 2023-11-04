@@ -8,6 +8,7 @@
         <template v-else-if="role">
             <RoleForm
                 :role="role"
+                :rolePermissions="permissions"
                 :roleUsers="users"
                 :roleAdministrators="administrators"
                 :title="$t('Edit Role')"
@@ -70,7 +71,7 @@ export default {
                 this.administrators = data.administrators
                 // this.users = data.data.relationships.users?.data ?? []
                 // this.administrators = data.data.relationships.administrators?.data ?? []
-                this.permissions = data.permissions
+                this.permissions = Object.values(data.permissions).flat().map(e => Object.keys(e)).flat()
             } catch (err) {
                 this.error = err
             }

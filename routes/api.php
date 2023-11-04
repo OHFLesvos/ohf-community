@@ -59,8 +59,6 @@ Route::middleware(['auth:sanctum', 'language'])
         //
         // User management
         //
-        Route::get('users/names', [UserController::class, 'names'])
-            ->name('users.names');
         Route::apiResource('users', UserController::class);
         Route::prefix('users/{user}')
             ->name('users.')
@@ -92,7 +90,11 @@ Route::middleware(['auth:sanctum', 'language'])
         //
         // Role management
         //
+
+        Route::get('roles/permissions', [RoleController::class, 'permissions'])
+            ->name('roles.permissions');
         Route::apiResource('roles', RoleController::class);
+
         Route::prefix('roles/{role}')
             ->name('roles.')
             ->group(function () {
