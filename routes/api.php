@@ -59,6 +59,8 @@ Route::middleware(['auth:sanctum', 'language'])
         //
         // User management
         //
+        Route::get('users/names', [UserController::class, 'names'])
+            ->name('users.names');
         Route::apiResource('users', UserController::class);
         Route::prefix('users/{user}')
             ->name('users.')

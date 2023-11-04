@@ -1,23 +1,23 @@
 <template>
-    <alert-with-retry
-        v-if="error"
-        :value="error"
-        @retry="fetchData"
-    />
-    <b-container v-else-if="user">
-        <!-- {{ user }} -->
-        <UserForm
-            :user="user"
-            :title="$t('Edit User')"
-            :disabled="isBusy"
-            @submit="updateUser"
-            @cancel="$router.push({ name: 'users.show', params: { id: id }})"
-            @delete="deleteUser"
+    <b-container>
+        <alert-with-retry
+            v-if="error"
+            :value="error"
+            @retry="fetchData"
         />
-
-    </b-container>
-    <b-container v-else>
-        {{ $t('Loading...') }}
+        <template v-else-if="user">
+            <UserForm
+                :user="user"
+                :title="$t('Edit User')"
+                :disabled="isBusy"
+                @submit="handleUpdate"
+                @cancel="handleCancel"
+                @delete="handleDelete"
+            />
+        </template>
+        <p v-else>
+            {{ $t('Loading...') }}
+        </p>
     </b-container>
 </template>
 
@@ -71,7 +71,10 @@ export default {
                 this.error = err
             }
         },
-        async updateUser (formData) {
+        handleCancel () {
+            this.$router.push({ name: 'users.show', params: { id: this.id }})
+        },
+        async handleUpdate (formData) {
             this.isBusy = true
             try {
                 let data = await usersApi.update(this.id, formData)
@@ -82,7 +85,7 @@ export default {
             }
             this.isBusy = false
         },
-        async deleteUser () {
+        async handleDelete () {
             this.isBusy = true
             try {
                 let data = await usersApi.delete(this.id)

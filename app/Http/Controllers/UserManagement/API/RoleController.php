@@ -59,6 +59,8 @@ class RoleController extends Controller
 
         $role->save();
 
+        $role->users()->sync($request->users);
+
         Log::info('User role has been created.', [
             'role_id' => $role->id,
             'role_name' => $role->name,
@@ -108,8 +110,9 @@ class RoleController extends Controller
     public function update(StoreUpdateRole $request, Role $role): JsonResponse
     {
         $role->fill($request->validated());
-
         $role->save();
+
+        $role->users()->sync($request->users);
 
         Log::info('User role has been updated.', [
             'role_id' => $role->id,

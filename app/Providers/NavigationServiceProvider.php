@@ -25,9 +25,7 @@ class NavigationServiceProvider extends ServiceProvider
     protected $contextButtons = [
         'users.permissions' => \App\Navigation\ContextButtons\UserManagement\UserPermissionsContextButtons::class,
 
-        'roles.create' => \App\Navigation\ContextButtons\UserManagement\RoleCreateContextButtons::class,
         'roles.show' => \App\Navigation\ContextButtons\UserManagement\RoleShowContextButtons::class,
-        'roles.edit' => \App\Navigation\ContextButtons\UserManagement\RoleEditContextButtons::class,
         'roles.permissions' => \App\Navigation\ContextButtons\UserManagement\RolePermissionsContextButtons::class,
 
         'accounting.webling.index' => \App\Navigation\ContextButtons\Accounting\WeblingIndexContextButtons::class,

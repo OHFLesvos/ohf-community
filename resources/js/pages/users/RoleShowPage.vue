@@ -137,8 +137,6 @@ export default {
                 this.users = data.users
                 this.administrators = data.administrators
                 this.isAdministrator = data.is_administrator
-                // this.users = data.data.relationships.roles?.data ?? []
-                // this.administeredRoles = data.data.relationships.administeredRoles?.data ?? []
             } catch (err) {
                 this.error = err
             }
