@@ -41,4 +41,9 @@ class TransactionCurrency extends BaseSettingsField
     {
         return Gate::allows('configure-accounting');
     }
+
+    public function setter($value)
+    {
+        return blank($value) || $value == "null" ? null : $value;
+    }
 }

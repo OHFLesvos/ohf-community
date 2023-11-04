@@ -11,9 +11,8 @@ trait FormatsCurrency
         if ($value === null) {
             return null;
         }
-        $currency = setting('accounting.transactions.currency');
+        $currency = setting('accounting.transactions.currency', null);
         $fmt = new NumberFormatter(app()->getLocale(), $currency !== null ? NumberFormatter::CURRENCY : NumberFormatter::DECIMAL);
-
-        return $fmt->formatCurrency($value, $currency);
+        return $currency !== null ? $fmt->formatCurrency($value, $currency) : $fmt->format($value);
     }
 }
