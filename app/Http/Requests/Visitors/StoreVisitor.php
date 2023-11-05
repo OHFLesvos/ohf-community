@@ -4,6 +4,7 @@ namespace App\Http\Requests\Visitors;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Unique;
 use Setting;
 
 class StoreVisitor extends FormRequest
@@ -30,6 +31,8 @@ class StoreVisitor extends FormRequest
             ],
             'membership_number' => [
                 'nullable',
+                Rule::unique('visitors')
+                    ->when(isset($this->visitor), fn (Unique $rule) => $rule->ignore($this->visitor->id)),
             ],
             'gender' => [
                 'required',
