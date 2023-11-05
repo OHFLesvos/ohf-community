@@ -12,8 +12,6 @@ class DashboardController extends Controller
         \App\View\Widgets\VisitorsWidget::class,
         \App\View\Widgets\CommunityVolunteersWidget::class,
         \App\View\Widgets\AccountingWidget::class,
-        \App\View\Widgets\FundraisingWidget::class,
-        \App\View\Widgets\UsersWidget::class,
     ];
 
     public function __invoke(): JsonResponse

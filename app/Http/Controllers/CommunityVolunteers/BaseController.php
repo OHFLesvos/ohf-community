@@ -462,9 +462,9 @@ abstract class BaseController extends Controller
     protected function getWorkStatuses(): Collection
     {
         return collect([
-            'active' => __('Active'),
-            'future' => __('Future'),
-            'alumni' => __('Alumni'),
+            'active' => __('Active') . ' ('.CommunityVolunteer::workStatus('active')->count().')',
+            'future' => __('Future') . ' ('.CommunityVolunteer::workStatus('future')->count().')',
+            'alumni' => __('Alumni') . ' ('.CommunityVolunteer::workStatus('alumni')->count().')',
         ]);
     }
 
