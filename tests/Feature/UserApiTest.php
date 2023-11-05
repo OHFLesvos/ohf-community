@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use DB;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;

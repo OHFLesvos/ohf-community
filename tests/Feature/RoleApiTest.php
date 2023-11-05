@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 class RoleApiTest extends TestCase
@@ -68,9 +67,9 @@ class RoleApiTest extends TestCase
                     [
                         'id' => $role->id,
                         'name' => $role->name,
-                        "num_administrators" => 0,
-                        "num_permissions" => $role->permissions->count(),
-                        "num_users" => 0,
+                        'num_administrators' => 0,
+                        'num_permissions' => $role->permissions->count(),
+                        'num_users' => 0,
                         'can_update' => false,
                         'can_manage_members' => false,
                         'can_delete' => false,
@@ -267,7 +266,6 @@ class RoleApiTest extends TestCase
         $response = $this->actingAs($authUser)
             ->postJson('api/roles', $data);
 
-
         $id = Role::where('name', $data['name'])->first('id')->id;
 
         $this->assertAuthenticated();
@@ -314,7 +312,7 @@ class RoleApiTest extends TestCase
         foreach (getCategorizedPermissions() as $title => $elements) {
             foreach ($elements as $k => $v) {
                 if ($role->permissions->pluck('key')->contains($k)) {
-                    if (!isset($permissions[$title])) {
+                    if (! isset($permissions[$title])) {
                         $permissions[$title] = [];
                     }
                     $permissions[$title][$k] = $v;
@@ -328,9 +326,9 @@ class RoleApiTest extends TestCase
                 'data' => [
                     'id' => $role->id,
                     'name' => $role->name,
-                    "num_administrators" => 0,
-                    "num_permissions" => $role->permissions->count(),
-                    "num_users" =>  0,
+                    'num_administrators' => 0,
+                    'num_permissions' => $role->permissions->count(),
+                    'num_users' => 0,
                     'can_update' => false,
                     'can_manage_members' => false,
                     'can_delete' => false,
