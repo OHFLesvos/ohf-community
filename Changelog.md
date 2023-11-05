@@ -2,12 +2,13 @@
 
 ## 5.0.0
 
-* Requires PHP 8.2
+* Requires PHP 8.2 runtime on server
 * Added system info page
 * Added breadcrumb navigation to all pages
 * Standardized form design
-* Removed dashboard widgets, replaced with buttons to navigate quickly to all modules
+* Removed dashboard widgets, replaced with simple buttons to navigate quickly to all modules
 * Add membership number to visitors, with the option to auto-generate numbers for new visitors, and add missing numbers to existing visitors
+* Added print button for accounting transactions (contributed by Aaron Bulmahn)
 
 ## 4.5.0
 
