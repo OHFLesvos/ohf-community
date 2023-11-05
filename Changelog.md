@@ -7,6 +7,7 @@
 * Added breadcrumb navigation to all pages
 * Standardized form design
 * Removed dashboard widgets, replaced with buttons to navigate quickly to all modules
+* Add membership number to visitors
 
 ## 4.5.0
 

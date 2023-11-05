@@ -10,10 +10,18 @@
         </template>
         <template v-if="visitor.id_number">
             <dt class="col-sm-4">
-                {{ $t("ID Number") }}
+                {{ $t("ID Document Number") }}
             </dt>
             <dd class="col-sm-8">
                 {{ visitor.id_number }}
+            </dd>
+        </template>
+        <template v-if="visitor.membership_number">
+            <dt class="col-sm-4">
+                {{ $t("Membership Number") }}
+            </dt>
+            <dd class="col-sm-8">
+                {{ visitor.membership_number }}
             </dd>
         </template>
         <template v-if="visitor.gender">
@@ -94,7 +102,7 @@
                     </li>
                 </ul>
             </template>
-            <template v-else> 
+            <template v-else>
                 <dd>No parent registered.</dd>
             </template>
         </dd>
@@ -109,7 +117,7 @@
                     </li>
                 </ul>
             </template>
-            <template v-else> 
+            <template v-else>
                 <dd>No children registered.</dd>
             </template>
         </dd>

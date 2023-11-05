@@ -27,21 +27,44 @@
                             </b-form-group>
                         </validation-provider>
                     </b-col>
-
+                </b-form-row>
+                <b-form-row>
                     <b-col sm>
                         <validation-provider
-                            :name="$t('ID Number')"
+                            :name="$t('ID Document Number')"
                             vid="id_number"
                             :rules="{ required: false }"
                             v-slot="validationContext"
                         >
                             <b-form-group
-                                :label="$t('ID Number')"
+                                :label="$t('ID Document Number')"
                                 :state="getValidationState(validationContext)"
                                 :invalid-feedback="validationContext.errors[0]"
                             >
                                 <b-form-input
                                     v-model="formData.id_number"
+                                    trim
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                    :disabled="disabled"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+                    <b-col sm>
+                        <validation-provider
+                            :name="$t('Membership Number')"
+                            vid="membership_number"
+                            :rules="{ required: false }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Membership Number')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="formData.membership_number"
                                     trim
                                     autocomplete="off"
                                     :state="getValidationState(validationContext)"
@@ -181,7 +204,7 @@
                         type="search"
                         debounce="500"
                         :placeholder="
-                            $t('Search for child or parent by name, ID number or date of birth…')
+                            $t('Search for child or parent by name, ID number, membership number or date of birth…')
                         "
                         autocomplete="off"
                     />
@@ -274,6 +297,7 @@ export default {
             formData: this.value ?? {
                 name: search && searchType == "string" ? search : "",
                 id_number: search && searchType == "number" ? search : "",
+                membership_number: "",
                 gender: null,
                 date_of_birth: search && searchType == "date" ? search : "",
                 nationality: "",

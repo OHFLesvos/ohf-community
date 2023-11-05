@@ -46,6 +46,7 @@ class VisitorController extends Controller
                 Rule::in([
                     'name',
                     'id_number',
+                    'membership_number',
                     'date_of_birth',
                     'gender',
                     'nationality',
@@ -78,7 +79,8 @@ class VisitorController extends Controller
         return $query->where(fn (Builder $wq) => $wq
             ->where('name', 'LIKE', '%'.$filter.'%')
             ->orWhereRaw('MATCH(name) against (? IN BOOLEAN MODE)', implode(' ', array_map(fn ($w) => '+'.$w, $words)))
-            ->orWhere('id_number', 'LIKE', '%'.$filter.'%')
+            ->orWhere('id_number', 'LIKE', $filter.'%')
+            ->orWhere('membership_number', 'LIKE', $filter.'%')
             ->orWhereDate('date_of_birth', $filter)
         );
     }

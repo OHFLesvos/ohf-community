@@ -33,7 +33,8 @@ class VisitorDataExport extends BaseExport implements FromQuery, WithHeadings, W
         return [
             __('Anonymized'),
             __('Name'),
-            __('ID Number'),
+            __('ID Document Number'),
+            __('Membership Number'),
             __('Gender'),
             __('Nationality'),
             __('Date of birth'),
@@ -54,6 +55,7 @@ class VisitorDataExport extends BaseExport implements FromQuery, WithHeadings, W
             $visitor->anonymized ? __('Yes') : __('No'),
             $visitor->name,
             $visitor->id_number,
+            $visitor->membership_number,
             gender_label($visitor->gender),
             $visitor->nationality,
             optional($visitor->date_of_birth)->toDateString(),

@@ -28,6 +28,9 @@ class StoreVisitor extends FormRequest
             'id_number' => [
                 'nullable',
             ],
+            'membership_number' => [
+                'nullable',
+            ],
             'gender' => [
                 'required',
                 Rule::in(['male', 'female', 'other']),

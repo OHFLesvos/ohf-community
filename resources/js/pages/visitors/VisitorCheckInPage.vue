@@ -8,7 +8,7 @@
                         type="search"
                         debounce="500"
                         :placeholder="
-                            $t('Search visitor name, ID number or date of birth…')
+                            $t('Search visitor name, ID number, membership number or date of birth…')
                         "
                         autofocus
                         autocomplete="off"

@@ -18,6 +18,7 @@ class Visitor extends Model
     protected $fillable = [
         'name',
         'id_number',
+        'membership_number',
         'gender',
         'date_of_birth',
         'nationality',
@@ -31,6 +32,7 @@ class Visitor extends Model
     protected $nullable = [
         'name',
         'id_number',
+        'membership_number',
         'gender',
         'date_of_birth',
         'nationality',
@@ -50,6 +52,7 @@ class Visitor extends Model
         'id',
         'name',
         'id_number',
+        'membership_number',
         'gender',
         'date_of_birth',
         'nationality',
