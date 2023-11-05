@@ -24,7 +24,7 @@
                 show: can('create-role')
             },
             {
-                href: route('roles.permissions'),
+                to: { name: 'reports.roles.permissions' },
                 text: $t('View Permissions'),
                 icon: 'key',
                 show: can('view-user-management'),

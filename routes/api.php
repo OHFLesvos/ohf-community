@@ -89,7 +89,8 @@ Route::middleware(['auth:sanctum', 'language'])
                     });
             });
         Route::get('users/report/permissions', [UserReportController::class, 'userPermissions'])
-            ->name('users.report.permissions');
+            ->name('users.report.permissions')
+            ->middleware('can:viewAny,App\Models\User');
 
         //
         // Role management
@@ -136,7 +137,8 @@ Route::middleware(['auth:sanctum', 'language'])
                     });
             });
         Route::get('roles/report/permissions', [RoleReportController::class, 'rolePermissions'])
-            ->name('roles.report.permissions');
+            ->name('roles.report.permissions')
+            ->middleware('can:viewAny,App\Models\Role');
 
         //
         // Fundraising

@@ -8,22 +8,12 @@ use App\Util\AutoColorInitialAvatar;
 use App\View\Components\UserAvatar;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\View\View;
 
 class UserController extends Controller
 {
     public function __construct()
     {
         $this->authorizeResource(User::class);
-    }
-
-    public function permissions(): View
-    {
-        $this->authorize('viewAny', User::class);
-
-        return view('user_management.users.list-permissions', [
-            'permissions' => getCategorizedPermissions(),
-        ]);
     }
 
     public function avatar(User $user, Request $request): Response

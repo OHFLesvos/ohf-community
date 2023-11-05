@@ -59,10 +59,6 @@ Route::middleware(['auth', 'language'])
         Route::prefix('admin')
             ->group(function () {
                 // Users
-                Route::get('users/permissions', [UserController::class, 'permissions'])
-                    ->name('users.permissions')
-                    ->middleware('can:viewAny,App\Models\User');
-
                 Route::view('users', 'vue-app')
                     ->name('users.index');
                 Route::view('users/create', 'vue-app')
@@ -73,9 +69,6 @@ Route::middleware(['auth', 'language'])
                     ->name('users.edit');
 
                 // Roles
-                Route::get('roles/permissions', [RoleController::class, 'permissions'])
-                    ->name('roles.permissions')
-                    ->middleware('can:viewAny,App\Models\Role');
                 Route::get('roles/{role}/members', [RoleController::class, 'manageMembers'])
                     ->name('roles.manageMembers');
                 Route::put('roles/{role}/members', [RoleController::class, 'updateMembers'])
@@ -300,6 +293,10 @@ Route::prefix('reports')
                 Route::view('donations', 'vue-app')
                     ->name('donations');
             });
+
+        Route::view('/{any}', 'vue-app')
+            ->where('any', '.*')
+            ->name('any');
     });
 
 Route::get('changelog', fn () => view('changelog', ['content' => file_get_contents(base_path('Changelog.md'))]))

@@ -16,15 +16,6 @@ class RoleController extends Controller
         $this->authorizeResource(Role::class);
     }
 
-    public function permissions(): View
-    {
-        $this->authorize('viewAny', Role::class);
-
-        return view('user_management.roles.list-permissions', [
-            'permissions' => getCategorizedPermissions(),
-        ]);
-    }
-
     public function manageMembers(Role $role): View
     {
         $this->authorize('manageMembers', $role);
