@@ -79,7 +79,7 @@ Route::middleware(['auth', 'language'])
                 Route::view('roles/{role}/edit', 'vue-app')
                     ->name('roles.edit');
                 Route::view('roles/{role}/manageMembers', 'vue-app')
-                    ->name('roles.edit');
+                    ->name('roles.manageMembers');
             });
 
         // User profile
