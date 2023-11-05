@@ -42,6 +42,9 @@ class SettingsController extends Controller
         'visitors.nationalities' => \App\Settings\Visitors\VisitorNationalities::class,
         'visitors.living_situations' => \App\Settings\Visitors\VisitorLivingSituations::class,
         'visitors.purposes_of_visit' => \App\Settings\Visitors\VisitorPurposesOfVisit::class,
+        'visitors.autogenerate_membership_number' => \App\Settings\Visitors\VisitorAutoGenerateMembershipNumber::class,
+        'visitors.autogenerate_membership_number_length' => \App\Settings\Visitors\VisitorAutoGenerateMembershipNumberLength::class,
+        'visitors.autogenerate_membership_numbers_only' => \App\Settings\Visitors\VisitorAutoGenerateMembershipNumberNumbersOnly::class,
     ];
 
     /**
@@ -214,6 +217,8 @@ class SettingsController extends Controller
                 'visitors.nationalities' => Setting::get('visitors.nationalities', []),
                 'visitors.living_situations' => Setting::get('visitors.living_situations', []),
                 'visitors.purposes_of_visit' => Setting::get('visitors.purposes_of_visit', []),
+                'visitors.autogenerate_membership_number' => filter_var(Setting::get('visitors.autogenerate_membership_number', false), FILTER_VALIDATE_BOOLEAN),
+                'visitors.autogenerate_membership_number_length' => Setting::get('visitors.autogenerate_membership_number_length', 5),
                 'visitors.retention_days' => config('visitors.retention_days'),
             ]);
     }

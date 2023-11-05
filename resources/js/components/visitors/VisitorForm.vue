@@ -62,13 +62,14 @@
                                 :label="$t('Membership Number')"
                                 :state="getValidationState(validationContext)"
                                 :invalid-feedback="validationContext.errors[0]"
+                                :description="settings['visitors.autogenerate_membership_number'] ? (value == null ? $t('Membership number will be generated automatically when saving') : $t('Auto-generated number cannot be changed')) : ''"
                             >
                                 <b-form-input
                                     v-model="formData.membership_number"
                                     trim
                                     autocomplete="off"
                                     :state="getValidationState(validationContext)"
-                                    :disabled="disabled"
+                                    :disabled="disabled || settings['visitors.autogenerate_membership_number']"
                                 />
                             </b-form-group>
                         </validation-provider>
