@@ -1,58 +1,34 @@
 <template>
     <b-container>
-        <alert-with-retry
-            v-if="error"
-            :value="error"
-            @retry="fetchData"
-        />
-        <template v-else-if="data">
-            <BaseWidget :title="$t('System Information')" icon="microchip">
-                <ValueTable :items="data"/>
-            </BaseWidget>
-            <ChangelogView/>
-        </template>
-        <p v-else>
-            {{ $t('Loading...') }}
-        </p>
+        <TabNav :items="tabNavItems"/>
+        <router-view />
     </b-container>
 </template>
 
 <script>
-import dashboardApi from "@/api/dashboard";
-import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
-import BaseWidget from "@/components/dashboard/BaseWidget.vue"
-import ValueTable from "@/components/dashboard/ValueTable.vue"
-import ChangelogView from "@/components/dashboard/ChangelogView.vue"
+import TabNav from "@/components/layout/TabNav.vue";
 export default {
     title() {
         return this.$t("System Information");
     },
     components: {
-        AlertWithRetry,
-        BaseWidget,
-        ValueTable,
-        ChangelogView
+        TabNav,
     },
     data() {
         return {
-            data: null,
-            error: null
+            tabNavItems: [
+                {
+                    to: { name: "system-info" },
+                    icon: "microchip",
+                    text: this.$t("System Information")
+                },
+                {
+                    to: { name: "changelog" },
+                    icon: "list",
+                    text: this.$t("Changelog"),
+                }
+            ],
         };
     },
-    async created() {
-        this.fetchData()
-    },
-    methods: {
-        async fetchData() {
-            this.data = null
-            this.error = null
-            try {
-                let data = await dashboardApi.systemInfo();
-                this.data = Object.entries(data).map(e => ({ key: e[0], value: e[1] }))
-            } catch (err) {
-                this.error = err
-            }
-        }
-    }
 };
 </script>

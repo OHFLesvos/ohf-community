@@ -5,8 +5,8 @@
             :value="error"
             @retry="fetchData"
         />
-        <b-card v-else-if="content" class="mb-3">
-            <div v-html="content"></div>
+        <b-card v-else-if="data" no-body>
+            <ValueTable :items="data"/>
         </b-card>
         <p v-else>
             {{ $t('Loading...') }}
@@ -17,13 +17,15 @@
 <script>
 import dashboardApi from "@/api/dashboard";
 import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
+import ValueTable from "@/components/dashboard/ValueTable.vue"
 export default {
     components: {
         AlertWithRetry,
+        ValueTable,
     },
     data() {
         return {
-            content: null,
+            data: null,
             error: null
         };
     },
@@ -32,11 +34,11 @@ export default {
     },
     methods: {
         async fetchData() {
-            this.content = null
+            this.data = null
             this.error = null
             try {
-                let data = await dashboardApi.changelog();
-                this.content = data.replace('<h1>Changelog</h1>', '').replaceAll('<h2>', '<h2 class="display-4">')
+                let data = await dashboardApi.systemInfo();
+                this.data = Object.entries(data).map(e => ({ key: e[0], value: e[1] }))
             } catch (err) {
                 this.error = err
             }

@@ -296,6 +296,3 @@ Route::prefix('reports')
             ->where('any', '.*')
             ->name('any');
     });
-
-Route::get('changelog', fn () => view('changelog', ['content' => file_get_contents(base_path('Changelog.md'))]))
-    ->name('changelog');

@@ -1,5 +1,5 @@
 <template>
-    <table class="table mb-0">
+    <b-table-simple class="mb-0">
         <tbody>
             <tr v-for="item in items" :key="item.key">
                 <td>{{ item.key }}</td>
@@ -10,7 +10,7 @@
                 <td v-else v-html="item.value"></td>
             </tr>
         </tbody>
-    </table>
+    </b-table-simple>
 </template>
 
 <script>

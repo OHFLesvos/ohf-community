@@ -12,7 +12,7 @@ export default [
     },
     {
         path: "/system-info",
-        name: "system-info",
+        // name: "system-info",
         components: {
             default: () => import("@/pages/dashboard/SystemInfoPage.vue"),
             breadcrumbs: BreadcrumbsNav,
@@ -25,6 +25,20 @@ export default [
                     }
                 ]
             }
-        }
+        },
+        children: [
+            {
+                path: "",
+                name: "system-info",
+                component: () => import("@/components/dashboard/SystemInfoView.vue"),
+                props: true
+            },
+            {
+                path: "changelog",
+                name: "changelog",
+                component: () => import("@/components/dashboard/ChangelogView.vue"),
+                props: true
+            }
+        ]
     }
 ];

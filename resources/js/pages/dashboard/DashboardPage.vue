@@ -110,7 +110,7 @@ export default {
                     text: this.$t('System Information'),
                     icon: 'microchip',
                     to: { name: 'system-info' },
-                    show: true,
+                    show: this.can('view-system-information'),
                 },
             ]
         };

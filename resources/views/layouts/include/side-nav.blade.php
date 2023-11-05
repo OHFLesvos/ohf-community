@@ -47,7 +47,7 @@
         <p class="copyright text-muted px-3">
             {{ config('app.name') }}<br>
             @isset($app_version)
-                Version: <a href="{{ route('changelog') }}" target="_blank">{{ $app_version }}</a><br>
+                Version: {{ $app_version }}<br>
             @endisset
             Environment: {{ app()->environment() }}<br><br>
             @include('layouts.include.copyright')

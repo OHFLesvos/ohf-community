@@ -36,6 +36,7 @@
             'view-budgets' => Auth::user()->can('viewAny',  App\Models\Accounting\Budget::class),
             'manage-budgets' => Gate::allows('manage-budgets'),
             'create-badges' => Gate::allows('create-badges'),
+            'view-system-information' => Gate::allows('view-system-information'),
             'view-community-volunteers' => Auth::user()->can('viewAny', App\Models\CommunityVolunteers\CommunityVolunteer::class),
             'view-user-management' => Auth::user()->can('viewAny', App\Models\User::class) || Auth::user()->can('viewAny', App\Models\Role::class),
             'create-user' => Auth::user()->can('create',  App\Models\User::class),
