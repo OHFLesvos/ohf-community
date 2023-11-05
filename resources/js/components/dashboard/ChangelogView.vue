@@ -1,41 +1,34 @@
 <template>
-    <b-container>
+    <div>
         <alert-with-retry
             v-if="error"
             :value="error"
             @retry="fetchData"
         />
-        <template v-else-if="data">
-            <BaseWidget :title="$t('System Information')" icon="microchip">
-                <ValueTable :items="data"/>
-            </BaseWidget>
-            <ChangelogView/>
+        <template v-else-if="content">
+            <b-card :header="$t('Changelog')" class="mb-3">
+                <div v-html="content"></div>
+            </b-card>
         </template>
         <p v-else>
             {{ $t('Loading...') }}
         </p>
-    </b-container>
+    </div>
 </template>
 
 <script>
 import dashboardApi from "@/api/dashboard";
 import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
-import BaseWidget from "@/components/dashboard/BaseWidget.vue"
-import ValueTable from "@/components/dashboard/ValueTable.vue"
-import ChangelogView from "@/components/dashboard/ChangelogView.vue"
 export default {
     title() {
-        return this.$t("System Information");
+        return this.$t("Changelog");
     },
     components: {
         AlertWithRetry,
-        BaseWidget,
-        ValueTable,
-        ChangelogView
     },
     data() {
         return {
-            data: null,
+            content: null,
             error: null
         };
     },
@@ -44,11 +37,11 @@ export default {
     },
     methods: {
         async fetchData() {
-            this.data = null
+            this.content = null
             this.error = null
             try {
-                let data = await dashboardApi.systemInfo();
-                this.data = Object.entries(data).map(e => ({ key: e[0], value: e[1] }))
+                let data = await dashboardApi.changelog();
+                this.content = data.replace('<h1>Changelog</h1>', '').replaceAll('<h2>', '<h2 class="display-4">')
             } catch (err) {
                 this.error = err
             }

@@ -6,7 +6,6 @@ use App\Http\Controllers\CommunityVolunteers\ImportExportController as Community
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\PrivacyPolicyController;
-use App\Http\Controllers\UserManagement\RoleController;
 use App\Http\Controllers\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
 

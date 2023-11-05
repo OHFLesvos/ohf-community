@@ -9,6 +9,7 @@ use App\Http\Controllers\Accounting\API\SummaryController;
 use App\Http\Controllers\Accounting\API\SuppliersController;
 use App\Http\Controllers\Accounting\API\TransactionsController;
 use App\Http\Controllers\Accounting\API\WalletsController;
+use App\Http\Controllers\API\ChangelogController;
 use App\Http\Controllers\API\CommentsController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DataListController;
@@ -60,6 +61,8 @@ Route::middleware(['auth:sanctum', 'language'])
             ->name('dashboard');
         Route::get('system-info', SystemInfoController::class)
             ->name('system-info');
+        Route::get('changelog', ChangelogController::class)
+            ->name('changelog');
 
         //
         // User management
