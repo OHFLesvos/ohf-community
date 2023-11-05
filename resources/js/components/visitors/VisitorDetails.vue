@@ -16,12 +16,15 @@
                 {{ visitor.id_number }}
             </dd>
         </template>
-        <template v-if="visitor.membership_number">
+        <template v-if="visitor.membership_number || settings['visitors.autogenerate_membership_number']">
             <dt class="col-sm-4">
                 {{ $t("Membership Number") }}
             </dt>
             <dd class="col-sm-8">
-                {{ visitor.membership_number }}
+                <template v-if="visitor.membership_number">{{ visitor.membership_number }}</template>
+                <template v-else-if="settings['visitors.autogenerate_membership_number']">
+                    <b-button size="sm" @click="generateMembershipNumber()" :disabled="isBusy">{{ $t('Generate number') }}</b-button>
+                </template>
             </dd>
         </template>
         <template v-if="visitor.gender">
@@ -127,6 +130,7 @@
 <script>
 import visitorsApi from "@/api/visitors";
 import moment from "moment";
+import { mapState } from "vuex";
 import { showSnackbar, calculateAge } from "@/utils";
 export default {
     props: {
@@ -142,6 +146,7 @@ export default {
         };
     },
     computed: {
+        ...mapState(["settings"]),
         genderLabel() {
             switch (this.visitor.gender) {
                 case "male":
@@ -174,6 +179,19 @@ export default {
         }
     },
     methods: {
+        async generateMembershipNumber() {
+            this.isBusy = true;
+            try {
+                let data = await visitorsApi.generateMembershipNumber(this.visitor.id);
+                this.visitor = data.data;
+                if (data.membership_number) {
+                    showSnackbar(this.$t('Membership number {number} has been created for {name}', { number: data.membership_number, name: data.data.name }));
+                }
+            } catch (err) {
+                alert(err);
+            }
+            this.isBusy = false;
+        },
         async signLiabilityForm() {
             this.isBusy = true;
             try {

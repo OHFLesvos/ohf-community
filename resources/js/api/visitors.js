@@ -28,6 +28,10 @@ export default {
         const url = route('api.visitors.checkin', visitorId)
         return await api.post(url, data)
     },
+    async generateMembershipNumber (visitorId) {
+        const url = route('api.visitors.generateMembershipNumber', visitorId)
+        return await api.post(url, {})
+    },
     async signLiabilityForm (visitorId) {
         const url = route('api.visitors.signLiabilityForm', visitorId)
         return await api.post(url, {})

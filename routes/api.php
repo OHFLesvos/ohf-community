@@ -374,6 +374,8 @@ Route::middleware(['auth:sanctum', 'language'])
                 Route::post('{visitor}/checkins', [VisitorController::class, 'checkin'])
                     ->name('checkin');
 
+                Route::post('{visitor}/generateMembershipNumber', [VisitorController::class, 'generateMembershipNumber'])
+                    ->name('generateMembershipNumber');
                 Route::post('{visitor}/signLiabilityForm', [VisitorController::class, 'signLiabilityForm'])
                     ->name('signLiabilityForm');
                 Route::post('{visitor}/giveParentalConsent', [VisitorController::class, 'giveParentalConsent'])

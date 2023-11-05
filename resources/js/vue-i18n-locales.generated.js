@@ -431,6 +431,8 @@ export default {
         "Auto-generate membership number": "Mitgliedsnummer automatisch generieren ",
         "Auto-generated membership number length": "Lànge der automatisch generieren Mitgliedsnummer",
         "Use only numbers in auto-generated membership number": "Verwede nur Zahlen für automatisch generiere Mitgliedsnummern",
+        "Membership number {number} has been created for {name}": "Mitgliedsnummer {number} wurde erstellt für {name}",
+        "Generate number": "Nummer generieren",
         "Place of residence": "Aufenthaltsort",
         "Check-in": "Einchecken",
         "Checkout": "Auschecken",
@@ -1015,6 +1017,7 @@ export default {
         "{from} - {until}": "{from} - {until}",
         "Edit donation of {name}": "Edit donation of {name}",
         "Current selection: {users} users and {administrators} role administrators": "Current selection: {users} users and {administrators} role administrators",
+        "Membership number {number} has been created for {name}": "Membership number {number} has been created for{name}",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",

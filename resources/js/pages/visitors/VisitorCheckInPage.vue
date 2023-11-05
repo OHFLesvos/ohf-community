@@ -207,6 +207,9 @@ export default {
                 let data = await visitorsApi.store(formData);
                 this.visitors.push(data.data);
                 showSnackbar(this.$t("Visitor registered."));
+                if (data.membership_number) {
+                    alert(this.$t('Membership number {number} has been created for {name}', { number: data.membership_number, name: data.data.name }))
+                }
                 this.showRegistrationForm = false;
             } catch (err) {
                 alert(err);

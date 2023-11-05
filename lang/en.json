@@ -24,5 +24,6 @@
     "until :until": "until :until",
     ":from - :until": ":from - :until",
     "Edit donation of :name": "Edit donation of :name",
-    "Current selection: :users users and :administrators role administrators": "Current selection: :users users and :administrators role administrators"
+    "Current selection: :users users and :administrators role administrators": "Current selection: :users users and :administrators role administrators",
+    "Membership number :number has been created for :name": "Membership number :number has been created for:name"
 }
