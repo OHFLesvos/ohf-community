@@ -92,6 +92,7 @@ export default {
                 let data = await settingsApi.update(dataForUpdate);
                 showSnackbar(data.message);
                 await this.fetchSettings();
+                await this.updateStore()
             } catch (err) {
                 alert(err);
             }
@@ -105,6 +106,7 @@ export default {
             try {
                 let data = await settingsApi.reset();
                 await this.fetchSettings();
+                await this.updateStore()
                 showSnackbar(data.message);
             } catch (err) {
                 alert(err);
@@ -119,11 +121,16 @@ export default {
             try {
                 let data = await settingsApi.resetField(field);
                 await this.fetchSettings(field);
+                await this.updateStore()
                 showSnackbar(data.message);
             } catch (err) {
                 alert(err);
             }
             this.isBusy = false;
+        },
+        async updateStore() {
+            let settings = await settingsApi.list();
+            this.$store.commit("SET_SETTINGS", settings);
         }
     },
 };
