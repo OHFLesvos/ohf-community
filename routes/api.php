@@ -32,6 +32,7 @@ use App\Http\Controllers\UserManagement\API\RoleUserRelationshipController;
 use App\Http\Controllers\UserManagement\API\UserController;
 use App\Http\Controllers\UserManagement\API\UserProfile2FAController;
 use App\Http\Controllers\UserManagement\API\UserProfileController;
+use App\Http\Controllers\UserManagement\API\UserReportController;
 use App\Http\Controllers\UserManagement\API\UserRoleRelationshipController;
 use App\Http\Controllers\Visitors\API\ExportController as VisitorsExportController;
 use App\Http\Controllers\Visitors\API\ReportController as VisitorsReportController;
@@ -86,6 +87,8 @@ Route::middleware(['auth:sanctum', 'language'])
                             });
                     });
             });
+        Route::get('users/report/permissions', [UserReportController::class, 'userPermissions'])
+            ->name('users.report.permissions');
 
         //
         // Role management

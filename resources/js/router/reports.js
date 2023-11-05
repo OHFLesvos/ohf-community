@@ -83,4 +83,25 @@ export default [
             }
         },
     },
+    {
+        path: "/reports/users/permissions",
+        name: "reports.users.permissions",
+        components: {
+            default: () => import("@/pages/reports/UserPermissionsReport.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Reports'),
+                        to: { name: 'reports.index' }
+                    },
+                    {
+                        text: i18n.t('User Permissions'),
+                    }
+                ]
+            }
+        },
+    },
 ];

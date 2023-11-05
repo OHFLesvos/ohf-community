@@ -38,6 +38,12 @@ export default {
                     to: { name: "reports.visitors.checkins" },
                     icon: "door-open",
                     show: this.can("view-visitors-reports")
+                },
+                {
+                    label: this.$t("User Permissions"),
+                    to: { name: "reports.users.permissions" },
+                    icon: "users",
+                    show: this.can("view-user-management")
                 }
             ]
         };

@@ -70,7 +70,8 @@ import {
     faIdCard,
     faChartPie,
     faCogs,
-    faKey
+    faKey,
+    faUserShield
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -146,7 +147,8 @@ library.add(
     faIdCard,
     faChartPie,
     faCogs,
-    faKey
+    faKey,
+    faUserShield
 );
 
 import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";

@@ -40,4 +40,8 @@ export default {
         const url = route('api.users.disable2FA', id)
         return await api.put(url)
     },
+    async permissionsReport() {
+        const url = route('api.users.report.permissions')
+        return await api.get(url)
+    },
 }
