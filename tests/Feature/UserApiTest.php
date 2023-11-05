@@ -343,11 +343,12 @@ class UserApiTest extends TestCase
         $response = $this->actingAs($authUser)
             ->postJson('api/users', $data);
 
-        $id = DB::getPdo()->lastInsertId();
+        $id = User::where('email', $data['email'])->first('id')->id;
 
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
+                'id' => $id,
                 'message' => __('User has been added.'),
             ])
             ->assertLocation(route('api.users.show', $id));
@@ -378,11 +379,11 @@ class UserApiTest extends TestCase
         $response = $this->actingAs($authUser)
             ->postJson('api/users', $data);
 
-        $id = DB::getPdo()->lastInsertId();
-
+        $id = User::where('email', $data['email'])->first('id')->id;
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
+                'id' => $id,
                 'message' => __('User has been added.'),
             ])
             ->assertLocation(route('api.users.show', $id));
@@ -593,7 +594,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('User has been updated.'),
+                'message' => __('User has been updated. A new password has been set.'),
             ]);
 
         $this->assertDatabaseHas('users', [
@@ -615,7 +616,7 @@ class UserApiTest extends TestCase
             'email' => $this->faker->safeEmail,
             'password' => Str::random(40),
             'locale' => Arr::random(config('language.allowed')),
-            'is_super_admin' => false,
+            'is_super_admin' => true,
         ];
 
         /** @var User $authUser */
@@ -627,7 +628,7 @@ class UserApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'message' => __('User has been updated.'),
+                'message' => __('User has been updated. A new password has been set.'),
             ]);
 
         $this->assertDatabaseHas('users', [

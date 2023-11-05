@@ -94,7 +94,11 @@ class UserRoleApiTest extends TestCase
                     [
                         'id' => $role1->id,
                         'name' => $role1->name,
+                        "num_administrators" => 0,
+                        "num_permissions" => $role1->permissions->count(),
+                        "num_users" => 1,
                         'can_update' => false,
+                        'can_manage_members' => false,
                         'can_delete' => false,
                         'created_at' => $role1->created_at,
                         'updated_at' => $role1->updated_at,
@@ -122,7 +126,11 @@ class UserRoleApiTest extends TestCase
                     [
                         'id' => $role2->id,
                         'name' => $role2->name,
+                        "num_administrators" => 0,
+                        "num_permissions" => $role2->permissions->count(),
+                        "num_users" => 1,
                         'can_update' => false,
+                        'can_manage_members' => false,
                         'can_delete' => false,
                         'created_at' => $role2->created_at,
                         'updated_at' => $role2->updated_at,

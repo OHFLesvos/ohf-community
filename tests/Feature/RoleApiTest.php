@@ -68,7 +68,11 @@ class RoleApiTest extends TestCase
                     [
                         'id' => $role->id,
                         'name' => $role->name,
+                        "num_administrators" => 0,
+                        "num_permissions" => $role->permissions->count(),
+                        "num_users" => 0,
                         'can_update' => false,
+                        'can_manage_members' => false,
                         'can_delete' => false,
                         'created_at' => $role->created_at,
                         'updated_at' => $role->updated_at,
@@ -263,11 +267,13 @@ class RoleApiTest extends TestCase
         $response = $this->actingAs($authUser)
             ->postJson('api/roles', $data);
 
-        $id = DB::getPdo()->lastInsertId();
+
+        $id = Role::where('name', $data['name'])->first('id')->id;
 
         $this->assertAuthenticated();
         $response->assertCreated()
             ->assertExactJson([
+                'id' => $id,
                 'message' => __('Role has been added.'),
             ])
             ->assertLocation(route('api.roles.show', $id));
@@ -304,13 +310,29 @@ class RoleApiTest extends TestCase
         $response = $this->actingAs($authUser)
             ->getJson('api/roles/'.$role->id, []);
 
+        $permissions = [];
+        foreach (getCategorizedPermissions() as $title => $elements) {
+            foreach ($elements as $k => $v) {
+                if ($role->permissions->pluck('key')->contains($k)) {
+                    if (!isset($permissions[$title])) {
+                        $permissions[$title] = [];
+                    }
+                    $permissions[$title][$k] = $v;
+                }
+            }
+        }
+
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
                 'data' => [
                     'id' => $role->id,
                     'name' => $role->name,
+                    "num_administrators" => 0,
+                    "num_permissions" => $role->permissions->count(),
+                    "num_users" =>  0,
                     'can_update' => false,
+                    'can_manage_members' => false,
                     'can_delete' => false,
                     'created_at' => $role->created_at,
                     'updated_at' => $role->updated_at,
@@ -335,6 +357,10 @@ class RoleApiTest extends TestCase
                         ],
                     ],
                 ],
+                'administrators' => [],
+                'users' => [],
+                'is_administrator' => false,
+                'permissions' => $permissions,
             ]);
     }
 
