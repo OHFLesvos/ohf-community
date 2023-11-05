@@ -44,6 +44,12 @@ export default {
                     to: { name: "reports.users.permissions" },
                     icon: "users",
                     show: this.can("view-user-management")
+                },
+                {
+                    label: this.$t("Role Permissions"),
+                    to: { name: "reports.roles.permissions" },
+                    icon: "users",
+                    show: this.can("view-user-management")
                 }
             ]
         };

@@ -32,4 +32,8 @@ export default {
         const url = route('api.roles.permissions')
         return await api.get(url)
     },
+    async permissionsReport() {
+        const url = route('api.roles.report.permissions')
+        return await api.get(url)
+    },
 }

@@ -104,4 +104,25 @@ export default [
             }
         },
     },
+    {
+        path: "/reports/roles/permissions",
+        name: "reports.roles.permissions",
+        components: {
+            default: () => import("@/pages/reports/RolePermissionsReport.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Reports'),
+                        to: { name: 'reports.index' }
+                    },
+                    {
+                        text: i18n.t('Role Permissions'),
+                    }
+                ]
+            }
+        },
+    },
 ];

@@ -28,6 +28,7 @@ use App\Http\Controllers\Fundraising\API\WebhookController;
 use App\Http\Controllers\Settings\API\SettingsController;
 use App\Http\Controllers\UserManagement\API\RoleAdministratorRelationshipController;
 use App\Http\Controllers\UserManagement\API\RoleController;
+use App\Http\Controllers\UserManagement\API\RoleReportController;
 use App\Http\Controllers\UserManagement\API\RoleUserRelationshipController;
 use App\Http\Controllers\UserManagement\API\UserController;
 use App\Http\Controllers\UserManagement\API\UserProfile2FAController;
@@ -134,6 +135,8 @@ Route::middleware(['auth:sanctum', 'language'])
                             });
                     });
             });
+        Route::get('roles/report/permissions', [RoleReportController::class, 'rolePermissions'])
+            ->name('roles.report.permissions');
 
         //
         // Fundraising

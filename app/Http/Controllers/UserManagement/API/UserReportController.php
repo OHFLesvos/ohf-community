@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\UserManagement\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use App\Models\RolePermission;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -17,8 +16,8 @@ class UserReportController extends Controller
         $permissions = getCategorizedPermissions();
         $users = [];
 
-        foreach($permissions as $title => $elements) {
-            foreach($elements as $key => $label) {
+        foreach($permissions as $elements) {
+            foreach(array_keys($elements) as $key) {
                 $roles = RolePermission::where('key', $key)
                     ->get()
                     ->map(fn ($e) => $e->role)
