@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.1
+
+* Fix duplication error in web roles definition
+
 ## 5.0.0
 
 * Requires PHP 8.2 runtime on server
