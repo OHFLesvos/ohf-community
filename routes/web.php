@@ -26,6 +26,8 @@ Route::middleware('language')->group(function () {
         // Home (Dashboard)
         Route::view('', 'vue-app')
             ->name('home');
+        Route::view('system-info', 'vue-app')
+            ->name('system-info');
     });
 
     // Authentication

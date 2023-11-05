@@ -12,6 +12,7 @@ use App\Http\Controllers\Accounting\API\WalletsController;
 use App\Http\Controllers\API\CommentsController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DataListController;
+use App\Http\Controllers\API\SystemInfoController;
 use App\Http\Controllers\Badges\API\BadgeMakerController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
@@ -57,6 +58,8 @@ Route::middleware(['auth:sanctum', 'language'])
     ->group(function () {
         Route::get('dashboard', DashboardController::class)
             ->name('dashboard');
+        Route::get('system-info', SystemInfoController::class)
+            ->name('system-info');
 
         //
         // User management

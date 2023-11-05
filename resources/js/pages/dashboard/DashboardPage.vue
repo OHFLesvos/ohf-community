@@ -28,7 +28,6 @@
             </b-alert>
         </b-container>
         <b-container v-else fluid class="pt-2">
-            <!-- <b-spinner/> -->
             {{ $t('Loading...') }}
         </b-container>
 </div>
@@ -47,12 +46,12 @@ export default {
         return this.$t("Dashboard");
     },
     components: {
-      VisitorsWidget,
-      CommunityVolunteersWidget,
-      AccountingWidget,
-      FundraisingWidget,
-      UsersWidget,
-      SystemInfoWidget,
+        VisitorsWidget,
+        CommunityVolunteersWidget,
+        AccountingWidget,
+        FundraisingWidget,
+        UsersWidget,
+        SystemInfoWidget,
     },
     data() {
         return {
@@ -105,6 +104,12 @@ export default {
                     text: this.$t('Settings'),
                     icon: 'cogs',
                     to: { name: 'settings' },
+                    show: true,
+                },
+                {
+                    text: this.$t('System Information'),
+                    icon: 'microchip',
+                    to: { name: 'system-info' },
                     show: true,
                 },
             ]
