@@ -1017,7 +1017,7 @@ export default {
         "{from} - {until}": "{from} - {until}",
         "Edit donation of {name}": "Edit donation of {name}",
         "Current selection: {users} users and {administrators} role administrators": "Current selection: {users} users and {administrators} role administrators",
-        "Membership number {number} has been created for {name}": "Membership number {number} has been created for{name}",
+        "Membership number {number} has been created for {name}": "Membership number {number} has been created for {name}",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",

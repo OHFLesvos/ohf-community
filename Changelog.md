@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.2
+
+* Fix typo in membership number confirmation message
+
 ## 5.0.1
 
 * Fix duplication error in web roles definition
