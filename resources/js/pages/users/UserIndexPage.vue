@@ -4,7 +4,8 @@
             id="usersTable"
             :fields="fields"
             :api-method="list"
-            default-sort-by="name"
+            default-sort-by="created_at"
+            :default-sort-desc="true"
             :empty-text="$t('No users found.')"
             :items-per-page="10"
         >
