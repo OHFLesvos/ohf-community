@@ -8,11 +8,11 @@ export default [
         name: "dashboard",
         components: {
             default: () => import("@/pages/dashboard/DashboardPage.vue"),
-        }
+            // breadcrumbs: BreadcrumbsNav,
+        },
     },
     {
         path: "/system-info",
-        // name: "system-info",
         components: {
             default: () => import("@/pages/dashboard/SystemInfoPage.vue"),
             breadcrumbs: BreadcrumbsNav,

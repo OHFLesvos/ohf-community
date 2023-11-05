@@ -1,7 +1,7 @@
 <template>
     <div>
-        <b-container fluid class="pt-4 pb-0">
-            <div class="d-flex justify-content-center flex-wrap">
+        <b-container class="pt-4 pb-0">
+            <div class="d-flex justify-content-start flex-wrap">
                 <div v-for="button in buttons.filter(b => b.show)" :key="button.text">
                     <b-button
                         :to="button.to"
@@ -17,7 +17,6 @@
         <b-container fluid class="pt-3" v-if="loaded">
             <div v-if="Object.keys(data).length > 0" class="card-columns">
                 <VisitorsWidget v-if="data.visitors" :data="data.visitors"/>
-                <CommunityVolunteersWidget v-if="data.cmtyvol" :data="data.cmtyvol"/>
                 <AccountingWidget v-if="data.accounting" :data="data.accounting"/>
             </div>
             <b-alert v-else variant="info" show>
@@ -33,7 +32,6 @@
 <script>
 import dashboardApi from "@/api/dashboard";
 import VisitorsWidget from "@/components/dashboard/VisitorsWidget.vue"
-import CommunityVolunteersWidget from "@/components/dashboard/CommunityVolunteersWidget.vue"
 import AccountingWidget from "@/components/dashboard/AccountingWidget.vue"
 export default {
     title() {
@@ -41,7 +39,6 @@ export default {
     },
     components: {
         VisitorsWidget,
-        CommunityVolunteersWidget,
         AccountingWidget,
     },
     data() {
@@ -102,6 +99,12 @@ export default {
                     icon: 'microchip',
                     to: { name: 'system-info' },
                     show: this.can('view-system-information'),
+                },
+                {
+                    text: this.$t('User Profile'),
+                    icon: 'user',
+                    to: { name: 'userprofile' },
+                    show: true,
                 },
             ]
         };
