@@ -17,7 +17,6 @@
         <b-container fluid class="pt-3" v-if="loaded">
             <div v-if="Object.keys(data).length > 0" class="card-columns">
                 <VisitorsWidget v-if="data.visitors" :data="data.visitors"/>
-                <AccountingWidget v-if="data.accounting" :data="data.accounting"/>
             </div>
             <b-alert v-else variant="info" show>
                 {{ $t('There is currently no content available for you here.')  }}
@@ -32,14 +31,12 @@
 <script>
 import dashboardApi from "@/api/dashboard";
 import VisitorsWidget from "@/components/dashboard/VisitorsWidget.vue"
-import AccountingWidget from "@/components/dashboard/AccountingWidget.vue"
 export default {
     title() {
         return this.$t("Dashboard");
     },
     components: {
         VisitorsWidget,
-        AccountingWidget,
     },
     data() {
         return {

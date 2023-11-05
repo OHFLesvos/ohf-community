@@ -136,7 +136,12 @@ export default {
             wallet: this.$route.query.wallet ?? null,
             wallets: [],
             advancedFilter: advancedFilter,
-            fields: [
+        };
+    },
+    computed: {
+        fields() {
+            return [
+                this.wallet ? null :
                 {
                     key: "wallet_name",
                     label: this.$t("Wallet")
@@ -225,9 +230,7 @@ export default {
                     sortDirection: "desc"
                 }
             ]
-        };
-    },
-    computed: {
+        },
         walletAmount() {
             if (this.wallets.length == 0) {
                 return null;

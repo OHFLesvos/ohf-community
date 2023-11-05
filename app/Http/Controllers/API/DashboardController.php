@@ -10,7 +10,6 @@ class DashboardController extends Controller
 {
     private const WIDGETS = [
         \App\View\Widgets\VisitorsWidget::class,
-        \App\View\Widgets\AccountingWidget::class,
     ];
 
     public function __invoke(): JsonResponse

@@ -1,47 +1,29 @@
 <template>
     <b-container>
-        <alert-with-retry :value="errorText" @retry="refresh" />
+        <alert-with-retry :value="errorText" @retry="fetchData" />
         <b-card :header="$t('Wallets')" class="shadow-sm mb-4" no-body>
-            <b-table
-                ref="table"
-                :items="fetchData"
-                :fields="fields"
-                show-empty
-                :empty-text="$t('No wallets found.')"
-                class="mb-0"
-                thead-class="d-none"
-                responsive
-                hover
-            >
-                <div slot="table-busy" class="text-center my-2">
-                    <b-spinner class="align-middle"></b-spinner>
-                    <strong>{{ $t("Loading...") }}</strong>
-                </div>
-                <template #cell(name)="data">
-                    <template v-if="can('view-transactions')">
-                        <router-link
-                            :to="{
-                                name: 'accounting.transactions.index',
-                                query: { wallet: data.item.id }
-                            }"
-                        >
-                            {{ data.value }}</router-link
-                        >
-                    </template>
-                    <template v-else>
-                        {{ data.value }}
-                    </template>
+            <b-list-group flush>
+                <template v-if="wallets && wallets.length > 0">
+                    <b-list-group-item
+                        v-for="wallet in wallets"
+                        :key="wallet.id" :to="can('view-transactions') ? { name: 'accounting.transactions.index', query: { wallet: wallet.id } } : null"
+                    >
+                        {{ wallet.name }}
+                        <span :class="{'float-right': true, 'text-danger': wallet.amount < 0}">{{ wallet.amount_formatted }}</span>
+                    </b-list-group-item>
                 </template>
-            </b-table>
+                <b-list-group-item v-else-if="wallets">
+                    {{ $t('No wallets found.') }}
+                </b-list-group-item>
+                <b-list-group-item v-else>
+                    {{ $t('Loading...') }}
+                </b-list-group-item>
+            </b-list-group>
         </b-card>
         <b-row>
             <b-col
-                v-for="(button, idx) in buttons.filter(btn => btn.show)"
-                :key="idx"
-                sm="6"
-                md="4"
-                lg="3"
-                class="mb-4"
+                v-for="(button, idx) in buttons.filter(btn => btn.show)" :key="idx"
+                sm="6" md="4" lg="3" class="mb-4"
             >
                 <b-button
                     class="d-block"
@@ -69,19 +51,7 @@ export default {
     data() {
         return {
             errorText: null,
-            fields: [
-                {
-                    key: "name",
-                    label: this.$t("Name")
-                },
-                {
-                    key: "amount_formatted",
-                    label: this.$t("Amount"),
-                    class: "fit text-right",
-                    tdClass: (value, key, item) =>
-                        item.amount < 0 ? "text-danger" : null
-                }
-            ],
+            wallets: null,
             buttons: [
                 {
                     to: {
@@ -143,18 +113,18 @@ export default {
             ]
         };
     },
+    async created() {
+        this.fetchData()
+    },
     methods: {
         async fetchData() {
             this.errorText = null;
             try {
-                return await walletsApi.names();
+                this.wallets = await walletsApi.names()
             } catch (ex) {
                 this.errorText = ex;
             }
         },
-        refresh() {
-            this.$refs.table.refresh();
-        }
     }
 };
 </script>

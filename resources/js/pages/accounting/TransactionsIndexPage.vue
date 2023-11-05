@@ -1,7 +1,6 @@
 <template>
     <b-container fluid>
         <PageHeader :buttons="navButtons"/>
-        ${{  settings['accounting.transactions.show_intermediate_balances'] }}$
         <TransactionsTable
             :use-secondary-categories="
                 settings['accounting.transactions.use_secondary_categories']
