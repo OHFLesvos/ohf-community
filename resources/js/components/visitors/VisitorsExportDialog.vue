@@ -2,7 +2,7 @@
     <div class="d-inline">
         <b-button variant="secondary" @click="modalShow = !modalShow">
             <font-awesome-icon icon="download" />
-            {{ $t("Export") }}
+            <span class="d-none d-sm-inline">{{ $t("Export") }}</span>
         </b-button>
         <form ref="form" @submit.stop.prevent="handleSubmit">
             <b-modal v-model="modalShow" :title="$t('Export')" @ok="handleOk">

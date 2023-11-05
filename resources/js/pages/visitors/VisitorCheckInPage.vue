@@ -1,7 +1,7 @@
 <template>
     <b-container>
         <b-row>
-            <b-col>
+            <b-col md>
                 <b-form-group>
                     <b-form-input
                         v-model.trim="search"
@@ -15,10 +15,13 @@
                     />
                 </b-form-group>
             </b-col>
-            <b-col cols="auto" v-if="can('view-visitors-reports') || can('export-visitors')">
+            <b-col cols="auto mb-3" v-if="can('view-visitors-reports') || can('export-visitors')">
+                <b-button class="" variant="outline-dark" :disabled="true">
+                    {{ $t("{count} check-ins today.", { count: checkedInToday ?? '-' }) }}
+                </b-button>
                 <b-button v-if="can('view-visitors-reports')" :to="{ name: 'visitors.report' }">
                     <font-awesome-icon icon="bar-chart"></font-awesome-icon>
-                    {{ $t('Reports') }}
+                    <span class="d-none d-sm-inline">{{ $t('Reports') }}</span>
                 </b-button>
                 <VisitorsExportDialog v-if="can('export-visitors')"/>
             </b-col>
@@ -91,10 +94,10 @@
                 >
             </p>
         </template>
-
+<!--
         <b-alert variant="info" show v-else-if="checkedInToday !== null">
             {{ $t("{count} check-ins today.", { count: checkedInToday }) }}
-        </b-alert>
+        </b-alert> -->
     </b-container>
 </template>
 
