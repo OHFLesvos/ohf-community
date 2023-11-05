@@ -11,7 +11,6 @@ use App\Http\Controllers\Accounting\API\TransactionsController;
 use App\Http\Controllers\Accounting\API\WalletsController;
 use App\Http\Controllers\API\ChangelogController;
 use App\Http\Controllers\API\CommentsController;
-use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DataListController;
 use App\Http\Controllers\API\SystemInfoController;
 use App\Http\Controllers\Badges\API\BadgeMakerController;
@@ -57,8 +56,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum', 'language'])
     ->name('api.')
     ->group(function () {
-        Route::get('dashboard', DashboardController::class)
-            ->name('dashboard');
         Route::get('system-info', SystemInfoController::class)
             ->name('system-info');
         Route::get('changelog', ChangelogController::class)

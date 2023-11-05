@@ -1,47 +1,30 @@
 <template>
-    <div>
-        <b-container class="pt-4 pb-0">
-            <div class="d-flex justify-content-start flex-wrap">
-                <div v-for="button in buttons.filter(b => b.show)" :key="button.text">
-                    <b-button
-                        :to="button.to"
-                        :href="button.href"
-                        variant="outline-primary"
-                        class="dashboard-button mr-4 mb-3 d-flex flex-column align-items-center justify-content-center">
-                        <font-awesome-icon :icon="button.icon" style="font-size: 24px;" class="mb-2" />
-                        {{ button.text }}
-                    </b-button>
-                </div>
+    <b-container class="pt-4 pb-0">
+        <div class="d-flex justify-content-start flex-wrap">
+            <div v-for="button in availableButtons" :key="button.text">
+                <b-button
+                    :to="button.to"
+                    :href="button.href"
+                    variant="outline-primary"
+                    class="dashboard-button mr-4 mb-3 d-flex flex-column align-items-center justify-content-center">
+                    <font-awesome-icon :icon="button.icon" style="font-size: 24px;" class="mb-2" />
+                    {{ button.text }}
+                </b-button>
             </div>
-        </b-container>
-        <b-container fluid class="pt-3" v-if="loaded">
-            <div v-if="Object.keys(data).length > 0" class="card-columns">
-                <VisitorsWidget v-if="data.visitors" :data="data.visitors"/>
-            </div>
-            <b-alert v-else variant="info" show>
-                {{ $t('There is currently no content available for you here.')  }}
-            </b-alert>
-        </b-container>
-        <b-container v-else fluid class="pt-2">
-            {{ $t('Loading...') }}
-        </b-container>
-</div>
+        </div>
+        <b-alert v-if="availableButtons.length == 0" variant="info" show>
+            {{ $t('There is currently no content available for you here.')  }}
+        </b-alert>
+    </b-container>
 </template>
 
 <script>
-import dashboardApi from "@/api/dashboard";
-import VisitorsWidget from "@/components/dashboard/VisitorsWidget.vue"
 export default {
     title() {
         return this.$t("Dashboard");
     },
-    components: {
-        VisitorsWidget,
-    },
     data() {
         return {
-            loaded: false,
-            data: {},
             buttons: [
                 {
                     text: this.$t('Visitors'),
@@ -56,12 +39,6 @@ export default {
                     show: this.can('view-community-volunteers'),
                 },
                 {
-                    text: this.$t('Badges'),
-                    icon: 'id-card',
-                    to: { name: 'badges.index' },
-                    show: this.can('create-badges'),
-                },
-                {
                     text: this.$t('Accounting'),
                     icon: 'money-bill-alt',
                     to: { name: 'accounting.index' },
@@ -72,6 +49,12 @@ export default {
                     icon: 'donate',
                     to: { name: 'fundraising.index' },
                     show: this.can('view-fundraising-entities'),
+                },
+                {
+                    text: this.$t('Badges'),
+                    icon: 'id-card',
+                    to: { name: 'badges.index' },
+                    show: this.can('create-badges'),
                 },
                 {
                     text: this.$t('Reports'),
@@ -106,10 +89,10 @@ export default {
             ]
         };
     },
-    async created() {
-        let data = await dashboardApi.list()
-        this.data = data.data;
-        this.loaded = true;
+    computed: {
+        availableButtons() {
+            return this.buttons.filter(b => b.show)
+        }
     }
 };
 </script>
