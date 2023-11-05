@@ -16,6 +16,11 @@ parameters:
 			path: app/Http/Resources/Accounting/TransactionHistory.php
 
 		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Accounting\\\\Transaction\\:\\:\\$sum\\.$#"
+			count: 1
+			path: app/Models/Accounting/Transaction.php
+
+		-
 			message: "#^Access to an undefined property App\\\\Models\\\\CommunityVolunteers\\\\CommunityVolunteerResponsibility\\:\\:\\$end_date\\.$#"
 			count: 3
 			path: app/Models/CommunityVolunteers/CommunityVolunteerResponsibility.php

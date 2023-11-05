@@ -16,8 +16,8 @@ class UserReportController extends Controller
         $permissions = getCategorizedPermissions();
         $users = [];
 
-        foreach($permissions as $elements) {
-            foreach(array_keys($elements) as $key) {
+        foreach ($permissions as $elements) {
+            foreach (array_keys($elements) as $key) {
                 $roles = RolePermission::where('key', $key)
                     ->get()
                     ->map(fn ($e) => $e->role)

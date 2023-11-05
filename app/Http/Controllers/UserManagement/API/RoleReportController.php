@@ -16,8 +16,8 @@ class RoleReportController extends Controller
         $permissions = getCategorizedPermissions();
         $roles = [];
 
-        foreach($permissions as $elements) {
-            foreach(array_keys($elements) as $key) {
+        foreach ($permissions as $elements) {
+            foreach (array_keys($elements) as $key) {
                 $roles[$key] = RolePermission::where('key', $key)
                     ->get()
                     ->map(fn ($e) => $e->role)

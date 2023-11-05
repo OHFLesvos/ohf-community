@@ -208,7 +208,6 @@ class RoleController extends Controller
             ->get());
     }
 
-
     public function permissions(): JsonResponse
     {
         $this->authorize('viewAny', Role::class);

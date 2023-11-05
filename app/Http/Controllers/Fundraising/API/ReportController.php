@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Fundraising\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
+use App\Http\Resources\Fundraising\Donation as DonationResource;
+use App\Http\Resources\Fundraising\Donor as DonorResource;
 use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
-use App\Http\Resources\Fundraising\Donor as DonorResource;
-use App\Http\Resources\Fundraising\Donation as DonationResource;
 use App\Support\ChartResponseBuilder;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -21,6 +21,7 @@ class ReportController extends Controller
     {
         $lastRegisteredDonor = Donor::query()->orderBy('created_at', 'desc')->first();
         $lastRegisteredDonation = Donation::query()->orderBy('created_at', 'desc')->with('donor')->first();
+
         return response()->json([
             'num_donors' => Donor::count(),
             'num_new_donors_month' => Donor::whereDate('created_at', '>', Carbon::now()->startOfMonth())->count(),

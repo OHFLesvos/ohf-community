@@ -44,6 +44,6 @@ class TransactionCurrency extends BaseSettingsField
 
     public function setter($value)
     {
-        return blank($value) || $value == "null" ? null : $value;
+        return blank($value) || $value == 'null' ? null : $value;
     }
 }

@@ -1,9 +1,12 @@
 # Changelog
 
-## NEXT
+## 5.0.0
 
 * Requires PHP 8.2
-* Add system info widget to dashboard
+* Added system info page
+* Added breadcrumb navigation to all pages
+* Standardized form design
+* Removed dashboard widgets, replaced with buttons to navigate quickly to all modules
 
 ## 4.5.0
 

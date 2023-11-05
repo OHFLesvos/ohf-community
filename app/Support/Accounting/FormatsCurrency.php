@@ -13,6 +13,7 @@ trait FormatsCurrency
         }
         $currency = setting('accounting.transactions.currency', null);
         $fmt = new NumberFormatter(app()->getLocale(), $currency !== null ? NumberFormatter::CURRENCY : NumberFormatter::DECIMAL);
+
         return $currency !== null ? $fmt->formatCurrency($value, $currency) : $fmt->format($value);
     }
 }
