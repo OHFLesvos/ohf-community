@@ -9,11 +9,26 @@
             <b-col sm="6">
                 <BaseWidget :title="$t('Donors')" icon="users" :to="{name: 'fundraising.donors.index'}">
                     <ValueTable :items="donorsData" :alignAllItemsRight="true"/>
+                    <b-list-group flush v-if="data.last_registered_donation">
+                        <b-list-group-item :to="{ name: 'fundraising.donors.show', params: { id: data.last_registered_donor.id } }">
+                            {{ $t('Last registered donor') }}:
+                            <span class="float-right">{{ data.last_registered_donor.full_name }}</span><br>
+                            <small class="float-right text-right">{{ dateFormat(this.data.last_registered_donor.created_at) }}</small>
+                        </b-list-group-item>
+                    </b-list-group>
                 </BaseWidget>
             </b-col>
             <b-col sm="6">
                 <BaseWidget :title="$t('Donations')" icon="donate" :to="{name: 'fundraising.donations.index'}">
                     <ValueTable :items="donationsData" :alignAllItemsRight="true"/>
+                    <b-list-group flush v-if="data.last_registered_donation">
+                        <b-list-group-item :to="{ name: 'fundraising.donors.show.donations', params: { id: data.last_registered_donation.donor_id } }">
+                            {{ $t('Last registered donation') }}:
+                            <span class="float-right">{{ data.last_registered_donation.amount }} {{ data.last_registered_donation.currency }}</span><br>
+                            <small class="float-right text-right">{{ data.last_registered_donation.donor }}<br>
+                            {{ dateFormat(this.data.last_registered_donation.created_at) }}</small>
+                        </b-list-group-item>
+                    </b-list-group>
                 </BaseWidget>
             </b-col>
         </b-row>
@@ -63,27 +78,19 @@ export default {
     },
     computed: {
         donorsData() {
-            const last_registered_donor = this.data.last_registered_donor
-                ? `${this.data.last_registered_donor.full_name}<br>${this.dateFormat(this.data.last_registered_donor.created_at)}`
-                : '-';
             return [
                 { key: this.$t('New donors this month'), value: this.data.num_new_donors_month },
                 { key: this.$t('New donors this year'), value: this.data.num_new_donors_year },
                 { key: this.$t('Registered donors'), value: this.data.num_donors },
-                { key: this.$t('Last registered donor'), value: last_registered_donor },
             ];
         },
         donationsData() {
-            const last_registered_donation = this.data.last_registered_donation
-                ? `${this.data.last_registered_donation.amount} ${this.data.last_registered_donation.currency}<br>${this.data.last_registered_donation.donor}<br>${this.dateFormat(this.data.last_registered_donation.created_at)}`
-                : '-';
             return [
                 { key: this.$t('Donations this month'), value: this.data.num_donations_month },
                 { key: this.$t('Donations this year'), value: this.data.num_donations_year },
                 { key: this.$t('Donations in total'), value: this.data.num_donations_total },
-                { key: this.$t('Last registered donation'), value: last_registered_donation },
             ];
-        }
+        },
     },
     async created () {
         this.fetchData()
