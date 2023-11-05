@@ -43,6 +43,7 @@
     "Last updated": "Zuletzt aktualisiert",
     "No users found.": "Keine Benutzer gefunden.",
     "No users assigned.": "Keine Benutzer zugewiesen.",
+    "No administrators assigned.": "Keine Administratoren zugewiesen.",
     "Add user": "Benutzer hinzufügen",
     "Add user to role ':name'": "Benutzer zur Rolle ':name' hinzufügen",
     "Add administrator to role ':name'": "Administrator zur Rolle ':name' hinzufügen",
@@ -807,5 +808,6 @@
     "Update your profile information directly at :provider": "Aktualisiere deine Profilinformationen direkt bei :provider",
     "Managed by :provider": "Verwaltet von :provider",
     "View Permissions": "Berechtigungen anzeigen",
-    "Member": "Mitglied"
+    "Member": "Mitglied",
+    "Current selection: :users users and :administrators role administrators": "Aktulle Auswahl: :users Benutzer und :administrators Rollenadministratoren"
 }

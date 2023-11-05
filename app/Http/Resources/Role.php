@@ -33,6 +33,7 @@ class Role extends JsonResource
             'relationships' => $this->relationships(),
             'can_update' => $request->user()->can('update', $this->resource),
             'can_delete' => $request->user()->can('delete', $this->resource),
+            'can_manage_members' => $request->user()->can('manageMembers', $this->resource) && ! $request->user()->can('update', $this->resource),
         ];
     }
 

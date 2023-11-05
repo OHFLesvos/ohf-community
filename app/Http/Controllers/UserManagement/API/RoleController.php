@@ -5,6 +5,7 @@ namespace App\Http\Controllers\UserManagement\API;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ValidatesResourceIndex;
 use App\Http\Requests\UserManagement\StoreUpdateRole;
+use App\Http\Requests\UserManagement\UpdateMembers;
 use App\Http\Resources\Role as RoleResource;
 use App\Http\Resources\User as UserResource;
 use App\Models\Role;
@@ -152,6 +153,18 @@ class RoleController extends Controller
             'role_name' => $role->name,
             'client_ip' => $request->ip(),
         ]);
+
+        return response()
+            ->json([
+                'message' => __('Role has been updated.'),
+            ]);
+    }
+
+    public function updateMembers(UpdateMembers $request, Role $role): JsonResponse
+    {
+        $this->authorize('manageMembers', $role);
+
+        $role->users()->sync($request->users);
 
         return response()
             ->json([

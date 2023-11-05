@@ -44,6 +44,7 @@ export default {
         "Last updated": "Zuletzt aktualisiert",
         "No users found.": "Keine Benutzer gefunden.",
         "No users assigned.": "Keine Benutzer zugewiesen.",
+        "No administrators assigned.": "Keine Administratoren zugewiesen.",
         "Add user": "Benutzer hinzufügen",
         "Add user to role '{name}'": "Benutzer zur Rolle '{name}' hinzufügen",
         "Add administrator to role '{name}'": "Administrator zur Rolle '{name}' hinzufügen",
@@ -809,6 +810,7 @@ export default {
         "Managed by {provider}": "Verwaltet von {provider}",
         "View Permissions": "Berechtigungen anzeigen",
         "Member": "Mitglied",
+        "Current selection: {users} users and {administrators} role administrators": "Aktulle Auswahl: {users} Benutzer und {administrators} Rollenadministratoren",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
@@ -1006,6 +1008,7 @@ export default {
         "until {until}": "until {until}",
         "{from} - {until}": "{from} - {until}",
         "Edit donation of {name}": "Edit donation of {name}",
+        "Current selection: {users} users and {administrators} role administrators": "Current selection: {users} users and {administrators} role administrators",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",

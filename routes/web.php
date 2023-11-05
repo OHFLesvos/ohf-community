@@ -69,11 +69,6 @@ Route::middleware(['auth', 'language'])
                     ->name('users.edit');
 
                 // Roles
-                Route::get('roles/{role}/members', [RoleController::class, 'manageMembers'])
-                    ->name('roles.manageMembers');
-                Route::put('roles/{role}/members', [RoleController::class, 'updateMembers'])
-                    ->name('roles.updateMembers');
-
                 Route::view('roles', 'vue-app')
                     ->name('roles.index');
                 Route::view('roles/create', 'vue-app')
@@ -81,6 +76,8 @@ Route::middleware(['auth', 'language'])
                 Route::view('roles/{role}', 'vue-app')
                     ->name('roles.show');
                 Route::view('roles/{role}/edit', 'vue-app')
+                    ->name('roles.edit');
+                Route::view('roles/{role}/manageMembers', 'vue-app')
                     ->name('roles.edit');
             });
 

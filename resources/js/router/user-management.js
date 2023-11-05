@@ -205,4 +205,37 @@ export default [
             }),
         }
     },
+    {
+        path: "/admin/roles/:id(\\d+)/manageMembers",
+        name: "roles.manageMembers",
+        components: {
+            default: () => import("@/pages/users/RoleManageMembersPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: route => ({
+                items: [
+                    {
+                        text: i18n.t('Users'),
+                        to: { name: 'users.index' }
+                    },
+                    {
+                        text: i18n.t('Roles'),
+                        to: { name: 'roles.index' }
+                    },
+                    {
+                        text: i18n.t('Details'),
+                        to: {
+                            name: "roles.show",
+                            params: { id: route.params.id }
+                        },
+                    },
+                    {
+                        text: i18n.t('Manage members'),
+                    }
+                ]
+            }),
+        }
+    },
 ];

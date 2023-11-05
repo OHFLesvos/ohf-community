@@ -23,8 +23,6 @@ class NavigationServiceProvider extends ServiceProvider
     ];
 
     protected $contextButtons = [
-        'roles.show' => \App\Navigation\ContextButtons\UserManagement\RoleShowContextButtons::class,
-
         'accounting.webling.index' => \App\Navigation\ContextButtons\Accounting\WeblingIndexContextButtons::class,
         'accounting.webling.prepare' => \App\Navigation\ContextButtons\Accounting\WeblingPrepareContextButtons::class,
 

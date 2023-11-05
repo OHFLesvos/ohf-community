@@ -10,6 +10,15 @@
                 <h2 class="display-4">{{ role.name }}</h2>
                 <div class="mb-3">
                     <b-button
+                        v-if="role.can_manage_members"
+                        type="button"
+                        variant="primary"
+                        :to="{ name: 'roles.manageMembers', params: { id: role.id }}"
+                    >
+                        <font-awesome-icon icon="users"/>
+                        {{  $t('Manage members') }}
+                    </b-button>
+                    <b-button
                         v-if="role.can_update"
                         type="button"
                         variant="primary"
@@ -66,7 +75,7 @@
                                 {{ user.name }}
                             </b-list-group-item>
                             <b-list-group-item v-if="administrators.length == 0">
-                                <em>{{ $t('No users assigned.') }}</em>
+                                <em>{{ $t('No administrators assigned.') }}</em>
                             </b-list-group-item>
                         </b-list-group>
                     </b-card>

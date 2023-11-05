@@ -24,6 +24,10 @@ export default {
         const url = route('api.roles.update', id)
         return await api.put(url, data)
     },
+    async updateMembers (id, data) {
+        const url = route('api.roles.updateMembers', id)
+        return await api.put(url, data)
+    },
     async delete (id) {
         const url = route('api.roles.destroy', id)
         return await api.delete(url)

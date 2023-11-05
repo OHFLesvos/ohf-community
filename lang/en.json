@@ -23,5 +23,6 @@
     "from :from": "from :from",
     "until :until": "until :until",
     ":from - :until": ":from - :until",
-    "Edit donation of :name": "Edit donation of :name"
+    "Edit donation of :name": "Edit donation of :name",
+    "Current selection: :users users and :administrators role administrators": "Current selection: :users users and :administrators role administrators"
 }

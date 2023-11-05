@@ -103,6 +103,8 @@ Route::middleware(['auth:sanctum', 'language'])
         Route::prefix('roles/{role}')
             ->name('roles.')
             ->group(function () {
+                Route::put('members', [RoleController::class, 'updateMembers'])
+                    ->name('updateMembers');
                 Route::get('users', [RoleController::class, 'users'])
                     ->name('users.index');
                 Route::get('administrators', [RoleController::class, 'administrators'])
