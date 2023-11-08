@@ -45,6 +45,38 @@ class ReportApiTest extends TestCase
             ]);
     }
 
+    public function testCheckinsPerWeek()
+    {
+        $v1 = Visitor::factory()->create();
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
+
+        $v2 = Visitor::factory()->create();
+        $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+        $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-01'));
+
+        /** @var User $authUser */
+        $authUser = $this->makeUserWithPermission('visitors.reports');
+
+        $response = $this->actingAs($authUser)
+            ->getJson('api/visitors/checkins/weekly', []);
+
+        $this->assertAuthenticated();
+        $response->assertOk()
+            ->assertJson([
+                'data' => [
+                    [
+                        'checkin_week' => '2023-W45',
+                        'checkin_count' => 3,
+                    ],
+                    [
+                        'checkin_week' => '2023-W44',
+                        'checkin_count' => 1,
+                    ],
+                ],
+            ]);
+    }
+
     public function testCheckinsPerMonth()
     {
         $v1 = Visitor::factory()->create();
