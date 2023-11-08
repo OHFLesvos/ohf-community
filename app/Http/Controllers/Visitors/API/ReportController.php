@@ -7,7 +7,9 @@ use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
 use App\Support\ChartResponseBuilder;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Setting;
@@ -15,6 +17,49 @@ use Setting;
 class ReportController extends Controller
 {
     use ValidatesDateRanges;
+
+    private function createCheckinsResponse(Request $request, callable $handler) {
+        $this->authorize('view-visitors-reports');
+
+        $request->validate([
+            'date_start' => [
+                'nullable',
+                'date',
+                'before_or_equal:date_end',
+            ],
+            'date_end' => [
+                'nullable',
+                'date',
+                'after_or_equal:date_start',
+            ],
+        ]);
+
+        $query = VisitorCheckin::query();
+        $data = $handler($query)
+            ->when($request->has('date_start'), fn (QueryBuilder $qry) => $qry->whereDate('checkin_date', '>=', $request->input('date_start')))
+            ->when($request->has('date_end'), fn (QueryBuilder $qry) => $qry->whereDate('checkin_date', '<=', $request->input('date_end')))
+            ->get();
+
+        return response()->json([
+            'data' => $data,
+        ]);
+    }
+
+    public function checkinsPerDay(Request $request) {
+        return $this->createCheckinsResponse($request, fn ($qry) => $qry->groupByDateGranularity(granularity: 'days', column: 'checkin_date', orderDirection: 'desc', groupByColumnName: 'checkin_date', aggregateColumnName: 'checkin_count'));
+    }
+
+    public function checkinsPerWeek(Request $request) {
+        return $this->createCheckinsResponse($request, fn ($qry) => $qry->groupByDateGranularity(granularity: 'weeks', column: 'checkin_date', orderDirection: 'desc', groupByColumnName: 'checkin_week', aggregateColumnName: 'checkin_count'));
+    }
+
+    public function checkinsPerMonth(Request $request) {
+        return $this->createCheckinsResponse($request, fn ($qry) => $qry->groupByDateGranularity(granularity: 'months', column: 'checkin_date', orderDirection: 'desc', groupByColumnName: 'checkin_month', aggregateColumnName: 'checkin_count'));
+    }
+
+    public function checkinsPerYear(Request $request) {
+        return $this->createCheckinsResponse($request, fn ($qry) => $qry->groupByDateGranularity(granularity: 'years', column: 'checkin_date', orderDirection: 'desc', groupByColumnName: 'checkin_year', aggregateColumnName: 'checkin_count'));
+    }
 
     public function dailyVisitors(Request $request): Collection
     {
@@ -80,8 +125,7 @@ class ReportController extends Controller
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
         $registrations = Visitor::inDateRange($dateFrom, $dateTo)
-            ->groupByDateGranularity($request->input('granularity'))
-            ->selectRaw('COUNT(*) AS `aggregated_value`')
+            ->groupByDateGranularity(granularity: $request->input('granularity'), aggregateColumnName: 'aggregated_value')
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
@@ -169,8 +213,8 @@ class ReportController extends Controller
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
         $checkins = VisitorCheckin::inDateRange($dateFrom, $dateTo, 'created_at')
-            ->groupByDateGranularity($request->input('granularity'), 'created_at')
-            ->selectRaw('purpose_of_visit, COUNT(*) AS `total_checkins`')
+            ->groupByDateGranularity(granularity: $request->input('granularity'), column: 'created_at', aggregateColumnName: 'total_checkins')
+            ->selectRaw('purpose_of_visit')
             ->groupBy('purpose_of_visit');
 
         $purposes = $checkins->pluck('purpose_of_visit')->unique();

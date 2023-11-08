@@ -104,8 +104,7 @@ class ReportController extends Controller
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
         $registrations = Donor::inDateRange($dateFrom, $dateTo)
-            ->groupByDateGranularity($request->input('granularity'))
-            ->selectRaw('COUNT(*) AS `aggregated_value`')
+            ->groupByDateGranularity(granularity: $request->input('granularity'), aggregateColumnName: 'aggregated_value')
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
@@ -125,14 +124,12 @@ class ReportController extends Controller
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
         $registrations = Donation::inDateRange($dateFrom, $dateTo, 'date')
-            ->groupByDateGranularity($request->input('granularity'), 'date')
-            ->selectRaw('COUNT(*) AS `aggregated_value`')
+            ->groupByDateGranularity(granularity: $request->input('granularity'), column: 'date', aggregateColumnName: 'aggregated_value')
             ->get()
             ->pluck('aggregated_value', 'date_label');
 
         $amounts = Donation::inDateRange($dateFrom, $dateTo, 'date')
-            ->groupByDateGranularity($request->input('granularity'), 'date')
-            ->selectRaw('SUM(exchange_amount) AS `aggregated_value`')
+            ->groupByDateGranularity(granularity: $request->input('granularity'), column: 'date', aggregateColumnName: 'aggregated_value')
             ->get()
             ->pluck('aggregated_value', 'date_label')
             ->map(fn ($e) => floatval($e));

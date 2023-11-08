@@ -26,4 +26,12 @@ class VisitorCheckin extends Model
     {
         return $this->belongsTo(Visitor::class);
     }
+
+    public static function createForDate(string $date, ?string $purpose = null): VisitorCheckin
+    {
+        $checkin = new VisitorCheckin();
+        $checkin->checkin_date = $date;
+        $checkin->purpose_of_visit = $purpose;
+        return $checkin;
+    }
 }

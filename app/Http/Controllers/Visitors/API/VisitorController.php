@@ -241,6 +241,7 @@ class VisitorController extends Controller
 
         $checkin = new VisitorCheckin();
         $checkin->fill($request->all());
+        $checkin->checkin_date = today();
         $visitor->checkins()->save($checkin);
 
         return response()

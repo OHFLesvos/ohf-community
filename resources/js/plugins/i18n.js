@@ -6,7 +6,7 @@ Vue.use(VueInternationalization);
 import Locale from "@/vue-i18n-locales.generated";
 import lang from "@/plugins/locale";
 
-import moment from "moment";
+import moment from 'moment/min/moment-with-locales';
 moment.locale(lang);
 
 export default new VueInternationalization({
