@@ -49,12 +49,23 @@ export default {
         return {
             dateRange: {
                 from: moment()
-                    .subtract(6, "days")
+                    .subtract(7, "days")
                     .format(moment.HTML5_FMT.DATE),
                 to: moment().format(moment.HTML5_FMT.DATE),
                 granularity: "days",
             },
             presets: [
+                {
+                    text: 'Last 7 days',
+                    range: {
+                        from: moment()
+                            .subtract(7, "days")
+                            .format(moment.HTML5_FMT.DATE),
+                        to: moment()
+                            .format(moment.HTML5_FMT.DATE),
+                        granularity: "days",
+                    }
+                },
                 {
                     text: 'Current week',
                     range: {
