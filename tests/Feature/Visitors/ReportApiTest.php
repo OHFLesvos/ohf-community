@@ -27,19 +27,43 @@ class ReportApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('visitors.reports');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/visitors/checkins/daily', []);
+            ->getJson('api/visitors/report/checkins?granularity=days&date_start=2023-11-01&date_end=2023-11-08', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'checkin_date' => '2023-11-08',
+                        'checkin_date_range' => '2023-11-08',
                         'checkin_count' => 1,
                     ],
                     [
-                        'checkin_date' => '2023-11-07',
+                        'checkin_date_range' => '2023-11-07',
                         'checkin_count' => 2,
+                    ],
+                    [
+                        'checkin_date_range' => '2023-11-06',
+                        'checkin_count' => 0,
+                    ],
+                    [
+                        'checkin_date_range' => '2023-11-05',
+                        'checkin_count' => 0,
+                    ],
+                    [
+                        'checkin_date_range' => '2023-11-04',
+                        'checkin_count' => 0,
+                    ],
+                    [
+                        'checkin_date_range' => '2023-11-03',
+                        'checkin_count' => 0,
+                    ],
+                    [
+                        'checkin_date_range' => '2023-11-02',
+                        'checkin_count' => 0,
+                    ],
+                    [
+                        'checkin_date_range' => '2023-11-01',
+                        'checkin_count' => 0,
                     ],
                 ],
             ]);
@@ -59,18 +83,18 @@ class ReportApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('visitors.reports');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/visitors/checkins/weekly', []);
+            ->getJson('api/visitors/report/checkins?granularity=weeks&date_start=2023-11-01&date_end=2023-11-08', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'checkin_week' => '2023-W45',
+                        'checkin_date_range' => '2023-W45',
                         'checkin_count' => 3,
                     ],
                     [
-                        'checkin_week' => '2023-W44',
+                        'checkin_date_range' => '2023-W44',
                         'checkin_count' => 1,
                     ],
                 ],
@@ -91,18 +115,18 @@ class ReportApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('visitors.reports');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/visitors/checkins/monthly', []);
+            ->getJson('api/visitors/report/checkins?granularity=months&date_start=2023-10-01&date_end=2023-11-08', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'checkin_month' => '2023-11',
+                        'checkin_date_range' => '2023-11',
                         'checkin_count' => 3,
                     ],
                     [
-                        'checkin_month' => '2023-10',
+                        'checkin_date_range' => '2023-10',
                         'checkin_count' => 1,
                     ],
                 ],
@@ -126,18 +150,18 @@ class ReportApiTest extends TestCase
         $authUser = $this->makeUserWithPermission('visitors.reports');
 
         $response = $this->actingAs($authUser)
-            ->getJson('api/visitors/checkins/yearly', []);
+            ->getJson('api/visitors/report/checkins?granularity=years&date_start=2022-11-01&date_end=2023-11-08', []);
 
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'checkin_year' => '2023',
+                        'checkin_date_range' => '2023',
                         'checkin_count' => 3,
                     ],
                     [
-                        'checkin_year' => '2022',
+                        'checkin_date_range' => '2022',
                         'checkin_count' => 1,
                     ],
                 ],

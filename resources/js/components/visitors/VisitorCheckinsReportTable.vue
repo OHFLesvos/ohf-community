@@ -13,10 +13,10 @@
         </div>
         <BaseTable
             ref="table"
-            id="visitor-daily-checkins"
+            id="visitor-checkins"
             :apiMethod="fetchData"
             :fields="fields"
-            defaultSortBy="checkin_date"
+            defaultSortBy="checkin_date_range"
             :defaultSortDesc="true"
             noFilter
         >
@@ -132,25 +132,11 @@ export default {
         ...mapState(["settings"]),
         fields() {
             return [
-            this.dateRange.granularity == 'days' ? {
-                    key: "checkin_date",
-                    label: this.$t("Date"),
-                    formatter: this.dateWeekdayFormat,
-                } : null,
-                this.dateRange.granularity == 'weeks' ? {
-                    key: "checkin_week",
-                    label: this.$t("Week"),
-                    formatter: v => `${moment(v).format('w')} (${moment(v).startOf('week').format('LL')} - ${moment(v).endOf('week').format('LL')})`,
-                } : null,
-                this.dateRange.granularity == 'months' ? {
-                    key: "checkin_month",
-                    label: this.$t("Month"),
-                    formatter: v => moment(v).format('MMMM YYYY'),
-                } : null,
-                this.dateRange.granularity == 'years' ? {
-                    key: "checkin_year",
-                    label: this.$t("Year"),
-                } : null,
+                {
+                    key: "checkin_date_range",
+                    label: this.dateRangeLabel(),
+                    formatter: this.dateRangeFormatter,
+                },
                 {
                     key: "checkin_count",
                     label: this.$t("Total"),
@@ -166,20 +152,35 @@ export default {
     },
     methods: {
         async fetchData() {
-            if (this.dateRange.granularity == 'weeks') {
-                return await visitorsApi.checkinsPerWeek(this.dateRange.from, this.dateRange.to);
-            }
-            if (this.dateRange.granularity == 'months') {
-                return await visitorsApi.checkinsPerMonth(this.dateRange.from, this.dateRange.to);
-            }
-            if (this.dateRange.granularity == 'years') {
-                return await visitorsApi.checkinsPerYear(this.dateRange.from, this.dateRange.to);
-            }
-            return await visitorsApi.checkinsPerDay(this.dateRange.from, this.dateRange.to);
+            return await visitorsApi.visitorCheckins(this.dateRange.from, this.dateRange.to, this.dateRange.granularity);
         },
         refresh() {
             this.$refs.table.refresh();
-        }
+        },
+        dateRangeLabel() {
+            if (this.dateRange.granularity == 'weeks') {
+                return this.$t("Week")
+            }
+            if (this.dateRange.granularity == 'months') {
+                return this.$t("Month")
+            }
+            if (this.dateRange.granularity == 'years') {
+                return this.$t("Year")
+            }
+            return this.$t("Date")
+        },
+        dateRangeFormatter(v) {
+            if (this.dateRange.granularity == 'weeks') {
+                return `${moment(v).format('w')} (${moment(v).startOf('week').format('LL')} - ${moment(v).endOf('week').format('LL')})`
+            }
+            if (this.dateRange.granularity == 'months') {
+                return moment(v).format('MMMM YYYY')
+            }
+            if (this.dateRange.granularity == 'years') {
+                return v
+            }
+            return this.dateWeekdayFormat(v)
+        },
     },
 };
 </script>

@@ -7,18 +7,20 @@ use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
 use App\Support\ChartResponseBuilder;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
+use Illuminate\Database\Connection;
 use Setting;
 
 class ReportController extends Controller
 {
     use ValidatesDateRanges;
 
-    private function createCheckinsResponse(Request $request, callable $handler) {
+    public function visitorCheckins(Request $request, Connection $connection)
+    {
         $this->authorize('view-visitors-reports');
 
         $request->validate([
@@ -32,33 +34,57 @@ class ReportController extends Controller
                 'date',
                 'after_or_equal:date_start',
             ],
+            'granularity' => [
+                'nullable',
+                Rule::in(['years', 'months', 'weeks', 'days']),
+            ],
         ]);
 
-        $query = VisitorCheckin::query();
-        $data = $handler($query)
-            ->when($request->has('date_start'), fn (QueryBuilder $qry) => $qry->whereDate('checkin_date', '>=', $request->input('date_start')))
-            ->when($request->has('date_end'), fn (QueryBuilder $qry) => $qry->whereDate('checkin_date', '<=', $request->input('date_end')))
-            ->get();
 
         return response()->json([
-            'data' => $data,
+            'data' => $this->getVisitorCheckinData($request),
         ]);
     }
 
-    public function checkinsPerDay(Request $request) {
-        return $this->createCheckinsResponse($request, fn ($qry) => $qry->groupByDateGranularity(granularity: 'days', column: 'checkin_date', orderDirection: 'desc', groupByColumnName: 'checkin_date', aggregateColumnName: 'checkin_count'));
+    private function getVisitorCheckinData(Request $request) {
+        if (!VisitorCheckin::query()->exists()) {
+            return [];
+        }
+
+        DB::statement('CREATE TEMPORARY TABLE `calendar` (
+            `calendar_date` date NOT NULL
+        )');
+        DB::statement('CALL FillCalendar(:date_start, :date_end);', [
+            'date_start' => $request->input('date_start', VisitorCheckin::query()->orderBy('checkin_date', 'asc')->limit(1)->first()->checkin_date),
+            'date_end' => $request->input('date_end', today()),
+        ]);
+
+        return DB::table('calendar')
+            ->when(true, fn ($qry) => $this->selectByDateGranularity($qry, $request->input('granularity'), 'calendar_date', 'checkin_date_range'))
+            ->selectRaw('CAST(SUM(CASE WHEN vc.checkin_date_count is NULL THEN 0 ELSE vc.checkin_date_count END) as UNSIGNED) AS checkin_count')
+            ->leftJoin(DB::raw('(SELECT checkin_date, count(checkin_date) as checkin_date_count FROM `visitor_checkins` group by checkin_date) as vc'), function($join) {
+                $join->on('vc.checkin_date', '=', 'calendar_date');
+            })
+            ->when($request->has('date_start'), fn ($qry) => $qry->whereDate('calendar_date', '>=', $request->input('date_start')))
+            ->when($request->has('date_end'), fn ($qry) => $qry->whereDate('calendar_date', '<=', $request->input('date_end')))
+            ->groupBy('checkin_date_range')
+            ->orderBy('calendar_date', 'desc')
+            ->get();
     }
 
-    public function checkinsPerWeek(Request $request) {
-        return $this->createCheckinsResponse($request, fn ($qry) => $qry->groupByDateGranularity(granularity: 'weeks', column: 'checkin_date', orderDirection: 'desc', groupByColumnName: 'checkin_week', aggregateColumnName: 'checkin_count'));
-    }
-
-    public function checkinsPerMonth(Request $request) {
-        return $this->createCheckinsResponse($request, fn ($qry) => $qry->groupByDateGranularity(granularity: 'months', column: 'checkin_date', orderDirection: 'desc', groupByColumnName: 'checkin_month', aggregateColumnName: 'checkin_count'));
-    }
-
-    public function checkinsPerYear(Request $request) {
-        return $this->createCheckinsResponse($request, fn ($qry) => $qry->groupByDateGranularity(granularity: 'years', column: 'checkin_date', orderDirection: 'desc', groupByColumnName: 'checkin_year', aggregateColumnName: 'checkin_count'));
+    public function selectByDateGranularity($qry, ?string $granularity = 'days', ?string $column = 'created_at', ?string $alias = 'date_label')
+    {
+        switch ($granularity) {
+            case 'years':
+                return $qry->selectRaw("YEAR(`{$column}`) as `{$alias}`");
+            case 'months':
+                return $qry->selectRaw("DATE_FORMAT(`{$column}`, '%Y-%m') as `{$alias}`");
+            case 'weeks':
+                return $qry->selectRaw("DATE_FORMAT(`{$column}`, '%x-W%v') as `{$alias}`");
+            case 'days':
+            default:
+                return $qry->selectRaw("DATE(`{$column}`) as `{$alias}`");
+        }
     }
 
     public function dailyVisitors(Request $request): Collection

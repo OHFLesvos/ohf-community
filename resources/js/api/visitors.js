@@ -41,36 +41,13 @@ export default {
         return await api.post(url, {})
     },
     // Reporting
-    async checkinsPerDay (date_start, date_end) {
+    async visitorCheckins (date_start, date_end, granularity) {
         let params = {
             date_start: date_start,
             date_end: date_end,
+            granularity: granularity
         }
-        const url = route('api.visitors.checkinsPerDay', params)
-        return await api.get(url)
-    },
-    async checkinsPerWeek (date_start, date_end) {
-        let params = {
-            date_start: date_start,
-            date_end: date_end,
-        }
-        const url = route('api.visitors.checkinsPerWeek', params)
-        return await api.get(url)
-    },
-    async checkinsPerMonth (date_start, date_end) {
-        let params = {
-            date_start: date_start,
-            date_end: date_end,
-        }
-        const url = route('api.visitors.checkinsPerMonth', params)
-        return await api.get(url)
-    },
-    async checkinsPerYear (date_start, date_end) {
-        let params = {
-            date_start: date_start,
-            date_end: date_end,
-        }
-        const url = route('api.visitors.checkinsPerYear', params)
+        const url = route('api.visitors.report.visitorCheckins', params)
         return await api.get(url)
     },
     async dailyVisitors (params = {}) {
