@@ -7,12 +7,12 @@ use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
 use App\Support\ChartResponseBuilder;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Illuminate\Database\Connection;
 use Setting;
 
 class ReportController extends Controller
@@ -40,14 +40,14 @@ class ReportController extends Controller
             ],
         ]);
 
-
         return response()->json([
             'data' => $this->getVisitorCheckinData($request),
         ]);
     }
 
-    private function getVisitorCheckinData(Request $request) {
-        if (!VisitorCheckin::query()->exists()) {
+    private function getVisitorCheckinData(Request $request)
+    {
+        if (! VisitorCheckin::query()->exists()) {
             return [];
         }
 
@@ -62,7 +62,7 @@ class ReportController extends Controller
         return DB::table('calendar')
             ->when(true, fn ($qry) => $this->selectByDateGranularity($qry, $request->input('granularity'), 'calendar_date', 'checkin_date_range'))
             ->selectRaw('CAST(SUM(CASE WHEN vc.checkin_date_count is NULL THEN 0 ELSE vc.checkin_date_count END) as UNSIGNED) AS checkin_count')
-            ->leftJoin(DB::raw('(SELECT checkin_date, count(checkin_date) as checkin_date_count FROM `visitor_checkins` group by checkin_date) as vc'), function($join) {
+            ->leftJoin(DB::raw('(SELECT checkin_date, count(checkin_date) as checkin_date_count FROM `visitor_checkins` group by checkin_date) as vc'), function ($join) {
                 $join->on('vc.checkin_date', '=', 'calendar_date');
             })
             ->when($request->has('date_start'), fn ($qry) => $qry->whereDate('calendar_date', '>=', $request->input('date_start')))

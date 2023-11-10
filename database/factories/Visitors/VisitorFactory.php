@@ -27,7 +27,7 @@ class VisitorFactory extends Factory
         return [
             'name' => $this->faker->name($gender),
             'id_number' => $this->faker->optional(0.6)->numberBetween(10000, 99999),
-            'membership_number' => $memberNumber !== null ? strtoupper($this->faker->randomLetter) . $memberNumber : null,
+            'membership_number' => $memberNumber !== null ? strtoupper($this->faker->randomLetter).$memberNumber : null,
             'gender' => $gender,
             'date_of_birth' => $this->faker->dateTimeBetween('-70 years', '-1 month'),
             'nationality' => $this->faker->optional(0.95)->country,

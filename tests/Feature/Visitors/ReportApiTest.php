@@ -145,7 +145,6 @@ class ReportApiTest extends TestCase
         $v3 = Visitor::factory()->create();
         $v3->checkins()->save(VisitorCheckin::createForDate('2022-11-07'));
 
-
         /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('visitors.reports');
 

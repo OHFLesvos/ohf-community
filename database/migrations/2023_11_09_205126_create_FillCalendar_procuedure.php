@@ -9,7 +9,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $sql = <<<SQL
+        $sql = <<<'SQL'
 DROP PROCEDURE IF EXISTS FillCalendar;
 CREATE PROCEDURE FillCalendar(start_date DATE, end_date DATE)
 BEGIN

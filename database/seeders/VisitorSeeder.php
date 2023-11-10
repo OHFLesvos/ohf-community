@@ -20,7 +20,7 @@ class VisitorSeeder extends Seeder
         $visitors = Visitor::factory()
             ->count(1000)
             ->create();
-        $visitors->each(function(Visitor $visitor) {
+        $visitors->each(function (Visitor $visitor) {
             $checkins = VisitorCheckin::factory()
                 ->count(mt_rand(1, 5))
                 ->make();
