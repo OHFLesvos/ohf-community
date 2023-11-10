@@ -125,18 +125,18 @@ class ReportController extends Controller
         $maxNumberOfActiveDays = $request->input('days', 10);
 
         return VisitorCheckin::query()
-            ->selectRaw('DATE(created_at) as day')
+            ->selectRaw('checkin_date as day')
             ->addSelect(
                 collect(Setting::get('visitors.purposes_of_visit', []))
                     ->mapWithKeys(fn ($t, $k) => [
                         $t => VisitorCheckin::selectRaw('COUNT(*)')
-                            ->whereRaw('DATE(created_at) = day')
+                            ->whereRaw('checkin_date = day')
                             ->where('purpose_of_visit', $t),
                     ])
                     ->toArray()
             )
             ->selectRaw('COUNT(*) as total')
-            ->groupByRaw('DATE(created_at)')
+            ->groupByRaw('checkin_date')
             ->orderBy('day', 'desc')
             ->limit($maxNumberOfActiveDays)
             ->get();
@@ -147,21 +147,21 @@ class ReportController extends Controller
         $this->authorize('view-visitors-reports');
 
         return VisitorCheckin::query()
-            ->selectRaw('MONTH(created_at) as month')
-            ->selectRaw('YEAR(created_at) as year')
+            ->selectRaw('MONTH(checkin_date) as month')
+            ->selectRaw('YEAR(checkin_date) as year')
             ->addSelect(
                 collect(Setting::get('visitors.purposes_of_visit', []))
                     ->mapWithKeys(fn ($t, $k) => [
                         $t => VisitorCheckin::selectRaw('COUNT(*)')
-                            ->whereRaw('MONTH(created_at) = month')
-                            ->whereRaw('YEAR(created_at) = year')
+                            ->whereRaw('MONTH(checkin_date) = month')
+                            ->whereRaw('YEAR(checkin_date) = year')
                             ->where('purpose_of_visit', $t),
                     ])
                     ->toArray()
             )
             ->selectRaw('COUNT(*) as total')
-            ->groupByRaw('MONTH(created_at)')
-            ->groupByRaw('YEAR(created_at)')
+            ->groupByRaw('MONTH(checkin_date)')
+            ->groupByRaw('YEAR(checkin_date)')
             ->orderBy('year', 'desc')
             ->orderBy('month', 'desc')
             ->get();
@@ -241,7 +241,7 @@ class ReportController extends Controller
 
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
-        $visits = VisitorCheckin::inDateRange($dateFrom, $dateTo)
+        $visits = VisitorCheckin::inDateRange($dateFrom, $dateTo, 'checkin_date')
             ->selectRaw('COUNT(*) AS `total_visits`')
             ->groupBy('visitor_id')
             ->get()
@@ -262,7 +262,7 @@ class ReportController extends Controller
         $this->validateDateGranularity($request);
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
-        $checkins = VisitorCheckin::inDateRange($dateFrom, $dateTo, 'created_at')
+        $checkins = VisitorCheckin::inDateRange($dateFrom, $dateTo, 'checkin_date')
             ->groupByDateGranularity(granularity: $request->input('granularity'), column: 'created_at', aggregateColumnName: 'total_checkins')
             ->selectRaw('purpose_of_visit')
             ->groupBy('purpose_of_visit');
