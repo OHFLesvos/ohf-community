@@ -7,6 +7,7 @@ use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Collection;
 
 class VisitorCheckin extends Model
 {
@@ -34,5 +35,14 @@ class VisitorCheckin extends Model
         $checkin->purpose_of_visit = $purpose;
 
         return $checkin;
+    }
+
+    public static function getPurposeList(): Collection
+    {
+        return VisitorCheckin::query()
+            ->distinct('purpose_of_visit')
+            ->whereNotNull('purpose_of_visit')
+            ->orderBy('purpose_of_visit')
+            ->pluck('purpose_of_visit');
     }
 }

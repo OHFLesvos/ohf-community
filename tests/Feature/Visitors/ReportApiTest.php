@@ -166,4 +166,31 @@ class ReportApiTest extends TestCase
                 ],
             ]);
     }
+
+    public function testListCheckinPurposes()
+    {
+        $v1 = Visitor::factory()->create();
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-07', 'aaa'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-08', 'ccc'));
+
+        $v2 = Visitor::factory()->create();
+        $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-07', 'aaa'));
+
+        $v3 = Visitor::factory()->create();
+        $v3->checkins()->save(VisitorCheckin::createForDate('2022-11-07', 'bbb'));
+
+        /** @var User $authUser */
+        $authUser = $this->makeUserWithPermission('visitors.reports');
+
+        $response = $this->actingAs($authUser)
+            ->getJson('api/visitors/report/listCheckinPurposes', []);
+
+        $this->assertAuthenticated();
+        $response->assertOk()
+            ->assertJson([
+                'aaa',
+                'bbb',
+                'ccc',
+            ]);
+    }
 }

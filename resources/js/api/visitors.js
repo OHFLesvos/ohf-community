@@ -41,13 +41,18 @@ export default {
         return await api.post(url, {})
     },
     // Reporting
-    async visitorCheckins (date_start, date_end, granularity) {
+    async visitorCheckins (date_start, date_end, granularity, purpose) {
         let params = {
             date_start: date_start,
             date_end: date_end,
-            granularity: granularity
+            granularity: granularity,
+            purpose: purpose,
         }
         const url = route('api.visitors.report.visitorCheckins', params)
+        return await api.get(url)
+    },
+    async listCheckinPurposes () {
+        const url = route('api.visitors.report.listCheckinPurposes')
         return await api.get(url)
     },
     async dailyVisitors (params = {}) {

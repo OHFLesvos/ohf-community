@@ -38,6 +38,10 @@ class ReportController extends Controller
                 'nullable',
                 Rule::in(['years', 'months', 'weeks', 'days']),
             ],
+            'purpose' => [
+                'nullable',
+                'string',
+            ],
         ]);
 
         return response()->json([
@@ -51,18 +55,18 @@ class ReportController extends Controller
             return [];
         }
 
-        DB::statement('CREATE TEMPORARY TABLE `calendar` (
-            `calendar_date` date NOT NULL
-        )');
-        DB::statement('CALL FillCalendar(:date_start, :date_end);', [
-            'date_start' => $request->input('date_start', VisitorCheckin::query()->orderBy('checkin_date', 'asc')->limit(1)->first()->checkin_date),
-            'date_end' => $request->input('date_end', today()),
-        ]);
+        $this->createCalendarTempTable($request);
+
+        $vcQuery = VisitorCheckin::query()
+            ->select('checkin_date')
+            ->when($request->filled('purpose'), fn ($qry) => $qry->where('purpose_of_visit', $request->input('purpose')))
+            ->selectRaw('count(checkin_date) as checkin_date_count')
+            ->groupBy('checkin_date');
 
         return DB::table('calendar')
             ->when(true, fn ($qry) => $this->selectByDateGranularity($qry, $request->input('granularity'), 'calendar_date', 'checkin_date_range'))
             ->selectRaw('CAST(SUM(CASE WHEN vc.checkin_date_count is NULL THEN 0 ELSE vc.checkin_date_count END) as UNSIGNED) AS checkin_count')
-            ->leftJoin(DB::raw('(SELECT checkin_date, count(checkin_date) as checkin_date_count FROM `visitor_checkins` group by checkin_date) as vc'), function ($join) {
+            ->leftJoinSub($vcQuery, 'vc', function ($join) {
                 $join->on('vc.checkin_date', '=', 'calendar_date');
             })
             ->when($request->has('date_start'), fn ($qry) => $qry->whereDate('calendar_date', '>=', $request->input('date_start')))
@@ -72,7 +76,18 @@ class ReportController extends Controller
             ->get();
     }
 
-    public function selectByDateGranularity($qry, ?string $granularity = 'days', ?string $column = 'created_at', ?string $alias = 'date_label')
+    private function createCalendarTempTable(Request $request)
+    {
+        DB::statement('CREATE TEMPORARY TABLE `calendar` (
+            `calendar_date` date NOT NULL
+        )');
+        DB::statement('CALL FillCalendar(:date_start, :date_end);', [
+            'date_start' => $request->input('date_start', VisitorCheckin::query()->orderBy('checkin_date', 'asc')->limit(1)->first()->checkin_date),
+            'date_end' => $request->input('date_end', today()),
+        ]);
+    }
+
+    private function selectByDateGranularity($qry, ?string $granularity = 'days', ?string $column = 'created_at', ?string $alias = 'date_label')
     {
         switch ($granularity) {
             case 'years':
@@ -85,6 +100,15 @@ class ReportController extends Controller
             default:
                 return $qry->selectRaw("DATE(`{$column}`) as `{$alias}`");
         }
+    }
+
+    public function listCheckinPurposes()
+    {
+        $this->authorize('view-visitors-reports');
+
+        $data = VisitorCheckin::getPurposeList();
+
+        return response()->json($data);
     }
 
     public function dailyVisitors(Request $request): Collection
