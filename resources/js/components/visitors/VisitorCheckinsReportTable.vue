@@ -1,5 +1,13 @@
 <template>
     <div>
+        <TimeBarChart
+            :title="'Test'"
+            :data="chartData"
+            :date-from="date_start"
+            :date-to="date_end"
+            :granularity="granularity"
+            class="mb-3 bg-white"
+        />
         <BaseTable
             ref="table"
             id="visitor-checkins"
@@ -29,10 +37,12 @@ import moment from 'moment/min/moment-with-locales';
 import visitorsApi from "@/api/visitors";
 
 import BaseTable from "@/components/table/BaseTable.vue";
+import TimeBarChart from "@/components/charts/TimeBarChart.vue";
 
 export default {
     components: {
-        BaseTable
+        BaseTable,
+        TimeBarChart
     },
     props: {
         date_start: {
@@ -50,6 +60,7 @@ export default {
     },
     data() {
         return {
+            fetchedData: []
         };
     },
     computed: {
@@ -83,6 +94,18 @@ export default {
                 return this.purpose ? this.$t("Yearly visitor check-ins for {purpose} from {start_date} to {end_date}", args) : this.$t("Yearly visitor check-ins from {start_date} to {end_date}", args)
             }
             return this.purpose ? this.$t("Daily visitor check-ins for {purpose} from {start_date} to {end_date}", args) : this.$t("Daily visitor check-ins from {start_date} to {end_date}", args)
+        },
+        chartData() {
+            return {
+                labels: this.fetchedData.map(v => v.checkin_date_range),
+                datasets: [
+                    {
+                        label: this.tableCaption,
+                        unit: this.$t('Visitor Check-ins'),
+                        data: this.fetchedData.map(v => v.checkin_count),
+                    }
+                ]
+            }
         }
     },
     watch: {
@@ -101,7 +124,9 @@ export default {
     },
     methods: {
         async fetchData() {
-            return await visitorsApi.visitorCheckins(this.date_start, this.date_end, this.granularity, this.purpose);
+            let data = await visitorsApi.visitorCheckins(this.date_start, this.date_end, this.granularity, this.purpose);
+            this.fetchedData = data.data
+            return data
         },
         refresh() {
             this.$refs.table.refresh();
