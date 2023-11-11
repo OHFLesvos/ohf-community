@@ -3,6 +3,7 @@
 namespace App\Models\Visitors;
 
 use App\Models\Traits\InDateRangeScope;
+use Carbon\Carbon;
 use Dyrynda\Database\Support\NullableFields;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -32,7 +33,7 @@ class VisitorCheckin extends Model
         return $this->belongsTo(Visitor::class);
     }
 
-    public static function createForDate(string $date, string $purpose = null): VisitorCheckin
+    public static function createForDate(string|Carbon $date, string $purpose = null): VisitorCheckin
     {
         $checkin = new VisitorCheckin();
         $checkin->checkin_date = $date;
