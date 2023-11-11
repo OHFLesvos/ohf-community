@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.1
+
+* Cleanup redundant old visitor report elements
+
 ## 5.1.0
 
 * Extended visitor reporting with a new report page, featuring a table and chart with better performance, as well as a copy to clipboard option
