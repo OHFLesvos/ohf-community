@@ -16,7 +16,7 @@ class VisitorSeeder extends Seeder
      */
     public function run()
     {
-        // DB::table('visitors')->delete();
+        DB::table('visitors')->delete();
         $visitors = Visitor::factory()
             ->count(1000)
             ->create();
@@ -26,5 +26,10 @@ class VisitorSeeder extends Seeder
                 ->make();
             $visitor->checkins()->saveMany($checkins->unique('checkin_date'));
         });
+
+        setting()->set('visitors.nationalities', Visitor::getNationalitiesList());
+        setting()->set('visitors.living_situations', Visitor::getLivingSituationsList());
+        setting()->set('visitors.purposes_of_visit', VisitorCheckin::getPurposeList());
+        setting()->save();
     }
 }

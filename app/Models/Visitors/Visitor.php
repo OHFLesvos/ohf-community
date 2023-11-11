@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection;
 
 class Visitor extends Model
 {
@@ -90,5 +91,23 @@ class Visitor extends Model
             'id',
             'child_id'
         );
+    }
+
+    public static function getNationalitiesList(): Collection
+    {
+        return Visitor::query()
+            ->distinct('nationality')
+            ->whereNotNull('nationality')
+            ->orderBy('nationality')
+            ->pluck('nationality');
+    }
+
+    public static function getLivingSituationsList(): Collection
+    {
+        return Visitor::query()
+            ->distinct('living_situation')
+            ->whereNotNull('living_situation')
+            ->orderBy('living_situation')
+            ->pluck('living_situation');
     }
 }
