@@ -4,16 +4,6 @@
 
         <date-range-select v-model="dateRange" />
 
-        <h3>Visitor Registrations over Time</h3>
-        <time-bar-chart
-            :title="'Visitors Registrations over Time'"
-            :data="visitorsApi.dailyRegistrations"
-            :date-from="dateRange.from"
-            :date-to="dateRange.to"
-            :granularity="dateRange.granularity"
-            class="mb-3"
-        />
-
         <h3>Visitor Registrations by Nationality</h3>
         <bar-chart
             :title="'New Visitor Registrations by Nationality'"

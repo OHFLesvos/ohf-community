@@ -111,23 +111,6 @@ class ReportController extends Controller
         return response()->json($data);
     }
 
-    public function dailyRegistrations(Request $request): JsonResponse
-    {
-        $this->authorize('view-visitors-reports');
-
-        $this->validateDateGranularity($request);
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
-
-        $registrations = Visitor::inDateRange($dateFrom, $dateTo)
-            ->groupByDateGranularity(granularity: $request->input('granularity'), aggregateColumnName: 'aggregated_value')
-            ->get()
-            ->pluck('aggregated_value', 'date_label');
-
-        return (new ChartResponseBuilder())
-            ->dataset(__('Registrations'), $registrations)
-            ->build();
-    }
-
     public function ageDistribution(Request $request): JsonResponse
     {
         $this->authorize('view-visitors-reports');
