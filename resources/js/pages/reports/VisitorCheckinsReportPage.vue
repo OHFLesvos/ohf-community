@@ -112,7 +112,7 @@ export default {
                             .subtract(1, "months")
                             .endOf('month')
                             .format(moment.HTML5_FMT.DATE),
-                        granularity: "months",
+                        granularity: "weeks",
                     }
                 },
                 {

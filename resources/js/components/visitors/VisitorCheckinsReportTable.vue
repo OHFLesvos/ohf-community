@@ -22,14 +22,13 @@
             <template #custom-foot="data">
                 <template v-if="data.items.length">
                     <b-tr>
-                        <b-th><em>{{ $t('Total') }}</em></b-th>
+                        <b-th>{{ $t('Total') }}</b-th>
                         <b-th class="text-right">
                             {{ data.items.reduce((a,b) => a + b.checkin_count, 0) }}
                         </b-th>
                     </b-tr>
                     <b-tr>
-                        <b-th></b-th>
-                        <b-th class="text-right">
+                        <b-th colspan="2" class="text-right">
                             <b-button size="sm" @click="copyToClipboard" variant="outline-secondary">
                             <template v-if="copied"><font-awesome-icon icon="check"/> {{ $t('Copied') }}</template>
                             <template v-else>{{ $t('Copy to clipboard') }}</template>
