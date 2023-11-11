@@ -1,7 +1,8 @@
 <template>
     <div>
         <TimeBarChart
-            :title="'Test'"
+            :title="tableCaption"
+            :key="tableCaption"
             :data="chartData"
             :date-from="date_start"
             :date-to="date_end"
@@ -108,11 +109,21 @@ export default {
             return this.purpose ? this.$t("Daily visitor check-ins for {purpose} from {start_date} to {end_date}", args) : this.$t("Daily visitor check-ins from {start_date} to {end_date}", args)
         },
         chartData() {
+            let label;
+            if (this.granularity == 'weeks') {
+                label = this.$t('Visitors per week')
+            } else if (this.granularity == 'months') {
+                label = this.$t('Visitors per month')
+            } else if (this.granularity == 'years') {
+                label = this.$t('Visitors per year')
+            } else {
+                label = this.$t('Visitors per day')
+            }
             return {
                 labels: this.fetchedData.map(v => v.checkin_date_range),
                 datasets: [
                     {
-                        label: this.tableCaption,
+                        label: label,
                         unit: this.$t('Visitor Check-ins'),
                         data: this.fetchedData.map(v => v.checkin_count),
                     }

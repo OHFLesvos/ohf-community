@@ -193,7 +193,7 @@ export default {
                 datasets: []
             }
 
-            // Assign lables and data
+            // Assign labels and data
             let units = new Map()
             resData.datasets.forEach((dataset) => {
                 const axisID = slugify(dataset.unit)

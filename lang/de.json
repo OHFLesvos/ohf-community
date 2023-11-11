@@ -831,6 +831,10 @@
     "Current week": "Diese Woche",
     "Current month": "Diesen Monat",
     "Current year": "Diese Jahr",
+    "Visitors per day": "Besucher pro Tag",
+    "Visitors per week": "Besucher pro Woche",
+    "Visitors per month": "Besucher pro Monat",
+    "Visitors per year": "Besucher pro Jahr",
     "Copy to clipboard": "In die Zwischenablage kopieren",
     "Copied": "Kopiert"
 }
