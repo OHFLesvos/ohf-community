@@ -32,7 +32,7 @@
         <b-table
             :id="id"
             hover
-            responsive
+            :responsive="responsive"
             small
             :items="itemProvider"
             :fields="fields"
@@ -48,6 +48,7 @@
             :no-sort-reset="true"
             :filter="filter"
             :tbody-tr-class="tbodyTrClass"
+            :caption="caption"
             class="bg-white shadow-sm"
         >
             <template v-for="(_, slot) of $scopedSlots" v-slot:[slot]="scope"><slot :name="slot" v-bind="scope"/></template>
@@ -110,6 +111,15 @@ export default {
         emptyText: {
             required: false,
             type: String
+        },
+        caption: {
+            required: false,
+            type: String
+        },
+        responsive: {
+            required: false,
+            type: Boolean,
+            default: () => true,
         },
         tbodyTrClass: {
             required: false,

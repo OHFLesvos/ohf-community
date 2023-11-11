@@ -1,10 +1,17 @@
-import moment from "moment";
+import moment from 'moment/min/moment-with-locales';
 
 export function dateFormat(value) {
     if (!value) {
         return null;
     }
-    return moment(value).format("LL");
+    return moment(value).format("LL ");
+}
+
+export function dateWeekdayFormat(value) {
+    if (!value) {
+        return null;
+    }
+    return moment(value).format("dddd, LL");
 }
 
 export function dateTimeFormat(value) {

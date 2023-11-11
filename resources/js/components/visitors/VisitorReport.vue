@@ -6,6 +6,7 @@
             :fields="dailyFields"
             hover
             responsive
+            small
             :show-empty="true"
             :empty-text="$t('No data registered.')"
             :caption="$t('Showing the latest {days} active days.', { days: numberOfDays })"
@@ -24,6 +25,7 @@
             :fields="monthlyFields"
             hover
             responsive
+            small
             :show-empty="true"
             :empty-text="$t('No data registered.')"
             class="bg-white"

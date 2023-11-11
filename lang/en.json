@@ -25,5 +25,15 @@
     ":from - :until": ":from - :until",
     "Edit donation of :name": "Edit donation of :name",
     "Current selection: :users users and :administrators role administrators": "Current selection: :users users and :administrators role administrators",
-    "Membership number :number has been created for :name": "Membership number :number has been created for :name"
+    "Membership number :number has been created for :name": "Membership number :number has been created for :name",
+    "Daily visitor check-ins from :start_date to :end_date": "Daily visitor check-ins from :start_date to :end_date",
+    "Daily visitor check-ins for :purpose from :start_date to :end_date": "Daily visitor check-ins for :purpose from :start_date to :end_date",
+    "Weekly visitor check-ins from :start_date to :end_date": "Weekly visitor check-ins from :start_date to :end_date",
+    "Weekly visitor check-ins for :purpose from :start_date to :end_date": "Weekly visitor check-ins for :purpose from :start_date to :end_date",
+    "Monthly visitor check-ins from :start_date to :end_date": "Monthly visitor check-ins from :start_date to :end_date",
+    "Monthly visitor check-ins for :purpose from :start_date to :end_date": "Monthly visitor check-ins for :purpose from :start_date to :end_date",
+    "Yearly visitor check-ins from :start_date to :end_date": "Yearly visitor check-ins from :start_date to :end_date",
+    "Yearly visitor check-ins for :purpose from :start_date to :end_date": "Yearly visitor check-ins for :purpose from :start_date to :end_date",
+    "Last :days days": "Last :days days",
+    "Last :months months": "Last :months months"
 }

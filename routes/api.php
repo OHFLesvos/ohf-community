@@ -342,6 +342,11 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('export');
 
                 // Report
+                Route::get('report/checkins', [VisitorsReportController::class, 'visitorCheckins'])
+                    ->name('report.visitorCheckins');
+                Route::get('report/listCheckinPurposes', [VisitorsReportController::class, 'listCheckinPurposes'])
+                    ->name('report.listCheckinPurposes');
+
                 Route::get('dailyVisitors', [VisitorsReportController::class, 'dailyVisitors'])
                     ->name('dailyVisitors');
                 Route::get('monthlyVisitors', [VisitorsReportController::class, 'monthlyVisitors'])

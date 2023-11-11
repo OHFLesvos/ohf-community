@@ -59,7 +59,7 @@ export default {
         prepend: {
             type: String,
             required: false,
-            default: function (obj) {
+            default: function () {
                 return this.$t('Date range')
             }
         },
@@ -113,6 +113,11 @@ export default {
         },
         granularity () {
             this.emitChange()
+        },
+        value(v) {
+            this.from = v.from
+            this.to = v.to
+            this.granularity = v.granularity
         }
     },
     methods: {

@@ -817,5 +817,20 @@
     "Managed by :provider": "Verwaltet von :provider",
     "View Permissions": "Berechtigungen anzeigen",
     "Member": "Mitglied",
-    "Current selection: :users users and :administrators role administrators": "Aktulle Auswahl: :users Benutzer und :administrators Rollenadministratoren"
+    "Current selection: :users users and :administrators role administrators": "Aktulle Auswahl: :users Benutzer und :administrators Rollenadministratoren",
+    "Daily visitor check-ins from :start_date to :end_date": "Tägliche Besucher Check-ins von :start_date bis :end_date",
+    "Daily visitor check-ins for :purpose from :start_date to :end_date": "Tägliche Besucher Check-ins für :purpose von :start_date bis :end_date",
+    "Weekly visitor check-ins from :start_date to :end_date": "Wöchentliche Besucher Check-ins von :start_date bis :end_date",
+    "Weekly visitor check-ins for :purpose from :start_date to :end_date": "Wöchentliche Besucher Check-ins für :purpose von :start_date bis :end_date",
+    "Monthly visitor check-ins from :start_date to :end_date": "Monatliche Besucher Check-ins von :start_date bis :end_date",
+    "Monthly visitor check-ins for :purpose from :start_date to :end_date": "Monatliche Besucher Check-ins für :purpose von :start_date bis :end_date",
+    "Yearly visitor check-ins from :start_date to :end_date": "Jährliche Besucher Check-ins von :start_date bis :end_date",
+    "Yearly visitor check-ins for :purpose from :start_date to :end_date": "Jährliche Besucher Check-ins für :purpose von :start_date bis :end_date",
+    "Last :days days": "Letzte :days Tage",
+    "Last :months months": "Letzte :months Monate",
+    "Current week": "Diese Woche",
+    "Current month": "Diesen Monat",
+    "Current year": "Diese Jahr",
+    "Copy to clipboard": "In die Zwischenablage kopieren",
+    "Copied": "Kopiert"
 }
