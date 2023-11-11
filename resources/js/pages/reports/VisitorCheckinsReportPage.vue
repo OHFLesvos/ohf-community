@@ -32,8 +32,9 @@
 
 <script>
 import moment from 'moment/min/moment-with-locales';
+import { mapState } from "vuex";
 
-import visitorsApi from "@/api/visitors";
+// import visitorsApi from "@/api/visitors";
 
 import DateRangeSelect from "@/components/common/DateRangeSelect.vue";
 import VisitorCheckinsReportTable from "@/components/visitors/VisitorCheckinsReportTable.vue";
@@ -130,6 +131,9 @@ export default {
             purposes: [],
         };
     },
+    computed: {
+        ...mapState(["settings"]),
+    },
     async created() {
         this.fetchPurposes()
     },
@@ -139,7 +143,8 @@ export default {
                 text: this.$t('Any'),
                 value: null
             }]
-            this.purposes.push(...await visitorsApi.listCheckinPurposes());
+            this.purposes.push(...this.settings['visitors.purposes_of_visit']);
+            // this.purposes.push(...await visitorsApi.listCheckinPurposes());
         },
     }
 };
