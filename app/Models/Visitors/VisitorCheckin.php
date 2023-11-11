@@ -23,6 +23,10 @@ class VisitorCheckin extends Model
         'purpose_of_visit',
     ];
 
+    protected $casts = [
+        'checkin_date' => 'datetime:Y-m-d',
+    ];
+
     public function visitor(): BelongsTo
     {
         return $this->belongsTo(Visitor::class);

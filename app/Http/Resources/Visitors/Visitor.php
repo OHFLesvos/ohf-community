@@ -19,7 +19,7 @@ class Visitor extends JsonResource
         return [
             ...parent::toArray($request),
             'checked_in_today' => $this->whenLoaded('checkins',
-                fn () => $this->checkins->contains(fn ($checkin) => $checkin->created_at->isToday())),
+                fn () => $this->checkins->contains(fn ($checkin) => $checkin->checkin_date->isToday())),
             'parents' => $this->whenLoaded('parents',
                 fn () => $this->parents->map(fn ($parent) => [
                     'id' => $parent->id,

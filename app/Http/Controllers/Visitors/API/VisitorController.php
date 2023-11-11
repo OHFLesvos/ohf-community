@@ -294,7 +294,7 @@ class VisitorController extends Controller
     {
         return [
             'checked_in_today' => VisitorCheckin::query()
-                ->whereDate('created_at', today()->toDateString())
+                ->whereDate('checkin_date', today())
                 ->count(),
         ];
     }

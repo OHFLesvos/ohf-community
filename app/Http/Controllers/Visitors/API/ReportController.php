@@ -188,7 +188,7 @@ class ReportController extends Controller
         [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
 
         $checkins = VisitorCheckin::inDateRange($dateFrom, $dateTo, 'checkin_date')
-            ->groupByDateGranularity(granularity: $request->input('granularity'), column: 'created_at', aggregateColumnName: 'total_checkins')
+            ->groupByDateGranularity(granularity: $request->input('granularity'), column: 'checkin_date', aggregateColumnName: 'total_checkins')
             ->selectRaw('purpose_of_visit')
             ->groupBy('purpose_of_visit');
 
