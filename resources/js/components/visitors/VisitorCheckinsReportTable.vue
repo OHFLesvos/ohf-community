@@ -26,6 +26,15 @@
                         {{ data.items.reduce((a,b) => a + b.checkin_count, 0) }}
                     </b-th>
                 </b-tr>
+                <b-tr>
+                    <b-th></b-th>
+                    <b-th class="text-right">
+                        <b-button size="sm" @click="copyToClipboard" variant="primary">
+                        <template v-if="copied"><font-awesome-icon icon="check"/> {{ $t('Copied') }}</template>
+                        <template v-else>{{ $t('Copy to clipboard') }}</template>
+                    </b-button>
+                    </b-th>
+                </b-tr>
             </template>
         </BaseTable>
     </div>
@@ -33,6 +42,7 @@
 
 <script>
 import moment from 'moment/min/moment-with-locales';
+import copy from 'copy-to-clipboard';
 
 import visitorsApi from "@/api/visitors";
 
@@ -60,7 +70,8 @@ export default {
     },
     data() {
         return {
-            fetchedData: []
+            fetchedData: [],
+            copied: false,
         };
     },
     computed: {
@@ -106,7 +117,7 @@ export default {
                     }
                 ]
             }
-        }
+        },
     },
     watch: {
         date_start() {
@@ -155,6 +166,19 @@ export default {
             }
             return this.dateWeekdayFormat(v)
         },
+        copyToClipboard() {
+            const separator = '\t';
+            const csvText = `${this.dateRangeLabel()}${separator}${this.$t("Total")}\n`
+                + [...this.fetchedData].reverse().map(v => `${v.checkin_date_range}${separator}${v.checkin_count}`).join("\n")
+                + `\n${this.$t('Total')}${separator}${this.fetchedData.reduce((a,b) => a + b.checkin_count, 0)}`
+
+            copy(csvText, {
+                format: 'text/plain',
+                message: 'Press #{key} to copy',
+            });
+            this.copied = true
+            setTimeout(() => this.copied = false, 3000)
+        }
     },
 };
 </script>

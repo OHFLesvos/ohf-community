@@ -830,5 +830,7 @@
     "Last :months months": "Letzte :months Monate",
     "Current week": "Diese Woche",
     "Current month": "Diesen Monat",
-    "Current year": "Diese Jahr"
+    "Current year": "Diese Jahr",
+    "Copy to clipboard": "In die Zwischenablage kopieren",
+    "Copied": "Kopiert"
 }

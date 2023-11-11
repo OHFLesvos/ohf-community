@@ -101,7 +101,7 @@ export default {
                     }
                 },
                 {
-                    text: this.$t('Last {months} months', { months: 30 }),
+                    text: this.$t('Last {months} months', { months: 3 }),
                     range: {
                         from: moment()
                             .subtract(3, "months")

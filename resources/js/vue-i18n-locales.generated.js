@@ -832,6 +832,8 @@ export default {
         "Current week": "Diese Woche",
         "Current month": "Diesen Monat",
         "Current year": "Diese Jahr",
+        "Copy to clipboard": "In die Zwischenablage kopieren",
+        "Copied": "Kopiert",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",
