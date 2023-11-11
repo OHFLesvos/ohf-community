@@ -111,62 +111,6 @@ class ReportController extends Controller
         return response()->json($data);
     }
 
-    public function dailyVisitors(Request $request): Collection
-    {
-        $this->authorize('view-visitors-reports');
-
-        $request->validate([
-            'days' => [
-                'nullable',
-                'int',
-                'min:1',
-            ],
-        ]);
-        $maxNumberOfActiveDays = $request->input('days', 10);
-
-        return VisitorCheckin::query()
-            ->selectRaw('checkin_date as day')
-            ->addSelect(
-                collect(Setting::get('visitors.purposes_of_visit', []))
-                    ->mapWithKeys(fn ($t, $k) => [
-                        $t => VisitorCheckin::selectRaw('COUNT(*)')
-                            ->whereRaw('checkin_date = day')
-                            ->where('purpose_of_visit', $t),
-                    ])
-                    ->toArray()
-            )
-            ->selectRaw('COUNT(*) as total')
-            ->groupByRaw('checkin_date')
-            ->orderBy('day', 'desc')
-            ->limit($maxNumberOfActiveDays)
-            ->get();
-    }
-
-    public function monthlyVisitors(): Collection
-    {
-        $this->authorize('view-visitors-reports');
-
-        return VisitorCheckin::query()
-            ->selectRaw('MONTH(checkin_date) as month')
-            ->selectRaw('YEAR(checkin_date) as year')
-            ->addSelect(
-                collect(Setting::get('visitors.purposes_of_visit', []))
-                    ->mapWithKeys(fn ($t, $k) => [
-                        $t => VisitorCheckin::selectRaw('COUNT(*)')
-                            ->whereRaw('MONTH(checkin_date) = month')
-                            ->whereRaw('YEAR(checkin_date) = year')
-                            ->where('purpose_of_visit', $t),
-                    ])
-                    ->toArray()
-            )
-            ->selectRaw('COUNT(*) as total')
-            ->groupByRaw('MONTH(checkin_date)')
-            ->groupByRaw('YEAR(checkin_date)')
-            ->orderBy('year', 'desc')
-            ->orderBy('month', 'desc')
-            ->get();
-    }
-
     public function dailyRegistrations(Request $request): JsonResponse
     {
         $this->authorize('view-visitors-reports');

@@ -1,41 +1,5 @@
 <template>
     <div>
-        <h3>{{ $t("Visitors by day") }}</h3>
-        <b-table
-            :items="dailyItemProvider"
-            :fields="dailyFields"
-            hover
-            responsive
-            small
-            :show-empty="true"
-            :empty-text="$t('No data registered.')"
-            :caption="$t('Showing the latest {days} active days.', { days: numberOfDays })"
-            tbody-class="bg-white"
-            thead-class="bg-white"
-        >
-            <div slot="table-busy" class="text-center my-2">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong>{{ $t("Loading...") }}</strong>
-            </div>
-        </b-table>
-
-        <h3>{{ $t("Visitors by month") }}</h3>
-        <b-table
-            :items="monthlyItemProvider"
-            :fields="monthlyFields"
-            hover
-            responsive
-            small
-            :show-empty="true"
-            :empty-text="$t('No data registered.')"
-            class="bg-white"
-        >
-            <div slot="table-busy" class="text-center my-2">
-                <b-spinner class="align-middle"></b-spinner>
-                <strong>{{ $t("Loading...") }}</strong>
-            </div>
-        </b-table>
-
         <h2>Visitor Report Date Selection</h2>
 
         <date-range-select v-model="dateRange" />
@@ -102,14 +66,13 @@
 </template>
 
 <script>
-const numberOfDays = 10;
 import DateRangeSelect from "@/components/common/DateRangeSelect.vue";
 import BarChart from "@/components/charts/BarChart.vue";
 import TimeBarChart from "@/components/charts/TimeBarChart.vue";
 
 import moment from "moment";
 import visitorsApi from "@/api/visitors";
-import { mapState } from "vuex";
+
 export default {
     components: {
         DateRangeSelect,
@@ -127,62 +90,6 @@ export default {
             },
             visitorsApi
         };
-    },
-    computed: {
-        ...mapState(["settings"]),
-        dailyFields() {
-            return [
-                {
-                    key: "day",
-                    label: this.$t("Date"),
-                },
-                ...this.settings["visitors.purposes_of_visit"].map((k) => ({
-                    key: k,
-                    label: k,
-                })),
-                {
-                    key: "total",
-                    label: this.$t("Total"),
-                    class: "text-right",
-                },
-            ];
-        },
-        monthlyFields() {
-            return [
-                {
-                    key: "date",
-                    label: this.$t("Date"),
-                    formatter: (value, key, item) => {
-                        return moment({
-                            year: item.year,
-                            month: item.month - 1,
-                        }).format("MMMM YYYY");
-                    },
-                },
-                ...this.settings["visitors.purposes_of_visit"].map((k) => ({
-                    key: k,
-                    label: k,
-                })),
-                {
-                    key: "total",
-                    label: this.$t("Total"),
-                    class: "text-right",
-                },
-            ];
-        },
-        numberOfDays: () => numberOfDays
-    },
-    methods: {
-        async dailyItemProvider() {
-            let data = await visitorsApi.dailyVisitors({
-                days: numberOfDays,
-            });
-            return data || [];
-        },
-        async monthlyItemProvider() {
-            let data = await visitorsApi.monthlyVisitors();
-            return data || [];
-        },
     },
 };
 </script>

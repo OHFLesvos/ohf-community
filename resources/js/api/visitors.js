@@ -55,14 +55,6 @@ export default {
         const url = route('api.visitors.report.listCheckinPurposes')
         return await api.get(url)
     },
-    async dailyVisitors (params = {}) {
-        const url = route('api.visitors.dailyVisitors', params)
-        return await api.get(url)
-    },
-    async monthlyVisitors () {
-        const url = route('api.visitors.monthlyVisitors')
-        return await api.get(url)
-    },
     async dailyRegistrations (granularity, dateFrom, dateTo) {
         const params = {
             from: dateFrom,
