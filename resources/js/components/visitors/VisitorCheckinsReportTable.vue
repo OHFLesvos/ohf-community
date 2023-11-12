@@ -31,9 +31,9 @@
                     <b-tr>
                         <b-th colspan="2" class="text-right">
                             <b-button size="sm" @click="copyToClipboard" variant="outline-secondary">
-                            <template v-if="copied"><font-awesome-icon icon="check"/> {{ $t('Copied') }}</template>
-                            <template v-else>{{ $t('Copy to clipboard') }}</template>
-                        </b-button>
+                                <template v-if="copied"><font-awesome-icon icon="check"/> {{ $t('Copied') }}</template>
+                                <template v-else>{{ $t('Copy to clipboard') }}</template>
+                            </b-button>
                         </b-th>
                     </b-tr>
                 </template>

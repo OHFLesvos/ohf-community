@@ -36,6 +36,16 @@
                         {{ value | numberFormat }}
                     </b-td>
                 </b-tr>
+                <b-tfoot>
+                    <b-tr>
+                        <b-th colspan="4" class="text-right">
+                            <b-button size="sm" @click="copyToClipboard" variant="outline-secondary">
+                                <template v-if="copied"><font-awesome-icon icon="check"/> {{ $t('Copied') }}</template>
+                                <template v-else>{{ $t('Copy to clipboard') }}</template>
+                            </b-button>
+                        </b-th>
+                    </b-tr>
+                </b-tfoot>
             </b-table-simple>
         </template>
         <b-card-body v-else>
@@ -46,6 +56,8 @@
 
 <script>
 import DoughnutChart from "@/components/charts/DoughnutChart.vue";
+import copy from 'copy-to-clipboard';
+
 export default {
     components: {
         DoughnutChart
@@ -62,7 +74,8 @@ export default {
     },
     data() {
         return {
-            myData: null
+            myData: null,
+            copied: false,
         };
     },
     computed: {
@@ -87,6 +100,18 @@ export default {
                 myData = this.data;
             }
             this.myData = Array.isArray(myData) && myData.length == 0 ? {} : myData
+        },
+        copyToClipboard() {
+            const separator = '\t';
+            const csvText = `${this.title}${separator}${this.$t("Percentage")}${separator}${this.$t("Amount")}\n`
+                + Object.entries(this.myData).map(e => `${e[0] && e[0].length ? e[0] : this.$t('Unspecified') }${separator}${this.percentValue(e[1], this.total)}${separator}${e[1]}`).join("\n")
+
+            copy(csvText, {
+                format: 'text/plain',
+                message: 'Press #{key} to copy',
+            });
+            this.copied = true
+            setTimeout(() => this.copied = false, 3000)
         }
     }
 };

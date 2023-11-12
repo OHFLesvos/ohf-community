@@ -1,6 +1,6 @@
 <template>
     <DoughnutChartTableDistributionWidget v-if="fetchedData"
-        :title="$t('Purpose of Visit')"
+        :title="$t('Purpose of visit')"
         :data="fetchedData"
     />
 </template>
