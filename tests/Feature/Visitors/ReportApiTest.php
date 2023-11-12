@@ -31,7 +31,7 @@ class ReportApiTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertOk()
-            ->assertJson([
+            ->assertExactJson([
                 'data' => [
                     [
                         'checkin_date_range' => '2023-11-08',
@@ -87,7 +87,7 @@ class ReportApiTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertOk()
-            ->assertJson([
+            ->assertExactJson([
                 'data' => [
                     [
                         'checkin_date_range' => '2023-W45',
@@ -119,7 +119,7 @@ class ReportApiTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertOk()
-            ->assertJson([
+            ->assertExactJson([
                 'data' => [
                     [
                         'checkin_date_range' => '2023-11',
@@ -153,14 +153,14 @@ class ReportApiTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertOk()
-            ->assertJson([
+            ->assertExactJson([
                 'data' => [
                     [
-                        'checkin_date_range' => '2023',
+                        'checkin_date_range' => 2023,
                         'checkin_count' => 3,
                     ],
                     [
-                        'checkin_date_range' => '2022',
+                        'checkin_date_range' => 2022,
                         'checkin_count' => 1,
                     ],
                 ],
@@ -187,10 +187,40 @@ class ReportApiTest extends TestCase
 
         $this->assertAuthenticated();
         $response->assertOk()
-            ->assertJson([
+            ->assertExactJson([
                 'aaa',
                 'bbb',
                 'ccc',
+            ]);
+    }
+
+    public function testCheckInsByPurpose()
+    {
+        $v1 = Visitor::factory()->create();
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-05', 'bbb'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-06', 'bbb'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-07', 'aaa'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-08', 'bbb'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-09', 'bbb'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-10', 'ccc'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-11', 'aaa'));
+
+        $v2 = Visitor::factory()->create();
+        $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-07', 'aaa'));
+        $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-12', 'ddd')); // outside of date range
+
+        /** @var User $authUser */
+        $authUser = $this->makeUserWithPermission('visitors.reports');
+
+        $response = $this->actingAs($authUser)
+            ->getJson('api/visitors/report/checkInsByPurpose?date_start=2023-11-01&date_end=2023-11-11', []);
+
+        $this->assertAuthenticated();
+        $response->assertOk()
+            ->assertExactJson([
+                'bbb' => 4,
+                'aaa' => 3,
+                'ccc' => 1,
             ]);
     }
 }

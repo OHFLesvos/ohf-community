@@ -67,13 +67,12 @@ export default {
         const url = route('api.visitors.checkInsByVisitor', params)
         return await api.get(url)
     },
-    async checkInsByPurpose(granularity, dateFrom, dateTo) {
+    async checkInsByPurpose(date_start, date_end) {
         const params = {
-            from: dateFrom,
-            to: dateTo,
-            granularity: granularity
+            date_start: date_start,
+            date_end: date_end,
         }
-        const url = route('api.visitors.checkInsByPurpose', params)
+        const url = route('api.visitors.report.checkInsByPurpose', params)
         return await api.get(url)
     },
     async export(params) {

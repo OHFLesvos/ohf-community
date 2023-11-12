@@ -27,6 +27,13 @@
             :granularity="dateRange.granularity"
             :purpose="purpose"
         />
+
+        <VisitorCheckinPurposeChart
+            v-if="purpose == null"
+            :date_start="dateRange.from"
+            :date_end="dateRange.to"
+        />
+
     </b-container>
 </template>
 
@@ -34,10 +41,9 @@
 import moment from 'moment/min/moment-with-locales';
 import { mapState } from "vuex";
 
-// import visitorsApi from "@/api/visitors";
-
 import DateRangeSelect from "@/components/common/DateRangeSelect.vue";
 import VisitorCheckinsReportTable from "@/components/visitors/VisitorCheckinsReportTable.vue";
+import VisitorCheckinPurposeChart from "@/components/visitors/VisitorCheckinPurposeChart.vue";
 
 export default {
     title() {
@@ -46,6 +52,7 @@ export default {
     components: {
         DateRangeSelect,
         VisitorCheckinsReportTable,
+        VisitorCheckinPurposeChart
     },
     data() {
         return {
@@ -144,7 +151,6 @@ export default {
                 value: null
             }]
             this.purposes.push(...this.settings['visitors.purposes_of_visit']);
-            // this.purposes.push(...await visitorsApi.listCheckinPurposes());
         },
     }
 };

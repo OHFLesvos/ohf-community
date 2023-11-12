@@ -184,25 +184,16 @@ class ReportController extends Controller
     {
         $this->authorize('view-visitors-reports');
 
-        $this->validateDateGranularity($request);
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
+        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request, dateStartField: 'date_start', dateEndField: 'date_end');
 
-        $checkins = VisitorCheckin::inDateRange($dateFrom, $dateTo, 'checkin_date')
-            ->groupByDateGranularity(granularity: $request->input('granularity'), column: 'checkin_date', aggregateColumnName: 'total_checkins')
+        $checkins = VisitorCheckin::query()
+            ->inDateRange($dateFrom, $dateTo, 'checkin_date')
             ->selectRaw('purpose_of_visit')
-            ->groupBy('purpose_of_visit');
+            ->selectRaw('COUNT(*) as total_count')
+            ->groupBy('purpose_of_visit')
+            ->orderBy('total_count', 'desc')
+            ->pluck('total_count', 'purpose_of_visit');
 
-        $purposes = $checkins->pluck('purpose_of_visit')->unique();
-
-        $chartResponseBuilder = (new ChartResponseBuilder());
-
-        foreach ($purposes as $purpose) {
-            $purposeCheckins = $checkins->where('purpose_of_visit', $purpose);
-            $title = $purpose ? $purpose : 'Unknown Purpose';
-            $checkinCounts = $purposeCheckins->pluck('total_checkins', 'date_label');
-            $chartResponseBuilder->dataset($title, $checkinCounts);
-        }
-
-        return $chartResponseBuilder->build();
+        return response()->json($checkins);
     }
 }

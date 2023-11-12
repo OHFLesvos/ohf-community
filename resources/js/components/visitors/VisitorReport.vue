@@ -30,16 +30,6 @@
             class="mb-3"
         />
 
-        <h3>Check-ins by Purpose</h3>
-        <time-bar-chart
-            :title="'Number of Check-ins by Purpose'"
-            :data="visitorsApi.checkInsByPurpose"
-            :date-from="dateRange.from"
-            :date-to="dateRange.to"
-            :granularity="dateRange.granularity"
-            class="mb-3"
-        />
-
         <h3>Check-ins by Visitor</h3>
         <bar-chart
             :title="'Number of Check-ins by Visitor'"

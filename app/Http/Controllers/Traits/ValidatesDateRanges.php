@@ -13,29 +13,29 @@ trait ValidatesDateRanges
      *
      * @return Carbon[]
      */
-    protected static function getDatePeriodFromRequest(Request $request, ?int $defaultDays = 30): array
+    protected static function getDatePeriodFromRequest(Request $request, ?int $defaultDays = 30, string $dateStartField = 'from', string $dateEndField = 'to'): array
     {
         // Validate request data
         $request->validate([
-            'from' => [
+            $dateStartField => [
                 'nullable',
                 'date',
-                'before_or_equal:to',
+                'before_or_equal:'.$dateEndField,
             ],
-            'to' => [
+            $dateEndField => [
                 'nullable',
                 'date',
-                'after_or_equal:from',
+                'after_or_equal:'.$dateStartField,
             ],
         ]);
 
         // Return as array (from, to)
         return [
-            $request->filled('from')
-                ? new Carbon($request->input('from'))
+            $request->filled($dateStartField)
+                ? new Carbon($request->input($dateStartField))
                 : Carbon::today()->subDays($defaultDays),
-            $request->filled('to')
-                ? new Carbon($request->input('to'))
+            $request->filled($dateEndField)
+                ? new Carbon($request->input($dateEndField))
                 : Carbon::today(),
         ];
     }

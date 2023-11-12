@@ -3,6 +3,7 @@
         <template v-if="myData">
             <b-card-body>
                 <doughnut-chart
+                    :key="JSON.stringify(myData)"
                     :title="title"
                     :data="myData"
                     :height="300"
@@ -18,7 +19,7 @@
             >
                 <b-tr v-for="(value, label) in myData" :key="label">
                     <b-td class="fit">
-                        {{ label }}
+                        {{ label && label.length ? label : $t('Unspecified') }}
                     </b-td>
                     <b-td class="align-middle d-none d-sm-table-cell">
                         <b-progress
@@ -69,11 +70,23 @@ export default {
             return Object.values(this.myData).reduce((a, b) => a + b, 0);
         }
     },
+    watch: {
+        data() {
+            this.fetchData()
+        }
+    },
     async created() {
-        if (typeof this.data === "function") {
-            this.myData = await this.data();
-        } else {
-            this.myData = this.data;
+        this.fetchData()
+    },
+    methods: {
+        async fetchData() {
+            let myData
+            if (typeof this.data === "function") {
+                myData = await this.data();
+            } else {
+                myData = this.data;
+            }
+            this.myData = Array.isArray(myData) && myData.length == 0 ? {} : myData
         }
     }
 };
