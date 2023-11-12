@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.2.0
+
+* Added visit purpose chart to new visitor report page
+
 ## 5.1.1
 
 * Cleanup redundant old visitor report elements
