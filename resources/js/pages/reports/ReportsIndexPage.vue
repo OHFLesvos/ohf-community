@@ -34,13 +34,13 @@ export default {
                     show: this.can("view-fundraising-reports")
                 },
                 {
-                    label: this.$t("Visitors"),
+                    label: this.$t("Visitors") + ' (OLD)',
                     to: { name: "reports.visitors" },
                     icon: "door-open",
                     show: this.can("view-visitors-reports")
                 },
                 {
-                    label: this.$t("Visitor check-ins"),
+                    label: this.$t("Visitor check-ins") + ' (WORK IN PROGRESS)',
                     to: { name: "reports.visitors.checkins" },
                     icon: "door-open",
                     show: this.can("view-visitors-reports")
