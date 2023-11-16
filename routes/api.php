@@ -344,8 +344,6 @@ Route::middleware(['auth:sanctum', 'language'])
                 // Report
                 Route::get('report/checkins', [VisitorsReportController::class, 'visitorCheckins'])
                     ->name('report.visitorCheckins');
-                Route::get('report/listCheckinPurposes', [VisitorsReportController::class, 'listCheckinPurposes'])
-                    ->name('report.listCheckinPurposes');
                 Route::get('report/genderDistribution', [VisitorsReportController::class, 'genderDistribution'])
                     ->name('report.genderDistribution');
                 Route::get('report/nationalityDistribution', [VisitorsReportController::class, 'nationalityDistribution'])

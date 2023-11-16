@@ -100,15 +100,6 @@ class ReportController extends Controller
         }
     }
 
-    public function listCheckinPurposes()
-    {
-        $this->authorize('view-visitors-reports');
-
-        $data = VisitorCheckin::getPurposeList();
-
-        return response()->json($data);
-    }
-
     public function genderDistribution(Request $request): JsonResponse
     {
         $this->authorize('view-visitors-reports');

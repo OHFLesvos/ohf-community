@@ -51,10 +51,6 @@ export default {
         const url = route('api.visitors.report.visitorCheckins', params)
         return await api.get(url)
     },
-    async listCheckinPurposes () {
-        const url = route('api.visitors.report.listCheckinPurposes')
-        return await api.get(url)
-    },
     async ageDistribution (date_start, date_end) {
         const params = {
             date_start: date_start,
