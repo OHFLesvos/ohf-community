@@ -132,7 +132,7 @@ class ReportController extends Controller
 
         [$startDate, $endDate] = $this->getDatePeriodFromRequest($request, defaultDays: null, dateStartField: 'date_start', dateEndField: 'date_end');
 
-        $ageDistribution = Visitor::query()
+        $data = Visitor::query()
             ->selectRaw('CASE
                     WHEN age <= 5 THEN "1-5"
                     WHEN age >= 6 AND age <= 11 THEN "6-11"
@@ -155,9 +155,10 @@ class ReportController extends Controller
             }, 's')
             ->groupBy('age_group')
             ->orderBy('age_group')
-            ->get();
+            ->get()
+            ->sortBy('age_group', SORT_NATURAL)->values();
 
-        return response()->json($ageDistribution
+        return response()->json($data
             ->map(fn ($e) => [
                 'label' => __($e->age_group),
                 'value' => $e->total_count,

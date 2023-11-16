@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.1
+
+* Fix visitor age group sorting in report
+
 ## 5.3.0
 
 * Added new visitor gender, nationality, age distribution charts
