@@ -267,7 +267,7 @@ class ReportApiTest extends TestCase
         $response->assertOk()
             ->assertExactJson([
                 ['label' => 'male', 'value' => 2],
-                ['label' => null, 'value'  => 1],
+                ['label' => null, 'value' => 1],
                 ['label' => 'female', 'value' => 1],
             ]);
     }
@@ -365,10 +365,8 @@ class ReportApiTest extends TestCase
         $response->assertOk()
             ->assertExactJson([
                 ['label' => 'Germany', 'value' => 2],
-                ['label' => null, 'value'  => 1],
+                ['label' => null, 'value' => 1],
                 ['label' => 'France', 'value' => 1],
             ]);
     }
-
-
 }
