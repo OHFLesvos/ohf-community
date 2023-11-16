@@ -10,6 +10,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
 
+/**
+ * @property-read ?int $total_count
+ * @property-read ?string $age_group
+ */
 class Visitor extends Model
 {
     use HasFactory;
