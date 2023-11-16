@@ -140,32 +140,37 @@ class ReportController extends Controller
     {
         $this->authorize('view-visitors-reports');
 
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
+        [$startDate, $endDate] = $this->getDatePeriodFromRequest($request, defaultDays: null, dateStartField: 'date_start', dateEndField: 'date_end');
 
-        $visitors = Visitor::inDateRange($dateFrom, $dateTo)
-            ->fromSub(function ($query) {
-                $query
-                    ->selectRaw('COUNT(*) AS `total_visitors`, created_at')
-                    ->selectRaw('YEAR(CURRENT_DATE()) - YEAR(date_of_birth) - (RIGHT(CURRENT_DATE(), 5) < RIGHT(date_of_birth, 5)) AS `age`')
-                    ->from('visitors')
-                    ->whereNotNull('date_of_birth')
-                    ->groupBy('age');
-            }, 'sub')
+        $ageDistribution = Visitor::query()
             ->selectRaw('CASE
-                WHEN age < 18 THEN "Under 18"
-                WHEN age >= 18 AND age < 30 THEN "18-29"
-                WHEN age >= 30 AND age < 65 THEN "30-64"
-                WHEN age >= 65 THEN "65 and above"
-            END AS `age_group`')
-            ->selectRaw('COUNT(*) AS `total_visitors`')
+                    WHEN age <= 5 THEN "1-5"
+                    WHEN age >= 6 AND age <= 11 THEN "6-11"
+                    WHEN age >= 12 AND age <= 17 THEN "12-17"
+                    WHEN age >= 18 AND age <= 25 THEN "18-25"
+                    WHEN age >= 26 AND age <= 35 THEN "26-35"
+                    WHEN age >= 36 AND age <= 45 THEN "36-45"
+                    WHEN age >= 46 AND age <= 55 THEN "46-55"
+                    WHEN age >= 56 AND age <= 65 THEN "56-65"
+                    ELSE "66+"
+                END AS age_group')
+            ->selectRaw('COUNT(*) as total_count')
+            ->from(function ($query) use ($startDate, $endDate) {
+                $query->select('v.id')->selectRaw('TIMESTAMPDIFF(YEAR, v.date_of_birth, CURDATE()) AS age')
+                    ->from('visitors as v')
+                    ->join('visitor_checkins as vc', 'v.id', '=', 'vc.visitor_id')
+                    ->whereBetween('vc.checkin_date', [$startDate, $endDate])
+                    ->groupBy('v.id');
+            }, 's')
             ->groupBy('age_group')
-            ->orderByRaw("FIELD(age_group, 'Under 18', '18-29', '30-64', '65 and above')")
-            ->get()
-            ->pluck('total_visitors', 'age_group');
+            ->orderBy('age_group')
+            ->get();
 
-        return (new ChartResponseBuilder())
-            ->dataset(__('Visitors'), $visitors, null, false)
-            ->build();
+        return response()->json($ageDistribution
+            ->map(fn ($e) => [
+                'label' => __($e->age_group),
+                'value' => $e->total_count,
+            ]));
     }
 
     public function nationalityDistribution(Request $request): JsonResponse

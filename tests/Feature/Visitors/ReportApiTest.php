@@ -331,22 +331,22 @@ class ReportApiTest extends TestCase
         $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
 
         $v2 = Visitor::factory()->make();
-        $v1->nationality = 'Germany';
+        $v2->nationality = 'Germany';
         $v2->save();
         $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
 
         $v3 = Visitor::factory()->make();
-        $v1->nationality = 'France';
+        $v3->nationality = 'France';
         $v3->save();
         $v3->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
 
         $v4 = Visitor::factory()->make();
-        $v4->gender = null;
+        $v4->nationality = null;
         $v4->save();
         $v4->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
 
         $v5 = Visitor::factory()->make();
-        $v1->nationality = 'Austria';
+        $v5->nationality = 'Austria';
         $v5->save();
         $v5->checkins()->save(VisitorCheckin::createForDate('2023-11-16')); // outside of date range
 

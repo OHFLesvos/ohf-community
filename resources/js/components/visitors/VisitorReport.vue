@@ -4,19 +4,6 @@
 
         <date-range-select v-model="dateRange" />
 
-        <h3>Visitor Registrations by Age Group</h3>
-        <bar-chart
-            :title="'Visitor Registrations by Age Group'"
-            :x-label="'Age'"
-            :y-label="'Number of Visitor Registrations'"
-            :data="visitorsApi.ageDistribution"
-            :params="{
-                'from': dateRange.from,
-                'to': dateRange.to
-            }"
-            class="mb-3"
-        />
-
         <h3>Check-ins by Visitor</h3>
         <bar-chart
             :title="'Number of Check-ins by Visitor'"

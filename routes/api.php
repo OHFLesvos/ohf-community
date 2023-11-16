@@ -350,11 +350,11 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('report.genderDistribution');
                 Route::get('report/nationalityDistribution', [VisitorsReportController::class, 'nationalityDistribution'])
                     ->name('report.nationalityDistribution');
-
-                Route::get('ageDistribution', [VisitorsReportController::class, 'ageDistribution'])
-                    ->name('ageDistribution');
+                Route::get('report/ageDistribution', [VisitorsReportController::class, 'ageDistribution'])
+                    ->name('report.ageDistribution');
                 Route::get('report/checkInsByPurpose', [VisitorsReportController::class, 'checkInsByPurpose'])
                     ->name('report.checkInsByPurpose');
+
                 Route::get('checkInsByVisitor', [VisitorsReportController::class, 'checkInsByVisitor'])
                     ->name('checkInsByVisitor');
 

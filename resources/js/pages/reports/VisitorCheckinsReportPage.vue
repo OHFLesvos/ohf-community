@@ -34,6 +34,12 @@
             :date_end="dateRange.to"
         />
 
+        <VisitorAgeDistributionChart
+            v-if="purpose == null"
+            :date_start="dateRange.from"
+            :date_end="dateRange.to"
+        />
+
         <VisitorNationalityDistributionChart
             v-if="purpose == null"
             :date_start="dateRange.from"
@@ -57,6 +63,7 @@ import DateRangeSelect from "@/components/common/DateRangeSelect.vue";
 import VisitorCheckinsReportTable from "@/components/visitors/VisitorCheckinsReportTable.vue";
 import VisitorCheckinPurposeChart from "@/components/visitors/VisitorCheckinPurposeChart.vue";
 import VisitorGenderDistributionChart from "@/components/visitors/VisitorGenderDistributionChart.vue";
+import VisitorAgeDistributionChart from "@/components/visitors/VisitorAgeDistributionChart.vue";
 import VisitorNationalityDistributionChart from "@/components/visitors/VisitorNationalityDistributionChart.vue";
 
 export default {
@@ -68,6 +75,7 @@ export default {
         VisitorCheckinsReportTable,
         VisitorCheckinPurposeChart,
         VisitorGenderDistributionChart,
+        VisitorAgeDistributionChart,
         VisitorNationalityDistributionChart
     },
     data() {
