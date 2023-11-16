@@ -21,27 +21,6 @@ export default [
         }
     },
     {
-        path: "/reports/visitors",
-        name: "reports.visitors",
-        components: {
-            default: () => import("@/pages/reports/VisitorReportPage.vue"),
-            breadcrumbs: BreadcrumbsNav,
-        },
-        props: {
-            breadcrumbs: {
-                items: [
-                    {
-                        text: i18n.t('Reports'),
-                        to: { name: 'reports.index' }
-                    },
-                    {
-                        text: i18n.t('Visitors'),
-                    }
-                ]
-            }
-        },
-    },
-    {
         path: "/reports/visitors/checkins",
         name: "reports.visitors.checkins",
         components: {

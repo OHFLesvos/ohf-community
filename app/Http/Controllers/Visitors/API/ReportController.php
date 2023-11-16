@@ -6,8 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Traits\ValidatesDateRanges;
 use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
-use App\Support\ChartResponseBuilder;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -100,84 +100,94 @@ class ReportController extends Controller
         }
     }
 
-    public function listCheckinPurposes()
+    public function genderDistribution(Request $request): JsonResponse
     {
         $this->authorize('view-visitors-reports');
 
-        $data = VisitorCheckin::getPurposeList();
+        [$startDate, $endDate] = $this->getDatePeriodFromRequest($request, defaultDays: null, dateStartField: 'date_start', dateEndField: 'date_end');
 
-        return response()->json($data);
+        $data = Visitor::query()
+            ->select('gender')
+            ->selectRaw('COUNT(*) AS `total_count`')
+            ->whereHas('checkins', function (Builder $qry2) use ($startDate, $endDate, $request) {
+                $qry2->when($startDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '>=', $startDate))
+                    ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate))
+                    ->when($request->filled('purpose'), fn ($qry) => $qry->where('purpose_of_visit', $request->input('purpose')));
+            })
+            ->groupBy('gender')
+            ->orderBy('total_count', 'desc')
+            ->orderBy('gender')
+            ->get();
+
+        return response()->json($data
+            ->map(fn ($e) => [
+                'label' => __($e->gender),
+                'value' => $e->total_count,
+            ]));
     }
 
     public function ageDistribution(Request $request): JsonResponse
     {
         $this->authorize('view-visitors-reports');
 
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
+        [$startDate, $endDate] = $this->getDatePeriodFromRequest($request, defaultDays: null, dateStartField: 'date_start', dateEndField: 'date_end');
 
-        $visitors = Visitor::inDateRange($dateFrom, $dateTo)
-            ->fromSub(function ($query) {
-                $query
-                    ->selectRaw('COUNT(*) AS `total_visitors`, created_at')
-                    ->selectRaw('YEAR(CURRENT_DATE()) - YEAR(date_of_birth) - (RIGHT(CURRENT_DATE(), 5) < RIGHT(date_of_birth, 5)) AS `age`')
-                    ->from('visitors')
-                    ->whereNotNull('date_of_birth')
-                    ->groupBy('age');
-            }, 'sub')
+        $ageDistribution = Visitor::query()
             ->selectRaw('CASE
-                WHEN age < 18 THEN "Under 18"
-                WHEN age >= 18 AND age < 30 THEN "18-29"
-                WHEN age >= 30 AND age < 65 THEN "30-64"
-                WHEN age >= 65 THEN "65 and above"
-            END AS `age_group`')
-            ->selectRaw('COUNT(*) AS `total_visitors`')
+                    WHEN age <= 5 THEN "1-5"
+                    WHEN age >= 6 AND age <= 11 THEN "6-11"
+                    WHEN age >= 12 AND age <= 17 THEN "12-17"
+                    WHEN age >= 18 AND age <= 25 THEN "18-25"
+                    WHEN age >= 26 AND age <= 35 THEN "26-35"
+                    WHEN age >= 36 AND age <= 45 THEN "36-45"
+                    WHEN age >= 46 AND age <= 55 THEN "46-55"
+                    WHEN age >= 56 AND age <= 65 THEN "56-65"
+                    ELSE "66+"
+                END AS age_group')
+            ->selectRaw('COUNT(*) as total_count')
+            ->from(function ($query) use ($startDate, $endDate, $request) {
+                $query->select('v.id')->selectRaw('TIMESTAMPDIFF(YEAR, v.date_of_birth, CURDATE()) AS age')
+                    ->from('visitors as v')
+                    ->join('visitor_checkins as vc', 'v.id', '=', 'vc.visitor_id')
+                    ->whereBetween('vc.checkin_date', [$startDate, $endDate])
+                    ->when($request->filled('purpose'), fn ($qry) => $qry->where('purpose_of_visit', $request->input('purpose')))
+                    ->groupBy('v.id');
+            }, 's')
             ->groupBy('age_group')
-            ->orderByRaw("FIELD(age_group, 'Under 18', '18-29', '30-64', '65 and above')")
-            ->get()
-            ->pluck('total_visitors', 'age_group');
+            ->orderBy('age_group')
+            ->get();
 
-        return (new ChartResponseBuilder())
-            ->dataset(__('Visitors'), $visitors, null, false)
-            ->build();
+        return response()->json($ageDistribution
+            ->map(fn ($e) => [
+                'label' => __($e->age_group),
+                'value' => $e->total_count,
+            ]));
     }
 
     public function nationalityDistribution(Request $request): JsonResponse
     {
         $this->authorize('view-visitors-reports');
 
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
+        [$startDate, $endDate] = $this->getDatePeriodFromRequest($request, defaultDays: null, dateStartField: 'date_start', dateEndField: 'date_end');
 
-        $visitors = Visitor::inDateRange($dateFrom, $dateTo)
-            ->selectRaw('nationality, COUNT(*) AS `total_visitors`')
-            ->whereNotNull('nationality')
+        $data = Visitor::query()
+            ->select('nationality')
+            ->selectRaw('COUNT(*) AS `total_count`')
+            ->whereHas('checkins', function (Builder $qry2) use ($startDate, $endDate, $request) {
+                $qry2->when($startDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '>=', $startDate))
+                    ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate))
+                    ->when($request->filled('purpose'), fn ($qry) => $qry->where('purpose_of_visit', $request->input('purpose')));
+            })
             ->groupBy('nationality')
-            ->orderByDesc('total_visitors')
-            ->get()
-            ->pluck('total_visitors', 'nationality');
+            ->orderBy('total_count', 'desc')
+            ->orderBy('nationality')
+            ->get();
 
-        return (new ChartResponseBuilder())
-            ->dataset(__('Visitors'), $visitors, null, false)
-            ->build();
-    }
-
-    public function checkInsByVisitor(Request $request): JsonResponse
-    {
-        $this->authorize('view-visitors-reports');
-
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
-
-        $visits = VisitorCheckin::inDateRange($dateFrom, $dateTo, 'checkin_date')
-            ->selectRaw('COUNT(*) AS `total_visits`')
-            ->groupBy('visitor_id')
-            ->get()
-            ->groupBy('total_visits')
-            ->map(function ($visitsGroup) {
-                return $visitsGroup->count();
-            });
-
-        return (new ChartResponseBuilder())
-            ->dataset(__('Visits'), $visits)
-            ->build();
+        return response()->json($data
+            ->map(fn ($e) => [
+                'label' => __($e->nationality),
+                'value' => $e->total_count,
+            ]));
     }
 
     public function checkInsByPurpose(Request $request): JsonResponse

@@ -31,7 +31,7 @@ export default [
         path: "/visitors/report",
         name: "visitors.report",
         components: {
-            default: () => import("@/pages/reports/VisitorReportPage.vue"),
+            default: () => import("@/pages/reports/VisitorCheckinsReportPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {

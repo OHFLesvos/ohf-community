@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.0
+
+* Added new visitor gender, nationality, age distribution charts
+
 ## 5.2.0
 
 * Added visit purpose chart to new visitor report page

@@ -463,6 +463,7 @@ export default {
         "Nationality": "Nationalität",
         "Nationalities": "Nationalitäten",
         "Gender": "Geschlecht",
+        "Gender distribution": "Geschlechtsverteilung",
         "Date of birth": "Geburtsdatum",
         "Age": "Alter",
         "Age {age}": "Alter: {age}",
