@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Visitors;
 
 use App\Models\User;
 use App\Models\Visitors\Visitor;
