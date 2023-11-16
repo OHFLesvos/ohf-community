@@ -21,6 +21,9 @@ export default {
         date_end: {
             required: false,
         },
+        purpose: {
+            required: false,
+        },
     },
     data() {
         return {
@@ -34,6 +37,9 @@ export default {
         date_end() {
             this.fetchData()
         },
+        purpose() {
+            this.fetchData()
+        },
     },
     async created()
     {
@@ -42,7 +48,7 @@ export default {
     methods: {
         async fetchData()
         {
-            this.fetchedData = await visitorsApi.ageDistribution(this.date_start, this.date_end)
+            this.fetchedData = await visitorsApi.ageDistribution(this.date_start, this.date_end, this.purpose)
         }
     }
 }

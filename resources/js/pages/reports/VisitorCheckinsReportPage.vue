@@ -29,21 +29,21 @@
         />
 
         <VisitorGenderDistributionChart
-            v-if="purpose == null"
             :date_start="dateRange.from"
             :date_end="dateRange.to"
+            :purpose="purpose"
         />
 
         <VisitorAgeDistributionChart
-            v-if="purpose == null"
             :date_start="dateRange.from"
             :date_end="dateRange.to"
+            :purpose="purpose"
         />
 
         <VisitorNationalityDistributionChart
-            v-if="purpose == null"
             :date_start="dateRange.from"
             :date_end="dateRange.to"
+            :purpose="purpose"
         />
 
         <VisitorCheckinPurposeChart

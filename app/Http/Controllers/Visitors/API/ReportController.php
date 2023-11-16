@@ -109,9 +109,10 @@ class ReportController extends Controller
         $data = Visitor::query()
             ->select('gender')
             ->selectRaw('COUNT(*) AS `total_count`')
-            ->whereHas('checkins', function (Builder $qry2) use ($startDate, $endDate) {
+            ->whereHas('checkins', function (Builder $qry2) use ($startDate, $endDate, $request) {
                 $qry2->when($startDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '>=', $startDate))
-                    ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate));
+                    ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate))
+                    ->when($request->filled('purpose'), fn ($qry) => $qry->where('purpose_of_visit', $request->input('purpose')));
             })
             ->groupBy('gender')
             ->orderBy('total_count', 'desc')
@@ -144,11 +145,12 @@ class ReportController extends Controller
                     ELSE "66+"
                 END AS age_group')
             ->selectRaw('COUNT(*) as total_count')
-            ->from(function ($query) use ($startDate, $endDate) {
+            ->from(function ($query) use ($startDate, $endDate, $request) {
                 $query->select('v.id')->selectRaw('TIMESTAMPDIFF(YEAR, v.date_of_birth, CURDATE()) AS age')
                     ->from('visitors as v')
                     ->join('visitor_checkins as vc', 'v.id', '=', 'vc.visitor_id')
                     ->whereBetween('vc.checkin_date', [$startDate, $endDate])
+                    ->when($request->filled('purpose'), fn ($qry) => $qry->where('purpose_of_visit', $request->input('purpose')))
                     ->groupBy('v.id');
             }, 's')
             ->groupBy('age_group')
@@ -171,9 +173,10 @@ class ReportController extends Controller
         $data = Visitor::query()
             ->select('nationality')
             ->selectRaw('COUNT(*) AS `total_count`')
-            ->whereHas('checkins', function (Builder $qry2) use ($startDate, $endDate) {
+            ->whereHas('checkins', function (Builder $qry2) use ($startDate, $endDate, $request) {
                 $qry2->when($startDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '>=', $startDate))
-                    ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate));
+                    ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate))
+                    ->when($request->filled('purpose'), fn ($qry) => $qry->where('purpose_of_visit', $request->input('purpose')));
             })
             ->groupBy('nationality')
             ->orderBy('total_count', 'desc')
