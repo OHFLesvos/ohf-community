@@ -79,10 +79,6 @@ export default {
         const url = route('api.visitors.report.nationalityDistribution', params)
         return await api.get(url)
     },
-    async checkInsByVisitor (params) {
-        const url = route('api.visitors.checkInsByVisitor', params)  // TODO
-        return await api.get(url)
-    },
     async checkInsByPurpose(date_start, date_end) {
         const params = {
             date_start: date_start,

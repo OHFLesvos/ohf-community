@@ -198,26 +198,6 @@ class ReportController extends Controller
             ]));
     }
 
-    public function checkInsByVisitor(Request $request): JsonResponse
-    {
-        $this->authorize('view-visitors-reports');
-
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
-
-        $visits = VisitorCheckin::inDateRange($dateFrom, $dateTo, 'checkin_date')
-            ->selectRaw('COUNT(*) AS `total_visits`')
-            ->groupBy('visitor_id')
-            ->get()
-            ->groupBy('total_visits')
-            ->map(function ($visitsGroup) {
-                return $visitsGroup->count();
-            });
-
-        return (new ChartResponseBuilder())
-            ->dataset(__('Visits'), $visits)
-            ->build();
-    }
-
     public function checkInsByPurpose(Request $request): JsonResponse
     {
         $this->authorize('view-visitors-reports');

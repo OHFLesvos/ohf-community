@@ -355,9 +355,6 @@ Route::middleware(['auth:sanctum', 'language'])
                 Route::get('report/checkInsByPurpose', [VisitorsReportController::class, 'checkInsByPurpose'])
                     ->name('report.checkInsByPurpose');
 
-                Route::get('checkInsByVisitor', [VisitorsReportController::class, 'checkInsByVisitor'])
-                    ->name('checkInsByVisitor');
-
                 Route::get('checkins', [VisitorController::class, 'checkins'])
                     ->name('checkins');
 
