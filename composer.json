@@ -32,7 +32,7 @@
         "org_heigl/ghostscript": "^2.3",
         "owen-it/laravel-auditing": "^13.0",
         "petercoles/multilingual-language-list": "^1.1",
-        "sentry/sentry-laravel": "^3.0.1",
+        "sentry/sentry-laravel": "^4.0.0",
         "shiftonelabs/laravel-cascade-deletes": "^2.0",
         "spatie/pdf-to-image": "^2.1",
         "spomky-labs/otphp": "^11.0",
