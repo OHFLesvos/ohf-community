@@ -67,8 +67,12 @@ export default {
         const url = route('api.visitors.report.genderDistribution', params)
         return await api.get(url)
     },
-    async nationalityDistribution (params) {
-        const url = route('api.visitors.nationalityDistribution', params)  // TODO
+    async nationalityDistribution (date_start, date_end) {
+        const params = {
+            date_start: date_start,
+            date_end: date_end,
+        }
+        const url = route('api.visitors.report.nationalityDistribution', params)
         return await api.get(url)
     },
     async checkInsByVisitor (params) {

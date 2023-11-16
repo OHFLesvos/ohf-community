@@ -4,19 +4,6 @@
 
         <date-range-select v-model="dateRange" />
 
-        <h3>Visitor Registrations by Nationality</h3>
-        <bar-chart
-            :title="'New Visitor Registrations by Nationality'"
-            :x-label="'Nationality'"
-            :y-label="'Visitor Count'"
-            :data="visitorsApi.nationalityDistribution"
-            :params="{
-                'from': dateRange.from,
-                'to': dateRange.to
-            }"
-            class="mb-3"
-        />
-
         <h3>Visitor Registrations by Age Group</h3>
         <bar-chart
             :title="'Visitor Registrations by Age Group'"
@@ -48,7 +35,6 @@
 <script>
 import DateRangeSelect from "@/components/common/DateRangeSelect.vue";
 import BarChart from "@/components/charts/BarChart.vue";
-import TimeBarChart from "@/components/charts/TimeBarChart.vue";
 
 import moment from "moment";
 import visitorsApi from "@/api/visitors";
@@ -57,7 +43,6 @@ export default {
     components: {
         DateRangeSelect,
         BarChart,
-        TimeBarChart,
     },
     data() {
         return {

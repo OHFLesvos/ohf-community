@@ -172,19 +172,25 @@ class ReportController extends Controller
     {
         $this->authorize('view-visitors-reports');
 
-        [$dateFrom, $dateTo] = $this->getDatePeriodFromRequest($request);
+        [$startDate, $endDate] = $this->getDatePeriodFromRequest($request, defaultDays: null, dateStartField: 'date_start', dateEndField: 'date_end');
 
-        $visitors = Visitor::inDateRange($dateFrom, $dateTo)
-            ->selectRaw('nationality, COUNT(*) AS `total_visitors`')
-            ->whereNotNull('nationality')
+        $data = Visitor::query()
+            ->select('nationality')
+            ->selectRaw('COUNT(*) AS `total_count`')
+            ->whereHas('checkins', function (Builder $qry2) use ($startDate, $endDate) {
+                $qry2->when($startDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '>=', $startDate))
+                    ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate));
+            })
             ->groupBy('nationality')
-            ->orderByDesc('total_visitors')
-            ->get()
-            ->pluck('total_visitors', 'nationality');
+            ->orderBy('total_count', 'desc')
+            ->orderBy('nationality')
+            ->get();
 
-        return (new ChartResponseBuilder())
-            ->dataset(__('Visitors'), $visitors, null, false)
-            ->build();
+        return response()->json($data
+            ->map(fn ($e) => [
+                'label' => __($e->nationality),
+                'value' => $e->total_count,
+            ]));
     }
 
     public function checkInsByVisitor(Request $request): JsonResponse

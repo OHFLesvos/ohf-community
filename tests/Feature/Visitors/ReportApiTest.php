@@ -322,4 +322,53 @@ class ReportApiTest extends TestCase
             ]);
     }
 
+    public function testNationalityDistribution()
+    {
+        $v1 = Visitor::factory()->make();
+        $v1->nationality = 'Germany';
+        $v1->save();
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
+
+        $v2 = Visitor::factory()->make();
+        $v1->nationality = 'Germany';
+        $v2->save();
+        $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+
+        $v3 = Visitor::factory()->make();
+        $v1->nationality = 'France';
+        $v3->save();
+        $v3->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+
+        $v4 = Visitor::factory()->make();
+        $v4->gender = null;
+        $v4->save();
+        $v4->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
+
+        $v5 = Visitor::factory()->make();
+        $v1->nationality = 'Austria';
+        $v5->save();
+        $v5->checkins()->save(VisitorCheckin::createForDate('2023-11-16')); // outside of date range
+
+        $v6 = Visitor::factory()->make();
+        $v1->nationality = 'Italy';
+        $v6->save();
+        $v6->checkins()->save(VisitorCheckin::createForDate('2023-10-30')); // outside of date range
+
+        /** @var User $authUser */
+        $authUser = $this->makeUserWithPermission('visitors.reports');
+
+        $response = $this->actingAs($authUser)
+            ->getJson('api/visitors/report/nationalityDistribution?date_start=2023-11-01&date_end=2023-11-15');
+
+        $this->assertAuthenticated();
+        $response->assertOk()
+            ->assertExactJson([
+                ['label' => 'Germany', 'value' => 2],
+                ['label' => null, 'value'  => 1],
+                ['label' => 'France', 'value' => 1],
+            ]);
+    }
+
+
 }
