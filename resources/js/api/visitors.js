@@ -56,15 +56,19 @@ export default {
         return await api.get(url)
     },
     async ageDistribution (params) {
-        const url = route('api.visitors.ageDistribution', params)
+        const url = route('api.visitors.ageDistribution', params) // TODO
+        return await api.get(url)
+    },
+    async genderDistribution (params) {
+        const url = route('api.visitors.report.genderDistribution', params)
         return await api.get(url)
     },
     async nationalityDistribution (params) {
-        const url = route('api.visitors.nationalityDistribution', params)
+        const url = route('api.visitors.nationalityDistribution', params)  // TODO
         return await api.get(url)
     },
     async checkInsByVisitor (params) {
-        const url = route('api.visitors.checkInsByVisitor', params)
+        const url = route('api.visitors.checkInsByVisitor', params)  // TODO
         return await api.get(url)
     },
     async checkInsByPurpose(date_start, date_end) {

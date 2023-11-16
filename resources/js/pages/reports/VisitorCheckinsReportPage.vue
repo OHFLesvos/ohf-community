@@ -34,6 +34,12 @@
             :date_end="dateRange.to"
         />
 
+        <VisitorGenderDistributionChart
+            v-if="purpose == null"
+            :date_start="dateRange.from"
+            :date_end="dateRange.to"
+        />
+
     </b-container>
 </template>
 
@@ -44,6 +50,7 @@ import { mapState } from "vuex";
 import DateRangeSelect from "@/components/common/DateRangeSelect.vue";
 import VisitorCheckinsReportTable from "@/components/visitors/VisitorCheckinsReportTable.vue";
 import VisitorCheckinPurposeChart from "@/components/visitors/VisitorCheckinPurposeChart.vue";
+import VisitorGenderDistributionChart from "@/components/visitors/VisitorGenderDistributionChart.vue";
 
 export default {
     title() {
@@ -52,7 +59,8 @@ export default {
     components: {
         DateRangeSelect,
         VisitorCheckinsReportTable,
-        VisitorCheckinPurposeChart
+        VisitorCheckinPurposeChart,
+        VisitorGenderDistributionChart
     },
     data() {
         return {

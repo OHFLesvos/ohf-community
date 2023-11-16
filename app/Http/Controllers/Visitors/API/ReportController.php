@@ -8,6 +8,8 @@ use App\Models\Visitors\Visitor;
 use App\Models\Visitors\VisitorCheckin;
 use App\Support\ChartResponseBuilder;
 use Illuminate\Database\Connection;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -105,6 +107,26 @@ class ReportController extends Controller
         $this->authorize('view-visitors-reports');
 
         $data = VisitorCheckin::getPurposeList();
+
+        return response()->json($data);
+    }
+
+    public function genderDistribution(Request $request): JsonResponse
+    {
+        $this->authorize('view-visitors-reports');
+
+        [$startDate, $endDate] = $this->getDatePeriodFromRequest($request, defaultDays: null, dateStartField: 'date_start', dateEndField: 'date_end');
+
+        $data = Visitor::query()
+            ->select('gender')
+            ->selectRaw('COUNT(*) AS `total_count`')
+            ->whereHas('checkins', function (Builder $qry2) use ($startDate, $endDate) {
+                $qry2->when($startDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '>=', $startDate))
+                    ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate));
+            })
+            ->groupBy('gender')
+            ->orderBy('gender')
+            ->pluck('total_count', 'gender');
 
         return response()->json($data);
     }

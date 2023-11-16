@@ -33,7 +33,7 @@ trait ValidatesDateRanges
         return [
             $request->filled($dateStartField)
                 ? new Carbon($request->input($dateStartField))
-                : Carbon::today()->subDays($defaultDays),
+                : ($defaultDays !== null ? Carbon::today()->subDays($defaultDays) : null),
             $request->filled($dateEndField)
                 ? new Carbon($request->input($dateEndField))
                 : Carbon::today(),

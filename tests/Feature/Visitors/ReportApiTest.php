@@ -177,7 +177,7 @@ class ReportApiTest extends TestCase
         $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-07', 'aaa'));
 
         $v3 = Visitor::factory()->create();
-        $v3->checkins()->save(VisitorCheckin::createForDate('2022-11-07', 'bbb'));
+        $v3->checkins()->save(VisitorCheckin::createForDate('2023-11-07', 'bbb'));
 
         /** @var User $authUser */
         $authUser = $this->makeUserWithPermission('visitors.reports');
@@ -223,4 +223,103 @@ class ReportApiTest extends TestCase
                 'ccc' => 1,
             ]);
     }
+
+    public function testGenderDistribution()
+    {
+        $v1 = Visitor::factory()->make();
+        $v1->gender = 'male';
+        $v1->save();
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
+
+        $v2 = Visitor::factory()->make();
+        $v2->gender = 'male';
+        $v2->save();
+        $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+
+        $v3 = Visitor::factory()->make();
+        $v3->gender = 'female';
+        $v3->save();
+        $v3->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+
+        $v4 = Visitor::factory()->make();
+        $v4->gender = null;
+        $v4->save();
+        $v4->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
+
+        $v5 = Visitor::factory()->make();
+        $v5->gender = 'other';
+        $v5->save();
+        $v5->checkins()->save(VisitorCheckin::createForDate('2023-11-16')); // outside of date range
+
+        $v6 = Visitor::factory()->make();
+        $v6->gender = 'female';
+        $v6->save();
+        $v6->checkins()->save(VisitorCheckin::createForDate('2023-10-30')); // outside of date range
+
+        /** @var User $authUser */
+        $authUser = $this->makeUserWithPermission('visitors.reports');
+
+        $response = $this->actingAs($authUser)
+            ->getJson('api/visitors/report/genderDistribution?date_start=2023-11-01&date_end=2023-11-15');
+
+        $this->assertAuthenticated();
+        $response->assertOk()
+            ->assertExactJson([
+                'male' => 2,
+                'female' => 1,
+                '' => 1,
+            ]);
+    }
+
+    public function testGenderDistribution_withoutDateRange()
+    {
+        $v1 = Visitor::factory()->make();
+        $v1->gender = 'male';
+        $v1->save();
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+        $v1->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
+
+        $v2 = Visitor::factory()->make();
+        $v2->gender = 'male';
+        $v2->save();
+        $v2->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+
+        $v3 = Visitor::factory()->make();
+        $v3->gender = 'female';
+        $v3->save();
+        $v3->checkins()->save(VisitorCheckin::createForDate('2023-11-07'));
+
+        $v4 = Visitor::factory()->make();
+        $v4->gender = null;
+        $v4->save();
+        $v4->checkins()->save(VisitorCheckin::createForDate('2023-11-08'));
+
+        $v5 = Visitor::factory()->make();
+        $v5->gender = 'other';
+        $v5->save();
+        $v5->checkins()->save(VisitorCheckin::createForDate('2023-11-16'));
+
+        $v6 = Visitor::factory()->make();
+        $v6->gender = 'female';
+        $v6->save();
+        $v6->checkins()->save(VisitorCheckin::createForDate('2023-10-30'));
+
+        /** @var User $authUser */
+        $authUser = $this->makeUserWithPermission('visitors.reports');
+
+        // Test without date range
+        $response = $this->actingAs($authUser)
+            ->getJson('api/visitors/report/genderDistribution');
+
+        $this->assertAuthenticated();
+        $response->assertOk()
+            ->assertExactJson([
+                'male' => 2,
+                'female' => 2,
+                'other' => 1,
+                '' => 1,
+            ]);
+    }
+
 }
