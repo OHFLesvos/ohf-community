@@ -42,9 +42,7 @@ export default {
     methods: {
         async fetchData()
         {
-            let data = await visitorsApi.genderDistribution(this.date_start, this.date_end)
-
-            this.fetchedData = Array.isArray(data) && data.length == 0 ? {} : data
+            this.fetchedData = await visitorsApi.genderDistribution(this.date_start, this.date_end)
         }
     }
 }

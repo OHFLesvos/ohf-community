@@ -5,35 +5,35 @@
                 <doughnut-chart
                     :key="JSON.stringify(myData)"
                     :title="title"
-                    :data="myData"
+                    :data="chartData"
                     :height="300"
                     class="mb-2"
                 >
                 </doughnut-chart>
             </b-card-body>
             <b-table-simple
-                v-if="Object.keys(myData).length > 0"
+                v-if="myData.length"
                 responsive
                 small
                 class="my-0"
             >
-                <b-tr v-for="(value, label) in myData" :key="label">
+                <b-tr v-for="(e) in myData" :key="e.label">
                     <b-td class="fit">
-                        {{ label && label.length ? label : $t('Unspecified') }}
+                        {{ formatLabel(e.label) }}
                     </b-td>
                     <b-td class="align-middle d-none d-sm-table-cell">
                         <b-progress
-                            :value="value"
+                            :value="e.value"
                             :max="total"
                             :show-value="false"
                             variant="secondary"
                         />
                     </b-td>
                     <b-td class="fit text-right">
-                        {{ percentValue(value, total) }}%
+                        {{ percentValue(e.value, total) }}%
                     </b-td>
                     <b-td class="fit text-right d-none d-sm-table-cell">
-                        {{ value | numberFormat }}
+                        {{ e.value | numberFormat }}
                     </b-td>
                 </b-tr>
                 <b-tfoot>
@@ -68,7 +68,7 @@ export default {
             type: String
         },
         data: {
-            type: [Function, Object],
+            type: [Function, Object, Array],
             required: true
         }
     },
@@ -80,7 +80,12 @@ export default {
     },
     computed: {
         total() {
-            return Object.values(this.myData).reduce((a, b) => a + b, 0);
+            return this.myData.reduce((a, b) => a + b.value, 0);
+        },
+        chartData() {
+            let chartData = {}
+            this.myData.forEach(v => chartData[this.formatLabel(v.label)] = v.value)
+            return chartData;
         }
     },
     watch: {
@@ -93,18 +98,25 @@ export default {
     },
     methods: {
         async fetchData() {
-            let myData
+            let resData
             if (typeof this.data === "function") {
-                myData = await this.data();
+                resData = await this.data();
             } else {
-                myData = this.data;
+                resData = this.data;
             }
-            this.myData = Array.isArray(myData) && myData.length == 0 ? {} : myData
+            if (Array.isArray(resData))  {
+                this.myData = resData
+            } else {
+                this.myData = Object.entries(resData).map(e => ({label: e[0], value: e[1]}))
+            }
+        },
+        formatLabel(v) {
+            return v && v.length ? v : this.$t('Unspecified')
         },
         copyToClipboard() {
             const separator = '\t';
             const csvText = `${this.title}${separator}${this.$t("Percentage")}${separator}${this.$t("Amount")}\n`
-                + Object.entries(this.myData).map(e => `${e[0] && e[0].length ? e[0] : this.$t('Unspecified') }${separator}${this.percentValue(e[1], this.total)}${separator}${e[1]}`).join("\n")
+                + this.myData.map(e => `${this.formatLabel(e.label)}${separator}${this.percentValue(e.value, this.total)}${separator}${e.value}`).join("\n")
 
             copy(csvText, {
                 format: 'text/plain',

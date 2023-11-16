@@ -28,13 +28,13 @@
             :purpose="purpose"
         />
 
-        <VisitorCheckinPurposeChart
+        <VisitorGenderDistributionChart
             v-if="purpose == null"
             :date_start="dateRange.from"
             :date_end="dateRange.to"
         />
 
-        <VisitorGenderDistributionChart
+        <VisitorCheckinPurposeChart
             v-if="purpose == null"
             :date_start="dateRange.from"
             :date_end="dateRange.to"

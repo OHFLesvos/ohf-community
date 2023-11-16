@@ -125,10 +125,15 @@ class ReportController extends Controller
                     ->when($endDate !== null, fn (Builder $q) => $q->whereDate('checkin_date', '<=', $endDate));
             })
             ->groupBy('gender')
+            ->orderBy('total_count', 'desc')
             ->orderBy('gender')
-            ->pluck('total_count', 'gender');
+            ->get();
 
-        return response()->json($data);
+        return response()->json($data
+            ->map(fn ($e) => [
+                'label' => __($e->gender),
+                'value' => $e->total_count,
+            ]));
     }
 
     public function ageDistribution(Request $request): JsonResponse

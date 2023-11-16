@@ -266,9 +266,9 @@ class ReportApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'male' => 2,
-                'female' => 1,
-                '' => 1,
+                ['label' => 'male', 'value' => 2],
+                ['label' => null, 'value'  => 1],
+                ['label' => 'female', 'value' => 1],
             ]);
     }
 
@@ -315,10 +315,10 @@ class ReportApiTest extends TestCase
         $this->assertAuthenticated();
         $response->assertOk()
             ->assertExactJson([
-                'male' => 2,
-                'female' => 2,
-                'other' => 1,
-                '' => 1,
+                ['label' => 'male', 'value' => 2],
+                ['label' => 'female', 'value' => 2],
+                ['label' => null, 'value' => 1],
+                ['label' => 'other', 'value' => 1],
             ]);
     }
 
