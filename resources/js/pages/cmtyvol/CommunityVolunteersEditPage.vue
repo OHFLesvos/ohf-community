@@ -1,14 +1,13 @@
 <template>
     <b-container v-if="cmtyvol">
-        {{ cmtyvol }}
-        <!-- <WalletForm
-            :wallet="cmtyvol"
+        <CmtyvolForm
+            :cmtyvol="cmtyvol"
             :title="$t('Edit community volunteer')"
             :disabled="isBusy"
             @submit="handleUpdate"
             @cancel="handleCancel"
             @delete="handleDelete"
-        /> -->
+        />
         <p class="text-right">
             <small>
                 {{ $t("Created") }}:
@@ -28,13 +27,13 @@
 <script>
 import { showSnackbar } from "@/utils";
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
-// import WalletForm from "@/components/accounting/WalletForm.vue";
+import CmtyvolForm from "@/components/cmtyvol/CmtyvolForm.vue";
 export default {
     title() {
         return this.$t("Edit community volunteer");
     },
     components: {
-        // WalletForm
+        CmtyvolForm
     },
     props: {
         id: {
@@ -69,7 +68,7 @@ export default {
             try {
                 await cmtyvolApi.update(this.id, formData);
                 showSnackbar(this.$t("Community volunteer updated."));
-                this.$router.push({ name: "cmtyvol.overview" });
+                this.$router.push({ name: "cmtyvol.show", params: { id: this.id } });
             } catch (err) {
                 alert(err);
             }
@@ -87,7 +86,7 @@ export default {
             this.isBusy = false;
         },
         handleCancel() {
-            this.$router.push({ name: "cmtyvol.overview" });
+            this.$router.push({ name: "cmtyvol.show", params: { id: this.id } });
         }
     }
 };

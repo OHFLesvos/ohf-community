@@ -1,0 +1,332 @@
+<template>
+    <validation-observer ref="observer" v-slot="{ handleSubmit }" slim>
+        <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+            <b-card :title="title" body-class="pb-2" footer-class="d-flex justify-content-between align-items-start" class="mb-3">
+                <b-form-row>
+
+                    <!-- First name -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('First Name')"
+                            vid="first_name"
+                            :rules="{ required: true }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('First Name')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.first_name"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+
+                    <!-- Last name -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Family Name')"
+                            vid="family_name"
+                            :rules="{ required: true }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Family Name')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.family_name"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+
+                </b-form-row>
+                <b-form-row>
+
+                    <!-- Street -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Street')"
+                            vid="street"
+                            :rules="{ }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Street')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.street"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+
+                    <!-- ZIP -->
+                    <b-col md="2" lg="1">
+                        <validation-provider
+                            :name="$t('ZIP')"
+                            vid="zip"
+                            :rules="{ }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('ZIP')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.zip"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+
+                    <!-- City -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('City')"
+                            vid="city"
+                            :rules="{ }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('City')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.city"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+
+                    <!-- Country -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Country')"
+                            vid="country"
+                            :rules="{ }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Country')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.country_name"
+                                    autocomplete="off"
+                                    list="country-list"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                            <b-form-datalist id="country-list" :options="countries" />
+                        </validation-provider>
+                    </b-col>
+
+                </b-form-row>
+                <b-form-row>
+
+                    <!-- E-Mail -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Email address')"
+                            vid="email"
+                            :rules="{ email: true }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Email address')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.email"
+                                    type="email"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+
+                    <!-- Phone -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Phone')"
+                            vid="phone"
+                            :rules="{ }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Phone')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.phone"
+                                    autocomplete="off"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                        </validation-provider>
+                    </b-col>
+
+                    <!-- Language -->
+                    <b-col md>
+                        <validation-provider
+                            :name="$t('Correspondence language')"
+                            vid="language"
+                            :rules="{ }"
+                            v-slot="validationContext"
+                        >
+                            <b-form-group
+                                :label="$t('Correspondence language')"
+                                :state="getValidationState(validationContext)"
+                                :invalid-feedback="validationContext.errors[0]"
+                            >
+                                <b-form-input
+                                    v-model="form.language"
+                                    autocomplete="off"
+                                    list="language-list"
+                                    :state="getValidationState(validationContext)"
+                                />
+                            </b-form-group>
+                            <b-form-datalist id="language-list" :options="languages" />
+                        </validation-provider>
+                    </b-col>
+
+                </b-form-row>
+
+                <template #footer>
+                    <span>
+                        <!-- Submit -->
+                        <b-button
+                            type="submit"
+                            variant="primary"
+                            :disabled="disabled"
+                        >
+                            <font-awesome-icon icon="check" />
+                            {{ cmtyvol ? $t('Update') : $t('Add') }}
+                        </b-button>
+
+                        <!-- Cancel -->
+                        <b-button
+                            variant="link"
+                            :disabled="disabled"
+                            @click="$emit('cancel')"
+                        >
+                            {{ $t('Cancel') }}
+                        </b-button>
+                    </span>
+
+                    <!-- Delete -->
+                    <b-button
+                        v-if="cmtyvol && cmtyvol.can_delete"
+                        variant="link"
+                        :disabled="disabled"
+                        class="text-danger"
+                        @click="onDelete"
+                    >
+                        {{ $t('Delete') }}
+                    </b-button>
+
+                </template>
+            </b-card>
+        </b-form>
+    </validation-observer>
+</template>
+
+<script>
+// import commonApi from '@/api/common'
+// import donorsApi from '@/api/fundraising/donors'
+import formValidationMixin from "@/mixins/formValidationMixin";
+export default {
+    mixins: [formValidationMixin],
+    props: {
+        cmtyvol: {
+            type: Object,
+            required: false
+        },
+        title: {
+            required: false,
+            default: undefined
+        },
+        disabled: Boolean
+    },
+    data () {
+        return {
+            form: this.cmtyvol ? {
+                first_name: this.cmtyvol.first_name,
+                family_name: this.cmtyvol.family_name,
+                street: this.cmtyvol.street,
+                zip: this.cmtyvol.zip,
+                city: this.cmtyvol.city,
+                country_name: this.cmtyvol.country_name,
+                email: this.cmtyvol.email,
+                phone: this.cmtyvol.phone,
+                language: this.cmtyvol.language
+            } : {
+                salutation: null,
+                first_name: null,
+                last_name: null,
+                company: null,
+                street: null,
+                zip: null,
+                city: null,
+                country_name: null,
+                email: null,
+                phone: null,
+                language: null
+            },
+            salutations: [],
+            countries: [],
+            languages: []
+        }
+    },
+    created () {
+        // this.fetchSalutations()
+        // this.fetchCountries()
+        // this.fetchLanguages()
+    },
+    methods: {
+        // async fetchSalutations () {
+        //     let data = await donorsApi.listSalutations()
+        //     this.salutations = data.data
+        // },
+        // async fetchCountries () {
+        //     let data = await commonApi.listCountries()
+        //     this.countries = Object.values(data)
+        // },
+        // async fetchLanguages () {
+        //     let data = await commonApi.listLanguages()
+        //     this.languages = Object.values(data)
+        // },
+        onSubmit () {
+            this.$emit('submit', this.form)
+        },
+        onDelete () {
+            if (confirm(this.$t('Do you really want to delete this community volunteer?'))) {
+                this.$emit('delete')
+            }
+        }
+    }
+}
+</script>

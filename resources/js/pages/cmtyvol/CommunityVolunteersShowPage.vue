@@ -104,7 +104,6 @@ export default {
     },
     computed: {
         pageHeaderButtons() {
-            console.log(this.cmtyvol.can_update)
             return [
                 {
                     to: {
