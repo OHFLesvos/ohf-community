@@ -20,6 +20,9 @@
                                             <template v-else-if="field.type == 'email'">
                                                 <EmailLink :value="field.value"/>
                                             </template>
+                                            <template v-else-if="field.type == 'whatsapp'">
+                                                <span v-html="field.value"/>
+                                            </template>
                                             <template v-else-if="field.type == 'image'">
                                                 <img :src="field.value" class="img-fluid img-thumbnail">
                                             </template>
@@ -194,8 +197,9 @@ export default {
                 {
                     section: 'reachability',
                     label: this.$t('WhatsApp'),
-                    value: this.cmtyvol.whatsapp,
+                    value: this.cmtyvol.whatsapp_link,
                     icon: 'fa-brands fa-whatsapp',
+                    type: 'whatsapp',
                 },
                 {
                     section: 'reachability',
@@ -261,6 +265,11 @@ export default {
                     return this.$t("other");
             }
         },
+    },
+    watch: {
+        $route() {
+            this.fetchData()
+        }
     },
     async created() {
         this.fetchData()

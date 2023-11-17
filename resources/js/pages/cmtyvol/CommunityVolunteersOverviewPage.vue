@@ -15,8 +15,7 @@
         >
             <template v-slot:cell(first_name)="data">
                 <template v-if="data.item.url != null">
-                    <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
-                    | <router-link :to="{name: 'cmtyvol.show', params: { id: data.item.id }}">Vue</router-link>
+                    <router-link :to="{name: 'cmtyvol.show', params: { id: data.item.id }}">{{ data.value }}</router-link>
                 </template>
                 <template v-else>
                     {{ data.value }}
@@ -24,7 +23,7 @@
             </template>
             <template v-slot:cell(family_name)="data">
                 <template v-if="data.item.url != null">
-                    <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
+                    <router-link :to="{name: 'cmtyvol.show', params: { id: data.item.id }}">{{ data.value }}</router-link>
                 </template>
                 <template v-else>
                     {{ data.value }}

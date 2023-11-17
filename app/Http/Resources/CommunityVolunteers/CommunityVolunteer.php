@@ -37,6 +37,7 @@ class CommunityVolunteer extends JsonResource
             'local_phone' => $this->local_phone,
             'other_phone' => $this->other_phone,
             'whatsapp' => $this->whatsapp,
+            'whatsapp_link' => $this->whatsapp !== null ? whatsapp_link($this->whatsapp, 'Hello '.$this->first_name."\n") : null,
             'email' => $this->email,
             'skype' => $this->skype,
             'residence' => $this->residence,

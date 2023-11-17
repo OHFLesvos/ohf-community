@@ -206,6 +206,9 @@ Route::middleware(['auth', 'language'])
                 Route::view('overview', 'vue-app')
                     ->name('overview')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+                Route::view('{cmtyvol}', 'vue-app')
+                    ->name('show')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Import & Export view
                 Route::get('import-export', [CommunityVolunteersImportExportController::class, 'index'])
@@ -237,7 +240,7 @@ Route::middleware(['auth', 'language'])
             });
 
         // Community volunteers resource
-        Route::resource('cmtyvol', ListController::class);
+        Route::resource('cmtyvol', ListController::class)->except('show');
     });
 
 //

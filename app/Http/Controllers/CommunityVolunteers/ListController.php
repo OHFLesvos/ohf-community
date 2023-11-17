@@ -274,41 +274,6 @@ class ListController extends BaseController
         $field['assign']($cmtyvol, $request->{$field['form_name']});
     }
 
-    public function show(CommunityVolunteer $cmtyvol): View
-    {
-        $this->authorize('view', $cmtyvol);
-
-        $sections = $this->getSections();
-        $fields = collect($this->getFields());
-
-        return view('cmtyvol.show', [
-            'cmtyvol' => $cmtyvol,
-            'sections' => $sections,
-            'data' => collect(array_keys($sections))
-                ->filter(fn ($section) => self::getFieldsForSection($fields, $section)->count() > 0)
-                ->mapWithKeys(fn ($section) => [
-                    $section => self::getFieldsForSection($fields, $section)
-                        ->map(fn ($f) => [
-                            'label' => $f['label'],
-                            'icon' => $f['icon'],
-                            'icon_style' => $f['icon_style'] ?? null,
-                            'value' => self::getFieldValue($f, $cmtyvol),
-                        ])
-                        ->whereNotIn('value', [null])
-                        ->toArray(),
-                ])
-                ->toArray(),
-        ]);
-    }
-
-    private static function getFieldsForSection(Collection $fields, string $section): Collection
-    {
-        return $fields->where('section', $section)
-            ->where('overview_only', false)
-            ->where('exclude_show', false)
-            ->filter(fn ($field) => self::isFieldViewAuthorized($field));
-    }
-
     public function edit(CommunityVolunteer $cmtyvol): View
     {
         $this->authorize('update', $cmtyvol);
