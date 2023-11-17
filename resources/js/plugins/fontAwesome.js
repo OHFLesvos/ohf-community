@@ -72,7 +72,9 @@ import {
     faChartPie,
     faCogs,
     faKey,
-    faUserShield
+    faUserShield,
+    faGlobe,
+    faLanguage
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -150,11 +152,14 @@ library.add(
     faChartPie,
     faCogs,
     faKey,
-    faUserShield
+    faUserShield,
+    faGlobe,
+    faLanguage,
+    faEnvelope
 );
 
-import { faFontAwesome } from "@fortawesome/free-brands-svg-icons";
-library.add(faFontAwesome);
+import { faFontAwesome, faSkype, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+library.add(faFontAwesome, faWhatsapp, faSkype);
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 Vue.component("font-awesome-icon", FontAwesomeIcon);

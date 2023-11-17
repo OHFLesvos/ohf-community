@@ -24,10 +24,22 @@ export default [
         path: "/cmtyvol/:id",
         name: "cmtyvol.show",
         components: {
-            default: () => import("@/pages/cmtyvol/CommunityVolunteersShowPage.vue")
+            default: () => import("@/pages/cmtyvol/CommunityVolunteersShowPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
         },
         props: {
-            default: true
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Community Volunteers'),
+                        to: { name: "cmtyvol.overview" }
+                    },
+                    {
+                        text: i18n.t('Community Volunteer'),
+                    }
+                ]
+            }
         }
     },
 ];

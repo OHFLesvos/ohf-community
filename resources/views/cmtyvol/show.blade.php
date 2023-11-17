@@ -70,12 +70,13 @@
         @endforeach
         @can('viewAny', App\Model\Comment::class)
             @can('update', $cmtyvol)
-                <div class="column-break-avoid">
+                Placeholder comment
+                {{-- <div class="column-break-avoid">
                     <h4>{{ __('Comments') }}</h4>
                     <div id="app">
                         <x-spinner />
                     </div>
-                </div>
+                </div> --}}
             @endcan
         @endcan
     </div>

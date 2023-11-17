@@ -4,6 +4,10 @@ export default {
         const url = route('api.cmtyvol.index', params)
         return await api.get(url)
     },
+    async find (id) {
+        let url = route('api.cmtyvol.show', id)
+        return await api.get(url)
+    },
     async ageDistribution () {
         const url = route('api.cmtyvol.ageDistribution')
         return await api.get(url)

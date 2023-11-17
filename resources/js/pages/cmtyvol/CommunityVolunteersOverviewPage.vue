@@ -16,6 +16,7 @@
             <template v-slot:cell(first_name)="data">
                 <template v-if="data.item.url != null">
                     <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
+                    | <router-link :to="{name: 'cmtyvol.show', params: { id: data.item.id }}">Vue</router-link>
                 </template>
                 <template v-else>
                     {{ data.value }}
