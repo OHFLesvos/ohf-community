@@ -4,7 +4,6 @@ namespace App\Http\Resources\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\Responsibility;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 /**

@@ -325,8 +325,7 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
             });
 
-        Route::apiResource('cmtyvol', CommunityVolunteerController::class)
-            ->only('index', 'show');
+        Route::apiResource('cmtyvol', CommunityVolunteerController::class);
 
         // Comments
         Route::apiResource('cmtyvol.comments', CommunityVolunteerCommentsController::class)

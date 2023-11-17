@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\CommunityVolunteers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommunityVolunteers\StoreCommunityVolunteer;
 use App\Http\Resources\CommunityVolunteers\CommunityVolunteer as CommunityVolunteerResource;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
@@ -117,10 +119,55 @@ class CommunityVolunteerController extends Controller
         );
     }
 
+    public function store(StoreCommunityVolunteer $request): JsonResponse
+    {
+        $this->authorize('create', CommunityVolunteer::class);
+
+        $cmtyvol = new CommunityVolunteer();
+        $cmtyvol->fill($request->all());
+        $cmtyvol->languages = ($request->languages != null ? array_unique(array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $request->languages))) : null);
+
+        $cmtyvol->save();
+
+        return response()
+            ->json([
+                'message' => __('Community volunteer added'),
+                'id' => $cmtyvol->id,
+            ]);
+    }
+
+
     public function show(CommunityVolunteer $cmtyvol): JsonResource
     {
         $this->authorize('view', $cmtyvol);
 
         return new CommunityVolunteerResource($cmtyvol);
     }
+
+    public function update(StoreCommunityVolunteer $request, CommunityVolunteer $cmtyvol): JsonResponse
+    {
+        $this->authorize('update', $cmtyvol);
+
+        $cmtyvol->fill($request->all());
+        $cmtyvol->languages = ($request->languages != null ? array_unique(array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $request->languages))) : null);
+        $cmtyvol->save();
+
+        return response()
+            ->json([
+                'message' => __('Community volunteer updated'),
+            ]);
+    }
+
+    public function destroy(CommunityVolunteer $cmtyvol): JsonResponse
+    {
+        $this->authorize('delete', $cmtyvol);
+
+        $cmtyvol->delete();
+
+        return response()
+            ->json([
+                'message' => __('Community volunteer deleted'),
+            ]);
+    }
+
 }

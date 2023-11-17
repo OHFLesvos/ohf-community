@@ -27,6 +27,25 @@ class CommunityVolunteer extends Model implements Auditable
         'languages' => 'array',
     ];
 
+    protected $fillable = [
+        'first_name',
+        'family_name',
+        'nickname',
+        'date_of_birth',
+        'gender',
+        'nationality',
+        'police_no',
+        'languages',
+        'notes',
+        'local_phone',
+        'other_phone',
+        'whatsapp',
+        'email',
+        'skype',
+        'residence',
+        'pickup_location',
+    ];
+
     protected $nullable = [
         'nickname',
         'date_of_birth',

@@ -26,6 +26,9 @@
                                             <template v-else-if="field.type == 'image'">
                                                 <img :src="field.value" class="img-fluid img-thumbnail">
                                             </template>
+                                            <template v-else-if="field.type == 'pre'">
+                                                <span class="pre-formatted">{{ field.value }}</span>
+                                            </template>
                                             <template v-else-if="field.type == 'responsibilities'">
                                                 <div v-for="(r, k) in field.value" :key="k">
                                                     {{ k }}
@@ -157,7 +160,7 @@ export default {
                 {
                     section: 'general',
                     label: this.$t('Date of birth'),
-                    value: this.cmtyvol.date_of_birth
+                    value: this.dateFormat(this.cmtyvol.date_of_birth)
                 },
                 {
                     section: 'general',
@@ -199,16 +202,16 @@ export default {
                 },
                 {
                     section: 'reachability',
+                    label: this.$t('Skype'),
+                    value: this.cmtyvol.skype,
+                    icon: 'fa-brands fa-skype',
+                },
+                {
+                    section: 'reachability',
                     label: this.$t('Email address'),
                     value: this.cmtyvol.email,
                     icon: 'envelope',
                     type: 'email',
-                },
-                {
-                    section: 'reachability',
-                    label: this.$t('Skype'),
-                    value: this.cmtyvol.skype,
-                    icon: 'fa-brands fa-skype',
                 },
                 {
                     section: 'reachability',
@@ -244,7 +247,8 @@ export default {
                 {
                     section: 'general',
                     label: this.$t('Notes'),
-                    value: this.cmtyvol.notes
+                    value: this.cmtyvol.notes,
+                    type: 'pre',
                 },
             ]
         },
