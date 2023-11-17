@@ -65,6 +65,9 @@ import PhoneLink from "@/components/common/PhoneLink.vue";
 import EmailLink from "@/components/common/EmailLink.vue";
 import PageHeader from "@/components/layout/PageHeader.vue";
 export default {
+    title() {
+        return this.$t("Community Volunteer");
+    },
     components: {
         CmtyvolComments,
         EmailLink,
@@ -97,30 +100,24 @@ export default {
                     title: this.$t('Occupation'),
                 },
             ],
-            pageHeaderButtons: [
-                // {
-                //     to: {
-                //         name: "fundraising.donors.edit",
-                //         params: { id: this.id }
-                //     },
-                //     variant: "primary",
-                //     icon: "pencil-alt",
-                //     text: this.$t("Edit"),
-                //     show: this.can("manage-fundraising-entities")
-                // },
-                // {
-                //     href: this.route(
-                //         "cmtyvol.edit",
-                //         this.id
-                //     ),
-                //     icon: "pencil-alt",
-                //     text: this.$t("Edit"),
-                //     show: this.can("view-fundraising-entities")
-                // },
-            ],
         }
     },
     computed: {
+        pageHeaderButtons() {
+            console.log(this.cmtyvol.can_update)
+            return [
+                {
+                    to: {
+                        name: "cmtyvol.edit",
+                        params: { id: this.id }
+                    },
+                    variant: "primary",
+                    icon: "pencil-alt",
+                    text: this.$t("Edit"),
+                    show: this.cmtyvol.can_update
+                },
+            ]
+        },
         fields() {
             if (!this.cmtyvol) {
                 return []

@@ -42,4 +42,33 @@ export default [
             }
         }
     },
+    {
+        path: "/cmtyvol/:id/edit",
+        name: "cmtyvol.edit",
+        components: {
+            default: () => import("@/pages/cmtyvol/CommunityVolunteersEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: route => ({
+                items: [
+                    {
+                        text: i18n.t('Community Volunteers'),
+                        to: { name: "cmtyvol.overview" }
+                    },
+                    {
+                        text: i18n.t('Community Volunteer'),
+                        to: {
+                            name: "cmtyvol.show",
+                            params: { id: route.params.id }
+                        },
+                    },
+                    {
+                        text: i18n.t('Edit community volunteer'),
+                    }
+                ]
+            })
+        }
+    },
 ];

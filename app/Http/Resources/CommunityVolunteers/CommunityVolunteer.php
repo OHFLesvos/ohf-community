@@ -4,6 +4,7 @@ namespace App\Http\Resources\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\Responsibility;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 /**
@@ -58,6 +59,8 @@ class CommunityVolunteer extends JsonResource
             'url' => $request->user()->can('view', $this->resource)
                 ? route('cmtyvol.show', $this)
                 : null,
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
         ];
     }
 }
