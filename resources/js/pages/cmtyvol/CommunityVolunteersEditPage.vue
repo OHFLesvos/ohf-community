@@ -1,38 +1,49 @@
 <template>
-    <b-container v-if="cmtyvol">
-        <CmtyvolForm
-            :cmtyvol="cmtyvol"
-            :title="$t('Edit community volunteer')"
-            :disabled="isBusy"
-            @submit="handleUpdate"
-            @cancel="handleCancel"
-            @delete="handleDelete"
+    <b-container>
+        <AlertWithRetry
+            v-if="error"
+            :value="error"
+            @retry="fetchData"
         />
-        <p class="text-right">
-            <small>
-                {{ $t("Created") }}:
-                {{ cmtyvol.created_at | dateTimeFormat }} </small
-            ><br />
-            <small>
-                {{ $t("Last updated") }}:
-                {{ cmtyvol.updated_at | dateTimeFormat }}
-            </small>
-        </p>
-    </b-container>
-    <b-container v-else>
-        {{ $t("Loading...") }}
+        <div v-else-if="cmtyvol">
+            <CmtyvolForm
+                :cmtyvol="cmtyvol"
+                :title="$t('Edit community volunteer')"
+                :disabled="isBusy"
+                @submit="handleUpdate"
+                @cancel="handleCancel"
+                @delete="handleDelete"
+            />
+            <p class="text-right">
+                <small>
+                    {{ $t("Created") }}:
+                    {{ cmtyvol.created_at | dateTimeFormat }} </small
+                ><br />
+                <small>
+                    {{ $t("Last updated") }}:
+                    {{ cmtyvol.updated_at | dateTimeFormat }}
+                </small>
+            </p>
+        </div>
+        <div v-else>
+            {{ $t("Loading...") }}
+        </div>
     </b-container>
 </template>
 
 <script>
 import { showSnackbar } from "@/utils";
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
+
+import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
 import CmtyvolForm from "@/components/cmtyvol/CmtyvolForm.vue";
+
 export default {
     title() {
         return this.$t("Edit community volunteer");
     },
     components: {
+        AlertWithRetry,
         CmtyvolForm
     },
     props: {
@@ -42,6 +53,7 @@ export default {
     },
     data() {
         return {
+            error: null,
             cmtyvol: null,
             isBusy: false
         };
@@ -56,11 +68,13 @@ export default {
     },
     methods: {
         async fetchData() {
+            this.error = null
+            this.cmtyvol = null
             try {
                 let data = await cmtyvolApi.find(this.id);
                 this.cmtyvol = data.data;
             } catch (err) {
-                alert(err);
+                this.error = err
             }
         },
         async handleUpdate(formData) {

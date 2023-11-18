@@ -1,6 +1,11 @@
 <template>
     <b-container fluid>
-        <div v-if="cmtyvol">
+        <AlertWithRetry
+            v-if="error"
+            :value="error"
+            @retry="fetchData"
+        />
+        <div v-else-if="cmtyvol">
             <PageHeader :title="cmtyvol.full_name" :buttons="pageHeaderButtons"/>
             <div class="card-columns">
                 <template v-for="section in sections">
@@ -73,16 +78,20 @@
 </template>
 
 <script>
-import CmtyvolComments from "@/components/cmtyvol/CmtyvolComments.vue";
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
+
+import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
+import CmtyvolComments from "@/components/cmtyvol/CmtyvolComments.vue";
 import PhoneLink from "@/components/common/PhoneLink.vue";
 import EmailLink from "@/components/common/EmailLink.vue";
 import PageHeader from "@/components/layout/PageHeader.vue";
+
 export default {
     title() {
         return this.$t("Community Volunteer");
     },
     components: {
+        AlertWithRetry,
         CmtyvolComments,
         EmailLink,
         PhoneLink,
@@ -95,6 +104,7 @@ export default {
     },
     data() {
         return {
+            error: null,
             cmtyvol: null,
             sections: [
                 {
@@ -288,8 +298,14 @@ export default {
     },
     methods: {
         async fetchData() {
-            let data = await cmtyvolApi.find(this.id)
-            this.cmtyvol = data.data
+            this.cmtyvol = null
+            this.error = null
+            try {
+                let data = await cmtyvolApi.find(this.id)
+                this.cmtyvol = data.data
+            } catch (err) {
+                this.error = err
+            }
         }
     }
 };
