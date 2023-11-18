@@ -21,28 +21,6 @@ export default [
         }
     },
     {
-        path: "/cmtyvol/export",
-        name: "cmtyvol.export",
-        components: {
-            default: () => import("@/pages/cmtyvol/CommunityVolunteersExportPage.vue"),
-            breadcrumbs: BreadcrumbsNav,
-        },
-        props: {
-            default: true,
-            breadcrumbs: {
-                items: [
-                    {
-                        text: i18n.t('Community Volunteers'),
-                        to: { name: "cmtyvol.index" }
-                    },
-                    {
-                        text: i18n.t('Export community volunteer data'),
-                    }
-                ]
-            },
-        }
-    },
-    {
         path: "/cmtyvol/responsibilities",
         name: "cmtyvol.responsibilities.index",
         components: {

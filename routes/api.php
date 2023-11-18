@@ -19,6 +19,7 @@ use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
 use App\Http\Controllers\CommunityVolunteers\API\ResponsibilitiesController;
 use App\Http\Controllers\CommunityVolunteers\API\VcardDownloadController;
+use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\Fundraising\API\DonationController;
 use App\Http\Controllers\Fundraising\API\DonorCommentsController;
 use App\Http\Controllers\Fundraising\API\DonorController;
@@ -317,6 +318,11 @@ Route::middleware(['auth:sanctum', 'language'])
                 // Download vCard
                 Route::get('{cmtyvol}/vcard', VcardDownloadController::class)
                     ->name('vcard');
+
+                // Export download
+                Route::get('export', [CommunityVolunteersImportExportController::class, 'doExport'])
+                    ->name('export')
+                    ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Age distribution
                 Route::get('ageDistribution', [CommunityVolunteersReportController::class, 'ageDistribution'])

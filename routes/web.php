@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\UserManagement\UserController;
@@ -214,15 +213,6 @@ Route::middleware(['auth', 'language'])
                 Route::view('{cmtyvol}/edit', 'vue-app')
                     ->name('edit')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
-
-                // Import & Export view
-                Route::get('import-export', [CommunityVolunteersImportExportController::class, 'index'])
-                    ->name('import-export');
-
-                // Export download
-                Route::post('doExport', [CommunityVolunteersImportExportController::class, 'doExport'])
-                    ->name('doExport')
-                    ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
                 // Responsibilities resource
                 Route::view('responsibilities', 'vue-app')

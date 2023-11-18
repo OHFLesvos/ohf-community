@@ -50,4 +50,8 @@ export default {
         const url = route('api.cmtyvol.comments.store', donorId)
         return await api.post(url, data)
     },
+    async export(params) {
+        const url = route("api.cmtyvol.export", params);
+        return await api.download(url);
+    },
 }

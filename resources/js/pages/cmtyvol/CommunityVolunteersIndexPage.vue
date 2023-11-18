@@ -60,6 +60,7 @@
             </template>
             <template v-slot:filter-append>
                 <view-type-selector v-model="viewType" />
+                <CmtyvolExportDialog/>
             </template>
         </base-table>
 
@@ -87,13 +88,6 @@
                 show: can('create-community-volunteer')
             },
             {
-                to: { name: 'cmtyvol.export' },
-                variant: 'secondary',
-                icon: 'download',
-                text: $t('Export'),
-                show: can('export-community-volunteers')
-            },
-            {
                 to: { name: 'cmtyvol.responsibilities.index' },
                 variant: 'secondary',
                 icon: 'tasks',
@@ -106,12 +100,15 @@
 </template>
 
 <script>
-import BaseTable from '@/components/table/BaseTable.vue'
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
+
+import BaseTable from '@/components/table/BaseTable.vue'
 import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector.vue'
 import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector.vue'
 import GridView from '@/components/cmtyvol/GridView.vue'
 import ButtonGroup from "@/components/common/ButtonGroup.vue";
+import CmtyvolExportDialog from "@/components/cmtyvol/CmtyvolExportDialog.vue";
+
 export default {
     title() {
         return this.$t("Community Volunteers");
@@ -121,7 +118,8 @@ export default {
         WorkStatusSelector,
         ViewTypeSelector,
         GridView,
-        ButtonGroup
+        ButtonGroup,
+        CmtyvolExportDialog
     },
     data() {
         return {
