@@ -38,7 +38,7 @@ export default {
             this.isBusy = false
         },
         handleCancel () {
-            this.$router.push({ name: 'cmtyvol.overview' })
+            this.$router.push({ name: 'cmtyvol.index' })
         }
     }
 }

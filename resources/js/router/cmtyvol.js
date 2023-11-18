@@ -4,10 +4,10 @@ import BreadcrumbsNav from "@/components/layout/BreadcrumbsNav.vue";
 
 export default [
     {
-        path: "/cmtyvol/overview",
-        name: "cmtyvol.overview",
+        path: "/cmtyvol",
+        name: "cmtyvol.index",
         components: {
-            default: () => import("@/pages/cmtyvol/CommunityVolunteersOverviewPage.vue"),
+            default: () => import("@/pages/cmtyvol/CommunityVolunteersIndexPage.vue"),
             breadcrumbs: BreadcrumbsNav,
         },
         props: {
@@ -33,7 +33,7 @@ export default [
                 items: [
                     {
                         text: i18n.t('Community Volunteers'),
-                        to: { name: "cmtyvol.overview" }
+                        to: { name: "cmtyvol.index" }
                     },
                     {
                         text: i18n.t('Register Community Volunteer'),
@@ -55,7 +55,7 @@ export default [
                 items: [
                     {
                         text: i18n.t('Community Volunteers'),
-                        to: { name: "cmtyvol.overview" }
+                        to: { name: "cmtyvol.index" }
                     },
                     {
                         text: i18n.t('Community Volunteer'),
@@ -77,7 +77,7 @@ export default [
                 items: [
                     {
                         text: i18n.t('Community Volunteers'),
-                        to: { name: "cmtyvol.overview" }
+                        to: { name: "cmtyvol.index" }
                     },
                     {
                         text: i18n.t('Community Volunteer'),

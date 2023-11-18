@@ -35,7 +35,7 @@ export default {
                 {
                     text: this.$t('Community volunteers'),
                     icon: 'id-badge',
-                    href: this.route('cmtyvol.index'),
+                    to: { name: 'cmtyvol.index' },
                     show: this.can('view-community-volunteers'),
                 },
                 {

@@ -93,7 +93,7 @@ export default {
             try {
                 await cmtyvolApi.delete(this.id);
                 showSnackbar(this.$t("Community volunteer deleted."));
-                this.$router.push({ name: "cmtyvol.overview" });
+                this.$router.push({ name: "cmtyvol.index" });
             } catch (err) {
                 alert(err);
             }
