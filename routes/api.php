@@ -16,10 +16,10 @@ use App\Http\Controllers\API\SystemInfoController;
 use App\Http\Controllers\Badges\API\BadgeMakerController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
+use App\Http\Controllers\CommunityVolunteers\API\ExportController as CommunityVolunteersExportController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
 use App\Http\Controllers\CommunityVolunteers\API\ResponsibilitiesController;
 use App\Http\Controllers\CommunityVolunteers\API\VcardDownloadController;
-use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\Fundraising\API\DonationController;
 use App\Http\Controllers\Fundraising\API\DonorCommentsController;
 use App\Http\Controllers\Fundraising\API\DonorController;
@@ -320,7 +320,7 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('vcard');
 
                 // Export download
-                Route::get('export', [CommunityVolunteersImportExportController::class, 'doExport'])
+                Route::get('export', [CommunityVolunteersExportController::class, 'doExport'])
                     ->name('export')
                     ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 

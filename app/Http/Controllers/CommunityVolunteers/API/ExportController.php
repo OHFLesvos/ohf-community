@@ -1,38 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\CommunityVolunteers;
+namespace App\Http\Controllers\CommunityVolunteers\API;
 
 use App\Exports\CommunityVolunteers\CommunityVolunteersExport;
 use App\Exports\PageOrientation;
+use App\Http\Controllers\CommunityVolunteers\BaseController;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
-use Illuminate\View\View;
 use ZipStream\ZipStream;
 
-class ImportExportController extends BaseController
+class ExportController extends BaseController
 {
-    public function index(): View
-    {
-        return view('cmtyvol.import-export', [
-            'formats' => $this->getFormats(),
-            'format' => array_keys($this->getFormats())[0],
-            'work_statuses' => $this->getWorkStatuses()->toArray(),
-            'work_status' => session('cmtyvol.export.workStatus', 'active'),
-            'columnt_sets' => $this->getColumnSets()
-                ->mapWithKeys(fn ($s, $k) => [$k => $s['label']])
-                ->toArray(),
-            'columnt_set' => session('cmtyvol.export.columnt_set', $this->getColumnSets()->keys()->first()),
-            'sorters' => $this->getSorters()
-                ->mapWithKeys(fn ($s, $k) => [$k => $s['label']])
-                ->toArray(),
-            'sorting' => session('cmtyvol.export.sorting', $this->getSorters()->keys()->first()),
-        ]);
-    }
-
     private function getFormats(): array
     {
         // File extension => Label
@@ -93,7 +75,7 @@ class ImportExportController extends BaseController
         $export = new CommunityVolunteersExport($fields, $workStatus);
         $export->orientation = $request->orientation == 'portrait' ? PageOrientation::Portrait : PageOrientation::Landscape;
         $export->sorting = $sorting['sorting'];
-        if ($request->has('fit_to_page')) {
+        if ($request->has('fit_to_page') && $request->input('fit_to_page') == true) {
             $export->fitToWidth = 1;
             $export->fitToHeight = 1;
         }
@@ -139,7 +121,7 @@ class ImportExportController extends BaseController
         session(['cmtyvol.export.sorting' => $request->sorting]);
 
         // Download as simple spreadsheet
-        if ($request->missing('include_portraits')) {
+        if ($request->missing('include_portraits') || !$request->input('include_portraits')) {
             return $export->download($file_name.'.'.$file_ext);
         }
 
