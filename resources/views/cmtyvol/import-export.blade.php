@@ -4,29 +4,6 @@
 
 @section('content')
     <div class="row">
-        @can('import', App\Models\CommunityVolunteers\CommunityVolunteer::class)
-            <div class="col-md">
-                {!! Form::open(['route' => 'cmtyvol.doImport', 'files' => true]) !!}
-                    <div class="card shadow-sm mb-4">
-                        <div class="card-header">{{ __('Import') }}</div>
-                        <div class="card-body">
-                            {{ Form::bsFile('file', [ 'accept' => '.xlsx,.xls,.csv', 'class' => 'import-form-file' ], __('Choose file...')) }}
-                        </div>
-                        <table class="import-form-header-mapping table d-none" data-query="{{ route('api.cmtyvol.getHeaderMappings') }}">
-                            <thead>
-                                <th>{{ __('Field to import') }}</th>
-                                <th>{{ __('Field in database') }}</th>
-                                <th>{{ __('Add to existing values') }}</th>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                        <div class="card-footer text-right">
-                            <x-form.bs-submit-button :label="__('Import')" icon="upload"/>
-                        </div>
-                    </div>
-                {!! Form::close() !!}
-            </div>
-        @endcan
         @can('export', App\Models\CommunityVolunteers\CommunityVolunteer::class)
             <div class="col-md">
                 {!! Form::open(['route' => 'cmtyvol.doExport']) !!}

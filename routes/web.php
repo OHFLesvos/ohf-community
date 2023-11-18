@@ -224,11 +224,6 @@ Route::middleware(['auth', 'language'])
                     ->name('doExport')
                     ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                // Import upload
-                Route::post('doImport', [CommunityVolunteersImportExportController::class, 'doImport'])
-                    ->name('doImport')
-                    ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
-
                 // Responsibilities resource
                 Route::view('responsibilities', 'vue-app')
                     ->name('responsibilities');

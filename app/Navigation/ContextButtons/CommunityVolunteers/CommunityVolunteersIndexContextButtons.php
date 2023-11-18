@@ -3,7 +3,6 @@
 namespace App\Navigation\ContextButtons\CommunityVolunteers;
 
 use App\Models\CommunityVolunteers\CommunityVolunteer;
-use App\Models\CommunityVolunteers\Responsibility;
 use App\Navigation\ContextButtons\ContextButtons;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
