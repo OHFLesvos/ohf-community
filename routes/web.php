@@ -233,12 +233,6 @@ Route::middleware(['auth', 'language'])
                 Route::get('{cmtyvol}/vcard', [CommunityVolunteersImportExportController::class, 'vcard'])
                     ->name('vcard');
 
-                // Responsibilities
-                Route::get('{cmtyvol}/responsibilities', [ListController::class, 'responsibilities'])
-                    ->name('responsibilities');
-                Route::put('{cmtyvol}/responsibilities', [ListController::class, 'updateResponsibilities'])
-                    ->name('updateResponsibilities');
-
                 // Responsibilities resource
                 Route::view('responsibilities', 'vue-app')
                     ->name('responsibilities');
