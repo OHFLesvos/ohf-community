@@ -27,7 +27,6 @@ class NavigationServiceProvider extends ServiceProvider
         'accounting.webling.prepare' => \App\Navigation\ContextButtons\Accounting\WeblingPrepareContextButtons::class,
 
         'cmtyvol.index' => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersIndexContextButtons::class,
-        'cmtyvol.import-export' => \App\Navigation\ContextButtons\CommunityVolunteers\CommunityVolunteersReturnToIndexContextButtons::class,
     ];
 
     /**
