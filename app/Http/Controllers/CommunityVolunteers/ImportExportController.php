@@ -11,7 +11,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
-use JeroenDesloovere\VCard\VCard;
 use ZipStream\ZipStream;
 
 class ImportExportController extends BaseController
@@ -166,5 +165,4 @@ class ImportExportController extends BaseController
         }
         $zip->finish();
     }
-
 }

@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('Import & export community volunteer data'))
+@section('title', __('Export community volunteer data'))
 
 @section('content')
     <div class="row">

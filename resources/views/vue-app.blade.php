@@ -38,6 +38,7 @@
             'create-badges' => Gate::allows('create-badges'),
             'view-system-information' => Gate::allows('view-system-information'),
             'view-community-volunteers' => Auth::user()->can('viewAny', App\Models\CommunityVolunteers\CommunityVolunteer::class),
+            'export-community-volunteers' => Auth::user()->can('export', App\Models\CommunityVolunteers\CommunityVolunteer::class),
             'create-community-volunteer' =>Auth::user()->can('create', App\Models\CommunityVolunteers\CommunityVolunteer::class),
             'view-community-volunteer-responsibilities' => Auth::user()->can('viewAny', App\Models\CommunityVolunteers\Responsibility::class),
             'create-community-volunteer-responsibility' => Auth::user()->can('create', App\Models\CommunityVolunteers\Responsibility::class),

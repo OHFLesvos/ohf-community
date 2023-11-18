@@ -87,6 +87,13 @@
                 show: can('create-community-volunteer')
             },
             {
+                to: { name: 'cmtyvol.export' },
+                variant: 'secondary',
+                icon: 'download',
+                text: $t('Export'),
+                show: can('export-community-volunteers')
+            },
+            {
                 to: { name: 'cmtyvol.responsibilities.index' },
                 variant: 'secondary',
                 icon: 'tasks',

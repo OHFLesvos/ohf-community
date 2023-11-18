@@ -19,7 +19,6 @@ use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
 use App\Http\Controllers\CommunityVolunteers\API\ResponsibilitiesController;
 use App\Http\Controllers\CommunityVolunteers\API\VcardDownloadController;
-use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\Fundraising\API\DonationController;
 use App\Http\Controllers\Fundraising\API\DonorCommentsController;
 use App\Http\Controllers\Fundraising\API\DonorController;
