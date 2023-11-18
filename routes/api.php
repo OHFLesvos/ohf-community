@@ -305,6 +305,14 @@ Route::middleware(['auth:sanctum', 'language'])
         Route::name('cmtyvol.')
             ->prefix('cmtyvol')
             ->group(function () {
+                Route::get('languages', [CommunityVolunteerController::class, 'languages'])
+                    ->name('languages')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+
+                Route::get('pickupLocations', [CommunityVolunteerController::class, 'pickupLocations'])
+                    ->name('pickupLocations')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+
                 // Age distribution
                 Route::get('ageDistribution', [CommunityVolunteersReportController::class, 'ageDistribution'])
                     ->name('ageDistribution')

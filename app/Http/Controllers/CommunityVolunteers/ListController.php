@@ -6,7 +6,6 @@ use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\CommunityVolunteers\Responsibility;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;

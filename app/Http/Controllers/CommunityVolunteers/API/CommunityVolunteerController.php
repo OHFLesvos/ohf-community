@@ -136,7 +136,6 @@ class CommunityVolunteerController extends Controller
             ]);
     }
 
-
     public function show(CommunityVolunteer $cmtyvol): JsonResource
     {
         $this->authorize('view', $cmtyvol);
@@ -170,4 +169,33 @@ class CommunityVolunteerController extends Controller
             ]);
     }
 
+    public function languages(Request $request): array
+    {
+        return CommunityVolunteer::query()
+            ->when($request->has('activeOnly'), fn ($qry) => $qry->workStatus('active'))
+            ->select('languages')
+            ->distinct()
+            ->whereNotNull('languages')
+            ->orderBy('languages')
+            ->get()
+            ->pluck('languages')
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->values()
+            ->toArray();
+    }
+
+    public function pickupLocations(Request $request): array
+    {
+        return CommunityVolunteer::query()
+            ->when($request->has('activeOnly'), fn ($qry) => $qry->workStatus('active'))
+            ->select('pickup_location')
+            ->distinct()
+            ->orderBy('pickup_location')
+            ->whereNotNull('pickup_location')
+            ->get()
+            ->pluck('pickup_location')
+            ->toArray();
+    }
 }

@@ -197,9 +197,11 @@
                                 <b-form-input
                                     v-model="form.languages"
                                     autocomplete="off"
+                                    list="language-list"
                                     :state="getValidationState(validationContext)"
                                 />
                             </b-form-group>
+                            <b-form-datalist id="language-list" :options="languages"/>
                         </validation-provider>
                     </b-col>
 
@@ -382,13 +384,15 @@
                                 <b-form-input
                                     v-model="form.pickup_location"
                                     autocomplete="off"
+                                    list="pickup-list"
                                     :state="getValidationState(validationContext)"
                                 />
                             </b-form-group>
+                            <b-form-datalist id="pickup-list" :options="pickupLocations"/>
                         </validation-provider>
                     </b-col>
 
-                    </b-form-row>
+                </b-form-row>
 
                 <template #footer>
                     <span>
@@ -430,6 +434,7 @@
 </template>
 
 <script>
+import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
 import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
     mixins: [formValidationMixin],
@@ -485,7 +490,9 @@ export default {
                 { value: null, text: this.$t("Unspecified") },
                 { value: "m", text: this.$t("male") },
                 { value: "f", text: this.$t("female") },
-            ]
+            ],
+            languages: [],
+            pickupLocations: [],
         }
     },
     computed: {
@@ -496,7 +503,17 @@ export default {
     mounted() {
         this.$store.dispatch('country/fetchCountryList');
     },
+    created() {
+        this.fetchLanguages()
+        this.fetchPickupLocations()
+    },
     methods: {
+        async fetchLanguages() {
+            this.languages = await cmtyvolApi.languages(false)
+        },
+        async fetchPickupLocations() {
+            this.pickupLocations = await cmtyvolApi.pickupLocations(true)
+        },
         onSubmit () {
             this.$emit('submit', this.form)
         },

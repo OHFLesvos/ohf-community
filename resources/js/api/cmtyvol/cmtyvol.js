@@ -20,6 +20,16 @@ export default {
         const url = route('api.cmtyvol.destroy', id)
         return await api.delete(url)
     },
+    async languages (activeOnly) {
+        let params = activeOnly ? { activeOnly: true } : {}
+        const url = route('api.cmtyvol.languages', params)
+        return await api.get(url)
+    },
+    async pickupLocations (activeOnly) {
+        let params = activeOnly ? { activeOnly: true } : {}
+        const url = route('api.cmtyvol.pickupLocations', params)
+        return await api.get(url)
+    },
     async ageDistribution () {
         const url = route('api.cmtyvol.ageDistribution')
         return await api.get(url)
