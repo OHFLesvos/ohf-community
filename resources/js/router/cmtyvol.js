@@ -21,6 +21,28 @@ export default [
         }
     },
     {
+        path: "/cmtyvol/create",
+        name: "cmtyvol.create",
+        components: {
+            default: () => import("@/pages/cmtyvol/CommunityVolunteersCreatePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Community Volunteers'),
+                        to: { name: "cmtyvol.overview" }
+                    },
+                    {
+                        text: i18n.t('Register Community Volunteer'),
+                    }
+                ]
+            },
+        }
+    },
+    {
         path: "/cmtyvol/:id",
         name: "cmtyvol.show",
         components: {

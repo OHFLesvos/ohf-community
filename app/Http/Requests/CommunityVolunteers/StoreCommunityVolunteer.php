@@ -48,6 +48,7 @@ class StoreCommunityVolunteer extends FormRequest
             'date_of_birth' => [
                 'required',
                 'date',
+                'before_or_equal:today',
             ],
             'police_no' => [
                 'nullable',

@@ -24,6 +24,7 @@
                                     v-model="form.first_name"
                                     required
                                     autocomplete="off"
+                                    :autofocus="cmtyvol == null"
                                     :state="getValidationState(validationContext)"
                                 />
                             </b-form-group>
@@ -110,7 +111,7 @@
                         <validation-provider
                             :name="$t('Gender')"
                             vid="gender"
-                            :rules="{ }"
+                            :rules="{ required: true }"
                             v-slot="validationContext"
                         >
                             <b-form-group
@@ -122,6 +123,7 @@
                                     v-model="form.gender"
                                     :options="genders"
                                     stacked
+                                    required
                                     :disabled="disabled"
                                     :state="getValidationState(validationContext)"
                                 />

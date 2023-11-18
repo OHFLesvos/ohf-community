@@ -78,6 +78,16 @@
             </template>
         </grid-view>
 
+        <ButtonGroup :items="[
+            {
+                to: { name: 'cmtyvol.create' },
+                variant: 'primary',
+                icon: 'plus-circle',
+                text: $t('Add'),
+                show: can('create-community-volunteer')
+            },
+        ]"/>
+
     </b-container>
 </template>
 
@@ -87,6 +97,7 @@ import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
 import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector.vue'
 import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector.vue'
 import GridView from '@/components/cmtyvol/GridView.vue'
+import ButtonGroup from "@/components/common/ButtonGroup.vue";
 export default {
     title() {
         return this.$t("Community Volunteers");
@@ -95,7 +106,8 @@ export default {
         BaseTable,
         WorkStatusSelector,
         ViewTypeSelector,
-        GridView
+        GridView,
+        ButtonGroup
     },
     data() {
         return {
