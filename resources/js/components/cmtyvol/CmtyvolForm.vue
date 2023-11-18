@@ -357,7 +357,7 @@
                                 :state="getValidationState(validationContext)"
                                 :invalid-feedback="validationContext.errors[0]"
                             >
-                                <b-form-input
+                                <b-form-textarea
                                     v-model="form.residence"
                                     autocomplete="off"
                                     :state="getValidationState(validationContext)"

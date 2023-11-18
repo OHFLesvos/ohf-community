@@ -216,7 +216,8 @@ export default {
                 {
                     section: 'reachability',
                     label: this.$t('Residence'),
-                    value: this.cmtyvol.residence
+                    value: this.cmtyvol.residence,
+                    type: 'pre',
                 },
                 {
                     section: 'reachability',
