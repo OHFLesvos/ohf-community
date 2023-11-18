@@ -394,6 +394,73 @@
 
                 </b-form-row>
 
+                <b-card-sub-title class="py-3">{{ $t('Occupation') }}</b-card-sub-title>
+
+                <!-- Responsibilities -->
+                <b-table-simple small>
+                    <b-thead>
+                        <b-tr>
+                            <b-th>{{ $t('Responsibilities') }}</b-th>
+                            <b-th>{{ $t('From') }}</b-th>
+                            <b-th>{{ $t('To') }}</b-th>
+                            <b-th></b-th>
+                        </b-tr>
+                    </b-thead>
+                    <b-tbody>
+                        <b-tr v-for="(responsibility, idx) in form.responsibilities" :key="responsibility.idx">
+                            <b-td class="align-middle">
+                                {{ responsibilities ? responsibilities.filter(r => r.id == form.responsibilities[idx].id)[0]?.name : null }}
+                            </b-td>
+                            <b-td>
+                                <b-form-input
+                                    v-model="form.responsibilities[idx].start_date"
+                                    autocomplete="off"
+                                    placeholder="YYYY-MM-DD"
+                                />
+                            </b-td>
+                            <b-td>
+                                <b-form-input
+                                    v-model="form.responsibilities[idx].end_date"
+                                    autocomplete="off"
+                                    placeholder="YYYY-MM-DD"
+                                />
+                            </b-td>
+                            <b-td>
+                                <b-button variant="danger" @click="removeResponsibility(idx)">
+                                    <font-awesome-icon icon="minus-circle"/>
+                                </b-button>
+                            </b-td>
+                        </b-tr>
+                        <b-tr v-if="availableResponsibilityOptions.length">
+                            <b-td>
+                                <b-form-select
+                                    v-model="newResponsibility.id"
+                                    :options="availableResponsibilityOptions"
+                                />
+                            </b-td>
+                            <b-td>
+                                <b-form-input
+                                    v-model="newResponsibility.start_date"
+                                    autocomplete="off"
+                                    placeholder="YYYY-MM-DD"
+                                />
+                            </b-td>
+                            <b-td>
+                                <b-form-input
+                                    v-model="newResponsibility.end_date"
+                                    autocomplete="off"
+                                    placeholder="YYYY-MM-DD"
+                                />
+                            </b-td>
+                            <b-td>
+                                <b-button variant="success" @click="addResponsibility" :disabled="!(newResponsibility.id > 0)">
+                                    <font-awesome-icon icon="plus-circle"/>
+                                </b-button>
+                            </b-td>
+                        </b-tr>
+                    </b-tbody>
+                </b-table-simple>
+
                 <template #footer>
                     <span>
                         <!-- Submit -->
@@ -435,6 +502,7 @@
 
 <script>
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
+import responsibilitiesApi from '@/api/cmtyvol/responsibilities'
 import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
     mixins: [formValidationMixin],
@@ -468,6 +536,11 @@ export default {
                 email: this.cmtyvol.email,
                 residence: this.cmtyvol.residence,
                 pickup_location: this.cmtyvol.pickup_location,
+                responsibilities: Object.entries(this.cmtyvol.responsibilities).map(e => ({
+                    id: e[1].id,
+                    start_date: e[1].start_date,
+                    end_date: e[1].end_date
+                })),
             } : {
                 first_name: null,
                 family_name: null,
@@ -485,6 +558,7 @@ export default {
                 email: null,
                 residence: null,
                 pickup_location: null,
+                responsibilities: {},
             },
             genders: [
                 { value: null, text: this.$t("Unspecified") },
@@ -493,19 +567,28 @@ export default {
             ],
             languages: [],
             pickupLocations: [],
+            responsibilities: null,
+            newResponsibility: this.createEmptyResponsibility(),
         }
     },
     computed: {
         countryList() {
             return this.$store.getters['country/getCountryList'];
         },
+        responsibilityOptions() {
+            return this.responsibilities ? this.responsibilities.map(e => ({value: e.id, text: e.name})) : []
+        },
+        availableResponsibilityOptions() {
+            return this.responsibilityOptions.filter(e => !this.form.responsibilities.map(r => r.id).includes(e.value))
+        }
     },
     mounted() {
         this.$store.dispatch('country/fetchCountryList');
     },
-    created() {
+    async created() {
         this.fetchLanguages()
         this.fetchPickupLocations()
+        this.fetchResponsibilities()
     },
     methods: {
         async fetchLanguages() {
@@ -514,13 +597,37 @@ export default {
         async fetchPickupLocations() {
             this.pickupLocations = await cmtyvolApi.pickupLocations(true)
         },
+        async fetchResponsibilities() {
+            let res = await responsibilitiesApi.list()
+            this.responsibilities = res.data
+        },
         onSubmit () {
+            if (this.newResponsibility.id > 0) {
+                this.addResponsibility()
+            }
             this.$emit('submit', this.form)
         },
         onDelete () {
             if (confirm(this.$t('Really delete this community volunteer?'))) {
                 this.$emit('delete')
             }
+        },
+        createEmptyResponsibility() {
+            return {
+                id: null,
+                start_date: null,
+                end_date: null
+            }
+        },
+        addResponsibility() {
+            if (!this.newResponsibility.id) {
+                return
+            }
+            this.form.responsibilities.push({...this.newResponsibility})
+            this.newResponsibility = this.createEmptyResponsibility()
+        },
+        removeResponsibility(idx) {
+            this.form.responsibilities.splice(idx, 1);
         }
     }
 }

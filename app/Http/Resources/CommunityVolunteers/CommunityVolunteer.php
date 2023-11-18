@@ -44,6 +44,7 @@ class CommunityVolunteer extends JsonResource
             'pickup_location' => $this->pickup_location,
             'responsibilities' => $this->responsibilities->mapWithKeys(fn (Responsibility $r) => [
                 $r->name => [
+                    'id' => $r->id,
                     'description' => $r->description,
                     'start_date' => $r->getRelationValue('pivot')->start_date_string,
                     'end_date' => $r->getRelationValue('pivot')->end_date_string,

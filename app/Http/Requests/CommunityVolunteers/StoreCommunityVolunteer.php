@@ -57,6 +57,22 @@ class StoreCommunityVolunteer extends FormRequest
                 'nullable',
                 'email',
             ],
+            'responsibilities' => 'array',
+            'responsibilities.*.id' => [
+                'exists:App\Models\CommunityVolunteers\Responsibility,id',
+                'required_with:responsibilities.*.from,responsibilities.*.to',
+            ],
+            'responsibilities.*.start_date' => [
+                'required_with:responsibilities.*.to',
+                'nullable',
+                'date',
+
+            ],
+            'responsibilities.*.start_date' => [
+                'nullable',
+                'date',
+                'after_or_equal:responsibilities.*.from',
+            ],
         ];
     }
 }

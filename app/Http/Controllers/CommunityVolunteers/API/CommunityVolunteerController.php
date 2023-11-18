@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CommunityVolunteers\StoreCommunityVolunteer;
 use App\Http\Resources\CommunityVolunteers\CommunityVolunteer as CommunityVolunteerResource;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
+use App\Models\CommunityVolunteers\Responsibility;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class CommunityVolunteerController extends Controller
@@ -129,6 +131,8 @@ class CommunityVolunteerController extends Controller
 
         $cmtyvol->save();
 
+        $this->updateResponsibilities($cmtyvol, $request->input('responsibilities'));
+
         return response()
             ->json([
                 'message' => __('Community volunteer added'),
@@ -151,6 +155,8 @@ class CommunityVolunteerController extends Controller
         $cmtyvol->languages = ($request->languages != null ? array_unique(array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $request->languages))) : null);
         $cmtyvol->save();
 
+        $this->updateResponsibilities($cmtyvol, $request->input('responsibilities'));
+
         return response()
             ->json([
                 'message' => __('Community volunteer updated'),
@@ -167,6 +173,32 @@ class CommunityVolunteerController extends Controller
             ->json([
                 'message' => __('Community volunteer deleted'),
             ]);
+    }
+
+    private function updateResponsibilities(CommunityVolunteer $cmtyvol, $value)
+    {
+        DB::transaction(function () use ($cmtyvol, $value) {
+            $cmtyvol->responsibilities()->detach();
+            if ($value != null) {
+                if (! is_array($value)) {
+                    $values = [];
+                    foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
+                        $values[] = $v;
+                    }
+                    $value = array_map('trim', $values);
+                }
+                collect($value)->map(function ($entry) use ($cmtyvol) {
+                    if (! is_array($entry)) {
+                        $entry = ['id' => $entry];
+                    }
+                    $responsibility = Responsibility::where('id', $entry['id'])->first();
+                    $cmtyvol->responsibilities()->attach($responsibility, [
+                        'start_date' => isset($entry['start_date']) ? $entry['start_date'] : null,
+                        'end_date' => isset($entry['end_date']) ? $entry['end_date'] : null,
+                    ]);
+                });
+            }
+        });
     }
 
     public function languages(Request $request): array
