@@ -64,7 +64,7 @@
                             vid="nickname"
                             :rules="{ }"
                             v-slot="validationContext"
-                        >
+                            >
                             <b-form-group
                                 :label="$t('Nickname')"
                                 :state="getValidationState(validationContext)"
@@ -99,7 +99,7 @@
                                     :state="getValidationState(validationContext)"
                                 />
                             </b-form-group>
-                            <b-form-datalist id="country-list" :options="countries" />
+                            <b-form-datalist id="country-list" :options="countryList" />
                         </validation-provider>
                     </b-col>
 
@@ -430,7 +430,6 @@
 </template>
 
 <script>
-import commonApi from '@/api/common'
 import formValidationMixin from "@/mixins/formValidationMixin";
 export default {
     mixins: [formValidationMixin],
@@ -482,8 +481,6 @@ export default {
                 residence: null,
                 pickup_location: null,
             },
-            countries: [],
-            // languages: [],
             genders: [
                 { value: null, text: this.$t("Unspecified") },
                 { value: "m", text: this.$t("male") },
@@ -491,19 +488,15 @@ export default {
             ]
         }
     },
-    created () {
-        this.fetchCountries()
-        // this.fetchLanguages()
+    computed: {
+        countryList() {
+            return this.$store.getters['country/getCountryList'];
+        },
+    },
+    mounted() {
+        this.$store.dispatch('country/fetchCountryList');
     },
     methods: {
-        async fetchCountries () {
-            let data = await commonApi.listCountries()
-            this.countries = Object.values(data)
-        },
-        // async fetchLanguages () {
-        //     let data = await commonApi.listLanguages()
-        //     this.languages = Object.values(data)
-        // },
         onSubmit () {
             this.$emit('submit', this.form)
         },
