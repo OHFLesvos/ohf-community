@@ -558,7 +558,7 @@ export default {
                 email: null,
                 residence: null,
                 pickup_location: null,
-                responsibilities: {},
+                responsibilities: [],
             },
             genders: [
                 { value: null, text: this.$t("Unspecified") },
