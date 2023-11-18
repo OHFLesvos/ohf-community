@@ -642,7 +642,7 @@ export default {
         "Donation amount": "Spendebetrag",
         "Knowledge Base": "Knowledge Base",
         "Responsibility": "Verantwortung",
-        "Create responsibility": "Verantwortung hinzufügen",
+        "Add responsibility": "Verantwortung hinzufügen",
         "Edit responsibility": "Verantwortung bearbeiten",
         "No responsibilities defined.": "Keine Verantwortlichkeiten definiert.",
         "Responsibility added.": "Verantwortung hinzugefügt.",

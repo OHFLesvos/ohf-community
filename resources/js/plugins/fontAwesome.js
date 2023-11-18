@@ -74,7 +74,8 @@ import {
     faKey,
     faUserShield,
     faGlobe,
-    faLanguage
+    faLanguage,
+    faTasks
 } from "@fortawesome/free-solid-svg-icons";
 
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -155,7 +156,8 @@ library.add(
     faUserShield,
     faGlobe,
     faLanguage,
-    faEnvelope
+    faEnvelope,
+    faTasks
 );
 
 import { faFontAwesome, faSkype, faWhatsapp } from "@fortawesome/free-brands-svg-icons";

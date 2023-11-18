@@ -86,6 +86,13 @@
                 text: $t('Add'),
                 show: can('create-community-volunteer')
             },
+            {
+                to: { name: 'cmtyvol.responsibilities.index' },
+                variant: 'secondary',
+                icon: 'tasks',
+                text: $t('Responsibilities'),
+                show: can('view-community-volunteer-responsibilities')
+            },
         ]"/>
 
     </b-container>

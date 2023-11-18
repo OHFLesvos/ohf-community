@@ -1,6 +1,6 @@
 @extends('layouts.app', ['wide_layout' => false])
 
-@section('title', __('Create responsibility'))
+@section('title', __('Add responsibility'))
 
 @section('content')
     {!! Form::open(['route' => ['cmtyvol.responsibilities.store']]) !!}

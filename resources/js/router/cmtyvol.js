@@ -21,6 +21,80 @@ export default [
         }
     },
     {
+        path: "/cmtyvol/responsibilities",
+        name: "cmtyvol.responsibilities.index",
+        components: {
+            default: () => import("@/pages/cmtyvol/responsibilities/ResponsibilitiesIndexPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Community Volunteers'),
+                        to: { name: "cmtyvol.index" }
+                    },
+                    {
+                        text: i18n.t('Responsibilities'),
+                    }
+                ]
+            },
+        }
+    },
+    {
+        path: "/cmtyvol/responsibilities/_create",
+        name: "cmtyvol.responsibilities.create",
+        components: {
+            default: () => import("@/pages/cmtyvol/responsibilities/ResponsibilitiesCreatePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Community Volunteers'),
+                        to: { name: "cmtyvol.index" }
+                    },
+                    {
+                        text: i18n.t('Responsibilities'),
+                        to: { name: "cmtyvol.responsibilities.index" }
+                    },
+                    {
+                        text: i18n.t('Add responsibility'),
+                    }
+                ]
+            },
+        }
+    },
+    {
+        path: "/cmtyvol/responsibilities/:id/edit",
+        name: "cmtyvol.responsibilities.edit",
+        components: {
+            default: () => import("@/pages/cmtyvol/responsibilities/ResponsibilitiesEditPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Community Volunteers'),
+                        to: { name: "cmtyvol.index" }
+                    },
+                    {
+                        text: i18n.t('Responsibilities'),
+                        to: { name: "cmtyvol.responsibilities.index" }
+                    },
+                    {
+                        text: i18n.t('Edit responsibility'),
+                    }
+                ]
+            },
+        }
+    },
+    {
         path: "/cmtyvol/create",
         name: "cmtyvol.create",
         components: {
@@ -43,7 +117,7 @@ export default [
         }
     },
     {
-        path: "/cmtyvol/:id",
+        path: "/cmtyvol/:id(\\d+)",
         name: "cmtyvol.show",
         components: {
             default: () => import("@/pages/cmtyvol/CommunityVolunteersShowPage.vue"),
@@ -65,7 +139,7 @@ export default [
         }
     },
     {
-        path: "/cmtyvol/:id/edit",
+        path: "/cmtyvol/:id(\\d+)/edit",
         name: "cmtyvol.edit",
         components: {
             default: () => import("@/pages/cmtyvol/CommunityVolunteersEditPage.vue"),
