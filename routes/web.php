@@ -4,7 +4,6 @@ use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\ListController;
-use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
@@ -241,8 +240,11 @@ Route::middleware(['auth', 'language'])
                     ->name('updateResponsibilities');
 
                 // Responsibilities resource
-                Route::resource('responsibilities', ResponsibilitiesController::class)
-                    ->except('show');
+                Route::view('responsibilities', 'vue-app')
+                    ->name('responsibilities');
+                Route::view('responsibilities/{any}', 'vue-app')
+                    ->where('any', '.*')
+                    ->name('responsibilities.any');
             });
 
         // Community volunteers resource

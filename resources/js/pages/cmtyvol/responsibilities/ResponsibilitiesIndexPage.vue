@@ -6,8 +6,7 @@
             :fields="fields"
             :api-method="fetchData"
             default-sort-by="name"
-            :empty-text="$t('No data registered.')"
-            :items-per-page="25"
+            :empty-text="$t('No responsibilities defined.')"
             no-filter
             :tbody-tr-class="rowClass"
         >
@@ -28,7 +27,7 @@
                 variant: 'primary',
                 icon: 'plus-circle',
                 text: $t('Add'),
-                show: can('manage-suppliers')
+                show: can('create-community-volunteer-responsibility')
             },
         ]"/>
     </b-container>
@@ -64,8 +63,8 @@ export default {
                 {
                     key: "capacity",
                     label: this.$t("Capacity"),
-                    tdClass: "align-middle",
-                    formatter: v => v == null ? '∞' : v
+                    tdClass: (v, _, item) => ["align-middle", item.is_capacity_exhausted ? 'table-danger' : null],
+                    formatter: (v, _, item) => v == null ? '∞' : `${item.count_active} / ${v}`
                 },
                 {
                     key: "available",
