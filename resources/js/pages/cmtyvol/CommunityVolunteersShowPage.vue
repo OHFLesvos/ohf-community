@@ -5,6 +5,17 @@
             <div class="card-columns">
                 <template v-for="section in sections">
                     <b-card v-if="fields.filter(f => f.section == section.name && f.value).length" :header="section.title" no-body :key="section.name">
+                        <template v-if="section.name == 'occupation'">
+                            <b-alert v-if="!cmtyvol.first_work_start_date" variant="warning" show class="mb-0">
+                                {{ $t('No starting date has been set.') }}
+                            </b-alert>
+                            <b-alert v-else-if="new Date(cmtyvol.first_work_start_date) > new Date()" variant="warning" show class="mb-0">
+                                {{ $t('This community volunteer will start on {date}.', {date: dateFormat(cmtyvol.first_work_start_date) }) }}
+                            </b-alert>
+                            <b-alert v-else-if="cmtyvol.last_work_end_date" variant="info" show class="mb-0">
+                                {{ $t( (new Date(cmtyvol.last_work_end_date) > new Date() ? 'This community volunteer will leave on {date}.' :'This community volunteer left on {date}.'), {date: dateFormat(cmtyvol.last_work_end_date) }) }}
+                            </b-alert>
+                        </template>
                         <b-list-group flush>
                             <template v-for="field in fields.filter(f => f.section == section.name)">
                                 <b-list-group-item v-if="field.value" :key="field.label">
