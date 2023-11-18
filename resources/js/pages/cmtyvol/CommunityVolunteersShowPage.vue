@@ -139,6 +139,15 @@ export default {
                     text: this.$t("Edit"),
                     show: this.cmtyvol.can_update
                 },
+                {
+                    href: this.route(
+                        "api.cmtyvol.vcard",
+                        this.id
+                    ),
+                    icon: "address-card",
+                    text: this.$t("vCard"),
+                    show: true,
+                },
             ]
         },
         fields() {

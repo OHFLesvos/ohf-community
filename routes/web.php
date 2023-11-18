@@ -229,10 +229,6 @@ Route::middleware(['auth', 'language'])
                     ->name('doImport')
                     ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                // Download vCard
-                Route::get('{cmtyvol}/vcard', [CommunityVolunteersImportExportController::class, 'vcard'])
-                    ->name('vcard');
-
                 // Responsibilities resource
                 Route::view('responsibilities', 'vue-app')
                     ->name('responsibilities');

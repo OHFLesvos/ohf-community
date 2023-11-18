@@ -17,6 +17,7 @@ use App\Http\Controllers\Badges\API\BadgeMakerController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
+use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
 use App\Http\Controllers\CommunityVolunteers\API\ResponsibilitiesController;
 use App\Http\Controllers\CommunityVolunteers\ImportExportController;
 use App\Http\Controllers\Fundraising\API\DonationController;
@@ -313,6 +314,10 @@ Route::middleware(['auth:sanctum', 'language'])
                 Route::get('pickupLocations', [CommunityVolunteerController::class, 'pickupLocations'])
                     ->name('pickupLocations')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+
+                // Download vCard
+                Route::get('{cmtyvol}/vcard', [CommunityVolunteersImportExportController::class, 'vcard'])
+                    ->name('vcard');
 
                 // Age distribution
                 Route::get('ageDistribution', [CommunityVolunteersReportController::class, 'ageDistribution'])
