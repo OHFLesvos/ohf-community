@@ -359,11 +359,11 @@ export default {
             this.salutations = data.data
         },
         async fetchCountries () {
-            let data = await commonApi.listCountries()
+            let data = await commonApi.listLocalizedCountries()
             this.countries = Object.values(data)
         },
         async fetchLanguages () {
-            let data = await commonApi.listLanguages()
+            let data = await commonApi.listLocalizedLanguages()
             this.languages = Object.values(data)
         },
         onSubmit () {

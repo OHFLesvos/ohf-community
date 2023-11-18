@@ -441,12 +441,15 @@ Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
 // Common data
 //
 Route::get('countries', [DataListController::class, 'countries'])
-    ->middleware(['language'])
     ->name('api.countries');
 
-Route::get('languages', [DataListController::class, 'languages'])
+Route::get('localizedCountries', [DataListController::class, 'localizedCountries'])
     ->middleware(['language'])
-    ->name('api.languages');
+    ->name('api.localizedCountries');
+
+Route::get('localizedLanguages', [DataListController::class, 'localizedLanguages'])
+    ->middleware(['language'])
+    ->name('api.localizedLanguages');
 
 Route::get('settings', [SettingsController::class, 'list'])
     ->name('api.settings');
