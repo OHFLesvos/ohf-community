@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div>
+        <div class="text-center">
             <img v-if="picture_url" :src="picture_url" class="img-fluid" :style="{ 'max-width': width }">
             <div v-else :style="{ width: width }"><em>{{ $t('No picture has been added.') }}</em></div>
         </div>
-        <div v-if="picture_url && cmtyvol.can_update && !replace" class="mt-3">
+        <div v-if="picture_url && cmtyvol.can_update && !replace" class="mt-3 text-center">
             <b-button size="sm" @click="replace = true">
                 <font-awesome-icon icon="sync"/> {{ $t('Replace') }}
             </b-button>
@@ -12,7 +12,7 @@
                 <font-awesome-icon icon="trash"/>{{ $t('Remove') }}
             </b-button>
         </div>
-        <div v-else-if="!picture_url && cmtyvol.can_update && !replace" class="mt-3">
+        <div v-else-if="!picture_url && cmtyvol.can_update && !replace" class="mt-3 text-center">
             <b-button size="sm" @click="replace = true"><font-awesome-icon icon="sync"/> {{ $t('Upload') }}</b-button>
         </div>
         <div v-if="replace" class="mt-3">
@@ -26,7 +26,7 @@
                     accept="image/*"
                 />
             </b-form-group>
-            <div class="mt-3">
+            <div class="mt-3 text-center">
                 <b-button
                     size="sm"
                     variant="success"

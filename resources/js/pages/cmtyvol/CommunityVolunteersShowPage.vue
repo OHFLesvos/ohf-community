@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid>
+    <b-container>
         <AlertWithRetry
             v-if="error"
             :value="error"
@@ -7,19 +7,19 @@
         />
         <div v-else-if="cmtyvol">
             <PageHeader :title="cmtyvol.full_name" :buttons="pageHeaderButtons"/>
-            <div class="d-md-flex">
-                <div class="mr-md-2 mb-3">
-                    <b-card :header="$t('Portrait')">
-                        <CmtyvolPicture :cmtyvol="cmtyvol"/>
-                    </b-card>
-                </div>
-                <div class="flex-grow-1">
-                    <b-form-row>
+                    <b-row>
+                        <b-col md="6" class="mb-3">
+                            <b-card :header="$t('Portrait')">
+                                <div class="d-flex justify-content-center">
+                                    <CmtyvolPicture :cmtyvol="cmtyvol"/>
+                                </div>
+                            </b-card>
+                        </b-col>
                         <template v-for="section in sections">
                             <b-col
                                 :key="section.name"
                                 v-if="fields.filter(f => f.section == section.name && f.value).length"
-                                md="12" lg="6" xl="4" class="mb-3">
+                                md="6" class="mb-3">
                             <b-card :header="section.title" no-body>
                                 <template v-if="section.name == 'occupation'">
                                     <b-alert v-if="!cmtyvol.first_work_start_date" variant="warning" show class="mb-0">
@@ -82,14 +82,14 @@
                             </b-card>
                             </b-col>
                         </template>
-                    </b-form-row>
-                </div>
-            </div>
-            <b-container class="mb-3">
+                    </b-row>
+                <!-- </div>
+            </div> -->
+            <div class="mb-3">
                 <b-card :header="$t('Comments')" body-class="pb-0">
                     <CmtyvolComments :id="id" />
                 </b-card>
-            </b-container>
+            </div>
         </div>
         <div v-else>
             {{ $t('Loading...') }}
