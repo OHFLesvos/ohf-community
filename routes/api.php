@@ -9,6 +9,7 @@ use App\Http\Controllers\Accounting\API\SummaryController;
 use App\Http\Controllers\Accounting\API\SuppliersController;
 use App\Http\Controllers\Accounting\API\TransactionsController;
 use App\Http\Controllers\Accounting\API\WalletsController;
+use App\Http\Controllers\Accounting\API\WeblingApiController;
 use App\Http\Controllers\API\ChangelogController;
 use App\Http\Controllers\API\CommentsController;
 use App\Http\Controllers\API\DataListController;
@@ -299,6 +300,12 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('budgets.donations');
                 Route::get('budgets/{budget}/export', [BudgetController::class, 'export'])
                     ->name('budgets.export');
+
+                // Webling
+                Route::get('wallets/{wallet}/webling', [WeblingApiController::class, 'periods'])
+                    ->name('webling.periods');
+                Route::get('wallets/{wallet}/webling/prepare', [WeblingApiController::class, 'prepare'])
+                    ->name('webling.prepare');
             });
 
         //

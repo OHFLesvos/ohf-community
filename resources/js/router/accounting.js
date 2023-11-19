@@ -661,4 +661,58 @@ export default [
             }
         }
     },
+    {
+        path: "/accounting/wallets/:wallet/weblings",
+        name: "accounting.webling.index",
+        components: {
+            default: () => import("@/pages/accounting/webling/WeblingIndexPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Transactions"),
+                        to: { name: 'accounting.transactions.index' },
+                    },
+                    {
+                        text: i18n.t('Book to Webling'),
+                    }
+                ]
+            }
+        }
+    },
+    {
+        path: "/accounting/wallets/:wallet/weblings/prepare",
+        name: "accounting.webling.prepare",
+        components: {
+            default: () => import("@/pages/accounting/webling/WeblingPreparePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: {
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Transactions"),
+                        to: { name: 'accounting.transactions.index' },
+                    },
+                    {
+                        text: i18n.t('Book to Webling'),
+                    }
+                ]
+            }
+        }
+    },
 ];

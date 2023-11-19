@@ -60,6 +60,15 @@ export default {
                     text: this.$t("Webling"),
                     show: this.can("export-to-webling")
                 } : null,
+                this.$route.query.wallet ? {
+                    to: {
+                        name: 'accounting.webling.index',
+                        params: { wallet: this.$route.query.wallet }
+                    },
+                    icon: "cloud-upload-alt",
+                    text: this.$t("Webling"),
+                    show: this.can("export-to-webling")
+                } : null,
             ]
         },
         ...mapState(["settings"]),
