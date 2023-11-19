@@ -121,7 +121,7 @@ class ExportController extends BaseController
         session(['cmtyvol.export.sorting' => $request->sorting]);
 
         // Download as simple spreadsheet
-        if ($request->missing('include_portraits') || !$request->input('include_portraits')) {
+        if ($request->missing('include_portraits') || ! $request->input('include_portraits')) {
             return $export->download($file_name.'.'.$file_ext);
         }
 

@@ -7,69 +7,96 @@
         />
         <div v-else-if="cmtyvol">
             <PageHeader :title="cmtyvol.full_name" :buttons="pageHeaderButtons"/>
-            <div class="card-columns">
-                <template v-for="section in sections">
-                    <b-card v-if="fields.filter(f => f.section == section.name && f.value).length" :header="section.title" no-body :key="section.name">
-                        <template v-if="section.name == 'occupation'">
-                            <b-alert v-if="!cmtyvol.first_work_start_date" variant="warning" show class="mb-0">
-                                {{ $t('No starting date has been set.') }}
-                            </b-alert>
-                            <b-alert v-else-if="new Date(cmtyvol.first_work_start_date) > new Date()" variant="warning" show class="mb-0">
-                                {{ $t('This community volunteer will start on {date}.', {date: dateFormat(cmtyvol.first_work_start_date) }) }}
-                            </b-alert>
-                            <b-alert v-else-if="cmtyvol.last_work_end_date" variant="info" show class="mb-0">
-                                {{ $t( (new Date(cmtyvol.last_work_end_date) > new Date() ? 'This community volunteer will leave on {date}.' :'This community volunteer left on {date}.'), {date: dateFormat(cmtyvol.last_work_end_date) }) }}
-                            </b-alert>
-                        </template>
-                        <b-list-group flush>
-                            <template v-for="field in fields.filter(f => f.section == section.name)">
-                                <b-list-group-item v-if="field.value" :key="field.label">
-                                    <b-row>
-                                        <b-col lg="5">
-                                            <font-awesome-icon v-if="field.icon" :icon="field.icon"/>
-                                            <strong>{{ field.label }}</strong>
-                                        </b-col>
-                                        <b-col lg>
-                                            <template v-if="field.type == 'phone'">
-                                                <PhoneLink :value="field.value"/>
-                                            </template>
-                                            <template v-else-if="field.type == 'email'">
-                                                <EmailLink :value="field.value"/>
-                                            </template>
-                                            <template v-else-if="field.type == 'whatsapp'">
-                                                <span v-html="field.value"/>
-                                            </template>
-                                            <template v-else-if="field.type == 'image'">
-                                                <img :src="field.value" class="img-fluid img-thumbnail">
-                                            </template>
-                                            <template v-else-if="field.type == 'pre'">
-                                                <span class="pre-formatted">{{ field.value }}</span>
-                                            </template>
-                                            <template v-else-if="field.type == 'responsibilities'">
-                                                <div v-for="(r, k) in field.value" :key="k">
-                                                    {{ k }}
-                                                    <font-awesome-icon v-if="r.description" icon="info-circle" :title="r.description"/>
-                                                    <small v-if="r.start_date && r.end_date">
-                                                        ({{ dateFormat(r.start_date) }} - {{ dateFormat(r.end_date) }})
-                                                    </small>
-                                                    <small v-else-if="r.start_date">({{ $t('since {date}', { date: dateFormat(r.start_date) }) }})</small>
-                                                    <small v-else-if="r.end_date">({{ $t('until {date}', { date: dateFormat(r.end_date) }) }})</small>
-                                                </div>
-                                            </template>
-                                            <template v-else>
-                                                {{ field.value }}
-                                            </template>
-                                        </b-col>
-                                    </b-row>
-                                </b-list-group-item>
-                            </template>
-                        </b-list-group>
+            <div class="d-md-flex">
+                <div class="mr-md-2 mb-3">
+                    <b-card :header="$t('Portrait')">
+                        <CmtyvolPicture :cmtyvol="cmtyvol"/>
+<!--
+
+                        <img :src="cmtyvol.portrait_picture_url" class="img-fluid" style="max-width: 300px">
+                        <div v-if="cmtyvol.can_update" class="mt-3">
+                            <b-button size="sm"><font-awesome-icon icon="sync"/> {{ $t('Replace') }}</b-button>
+                            <b-button size="sm" variant="danger"><font-awesome-icon icon="trash"/>{{ $t('Remove') }}</b-button>
+                        </div> -->
                     </b-card>
-                </template>
+                </div>
+                <div class="flex-grow-1">
+                    <b-form-row>
+                        <template v-for="section in sections">
+                            <b-col
+                                :key="section.name"
+                                v-if="fields.filter(f => f.section == section.name && f.value).length"
+                                md="12" lg="6" xl="4" class="mb-3">
+                            <b-card :header="section.title" no-body>
+                                <template v-if="section.name == 'occupation'">
+                                    <b-alert v-if="!cmtyvol.first_work_start_date" variant="warning" show class="mb-0">
+                                        {{ $t('No starting date has been set.') }}
+                                    </b-alert>
+                                    <b-alert v-else-if="new Date(cmtyvol.first_work_start_date) > new Date()" variant="warning" show class="mb-0">
+                                        {{ $t('This community volunteer will start on {date}.', {date: dateFormat(cmtyvol.first_work_start_date) }) }}
+                                    </b-alert>
+                                    <b-alert v-else-if="cmtyvol.last_work_end_date" variant="info" show class="mb-0">
+                                        {{ $t( (new Date(cmtyvol.last_work_end_date) > new Date() ? 'This community volunteer will leave on {date}.' :'This community volunteer left on {date}.'), {date: dateFormat(cmtyvol.last_work_end_date) }) }}
+                                    </b-alert>
+                                </template>
+                                <b-list-group flush>
+                                    <template v-for="field in fields.filter(f => f.section == section.name)">
+                                        <b-list-group-item v-if="field.value" :key="field.label">
+                                            <b-row>
+                                                <b-col lg="5">
+                                                    <strong>{{ field.label }}</strong>
+                                                </b-col>
+                                                <b-col lg>
+                                                    <template v-if="field.type == 'phone'">
+                                                        <PhoneLink :value="field.value"/>
+                                                    </template>
+                                                    <template v-else-if="field.type == 'email'">
+                                                        <EmailLink :value="field.value"/>
+                                                    </template>
+                                                    <template v-else-if="field.type == 'whatsapp'">
+                                                        <font-awesome-icon icon="fa-brands fa-whatsapp"/>
+                                                        <span v-html="field.value"/>
+                                                    </template>
+                                                    <template v-else-if="field.type == 'skype'">
+                                                        <font-awesome-icon icon="fa-brands fa-skype"/>
+                                                        <span v-html="field.value"/>
+                                                    </template>
+                                                    <template v-else-if="field.type == 'image'">
+                                                        <img :src="field.value" class="img-fluid img-thumbnail">
+                                                    </template>
+                                                    <template v-else-if="field.type == 'pre'">
+                                                        <span class="pre-formatted">{{ field.value }}</span>
+                                                    </template>
+                                                    <template v-else-if="field.type == 'responsibilities'">
+                                                        <div v-for="(r, k) in field.value" :key="k">
+                                                            {{ k }}
+                                                            <font-awesome-icon v-if="r.description" icon="info-circle" :title="r.description"/>
+                                                            <small v-if="r.start_date && r.end_date">
+                                                                ({{ dateFormat(r.start_date) }} - {{ dateFormat(r.end_date) }})
+                                                            </small>
+                                                            <small v-else-if="r.start_date">({{ $t('since {date}', { date: dateFormat(r.start_date) }) }})</small>
+                                                            <small v-else-if="r.end_date">({{ $t('until {date}', { date: dateFormat(r.end_date) }) }})</small>
+                                                        </div>
+                                                    </template>
+                                                    <template v-else>
+                                                        {{ field.value }}
+                                                    </template>
+                                                </b-col>
+                                            </b-row>
+                                        </b-list-group-item>
+                                    </template>
+                                </b-list-group>
+                            </b-card>
+                            </b-col>
+                        </template>
+                    </b-form-row>
+                </div>
+            </div>
+            <b-container class="mb-3">
                 <b-card :header="$t('Comments')" body-class="pb-0">
                     <CmtyvolComments :id="id" />
                 </b-card>
-            </div>
+            </b-container>
         </div>
         <div v-else>
             {{ $t('Loading...') }}
@@ -82,6 +109,7 @@ import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
 
 import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
 import CmtyvolComments from "@/components/cmtyvol/CmtyvolComments.vue";
+import CmtyvolPicture from "@/components/cmtyvol/CmtyvolPicture.vue";
 import PhoneLink from "@/components/common/PhoneLink.vue";
 import EmailLink from "@/components/common/EmailLink.vue";
 import PageHeader from "@/components/layout/PageHeader.vue";
@@ -95,7 +123,8 @@ export default {
         CmtyvolComments,
         EmailLink,
         PhoneLink,
-        PageHeader
+        PageHeader,
+        CmtyvolPicture
     },
     props: {
         id: {
@@ -156,12 +185,6 @@ export default {
             }
             return [
                 {
-                    section: 'portrait',
-                    label: this.$t('Portrait Picture'),
-                    value: this.cmtyvol.portrait_picture_url,
-                    type: 'image',
-                },
-                {
                     section: 'general',
                     label: this.$t('First Name'),
                     value: this.cmtyvol.first_name
@@ -180,7 +203,6 @@ export default {
                     section: 'general',
                     label: this.$t('Nationality'),
                     value: this.cmtyvol.nationality,
-                    icon: 'globe',
                 },
                 {
                     section: 'general',
@@ -201,46 +223,40 @@ export default {
                     section: 'general',
                     label: this.$t('Police Number'),
                     value: this.cmtyvol.police_no,
-                    icon: 'id-card',
                 },
                 {
                     section: 'general',
                     label: this.$t('Languages'),
                     value: this.cmtyvol.languages?.join(', '),
-                    icon: 'language',
                 },
                 {
                     section: 'reachability',
                     label: this.$t('Local Phone'),
                     value: this.cmtyvol.local_phone,
-                    icon: 'phone',
                     type: 'phone',
                 },
                 {
                     section: 'reachability',
                     label: this.$t('Other Phone'),
                     value: this.cmtyvol.other_phone,
-                    icon: 'phone',
                     type: 'phone',
                 },
                 {
                     section: 'reachability',
                     label: this.$t('WhatsApp'),
                     value: this.cmtyvol.whatsapp_link,
-                    icon: 'fa-brands fa-whatsapp',
                     type: 'whatsapp',
                 },
                 {
                     section: 'reachability',
                     label: this.$t('Skype'),
                     value: this.cmtyvol.skype,
-                    icon: 'fa-brands fa-skype',
+                    type: 'skype',
                 },
                 {
                     section: 'reachability',
                     label: this.$t('Email address'),
                     value: this.cmtyvol.email,
-                    icon: 'envelope',
                     type: 'email',
                 },
                 {

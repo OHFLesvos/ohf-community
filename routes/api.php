@@ -315,6 +315,11 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('pickupLocations')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
+                Route::post('{cmtyvol}/portraitPicture', [CommunityVolunteerController::class, 'updatePortraitPicture'])
+                    ->name('updatePortraitPicture');
+                Route::delete('{cmtyvol}/portraitPicture', [CommunityVolunteerController::class, 'removePortraitPicture'])
+                    ->name('removePortraitPicture');
+
                 // Download vCard
                 Route::get('{cmtyvol}/vcard', VcardDownloadController::class)
                     ->name('vcard');

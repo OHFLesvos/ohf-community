@@ -7,12 +7,14 @@ use App\Http\Requests\CommunityVolunteers\StoreCommunityVolunteer;
 use App\Http\Resources\CommunityVolunteers\CommunityVolunteer as CommunityVolunteerResource;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
 use App\Models\CommunityVolunteers\Responsibility;
+use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class CommunityVolunteerController extends Controller
@@ -167,6 +169,10 @@ class CommunityVolunteerController extends Controller
     {
         $this->authorize('delete', $cmtyvol);
 
+        if ($cmtyvol->portrait_picture != null) {
+            Storage::delete($cmtyvol->portrait_picture);
+        }
+
         $cmtyvol->delete();
 
         return response()
@@ -199,6 +205,46 @@ class CommunityVolunteerController extends Controller
                 });
             }
         });
+    }
+
+    public function updatePortraitPicture(Request $request, CommunityVolunteer $cmtyvol): JsonResponse
+    {
+        $this->authorize('update', $cmtyvol);
+
+        $request->validate([
+            'portrait_picture' => [
+                'required',
+                'image',
+            ],
+        ]);
+
+        $value = $request->file('portrait_picture');
+        if ($cmtyvol->portrait_picture != null) {
+            Storage::delete($cmtyvol->portrait_picture);
+        }
+        $image = new ImageResize($value->getRealPath());
+        $image->resizeToBestFit(800, 800, true);
+        $image->crop(533, 800, true); // 2:3 aspect ratio
+        $image->save($value->getRealPath());
+        $cmtyvol->portrait_picture = $value->store('public/people/portrait_pictures');
+        $cmtyvol->save();
+
+        return response()->json([
+            'url' => Storage::url($cmtyvol->portrait_picture),
+        ]);
+    }
+
+    public function removePortraitPicture(CommunityVolunteer $cmtyvol): JsonResponse
+    {
+        $this->authorize('update', $cmtyvol);
+
+        if ($cmtyvol->portrait_picture != null) {
+            Storage::delete($cmtyvol->portrait_picture);
+            $cmtyvol->portrait_picture = null;
+        }
+        $cmtyvol->save();
+
+        return response()->json([]);
     }
 
     public function languages(Request $request): array

@@ -20,6 +20,16 @@ export default {
         const url = route('api.cmtyvol.destroy', id)
         return await api.delete(url)
     },
+    async updatePortraitPicture(id, portrait_picture) {
+        const formData = new FormData();
+        formData.append('portrait_picture', portrait_picture);
+        const url = route("api.cmtyvol.updatePortraitPicture", id);
+        return await api.postFormData(url, formData);
+    },
+    async removePortraitPicture(id) {
+        const url = route("api.cmtyvol.removePortraitPicture", id);
+        return await api.delete(url);
+    },
     async languages (activeOnly) {
         let params = activeOnly ? { activeOnly: true } : {}
         const url = route('api.cmtyvol.languages', params)
