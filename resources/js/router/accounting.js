@@ -487,7 +487,7 @@ export default [
         },
         props: {
             default: true,
-            breadcrumbs: {
+            breadcrumbs: route => ({
                 items: [
                     {
                         text: i18n.t('Accounting'),
@@ -496,13 +496,16 @@ export default [
                     },
                     {
                         text: i18n.t("Transactions"),
-                        to: { name: 'accounting.transactions.index' },
+                        to: {
+                            name: 'accounting.transactions.index',
+                            query: { wallet: route.query.wallet },
+                        },
                     },
                     {
                         text: i18n.t("Register new transaction"),
                     }
                 ]
-            }
+            })
         }
     },
     {
@@ -523,7 +526,9 @@ export default [
                     },
                     {
                         text: i18n.t("Transactions"),
-                        to: { name: 'accounting.transactions.index' },
+                        to: {
+                            name: 'accounting.transactions.index',
+                        },
                     },
                     {
                         text: i18n.t("Details"),
@@ -550,7 +555,9 @@ export default [
                     },
                     {
                         text: i18n.t("Transactions"),
-                        to: { name: 'accounting.transactions.index' },
+                        to: {
+                            name: 'accounting.transactions.index',
+                        },
                     },
                     {
                         text: i18n.t("Edit transaction"),
@@ -659,6 +666,73 @@ export default [
                     }
                 ]
             }
+        }
+    },
+    {
+        path: "/accounting/wallets/:wallet/weblings",
+        name: "accounting.webling.index",
+        components: {
+            default: () => import("@/pages/accounting/webling/WeblingIndexPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: route => ({
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Transactions"),
+                        to: {
+                            name: 'accounting.transactions.index',
+                            query: { wallet: route.params.wallet },
+                        },
+                    },
+                    {
+                        text: i18n.t('Book to Webling'),
+                    }
+                ]
+            })
+        }
+    },
+    {
+        path: "/accounting/wallets/:wallet/weblings/prepare",
+        name: "accounting.webling.prepare",
+        components: {
+            default: () => import("@/pages/accounting/webling/WeblingPreparePage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            default: true,
+            breadcrumbs: route => ({
+                items: [
+                    {
+                        text: i18n.t('Accounting'),
+                        to: { name: 'accounting.index' },
+                        show: can("view-accounting-summary") || can("view-transactions")
+                    },
+                    {
+                        text: i18n.t("Transactions"),
+                        to: {
+                            name: 'accounting.transactions.index',
+                            query: { wallet: route.params.wallet },
+                        },
+                    },
+                    {
+                        text: i18n.t('Book to Webling'),
+                        to: {
+                            name: 'accounting.webling.index',
+                            params: { id: route.params.wallet }
+                        },
+                    },
+                    {
+                        text: i18n.t('Period'),
+                    }
+                ]
+            })
         }
     },
 ];

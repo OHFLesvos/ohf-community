@@ -37,49 +37,6 @@
     {{-- Right side --}}
     <div class="col text-right">
 
-        {{-- Buttons --}}
-        @if(isset($buttons) && sizeof($buttons) > 0)
-            @foreach($buttons as $key => $button)
-                @if($key == 'delete')
-                    <form method="POST" action="{{ $button['url'] }}" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <x-form.bs-delete-button
-                            :label="$button['caption']"
-                            :icon="$button['icon']"
-                            :confirmation="$button['confirmation']"
-                            class="d-none d-md-inline-block"
-                        />
-                        <button
-                            type="submit"
-                            class="btn btn-link text-light d-md-none delete-confirmation"
-                            data-confirmation="{{ $button['confirmation']  }}"
-                        >
-                            <x-icon :icon="$button['icon']"/>
-                        </button>
-                    </form>
-                @elseif($key == 'action')
-                    <a href="{{ $button['url'] }}" class="btn btn-primary d-none d-md-inline-block">
-                        <x-icon :icon="$button['icon']"/>
-                        {{ $button['caption'] }}
-                    </a>
-                @elseif($key == 'back')
-                    <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block">
-                        <x-icon :icon="$button['icon']"/>
-                        {{ $button['caption'] }}
-                    </a>
-                @else
-                    <a href="{{ $button['url'] }}" class="btn btn-secondary d-none d-md-inline-block" @if($key == 'help') target="_blank"@endif>
-                        <x-icon :icon="$button['icon']"/>
-                        {{ $button['caption'] }}
-                    </a>
-                    <a href="{{ $button['url'] }}" class="btn text-light d-md-none" title="{{ $button['caption'] }}" @if($key == 'help') target="_blank"@endif>
-                        <x-icon :icon="$button['icon']"/>
-                    </a>
-                @endif
-            @endforeach
-        @endif
-
         @auth
             <div class="position-relative @if((isset($menu) && sizeof($menu) > 0) || (isset($buttons) && sizeof($buttons) > 0)) d-none d-md-inline-block @endif">
                 <button class="context-nav-toggle btn btn-link text-light px-3 py-0">

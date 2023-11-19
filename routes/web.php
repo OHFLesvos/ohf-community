@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\UserManagement\UserController;
@@ -142,14 +141,11 @@ Route::middleware(['language', 'auth'])
             ->name('transactions.edit');
 
         // Webling
-        Route::get('wallets/{wallet}/webling', [WeblingApiController::class, 'index'])
+        Route::view('wallets/{wallet}/webling', 'vue-app')
             ->name('webling.index');
-        Route::get('wallets/{wallet}/webling/prepare', [WeblingApiController::class, 'prepare'])
-            ->name('webling.prepare');
-        Route::post('wallets/{wallet}/webling', [WeblingApiController::class, 'store'])
-            ->name('webling.store');
-        Route::get('wallets/{wallet}/webling/sync', [WeblingApiController::class, 'sync'])
-            ->name('webling.sync');
+        Route::view('wallets/{wallet}/webling/{any}', 'vue-app')
+            ->where('any', '.*')
+            ->name('webling.any');
 
         // Wallets
         Route::view('wallets', 'vue-app')

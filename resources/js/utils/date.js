@@ -1,5 +1,12 @@
 import moment from 'moment/min/moment-with-locales';
 
+export function isoDateFormat(value) {
+    if (!value) {
+        return null;
+    }
+    return moment(value).format(moment.HTML5_FMT.DATE);
+}
+
 export function dateFormat(value) {
     if (!value) {
         return null;
