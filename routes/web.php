@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\CommunityVolunteers\ListController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
