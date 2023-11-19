@@ -35,5 +35,6 @@
     "Yearly visitor check-ins from :start_date to :end_date": "Yearly visitor check-ins from :start_date to :end_date",
     "Yearly visitor check-ins for :purpose from :start_date to :end_date": "Yearly visitor check-ins for :purpose from :start_date to :end_date",
     "Last :days days": "Last :days days",
-    "Last :months months": "Last :months months"
+    "Last :months months": "Last :months months",
+    "since :date": "since :date"
 }

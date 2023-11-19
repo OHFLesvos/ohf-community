@@ -1048,6 +1048,7 @@ export default {
         "Yearly visitor check-ins for {purpose} from {start_date} to {end_date}": "Yearly visitor check-ins for {purpose} from {start_date} to {end_date}",
         "Last {days} days": "Last {days} days",
         "Last {months} months": "Last {months} months",
+        "since {date}": "since {date}",
         "auth": {
             "failed": "These credentials do not match our records.",
             "password": "The provided password is incorrect.",
