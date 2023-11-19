@@ -112,6 +112,7 @@
 <script>
 import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
 
+import { showSnackbar } from '@/utils'
 import weblingApi from "@/api/accounting/webling";
 
 export default {
@@ -147,10 +148,7 @@ export default {
             incomeSelect: null,
         };
     },
-    computed: {
-
-    },
-    async created() {
+     async created() {
         this.fetchData()
     },
     methods: {
@@ -204,10 +202,6 @@ export default {
             }
             this.loaded = true
         },
-        async handleSubmit() {
-            this.isBusy = true
-            console.log('handle submit')
-        },
         tableRowClass(idx) {
             if (this.action[idx] == 'ignore')  {
                 if (this.debit_side[idx] || this.credit_side[idx]) {
@@ -219,7 +213,23 @@ export default {
                 return 'table-success'
             }
             return 'table-warning'
-        }
+        },
+        async handleSubmit() {
+            this.isBusy = true
+            try {
+                let formData = {
+                    period:this.$route.query.period,
+                    from: this.$route.query.from,
+                    to: this.$route.query.to,
+                }
+                let result = await weblingApi.store(this.wallet, formData)
+                showSnackbar(this.$t(result.info))
+                this.$router.push({ name: 'accounting.webling.index', params: { wallet: this.wallet }})
+            } catch (err) {
+                alert(err)
+            }
+            this.isBusy = false
+        },
     }
 };
 </script>

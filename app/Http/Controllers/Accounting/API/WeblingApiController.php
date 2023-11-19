@@ -7,7 +7,6 @@ use App\Models\Accounting\Transaction;
 use App\Models\Accounting\Wallet;
 use App\Support\Accounting\Webling\Entities\Entrygroup;
 use App\Support\Accounting\Webling\Entities\Period;
-use App\Support\Accounting\Webling\Exceptions\ConnectionException;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -155,7 +154,7 @@ class WeblingApiController extends Controller
         ]);
     }
 
-    public function store(Wallet $wallet, Request $request): RedirectResponse
+    public function store(Wallet $wallet, Request $request): JsonResponse
     {
         $this->authorize('book-accounting-transactions-externally');
 
@@ -177,10 +176,10 @@ class WeblingApiController extends Controller
         $bookedTransactions = [];
         foreach ($preparedTransactions as $e) {
             try {
-                $entrygroup = Entrygroup::createRaw($e['request']);
+                // $entrygroup = Entrygroup::createRaw($e['request']);
                 $transaction = $e['transaction'];
                 $transaction->booked = true;
-                $transaction->external_id = $entrygroup->id;
+                // $transaction->external_id = $entrygroup->id;
                 $transaction->save();
                 $bookedTransactions[] = $transaction->id;
             } catch (Exception $e) {
@@ -190,9 +189,9 @@ class WeblingApiController extends Controller
             }
         }
 
-        return redirect()
-            ->route('accounting.webling.index', $wallet)
-            ->with('info', __(':num transactions have been booked.', ['num' => count($bookedTransactions)]));
+        return response()->json([
+            'info' => __(':num transactions have been booked.', ['num' => count($bookedTransactions)]),
+        ]);
     }
 
     private static function mapTransactionById(int $id, Request $request, Period $period): ?array
@@ -232,60 +231,5 @@ class WeblingApiController extends Controller
         }
 
         return null;
-    }
-
-    public function sync(Wallet $wallet, Request $request): RedirectResponse
-    {
-        $this->authorize('book-accounting-transactions-externally');
-
-        $request->validate([
-            'period' => [
-                'required',
-                'integer',
-                function ($attribute, $value, $fail) {
-                    $period = Period::find($value);
-                    if ($period == null) {
-                        return $fail('Period does not exist.');
-                    }
-                },
-            ],
-        ]);
-
-        $synced = 0;
-        try {
-            $period = Period::find($request->period);
-            $entryGroups = $period->entryGroups();
-            $entryGroups = collect($entryGroups)
-                // ->slice(0, 3)
-                ->map(function ($entryGroup) {
-                    $entryGroup->entries = $entryGroup->entries();
-
-                    return $entryGroup;
-                });
-
-            foreach ($entryGroups as $entryGroup) {
-                foreach ($entryGroup->entries as $entry) {
-                    $transaction = Transaction::query()
-                        ->whereDate('date', $entryGroup->date)
-                        ->forWallet($wallet)
-                        ->where('booked', false)
-                        ->where('receipt_no', $entry->receipt)
-                        ->first();
-                    if ($transaction != null) {
-                        $transaction->booked = true;
-                        $transaction->external_id = $entryGroup->id;
-                        $transaction->save();
-                        $synced++;
-                    }
-                }
-            }
-        } catch (ConnectionException $e) {
-            session()->now('error', $e->getMessage());
-            // $transactions = [];
-        }
-
-        return redirect()
-            ->route('accounting.webling.index', $wallet)
-            ->with('info', __(':num transactions have been synchronized.', ['num' => $synced]));
     }
 }

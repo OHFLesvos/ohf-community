@@ -306,6 +306,8 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('webling.periods');
                 Route::get('wallets/{wallet}/webling/prepare', [WeblingApiController::class, 'prepare'])
                     ->name('webling.prepare');
+                Route::post('wallets/{wallet}/webling', [WeblingApiController::class, 'store'])
+                    ->name('webling.store');
             });
 
         //
