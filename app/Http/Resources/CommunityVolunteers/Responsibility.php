@@ -16,8 +16,8 @@ class Responsibility extends JsonResource
     {
         return [
             ...parent::toArray($request),
-            'count_active' => $this->countActive,
-            'is_capacity_exhausted' => $this->isCapacityExhausted,
+            'count_active' => $this->resource->countActive,
+            'is_capacity_exhausted' => $this->resource->isCapacityExhausted,
             'can_update' => $request->user()->can('update', $this->resource),
             'can_delete' => $request->user()->can('delete', $this->resource),
         ];

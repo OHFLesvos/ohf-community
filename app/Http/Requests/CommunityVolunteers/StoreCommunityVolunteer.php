@@ -63,15 +63,15 @@ class StoreCommunityVolunteer extends FormRequest
                 'required_with:responsibilities.*.from,responsibilities.*.to',
             ],
             'responsibilities.*.start_date' => [
-                'required_with:responsibilities.*.to',
+                'required_with:responsibilities.*.end_date',
                 'nullable',
                 'date',
 
             ],
-            'responsibilities.*.start_date' => [
+            'responsibilities.*.end_date' => [
                 'nullable',
                 'date',
-                'after_or_equal:responsibilities.*.from',
+                'after_or_equal:responsibilities.*.start_date',
             ],
         ];
     }
