@@ -196,34 +196,11 @@ Route::middleware(['language', 'auth'])
 
 Route::middleware(['auth', 'language'])
     ->group(function () {
-        Route::redirect('helpers', 'cmtyvol');
-        Route::name('cmtyvol.')
-            ->prefix('cmtyvol')
-            ->group(function () {
-                // Overview
-                Route::view('', 'vue-app')
-                    ->name('index')
-                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
-                Route::view('create', 'vue-app')
-                    ->name('create')
-                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
-                Route::view('{cmtyvol}', 'vue-app')
-                    ->name('show')
-                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
-                Route::view('{cmtyvol}/edit', 'vue-app')
-                    ->name('edit')
-                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
-
-                // Responsibilities resource
-                Route::view('responsibilities', 'vue-app')
-                    ->name('responsibilities');
-                Route::view('responsibilities/{any}', 'vue-app')
-                    ->where('any', '.*')
-                    ->name('responsibilities.any');
-            });
-
-        // Community volunteers resource
-        Route::resource('cmtyvol', ListController::class)->except('show', 'index', 'edit', 'create');
+        Route::view('cmtyvol', 'vue-app')
+            ->name('cmtyvol.index');
+        Route::view('cmtyvol/{any}', 'vue-app')
+            ->where('any', '.*')
+            ->name('cmtyvol.any');
     });
 
 //

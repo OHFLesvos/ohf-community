@@ -11,13 +11,6 @@
                 <div class="mr-md-2 mb-3">
                     <b-card :header="$t('Portrait')">
                         <CmtyvolPicture :cmtyvol="cmtyvol"/>
-<!--
-
-                        <img :src="cmtyvol.portrait_picture_url" class="img-fluid" style="max-width: 300px">
-                        <div v-if="cmtyvol.can_update" class="mt-3">
-                            <b-button size="sm"><font-awesome-icon icon="sync"/> {{ $t('Replace') }}</b-button>
-                            <b-button size="sm" variant="danger"><font-awesome-icon icon="trash"/>{{ $t('Remove') }}</b-button>
-                        </div> -->
                     </b-card>
                 </div>
                 <div class="flex-grow-1">

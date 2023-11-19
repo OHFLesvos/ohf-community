@@ -14,7 +14,7 @@
             :items-per-page="itemsPerPage"
         >
             <template v-slot:cell(first_name)="data">
-                <template v-if="data.item.url != null">
+                <template v-if="data.item.can_view">
                     <router-link :to="{name: 'cmtyvol.show', params: { id: data.item.id }}">{{ data.value }}</router-link>
                 </template>
                 <template v-else>
@@ -22,7 +22,7 @@
                 </template>
             </template>
             <template v-slot:cell(family_name)="data">
-                <template v-if="data.item.url != null">
+                <template v-if="data.item.can_view">
                     <router-link :to="{name: 'cmtyvol.show', params: { id: data.item.id }}">{{ data.value }}</router-link>
                 </template>
                 <template v-else>

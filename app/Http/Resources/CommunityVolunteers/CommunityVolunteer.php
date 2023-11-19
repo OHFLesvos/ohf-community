@@ -56,9 +56,7 @@ class CommunityVolunteer extends JsonResource
             'notes' => $this->notes,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'url' => $request->user()->can('view', $this->resource)
-                ? route('cmtyvol.show', $this)
-                : null,
+            'can_view' => $request->user()->can('view', $this->resource),
             'can_update' => $request->user()->can('update', $this->resource),
             'can_delete' => $request->user()->can('delete', $this->resource),
         ];
