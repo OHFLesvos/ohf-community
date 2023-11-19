@@ -158,27 +158,46 @@ class WeblingApiController extends Controller
         $this->authorize('book-accounting-transactions-externally');
 
         $this->validateRequest($request);
+        $request->validate([
+            'transactions' => [
+                'array',
+            ],
+            'transactions.*.id' => [
+                'integer',
+                'required',
+            ],
+            'transactions.*.posting_text' => [
+                'required',
+            ],
+            'transactions.*.debit_side' => [
+                'integer',
+                'required',
+            ],
+            'transactions.*.credit_side' => [
+                'integer',
+                'required',
+            ],
+        ]);
 
         $period = Period::find($request->period);
 
-        $preparedTransactions = collect($request->input('action', []))
+        $preparedTransactions = collect($request->input('transactions', []))
             ->filter(
-                fn ($v, $id) => $v == 'book'
-                && ! empty($request->get('posting_text')[$id])
-                && ! empty($request->get('debit_side')[$id])
-                && ! empty($request->get('credit_side')[$id])
+                fn ($t) => $t['action'] == 'book'
+                && filled($t['posting_text'])
+                && filled($t['debit_side'])
+                && filled($t['credit_side'])
             )
-            ->keys()
-            ->map(fn ($id) => self::mapTransactionById($id, $request, $period))
+            ->map(fn ($t) => self::mapTransactionById($t, $period))
             ->filter();
 
         $bookedTransactions = [];
         foreach ($preparedTransactions as $e) {
             try {
-                // $entrygroup = Entrygroup::createRaw($e['request']);
+                $entrygroup = Entrygroup::createRaw($e['request']);
                 $transaction = $e['transaction'];
                 $transaction->booked = true;
-                // $transaction->external_id = $entrygroup->id;
+                $transaction->external_id = $entrygroup->id;
                 $transaction->save();
                 $bookedTransactions[] = $transaction->id;
             } catch (Exception $e) {
@@ -193,16 +212,16 @@ class WeblingApiController extends Controller
         ]);
     }
 
-    private static function mapTransactionById(int $id, Request $request, Period $period): ?array
+    private static function mapTransactionById(array $preparedTransaction, Period $period): ?array
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::find($preparedTransaction['id']);
         if ($transaction != null) {
             return [
                 'transaction' => $transaction,
                 'request' => [
                     'properties' => [
                         'date' => $transaction->date,
-                        'title' => $request->get('posting_text')[$id],
+                        'title' => $preparedTransaction['posting_text'],
                     ],
                     'children' => [
                         'entry' => [
@@ -213,10 +232,10 @@ class WeblingApiController extends Controller
                                 ],
                                 'links' => [
                                     'credit' => [
-                                        $request->get('credit_side')[$id],
+                                        $preparedTransaction['credit_side'],
                                     ],
                                     'debit' => [
-                                        $request->get('debit_side')[$id],
+                                        $preparedTransaction['debit_side'],
                                     ],
                                 ],
                             ],

@@ -38,7 +38,7 @@
                             </b-td>
                             <b-td class="align-middle">
                                 <b-form-input
-                                    v-model="posting_text[idx]"
+                                    v-model="preparedTransactions[idx].posting_text"
                                     :placeholder="$t('Posting text')"
                                     required
                                     :disabled="isBusy"
@@ -47,13 +47,13 @@
                             <b-td style="max-width: 8em" class="align-middle">
                                 <b-form-select
                                     v-if="transaction.type == 'income'"
-                                    v-model="debit_side[idx]"
+                                    v-model="preparedTransactions[idx].debit_side"
                                     :options="assetsSelectMoneyTo"
                                     :disabled="isBusy"
                                 />
                                 <b-form-select
                                     v-if="transaction.type == 'spending'"
-                                    v-model="debit_side[idx]"
+                                    v-model="preparedTransactions[idx].debit_side"
                                     :options="expenseSelect"
                                     :disabled="isBusy"
                                 />
@@ -61,13 +61,13 @@
                             <b-td style="max-width: 8em" class="align-middle">
                                 <b-form-select
                                     v-if="transaction.type == 'income'"
-                                    v-model="credit_side[idx]"
+                                    v-model="preparedTransactions[idx].credit_side"
                                     :options="incomeSelect"
                                     :disabled="isBusy"
                                 />
                                 <b-form-select
                                     v-if="transaction.type == 'spending'"
-                                    v-model="credit_side[idx]"
+                                    v-model="preparedTransactions[idx].credit_side"
                                     :options="assetsSelectPaidFrom"
                                     :disabled="isBusy"
                                 />
@@ -78,7 +78,7 @@
                             </b-td>
                             <td class="fit align-middle">
                                 <b-radio-group
-                                    v-model="action[idx]"
+                                    v-model="preparedTransactions[idx].action"
                                     :options="actionOptions"
                                     stacked
                                     :disabled="isBusy"
@@ -137,15 +137,12 @@ export default {
             from: this.$route.query.from,
             to: this.$route.query.to,
             transactions: [],
-            posting_text: [],
-            debit_side: [],
-            credit_side: [],
-            action: [],
             actionOptions: null,
             assetsSelectMoneyTo: null,
             assetsSelectPaidFrom: null,
             expenseSelect: null,
             incomeSelect: null,
+            preparedTransactions: [],
         };
     },
      async created() {
@@ -160,14 +157,14 @@ export default {
                 this.walletObj = res.wallet
                 this.period = res.period
                 this.transactions = res.transactions
-                this.posting_text = []
-                this.transactions.forEach(t => {
-                    this.posting_text.push(`${t.category_name} - ${(t.project_name ? t.project_name + ' - ' : '')}${t.description}`)
-                    this.action.push(res.defaultAction)
-                    this.debit_side.push(null)
-                    this.credit_side.push(null)
-                })
-                this.actionOptions = Object.entries(res.actions).map(e => ({ text: e[1], value: e[0] }))
+
+                this.preparedTransactions = this.transactions.map(t => ({
+                    id: t.id,
+                    posting_text: `${t.category_name} - ${(t.project_name ? t.project_name + ' - ' : '')}${t.description}`,
+                    debit_side: null,
+                    credit_side: null,
+                    action: res.defaultAction
+                }))
 
                 this.assetsSelectMoneyTo = [
                     { text: this.$t('Money to'), value: null },
@@ -197,30 +194,38 @@ export default {
                     options: Object.entries(e[1]).map(f => ({ text: f[1], value: f[0] }))
                     }))
                 ];
+                this.actionOptions = Object.entries(res.actions).map(e => ({ text: e[1], value: e[0] }))
             } catch (ex) {
                 this.errorText = ex;
             }
             this.loaded = true
         },
         tableRowClass(idx) {
-            if (this.action[idx] == 'ignore')  {
-                if (this.debit_side[idx] || this.credit_side[idx]) {
+            if (this.preparedTransactions[idx].action == 'ignore')  {
+                if (this.preparedTransactions[idx].debit_side && this.preparedTransactions[idx].credit_side) {
                     return 'table-secondary'
                 }
                 return
             }
-            if (this.posting_text[idx].trim().length && this.debit_side[idx] && this.credit_side[idx]) {
+            if (this.preparedTransactions[idx].posting_text.trim().length && this.preparedTransactions[idx].debit_side && this.preparedTransactions[idx].credit_side) {
                 return 'table-success'
             }
             return 'table-warning'
         },
         async handleSubmit() {
+            let transactions = this.preparedTransactions.filter(pt => pt.action == 'book' && pt.posting_text.trim().length && pt.debit_side && pt.credit_side)
+            if (transactions.length == 0) {
+                alert(this.$t('No transaction are ready for booking.'))
+                return
+            }
+
             this.isBusy = true
             try {
                 let formData = {
                     period:this.$route.query.period,
                     from: this.$route.query.from,
                     to: this.$route.query.to,
+                    transactions: transactions
                 }
                 let result = await weblingApi.store(this.wallet, formData)
                 showSnackbar(this.$t(result.info))

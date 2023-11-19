@@ -526,6 +526,7 @@ export default {
         "{num} transactions have been synchronized.": "{num} Transaktionen wurden synchronisiert.",
         "Webling": "Webling",
         "Book to Webling": "Nach Webling verbuchen",
+        "No transaction are ready for booking.": "Keine Transaktionen sind zum Verbuchen bereit.",
         "No months with unbooked transactions found.": "Keine Monate mit unverbuchten Transaktionen gefunden.",
         "Please choose a month with unbooked transactions from {wallet} in an open booking period:": "Bitte wähle eine Monat mit unverbuchten Transaktionen aus <strong>{wallet}</strong> in einer offenen Buchungsperiode:",
         "The following transactions from {wallet} from {from} to {to} can be booked in the period {period}:": "Folgende Transaktionen aus <strong>{wallet}</strong> im Zeitraum von <strong>{from}</strong> bis <strong>{to}</strong> können in der Periode <strong>{period}</strong> verbucht werden:",
