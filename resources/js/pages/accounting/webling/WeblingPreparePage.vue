@@ -19,12 +19,12 @@
                         </b-tr>
                     </b-thead>
                     <b-tbody>
-                        <b-tr v-for="(transaction, idx) in transactions" :key="transaction.id">
+                        <b-tr v-for="(transaction, idx) in transactions" :key="transaction.id" :class="tableRowClass(idx)">
                             <b-td class="fit align-middle">
                                 <router-link :to="{ name: 'accounting.transactions.show', params: { id: transaction.id } }"
                                     target="_blank"
                                     :title="$t('Open in new window/tab')"
-                                >{{ transaction.date }}</router-link>
+                                >{{ dateFormat(transaction.date) }}</router-link>
                             </b-td>
                             <b-td class="text-success text-right fit align-middle">
                                 <template v-if="transaction.type == 'income'">
@@ -41,15 +41,36 @@
                                     v-model="posting_text[idx]"
                                     :placeholder="$t('Posting text')"
                                     required
+                                    :disabled="isBusy"
                                 />
                             </b-td>
                             <b-td style="max-width: 8em" class="align-middle">
-                                <b-form-select v-if="transaction.type == 'income'" v-model="debit_side[idx]" :options="assetsSelectMoneyTo"/>
-                                <b-form-select v-if="transaction.type == 'spending'" v-model="debit_side[idx]" :options="expenseSelect"/>
+                                <b-form-select
+                                    v-if="transaction.type == 'income'"
+                                    v-model="debit_side[idx]"
+                                    :options="assetsSelectMoneyTo"
+                                    :disabled="isBusy"
+                                />
+                                <b-form-select
+                                    v-if="transaction.type == 'spending'"
+                                    v-model="debit_side[idx]"
+                                    :options="expenseSelect"
+                                    :disabled="isBusy"
+                                />
                             </b-td>
                             <b-td style="max-width: 8em" class="align-middle">
-                                <b-form-select v-if="transaction.type == 'income'" v-model="credit_side[idx]" :options="incomeSelect"/>
-                                <b-form-select v-if="transaction.type == 'spending'" v-model="credit_side[idx]" :options="assetsSelectPaidFrom"/>
+                                <b-form-select
+                                    v-if="transaction.type == 'income'"
+                                    v-model="credit_side[idx]"
+                                    :options="incomeSelect"
+                                    :disabled="isBusy"
+                                />
+                                <b-form-select
+                                    v-if="transaction.type == 'spending'"
+                                    v-model="credit_side[idx]"
+                                    :options="assetsSelectPaidFrom"
+                                    :disabled="isBusy"
+                                />
                             </b-td>
                             <b-td class="fit align-middle">{{ transaction.receipt_no }}</b-td>
                             <b-td class="fit text-center align-middle">
@@ -60,13 +81,19 @@
                                     v-model="action[idx]"
                                     :options="actionOptions"
                                     stacked
+                                    :disabled="isBusy"
                                 />
                             </td>
                         </b-tr>
                     </b-tbody>
                 </b-table-simple>
                 <p>
-                    <b-button variant="primary" type="submit">
+                    <b-button
+                        variant="primary"
+                        type="submit"
+                        :disabled="isBusy"
+                        @click="handleSubmit"
+                    >
                         <font-awesome-icon icon="check" />
                         {{ $t('Submit') }}
                     </b-button>
@@ -83,7 +110,6 @@
 </template>
 
 <script>
-import moment from 'moment/min/moment-with-locales';
 import AlertWithRetry from "@/components/alerts/AlertWithRetry.vue";
 
 import weblingApi from "@/api/accounting/webling";
@@ -104,6 +130,7 @@ export default {
         return {
             errorText: null,
             loaded: false,
+            isBusy: false,
             period: null,
             walletObj: null,
             from: this.$route.query.from,
@@ -119,6 +146,9 @@ export default {
             expenseSelect: null,
             incomeSelect: null,
         };
+    },
+    computed: {
+
     },
     async created() {
         this.fetchData()
@@ -174,7 +204,22 @@ export default {
             }
             this.loaded = true
         },
-        moment
+        async handleSubmit() {
+            this.isBusy = true
+            console.log('handle submit')
+        },
+        tableRowClass(idx) {
+            if (this.action[idx] == 'ignore')  {
+                if (this.debit_side[idx] || this.credit_side[idx]) {
+                    return 'table-secondary'
+                }
+                return
+            }
+            if (this.posting_text[idx].trim().length && this.debit_side[idx] && this.credit_side[idx]) {
+                return 'table-success'
+            }
+            return 'table-warning'
+        }
     }
 };
 </script>
