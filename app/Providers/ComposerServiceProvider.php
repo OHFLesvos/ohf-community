@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Http\ViewComposers\AppVersionComposer;
 use App\Http\ViewComposers\BrandingComposer;
-use App\Http\ViewComposers\ContextMenuComposer;
 use App\Http\ViewComposers\NavigationComposer;
 use Illuminate\Support\ServiceProvider;
 
@@ -20,7 +19,6 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer('*', AppVersionComposer::class);
         view()->composer('*', BrandingComposer::class);
         view()->composer(['layouts.app'], NavigationComposer::class);
-        view()->composer(['layouts.app'], ContextMenuComposer::class);
     }
 
     /**

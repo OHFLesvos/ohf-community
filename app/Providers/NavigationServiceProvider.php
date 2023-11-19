@@ -2,13 +2,12 @@
 
 namespace App\Providers;
 
-use App\Providers\Traits\RegisterContextButtons;
 use App\Providers\Traits\RegistersNavigationItems;
 use Illuminate\Support\ServiceProvider;
 
 class NavigationServiceProvider extends ServiceProvider
 {
-    use RegisterContextButtons, RegistersNavigationItems;
+    use RegistersNavigationItems;
 
     protected $navigationItems = [
         \App\Navigation\Drawer\HomeNavigationItem::class,
@@ -22,11 +21,6 @@ class NavigationServiceProvider extends ServiceProvider
         \App\Navigation\Drawer\Settings\SettingsNavigationItem::class,
     ];
 
-    protected $contextButtons = [
-        'accounting.webling.index' => \App\Navigation\ContextButtons\Accounting\WeblingIndexContextButtons::class,
-        'accounting.webling.prepare' => \App\Navigation\ContextButtons\Accounting\WeblingPrepareContextButtons::class,
-    ];
-
     /**
      * Boot the application events.
      *
@@ -35,6 +29,5 @@ class NavigationServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerNavigationItems();
-        $this->registerContextButtons();
     }
 }
