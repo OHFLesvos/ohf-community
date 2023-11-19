@@ -2,7 +2,7 @@
     <b-container fluid>
         <alert-with-retry :value="errorText" @retry="fetchData" />
         <div v-if="period">
-            <p v-html="$t('The following transactions from {from} to {to} can be booked in the period {period}:', { from: isoDateFormat(from), to: isoDateFormat(to), period: period.title })"></p>
+            <p v-html="$t('The following transactions from {wallet} from {from} to {to} can be booked in the period {period}:', { wallet: walletObj.name, from: isoDateFormat(from), to: isoDateFormat(to), period: period.title })"></p>
             <div v-if="transactions.length">
                 <b-table-simple hover responsive small class="bg-white" id="bookings_table">
                     <b-thead>
@@ -44,20 +44,12 @@
                                 />
                             </b-td>
                             <b-td style="max-width: 8em" class="align-middle">
-                                <b-form-select v-model="debit_side[idx]"/>
-                                <!-- @if($transaction->type == 'income')
-                                    {{ Form::bsSelect('debit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('Money to') ], '') }}
-                                @elseif($transaction->type == 'spending')
-                                    {{ Form::bsSelect('debit_side['.$transaction->id.']', $expenseSelect, null, [ 'placeholder' => __('Paid for') ], '') }}
-                                @endif -->
+                                <b-form-select v-if="transaction.type == 'income'" v-model="debit_side[idx]" :options="assetsSelectMoneyTo"/>
+                                <b-form-select v-if="transaction.type == 'spending'" v-model="debit_side[idx]" :options="expenseSelect"/>
                             </b-td>
                             <b-td style="max-width: 8em" class="align-middle">
-                                <b-form-select v-model="credit_side[idx]"/>
-                                <!-- @if($transaction->type == 'income')
-                                    {{ Form::bsSelect('credit_side['.$transaction->id.']', $incomeSelect, null, [ 'placeholder' => __('Received for') ], '') }}
-                                @elseif($transaction->type == 'spending')
-                                    {{ Form::bsSelect('credit_side['.$transaction->id.']', $assetsSelect, null, [ 'placeholder' => __('Paid from') ], '') }}
-                                @endif -->
+                                <b-form-select v-if="transaction.type == 'income'" v-model="credit_side[idx]" :options="incomeSelect"/>
+                                <b-form-select v-if="transaction.type == 'spending'" v-model="credit_side[idx]" :options="assetsSelectPaidFrom"/>
                             </b-td>
                             <b-td class="fit align-middle">{{ transaction.receipt_no }}</b-td>
                             <b-td class="fit text-center align-middle">
@@ -113,6 +105,7 @@ export default {
             errorText: null,
             loaded: false,
             period: null,
+            walletObj: null,
             from: this.$route.query.from,
             to: this.$route.query.to,
             transactions: [],
@@ -121,6 +114,10 @@ export default {
             credit_side: [],
             action: [],
             actionOptions: null,
+            assetsSelectMoneyTo: null,
+            assetsSelectPaidFrom: null,
+            expenseSelect: null,
+            incomeSelect: null,
         };
     },
     async created() {
@@ -132,15 +129,46 @@ export default {
             this.errorText = null;
             try {
                 let res = await weblingApi.prepare(this.wallet, this.$route.query.period, this.$route.query.from, this.$route.query.to)
-                console.log(res)
+                this.walletObj = res.wallet
                 this.period = res.period
                 this.transactions = res.transactions
                 this.posting_text = []
                 this.transactions.forEach(t => {
                     this.posting_text.push(`${t.category?.name} - ${(t.project ? t.project?.name + ' - ' : '')}${t.description}`)
                     this.action.push(res.defaultAction)
+                    this.debit_side.push(null)
+                    this.credit_side.push(null)
                 })
                 this.actionOptions = Object.entries(res.actions).map(e => ({ text: e[1], value: e[0] }))
+
+                this.assetsSelectMoneyTo = [
+                    { text: this.$t('Money to'), value: null },
+                    ...Object.entries(res.assetsSelect).map(e => ({
+                        label: e[0],
+                        options: Object.entries(e[1]).map(f => ({ text: f[1], value: f[0] }))
+                    }))
+                ];
+                this.assetsSelectPaidFrom = [
+                    { text: this.$t('Paid from'), value: null },
+                    ...Object.entries(res.assetsSelect).map(e => ({
+                    label: e[0],
+                    options: Object.entries(e[1]).map(f => ({ text: f[1], value: f[0] }))
+                    }))
+                ];
+                this.expenseSelect = [
+                    { text: this.$t('Paid for'), value: null },
+                    ...Object.entries(res.expenseSelect).map(e => ({
+                    label: e[0],
+                    options: Object.entries(e[1]).map(f => ({ text: f[1], value: f[0] }))
+                    }))
+                ];
+                this.incomeSelect = [
+                    { text: this.$t('Received for'), value: null },
+                    ...Object.entries(res.incomeSelect).map(e => ({
+                    label: e[0],
+                    options: Object.entries(e[1]).map(f => ({ text: f[1], value: f[0] }))
+                    }))
+                ];
             } catch (ex) {
                 this.errorText = ex;
             }

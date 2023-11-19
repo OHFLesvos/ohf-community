@@ -487,7 +487,7 @@ export default [
         },
         props: {
             default: true,
-            breadcrumbs: {
+            breadcrumbs: route => ({
                 items: [
                     {
                         text: i18n.t('Accounting'),
@@ -496,13 +496,16 @@ export default [
                     },
                     {
                         text: i18n.t("Transactions"),
-                        to: { name: 'accounting.transactions.index' },
+                        to: {
+                            name: 'accounting.transactions.index',
+                            query: { wallet: route.query.wallet },
+                        },
                     },
                     {
                         text: i18n.t("Register new transaction"),
                     }
                 ]
-            }
+            })
         }
     },
     {
@@ -523,7 +526,9 @@ export default [
                     },
                     {
                         text: i18n.t("Transactions"),
-                        to: { name: 'accounting.transactions.index' },
+                        to: {
+                            name: 'accounting.transactions.index',
+                        },
                     },
                     {
                         text: i18n.t("Details"),
@@ -550,7 +555,9 @@ export default [
                     },
                     {
                         text: i18n.t("Transactions"),
-                        to: { name: 'accounting.transactions.index' },
+                        to: {
+                            name: 'accounting.transactions.index',
+                        },
                     },
                     {
                         text: i18n.t("Edit transaction"),
@@ -670,7 +677,7 @@ export default [
         },
         props: {
             default: true,
-            breadcrumbs: {
+            breadcrumbs: route => ({
                 items: [
                     {
                         text: i18n.t('Accounting'),
@@ -679,13 +686,16 @@ export default [
                     },
                     {
                         text: i18n.t("Transactions"),
-                        to: { name: 'accounting.transactions.index' },
+                        to: {
+                            name: 'accounting.transactions.index',
+                            query: { wallet: route.params.wallet },
+                        },
                     },
                     {
                         text: i18n.t('Book to Webling'),
                     }
                 ]
-            }
+            })
         }
     },
     {
@@ -697,7 +707,7 @@ export default [
         },
         props: {
             default: true,
-            breadcrumbs: {
+            breadcrumbs: route => ({
                 items: [
                     {
                         text: i18n.t('Accounting'),
@@ -706,13 +716,23 @@ export default [
                     },
                     {
                         text: i18n.t("Transactions"),
-                        to: { name: 'accounting.transactions.index' },
+                        to: {
+                            name: 'accounting.transactions.index',
+                            query: { wallet: route.params.wallet },
+                        },
                     },
                     {
                         text: i18n.t('Book to Webling'),
+                        to: {
+                            name: 'accounting.webling.index',
+                            params: { id: route.params.wallet }
+                        },
+                    },
+                    {
+                        text: i18n.t('Period'),
                     }
                 ]
-            }
+            })
         }
     },
 ];

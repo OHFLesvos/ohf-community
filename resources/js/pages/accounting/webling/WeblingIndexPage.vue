@@ -3,7 +3,7 @@
         <alert-with-retry :value="errorText" @retry="fetchData" />
         <div v-if="periods">
             <div v-if="Object.keys(periods).length">
-                <p>{{ $t('Please choose a month with unbooked transactions in an open booking period:') }}</p>
+                <p v-html="$t('Please choose a month with unbooked transactions from {wallet} in an open booking period:', { wallet: walletObj.name })"></p>
                 <div v-for="(period, periodId) in periods" :key="periodId">
                     <h2>{{ period.title }}</h2>
                     <b-list-group
@@ -61,7 +61,7 @@ export default {
             errorText: null,
             loaded: false,
             periods: null,
-            walletObj: null
+            walletObj: null,
         };
     },
     async created() {
