@@ -4,15 +4,21 @@
 
 @section('content')
 
-    {{ Form::open(['route' => 'login']) }}
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
 
         <p>{{ __('Enter the code from your authenticator app into the field below.') }}</p>
+
         <div class="form-group">
-            {{ Form::bsNumber('code', old('code'), [ 'required', 'autofocus' ], '') }}
+            <input name="code" type="text" value="{{ old('code') }}" class="form-control @error('code') is-invalid @enderror" required autofocus>
+            @error('code')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
-        {{ Form::hidden('email', request()->get('email')) }}
-        {{ Form::hidden('password', request()->get('password')) }}
-        {{ Form::hidden('remember', request()->get('remember')) }}
+
+        <input type="hidden" name="email" value="{{ request()->get('email') }}">
+        <input type="hidden" name="password" value="{{ request()->get('password') }}">
+        <input type="hidden" name="remember" value="{{ request()->get('remember') }}">
 
         <br>
         <button type="submit" class="btn btn-primary btn-block">
@@ -23,6 +29,6 @@
             <a href="{{ route('login') }}">{{ __('Cancel') }}</a>
         </div>
 
-    {{ Form::close() }}
+    </form>
 
 @endsection

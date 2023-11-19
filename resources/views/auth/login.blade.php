@@ -4,25 +4,26 @@
 
 @section('content')
 
-    {{ Form::open(['route' => 'login']) }}
+    <form method="POST" action="{{ route('login') }}">
+        @csrf
 
         <x-oauth-buttons/>
 
         <div class="form-group">
-            {{ Form::email('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required', 'placeholder' => __('Email address') ]) }}
-            @if ($errors->has('email'))
-                <span class="invalid-feedback">{{ $errors->first('email') }}</span>
-            @endif
+            <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" required placeholder="{{ __('Email address') }}"/>
+            @error('email')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="form-group">
-            {{ Form::password('password', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required', 'placeholder' => __('Password') ]) }}
-            @if ($errors->has('password'))
-                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
-            @endif
+            <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" required placeholder="{{ __('Password') }}"/>
+            @error('password')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
-        {{ Form::hidden('remember', 1) }}
+        <input type="hidden" name="remember" value="1"/>
 
         <div class="mb-3">
             <button type="submit" class="btn btn-primary btn-block">
@@ -35,6 +36,6 @@
             <a href="{{ route('password.request') }}" class="d-block">{{ __('Forgot password?') }}</a>
         </div>
 
-    {{ Form::close() }}
+    </form>
 
 @endsection

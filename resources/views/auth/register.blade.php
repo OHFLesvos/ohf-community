@@ -6,38 +6,39 @@
 
     <x-oauth-buttons signUp/>
 
-    {{ Form::open(['route' => 'register']) }}
+    <form method="POST" action="{{ route('register') }}">
+        @csrf
 
         <div class="form-group">
-            {{ Form::label('name', __('Name')) }}
-            {{ Form::text('name', old('name'), [ 'class' => 'form-control'.($errors->has('name') ? ' is-invalid' : ''), 'required' ]) }}
-            @if ($errors->has('name'))
-                <span class="invalid-feedback">{{ $errors->first('name') }}</span>
-            @endif
+            <label for="name">{{ __('Name') }}</label>
+            <input name="name" id="name" type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" required>
+            @error('name')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="form-group">
-            {{ Form::label('email', __('Email address')) }}
-            {{ Form::email('email', old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'required' ]) }}
-            @if ($errors->has('email'))
-                <span class="invalid-feedback">{{ $errors->first('email') }}</span>
-            @endif
+            <label for="email">{{ __('Email address') }}</label>
+            <input name="email" id="email" type="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" required>
+            @error('email')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="form-group">
-            {{ Form::label('password', __('Password')) }}
-            {{ Form::password('password', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required', 'autocomplete' => 'new-password' ]) }}
-            @if ($errors->has('password'))
-                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
-            @endif
+            <label for="password">{{ __('Password') }}</label>
+            <input name="password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="new-password">
+            @error('password')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="form-group">
-            {{ Form::label('password_confirmation', __('Confirm password')) }}
-            {{ Form::password('password_confirmation', ['class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required', 'autocomplete' => 'new-password' ]) }}
-            @if ($errors->has('password'))
-                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
-            @endif
+            <label for="password_confirmation">{{ __('Confirm password') }}</label>
+            <input name="password_confirmation" id="password_confirmation" type="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="new-password">
+            @error('password')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="mb-3">
@@ -50,6 +51,6 @@
             <a href="{{ route('login') }}" class="d-block">{{ __('Already have an account? Log in') }}</a>
         </div>
 
-    {{ Form::close() }}
+    </form>
 
 @endsection

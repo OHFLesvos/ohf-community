@@ -22,7 +22,6 @@ class FormServiceProvider extends ServiceProvider
         }
 
         Form::component('bsText', 'components.form.bsText', ['name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null]);
-        Form::component('bsNumber', 'components.form.bsNumber', ['name', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null]);
         Form::component('bsRadioList', 'components.form.bsRadioList', ['name', 'entries', 'value' => null, 'label' => null, 'help' => null]);
         Form::component('bsSelect', 'components.form.bsSelect', ['name', 'entries', 'value' => null, 'attributes' => [], 'label' => null, 'help' => null]);
     }

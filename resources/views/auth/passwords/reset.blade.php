@@ -4,30 +4,33 @@
 
 @section('content')
 
-    {{ Form::open(['route' => 'password.request']) }}
+    <form method="POST" action="{{ route('password.request') }}">
+        @csrf
+
         <input type="hidden" name="token" value="{{ $token }}">
+
         <div class="form-group">
-            {{ Form::label('email', __('Email address')) }}
-            {{ Form::email('email', $email ?? old('email'), [ 'class' => 'form-control'.($errors->has('email') ? ' is-invalid' : ''), 'readonly' ]) }}
-            @if ($errors->has('email'))
-                <span class="invalid-feedback">{{ $errors->first('email') }}</span>
-            @endif
+            <label for="email">{{ __('Email address') }}</label>
+            <input name="email" id="email" type="email" value="{{ $email ?? old('email') }}" class="form-control @error('email') is-invalid @enderror" readonly>
+            @error('email')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="form-group">
-            {{ Form::label('password', __('New password')) }}
-            {{ Form::password('password', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required', 'autocomplete' => 'new-password' ]) }}
-            @if ($errors->has('password'))
-                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
-            @endif
+            <label for="password">{{ __('Password') }}</label>
+            <input name="password" id="password" type="password" class="form-control @error('password') is-invalid @enderror" required autofocus autocomplete="new-password">
+            @error('password')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
         <div class="form-group">
-            {{ Form::label('password_confirmation', __('Confirm password')) }}
-            {{ Form::password('password_confirmation', [ 'class' => 'form-control'.($errors->has('password') ? ' is-invalid' : ''), 'required', 'autocomplete' => 'new-password' ]) }}
-            @if ($errors->has('password'))
-                <span class="invalid-feedback">{{ $errors->first('password') }}</span>
-            @endif
+            <label for="password_confirmation">{{ __('Confirm password') }}</label>
+            <input name="password_confirmation" id="password_confirmation" type="password" class="form-control @error('password') is-invalid @enderror" required autocomplete="new-password">
+            @error('password')
+                <span class="invalid-feedback">{{ $message }}</span>
+            @enderror
         </div>
 
         <button type="submit" class="btn btn-primary btn-block">
