@@ -195,7 +195,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
-        App\Providers\FormServiceProvider::class,
         App\Providers\NavigationServiceProvider::class,
         App\Providers\Accounting\WeblingServiceProvider::class,
 
