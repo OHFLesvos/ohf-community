@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
 class WeblingApiController extends Controller
@@ -201,9 +202,9 @@ class WeblingApiController extends Controller
                 $transaction->save();
                 $bookedTransactions[] = $transaction->id;
             } catch (Exception $e) {
-                return redirect()->back()
-                    ->withInput()
-                    ->with('error', $e->getMessage());
+                return response()->json([
+                    'error' => $e->getMessage(),
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
 

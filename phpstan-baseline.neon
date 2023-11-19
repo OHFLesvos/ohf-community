@@ -3,7 +3,7 @@ parameters:
 		-
 			message: "#^Access to protected property App\\\\Support\\\\Accounting\\\\Webling\\\\Entities\\\\Period\\:\\:\\$id\\.$#"
 			count: 1
-			path: app/Http/Controllers/Accounting/WeblingApiController.php
+			path: app/Http/Controllers/Accounting/API/WeblingApiController.php
 
 		-
 			message: "#^Call to an undefined method Laravel\\\\Socialite\\\\Contracts\\\\Provider\\:\\:with\\(\\)\\.$#"
