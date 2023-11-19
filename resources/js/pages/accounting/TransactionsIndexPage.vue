@@ -52,15 +52,6 @@ export default {
                     show: this.can("view-accounting-summary")
                 },
                 this.$route.query.wallet ? {
-                    href: this.route(
-                        "accounting.webling.index",
-                        this.$route.query.wallet
-                    ),
-                    icon: "cloud-upload-alt",
-                    text: this.$t("Webling"),
-                    show: this.can("export-to-webling")
-                } : null,
-                this.$route.query.wallet ? {
                     to: {
                         name: 'accounting.webling.index',
                         params: { wallet: this.$route.query.wallet }

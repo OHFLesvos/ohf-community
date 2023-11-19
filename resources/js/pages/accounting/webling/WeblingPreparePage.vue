@@ -134,7 +134,7 @@ export default {
                 this.transactions = res.transactions
                 this.posting_text = []
                 this.transactions.forEach(t => {
-                    this.posting_text.push(`${t.category?.name} - ${(t.project ? t.project?.name + ' - ' : '')}${t.description}`)
+                    this.posting_text.push(`${t.category_name} - ${(t.project_name ? t.project_name + ' - ' : '')}${t.description}`)
                     this.action.push(res.defaultAction)
                     this.debit_side.push(null)
                     this.credit_side.push(null)
