@@ -37,23 +37,28 @@ class CommunityVolunteer extends JsonResource
             'local_phone' => $this->local_phone,
             'other_phone' => $this->other_phone,
             'whatsapp' => $this->whatsapp,
+            'whatsapp_link' => $this->whatsapp !== null ? whatsapp_link($this->whatsapp, 'Hello '.$this->first_name."\n") : null,
             'email' => $this->email,
             'skype' => $this->skype,
             'residence' => $this->residence,
             'pickup_location' => $this->pickup_location,
             'responsibilities' => $this->responsibilities->mapWithKeys(fn (Responsibility $r) => [
                 $r->name => [
+                    'id' => $r->id,
                     'description' => $r->description,
                     'start_date' => $r->getRelationValue('pivot')->start_date_string,
                     'end_date' => $r->getRelationValue('pivot')->end_date_string,
                 ],
             ]),
+            'first_work_start_date' => $this->first_work_start_date,
+            'last_work_end_date' => $this->last_work_end_date,
+            'working_since_days' => $this->working_since_days,
             'notes' => $this->notes,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'url' => $request->user()->can('view', $this->resource)
-                ? route('cmtyvol.show', $this)
-                : null,
+            'can_view' => $request->user()->can('view', $this->resource),
+            'can_update' => $request->user()->can('update', $this->resource),
+            'can_delete' => $request->user()->can('delete', $this->resource),
         ];
     }
 }

@@ -2,9 +2,6 @@
 
 use App\Http\Controllers\Accounting\WeblingApiController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\CommunityVolunteers\ImportExportController as CommunityVolunteersImportExportController;
-use App\Http\Controllers\CommunityVolunteers\ListController;
-use App\Http\Controllers\CommunityVolunteers\ResponsibilitiesController;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
@@ -198,46 +195,11 @@ Route::middleware(['language', 'auth'])
 
 Route::middleware(['auth', 'language'])
     ->group(function () {
-        Route::redirect('helpers', 'cmtyvol');
-        Route::name('cmtyvol.')
-            ->prefix('cmtyvol')
-            ->group(function () {
-                // Overview
-                Route::view('overview', 'vue-app')
-                    ->name('overview')
-                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
-
-                // Import & Export view
-                Route::get('import-export', [CommunityVolunteersImportExportController::class, 'index'])
-                    ->name('import-export');
-
-                // Export download
-                Route::post('doExport', [CommunityVolunteersImportExportController::class, 'doExport'])
-                    ->name('doExport')
-                    ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
-
-                // Import upload
-                Route::post('doImport', [CommunityVolunteersImportExportController::class, 'doImport'])
-                    ->name('doImport')
-                    ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
-
-                // Download vCard
-                Route::get('{cmtyvol}/vcard', [CommunityVolunteersImportExportController::class, 'vcard'])
-                    ->name('vcard');
-
-                // Responsibilities
-                Route::get('{cmtyvol}/responsibilities', [ListController::class, 'responsibilities'])
-                    ->name('responsibilities');
-                Route::put('{cmtyvol}/responsibilities', [ListController::class, 'updateResponsibilities'])
-                    ->name('updateResponsibilities');
-
-                // Responsibilities resource
-                Route::resource('responsibilities', ResponsibilitiesController::class)
-                    ->except('show');
-            });
-
-        // Community volunteers resource
-        Route::resource('cmtyvol', ListController::class);
+        Route::view('cmtyvol', 'vue-app')
+            ->name('cmtyvol.index');
+        Route::view('cmtyvol/{any}', 'vue-app')
+            ->where('any', '.*')
+            ->name('cmtyvol.any');
     });
 
 //

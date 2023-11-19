@@ -16,8 +16,10 @@ use App\Http\Controllers\API\SystemInfoController;
 use App\Http\Controllers\Badges\API\BadgeMakerController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerCommentsController;
 use App\Http\Controllers\CommunityVolunteers\API\CommunityVolunteerController;
+use App\Http\Controllers\CommunityVolunteers\API\ExportController as CommunityVolunteersExportController;
 use App\Http\Controllers\CommunityVolunteers\API\ReportController as CommunityVolunteersReportController;
-use App\Http\Controllers\CommunityVolunteers\ImportExportController;
+use App\Http\Controllers\CommunityVolunteers\API\ResponsibilitiesController;
+use App\Http\Controllers\CommunityVolunteers\API\VcardDownloadController;
 use App\Http\Controllers\Fundraising\API\DonationController;
 use App\Http\Controllers\Fundraising\API\DonorCommentsController;
 use App\Http\Controllers\Fundraising\API\DonorController;
@@ -305,6 +307,28 @@ Route::middleware(['auth:sanctum', 'language'])
         Route::name('cmtyvol.')
             ->prefix('cmtyvol')
             ->group(function () {
+                Route::get('languages', [CommunityVolunteerController::class, 'languages'])
+                    ->name('languages')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+
+                Route::get('pickupLocations', [CommunityVolunteerController::class, 'pickupLocations'])
+                    ->name('pickupLocations')
+                    ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
+
+                Route::post('{cmtyvol}/portraitPicture', [CommunityVolunteerController::class, 'updatePortraitPicture'])
+                    ->name('updatePortraitPicture');
+                Route::delete('{cmtyvol}/portraitPicture', [CommunityVolunteerController::class, 'removePortraitPicture'])
+                    ->name('removePortraitPicture');
+
+                // Download vCard
+                Route::get('{cmtyvol}/vcard', VcardDownloadController::class)
+                    ->name('vcard');
+
+                // Export download
+                Route::get('export', [CommunityVolunteersExportController::class, 'doExport'])
+                    ->name('export')
+                    ->middleware('can:export,App\Models\CommunityVolunteers\CommunityVolunteer');
+
                 // Age distribution
                 Route::get('ageDistribution', [CommunityVolunteersReportController::class, 'ageDistribution'])
                     ->name('ageDistribution')
@@ -320,13 +344,10 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('genderDistribution')
                     ->middleware('can:viewAny,App\Models\CommunityVolunteers\CommunityVolunteer');
 
-                Route::post('getHeaderMappings', [ImportExportController::class, 'getHeaderMappings'])
-                    ->name('getHeaderMappings')
-                    ->middleware('can:import,App\Models\CommunityVolunteers\CommunityVolunteer');
+                Route::apiResource('responsibilities', ResponsibilitiesController::class);
             });
 
-        Route::apiResource('cmtyvol', CommunityVolunteerController::class)
-            ->only('index', 'show');
+        Route::apiResource('cmtyvol', CommunityVolunteerController::class);
 
         // Comments
         Route::apiResource('cmtyvol.comments', CommunityVolunteerCommentsController::class)
@@ -442,12 +463,15 @@ Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
 // Common data
 //
 Route::get('countries', [DataListController::class, 'countries'])
-    ->middleware(['language'])
     ->name('api.countries');
 
-Route::get('languages', [DataListController::class, 'languages'])
+Route::get('localizedCountries', [DataListController::class, 'localizedCountries'])
     ->middleware(['language'])
-    ->name('api.languages');
+    ->name('api.localizedCountries');
+
+Route::get('localizedLanguages', [DataListController::class, 'localizedLanguages'])
+    ->middleware(['language'])
+    ->name('api.localizedLanguages');
 
 Route::get('settings', [SettingsController::class, 'list'])
     ->name('api.settings');

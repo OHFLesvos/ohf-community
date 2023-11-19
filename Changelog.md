@@ -1,5 +1,10 @@
 # Changelog
 
+## 5.4.0
+
+* Re-styled community volunteers pages
+* Removed unused community volunteer import from spreadsheet feature
+
 ## 5.3.1
 
 * Fix visitor age group sorting in report

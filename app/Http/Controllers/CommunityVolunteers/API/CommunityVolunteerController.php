@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\CommunityVolunteers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommunityVolunteers\StoreCommunityVolunteer;
 use App\Http\Resources\CommunityVolunteers\CommunityVolunteer as CommunityVolunteerResource;
 use App\Models\CommunityVolunteers\CommunityVolunteer;
+use App\Models\CommunityVolunteers\Responsibility;
+use Gumlet\ImageResize;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class CommunityVolunteerController extends Controller
@@ -117,10 +123,157 @@ class CommunityVolunteerController extends Controller
         );
     }
 
+    public function store(StoreCommunityVolunteer $request): JsonResponse
+    {
+        $this->authorize('create', CommunityVolunteer::class);
+
+        $cmtyvol = new CommunityVolunteer();
+        $cmtyvol->fill($request->all());
+        $cmtyvol->languages = ($request->languages != null ? array_unique(array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $request->languages))) : null);
+
+        $cmtyvol->save();
+
+        $this->updateResponsibilities($cmtyvol, $request->input('responsibilities'));
+
+        return response()
+            ->json([
+                'message' => __('Community volunteer added'),
+                'id' => $cmtyvol->id,
+            ]);
+    }
+
     public function show(CommunityVolunteer $cmtyvol): JsonResource
     {
         $this->authorize('view', $cmtyvol);
 
         return new CommunityVolunteerResource($cmtyvol);
+    }
+
+    public function update(StoreCommunityVolunteer $request, CommunityVolunteer $cmtyvol): JsonResponse
+    {
+        $this->authorize('update', $cmtyvol);
+
+        $cmtyvol->fill($request->all());
+        $cmtyvol->languages = ($request->languages != null ? array_unique(array_map('trim', preg_split('/(\s*[,;\/|]\s*)|(\s+and\s+)/', $request->languages))) : null);
+        $cmtyvol->save();
+
+        $this->updateResponsibilities($cmtyvol, $request->input('responsibilities'));
+
+        return response()
+            ->json([
+                'message' => __('Community volunteer updated'),
+            ]);
+    }
+
+    public function destroy(CommunityVolunteer $cmtyvol): JsonResponse
+    {
+        $this->authorize('delete', $cmtyvol);
+
+        if ($cmtyvol->portrait_picture != null) {
+            Storage::delete($cmtyvol->portrait_picture);
+        }
+
+        $cmtyvol->delete();
+
+        return response()
+            ->json([
+                'message' => __('Community volunteer deleted'),
+            ]);
+    }
+
+    private function updateResponsibilities(CommunityVolunteer $cmtyvol, $value)
+    {
+        DB::transaction(function () use ($cmtyvol, $value) {
+            $cmtyvol->responsibilities()->detach();
+            if ($value != null) {
+                if (! is_array($value)) {
+                    $values = [];
+                    foreach (preg_split('/(\s*[,\/|]\s*)|(\s+and\s+)/', $value) as $v) {
+                        $values[] = $v;
+                    }
+                    $value = array_map('trim', $values);
+                }
+                collect($value)->map(function ($entry) use ($cmtyvol) {
+                    if (! is_array($entry)) {
+                        $entry = ['id' => $entry];
+                    }
+                    $responsibility = Responsibility::where('id', $entry['id'])->first();
+                    $cmtyvol->responsibilities()->attach($responsibility, [
+                        'start_date' => isset($entry['start_date']) ? $entry['start_date'] : null,
+                        'end_date' => isset($entry['end_date']) ? $entry['end_date'] : null,
+                    ]);
+                });
+            }
+        });
+    }
+
+    public function updatePortraitPicture(Request $request, CommunityVolunteer $cmtyvol): JsonResponse
+    {
+        $this->authorize('update', $cmtyvol);
+
+        $request->validate([
+            'portrait_picture' => [
+                'required',
+                'image',
+            ],
+        ]);
+
+        $value = $request->file('portrait_picture');
+        if ($cmtyvol->portrait_picture != null) {
+            Storage::delete($cmtyvol->portrait_picture);
+        }
+        $image = new ImageResize($value->getRealPath());
+        $image->resizeToBestFit(800, 800, true);
+        $image->crop(533, 800, true); // 2:3 aspect ratio
+        $image->save($value->getRealPath());
+        $cmtyvol->portrait_picture = $value->store('public/people/portrait_pictures');
+        $cmtyvol->save();
+
+        return response()->json([
+            'url' => Storage::url($cmtyvol->portrait_picture),
+        ]);
+    }
+
+    public function removePortraitPicture(CommunityVolunteer $cmtyvol): JsonResponse
+    {
+        $this->authorize('update', $cmtyvol);
+
+        if ($cmtyvol->portrait_picture != null) {
+            Storage::delete($cmtyvol->portrait_picture);
+            $cmtyvol->portrait_picture = null;
+        }
+        $cmtyvol->save();
+
+        return response()->json([]);
+    }
+
+    public function languages(Request $request): array
+    {
+        return CommunityVolunteer::query()
+            ->when($request->has('activeOnly'), fn ($qry) => $qry->workStatus('active'))
+            ->select('languages')
+            ->distinct()
+            ->whereNotNull('languages')
+            ->orderBy('languages')
+            ->get()
+            ->pluck('languages')
+            ->flatten()
+            ->unique()
+            ->sort()
+            ->values()
+            ->toArray();
+    }
+
+    public function pickupLocations(Request $request): array
+    {
+        return CommunityVolunteer::query()
+            ->when($request->has('activeOnly'), fn ($qry) => $qry->workStatus('active'))
+            ->select('pickup_location')
+            ->distinct()
+            ->orderBy('pickup_location')
+            ->whereNotNull('pickup_location')
+            ->get()
+            ->pluck('pickup_location')
+            ->toArray();
     }
 }

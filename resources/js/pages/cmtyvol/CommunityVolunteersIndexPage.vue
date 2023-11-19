@@ -14,16 +14,16 @@
             :items-per-page="itemsPerPage"
         >
             <template v-slot:cell(first_name)="data">
-                <template v-if="data.item.url != null">
-                    <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
+                <template v-if="data.item.can_view">
+                    <router-link :to="{name: 'cmtyvol.show', params: { id: data.item.id }}">{{ data.value }}</router-link>
                 </template>
                 <template v-else>
                     {{ data.value }}
                 </template>
             </template>
             <template v-slot:cell(family_name)="data">
-                <template v-if="data.item.url != null">
-                    <a :href="data.item.url" v-if="data.value != ''">{{ data.value }}</a>
+                <template v-if="data.item.can_view">
+                    <router-link :to="{name: 'cmtyvol.show', params: { id: data.item.id }}">{{ data.value }}</router-link>
                 </template>
                 <template v-else>
                     {{ data.value }}
@@ -60,6 +60,7 @@
             </template>
             <template v-slot:filter-append>
                 <view-type-selector v-model="viewType" />
+                <CmtyvolExportDialog/>
             </template>
         </base-table>
 
@@ -78,15 +79,36 @@
             </template>
         </grid-view>
 
+        <ButtonGroup :items="[
+            {
+                to: { name: 'cmtyvol.create' },
+                variant: 'primary',
+                icon: 'plus-circle',
+                text: $t('Add'),
+                show: can('create-community-volunteer')
+            },
+            {
+                to: { name: 'cmtyvol.responsibilities.index' },
+                variant: 'secondary',
+                icon: 'tasks',
+                text: $t('Responsibilities'),
+                show: can('view-community-volunteer-responsibilities')
+            },
+        ]"/>
+
     </b-container>
 </template>
 
 <script>
-import BaseTable from '@/components/table/BaseTable.vue'
 import cmtyvolApi from '@/api/cmtyvol/cmtyvol'
+
+import BaseTable from '@/components/table/BaseTable.vue'
 import WorkStatusSelector from '@/components/cmtyvol/WorkStatusSelector.vue'
 import ViewTypeSelector from '@/components/cmtyvol/ViewTypeSelector.vue'
 import GridView from '@/components/cmtyvol/GridView.vue'
+import ButtonGroup from "@/components/common/ButtonGroup.vue";
+import CmtyvolExportDialog from "@/components/cmtyvol/CmtyvolExportDialog.vue";
+
 export default {
     title() {
         return this.$t("Community Volunteers");
@@ -95,7 +117,9 @@ export default {
         BaseTable,
         WorkStatusSelector,
         ViewTypeSelector,
-        GridView
+        GridView,
+        ButtonGroup,
+        CmtyvolExportDialog
     },
     data() {
         return {

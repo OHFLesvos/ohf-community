@@ -76,14 +76,4 @@ class CommunityVolunteerPolicy
     {
         return $user->hasPermission('cmtyvol.view');
     }
-
-    /**
-     * Determine whether the user can import community volunteers.
-     *
-     * @return mixed
-     */
-    public function import(User $user)
-    {
-        return $user->hasPermission('cmtyvol.manage');
-    }
 }

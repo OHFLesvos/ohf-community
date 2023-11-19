@@ -3,7 +3,12 @@ import Vuex from "vuex";
 
 Vue.use(Vuex);
 
+import countryModule from '@/store/countries'
+
 export default new Vuex.Store({
+    modules: {
+        country: countryModule,
+    },
     strict: true,
     state: {
         previousRoute: {},
