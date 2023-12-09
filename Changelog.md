@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.5.1
+
+* Fixed webling page URL
+
 ## 5.5.0
 
 * Re-styled Webling export pages

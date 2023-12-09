@@ -669,7 +669,7 @@ export default [
         }
     },
     {
-        path: "/accounting/wallets/:wallet/weblings",
+        path: "/accounting/wallets/:wallet/webling",
         name: "accounting.webling.index",
         components: {
             default: () => import("@/pages/accounting/webling/WeblingIndexPage.vue"),
@@ -699,7 +699,7 @@ export default [
         }
     },
     {
-        path: "/accounting/wallets/:wallet/weblings/prepare",
+        path: "/accounting/wallets/:wallet/webling/prepare",
         name: "accounting.webling.prepare",
         components: {
             default: () => import("@/pages/accounting/webling/WeblingPreparePage.vue"),
