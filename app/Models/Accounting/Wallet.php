@@ -30,7 +30,7 @@ class Wallet extends Model
      *
      * @param  \Carbon\Carbon  $date optional end-date until which transactions should be considered
      */
-    public function calculatedSum(Carbon $date = null): ?float
+    public function calculatedSum(?Carbon $date = null): ?float
     {
         $result = Transaction::query()
             ->selectRaw('SUM(IF(type = \'income\', amount, -1 * amount)) as amount_sum')

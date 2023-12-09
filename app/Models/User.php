@@ -106,7 +106,7 @@ class User extends Authenticatable implements HasLocalePreference
             ->values();
     }
 
-    public function avatarUrl(int $size = null): string
+    public function avatarUrl(?int $size = null): string
     {
         if (blank($this->avatar)) {
             return route('users.avatar', [$this, 'size' => $size]);

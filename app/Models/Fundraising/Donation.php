@@ -91,7 +91,7 @@ class Donation extends Model
     /**
      * Gets an array of all channels assigned to donations, grouped and ordered by amount
      */
-    public static function channelDistribution(Carbon $untilDate = null): array
+    public static function channelDistribution(?Carbon $untilDate = null): array
     {
         return self::query()
             ->select('channel')
@@ -108,7 +108,7 @@ class Donation extends Model
     /**
      * Gets an array of all currencies assigned to donations, grouped and ordered by amount
      */
-    public static function currencyDistribution(Carbon $untilDate = null): array
+    public static function currencyDistribution(?Carbon $untilDate = null): array
     {
         return self::query()
             ->select('currency')

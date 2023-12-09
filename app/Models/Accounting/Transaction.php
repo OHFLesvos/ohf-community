@@ -79,8 +79,8 @@ class Transaction extends Model implements Auditable
      */
     public function scopeForDateRange(
         Builder $query,
-        string|Carbon $dateFrom = null,
-        string|Carbon $dateTo = null
+        string|Carbon|null $dateFrom = null,
+        string|Carbon|null $dateTo = null
     ): Builder {
         if ($dateFrom !== null) {
             $query->whereDate('date', '>=', $dateFrom);
