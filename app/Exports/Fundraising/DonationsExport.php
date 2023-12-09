@@ -21,7 +21,7 @@ class DonationsExport implements WithEvents, WithMultipleSheets
     {
     }
 
-    private function getDonationsQuery(int $year = null)
+    private function getDonationsQuery(?int $year = null)
     {
         return $this->donor != null
             ? $this->donor->donations()
