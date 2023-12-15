@@ -11,11 +11,6 @@ parameters:
 			path: app/Http/Controllers/Auth/LoginController.php
 
 		-
-			message: "#^Access to an undefined property App\\\\Http\\\\Resources\\\\Accounting\\\\TransactionHistory\\:\\:\\$user\\.$#"
-			count: 1
-			path: app/Http/Resources/Accounting/TransactionHistory.php
-
-		-
 			message: "#^Access to an undefined property App\\\\Models\\\\Accounting\\\\Transaction\\:\\:\\$sum\\.$#"
 			count: 1
 			path: app/Models/Accounting/Transaction.php
