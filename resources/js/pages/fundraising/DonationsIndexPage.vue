@@ -26,7 +26,7 @@
         </DonationsTable>
         <div class="d-flex">
             <ButtonGroup :items="navButtons"/>
-            <DonationsExportDialog/>
+            <DonationsExportDialog v-if="can('view-fundraising-entities')"/>
         </div>
     </b-container>
 </template>
@@ -51,12 +51,6 @@ export default {
             channels: [],
             isBusy: false,
             navButtons: [
-                // {
-                //     href: this.route("api.fundraising.donations.export", {includeAddress: true}),
-                //     icon: "download",
-                //     text: this.$t("Export"),
-                //     show: this.can("view-fundraising-entities")
-                // },
                 {
                     to: { name: "fundraising.donations.import" },
                     icon: "upload",

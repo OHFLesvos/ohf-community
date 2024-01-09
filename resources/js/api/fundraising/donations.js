@@ -24,6 +24,10 @@ export default {
         const url = route('api.fundraising.donations.currencies')
         return await api.get(url)
     },
+    async listYears () {
+        const url = route('api.fundraising.donations.years')
+        return await api.get(url)
+    },
     async import (type, file) {
         const formData = new FormData();
         formData.append('type', type)

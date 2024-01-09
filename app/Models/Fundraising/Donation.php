@@ -88,6 +88,17 @@ class Donation extends Model
             ->toArray();
     }
 
+    public static function years(): array
+    {
+        return self::query()
+            ->selectRaw('YEAR(date) as year')
+            ->groupBy('year')
+            ->orderBy('year')
+            ->get()
+            ->pluck('year')
+            ->toArray();
+    }
+
     /**
      * Gets an array of all channels assigned to donations, grouped and ordered by amount
      */

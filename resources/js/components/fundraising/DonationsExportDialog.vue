@@ -16,6 +16,14 @@
                                 stacked
                             />
                         </b-form-group>
+                        <b-form-group :label="$t('Year')" class="mb-3">
+                            <b-form-radio-group
+                                v-model="year"
+                                :options="yearOptions"
+                                required
+                                stacked
+                            />
+                        </b-form-group>
                     </b-col>
                     <b-col sm>
                         <p>
@@ -46,7 +54,7 @@
 </template>
 
 <script>
-// import donationsApi from "@/api/fundraising/donations";
+import donationsApi from "@/api/fundraising/donations";
 
 export default {
     components: {
@@ -61,6 +69,8 @@ export default {
                 xlsx: this.$t("Excel (.xlsx)"),
             },
             includeAddress: false,
+            years: [],
+            year: null
         };
     },
     computed: {
@@ -70,6 +80,19 @@ export default {
                 text: e[1]
             }));
         },
+        yearOptions() {
+            return [
+                {value: null, text: this.$t('Any')},
+                ...this.years.map(e => ({
+                    value: e,
+                    text: e
+                }))
+            ];
+        },
+    },
+    async created() {
+        const res = await donationsApi.listYears();
+        this.years = res.data
     },
     methods: {
         handleOk(bvModalEvt) {
@@ -80,6 +103,7 @@ export default {
             const params = {
                 format: this.format,
                 includeAddress: this.includeAddress,
+                year: this.year
             };
             this.isBusy = true;
             try {

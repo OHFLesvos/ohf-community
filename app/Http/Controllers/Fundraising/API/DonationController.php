@@ -166,6 +166,16 @@ class DonationController extends Controller
         ]);
     }
 
+    public function years(): JsonResponse
+    {
+        $this->authorize('viewAny', Donation::class);
+
+        return response()
+            ->json([
+                'data' => Donation::years(),
+            ]);
+    }
+
     public function export(Request $request): BinaryFileResponse
     {
         $this->authorize('viewAny', Donation::class);
@@ -173,6 +183,7 @@ class DonationController extends Controller
         $request->validate([
             'format' => Rule::in('xlsx'),
             'includeAddress' => 'boolean',
+            'year' => ['integer', Rule::in(Donation::years())],
         ]);
 
         $extension = $request->input('format', 'xlsx');
@@ -186,8 +197,9 @@ class DonationController extends Controller
         );
 
         $includeAddress = $request->boolean('includeAddress');
+        $year = $request->input('year', null);
 
-        return (new DonationsExport(includeAddress: $includeAddress))->download($file_name);
+        return (new DonationsExport(includeAddress: $includeAddress, year: $year))->download($file_name);
     }
 
     public function import(Request $request): JsonResponse
