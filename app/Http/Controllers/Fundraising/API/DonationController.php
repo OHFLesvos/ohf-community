@@ -171,10 +171,11 @@ class DonationController extends Controller
         $this->authorize('viewAny', Donation::class);
 
         $request->validate([
+            'format' => Rule::in('xlsx'),
             'includeAddress' => 'boolean',
         ]);
 
-        $extension = 'xlsx';
+        $extension = $request->input('format', 'xlsx');
 
         $file_name = sprintf(
             '%s - %s (%s).%s',
@@ -184,7 +185,7 @@ class DonationController extends Controller
             $extension
         );
 
-        $includeAddress = $request->has('includeAddress');
+        $includeAddress = $request->boolean('includeAddress');
 
         return (new DonationsExport(includeAddress: $includeAddress))->download($file_name);
     }

@@ -31,4 +31,8 @@ export default {
         const url = route('api.fundraising.donations.import')
         return await api.postFormData(url, formData)
     },
+    async export(params) {
+        const url = route("api.fundraising.donations.export", params);
+        return await api.get(url);
+    },
 }
