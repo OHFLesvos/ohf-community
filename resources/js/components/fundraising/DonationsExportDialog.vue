@@ -93,6 +93,7 @@ export default {
     async created() {
         const res = await donationsApi.listYears();
         this.years = res.data
+        this.years.sort((a,b)=>b-a);
     },
     methods: {
         handleOk(bvModalEvt) {
