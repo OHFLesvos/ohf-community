@@ -47,7 +47,7 @@ export default {
             isBusy: false,
             navButtons: [
                 {
-                    href: this.route("api.fundraising.donations.export"),
+                    href: this.route("api.fundraising.donations.export", {includeAddress: true}),
                     icon: "download",
                     text: this.$t("Export"),
                     show: this.can("view-fundraising-entities")

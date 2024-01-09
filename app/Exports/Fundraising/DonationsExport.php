@@ -17,7 +17,7 @@ class DonationsExport implements WithEvents, WithMultipleSheets
 {
     use DefaultFormatting, Exportable;
 
-    public function __construct(private ?Donor $donor = null)
+    public function __construct(private ?Donor $donor = null, private bool $includeAddress = false)
     {
     }
 
@@ -48,14 +48,14 @@ class DonationsExport implements WithEvents, WithMultipleSheets
                         ->get();
                     $sheets[] = $this->donor != null
                         ? new DonationsSheet($data, $year)
-                        : new DonationsWithDonorSheet($data, $year);
+                        : new DonationsWithDonorSheet($data, $year, $this->includeAddress);
                 }
             }
         } else {
             $data = collect();
             $sheets[] = $this->donor != null
                 ? new DonationsSheet($data)
-                : new DonationsWithDonorSheet($data);
+                : new DonationsWithDonorSheet($data, includeAddress: $this->includeAddress);
         }
 
         return $sheets;

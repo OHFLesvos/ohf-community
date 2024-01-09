@@ -166,9 +166,13 @@ class DonationController extends Controller
         ]);
     }
 
-    public function export(): BinaryFileResponse
+    public function export(Request $request): BinaryFileResponse
     {
         $this->authorize('viewAny', Donation::class);
+
+        $request->validate([
+            'includeAddress' => 'boolean',
+        ]);
 
         $extension = 'xlsx';
 
@@ -180,7 +184,9 @@ class DonationController extends Controller
             $extension
         );
 
-        return (new DonationsExport())->download($file_name);
+        $includeAddress = $request->has('includeAddress');
+
+        return (new DonationsExport(includeAddress: $includeAddress))->download($file_name);
     }
 
     public function import(Request $request): JsonResponse
