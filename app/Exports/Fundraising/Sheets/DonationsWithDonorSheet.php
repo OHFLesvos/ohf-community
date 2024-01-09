@@ -12,7 +12,7 @@ class DonationsWithDonorSheet extends DonationsSheet
 
     protected string $exchangedCurrencyColumn = 'I';
 
-    public function __construct(private Collection $donations, private ?int $year = null, private bool $includeAddress = false)
+    public function __construct(Collection $donations, ?int $year = null, private bool $includeAddress = false)
     {
         parent::__construct($donations, $year);
     }

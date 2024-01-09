@@ -33,7 +33,7 @@ class DonationsExport implements WithEvents, WithMultipleSheets
         $sheets = [];
 
         if ($this->year !== null && $this->year > 0) {
-            $years = collect($this->year);
+            $years = collect([$this->year]);
         } else {
             $years = $this->getDonationsQuery()
                 ->selectRaw('YEAR(date) as year')
