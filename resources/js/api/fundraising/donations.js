@@ -24,11 +24,19 @@ export default {
         const url = route('api.fundraising.donations.currencies')
         return await api.get(url)
     },
+    async listYears () {
+        const url = route('api.fundraising.donations.years')
+        return await api.get(url)
+    },
     async import (type, file) {
         const formData = new FormData();
         formData.append('type', type)
         formData.append('file', file)
         const url = route('api.fundraising.donations.import')
         return await api.postFormData(url, formData)
+    },
+    async export(params) {
+        const url = route("api.fundraising.donations.export", params);
+        return await api.get(url);
     },
 }

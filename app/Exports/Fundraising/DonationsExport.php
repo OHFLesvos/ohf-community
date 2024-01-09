@@ -17,11 +17,11 @@ class DonationsExport implements WithEvents, WithMultipleSheets
 {
     use DefaultFormatting, Exportable;
 
-    public function __construct(private ?Donor $donor = null)
+    public function __construct(private ?Donor $donor = null, private bool $includeAddress = false, private ?int $year = null)
     {
     }
 
-    private function getDonationsQuery(?int $year = null)
+    private function getDonationsQuery()
     {
         return $this->donor != null
             ? $this->donor->donations()
@@ -32,12 +32,16 @@ class DonationsExport implements WithEvents, WithMultipleSheets
     {
         $sheets = [];
 
-        $years = $this->getDonationsQuery()
-            ->selectRaw('YEAR(date) as year')
-            ->groupBy('year')
-            ->orderBy('year')
-            ->get()
-            ->pluck('year');
+        if ($this->year !== null && $this->year > 0) {
+            $years = collect([$this->year]);
+        } else {
+            $years = $this->getDonationsQuery()
+                ->selectRaw('YEAR(date) as year')
+                ->groupBy('year')
+                ->orderBy('year')
+                ->get()
+                ->pluck('year');
+        }
         if ($years->count() > 0) {
             foreach ($years as $year) {
                 if ($this->getDonationsQuery()->forYear($year)->count() > 0) {
@@ -48,14 +52,14 @@ class DonationsExport implements WithEvents, WithMultipleSheets
                         ->get();
                     $sheets[] = $this->donor != null
                         ? new DonationsSheet($data, $year)
-                        : new DonationsWithDonorSheet($data, $year);
+                        : new DonationsWithDonorSheet($data, $year, $this->includeAddress);
                 }
             }
         } else {
             $data = collect();
             $sheets[] = $this->donor != null
                 ? new DonationsSheet($data)
-                : new DonationsWithDonorSheet($data);
+                : new DonationsWithDonorSheet($data, includeAddress: $this->includeAddress);
         }
 
         return $sheets;

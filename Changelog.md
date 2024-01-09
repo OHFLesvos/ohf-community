@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.6.0
+
+* Added option to include donor address in donations export
+
 ## 5.5.1
 
 * Fixed webling page URL

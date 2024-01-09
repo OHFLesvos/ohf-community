@@ -190,6 +190,8 @@ Route::middleware(['auth:sanctum', 'language'])
                     ->name('donations.channels');
                 Route::get('donations/currencies', [DonationController::class, 'currencies'])
                     ->name('donations.currencies');
+                Route::get('donations/years', [DonationController::class, 'years'])
+                    ->name('donations.years');
                 Route::get('donations/export', [DonationController::class, 'export'])
                     ->name('donations.export');
                 Route::post('donations/import', [DonationController::class, 'import'])

@@ -840,6 +840,8 @@ export default {
         "Visitors per year": "Besucher pro Jahr",
         "Copy to clipboard": "In die Zwischenablage kopieren",
         "Copied": "Kopiert",
+        "Export donations": "Spenden exportieren",
+        "Include address of donor": "Inlusive Adressen der Spender",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

@@ -838,5 +838,7 @@
     "Visitors per month": "Besucher pro Monat",
     "Visitors per year": "Besucher pro Jahr",
     "Copy to clipboard": "In die Zwischenablage kopieren",
-    "Copied": "Kopiert"
+    "Copied": "Kopiert",
+    "Export donations": "Spenden exportieren",
+    "Include address of donor": "Inlusive Adressen der Spender"
 }
