@@ -25,11 +25,11 @@ class DonorsExport extends BaseExport implements FromQuery, WithColumnFormatting
      */
     private array $years;
 
-    public function __construct()
+    public function __construct(?int $year = null)
     {
         $this->orientation = PageOrientation::Landscape;
 
-        $this->years = [
+        $this->years = $year !== null ? [$year] : [
             now()->subYear()->year,
             now()->year,
         ];
@@ -139,7 +139,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithColumnFormatting
                 $formats['O'] = config('fundraising.base_currency_excel_format');
                 $formats['P'] = config('fundraising.base_currency_excel_format');
             }
-            $i = Coordinate::columnIndexFromString('P');
+            $i = Coordinate::columnIndexFromString(count($this->years) == 2 ? 'P' : 'O');
             foreach ($this->usedCurrenciesChannels as $cc) {
                 $i++;
                 $column = Coordinate::stringFromColumnIndex($i);

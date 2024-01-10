@@ -842,6 +842,8 @@ export default {
         "Copied": "Kopiert",
         "Export donations": "Spenden exportieren",
         "Include address of donor": "Inlusive Adressen der Spender",
+        "Export donors": "Spender exportieren",
+        "Current and last year": "Dieses und letztes Jahr",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

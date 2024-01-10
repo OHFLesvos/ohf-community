@@ -9,6 +9,7 @@ use App\Http\Requests\Fundraising\StoreDonor;
 use App\Http\Resources\Accounting\Budget as BudgetResource;
 use App\Http\Resources\Fundraising\Donor as DonorResource;
 use App\Models\Accounting\Budget;
+use App\Models\Fundraising\Donation;
 use App\Models\Fundraising\Donor;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -188,11 +189,16 @@ class DonorController extends Controller
         return $vcard->download();
     }
 
-    public function export(): BinaryFileResponse
+    public function export(Request $request): BinaryFileResponse
     {
         $this->authorize('viewAny', Donor::class);
 
-        $extension = 'xlsx';
+        $request->validate([
+            'format' => Rule::in('xlsx'),
+            'year' => ['integer', Rule::in(Donation::years())],
+        ]);
+
+        $extension = $request->input('format', 'xlsx');
 
         $file_name = sprintf(
             '%s - %s (%s).%s',
@@ -202,7 +208,9 @@ class DonorController extends Controller
             $extension
         );
 
-        return (new DonorsExport())->download($file_name);
+        $year = $request->input('year', null);
+
+        return (new DonorsExport($year))->download($file_name);
     }
 
     public function budgets(Donor $donor): JsonResource

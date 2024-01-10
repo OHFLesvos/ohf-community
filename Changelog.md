@@ -1,8 +1,12 @@
 # Changelog
 
+## 5.7.0
+
+* Added option to select year for donors export
+
 ## 5.6.0
 
-* Added option to include donor address in donations export
+* Added option to include donor address in donations export and select the year
 
 ## 5.5.1
 

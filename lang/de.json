@@ -840,5 +840,7 @@
     "Copy to clipboard": "In die Zwischenablage kopieren",
     "Copied": "Kopiert",
     "Export donations": "Spenden exportieren",
-    "Include address of donor": "Inlusive Adressen der Spender"
+    "Include address of donor": "Inlusive Adressen der Spender",
+    "Export donors": "Spender exportieren",
+    "Current and last year": "Dieses und letztes Jahr"
 }
