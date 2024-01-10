@@ -188,16 +188,16 @@ class DonationController extends Controller
 
         $extension = $request->input('format', 'xlsx');
 
+        $includeAddress = $request->boolean('includeAddress');
+        $year = $request->input('year', null);
+
         $file_name = sprintf(
             '%s - %s (%s).%s',
             config('app.name'),
-            __('Donations'),
-            Carbon::now()->toDateString(),
+            __('Donations').($year !== null ? (' '.intval($year)) : ''),
+            __('as of :date', ['date' => Carbon::now()->isoFormat('LL')]),
             $extension
         );
-
-        $includeAddress = $request->boolean('includeAddress');
-        $year = $request->input('year', null);
 
         return (new DonationsExport(includeAddress: $includeAddress, year: $year))->download($file_name);
     }

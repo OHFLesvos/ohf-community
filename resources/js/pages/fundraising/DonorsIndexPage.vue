@@ -14,10 +14,7 @@
         <p v-else>
             {{ $t('Loading...') }}
         </p>
-        <div class="d-flex">
-            <ButtonGroup :items="navButtons"/>
-            <DonorsExportDialog v-if="can('view-fundraising-entities')"/>
-        </div>
+        <ButtonGroup :items="navButtons"/>
     </b-container>
 </template>
 
@@ -25,7 +22,6 @@
 import DonorsTable from '@/components/fundraising/DonorsTable.vue'
 import donorsApi from '@/api/fundraising/donors'
 import ButtonGroup from "@/components/common/ButtonGroup.vue";
-import DonorsExportDialog from "@/components/fundraising/DonorsExportDialog.vue";
 export default {
     title() {
         return this.$t("Donors");
@@ -33,7 +29,6 @@ export default {
     components: {
         DonorsTable,
         ButtonGroup,
-        DonorsExportDialog,
     },
     props: {
         tag: {

@@ -25,7 +25,7 @@ class DonorsExport extends BaseExport implements FromQuery, WithColumnFormatting
      */
     private array $years;
 
-    public function __construct(?int $year = null)
+    public function __construct(?int $year = null, private bool $includeChannels = false, private bool $showAllDonors = true)
     {
         $this->orientation = PageOrientation::Landscape;
 
@@ -34,29 +34,41 @@ class DonorsExport extends BaseExport implements FromQuery, WithColumnFormatting
             now()->year,
         ];
 
-        $this->usedCurrenciesChannels = Donation::select('currency', 'channel')
-            ->selectRaw('YEAR(date) as year')
-            ->selectRaw('SUM(amount) as amount')
-            ->having('amount', '>', 0)
-            ->where(function (Builder $qry) {
-                foreach ($this->years as $year) {
-                    $qry->orWhereYear('date', '=', $year);
-                }
-            })
-            ->groupBy('currency')
-            ->groupBy('channel')
-            ->groupBy('year')
-            ->orderBy('year')
-            ->orderBy('currency')
-            ->orderBy('channel')
-            ->get();
+        if ($includeChannels) {
+            $this->usedCurrenciesChannels = Donation::select('currency', 'channel')
+                ->selectRaw('YEAR(date) as year')
+                ->selectRaw('SUM(amount) as amount')
+                ->having('amount', '>', 0)
+                ->where(function (Builder $qry) {
+                    foreach ($this->years as $year) {
+                        $qry->orWhereYear('date', '=', $year);
+                    }
+                })
+                ->groupBy('currency')
+                ->groupBy('channel')
+                ->groupBy('year')
+                ->orderBy('year')
+                ->orderBy('currency')
+                ->orderBy('channel')
+                ->get();
+        }
     }
 
     public function query(): Builder
     {
-        return Donor::orderBy('first_name')
+        return Donor::query()
+            ->with(['comments', 'tags'])
+            ->orderBy('first_name')
             ->orderBy('last_name')
-            ->orderBy('company');
+            ->orderBy('company')
+            ->when(! $this->showAllDonors, fn (Builder $q) => $q->whereHas('donations', function (Builder $query) {
+                $query->where(function (Builder $qry) {
+                    foreach ($this->years as $year) {
+                        $qry->orWhereYear('date', $year);
+                    }
+                });
+            })
+            );
     }
 
     public function title(): string
@@ -86,8 +98,10 @@ class DonorsExport extends BaseExport implements FromQuery, WithColumnFormatting
             foreach ($this->years as $year) {
                 $headings[] = __('Donations').' '.$year;
             }
-            foreach ($this->usedCurrenciesChannels as $cc) {
-                $headings[] = $cc->currency.' via '.$cc->channel.' in '.$cc->year;
+            if ($this->includeChannels) {
+                foreach ($this->usedCurrenciesChannels as $cc) {
+                    $headings[] = $cc->currency.' via '.$cc->channel.' in '.$cc->year;
+                }
             }
         }
 
@@ -119,12 +133,14 @@ class DonorsExport extends BaseExport implements FromQuery, WithColumnFormatting
             foreach ($this->years as $year) {
                 $map[] = $donor->amountPerYear($year) ?? 0;
             }
-            $amounts = $donor->amountByChannelCurrencyYear();
-            foreach ($this->usedCurrenciesChannels as $cc) {
-                $map[] = optional($amounts->where('year', $cc->year)
-                    ->where('currency', $cc->currency)
-                    ->where('channel', $cc->channel)
-                    ->first())->total ?? null;
+            if ($this->includeChannels) {
+                $amounts = $donor->amountByChannelCurrencyYear();
+                foreach ($this->usedCurrenciesChannels as $cc) {
+                    $map[] = optional($amounts->where('year', $cc->year)
+                        ->where('currency', $cc->currency)
+                        ->where('channel', $cc->channel)
+                        ->first())->total ?? null;
+                }
             }
         }
 
@@ -137,13 +153,17 @@ class DonorsExport extends BaseExport implements FromQuery, WithColumnFormatting
         if (Auth::user()->can('viewAny', Donation::class)) {
             foreach ($this->years as $year) {
                 $formats['O'] = config('fundraising.base_currency_excel_format');
-                $formats['P'] = config('fundraising.base_currency_excel_format');
+                if (count($this->years) == 2) {
+                    $formats['P'] = config('fundraising.base_currency_excel_format');
+                }
             }
-            $i = Coordinate::columnIndexFromString(count($this->years) == 2 ? 'P' : 'O');
-            foreach ($this->usedCurrenciesChannels as $cc) {
-                $i++;
-                $column = Coordinate::stringFromColumnIndex($i);
-                $formats[$column] = config('fundraising.currencies_excel_format')[$cc->currency];
+            if ($this->includeChannels) {
+                $i = Coordinate::columnIndexFromString(count($this->years) == 2 ? 'P' : 'O');
+                foreach ($this->usedCurrenciesChannels as $cc) {
+                    $i++;
+                    $column = Coordinate::stringFromColumnIndex($i);
+                    $formats[$column] = config('fundraising.currencies_excel_format')[$cc->currency];
+                }
             }
         }
 

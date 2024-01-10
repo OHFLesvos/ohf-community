@@ -62,5 +62,9 @@ export default {
             ...params
         });
         return await api.get(url);
-    }
+    },
+    async export(params) {
+        const url = route("api.fundraising.donors.export", params);
+        return await api.download(url);
+    },
 }

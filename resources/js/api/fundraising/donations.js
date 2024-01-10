@@ -37,6 +37,6 @@ export default {
     },
     async export(params) {
         const url = route("api.fundraising.donations.export", params);
-        return await api.get(url);
+        return await api.download(url);
     },
 }

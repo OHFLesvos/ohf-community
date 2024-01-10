@@ -241,12 +241,28 @@ export default [
                         to: { name: 'fundraising.index' }
                     },
                     {
-                        text: i18n.t('Donations'),
-                        to: { name: "fundraising.donations.index" },
-                        show: can("view-fundraising-entities")
+                        text: i18n.t('Import'),
+                    }
+                ]
+            }),
+        }
+    },
+    {
+        path: "/fundraising/export",
+        name: "fundraising.export",
+        components: {
+            default: () => import("@/pages/fundraising/FundraisingExportPage.vue"),
+            breadcrumbs: BreadcrumbsNav,
+        },
+        props: {
+            breadcrumbs: () => ({
+                items: [
+                    {
+                        text: i18n.t('Donation Management'),
+                        to: { name: 'fundraising.index' }
                     },
                     {
-                        text: i18n.t('Import'),
+                        text: i18n.t('Export'),
                     }
                 ]
             }),
