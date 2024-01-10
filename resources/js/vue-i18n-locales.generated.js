@@ -633,7 +633,7 @@ export default {
         "New donors this month": "Neue Spender diesen Monat",
         "New donors this year": "Neue Spender dieses Jahr",
         "Last registered donor": "Neuster registrierter Spender",
-        "Last registered donation": "Neuster Spende",
+        "Last registered donation": "Neuste Spende",
         "Manage donors": "Spender verwalten",
         "Manage donations": "Spenden verwalten",
         "In the name of": "Im Namen von",

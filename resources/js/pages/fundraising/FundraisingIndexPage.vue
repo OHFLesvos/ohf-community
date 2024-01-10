@@ -25,8 +25,7 @@
                         <b-list-group-item :to="{ name: 'fundraising.donors.show.donations', params: { id: data.last_registered_donation.donor_id } }">
                             {{ $t('Last registered donation') }}:
                             <span class="float-right">{{ data.last_registered_donation.amount }} {{ data.last_registered_donation.currency }}</span><br>
-                            <small class="float-right text-right">{{ data.last_registered_donation.donor }}<br>
-                            {{ dateFormat(this.data.last_registered_donation.created_at) }}</small>
+                            <small class="float-right text-right">{{ data.last_registered_donation.donor }}, {{ dateFormat(this.data.last_registered_donation.created_at) }}</small>
                         </b-list-group-item>
                     </b-list-group>
                 </BaseWidget>
