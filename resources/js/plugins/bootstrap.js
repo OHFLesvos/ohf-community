@@ -28,7 +28,8 @@ import {
     PopoverPlugin,
     SpinnerPlugin,
     TabsPlugin,
-    TablePlugin
+    TablePlugin,
+    SkeletonPlugin
 } from "bootstrap-vue";
 
 Vue.use(AlertPlugin);
@@ -59,3 +60,4 @@ Vue.use(PopoverPlugin);
 Vue.use(SpinnerPlugin);
 Vue.use(TabsPlugin);
 Vue.use(TablePlugin);
+Vue.use(SkeletonPlugin);

@@ -25,7 +25,7 @@ class DonationsExport implements WithEvents, WithMultipleSheets
     {
         return $this->donor != null
             ? $this->donor->donations()
-            : Donation::query();
+            : Donation::query()->with('donor');
     }
 
     public function sheets(): array

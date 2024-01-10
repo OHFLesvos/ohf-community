@@ -195,22 +195,26 @@ class DonorController extends Controller
 
         $request->validate([
             'format' => Rule::in('xlsx'),
+            'includeChannels' => 'boolean',
+            'showAllDonors' => 'boolean',
             'year' => ['integer', Rule::in(Donation::years())],
         ]);
 
         $extension = $request->input('format', 'xlsx');
 
+        $year = $request->input('year', null);
+        $includeChannels = $request->boolean('includeChannels');
+        $showAllDonors = $request->boolean('showAllDonors');
+
         $file_name = sprintf(
             '%s - %s (%s).%s',
             config('app.name'),
-            __('Donors'),
-            Carbon::now()->toDateString(),
+            __('Donors').($year !== null ? (' '.intval($year)) : ''),
+            __('as of :date', ['date' => Carbon::now()->isoFormat('LL')]),
             $extension
         );
 
-        $year = $request->input('year', null);
-
-        return (new DonorsExport($year))->download($file_name);
+        return (new DonorsExport(year: $year, includeChannels: $includeChannels, showAllDonors: $showAllDonors))->download($file_name);
     }
 
     public function budgets(Donor $donor): JsonResource

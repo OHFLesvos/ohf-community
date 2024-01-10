@@ -844,6 +844,10 @@ export default {
         "Include address of donor": "Inlusive Adressen der Spender",
         "Export donors": "Spender exportieren",
         "Current and last year": "Dieses und letztes Jahr",
+        "as of {date}": "Stand {date}",
+        "Include channels and currencies": "Inklusive Kanälen und Währungen",
+        "Show donations of year": "Zeige Spenden vom Jahr",
+        "Include all donors which did not donate in the selected year": "Inklusive sämtlicher Spender welche im ausgewählten Jahr nichts gespendet haben",
         "app": [],
         "auth": {
             "failed": "Diese Kombination aus Zugangsdaten wurden nicht in unserer Datenbank gefunden.",

@@ -24,22 +24,17 @@
                 </template>
             </template>
         </DonationsTable>
-        <p>
-            <DonationsExportDialog v-if="can('view-fundraising-entities')"/>
-        </p>
     </b-container>
 </template>
 
 <script>
 import DonationsTable from '@/components/fundraising/DonationsTable.vue'
-import DonationsExportDialog from "@/components/fundraising/DonationsExportDialog.vue";
 export default {
     title() {
         return this.$t("Donations");
     },
     components: {
         DonationsTable,
-        DonationsExportDialog,
     },
     data () {
         return {

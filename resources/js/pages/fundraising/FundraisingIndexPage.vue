@@ -5,28 +5,44 @@
             :value="error"
             @retry="fetchData"
         />
-        <b-row v-if="data">
+        <b-row>
             <b-col sm="6">
                 <BaseWidget :title="$t('Donors')" icon="users" :to="{name: 'fundraising.donors.index'}">
-                    <ValueTable :items="donorsData" :alignAllItemsRight="true"/>
-                    <b-list-group flush v-if="data.last_registered_donation">
-                        <b-list-group-item :to="{ name: 'fundraising.donors.show', params: { id: data.last_registered_donor.id } }">
-                            {{ $t('Last registered donor') }}:
-                            <span class="float-right">{{ data.last_registered_donor.full_name }}</span><br>
-                            <small class="float-right text-right">{{ dateFormat(this.data.last_registered_donor.created_at) }}</small>
-                        </b-list-group-item>
+                    <template v-if="data">
+                        <ValueTable :items="donorsData" :alignAllItemsRight="true"/>
+                        <b-list-group flush v-if="data.last_registered_donation">
+                            <b-list-group-item :to="{ name: 'fundraising.donors.show', params: { id: data.last_registered_donor.id } }">
+                                {{ $t('Last registered donor') }}:
+                                <span class="float-right">{{ data.last_registered_donor.full_name }}</span><br>
+                                <small class="float-right text-right">{{ dateFormat(this.data.last_registered_donor.created_at) }}</small>
+                            </b-list-group-item>
+                        </b-list-group>
+                    </template>
+                    <b-list-group v-else flush>
+                        <b-list-group-item><b-skeleton width="85%"></b-skeleton></b-list-group-item>
+                        <b-list-group-item><b-skeleton width="65%"></b-skeleton></b-list-group-item>
+                        <b-list-group-item><b-skeleton width="50%"></b-skeleton></b-list-group-item>
+                        <b-list-group-item><b-skeleton width="85%"></b-skeleton></b-list-group-item>
                     </b-list-group>
                 </BaseWidget>
             </b-col>
             <b-col sm="6">
                 <BaseWidget :title="$t('Donations')" icon="donate" :to="{name: 'fundraising.donations.index'}">
-                    <ValueTable :items="donationsData" :alignAllItemsRight="true"/>
-                    <b-list-group flush v-if="data.last_registered_donation">
-                        <b-list-group-item :to="{ name: 'fundraising.donors.show.donations', params: { id: data.last_registered_donation.donor_id } }">
-                            {{ $t('Last registered donation') }}:
-                            <span class="float-right">{{ data.last_registered_donation.amount }} {{ data.last_registered_donation.currency }}</span><br>
-                            <small class="float-right text-right">{{ data.last_registered_donation.donor }}, {{ dateFormat(this.data.last_registered_donation.created_at) }}</small>
-                        </b-list-group-item>
+                    <template v-if="data">
+                        <ValueTable :items="donationsData" :alignAllItemsRight="true"/>
+                        <b-list-group flush v-if="data.last_registered_donation">
+                            <b-list-group-item :to="{ name: 'fundraising.donors.show.donations', params: { id: data.last_registered_donation.donor_id } }">
+                                {{ $t('Last registered donation') }}:
+                                <span class="float-right">{{ data.last_registered_donation.amount }} {{ data.last_registered_donation.currency }}</span><br>
+                                <small class="float-right text-right">{{ data.last_registered_donation.donor }}, {{ dateFormat(this.data.last_registered_donation.created_at) }}</small>
+                            </b-list-group-item>
+                        </b-list-group>
+                    </template>
+                    <b-list-group v-else flush>
+                        <b-list-group-item><b-skeleton width="85%"></b-skeleton></b-list-group-item>
+                        <b-list-group-item><b-skeleton width="65%"></b-skeleton></b-list-group-item>
+                        <b-list-group-item><b-skeleton width="50%"></b-skeleton></b-list-group-item>
+                        <b-list-group-item><b-skeleton width="85%"></b-skeleton></b-list-group-item>
                     </b-list-group>
                 </BaseWidget>
             </b-col>
@@ -34,7 +50,7 @@
         <b-row>
             <b-col
                 v-for="(button, idx) in buttons.filter(btn => btn.show)" :key="idx"
-                sm="6" md="6" lg="4" class="mb-4"
+                sm="6" md="6" lg="3" class="mb-4"
             >
                 <b-button :key="button.text" :to="button.to" class="d-block">
                     <font-awesome-icon :icon="button.icon"/>
@@ -75,6 +91,12 @@ export default {
                     icon: "upload",
                     text: this.$t("Import"),
                     show: this.can("manage-fundraising-entities")
+                },
+                {
+                    to: { name: "fundraising.export" },
+                    icon: "download",
+                    text: this.$t("Export"),
+                    show: this.can("view-fundraising-entities")
                 }
             ],
             error: null,
