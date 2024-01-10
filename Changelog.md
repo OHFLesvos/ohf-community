@@ -3,6 +3,7 @@
 ## 5.8.0
 
 * Consolidated donor/donation export dialogs into separate page, with more options, and improved performance of Excel export
+* Fixed importing donations from Stripe export files
 
 ## 5.7.0
 

@@ -218,11 +218,15 @@ class DonationController extends Controller
             ],
         ]);
 
-        (new DonationsImport())->import($request->file('file'));
+        $importer = new DonationsImport();
+        $importer->import($request->file('file'));
 
         return response()
             ->json([
-                'message' => __('Import successful.'),
+                'message' => __('Import successful (:donors new donors, :donations new donations).', [
+                    'donors' => $importer->importedDonors,
+                    'donations' => $importer->importedDonations,
+                ]),
             ]);
     }
 }

@@ -222,7 +222,7 @@ export default {
         "Choose file...": "Datei wählen...",
         "Remove file": "Datei entfernen",
         "View file": "Datei anzeigen",
-        "Import successful.": "Import erfolgreich.",
+        "Import successful ({donors} new donors, {donations} new donations).": "Import erfolgreich ({donors} neue Spender, {donations} neue Spenden).",
         "Imported {num} records.": "{num} Datensätze importiert.",
         "Select status...": "Status wählen...",
         "Unspecified": "Nicht spezifiziert",

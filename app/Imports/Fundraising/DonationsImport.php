@@ -16,8 +16,15 @@ class DonationsImport implements ToCollection, WithHeadingRow
 {
     use Importable;
 
+    public int $importedDonors = 0;
+
+    public int $importedDonations = 0;
+
     public function collection(Collection $rows): void
     {
+        $this->importedDonors = 0;
+        $this->importedDonations = 0;
+
         foreach ($rows as $row) {
             Validator::make($rows->toArray(), [
                 '*.status' => 'required',
@@ -28,12 +35,24 @@ class DonationsImport implements ToCollection, WithHeadingRow
                     ->first();
                 if ($donor == null) {
                     $donor = new Donor();
-                    $donor->first_name = preg_replace('/@.*$/', '', $row['customer_email']);
+                    $nameArr = explode(' ', $row['customer_name_metadata']);
+                    if (count($nameArr) > 1) {
+                        $donor->last_name = array_pop($nameArr);
+                        $donor->first_name = implode(' ', $nameArr);
+                    } else {
+                        $donor->first_name = $row['customer_name_metadata'];
+                    }
                     $donor->email = $row['customer_email'];
+                    $donor->street = $row['shipping_address_line1'].($row['shipping_address_line2'] !== null ? ', '.$row['shipping_address_line2'] : '');
+                    $donor->city = $row['shipping_address_city'];
+                    $donor->zip = $row['shipping_address_postal_code'];
+                    $donor->country_code = $row['shipping_address_country'];
+                    $donor->phone = $row['customer_phone'];
                     $donor->save();
+                    $this->importedDonors++;
                 }
 
-                $date = new Carbon($row['created_utc']);
+                $date = new Carbon($row['created_date_utc'] ?? $row['created_utc']);
                 $amount = $row['amount'];
                 $currency = strtoupper($row['currency']);
                 if ($currency != config('fundraising.base_currency')) {
@@ -57,6 +76,7 @@ class DonationsImport implements ToCollection, WithHeadingRow
                     $donation->purpose = $row['description'];
 
                     $donor->addDonation($donation);
+                    $this->importedDonations++;
                 }
             }
         }
