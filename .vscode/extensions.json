@@ -22,6 +22,6 @@
         "open-southeners.laravel-pint",
         "damianbal.vs-phpclassgen",
         "bmewburn.vscode-intelephense-client",
-        "octref.vetur"
+        "vue.volar"
     ]
 }
