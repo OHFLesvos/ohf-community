@@ -241,11 +241,6 @@ export default [
                         to: { name: 'fundraising.index' }
                     },
                     {
-                        text: i18n.t('Donations'),
-                        to: { name: "fundraising.donations.index" },
-                        show: can("view-fundraising-entities")
-                    },
-                    {
                         text: i18n.t('Import'),
                     }
                 ]

@@ -24,16 +24,14 @@
                 </template>
             </template>
         </DonationsTable>
-        <div class="d-flex">
-            <ButtonGroup :items="navButtons"/>
+        <p>
             <DonationsExportDialog v-if="can('view-fundraising-entities')"/>
-        </div>
+        </p>
     </b-container>
 </template>
 
 <script>
 import DonationsTable from '@/components/fundraising/DonationsTable.vue'
-import ButtonGroup from "@/components/common/ButtonGroup.vue";
 import DonationsExportDialog from "@/components/fundraising/DonationsExportDialog.vue";
 export default {
     title() {
@@ -41,7 +39,6 @@ export default {
     },
     components: {
         DonationsTable,
-        ButtonGroup,
         DonationsExportDialog,
     },
     data () {
@@ -50,14 +47,6 @@ export default {
             currencies: {},
             channels: [],
             isBusy: false,
-            navButtons: [
-                {
-                    to: { name: "fundraising.donations.import" },
-                    icon: "upload",
-                    text: this.$t("Import"),
-                    show: this.can("manage-fundraising-entities")
-                }
-            ],
         }
     }
 }

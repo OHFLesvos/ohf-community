@@ -35,7 +35,7 @@
         <b-row>
             <b-col
                 v-for="(button, idx) in buttons.filter(btn => btn.show)" :key="idx"
-                sm="6" md="6" lg="6" class="mb-4"
+                sm="6" md="6" lg="4" class="mb-4"
             >
                 <b-button :key="button.text" :to="button.to" class="d-block">
                     <font-awesome-icon :icon="button.icon"/>
@@ -70,6 +70,12 @@ export default {
                     icon: "donate",
                     text: this.$t("Manage donations"),
                     show: this.can("view-fundraising-entities")
+                },
+                {
+                    to: { name: "fundraising.donations.import" },
+                    icon: "upload",
+                    text: this.$t("Import"),
+                    show: this.can("manage-fundraising-entities")
                 }
             ],
             error: null,
