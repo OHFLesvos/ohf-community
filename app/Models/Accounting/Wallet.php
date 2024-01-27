@@ -28,7 +28,7 @@ class Wallet extends Model
     /**
      * Gets the amount of the wallet
      *
-     * @param  \Carbon\Carbon  $date optional end-date until which transactions should be considered
+     * @param  \Carbon\Carbon  $date  optional end-date until which transactions should be considered
      */
     public function calculatedSum(?Carbon $date = null): ?float
     {

@@ -21,9 +21,9 @@ class TransactionsMonthsExport implements WithEvents, WithMultipleSheets
     use DefaultFormatting, Exportable;
 
     /**
-     * @param  Wallet|null  $wallet Wallet
-     * @param  string|null  $filter Simple filter
-     * @param  array<string>  $advancedFilter Filter conditions
+     * @param  Wallet|null  $wallet  Wallet
+     * @param  string|null  $filter  Simple filter
+     * @param  array<string>  $advancedFilter  Filter conditions
      */
     public function __construct(
         private ?Wallet $wallet,

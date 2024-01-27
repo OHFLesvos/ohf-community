@@ -61,7 +61,7 @@ class BadgeCreator
     public bool $mirror = true;
 
     /**
-     * @param  array|Collection  $persons Data of persons to be printed on the badges
+     * @param  array|Collection  $persons  Data of persons to be printed on the badges
      */
     public function __construct(private readonly array|Collection $persons)
     {

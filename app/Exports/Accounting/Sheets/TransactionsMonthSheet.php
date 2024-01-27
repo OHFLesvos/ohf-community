@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\Builder;
 class TransactionsMonthSheet extends BaseTransactionsExport
 {
     /**
-     * @param  Wallet|null  $wallet Wallet
-     * @param  Carbon  $month Month date
-     * @param  string|null  $filter Simple filter
-     * @param  array<string>|null  $advancedFilter Filter conditions
+     * @param  Wallet|null  $wallet  Wallet
+     * @param  Carbon  $month  Month date
+     * @param  string|null  $filter  Simple filter
+     * @param  array<string>|null  $advancedFilter  Filter conditions
      */
     public function __construct(
         private ?Wallet $wallet,
