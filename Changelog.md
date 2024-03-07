@@ -6,6 +6,7 @@
 
 * Fix issue where password has been set to empty value when editing user
 * Fix issue where user was mistakenly assigned super admin role when editing user even though this option was not checked
+* Update third-party libraries
 
 ## 5.8.0
 
