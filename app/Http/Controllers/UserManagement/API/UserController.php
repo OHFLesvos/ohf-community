@@ -71,9 +71,10 @@ class UserController extends Controller
     public function store(StoreUpdateUser $request): JsonResponse
     {
         $user = new User();
-        $user->fill($request->validated());
+        $user->name = $request->validated('name');
+        $user->email = $request->validated('email');
         $user->password = Hash::make($request->password);
-        $user->is_super_admin = ! empty($request->is_super_admin) || User::where('is_super_admin', true)->count() == 1;
+        $user->is_super_admin = $request->boolean('is_super_admin');
         $user->save();
         $user->roles()->sync($request->roles);
 
@@ -81,6 +82,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,
+            'is_super_admin' => $user->is_super_admin,
             'client_ip' => $request->ip(),
         ]);
 
@@ -118,13 +120,14 @@ class UserController extends Controller
 
     public function update(StoreUpdateUser $request, User $user): JsonResponse
     {
-        $user->fill($request->validated());
+        $user->name = $request->validated('name');
+        $user->email = $request->validated('email');
         $passwordMessage = '';
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
             $passwordMessage = ' '.__('A new password has been set.');
         }
-        $user->is_super_admin = ! empty($request->is_super_admin) || User::where('is_super_admin', true)->count() == 1;
+        $user->is_super_admin = $request->boolean('is_super_admin') || ($user->is_super_admin && User::where('is_super_admin', true)->count() == 1);
 
         if ($request->has('roles')) {
             $user->roles()->sync($request->roles);
@@ -136,6 +139,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'user_name' => $user->name,
             'email' => $user->email,
+            'is_super_admin' => $user->is_super_admin,
             'client_ip' => $request->ip(),
         ]);
 
