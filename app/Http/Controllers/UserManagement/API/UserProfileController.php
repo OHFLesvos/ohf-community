@@ -17,6 +17,18 @@ use Storage;
 
 class UserProfileController extends Controller
 {
+    public function authenticatedUser(): JsonResponse
+    {
+        $user = Auth::user();
+
+        return response()
+            ->json($user !== null ? [
+                'id' => $user->id,
+                'name' => $user->name,
+                'avatar_url' => $user->avatarUrl(),
+            ] : null);
+    }
+
     public function index(): JsonResponse
     {
         $user = Auth::user()->load('roles');

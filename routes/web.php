@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PrivacyPolicyController;
-use App\Http\Controllers\UserManagement\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -85,9 +84,6 @@ Route::middleware(['auth', 'language'])
             ->where('any', '.*')
             ->name('userprofile.any');
     });
-
-Route::get('users/{user}/avatar', [UserController::class, 'avatar'])
-    ->name('users.avatar');
 
 //
 // Badges

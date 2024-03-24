@@ -55,6 +55,9 @@ import settingsApi from "@/api/settings";
 import SettingsField from "@/components/settings/SettingsField.vue";
 import { showSnackbar } from "@/utils";
 export default {
+    title() {
+        return this.$t("Settings");
+    },
     components: {
         SettingsField,
     },

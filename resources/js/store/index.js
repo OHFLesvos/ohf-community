@@ -12,7 +12,9 @@ export default new Vuex.Store({
     strict: true,
     state: {
         previousRoute: {},
-        settings: {}
+        settings: {},
+        title: undefined,
+        authenticatedUser: undefined,
     },
     getters: {
         getPreviousRoute: state => (name, defaultValue) => {
@@ -27,6 +29,12 @@ export default new Vuex.Store({
         },
         SET_SETTINGS(state, payload) {
             state.settings = payload;
-        }
+        },
+        SET_TITLE(state, payload) {
+            state.title = payload
+        },
+        SET_AUTHENTICATED_USER(state, payload) {
+            state.authenticatedUser = payload
+        },
     }
 });
