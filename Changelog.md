@@ -6,6 +6,10 @@
 
 * Update third-party libraries
 
+### Fixed
+
+* Fix optionally setting locale in user API
+
 ## 5.8.1 - 2024-03-07
 
 ### Changed

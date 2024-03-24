@@ -73,6 +73,9 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->validated('name');
         $user->email = $request->validated('email');
+        if ($request->filled('locale')) {
+            $user->locale = $request->validated('locale');
+        }
         $user->password = Hash::make($request->password);
         $user->is_super_admin = $request->boolean('is_super_admin');
         $user->save();
@@ -122,6 +125,9 @@ class UserController extends Controller
     {
         $user->name = $request->validated('name');
         $user->email = $request->validated('email');
+        if ($request->filled('locale')) {
+            $user->locale = $request->validated('locale');
+        }
         $passwordMessage = '';
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
