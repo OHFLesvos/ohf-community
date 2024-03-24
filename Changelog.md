@@ -1,77 +1,126 @@
 # Changelog
 
-## 5.8.1
+## 5.8.2 - 2024-03-24
 
 ### Changed
 
+* Update third-party libraries
+
+## 5.8.1 - 2024-03-07
+
+### Changed
+
+* Update third-party libraries
+
+### Fixed
+
 * Fix issue where password has been set to empty value when editing user
 * Fix issue where user was mistakenly assigned super admin role when editing user even though this option was not checked
-* Update third-party libraries
 
 ## 5.8.0
 
-* Consolidated donor/donation export dialogs into separate page, with more options, and improved performance of Excel export
-* Fixed importing donations from Stripe export files
+### Changed
+
+* Consolidate donor/donation export dialogs into separate page, with more options, and improved performance of Excel export
+
+### Fixed
+
+* Fix importing donations from Stripe export files
 
 ## 5.7.0
 
-* Added option to select year for donors export
+### Added
+
+* Add option to select year for donors export
 
 ## 5.6.0
 
-* Added option to include donor address in donations export and select the year
+### Added
+
+* Add option to include donor address in donations export and select the year
 
 ## 5.5.1
 
-* Fixed webling page URL
+### Fixed
+
+* Fix webling page URL
 
 ## 5.5.0
 
-* Re-styled Webling export pages
-* Updated Third-party packages
+### Changed
+
+* Re-style Webling export pages
+* Update Third-party packages
 
 ## 5.4.0
 
-* Re-styled community volunteers pages
-* Removed unused community volunteer import from spreadsheet feature
+### Changed
+
+* Re-style community volunteers pages
+
+### Removed
+
+* Remove unused community volunteer import from spreadsheet feature
 
 ## 5.3.1
+
+### Fixed
 
 * Fix visitor age group sorting in report
 
 ## 5.3.0
 
-* Added new visitor gender, nationality, age distribution charts
+### Added
+
+* Add new visitor gender, nationality, age distribution charts
 
 ## 5.2.0
 
-* Added visit purpose chart to new visitor report page
+### Added
+
+* Add visit purpose chart to new visitor report page
 
 ## 5.1.1
+
+### Removed
 
 * Cleanup redundant old visitor report elements
 
 ## 5.1.0
 
-* Extended visitor reporting with a new report page, featuring a table and chart with better performance, as well as a copy to clipboard option
+### Added
+
+* Extend visitor reporting with a new report page, featuring a table and chart with better performance, as well as a copy to clipboard option
 
 ## 5.0.2
+
+### Fixed
 
 * Fix typo in membership number confirmation message
 
 ## 5.0.1
 
+### Fixed
+
 * Fix duplication error in web roles definition
 
 ## 5.0.0
 
-* Requires PHP 8.2 runtime on server
-* Added system info page
-* Added breadcrumb navigation to all pages
+### Changed
+
+* **Breaking:** Require PHP 8.2 runtime on server
 * Standardized form design
-* Removed dashboard widgets, replaced with simple buttons to navigate quickly to all modules
+
+### Added
+
+* Add system info page
+* Add breadcrumb navigation to all pages
 * Add membership number to visitors, with the option to auto-generate numbers for new visitors, and add missing numbers to existing visitors
-* Added print button for accounting transactions (contributed by Aaron Bulmahn)
+* Add print button for accounting transactions (contributed by Aaron Bulmahn)
+
+### Removed
+
+* Remove dashboard widgets, replaced with simple buttons to navigate quickly to all modules
 
 ## 4.5.0
 
