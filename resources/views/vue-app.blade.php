@@ -50,5 +50,9 @@
     <script>
         window.Laravel.permissions = @json($permissions);
         window.Laravel.title = "{{ config('app.name') }}";
+        @isset($app_version)
+        window.Laravel.appVersion = "{{ $app_version }}";
+        @endisset
+        window.Laravel.appEnv = "{{ app()->environment() }}";
     </script>
 @endpush

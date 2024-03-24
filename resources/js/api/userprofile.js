@@ -1,5 +1,9 @@
 import { api, route } from "@/api/baseApi";
 export default {
+    async authenticatedUser() {
+        const url = route("api.authenticatedUser");
+        return await api.get(url);
+    },
     async list() {
         const url = route("api.userprofile");
         return await api.get(url);

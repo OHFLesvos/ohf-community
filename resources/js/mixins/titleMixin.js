@@ -10,6 +10,7 @@ export default {
     created() {
         let title = getTitle(this);
         if (title) {
+            this.$store.commit("SET_TITLE", title);
             if (baseTitle && baseTitle.length > 0) {
                 title += ' - ' + baseTitle;
             }

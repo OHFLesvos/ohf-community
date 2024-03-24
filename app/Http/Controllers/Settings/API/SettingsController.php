@@ -209,6 +209,7 @@ class SettingsController extends Controller
     {
         return response()
             ->json([
+                'branding.signet_file' => Setting::has('branding.signet_file') ? Storage::url(Setting::get('branding.signet_file')) : null,
                 'accounting.transactions.currency' => Setting::get('accounting.transactions.currency'),
                 'accounting.transactions.use_locations' => filter_var(Setting::get('accounting.transactions.use_locations', false), FILTER_VALIDATE_BOOLEAN),
                 'accounting.transactions.use_secondary_categories' => filter_var(Setting::get('accounting.transactions.use_secondary_categories', false), FILTER_VALIDATE_BOOLEAN),

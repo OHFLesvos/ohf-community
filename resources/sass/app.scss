@@ -87,21 +87,6 @@
 }
 
 /*
-* Overlay
-*/
-
-#overlay {
-    display: none;
-    z-index: 100;
-}
-
-#overlay_dark {
-    display: none;
-    z-index: 100;
-    background: rgba(0, 0, 0, 0.3);
-}
-
-/*
 * Side header
  */
 
@@ -191,10 +176,6 @@
 /*
 * Snackbar
 */
-.snack-message {
-    display: none;
-}
-
 .snackbar-container .action {
     font-weight: bold;
 }
@@ -343,13 +324,6 @@ div.long-description.collapsing[aria-expanded="false"] {
 
 .popover-body {
     white-space: pre-wrap;
-}
-
-/**
-* Avatar
-*/
-img.avatar {
-    border-radius: 100%;
 }
 
 /**

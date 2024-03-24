@@ -112,6 +112,9 @@ import { showSnackbar } from "@/utils";
 import { mapState } from "vuex";
 import VisitorsExportDialog from "@/components/visitors/VisitorsExportDialog.vue";
 export default {
+    title() {
+        return this.$t("Visitor check-in");
+    },
     components: {
         AlertWithRetry,
         TablePagination,

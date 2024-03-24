@@ -22,6 +22,9 @@ import visitorsApi from "@/api/visitors";
 import VisitorForm from "@/components/visitors/VisitorForm.vue";
 import { showSnackbar } from "@/utils";
 export default {
+        title() {
+        return this.$t("Edit visitor");
+    },
     components: {
         VisitorForm,
     },

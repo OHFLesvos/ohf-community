@@ -66,6 +66,9 @@ import AlertWithRetry from '@/components/alerts/AlertWithRetry.vue'
 import BaseWidget from "@/components/dashboard/BaseWidget.vue"
 import ValueTable from "@/components/dashboard/ValueTable.vue"
 export default {
+    title() {
+        return this.$t("Donation Management");
+    },
     components: {
         AlertWithRetry,
         BaseWidget,

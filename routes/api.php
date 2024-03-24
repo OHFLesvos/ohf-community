@@ -461,6 +461,9 @@ Route::middleware(['auth:sanctum', 'language'])
             ->name('settings.resetField');
     });
 
+Route::get('authenticatedUser', [UserProfileController::class, 'authenticatedUser'])
+    ->name('api.authenticatedUser');
+
 // RaiseNow Webhook
 Route::middleware(['auth.basic', 'can:accept-fundraising-webhooks'])
     ->prefix('fundraising/donations')

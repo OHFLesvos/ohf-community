@@ -195,7 +195,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ComposerServiceProvider::class,
-        App\Providers\NavigationServiceProvider::class,
         App\Providers\Accounting\WeblingServiceProvider::class,
 
     ],
@@ -212,8 +211,6 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
         'Setting' => anlutro\LaravelSettings\Facade::class,
         'Countries' => Monarobase\CountryList\CountryListFacade::class,
         'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class,

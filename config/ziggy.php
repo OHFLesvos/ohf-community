@@ -8,5 +8,6 @@ return [
         'users.*',
         'roles.*',
         'login',
+        'logout',
     ],
 ];
