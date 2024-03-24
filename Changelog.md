@@ -1,5 +1,11 @@
 # Changelog
 
+## 5.9.0 - 2024-03-24
+
+### Changed
+
+* Use VueJS to render whole application layout (excl. login)
+
 ## 5.8.2 - 2024-03-24
 
 ### Changed
