@@ -134,176 +134,298 @@
 
 ## 4.5.0
 
-* Added date range selector to visitor checkins export
+### Added
+
+* Add date range selector to visitor checkins export
 
 ## 4.4.0
 
-* Added file export dialog to visitors page allowing to select format and type (visitors or check-ins)
+### Added
+
+* Add file export dialog to visitors page allowing to select format and type (visitors or check-ins)
 
 ## 4.3.0
 
-* Update to Laravel 10 Framework
-* Fixed a date validation issue when trying to store a donation
+### Changed
+
+* Upda Laravel Framework to major release 10.x
+
+### Fixed
+
+* Fix a date validation issue when trying to store a donation
 
 ## 4.2.0
 
+### Changed
+
+* Update settings form (Vue)
+ 
+### Added
+
 * Add parent-child relations to visitors
-* Updated settings form (Vue)
 
 ## 4.1.0
+
+### Added
 
 * Add full-text search to visitor name, improving search usability (searching for LASTNAME SURNAME works the same as SURNAME LASTNAME)
 
 ## 4.0.0
 
-* Require PHP 8.2
-* Extended visitor report
-* Removed knowledge base
-* Added support for specifying email domain for Google OAuth login
+### Changed
+
+* **BREAKING:** Require PHP 8.2
 * Store avatar images locally
 * Update icon library (Font Awesome 6)
+
+### Added
+
+* Extend visitor report
+* Add support for specifying email domain for Google OAuth login
+
+### Removed
+
+* **BREAKING:** Remove knowledge base
+
+### Fixed
+
 * Fix issue with sort by country in donors table
 
 ## 3.9.0
 
+### Added
+
 * Add parental consent checkbox to visitor records
 
 ## 3.8.0
+
+### Added
 
 * Add a liability form signed field to visitor records
 * Add remarks field to visitor records
 
 ## 3.7.3
 
-* Added visitor data to export file
+### Added
+
+* Add visitor data to export file
 
 ## 3.7.2
+
+### Changed
 
 * Make visitor date of birth non-mandatory
 
 ## 3.7.1
 
+### Changed
+
 * Make ID number not required anymore for visitor registration
 
 ## 3.7.0
+
+### Changed
 
 * Allow editing of transaction metadata (with specific user permission) for controlled transactions
 
 ## 3.6.0
 
+### Changed
+
 * Allow upload/rotate of receipt pictures even if transactions has been controlled
 
 ## 3.0.0
 
-* Removed book library feature
-* Removed bank, persons, shop and coupons feature
-* Removed Facebook social login
+### Removed
+
+* **BREAKING:** Removed book library feature
+* **BREAKING:** Removed bank, persons, shop and coupons feature
+* **BREAKING:** Removed Facebook social login
 
 ## 2.32.1
 
+### Changed
+
+* Refactor community volunteer work date fields
+* Merge various Community volunteer editing dialogs into one page
+
+### Fixed
+
 * Fix donation report time range update
 * Fix donor export columns
-* Refactor community volunteer work date fields
-* Community volunteer editing on one screen
 
 ## 2.32.0
 
-* Layout and widgets update
-* Fix language for vue-based modules
+### Changed
+
+* Update layout and widgets
 * Reorder widgets and menu items
 * Cleanup navigation
+
+### Fixed
+
+* Fix language for vue-based modules
 * Fix community volunteer gender selection
 
 ## 2.31.0
 
+### Added
+
 * Added donation amount by channel to donors export
-* Small improvements to donor export spreadsheet
+* Improve donor export spreadsheet
 
 ## 2.30.3
 
-* No text wrap for tag select button (Donors)
+### Fixed
+
+* Remove unintentional text wrap for tag select button (Donors)
 
 ## 2.30.2
 
-* Introduced max-width container for certain pages
-* Clarified supplier search terms
-* Added permission check for community volunteer comments; only managers can see and add comments.
+### Added
+
+* Introduce max-width container for certain pages
+* Add permission check for community volunteer comments; only managers can see and add comments.
+
+### Fixed
+
+* Clarify supplier search terms
 
 ## 2.30.1
 
-* Supplier search now also considers IBAN, tax number and phone
-* Added pretty-routes package
+### Changed
+
+* Update supplier search to now also consider IBAN, tax number and phone
+
+### Added
+
+* Add pretty-routes package
 
 ## 2.30.0
 
-* Removed changelog widget & permissions
-* Added tab navigation for settings
-* Replaced Gravatar with initial-based Avatar image
-* Added alert and icon blade components
-* Removed unnecesary coupon type details view
+### Changed
+
+* Replace Gravatar with initial-based Avatar image
+* Replace lity lightbox with fsightbox which has a gallery feature
+* Remove google books PHP library, replace with Javascript solution
+* Show separate receipt icon in transactions view
+
+### Added
+
+* Add tab navigation for settings
+* Add alert and icon blade components
+* Add progress icon in transaction view when uploading receipt
+
+### Removed
+
+* Remove changelog widget & permissions
+* Remove unnecesary coupon type details view
+
+### Fixed
+
 * Only show webling booking button if configured
-* Removed google books PHP library, replaced with Javascript solution
-* Replaced lity lightbox with fsightbox which has a gallery feature
-* Separated receipt icon in transactions view and added progress icon, fixed error handling
+* Fix error handling in transaction view when uploading receipt
 
 ## 2.29.0
 
-* Code cleanup
-* Added GS_PATH env variable for Ghostscript on Windows (PDF to Image conversion)
-* Removed DOMPDF dependency
-* Updated ziggy library
+### Changed
+
+* Cleanup code
+* Update ziggy library
 * Separate config file for permissions
-* Updated Sentry.io integration
-* PHP 8 compatibility
+* Update Sentry.io integration
+
+### Added
+
+* Add GS_PATH env variable for Ghostscript on Windows (PDF to Image conversion)
+* Ensure PHP 8 compatibility
+
+### Removed
+
+* Removed DOMPDF dependency
 
 ## 2.28.0
 
-* Updated to Laravel 8
+### Changed
+
+* Update framework to Laravel 8
 
 ## 2.27.0
 
-* Added comments function to community volunteers
+### Added
+
+* Add comments function to community volunteers
 
 ## 2.26.0
 
-* Added fees to money transaction
+### Added
+
+* Add fees to money transaction
 
 ## 2.25.1
 
-* Improvements to suppliers and transactions
+### Changed
+
+* Improve suppliers and transactions pages UX
 
 ## 2.25.0
 
-* Added supplier info to transactions
+### Added
+
+* Add supplier info to transactions
 
 ## 2.24.2
 
-* Added detailed current visitor numbers
+### Added
+
+* Add detailed current visitor numbers
 
 ## 2.24.1
 
-* UI improvements to visitor registration
-* Added visitor type, activity and organization fields
-* Added Monthly visitor statistics
+### Changed
+
+* Improve UI of visitor registration
+
+### Added
+
+* Add visitor type, activity and organization fields
+* Add Monthly visitor statistics
 
 ## 2.24.0
 
-* Remove wallet owner field from money transactions in accounting module
+### Changed
+
 * Rename beneficiary field to attendee in accounting module
+* Update thirdpary libraries update
+
+### Added
+
 * Added visitors counter module
-* Libraries update
+
+### Removed
+
+* Remove wallet owner field from money transactions in accounting module
 
 ## 2.23.0
 
-* Added global wallet summary
+### Added
+
+* Add global wallet summary
 
 ## 2.22.2
 
-* Fixed minor bugs in the accounting receipt upload and thumbnails
+### Fixed
+
+* Fix minor bugs in the accounting receipt upload and thumbnails
 
 ## 2.22.1
 
-* Added multi-receipt feature for accounting receipts
+### Added
+
+* Add multi-receipt feature for accounting receipts
+
+### Fixed
+
 * Show community volunteer responsibility description icon only if description available
 
 ## 2.22.0
