@@ -148,7 +148,7 @@
 
 ### Changed
 
-* Upda Laravel Framework to major release 10.x
+* Update Laravel Framework to major release 10.x
 
 ### Fixed
 
@@ -159,7 +159,7 @@
 ### Changed
 
 * Update settings form (Vue)
- 
+
 ### Added
 
 * Add parent-child relations to visitors
@@ -319,7 +319,7 @@
 ### Removed
 
 * Remove changelog widget & permissions
-* Remove unnecesary coupon type details view
+* Remove unnecessary coupon type details view
 
 ### Fixed
 
@@ -396,7 +396,7 @@
 ### Changed
 
 * Rename beneficiary field to attendee in accounting module
-* Update thirdpary libraries update
+* Update third-party libraries update
 
 ### Added
 
@@ -448,7 +448,7 @@
 * Library updates
 * Fixed user management super admin checkbox
 * Removed unused code
-* Upated dependencies
+* Updated dependencies
 
 ## 2.20.1
 
@@ -466,7 +466,7 @@
 
 ## 2.19.1
 
-* Added counting of next free receipt number separetely by wallet
+* Added counting of next free receipt number separately by wallet
 
 ## 2.19.0
 
@@ -482,11 +482,11 @@
 * Removed obsolete fields from helpers table
 * Renamed helpers to community volunteers
 * Updated code libraries
-* Reduced amount of data transfered to client in bank person search
+* Reduced amount of data transferred to client in bank person search
 
 ## 2.17.0
 
-* Improved donor search for phone numnber
+* Improved donor search for phone number
 * Localized language for donors
 * Added donor and donations report
 * Standardized languages and countries for donors
@@ -526,7 +526,7 @@
 ## 2.12.1
 
 * Optimized bank statistics database query
-* Google boosk api key added to .env file
+* Google books api key added to .env file
 * Centralized settings view
 * Fixed issue with role permission selection
 * Fixed an issue on privacy policy page if invalid locale is selected
@@ -560,13 +560,13 @@
 
 Shop:
 
-* Added code expirty days to coupon type
+* Added code expiry days to coupon type
 
 ## 2.9.6
 
 Shop:
 
-* Short code / text input support for QR code sanner
+* Short code / text input support for QR code scanner
 
 ## 2.9.5
 
@@ -669,7 +669,7 @@ Accounting:
 
 * Separate permissions for edit and delete transactions
 * Also admin cannot edit/delete booked transactions
-* Unbooking of booked transactions
+* Un-booking of booked transactions
 
 ## 2.7.1
 
@@ -692,7 +692,7 @@ Shop:
 Accounting:
 
 * Year range select in summary
-* All time range in sumary
+* All time range in summary
 * Preserve selected range in session
 * Added column format for Webling to export file
 
@@ -703,7 +703,7 @@ Accounting:
 * Fixed unicode issue in monthly spreadsheet export
 * Added calculation of difference between expenses and spending in filtered view
 * Added option to get export of filtered data
-* Fix unicude issue in summary view
+* Fix unicode issue in summary view
 * Combined summary view, with projects and categories
 
 ## 2.6.5
@@ -745,7 +745,7 @@ Accounting:
 * Confirmation mail is sent to new users when registering
 * Localized registration mails
 * Dedicated search index field for articles
-* Added loginn with Google using Socialite
+* Added login with Google using Socialite
 
 ## 2.4.4
 
@@ -909,7 +909,7 @@ People:
 Helpers:
 
 * Case work permissions
-* Autocomplete lanugage, responsibilities
+* Autocomplete language, responsibilities
 * Fix vcard number export
 * DB encryption for sensitive helper data
 
@@ -1056,7 +1056,7 @@ Accounting:
 
 Accounting:
 
-* No autocompletition for description
+* No autocompletion for description
 
 ## 1.19.11
 
@@ -1163,7 +1163,7 @@ Accounting:
 
 Accounting:
 
-* Added rilldown
+* Added drill-down
 
 ## 1.17.6
 
@@ -1252,7 +1252,7 @@ Accounting:
 ## 1.14.0
 
 * New scanned cards screen added
-* Remove buttons not maching age-restrictions when updating person age
+* Remove buttons not matching age-restrictions when updating person age
 * Added quick-nationality select to persons in bank
 
 ## 1.13.12
@@ -1284,7 +1284,7 @@ Accounting:
 ## 1.13.7
 
 * Added auditing for coupon handouts and returns
-* Improved coupon managmenet UI
+* Improved coupon management UI
 
 ## 1.13.6
 
@@ -1328,13 +1328,13 @@ Accounting:
 
 ## 1.12.4
 
-* Show administrators in pricacy report
-* Logviewer table improvements
+* Show administrators in privacy report
+* Log viewer table improvements
 * Added view about latest donations
 
 ## 1.12.3
 
-* Adder user privilege repots to reporting screen
+* Adder user privilege reports to reporting screen
 * Show human readable date in log viewer
 * Translated report names
 * Reordered dashboard widgets
@@ -1390,11 +1390,11 @@ Accounting:
 
 ## 1.10.5
 
-* Export of donors donations now contain the sum, and are grouped by year. Export is only possible if there are donatinons.
+* Export of donors donations now contain the sum, and are grouped by year. Export is only possible if there are donations.
 
 ## 1.10.4
 
-* Added ability to export donations of specifc donor into Excel file.
+* Added ability to export donations of specific donor into Excel file.
 * Correctly formatted "currency" field in Excel export.
 
 ## 1.10.3
@@ -1435,7 +1435,7 @@ Accounting:
 
 * Added "Date of birth" and "Registered" field to "People" page.
 * Added column sorting in "People" page.
-* Added possibilty to assign relations to person (father, mother, child, partner).
+* Added possibility to assign relations to person (father, mother, child, partner).
 * Replaced text-field autocomplete library.
 * Use pie charts to show person demographics and gender in person report.
 
@@ -1447,7 +1447,7 @@ Accounting:
 * Improved calculation of frequent visitor marker.
 * In the bank, transactions as well as boutique and diapers coupons can be undone (if they are not older than 5 minutes).
 * Added a quick date of birth selector in the banks person search result screen.
-* Added sceen to configure code card document.
+* Added screen to configure code card document.
 
 ## 1.8.17
 

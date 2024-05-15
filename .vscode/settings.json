@@ -48,6 +48,7 @@
     "git.pullTags": false,
     "editor.formatOnSave": false,
     "cSpell.words": [
-        "checkins"
+        "checkins",
+        "DOMPDF"
     ]
 }
